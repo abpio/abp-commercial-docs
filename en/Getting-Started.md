@@ -6,6 +6,18 @@
 
 First things first! Let's setup your development environment before creating the first project.
 
+### Pre Requirements
+
+The following tools should be installed on your development machine:
+
+* [Visual Studio 2019 (v16.3+)](https://visualstudio.microsoft.com/vs/) for Windows / [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/).
+* [.NET Core 3.0+](https://www.microsoft.com/net/download/dotnet-core/)
+
+* [Node v12+](https://nodejs.org)
+* [Yarn v1.19+](https://yarnpkg.com/)
+
+> You can use another editor instead of Visual Studio as long as it supports .NET Core and ASP.NET Core.
+
 ### Install the ABP CLI
 
 [ABP CLI](https://docs.abp.io/en/abp/latest/CLI) is a command line interface that is used to authenticate and automate some tasks for ABP based applications.
@@ -70,6 +82,8 @@ abp new Acme.BookStore -t app-pro
 
 * `-t` argument specifies the [startup template](Startup-Templates/Index.md) name. `app-pro` is the startup template that contains the essential [ABP Commercial Modules](https://commercial.abp.io/modules) pre-installed and configured for you.
 
+> You can use different level of namespaces; e.g. BookStore, Acme.BookStore or Acme.Retail.BookStore. 
+
 #### Project Creation Options
 
 ABP CLI has some default values those can be changed by specifying the available options.
@@ -104,3 +118,10 @@ All possible values for the database provider:
 
 > [ABP CLI document](https://docs.abp.io/en/abp/latest/CLI) covers all of the available commands and options for the ABP CLI. The main difference for the ABP Commercial is the template names. See the [ABP Commercial Startup Templates](Startup-Templates/Index.md) document for other commercial templates.
 
+## The Solution Structure
+
+You will see slightly different solution structure based on the options you've selected while creating your project.
+
+You will see the following solution structure when
+
+![vs-default-app-solution-structure](Images/vs-default-app-solution-structure.png)
