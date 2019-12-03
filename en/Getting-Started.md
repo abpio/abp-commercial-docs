@@ -220,11 +220,51 @@ This will create a new database based on the configured connection string.
 
 ## Run the Application
 
+[doc-section:UI=MVC]
+
 Ensure that the `.Web` project is the startup project. Run the application which will open the **login** page in your browser:
 
 > Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
 
 ![bookstore-login](Images/bookstore-login.png)
+
+[/doc-section]
+
+[doc-section:UI=Angular]
+
+#### Run the HTTP API Host (Server Side)
+
+Ensure that the `.HttpApi.Host` project is the startup project and run the application which will open a Swagger UI:
+
+> Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
+
+![swagger-ui](D:\Github\abp-commercial-docs\en\Images\swagger-ui.png)
+
+You can see the application APIs and test them here. Get [more info](https://swagger.io/tools/swagger-ui/) about the Swagger UI.
+
+> ##### Authorization for the Swagger UI
+>
+> Most of the HTTP APIs require authentication & authorization. If you want to test authorized APIs, manually go to the `/Account/Login` page, enter `admin` as the username and `1q2w3E*` as the password to login to the application. Then you will be able to execute authorized APIs too.
+
+#### Run the Angular Application (Client Side)
+
+Go to the `angular` folder, open a command line terminal, type the `yarn` command (we suggest to the [yarn](https://yarnpkg.com/) package manager while `npm install` will also work in most cases):
+
+```bash
+yarn
+```
+
+Once all node modules are loaded, execute `yarn start` (or `npm start`) command:
+
+```bash
+yarn start
+```
+
+Wait Angular to start, open your favorite browser and go to `localhost:4200` URL.
+
+![bookstore-login](Images/bookstore-login.png)
+
+[/doc-section]
 
 Enter `admin` as the username and `1q2w3E*` as the password to login to the application:
 
