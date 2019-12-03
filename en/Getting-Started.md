@@ -176,7 +176,7 @@ You will see the following solution structure when you open the `.sln` file in t
 
 [/doc-section]
 
-[doc-section:UI=Angular&Database=EF Core]
+[doc-section:UI=Angular]
 
 There are two folders in the created solution:
 
@@ -186,7 +186,17 @@ There are two folders in the created solution:
 
 Open the `.sln` (Visual Studio solution) file under the `aspnet-core` folder:
 
+[doc-section:Database=EF Core]
+
 ![vs-angular-app-backend-solution-structure](Images/vs-angular-app-backend-solution-structure.png)
+
+[/doc-section]
+
+[doc-section:Database=MongoDB]
+
+![vs-default-app-solution-structure](Images/vs-app-solution-structure-mongodb-spa.png)
+
+[/doc-section]
 
 [/doc-section]
 
