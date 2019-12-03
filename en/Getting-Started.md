@@ -66,6 +66,18 @@ dotnet tool update -g Volo.Abp.Suite
 
 ## Create a New Project
 
+[doc-section:UI=MVC]
+
+> This document assumes that you prefer to use **MVC (Razor Pages)** UI and **Entity Framework Core**. For other options, please change the preference on top of this document.
+
+[/doc-section]
+
+[doc-section:UI=Angular]
+
+> This document assumes that you prefer to use **Angular** UI and **Entity Framework Core**. For other options, please change the preference on top of this document.
+
+[/doc-section]
+
 There are two ways of creating a new project: ABP Suite and ABP CLI.
 
 ### Using ABP Suite to Create a New Project
@@ -76,52 +88,152 @@ TODO
 
 Use the `new` command of the ABP CLI to create a new project:
 
+[doc-section:UI=MVC]
+
 ````shell
 abp new Acme.BookStore -t app-pro
 ````
 
-* `-t` argument specifies the [startup template](Startup-Templates/Index.md) name. `app-pro` is the startup template that contains the essential [ABP Commercial Modules](https://commercial.abp.io/modules) pre-installed and configured for you.
+[/doc-section]
 
-> You can use different level of namespaces; e.g. BookStore, Acme.BookStore or Acme.Retail.BookStore. 
-
-#### Project Creation Options
-
-ABP CLI has some default values those can be changed by specifying the available options.
-
-##### UI Framework
-
-Use `-u` or `--ui` option to specify the UI framework:
+[doc-section:UI=Angular]
 
 ````shell
 abp new Acme.BookStore -t app-pro -u angular
 ````
 
-All possible values for the UI framework:
+[/doc-section]
 
-- `mvc`: ASP.NET Core MVC UI with Razor Pages (default).
-- `angular`: Angular UI.
+* `-t` argument specifies the [startup template](Startup-Templates/Index.md) name. `app-pro` is the startup template that contains the essential [ABP Commercial Modules](https://commercial.abp.io/modules) pre-installed and configured for you.
 
-##### Database Provider
+[doc-section:UI=Angular]
 
-Use `-d` (or `--database-provider`) option to specify the database provider:
+* `-u` argument specifies the UI framework, `angular` in this case.
 
-```bash
-abp new Acme.BookStore -d mongodb
-```
+[/doc-section]
 
-All possible values for the database provider:
-
-- `ef`: Entity Framework Core (default)
-- `mongodb`: MongoDB
+> You can use different level of namespaces; e.g. BookStore, Acme.BookStore or Acme.Retail.BookStore. 
 
 #### ABP CLI Commands & Options
 
-> [ABP CLI document](https://docs.abp.io/en/abp/latest/CLI) covers all of the available commands and options for the ABP CLI. The main difference for the ABP Commercial is the template names. See the [ABP Commercial Startup Templates](Startup-Templates/Index.md) document for other commercial templates.
+[ABP CLI document](https://docs.abp.io/en/abp/latest/CLI) covers all of the available commands and options for the ABP CLI. The main difference for the ABP Commercial is the template names. See the [ABP Commercial Startup Templates](Startup-Templates/Index.md) document for other commercial templates.
 
 ## The Solution Structure
 
-You will see slightly different solution structure based on the options you've selected while creating your project.
+[doc-section:UI=MVC]
 
-You will see the following solution structure when
+After creating your project, you will have the following solution folders & files:
+
+![](Images/solution-files-mvc.png)
+
+You will see the following solution structure when you open the `.sln` file in the Visual Studio:
 
 ![vs-default-app-solution-structure](Images/vs-default-app-solution-structure.png)
+
+[/doc-section]
+
+[doc-section:UI=Angular]
+
+There are two folders in the created solution:
+
+![](Images/solution-files-angular.png)
+
+`angular` folder contains the Angular UI application while the `aspnet-core` folder contains the backend solution.
+
+Open the `.sln` (Visual Studio solution) file under the `aspnet-core` folder:
+
+![vs-angular-app-backend-solution-structure](Images/vs-angular-app-backend-solution-structure.png)
+
+[/doc-section]
+
+The solution has a layered structure (based on [Domain Driven Design](https://docs.abp.io/en/abp/latest/Domain-Driven-Design)) and contains unit & integration test projects properly configured to work with **EF Core** & **SQLite in-memory** database.
+
+> See the [application template document](Startup-Templates/Application.md) to understand the solution structure in details. 
+
+## Create the Database
+
+### Database Connection String
+
+[doc-section:UI=MVC]
+
+Check the **connection string** in the `appsettings.json` file under the `.Web` project:
+
+[/doc-section]
+
+[doc-section:UI=Angular]
+
+Check the **connection string** in the `appsettings.json` file under the `.HttpApi.Host` project:
+
+[/doc-section]
+
+````json
+"ConnectionStrings": {
+  "Default": "Server=localhost;Database=BookStore;Trusted_Connection=True"
+}
+````
+
+The solution is configured to use **Entity Framework Core** with **MS SQL Server**. EF Core supports [various](https://docs.microsoft.com/en-us/ef/core/providers/) database providers, so you can use another DBMS if you want. Change the connection string if you need. 
+
+### Apply the Migrations
+
+The solution uses the [Entity Framework Core Code First Migrations](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli). So, you need to apply migrations to create the database. There are two ways of applying the database migrations.
+
+#### Using the DbMigrator Application
+
+The solution comes with a `.DbMigrator` console application which applies migrations and also seed the initial data. It is useful on development as well as on production environment.
+
+> `.DbMigrator` project has its own `appsettings.json`. So, if you have changed the connection string above, you should also change this one. 
+
+Right click to the `.DbMigrator` project and select **Set as StartUp Project**:
+
+![set-as-startup-project](Images/set-as-startup-project.png)
+
+ Hit F5 (or Ctrl+F5) to run the application. It will have an output like shown below:
+
+ ![db-migrator-output](Images/db-migrator-output.png)
+
+#### Using EF Core Update-Database Command
+
+Ef Core has `Update-Database` command which creates database if necessary and applies pending migrations.
+
+[doc-section:UI=MVC]
+
+Right click to the `.Web` project and select **Set as StartUp Project**: 
+
+[/doc-section]
+
+[doc-section:UI=Angular]
+
+Right click to the `.HttpApi.Host` project and select **Set as StartUp Project**: 
+
+[/doc-section]
+
+![set-as-startup-project](Images/set-as-startup-project.png)
+
+Open the **Package Manager Console**, select `.EntityFrameworkCore.DbMigrations` project as the **Default Project** and run the `Update-Database` command:
+
+![package-manager-console-update-database](Images/package-manager-console-update-database.png)
+
+This will create a new database based on the configured connection string.
+
+> Using the `.Migrator` tool is the suggested way, because it also seeds the initial data to be able to properly run the web application. 
+
+## Run the Application
+
+Ensure that the `.Web` project is the startup project. Run the application which will open the **login** page in your browser:
+
+> Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
+
+![bookstore-login](Images/bookstore-login.png)
+
+Enter `admin` as the username and `1q2w3E*` as the password to login to the application:
+
+![bookstore-home](Images/bookstore-home.png)
+
+The application is up and running. You can continue to develop your application based on this startup template.
+
+> The [application startup template](Startup-Templates/Application.md) includes the SaaS, Identity, Identity Server, Language Management and Audit Log and a few more modules.
+
+## What's Next?
+
+[Application development tutorial](Tutorials/BookStore/Mvc-Razor-Pages/Index.md)
