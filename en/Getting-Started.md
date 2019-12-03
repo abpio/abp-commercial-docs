@@ -66,15 +66,27 @@ dotnet tool update -g Volo.Abp.Suite
 
 ## Create a New Project
 
-[doc-section:UI=MVC]
+[doc-section:UI=MVC&Database=EF Core]
 
 > This document assumes that you prefer to use **MVC (Razor Pages)** UI and **Entity Framework Core**. For other options, please change the preference on top of this document.
 
 [/doc-section]
 
-[doc-section:UI=Angular]
+[doc-section:UI=Angular&Database=EF Core]
 
 > This document assumes that you prefer to use **Angular** UI and **Entity Framework Core**. For other options, please change the preference on top of this document.
+
+[/doc-section]
+
+[doc-section:UI=MVC&Database=MongoDB]
+
+> This document assumes that you prefer to use **MVC (Razor Pages)** UI and **MongoDB**. For other options, please change the preference on top of this document.
+
+[/doc-section]
+
+[doc-section:UI=Angular&Database=MongoDB]
+
+> This document assumes that you prefer to use **Angular** UI and **MongoDB**. For other options, please change the preference on top of this document.
 
 [/doc-section]
 
@@ -88,7 +100,7 @@ TODO
 
 Use the `new` command of the ABP CLI to create a new project:
 
-[doc-section:UI=MVC]
+[doc-section:UI=MVC&Database=EF Core]
 
 ````shell
 abp new Acme.BookStore -t app-pro
@@ -96,10 +108,26 @@ abp new Acme.BookStore -t app-pro
 
 [/doc-section]
 
-[doc-section:UI=Angular]
+[doc-section:UI=Angular&Database=EF Core]
 
 ````shell
 abp new Acme.BookStore -t app-pro -u angular
+````
+
+[/doc-section]
+
+[doc-section:UI=MVC&Database=MongoDB]
+
+````shell
+abp new Acme.BookStore -t app-pro -d mongodb
+````
+
+[/doc-section]
+
+[doc-section:UI=Angular&Database=MongoDB]
+
+````shell
+abp new Acme.BookStore -t app-pro -u angular -d mongodb
 ````
 
 [/doc-section]
@@ -109,6 +137,12 @@ abp new Acme.BookStore -t app-pro -u angular
 [doc-section:UI=Angular]
 
 * `-u` argument specifies the UI framework, `angular` in this case.
+
+[/doc-section]
+
+[doc-section:Database=MongoDB]
+
+* `-d` argument specifies the database provider, `mongodb` in this case.
 
 [/doc-section]
 
@@ -128,11 +162,21 @@ After creating your project, you will have the following solution folders & file
 
 You will see the following solution structure when you open the `.sln` file in the Visual Studio:
 
+[doc-section:Database=EF Core]
+
 ![vs-default-app-solution-structure](Images/vs-default-app-solution-structure.png)
 
 [/doc-section]
 
-[doc-section:UI=Angular]
+[doc-section:Database=MongoDB]
+
+![vs-default-app-solution-structure](Images/vs-app-solution-structure-mongodb-mvc.png)
+
+[/doc-section]
+
+[/doc-section]
+
+[doc-section:UI=Angular&Database=EF Core]
 
 There are two folders in the created solution:
 
@@ -146,7 +190,19 @@ Open the `.sln` (Visual Studio solution) file under the `aspnet-core` folder:
 
 [/doc-section]
 
-The solution has a layered structure (based on [Domain Driven Design](https://docs.abp.io/en/abp/latest/Domain-Driven-Design)) and contains unit & integration test projects properly configured to work with **EF Core** & **SQLite in-memory** database.
+The solution has a layered structure (based on [Domain Driven Design](https://docs.abp.io/en/abp/latest/Domain-Driven-Design)) and also contains unit & integration test projects.
+
+[doc-section:Database=EF Core]
+
+Integration tests projects are properly configured to work with **EF Core** & **SQLite in-memory** database.
+
+[/doc-section]
+
+[doc-section:Database=MongoDB]
+
+Integration tests projects are properly configured to work with in-memory **MongoDB** database created per test (used [Mongo2Go](https://github.com/Mongo2Go/Mongo2Go) library).
+
+[/doc-section]
 
 > See the [application template document](Startup-Templates/Application.md) to understand the solution structure in details. 
 
@@ -166,13 +222,15 @@ Check the **connection string** in the `appsettings.json` file under the `.HttpA
 
 [/doc-section]
 
+[doc-section:Database=EF Core]
+
 ````json
 "ConnectionStrings": {
   "Default": "Server=localhost;Database=BookStore;Trusted_Connection=True"
 }
 ````
 
-The solution is configured to use **Entity Framework Core** with **MS SQL Server**. EF Core supports [various](https://docs.microsoft.com/en-us/ef/core/providers/) database providers, so you can use another DBMS if you want. Change the connection string if you need. 
+The solution is configured to use **Entity Framework Core** with **MS SQL Server**. EF Core supports [various](https://docs.microsoft.com/en-us/ef/core/providers/) database providers, so you can use another DBMS if you want (see [the document to change DBMS](Change-DBMS-For-EntityFramework.md) for EF Core).
 
 ### Apply the Migrations
 
@@ -191,6 +249,8 @@ Right click to the `.DbMigrator` project and select **Set as StartUp Project**:
  Hit F5 (or Ctrl+F5) to run the application. It will have an output like shown below:
 
  ![db-migrator-output](Images/db-migrator-output.png)
+
+> Initial seed data creates the `admin` user in the database which is then used to login to the application. So, you need to use `.DbMigrator` at least once for a new database.
 
 #### Using EF Core Update-Database Command
 
@@ -217,6 +277,36 @@ Open the **Package Manager Console**, select `.EntityFrameworkCore.DbMigrations`
 This will create a new database based on the configured connection string.
 
 > Using the `.Migrator` tool is the suggested way, because it also seeds the initial data to be able to properly run the web application. 
+
+[/doc-section]
+
+[doc-section:Database=MongoDB]
+
+````json
+"ConnectionStrings": {
+  "Default": "mongodb://localhost:27017/BookStore"
+}
+````
+
+The solution is configured to use **MongoDB** in your local computer, so you need to have a MongoDB server instance up and running or change the connection string to another MongoDB server.
+
+### Seed Initial Data
+
+The solution comes with a `.DbMigrator` console application which seeds the initial data. It is useful on development as well as on production environment.
+
+> `.DbMigrator` project has its own `appsettings.json`. So, if you have changed the connection string above, you should also change this one. 
+
+Right click to the `.DbMigrator` project and select **Set as StartUp Project**:
+
+![set-as-startup-project](Images/set-as-startup-project.png)
+
+ Hit F5 (or Ctrl+F5) to run the application. It will have an output like shown below:
+
+ ![db-migrator-output](Images/db-migrator-output.png)
+
+> Initial seed data creates the `admin` user in the database which is then used to login to the application. So, you need to use `.DbMigrator` at least once for a new database.
+
+[/doc-section]
 
 ## Run the Application
 
