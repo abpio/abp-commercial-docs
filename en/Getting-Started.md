@@ -1,5 +1,16 @@
 # Getting Started
 
+````json
+//[doc-params]
+{
+    params: {
+        "UI": ["MVC","Angular"],
+        "DB": ["EF", "MongoDB"],
+        "Tiered": ["Yes", "No"]
+    }
+}
+````
+
 > This tutorial assumes that you've already purchased an [ABP Commercial license](https://commercial.abp.io/pricing) and have an active ABP Commercial account.
 
 ## Setup Your Development Environment
@@ -55,13 +66,13 @@ It will ask a password, so you enter the password of your account.
 First, you need to install the ABP Suite:
 
 ````shell
-dotnet tool install -g Volo.Abp.Suite
+abp suite install
 ````
 
 If you've already installed, you can update it:
 
 ````shell
-dotnet tool update -g Volo.Abp.Suite
+abp suite update
 ````
 
 ## Create a New Project
@@ -94,7 +105,23 @@ There are two ways of creating a new project: ABP Suite and ABP CLI.
 
 ### Using ABP Suite to Create a New Project
 
-TODO
+Run the ABP Suite with the following command:
+
+````bash
+abp suite
+````
+
+This command starts the ABP Suite and opens in your default browser:
+
+![suite-entrance](D:\Github\abp-commercial-docs\en\Images\suite-entrance.png)
+
+Click to the "+ Create solution" button and fill the modal form:
+
+![suite-new-project-modal](D:\Github\abp-commercial-docs\en\Images\suite-new-project-modal.png)
+
+Select the UI framework, Database provider and other option based on your requirements then click to the OK button.
+
+> You can use different level of namespaces; e.g. BookStore, Acme.BookStore or Acme.Retail.BookStore. 
 
 ### Using ABP CLI to Create a New Project
 
