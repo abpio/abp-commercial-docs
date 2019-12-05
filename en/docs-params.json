@@ -1,5 +1,5 @@
 {
-    "params": [{
+    "parameters": [{
         "name": "UI",
         "displayName": "User Interface",
 		"values": {
@@ -11,16 +11,16 @@
         "name": "DB",
         "displayName": "Database Provider",
 		"values": {
-			"Mongo": "MongoDB",
-			"EF": "Entity Framework Core"
+			"EF": "Entity Framework Core",
+			"Mongo": "MongoDB"			
 		}
     },
 	{
         "name": "Tiered",
         "displayName": "N-Tiered",
 		"values": {
-			"Yes": "Yes",
-			"No": "No"
+			"No": "No",
+			"Yes": "Yes"			
 		}
     }]
 }

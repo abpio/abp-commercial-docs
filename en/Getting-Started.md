@@ -3,11 +3,9 @@
 ````json
 //[doc-params]
 {
-    params: {
-        "UI": ["MVC","Angular"],
-        "DB": ["EF", "MongoDB"],
-        "Tiered": ["Yes", "No"]
-    }
+    "UI": ["MVC","NG"],
+    "DB": ["EF", "Mongo"],
+    "Tiered": ["Yes", "No"]
 }
 ````
 
@@ -77,33 +75,27 @@ abp suite update
 
 ## Create a New Project
 
-[doc-section:UI=MVC&Database=EF Core]
+{{ if UI == "MVC" && DB == "EF" }}
 
 > This document assumes that you prefer to use **MVC (Razor Pages)** UI and **Entity Framework Core**. For other options, please change the preference on top of this document.
 
-[/doc-section]
-
-[doc-section:UI=Angular&Database=EF Core]
+{{ else if UI == "NG" && DB == "EF" }}
 
 > This document assumes that you prefer to use **Angular** UI and **Entity Framework Core**. For other options, please change the preference on top of this document.
 
-[/doc-section]
-
-[doc-section:UI=MVC&Database=MongoDB]
+{{ else if UI == "MVC" && DB == "Mongo" }}
 
 > This document assumes that you prefer to use **MVC (Razor Pages)** UI and **MongoDB**. For other options, please change the preference on top of this document.
 
-[/doc-section]
-
-[doc-section:UI=Angular&Database=MongoDB]
+{{ else if UI == "NG" && DB == "Mongo" }}
 
 > This document assumes that you prefer to use **Angular** UI and **MongoDB**. For other options, please change the preference on top of this document.
 
-[/doc-section]
+{{ end }}
 
 There are two ways of creating a new project: ABP Suite and ABP CLI.
 
-### Using ABP Suite to Create a New Project
+### Using the ABP Suite to Create a New Project
 
 Run the ABP Suite with the following command:
 
@@ -123,55 +115,49 @@ Select the UI framework, Database provider and other option based on your requir
 
 > You can use different level of namespaces; e.g. BookStore, Acme.BookStore or Acme.Retail.BookStore. 
 
-### Using ABP CLI to Create a New Project
+### Using the ABP CLI to Create a New Project
 
 Use the `new` command of the ABP CLI to create a new project:
 
-[doc-section:UI=MVC&Database=EF Core]
+{{ if UI == "MVC" && DB == "EF" }}
 
 ````shell
 abp new Acme.BookStore -t app-pro
 ````
 
-[/doc-section]
-
-[doc-section:UI=Angular&Database=EF Core]
+{{ else if UI == "NG" && DB == "EF" }}
 
 ````shell
 abp new Acme.BookStore -t app-pro -u angular
 ````
 
-[/doc-section]
-
-[doc-section:UI=MVC&Database=MongoDB]
+{{ else if UI == "MVC" && DB == "Mongo" }}
 
 ````shell
 abp new Acme.BookStore -t app-pro -d mongodb
 ````
 
-[/doc-section]
-
-[doc-section:UI=Angular&Database=MongoDB]
+{{ else if UI == "NG" && DB == "Mongo" }}
 
 ````shell
 abp new Acme.BookStore -t app-pro -u angular -d mongodb
 ````
 
-[/doc-section]
+{{ end }}
 
 * `-t` argument specifies the [startup template](Startup-Templates/Index.md) name. `app-pro` is the startup template that contains the essential [ABP Commercial Modules](https://commercial.abp.io/modules) pre-installed and configured for you.
 
-[doc-section:UI=Angular]
+{{ if UI == "NG" }}
 
 * `-u` argument specifies the UI framework, `angular` in this case.
 
-[/doc-section]
+{{ end }}
 
-[doc-section:Database=MongoDB]
+{{ if DB == "Mongo" }}
 
 * `-d` argument specifies the database provider, `mongodb` in this case.
 
-[/doc-section]
+{{ end }}
 
 > You can use different level of namespaces; e.g. BookStore, Acme.BookStore or Acme.Retail.BookStore. 
 
@@ -181,7 +167,7 @@ abp new Acme.BookStore -t app-pro -u angular -d mongodb
 
 ## The Solution Structure
 
-[doc-section:UI=MVC]
+{{ if UI == "MVC" }}
 
 After creating your project, you will have the following solution folders & files:
 
@@ -189,21 +175,17 @@ After creating your project, you will have the following solution folders & file
 
 You will see the following solution structure when you open the `.sln` file in the Visual Studio:
 
-[doc-section:Database=EF Core]
+{{ if DB == "EF" }}
 
 ![vs-default-app-solution-structure](Images/vs-default-app-solution-structure.png)
 
-[/doc-section]
-
-[doc-section:Database=MongoDB]
+{{ else if DB == "EF" }}
 
 ![vs-default-app-solution-structure](Images/vs-app-solution-structure-mongodb-mvc.png)
 
-[/doc-section]
+{{ end }}
 
-[/doc-section]
-
-[doc-section:UI=Angular]
+{{ else if UI == "NG" }}
 
 There are two folders in the created solution:
 
@@ -213,33 +195,29 @@ There are two folders in the created solution:
 
 Open the `.sln` (Visual Studio solution) file under the `aspnet-core` folder:
 
-[doc-section:Database=EF Core]
+{{ if DB == "EF" }}
 
 ![vs-angular-app-backend-solution-structure](Images/vs-angular-app-backend-solution-structure.png)
 
-[/doc-section]
-
-[doc-section:Database=MongoDB]
+{{ else if DB == "Mongo" }}
 
 ![vs-default-app-solution-structure](Images/vs-app-solution-structure-mongodb-spa.png)
 
-[/doc-section]
+{{ end }}
 
-[/doc-section]
+{{ end }}
 
 The solution has a layered structure (based on [Domain Driven Design](https://docs.abp.io/en/abp/latest/Domain-Driven-Design)) and also contains unit & integration test projects.
 
-[doc-section:Database=EF Core]
+{{ if DB == "EF" }}
 
 Integration tests projects are properly configured to work with **EF Core** & **SQLite in-memory** database.
 
-[/doc-section]
-
-[doc-section:Database=MongoDB]
+{{ else if DB == "Mongo" }}
 
 Integration tests projects are properly configured to work with in-memory **MongoDB** database created per test (used [Mongo2Go](https://github.com/Mongo2Go/Mongo2Go) library).
 
-[/doc-section]
+{{ end }}
 
 > See the [application template document](Startup-Templates/Application.md) to understand the solution structure in details. 
 
@@ -247,19 +225,17 @@ Integration tests projects are properly configured to work with in-memory **Mong
 
 ### Database Connection String
 
-[doc-section:UI=MVC]
+{{ if UI == "MVC" }}
 
 Check the **connection string** in the `appsettings.json` file under the `.Web` project:
 
-[/doc-section]
-
-[doc-section:UI=Angular]
+{{ else if UI == "NG" }}
 
 Check the **connection string** in the `appsettings.json` file under the `.HttpApi.Host` project:
 
-[/doc-section]
+{{ end }}
 
-[doc-section:Database=EF Core]
+{{ if DB == "EF" }}
 
 ````json
 "ConnectionStrings": {
@@ -293,17 +269,15 @@ Right click to the `.DbMigrator` project and select **Set as StartUp Project**:
 
 Ef Core has `Update-Database` command which creates database if necessary and applies pending migrations.
 
-[doc-section:UI=MVC]
+{{ if UI == "MVC" }}
 
 Right click to the `.Web` project and select **Set as StartUp Project**: 
 
-[/doc-section]
-
-[doc-section:UI=Angular]
+{{ else if UI == "NG" }}
 
 Right click to the `.HttpApi.Host` project and select **Set as StartUp Project**: 
 
-[/doc-section]
+{{ end }}
 
 ![set-as-startup-project](Images/set-as-startup-project.png)
 
@@ -315,9 +289,7 @@ This will create a new database based on the configured connection string.
 
 > Using the `.Migrator` tool is the suggested way, because it also seeds the initial data to be able to properly run the web application. 
 
-[/doc-section]
-
-[doc-section:Database=MongoDB]
+{{ else if DB == "Mongo" }}
 
 ````json
 "ConnectionStrings": {
@@ -343,11 +315,11 @@ Right click to the `.DbMigrator` project and select **Set as StartUp Project**:
 
 > Initial seed data creates the `admin` user in the database which is then used to login to the application. So, you need to use `.DbMigrator` at least once for a new database.
 
-[/doc-section]
+{{ end }}
 
 ## Run the Application
 
-[doc-section:UI=MVC]
+{{ if UI == "MVC" }}
 
 Ensure that the `.Web` project is the startup project. Run the application which will open the **login** page in your browser:
 
@@ -355,9 +327,7 @@ Ensure that the `.Web` project is the startup project. Run the application which
 
 ![bookstore-login](Images/bookstore-login.png)
 
-[/doc-section]
-
-[doc-section:UI=Angular]
+{{ else if UI == "NG" }}
 
 #### Run the HTTP API Host (Server Side)
 
@@ -391,7 +361,7 @@ Wait Angular to start, open your favorite browser and go to `localhost:4200` URL
 
 ![bookstore-login](Images/bookstore-login.png)
 
-[/doc-section]
+{{ end }}
 
 Enter `admin` as the username and `1q2w3E*` as the password to login to the application:
 
