@@ -319,9 +319,23 @@ Ensure that the `.Web` project is the startup project. Run the application which
 
 #### Run the HTTP API Host (Server Side)
 
-Ensure that the `.HttpApi.Host` project is the startup project and run the application which will open a Swagger UI:
+{{ if Tiered == "Yes" }}
+
+Ensure that the `.IdentityServer` project is the startup project. Run the application which will open a **login** page in your browser.
 
 > Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
+
+You can login, but you cannot enter to the main application here. This is just the authentication server.
+
+{{ end }}
+
+Ensure that the `.HttpApi.Host` project is the startup project and run the application which will open a Swagger UI:
+
+{{ if Tiered == "No" }}
+
+> Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
+
+{{ end }}
 
 ![swagger-ui](D:\Github\abp-commercial-docs\en\Images\swagger-ui.png)
 
