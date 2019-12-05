@@ -197,8 +197,6 @@ Integration tests projects are properly configured to work with in-memory **Mong
 
 ### Database Connection String
 
-{{ if UI == "MVC" }}
-
 Check the **connection string** in the `appsettings.json` file under the {{if UI == "MVC"}}{{if Tiered == "Yes"}}`.IdentityServer` and `.HttpApi.Host` projects{{else}}`.Web` project{{end}}{{else if UI == "NG" }}`.HttpApi.Host` project{{end}}:
 
 {{ if DB == "EF" }}
@@ -364,3 +362,4 @@ The application is up and running. You can continue to develop your application 
 ## What's Next?
 
 [Application development tutorial](Tutorials/BookStore/Mvc-Razor-Pages/Index.md)
+
