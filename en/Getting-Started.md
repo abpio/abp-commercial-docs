@@ -119,31 +119,9 @@ Select the UI framework, Database provider and other option based on your requir
 
 Use the `new` command of the ABP CLI to create a new project:
 
-{{ if UI == "MVC" && DB == "EF" }}
-
 ````shell
-abp new Acme.BookStore -t app-pro
+abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{end}}{{if DB == "Mongo"}} -d mongodb{{end}}{{if Tiered == "Yes"}} --tiered{{end}}
 ````
-
-{{ else if UI == "NG" && DB == "EF" }}
-
-````shell
-abp new Acme.BookStore -t app-pro -u angular
-````
-
-{{ else if UI == "MVC" && DB == "Mongo" }}
-
-````shell
-abp new Acme.BookStore -t app-pro -d mongodb
-````
-
-{{ else if UI == "NG" && DB == "Mongo" }}
-
-````shell
-abp new Acme.BookStore -t app-pro -u angular -d mongodb
-````
-
-{{ end }}
 
 * `-t` argument specifies the [startup template](Startup-Templates/Index.md) name. `app-pro` is the startup template that contains the essential [ABP Commercial Modules](https://commercial.abp.io/modules) pre-installed and configured for you.
 
@@ -156,6 +134,12 @@ abp new Acme.BookStore -t app-pro -u angular -d mongodb
 {{ if DB == "Mongo" }}
 
 * `-d` argument specifies the database provider, `mongodb` in this case.
+
+{{ end }}
+
+{{ if Tiered == "Yes" }}
+
+* `--tiered` argument is used to create N-tiered solution where authentication server, UI and API layers are physically separated.
 
 {{ end }}
 
@@ -175,15 +159,7 @@ After creating your project, you will have the following solution folders & file
 
 You will see the following solution structure when you open the `.sln` file in the Visual Studio:
 
-{{ if DB == "EF" }}
-
 ![vs-default-app-solution-structure](Images/vs-default-app-solution-structure.png)
-
-{{ else if DB == "EF" }}
-
-![vs-default-app-solution-structure](Images/vs-app-solution-structure-mongodb-mvc.png)
-
-{{ end }}
 
 {{ else if UI == "NG" }}
 
@@ -195,17 +171,13 @@ There are two folders in the created solution:
 
 Open the `.sln` (Visual Studio solution) file under the `aspnet-core` folder:
 
-{{ if DB == "EF" }}
-
 ![vs-angular-app-backend-solution-structure](Images/vs-angular-app-backend-solution-structure.png)
 
-{{ else if DB == "Mongo" }}
-
-![vs-default-app-solution-structure](Images/vs-app-solution-structure-mongodb-spa.png)
-
 {{ end }}
 
-{{ end }}
+> ###### About the projects in your solution
+>
+> Your solution may have slightly different structure based on your **UI**, **database** and other preferences.
 
 The solution has a layered structure (based on [Domain Driven Design](https://docs.abp.io/en/abp/latest/Domain-Driven-Design)) and also contains unit & integration test projects.
 
@@ -227,13 +199,7 @@ Integration tests projects are properly configured to work with in-memory **Mong
 
 {{ if UI == "MVC" }}
 
-Check the **connection string** in the `appsettings.json` file under the `.Web` project:
-
-{{ else if UI == "NG" }}
-
-Check the **connection string** in the `appsettings.json` file under the `.HttpApi.Host` project:
-
-{{ end }}
+Check the **connection string** in the `appsettings.json` file under the {{if UI == "MVC"}}{{if Tiered == "Yes"}}`.IdentityServer` and `.HttpApi.Host` projects{{else}}`.Web` project{{end}}{{else if UI == "NG" }}`.HttpApi.Host` project{{end}}:
 
 {{ if DB == "EF" }}
 
@@ -271,7 +237,7 @@ Ef Core has `Update-Database` command which creates database if necessary and ap
 
 {{ if UI == "MVC" }}
 
-Right click to the `.Web` project and select **Set as StartUp Project**: 
+Right click to the {{if Tiered == "Yes"}}`.IdentityServer`{{else}}`.Web`{{end}} project and select **Set as StartUp Project**: 
 
 {{ else if UI == "NG" }}
 
@@ -321,11 +287,35 @@ Right click to the `.DbMigrator` project and select **Set as StartUp Project**:
 
 {{ if UI == "MVC" }}
 
+{{ if Tiered == "Yes" }}
+
+Ensure that the `.IdentityServer` project is the startup project. Run the application which will open a **login** page in your browser.
+
+> Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
+
+You can login, but you cannot enter to the main application here. This is just the authentication server.
+
+Ensure that the `.HttpApi.Host` project is the startup project and run the application which will open a **Swagger UI** in your browser.
+
+![swagger-ui](D:\Github\abp-commercial-docs\en\Images\swagger-ui.png)
+
+This is the API application that is used by the web application.
+
+Lastly, ensure that the `.Web` project is the startup project and run the application which will open a **Welcome** page in your browser:![mvc-tiered-app-home](D:\Github\abp-commercial-docs\en\Images\mvc-tiered-app-home.png)
+
+Click to the LOGIN button which will redirect you to the Identity Server to login to the application:
+
+![bookstore-login](Images/bookstore-login.png)
+
+{{ else }}
+
 Ensure that the `.Web` project is the startup project. Run the application which will open the **login** page in your browser:
 
 > Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
 
 ![bookstore-login](Images/bookstore-login.png)
+
+{{ end }}
 
 {{ else if UI == "NG" }}
 
