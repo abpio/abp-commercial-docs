@@ -75,23 +75,7 @@ abp suite update
 
 ## Create a New Project
 
-{{ if UI == "MVC" && DB == "EF" }}
-
-> This document assumes that you prefer to use **MVC (Razor Pages)** UI and **Entity Framework Core**. For other options, please change the preference on top of this document.
-
-{{ else if UI == "NG" && DB == "EF" }}
-
-> This document assumes that you prefer to use **Angular** UI and **Entity Framework Core**. For other options, please change the preference on top of this document.
-
-{{ else if UI == "MVC" && DB == "Mongo" }}
-
-> This document assumes that you prefer to use **MVC (Razor Pages)** UI and **MongoDB**. For other options, please change the preference on top of this document.
-
-{{ else if UI == "NG" && DB == "Mongo" }}
-
-> This document assumes that you prefer to use **Angular** UI and **MongoDB**. For other options, please change the preference on top of this document.
-
-{{ end }}
+> This document assumes that you prefer to use **{{ UI_Value }}** as the UI framework and **{{ DB_Value }}** as the database provider. For other options, please change the preference on top of this document.
 
 There are two ways of creating a new project: ABP Suite and ABP CLI.
 
