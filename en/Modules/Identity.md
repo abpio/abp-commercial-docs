@@ -14,7 +14,63 @@ See [the module description page](https://commercial.abp.io/modules/Volo.Identit
 
 ## How to Install
 
-This module is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
+Identity is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
+
+## Menu Items
+
+Identity module adds the following items to the "Main" menu, under the "Administration" menu item:
+
+* Roles: Role management page.
+* Users: User management page.
+* Claim Types: Claim type management page.
+
+## Database Tables/Collections
+
+Identity module adds some tables/collections to the database, based on the database provider you're using.
+
+### Relational Databases
+
+Tables:
+
+* **AbpRoles**
+  * AbpRoleClaims
+* **AbpUsers**
+  * AbpUserClaims
+  * AbpUserLogins
+  * AbpUserRoles
+  * AbpUserTokens
+* **AbpClaimTypes**
+
+### MongoDB
+
+Collections:
+
+* **AbpRoles**
+* **AbpUsers**
+* **AbpClaimTypes**
+
+## Packages
+
+This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
+
+### NuGet Packages
+
+* Volo.Abp.Identity.Domain.Shared
+* Volo.Abp.Identity.Domain
+* Volo.Abp.Identity.Pro.Application.Contracts
+* Volo.Abp.Identity.Pro.Application
+* Volo.Abp.Identity.EntityFrameworkCore
+* Volo.Abp.Identity.MongoDB
+* Volo.Abp.Identity.AspNetCore
+* Volo.Abp.PermissionManagement.Domain.Identity
+* Volo.Abp.Identity.Pro.HttpApi
+* Volo.Abp.Identity.Pro.HttpApi.Client
+* Volo.Abp.Identity.Pro.Web
+
+### NPM Packages
+
+* @volo/abp.ng.identity
+* @volo/abp.ng.identity.config
 
 ## Data Seed
 
