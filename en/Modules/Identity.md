@@ -16,6 +16,95 @@ See [the module description page](https://commercial.abp.io/modules/Volo.Identit
 
 Identity is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
 
+## User Interface
+
+### Menu Items
+
+Identity module adds the following items to the "Main" menu, under the "Administration" menu item:
+
+* **Roles**: Role management page.
+* **Users**: User management page.
+* **Claim Types**: Claim type management page.
+
+`IdentityMenuNames` class has the constants for the menu item names.
+
+### Pages
+
+#### Role Management
+
+Roles page is used to manage roles in the system. A role is a set of permissions assigned to the users.
+
+![identity-role-page](../Images/identity-role-page.png)
+
+You can create a new role or edit a role in this page:
+
+![identity-edit-role-modal](../Images/identity-edit-role-modal.png)
+
+* **Default** roles are assigned to new users by default.
+* **Public** roles are visible to other users.
+
+##### Role Permissions
+
+You can manage permissions of a role:
+
+![identity-edit-role-permissions-modal](../Images/identity-edit-role-permissions-modal.png)
+
+* A permission is an **action of the application** granted to roles and users.
+* A user with a role will **inherit** all the permissions granted for the role.
+* Any module can **[define permissions](https://docs.abp.io/en/abp/latest/Authorization#permission-system)**. Once you define a new permission, it will be available in this page.
+* Left side is the **list of modules**. Once you click to a module name, you can check/uncheck permissions related to that module.
+
+##### Role Claims
+
+You can set custom claim values for a role:
+
+![identity-edit-role-claims-modal](../Images/identity-edit-role-claims-modal.png)
+
+Claim types are retrieved from the claim list defined in the Claim Types  Management page (see below).
+
+#### User Management
+
+Users page is used to manage the users in your system.
+
+![identity-users-page](../Images/identity-user-page.png)
+
+You can create a new user or edit an existing user in this page:
+
+![identity-user-edit-modal](../Images/identity-user-edit-modal.png)
+
+* A user can have **zero or more roles** in the system.
+* You can set **two factor** verification and user **lockout** settings per user.
+
+##### User Permissions
+
+A user has union of the permissions of the assigned roles. Identity module also allows to grant extra permissions to a specific user.
+
+![identity-edit-user-permissions-modal](../Images/identity-edit-user-permissions-modal.png)
+
+##### User Claims
+
+You can also set custom claim values for a user:
+
+![identity-edit-user-claims-modal](../Images/identity-edit-user-claims-modal.png)
+
+Claim types are retrieved from the claim list defined in the Claim Type Management page (see below).
+
+#### Claim Type Management
+
+Identity module allows to define custom claim types.
+
+![identity-claim-type-page](../Images/identity-claim-type-page.png)
+
+* Custom claims can be used to store additional information to a user or role.
+* Custom claim values then can be accessed in the application code for an authenticated user.
+* Claim Types are also used by the Identity Server module if you're using it.
+
+#### Identity Module Settings UI
+
+Identity module adds a new tab to the Settings page to customize the behavior on runtime.
+
+![identity-settings-ui](../Images/identity-settings-ui.png)
+
 ## Internals
 
 ### Domain Layer
@@ -118,30 +207,6 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 * **AbpRoles**
 * **AbpUsers**
 * **AbpClaimTypes**
-
-
-
-
-
-
-
-
-
-
-
-## Menu Items
-
-Identity module adds the following items to the "Main" menu, under the "Administration" menu item:
-
-* Roles: Role management page.
-* Users: User management page.
-* Claim Types: Claim type management page.
-
-## Database Tables/Collections
-
-Identity module adds some tables/collections to the database, based on the database provider you're using.
-
-* 
 
 ## Permissions
 
