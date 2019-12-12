@@ -16,6 +16,29 @@ See [the module description page](https://commercial.abp.io/modules/Volo.Identit
 
 Identity is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
 
+## Packages
+
+This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
+
+### NuGet Packages
+
+* Volo.Abp.Identity.Domain.Shared
+* Volo.Abp.Identity.Domain
+* Volo.Abp.Identity.Pro.Application.Contracts
+* Volo.Abp.Identity.Pro.Application
+* Volo.Abp.Identity.EntityFrameworkCore
+* Volo.Abp.Identity.MongoDB
+* Volo.Abp.Identity.AspNetCore
+* Volo.Abp.PermissionManagement.Domain.Identity
+* Volo.Abp.Identity.Pro.HttpApi
+* Volo.Abp.Identity.Pro.HttpApi.Client
+* Volo.Abp.Identity.Pro.Web
+
+### NPM Packages
+
+* @volo/abp.ng.identity
+* @volo/abp.ng.identity.config
+
 ## User Interface
 
 ### Menu Items
@@ -105,6 +128,49 @@ Identity module adds a new tab to the Settings page to customize the behavior on
 
 ![identity-settings-ui](../Images/identity-settings-ui.png)
 
+## Data Seed
+
+This module adds some initial data (see [the data seed system](https://docs.abp.io/en/abp/latest/Data-Seeding)) to the database when you run the `.DbMigrator` application:
+
+* Creates an `admin` role with all the permissions granted.
+* Creates an `admin` user with the `admin` role and `1q2w3E*` as the password.
+
+You normally change this password when you first run the application in your production environment. But if you want to change the password of the seed data, find the *ProjectName*DbMigrationService in your solution, locate to the `MigrateAsync` method. There will be a line like that:
+
+````csharp
+await _dataSeeder.SeedAsync();
+````
+
+Change it like that:
+
+````csharp
+await _dataSeeder.SeedAsync(
+    new DataSeedContext()
+        .WithProperty("AdminPassword", "myPassW00rd42")
+);
+````
+
+Just like the password, you can also set the admin email (use the `AdminEmail` key in this case).
+
+> The [data seed contributor](https://docs.abp.io/en/abp/latest/Data-Seeding) class of the Identity module is `IdentityDataSeedContributor` which internally uses the `IIdentityDataSeeder` service.
+
+## Options
+
+### AbpIdentityAspNetCoreOptions
+
+`AbpIdentityAspNetCoreOptions` can be configured in the UI layer, in the `ConfigureServices` method of your module. Example:
+
+````csharp
+Configure<AbpIdentityAspNetCoreOptions>(options =>
+{
+    //Set options here...
+});
+````
+
+`AbpIdentityAspNetCoreOptions` properties:
+
+* `ConfigureAuthentication` (default: true): Identity module calls `AddAuthentication` and `AddIdentityCookies` extension methods by default to configure the authentication for the Identity library. It sets `DefaultScheme` to `IdentityConstants.ApplicationScheme` and `DefaultSignInScheme` to `IdentityConstants.ExternalScheme`. You can set this property to `false` to suppress it and configure it yourself.
+
 ## Internals
 
 ### Domain Layer
@@ -162,6 +228,10 @@ This module follows the [Domain Services Best Practices & Conventions]( https://
 
 `IdenityClaimTypeManager` is used to perform some operations for the `IdentityClaimType` aggregate root.
 
+### Settings
+
+See the `IdentitySettingNames` class members for all settings defined for this module.
+
 ### Application Layer
 
 #### Application Services
@@ -208,62 +278,9 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 * **AbpUsers**
 * **AbpClaimTypes**
 
-## Permissions
+### Permissions
 
 See the `IdentityPermissions` class members for all permissions defined for this module.
-
-## Settings
-
-See the `IdentitySettingNames` class members for all settings defined for this module.
-
-## Packages
-
-This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
-
-### NuGet Packages
-
-* Volo.Abp.Identity.Domain.Shared
-* Volo.Abp.Identity.Domain
-* Volo.Abp.Identity.Pro.Application.Contracts
-* Volo.Abp.Identity.Pro.Application
-* Volo.Abp.Identity.EntityFrameworkCore
-* Volo.Abp.Identity.MongoDB
-* Volo.Abp.Identity.AspNetCore
-* Volo.Abp.PermissionManagement.Domain.Identity
-* Volo.Abp.Identity.Pro.HttpApi
-* Volo.Abp.Identity.Pro.HttpApi.Client
-* Volo.Abp.Identity.Pro.Web
-
-### NPM Packages
-
-* @volo/abp.ng.identity
-* @volo/abp.ng.identity.config
-
-## Data Seed
-
-This module adds some initial data (see [the data seed system](https://docs.abp.io/en/abp/latest/Data-Seeding)) to the database when you run the `.DbMigrator` application:
-
-* Creates an `admin` role with all the permissions granted.
-* Creates an `admin` user with the `admin` role and `1q2w3E*` as the password.
-
-You normally change this password when you first run the application in your production environment. But if you want to change the password of the seed data, find the *ProjectName*DbMigrationService in your solution, locate to the `MigrateAsync` method. There will be a line like that:
-
-````csharp
-await _dataSeeder.SeedAsync();
-````
-
-Change it like that:
-
-````csharp
-await _dataSeeder.SeedAsync(
-    new DataSeedContext()
-        .WithProperty("AdminPassword", "myPassW00rd42")
-);
-````
-
-Just like the password, you can also set the admin email (use the `AdminEmail` key in this case).
-
-> The [data seed contributor](https://docs.abp.io/en/abp/latest/Data-Seeding) class of the Identity module is `IdentityDataSeedContributor` which internally uses the `IIdentityDataSeeder` service.
 
 ## Distributed Events
 
