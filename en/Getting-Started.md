@@ -89,11 +89,11 @@ abp suite
 
 This command starts the ABP Suite and opens in your default browser:
 
-![suite-entrance](D:\Github\abp-commercial-docs\en\Images\suite-entrance.png)
+![suite-entrance](en/Images/suite-entrance.png)
 
 Click to the "+ Create solution" button and fill the modal form:
 
-![suite-new-project-modal](D:\Github\abp-commercial-docs\en\Images\suite-new-project-modal.png)
+![suite-new-project-modal](en/Images/suite-new-project-modal.png)
 
 Select the UI framework, Database provider and other option based on your requirements then click to the OK button.
 
