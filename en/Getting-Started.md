@@ -91,7 +91,7 @@ This command starts the ABP Suite and opens in your default browser:
 
 ![suite-ui](Images/suite-entrance.png)
 
-Click to the "+ Create solution" button and fill the modal form:
+Click to the **Create solution** button and fill the modal form:
 
 ![suite-new-project-modal](Images/suite-new-project-modal.png)
 
