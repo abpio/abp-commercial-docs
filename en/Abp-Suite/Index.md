@@ -193,7 +193,7 @@ When you click **Save and generate** button it'll create all the related objects
 
 ### Configuration
 
-ABP Suite find your project directories automatically, but when you customize your solution, you can change the directories and file paths from the Suite configuration file. The configuration file is located
+ABP Suite automatically finds your project directories, but when you customize your solution, you can change the directories and file paths from the Suite configuration file. The configuration file is located
 
 **Windows:**
 
