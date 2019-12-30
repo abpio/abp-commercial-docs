@@ -191,6 +191,26 @@ When you click **Save and generate** button it'll create all the related objects
 
 ![Book list page](../Images/suite-book-list.png)
 
+### Updating Packages
+
+ABP Suite allows you to update `NPM` and `NuGet` packages in a solution.
+
+1. **Update ABP packages**:  Updates both `NPM` and `NuGet` packages in the solution. 
+
+2. **Update NPM packages:** Updates only `NPM` packages.
+
+3. **Update NuGet packages:** Updates only `NuGet` packages.
+
+![Book list page](../Images/suite-update-packages.png)
+
+#### How it works?
+
+It scans all the `*.csproj` files in the solution and checks the version of the packages starting with the name  `Volo.*`
+
+- For **nightly packages**, it updates the package from https://www.myget.org.
+- For **open-source ABP packages**, it updates the package from https://nuget.org.
+- For **commercial ABP packages**, it updates the package from https://nuget.abp.io.
+
 ### Configuration
 
 ABP Suite automatically finds your project directories, but when you customize your solution, you can change the directories and file paths from the Suite configuration file. The configuration file is located
