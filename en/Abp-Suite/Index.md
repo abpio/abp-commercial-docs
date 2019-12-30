@@ -195,13 +195,13 @@ When you click **Save and generate** button it'll create all the related objects
 
 ABP Suite allows you to update `NPM` and `NuGet` packages in a solution.
 
+![Book list page](../Images/suite-update-packages.png)
+
 1. **Update ABP packages**:  Updates both `NPM` and `NuGet` packages in the solution. 
 
 2. **Update NPM packages:** Updates only `NPM` packages.
 
 3. **Update NuGet packages:** Updates only `NuGet` packages.
-
-![Book list page](../Images/suite-update-packages.png)
 
 #### How it works?
 
