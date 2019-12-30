@@ -139,4 +139,4 @@ When you click **Save and generate** button it'll create all the related objects
 
 ## What's Next?
 
-[How to install ABP Suite?](how-to-install.md)
+[How to configure ABP Suite?](configuration.md)
