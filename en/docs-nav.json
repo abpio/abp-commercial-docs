@@ -3,6 +3,10 @@
     {
       "text": "Getting Started",
       "path": "Getting-Started.md"
+    },
+	 {
+      "text": "Suite",
+      "path": "index.md"
     }
   ]
 }
