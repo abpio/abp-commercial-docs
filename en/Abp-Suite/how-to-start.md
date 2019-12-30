@@ -12,4 +12,4 @@ Remember that, first access to the Suite requires to have an active internet con
 
 ## What's Next?
 
-[First look to the ABP Suite?](add-solution.md)
+[Adding solutions to ABP Suite?](add-solution.md)
