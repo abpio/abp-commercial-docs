@@ -2,7 +2,7 @@
 
 ABP Suite allows you to update `NPM` and `NuGet` packages in a solution.
 
-![Book list page](D:/Github/abp-commercial-docs/en/Images/suite-update-packages.png)
+![Book list page](../Images/suite-update-packages.png)
 
 1. **Update ABP packages**:  Updates both `NPM` and `NuGet` packages in the solution. 
 

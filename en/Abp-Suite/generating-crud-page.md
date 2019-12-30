@@ -81,7 +81,7 @@ To create a new entity, make sure the *-New entity-* is selected in the **Entity
 
   ​	
 
-![Entity info](D:/Github/abp-commercial-docs/en/Images/suite-entity-create-info.png)
+![Entity info](../Images/suite-entity-create-info.png)
 
 ## Properties
 
@@ -95,7 +95,7 @@ A property is a field in the entity which refers a column in the relational data
 * **Required:** Defines whether a value is required or not. 
 * **Nullable**: Allows you to set the property as `nullable` for the `C#` supported data types.
 
-![Define a property](D:/Github/abp-commercial-docs/en/Images/suite-define-property.png)
+![Define a property](../Images/suite-define-property.png)
 
 ### Property list
 
@@ -105,7 +105,7 @@ The list of all properties defined for the entity. You can delete or edit a prop
 
 You can use sorting field column to specify or change the order in which results are sorted. To arrange sorting, click the first combo box (`Sort Index`) that you want to set order index. Choose `Ascending` or `Descending` to specify the sort order for the column.
 
-![Property list](D:/Github/abp-commercial-docs/en/Images/suite-list-properties.png)
+![Property list](../Images/suite-list-properties.png)
 
 ### Saving
 
@@ -123,7 +123,7 @@ Saves the entity and generates related code. Your project will be updated.
 
 When you click **Save and generate** button it'll create all the related objects. The below screenshot is the MS SQL database table that's generated via ABP Suite.
 
-![Database table for the new entity](D:/Github/abp-commercial-docs/en/Images/suite-database-table.png)
+![Database table for the new entity](../Images/suite-database-table.png)
 
 
 
@@ -131,11 +131,11 @@ When you click **Save and generate** button it'll create all the related objects
 
 ### New book dialog
 
-###### ![New book dialog](D:/Github/abp-commercial-docs/en/Images/suite-ui-new-book.png)
+###### ![New book dialog](../Images/suite-ui-new-book.png)
 
 ### Book list page
 
-![Book list page](D:/Github/abp-commercial-docs/en/Images/suite-book-list.png)
+![Book list page](../Images/suite-book-list.png)
 
 ## What's Next?
 
