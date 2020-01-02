@@ -89,11 +89,11 @@ abp suite
 
 This command starts the ABP Suite and opens in your default browser:
 
-![suite-ui](Images/suite-entrance.png)
+![suite-ui](images/suite-entrance.png)
 
 Click to the **Create solution** button and fill the modal form:
 
-![suite-new-project-modal](Images/suite-new-project-modal.png)
+![suite-new-project-modal](images/suite-new-project-modal.png)
 
 Select the UI framework, Database provider and other option based on your requirements then click to the OK button.
 
@@ -139,23 +139,23 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{end}}{{if DB == "
 
 After creating your project, you will have the following solution folders & files:
 
-![](Images/solution-files-mvc.png)
+![](images/solution-files-mvc.png)
 
 You will see the following solution structure when you open the `.sln` file in the Visual Studio:
 
-![vs-default-app-solution-structure](Images/vs-default-app-solution-structure.png)
+![vs-default-app-solution-structure](images/vs-default-app-solution-structure.png)
 
 {{ else if UI == "NG" }}
 
 There are two folders in the created solution:
 
-![](Images/solution-files-angular.png)
+![](images/solution-files-angular.png)
 
 `angular` folder contains the Angular UI application while the `aspnet-core` folder contains the backend solution.
 
 Open the `.sln` (Visual Studio solution) file under the `aspnet-core` folder:
 
-![vs-angular-app-backend-solution-structure](Images/vs-angular-app-backend-solution-structure.png)
+![vs-angular-app-backend-solution-structure](images/vs-angular-app-backend-solution-structure.png)
 
 {{ end }}
 
@@ -205,11 +205,11 @@ The solution comes with a `.DbMigrator` console application which applies migrat
 
 Right click to the `.DbMigrator` project and select **Set as StartUp Project**:
 
-![set-as-startup-project](Images/set-as-startup-project.png)
+![set-as-startup-project](images/set-as-startup-project.png)
 
  Hit F5 (or Ctrl+F5) to run the application. It will have an output like shown below:
 
- ![db-migrator-output](Images/db-migrator-output.png)
+ ![db-migrator-output](images/db-migrator-output.png)
 
 > Initial seed data creates the `admin` user in the database which is then used to login to the application. So, you need to use `.DbMigrator` at least once for a new database.
 
@@ -227,11 +227,11 @@ Right click to the `.HttpApi.Host` project and select **Set as StartUp Project**
 
 {{ end }}
 
-![set-as-startup-project](Images/set-as-startup-project.png)
+![set-as-startup-project](images/set-as-startup-project.png)
 
 Open the **Package Manager Console**, select `.EntityFrameworkCore.DbMigrations` project as the **Default Project** and run the `Update-Database` command:
 
-![package-manager-console-update-database](Images/package-manager-console-update-database.png)
+![package-manager-console-update-database](images/package-manager-console-update-database.png)
 
 This will create a new database based on the configured connection string.
 
@@ -255,11 +255,11 @@ The solution comes with a `.DbMigrator` console application which seeds the init
 
 Right click to the `.DbMigrator` project and select **Set as StartUp Project**:
 
-![set-as-startup-project](Images/set-as-startup-project.png)
+![set-as-startup-project](images/set-as-startup-project.png)
 
  Hit F5 (or Ctrl+F5) to run the application. It will have an output like shown below:
 
- ![db-migrator-output](Images/db-migrator-output.png)
+ ![db-migrator-output](images/db-migrator-output.png)
 
 > Initial seed data creates the `admin` user in the database which is then used to login to the application. So, you need to use `.DbMigrator` at least once for a new database.
 
@@ -287,7 +287,7 @@ Lastly, ensure that the `.Web` project is the startup project and run the applic
 
 Click to the LOGIN button which will redirect you to the Identity Server to login to the application:
 
-![bookstore-login](Images/bookstore-login.png)
+![bookstore-login](images/bookstore-login.png)
 
 {{ else }}
 
@@ -295,7 +295,7 @@ Ensure that the `.Web` project is the startup project. Run the application which
 
 > Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
 
-![bookstore-login](Images/bookstore-login.png)
+![bookstore-login](images/bookstore-login.png)
 
 {{ end }}
 
@@ -345,13 +345,13 @@ yarn start
 
 Wait Angular to start, open your favorite browser and go to `localhost:4200` URL.
 
-![bookstore-login](Images/bookstore-login.png)
+![bookstore-login](images/bookstore-login.png)
 
 {{ end }}
 
 Enter `admin` as the username and `1q2w3E*` as the password to login to the application:
 
-![bookstore-home](Images/bookstore-home.png)
+![bookstore-home](images/bookstore-home.png)
 
 The application is up and running. You can continue to develop your application based on this startup template.
 

@@ -4,17 +4,17 @@ ABP Suite requires an ABP solution to work on, that's why when you start it, you
 
 * **Add an existing solution:** Adds your existing solution which was created from the [ABP CLI](https://docs.abp.io/en/abp/latest/CLI) or [abp.io](https://abp.io/get-started) website. You have to enter your `YourProject.sln` file path. It also works if you enter the directory of the `YourProject.sln` when there's single solution inside.
 
-  ![Add an existing solution](../Images/suite-add-existing-solution.png)
+  ![Add an existing solution](../images/suite-add-existing-solution.png)
 
 * **Create a new solution:** Creates a new ABP solution. It's an alternative way of creating an ABP project rather than [ABP CLI](https://docs.abp.io/en/abp/latest/CLI#new) or [abp.io](https://abp.io/get-started) website. To create your project, you need to provide your project name, the output folder where the project will be created in, UI Framework as your front-end and database provider.  And the "Tiered" option.
 
-![Create a new solution](../Images/suite-new-solution.png)
+![Create a new solution](../images/suite-new-solution.png)
 
 - **Project name:** This is the solution name and also the prefix for the namespace of your solution. In this example `Acme.BookStore` is the project name. The solution file will be named as `Acme.BookStore.sln`. And the namespaces of `c#` files will start with `Acme.BookStore.*`
 
 - **Output folder:** This is the directory where the new project will be created. Suite automatically creates the output directory if not exists and places the project folder inside the output directory. See the below folder view for `Acme.BookStore` project.
 
-  ![New Solution Directory](../Images/suite-new-solution-directory.png)
+  ![New Solution Directory](../images/suite-new-solution-directory.png)
 
 - **UI Framework:** There are 2 types of UI Frameworks, `Angular` and `MVC`. If you would like to create a SPA (single page application), you can choose the `Angular`, or if you would like to create a MPA (multiple page application) with `jQuery` you can choose the `MVC`. Suite works with both of these frameworks.
 
