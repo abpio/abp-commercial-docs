@@ -10,27 +10,27 @@
       "items": [
         {
           "text": "How to install",
-          "path": "how-to-install.md"
+          "path": "abp-suite/how-to-install.md"
         },
         {
           "text": "How to start",
-          "path": "how-to-start.md"
+          "path": "abp-suite/how-to-start.md"
         },
         {
           "text": "Adding a new ABP Solution",
-          "path": "add-solution.md"
+          "path": "abp-suite/add-solution.md"
         },
         {
           "text": "Generating a CRUD page",
-          "path": "generating-crud-page.md"
+          "path": "abp-suite/generating-crud-page.md"
         },
         {
           "text": "Updating Packages",
-          "path": "updating-packages.md"
+          "path": "abp-suite/updating-packages.md"
         },
         {
           "text": "Configuration",
-          "path": "configuration.md"
+          "path": "abp-suite/configuration.md"
         }
       ]
     }
