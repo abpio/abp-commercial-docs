@@ -4,9 +4,35 @@
       "text": "Getting Started",
       "path": "Getting-Started.md"
     },
-	 {
+    {
       "text": "Suite",
-      "path": "index.md"
+      "path": "abp-suite/index.md",
+      "items": [
+        {
+          "text": "How to install",
+          "path": "how-to-install.md"
+        },
+        {
+          "text": "How to start",
+          "path": "how-to-start.md"
+        },
+        {
+          "text": "Adding a new ABP Solution",
+          "path": "add-solution.md"
+        },
+        {
+          "text": "Generating a CRUD page",
+          "path": "generating-crud-page.md"
+        },
+        {
+          "text": "Updating Packages",
+          "path": "updating-packages.md"
+        },
+        {
+          "text": "Configuration",
+          "path": "configuration.md"
+        }
+      ]
     }
   ]
 }
