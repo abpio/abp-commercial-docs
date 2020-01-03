@@ -18,56 +18,66 @@ Each section below describes the related project and its dependencies.
 
 This project contains `constants`, `enums`and the other objects which are part of the domain layer, but shared across by all projects in the solution.
 
-For example `BookType <enum>` or `BookConsts <class> ` (contains validation constants like `MaxNameLength`) are good candidates to be in the `.Domain.Shared` project.
+For example `BookType <enum>` or `BookConsts <class> ` (contains validation constants like `MaxNameLength`) are good candidates to be in the `*.Domain.Shared` project.
 
-> `Domain.Shared` project has no dependency to other projects in the solution. All other projects depend on this directly or indirectly.
+**Dependencies:**
 
-### *.Domain Project
+* `Domain.Shared` project has no dependency to other projects in the solution. All other projects depend on this directly or indirectly.
 
-This is the domain layer of the solution. It contains [entities, aggregate roots](https://docs.abp.io/en/abp/latest/Entities), [domain services](https://docs.abp.io/en/abp/latest/Domain-Services), [value types](https://docs.abp.io/en/abp/latest/Value-Types), [repository interfaces](https://docs.abp.io/en/abp/latest/Repositories) and other domain objects.
+### *.Domain project
+
+This is the domain layer of the solution. It contains [entities, aggregate roots](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Entities), [domain services](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Domain-Services), [value types](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Value-Types), [repository interfaces](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Repositories) and other domain objects.
 
 A `Book` entity, a `BookManager` domain service and an `IBookRepository` interface are good examples to be inside the `*.Domain` project.
 
-> Depends on the `.Domain.Shared` because it uses `constants`, `enums` and other objects defined in that project.
+**Dependencies:**
 
-### *.Application.Contracts Project
+* Depends on the *`.Domain.Shared` because it uses `constants`, `enums` and other objects defined in that project.
 
-This project mainly contains [application service](https://docs.abp.io/en/abp/latest/Application-Services.md) **interfaces** and [Data Transfer Objects](https://docs.abp.io/en/abp/latest/Data-Transfer-Objects.md) (DTO) of the application layer. It does exists to separate interface & implementation of the application layer. In this way, the interface project can be shared to the clients as a contract package.
+### *.Application.Contracts project
 
-An `IBookAppService` interface and a `BookCreationDto` class are good candidates for this project.
+This project contains [application service](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Application-Services.md) interfaces and [Data Transfer Objects](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Data-Transfer-Objects.md) (DTO) of the application layer. It separates the interface & implementation of the application layer. In this way, the interface project can be shared to the clients as a contract package.
 
-* Depends on the `.Domain.Shared` because it may use `constants`, `enums`and other shared objects of this project in the application service interfaces and DTOs.
+`IBookAppService` interface and `BookCreationDto` class are good examples to be inside the `*.Application.Contracts` project.
 
-### *.Application Project
+**Dependencies:**
 
-This project contains the [application service](https://docs.abp.io/en/abp/latest/Application-Services.md) **implementations** of the interfaces defined in the `.Application.Contracts` project.
+* Depends on the *`.Domain.Shared` because it may use `constants`, `enums `and other shared objects of this project in the application service interfaces and DTOs.
 
-A `BookAppService` class is a good candidate for this project.
+### *.Application project
 
-* Depends on the `.Application.Contracts` project to be able to implement the interfaces and use the DTOs.
-* Depends on the `.Domain` project to be able to use domain objects (entities, repository interfaces... etc.) to perform the application logic.
+This project contains the [application service](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Application-Services.md) **implementations** of the interfaces defined in the `.Application.Contracts` project.
 
-### *.EntityFrameworkCore Project
+`BookAppService` is the implementation of `IBookAppService` interface and good examples to be inside the `*.Application` project.
 
-This is the integration project for the EF Core. It defines the `DbContext` and implements repository interfaces defined in the `.Domain` project.
+**Dependencies:**
 
-* Depends on the `.Domain` project to be able to reference to entities and repository interfaces.
+* Depends on the `*.Application.Contracts` project to be able to implement the interfaces and use the `DTOs`.
+* Depends on the `*.Domain` project to be able to use domain objects like entities, repository interfaces, etc... to perform the application logic.
+
+### *.EntityFrameworkCore project
+
+This is the integration project for the `EF Core`. It defines the `DbContext` and implements repository interfaces defined in the `*.Domain` project.
+
+**Dependencies:**
+
+* Depends on the `*.Domain` project to be able to reference to entities and repository interfaces.
 
 > This project is available only if you are using EF Core as the database provider. If you select another database provider, its name will be different.
 
-### .EntityFrameworkCore.DbMigrations Project
+### *.EntityFrameworkCore.DbMigrations project
 
-Contains EF Core database migrations for the solution. It has a separated `DbContext` to dedicated to manage migrations.
+Contains EF Core database migrations for the solution. It has a separated `DbContext` dedicated to manage migrations.
 
-ABP is a modular framework and with an ideal design, each module has its own `DbContext` class. This is where the migration `DbContext` comes into play and unifies all `DbContext` configurations into a single model to maintain a single database schema. For more advanced scenarios, you can have multiple databases (each contains a single or a few module tables) and multiple migration `DbContext`s  (each maintains a different database schema).
+ABP is a modular framework and with an ideal design. Each module has its own `DbContext` class. This is where the migration `DbContext` comes in and unifies all `DbContext` configurations into a single model to maintain a single database schema. For advanced scenarios, you can have multiple databases (each contains a single or a few module tables) and multiple migration `DbContexts`  (each maintains a different database schema).
 
 Notice that the migration `DbContext` is only used for database migrations and *not used on runtime*.
 
-* Depends on the `.EntityFrameworkCore` project since it re-uses the configuration defined for the `DbContext` of the application.
+* Depends on the `*.EntityFrameworkCore` project since it re-uses the configuration defined for the `DbContext` of the application.
 
-> This project is available only if you are using EF Core as the database provider.
+> This project is available only if you are using `EF Core` as the database provider.
 
-### .DbMigrator Project
+### *.DbMigrator project
 
 This is a console application which simplifies to execute database migrations on development and production environments. When you run this application, it;
 
@@ -75,142 +85,156 @@ This is a console application which simplifies to execute database migrations on
 * Applies the pending database migrations.
 * Seeds initial data if needed.
 
-> This project has its own `appsettings.json` file. So, if you want to change the database connection string, remember to change this file too.
+> Notice that, this project has its own `appsettings.json` file. If you need to change the default database connection string, you must set it in its own `appsettings.json` .
 
-Especially, seeding initial data is important at this point. ABP has a modular data seed infrastructure. See [its documentation](https://docs.abp.io/en/abp/latest/Data-Seeding.md) for more about the data seeding.
+Seeding initial data is important at this point. ABP has a modular data seed infrastructure. Further information see [data seeding documentation](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Data-Seeding.md).
 
-While creating database & applying migrations seems only necessary for relational databases, this projects comes even if you choose a NoSQL database provider (like MongoDB). In that case, it still seeds initial data which is necessary for the application.
+While creating database and applying migrations seem only necessary for relational databases, this project is included even if you choose a `NoSQL` database provider (like `MongoDB`). In that case, it still seeds initial data which is necessary for the application startup.
 
-* Depends on the `.EntityFrameworkCore.DbMigrations` project (for EF Core) since it needs to access to the migrations.
-* Depends on the `.Application.Contracts` project to be able to access permission definitions, because initial data seeder grants all permissions for the admin role by default.
+**Dependencies:**
 
-### .HttpApi Project
+* Depends on the `*.EntityFrameworkCore.DbMigrations` project (for EF Core) since it needs to access to the migrations.
+* Depends on the `*.Application.Contracts` project to be able to access permission definitions, because initial data seeder grants all permissions for the admin role by default.
+
+### *.HttpApi project
 
 This project is used to define your API Controllers.
 
-Most of time you don't need to manually define API Controllers since ABP's [Auto API Controllers](https://docs.abp.io/en/abp/latest/AspNetCore/Auto-API-Controllers.md) feature creates them automagically based on your application layer. However, in case of you need to write API controllers, this is the best place to do it.
+Most of the time you don't need to manually define API Controllers since ABP's [Auto API Controllers](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/AspNetCore/Auto-API-Controllers.md) feature creates them automagically based on your application layer. However, in case, you need to write API controllers, this is the best place to do it.
 
-* Depends on the `.Application.Contracts` project to be able to inject the application service interfaces.
+**Dependencies:**
 
-### .HttpApi.Client Project
+* Depends on the `*.Application.Contracts` project to be able to inject the application service interfaces.
 
-This is a project that defines C# client proxies to use the HTTP APIs of the solution. You can share this library to 3rd-party clients, so they can easily consume your HTTP APIs in their Dotnet applications (For other type of applications, they can still use your APIs, either manually or using a tool in their own platform)
+### *.HttpApi.Client project
 
-Most of time you don't need to manually create C# client proxies, thanks to ABP's [Dynamic C# API Clients](https://docs.abp.io/en/abp/latest/AspNetCore/Dynamic-CSharp-API-Clients.md) feature.
+This is project defines `C#` client proxies to use the HTTP APIs of the solution. You can share this library to 3rd-party clients, so they can easily consume your HTTP APIs in their `.NET` applications. For other type of applications, they can still use the APIs, either manually or using a tool in their own platform.
 
-`.HttpApi.Client.ConsoleTestApp` project is a console application created to demonstrate the usage of the client proxies.
+Most of the time you don't need to manually create C# client proxies, thanks to ABP's [Dynamic C# API Clients](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/AspNetCore/Dynamic-CSharp-API-Clients.md) feature.
 
-* Depends on the `.Application.Contracts` project to be able to share the same application service interfaces and DTOs with the remote service.
+`*.HttpApi.Client.ConsoleTestApp` project is a console application created to demonstrate the usage of the client proxies.
 
-> You can delete this project & dependencies if you don't need to create C# client proxies for your APIs.
+* Depends on the `*.Application.Contracts` project to be able to share the same application service interfaces and DTOs with the remote service.
 
-### .Web Project
+> Notice that, you can delete this project & dependencies if you don't need to create `C#` client proxies for your APIs.
 
-This project contains the User Interface (UI) of the application if you are using ASP.NET Core MVC UI. It contains Razor pages, JavaScript files, CSS files, images and so on...
+### *.Web project
 
-This project contains the main `appsettings.json` file that contains the connection string and other configuration of the application.
+This project contains the user interface (UI) of the application if you are using ASP.NET Core MVC UI. It contains Razor pages, JavaScript files, CSS files, images and so on...
 
-* Depends on the `.HttpApi` since UI layer needs to use APIs and application service interfaces of the solution.
+This project has a `appsettings.json` file which contains the connection string and other configuration of the application.
 
-> If you check the source code of the `.Web.csproj` file, you will see the references to the `.Application` and the `.EntityFrameworkCore.DbMigrations` projects.
+**Dependencies:**
+
+* Depends on the `*.HttpApi` since the UI layer needs to use APIs and application service interfaces of the solution.
+
+> If you check the source code of the `*.Web.csproj` file, you will see the references to the `*.Application` and the `*.EntityFrameworkCore.DbMigrations` projects. These references are actually not needed while coding your UI layer, because UI layer doesn't depend on the `EF Core` or the Application layer's implementation. This startup template is pre-configured for the tiered deployment, where API layer is hosted in a separate server apart from the UI layer.
 >
-> These references are actually not needed while coding your UI layer, because UI layer normally doesn't depend on the EF Core or the Application layer's implementation. This startup templates are ready for the tiered deployment, where API layer is hosted in a separate server than the UI layer.
+> However, if you don't choose the `--tiered` option when you create a solution, these references will be in the `*.Web` project to be able to host the Web, API and application layers in a single application endpoint. This gives you the ability to use the domain entities & repositories in your presentation layer. However, this is considered as a bad practice according to the DDD rules.
 >
-> However, if you don't choose the `--tiered` option, these references will be in the .Web project to be able to host the Web, API and application layers in a single application endpoint.
->
-> This gives you to ability to use domain entities & repositories in your presentation layer. However, this is considered as a bad practice according to the DDD.
 
-### Test Projects
+### Test projects
 
 The solution has multiple test projects, one for each layer:
 
-* `.Domain.Tests` is used to test the domain layer.
-* `.Application.Tests` is used to test the application layer.
-* `.EntityFrameworkCore.Tests` is used to test EF Core configuration and custom repositories.
-* `.Web.Tests` is used to test the UI (if you are using ASP.NET Core MVC UI).
-* `.TestBase` is a base (shared) project for all tests.
+* `*.Domain.Tests` is used to test the domain layer.
+* `*.Application.Tests` is used to test the application layer.
+* `*.EntityFrameworkCore.Tests` is used to test `EF Core` configuration and custom repositories.
+* `*.Web.Tests` is used to test the UI (if you are using ASP.NET Core MVC UI).
+* `*.TestBase` is a shared / base project for other tests.
 
-In addition, `.HttpApi.Client.ConsoleTestApp` is a console application (not an automated test project) which demonstrate the usage of HTTP APIs from a .NET application.
+In addition, `*.HttpApi.Client.ConsoleTestApp` is a console application (not an automated test project) which demonstrates the usage of HTTP APIs from a `.NET` application.
 
-Test projects are prepared for integration testing;
+Test projects are prepared for integration testing:
 
 * It is fully integrated to ABP framework and all services in your application.
-* It uses SQLite in-memory database for EF Core. For MongoDB, it uses the [Mongo2Go](https://github.com/Mongo2Go/Mongo2Go) library.
+* It uses `SQLite` in-memory database for `EF Core` and it uses the [Mongo2Go](https://github.com/Mongo2Go/Mongo2Go) library for `MongoDB`.
 * Authorization is disabled, so any application service can be easily used in tests.
 
-You can still create unit tests for your classes which will be harder to write (because you will need to prepare mock/fake objects), but faster to run (because it only tests a single class and skips all initialization process).
+You can also create unit tests to test your functions that requires several clicks to trigger. Because it runs faster by skipping all the initialization processes.
 
-### How to Run?
+### How to run?
 
-Set `.Web` as the startup project and run the application. Default username is `admin` and password is `1q2w3E*`.
+Set `*.Web` project as the startup and run the application. The default login credentials are;
 
-See [Getting Started With the ASP.NET Core MVC Template](https://docs.abp.io/en/abp/latest/Getting-Started-AspNetCore-MVC-Template.md) for more information.
+* Username: **admin**  
 
-## Tiered Structure
+* Password: **1q2w3E***
 
-If you have selected the ASP.NET Core UI and specified the `--tiered` option, the solution created will be a tiered solution. The purpose of the tiered structure is to be able to **deploy Web application and HTTP API to different servers**:
+See [Getting Started With the ASP.NET Core MVC Template](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Getting-Started-AspNetCore-MVC-Template) for more information.
 
-![bookstore-visual-studio-solution-v3](D:/Github/abp/docs/en/images/tiered-solution-servers.png)
+## Tiered structure
 
-* Browser runs your UI by executing HTML, CSS & JavaScript.
-* Web servers hosts static UI files (CSS, JavaScript, image... etc.) & dynamic components (e.g. Razor pages). It performs HTTP requests to the API server to execute the business logic of the application.
-* API Server hosts the HTTP APIs which then use application & domain layers of the application to perform the business logic.
-* Finally, database server hosts your database.
+If you have selected the ASP.NET Core UI and specified the `--tiered` option, it becomes a tiered solution. The purpose of the tiered structure is to be able to deploy the Web application and the HTTP API to separate servers.
 
-So, the resulting solution allows a 4-tiered deployment, by comparing to 3-tiered deployment of the default structure explained before.
+![bookstore-visual-studio-solution-v3](../images/tiered-solution-servers.png)
 
-> Unless you actually need to such a 4-tiered deployment, its suggested to go with the default structure which is simpler to develop, deploy and maintain.
+* The browser runs your UI by executing HTML, CSS & JavaScript files.
+* The web servers host static UI files (CSS, JavaScript, images) & dynamic components (e.g: Razor pages). It performs HTTP requests to the API server to execute the business logic of the application.
+* The API Server hosts the HTTP APIs which then use application & domain layers of the application to perform the business logic.
+* Finally, the database server hosts your database.
 
-The solution structure is shown below:
+Hence, the final solution enables a 4-tiered deployment.
 
-![bookstore-visual-studio-solution-v3](D:/Github/abp/docs/en/images/bookstore-visual-studio-solution-tiered.png)
+> Unless you actually need such a 4-tiered deployment, its suggested to go with the default structure which is simpler to develop, deploy and maintain.
 
-As different from the default structure, two new projects come into play: `.IdentityServer` & `.HttpApi.Host`.
+The tiered solution structure is shown below:
 
-### .IdentityServer Project
+![bookstore-visual-studio-solution-v3](../images/bookstore-visual-studio-solution-tiered.png)
 
-This project is used as an authentication server for other projects. `.Web` project uses OpenId Connect Authentication to get identity and access tokens for the current user from the IdentityServer. Then uses the access token to call the HTTP API server. HTTP API server uses bearer token authentication to obtain claims from the access token to authorize the current user.
+There are 2 new projects as different from the default structure:
 
-![tiered-solution-applications](D:/Github/abp/docs/en/images/tiered-solution-applications.png)
+*  `*.IdentityServer` 
+* `*.HttpApi.Host`
 
-ABP uses the open source [IdentityServer4](https://identityserver.io/) framework for the authentication between applications. See [IdentityServer4 documentation](http://docs.identityserver.io) for details about the IdentityServer4 and OpenID Connect protocol.
+### *.IdentityServer project
 
-It has its own `appsettings.json` that contains database connection and other configurations.
+This project is used as an authentication server for other projects. `.Web` project uses `OpenId Connect Authentication` to get identity and access token for the current user from the `IdentityServer`. Then uses the access token to call the HTTP API server. The HTTP API server uses bearer token authentication to obtain claims from the token to authorize the current user.
 
-### .HttpApi.Host Project
+![tiered-solution-applications](../images/tiered-solution-applications.png)
 
-This project is an application that hosts the API of the solution. It has its own `appsettings.json` that contains database connection and other configurations.
+ABP uses the open source [Identity Server 4](https://identityserver.io/) framework for the authentication between applications. Further information, check out [Identity Server 4 documentation](http://docs.identityserver.io) for the ` Identity Server 4` and `OpenID Connect protocol`.
 
-### .Web Project
+`*.IdentityServer` project has its own `appsettings.json`  which contains database connection string and other configurations.
 
-Just like the default structure, this project contains the User Interface (UI) of the application. It contains razor pages, JavaScript files, style files, images and so on...
+### *.HttpApi.Host project
 
-This project contains an `appsettings.json` file, but this time it does not have a connection string because it never connects to the database. Instead, it mainly contains endpoint of the remote API server and the authentication server.
+`*.HttpApi.Host` project hosts the API of the solution. It has its own `appsettings.json` that contains database connection string and other configurations.
+
+### *.Web project
+
+Just like the default structure, this project contains the user interface (UI) of the application. It contains razor pages, JavaScript files, CSS, images and so on...
+
+This project contains its own `appsettings.json` file, but this time it does not have a connection string because it doesn't need to connect to the database. It contains endpoints of the remote API server and the authentication server.
 
 ### Pre-requirements
 
-* [Redis](https://redis.io/): The applications use Redis as as distributed cache. So, you need to have Redis installed & running.
+* [Redis](https://redis.io/): The applications use `Redis` as the distributed cache. So, you need to have `Redis` up & running.
 
-### How to Run?
+### How to run?
 
-You should run the application with the given order:
+You must run the application with the below order:
 
-* First, run the `.IdentityServer` since other applications depends on it.
-* Then run the `.HttpApi.Host` since it is used by the `.Web` application.
-* Finally, you can run the `.Web` project and login to the application (using `admin` as the username and `1q2w3E*` as the password).
+1. Run the `*.IdentityServer` since other applications depends on it.
+
+2. Then run the `*.HttpApi.Host` since it is used by the `*.Web` application.
+
+3. Finally, run the `.Web` project and wait for it to initialize.
+
+   When you see the login page, Use **admin** as the username and **1q2w3E*** as the password to login.
 
 ## Angular UI
 
-If you choose Angular as the UI framework (using the `-u angular` option), the solution is separated into two folders:
+If you choose `Angular` as the UI framework (using the `-u angular` option), the solution is being separated into two folders:
 
-* `angular` folder contains the Angular UI solution, the client side.
-* `aspnet-core` folder contains the ASP.NET Core solution, the server side.
+* `angular` folder contains the Angular UI solution, the client-side code.
+* `aspnet-core` folder contains the ASP.NET Core solution, the server-side code.
 
-Server side is very similar to the solution described above. `.HttpApi.Host` project serves the API, so the Angular application can consume it.
+The server-side is similar to the solution described above. `*.HttpApi.Host` project serves the API, so the `Angular` application consumes it.
 
 The files under the `angular/src/environments` folder has the essential configuration of the application.
 
-## What's Next?
+## What's next?
 
-- See [Getting Started With the ASP.NET Core MVC Template](https://docs.abp.io/en/abp/latest/Getting-Started-AspNetCore-MVC-Template.md) to create a new solution and run it for this template.
-- See the [ASP.NET Core MVC Tutorial](https://docs.abp.io/en/abp/latest/Tutorials/AspNetCore-Mvc/Part-I.md) to learn how to develop applications using this template.
+- See the [Getting Started](../Getting-Started.md) document to create a new solution and run it for this template.
+- See the [ASP.NET Core MVC Tutorial](../tutorials/book-store/mvc-razor-pages/index.md) to learn how to develop applications using this template.
