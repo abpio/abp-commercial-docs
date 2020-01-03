@@ -86,4 +86,4 @@ To create a new solution, see [how to create a new solution](../abp-suite/create
 
 ## What's next?
 
-- [Solution structure](application-solution-structure.md)
+- [Solution structure](solution-structure.md)
