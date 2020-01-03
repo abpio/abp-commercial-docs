@@ -1,8 +1,27 @@
 {
   "items": [
     {
-      "text": "Getting Started",
+      "text": "Getting started",
       "path": "getting-started.md"
+    },
+    {
+      "text": "Startup templates",
+      "items": [
+        {
+          "text": "Application",
+          "path:": "startup-templates/index.md",
+          "items": [
+            {
+              "text": "Creating solution",
+              "path": "startup-templates/application-create.md"
+            },
+            {
+              "text": "Solution structure",
+              "path": "startup-templates/application-solution-structure.md"
+            }
+          ]
+        }
+      ]
     },
     {
       "text": "Suite",
@@ -17,15 +36,19 @@
           "path": "abp-suite/how-to-start.md"
         },
         {
-          "text": "Adding a new ABP Solution",
+          "text": "Adding existing ABP solution",
           "path": "abp-suite/add-solution.md"
         },
         {
-          "text": "Generating a CRUD page",
+          "text": "Creating new ABP solution",
+          "path": "abp-suite/create-solution.md"
+        },
+        {
+          "text": "Generating CRUD page",
           "path": "abp-suite/generating-crud-page.md"
         },
         {
-          "text": "Updating Packages",
+          "text": "Updating packages",
           "path": "abp-suite/updating-packages.md"
         },
         {

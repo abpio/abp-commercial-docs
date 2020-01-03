@@ -119,7 +119,7 @@ Saves only the entity and not generates any code. This is useful when you don't 
 
 Saves the entity and generates related code. Your project will be updated.
 
-### Database Table
+### Database table
 
 When you click **Save and generate** button it'll create all the related objects. The below screenshot is the MS SQL database table that's generated via ABP Suite.
 
@@ -137,6 +137,6 @@ When you click **Save and generate** button it'll create all the related objects
 
 ![Book list page](../images/suite-book-list.png)
 
-## What's Next?
+## What's next?
 
-[How to configure ABP Suite?](configuration.md)
+[Updating packages](updating-packages.md)

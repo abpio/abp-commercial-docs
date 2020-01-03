@@ -1,4 +1,4 @@
-# Updating Packages
+# Updating packages
 
 ABP Suite allows you to update `NPM` and `NuGet` packages in a solution.
 
@@ -18,6 +18,6 @@ It scans all the `*.csproj` files in the solution and checks the version of the 
 - For **open-source ABP packages**, it updates the package from https://nuget.org.
 - For **commercial ABP packages**, it updates the package from https://nuget.abp.io.
 
-## What's Next?
+## What's next?
 
 [ABP Suite configuration](configuration.md)

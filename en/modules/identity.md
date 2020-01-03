@@ -1,4 +1,4 @@
-# Identity Module
+# Identity module
 
 This module implements the User and Role system of an application;
 
@@ -12,7 +12,7 @@ This module implements the User and Role system of an application;
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Identity.Pro) for an overview of the module features.
 
-## How to Install
+## How to install
 
 Identity is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
 
@@ -20,7 +20,7 @@ Identity is pre-installed in [the startup templates](../Startup-Templates/Index)
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-### NuGet Packages
+### NuGet packages
 
 * Volo.Abp.Identity.Domain.Shared
 * Volo.Abp.Identity.Domain
@@ -34,14 +34,14 @@ This module follows the [module development best practices guide](https://docs.a
 * Volo.Abp.Identity.Pro.HttpApi.Client
 * Volo.Abp.Identity.Pro.Web
 
-### NPM Packages
+### NPM packages
 
 * @volo/abp.ng.identity
 * @volo/abp.ng.identity.config
 
-## User Interface
+## User interface
 
-### Menu Items
+### Menu items
 
 Identity module adds the following items to the "Main" menu, under the "Administration" menu item:
 
@@ -53,7 +53,7 @@ Identity module adds the following items to the "Main" menu, under the "Administ
 
 ### Pages
 
-#### Role Management
+#### Role management
 
 Roles page is used to manage roles in the system. A role is a set of permissions assigned to the users.
 
@@ -66,7 +66,7 @@ You can create a new role or edit a role in this page:
 * **Default** roles are assigned to new users by default.
 * **Public** roles are visible to other users.
 
-##### Role Permissions
+##### Role permissions
 
 You can manage permissions of a role:
 
@@ -77,7 +77,7 @@ You can manage permissions of a role:
 * Any module can **[define permissions](https://docs.abp.io/en/abp/latest/Authorization#permission-system)**. Once you define a new permission, it will be available in this page.
 * Left side is the **list of modules**. Once you click to a module name, you can check/uncheck permissions related to that module.
 
-##### Role Claims
+##### Role claims
 
 You can set custom claim values for a role:
 
@@ -85,7 +85,7 @@ You can set custom claim values for a role:
 
 Claim types are retrieved from the claim list defined in the Claim Types  Management page (see below).
 
-#### User Management
+#### User management
 
 Users page is used to manage the users in your system.
 
@@ -98,13 +98,13 @@ You can create a new user or edit an existing user in this page:
 * A user can have **zero or more roles** in the system.
 * You can set **two factor** verification and user **lockout** settings per user.
 
-##### User Permissions
+##### User permissions
 
 A user has union of the permissions of the assigned roles. Identity module also allows to grant extra permissions to a specific user.
 
 ![identity-edit-user-permissions-modal](../images/identity-edit-user-permissions-modal.png)
 
-##### User Claims
+##### User claims
 
 You can also set custom claim values for a user:
 
@@ -112,7 +112,7 @@ You can also set custom claim values for a user:
 
 Claim types are retrieved from the claim list defined in the Claim Type Management page (see below).
 
-#### Claim Type Management
+#### Claim type management
 
 Identity module allows to define custom claim types.
 
@@ -122,13 +122,13 @@ Identity module allows to define custom claim types.
 * Custom claim values then can be accessed in the application code for an authenticated user.
 * Claim Types are also used by the Identity Server module if you're using it.
 
-#### Identity Module Settings UI
+#### Identity module settings UI
 
 Identity module adds a new tab to the Settings page to customize the behavior on runtime.
 
 ![identity-settings-ui](../images/identity-settings-ui.png)
 
-## Data Seed
+## Data seed
 
 This module adds some initial data (see [the data seed system](https://docs.abp.io/en/abp/latest/Data-Seeding)) to the database when you run the `.DbMigrator` application:
 
@@ -173,7 +173,7 @@ Configure<AbpIdentityAspNetCoreOptions>(options =>
 
 ## Internals
 
-### Domain Layer
+### Domain layer
 
 #### Aggregates
 
@@ -196,7 +196,7 @@ A role is typically a group of permissions to assign to the users.
 * `IdentityRole` (aggregate root): Represents a role in the system.
   * `IdentityRoleClaim` (collection): Custom claims of the role.
 
-##### Claim Type
+##### Claim type
 
 A claim type is a definition of a custom claim that can be assigned to other entities (like roles and users) in the system.
 
@@ -212,19 +212,19 @@ Following custom repositories are defined for this module:
 * `IIdentityRoleRepository`
 * `IIdentityClaimTypeRepository`
 
-#### Domain Services
+#### Domain services
 
 This module follows the [Domain Services Best Practices & Conventions]( https://docs.abp.io/en/abp/latest/Best-Practices/Domain-Services) guide.
 
-##### User Manager
+##### User manager
 
 `IdentityUserManager` is used to manage users, their roles, claims, passwords, emails, etc. It is derived from Microsoft Identity's `UserManager<T>` class where `T` is `IdentityUser`.
 
-##### Role Manager
+##### Role manager
 
 `IdentityRoleManager` is used to manage roles and their claims. It is derived from Microsoft Identity's `RoleManager<T>` class where `T` is `IdentityRole`.
 
-##### Claim Type Manager
+##### Claim type manager
 
 `IdenityClaimTypeManager` is used to perform some operations for the `IdentityClaimType` aggregate root.
 
@@ -232,9 +232,9 @@ This module follows the [Domain Services Best Practices & Conventions]( https://
 
 See the `IdentitySettingNames` class members for all settings defined for this module.
 
-### Application Layer
+### Application layer
 
-#### Application Services
+#### Application services
 
 * `IdentityUserAppService` (implements `IIdentityUserAppService`): Implements the use cases of the user management UI.
 * `IdentityRoleAppService` (implement `IIdentityRoleAppService`): Implements the use cases of the role management UI.
@@ -243,15 +243,15 @@ See the `IdentitySettingNames` class members for all settings defined for this m
 * `IdentityUserLookupAppService` (implements `IIdentityUserLookupAppService`): Used to get information for a user by `id` or `userName`. It is aimed to be used internally by the ABP framework.
 * `ProfileAppService` (implements `IProfileAppService`): Used to change a user's profile and the password.
 
-### Database Providers
+### Database providers
 
 #### Common
 
-##### Table/Collection Prefix & Schema
+##### Table / collection prefix & schema
 
 All tables/collections use the `Abp` prefix by default. Set static properties on the `AbpIdentityDbProperties` class if you need to change the table prefix or set a schema name (if supported by your database provider).
 
-##### Connection String
+##### Connection string
 
 This module uses `AbpIdentity` for the connection string name. If you don't define a connection string with this name, it fallbacks to the `Default` connection string.
 
@@ -282,6 +282,6 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 
 See the `IdentityPermissions` class members for all permissions defined for this module.
 
-## Distributed Events
+## Distributed Eevents
 
 This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).

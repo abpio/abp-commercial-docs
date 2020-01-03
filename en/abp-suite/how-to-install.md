@@ -15,7 +15,7 @@
 
 Wait for the process to download and install to your computer. It may take about a minute on a 25 Megabit internet to complete the process.
 
-## What's Next?
+## What's next?
 
 [How to start ABP Suite?](how-to-start.md)
 

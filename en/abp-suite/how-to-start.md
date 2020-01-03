@@ -10,6 +10,6 @@ ABP Suite will open in your default browser. Do not close the command line windo
 
 Remember that, first access to the Suite requires to have an active internet connection, so make sure you are connected to internet. 
 
-## What's Next?
+## What's next?
 
 [Adding solutions to ABP Suite?](add-solution.md)

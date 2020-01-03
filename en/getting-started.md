@@ -1,4 +1,4 @@
-# Getting Started
+# Getting started
 
 ````json
 //[doc-params]
@@ -11,11 +11,11 @@
 
 > This tutorial assumes that you've already purchased an [ABP Commercial license](https://commercial.abp.io/pricing) and have an active ABP Commercial account.
 
-## Setup Your Development Environment
+## Setup your development environment
 
 First things first! Let's setup your development environment before creating the first project.
 
-### Pre Requirements
+### Pre-requirements
 
 The following tools should be installed on your development machine:
 
@@ -45,7 +45,7 @@ If you've already installed, you can update it using the following command:
 dotnet tool update -g Volo.Abp.Cli
 ````
 
-#### Login to Your Account
+#### Login to your account
 
 In order to use ABP Commercial features, you need to login your account using the ABP CLI:
 
@@ -73,13 +73,13 @@ If you've already installed, you can update it:
 abp suite update
 ````
 
-## Create a New Project
+## Create a new project
 
 > This document assumes that you prefer to use **{{ UI_Value }}** as the UI framework and **{{ DB_Value }}** as the database provider. For other options, please change the preference on top of this document.
 
 There are two ways of creating a new project: ABP Suite and ABP CLI.
 
-### Using the ABP Suite to Create a New Project
+### Using the ABP Suite to create a new project
 
 Run the ABP Suite with the following command:
 
@@ -99,7 +99,7 @@ Select the UI framework, Database provider and other option based on your requir
 
 > You can use different level of namespaces; e.g. BookStore, Acme.BookStore or Acme.Retail.BookStore. 
 
-### Using the ABP CLI to Create a New Project
+### Using the ABP CLI to create a new project
 
 Use the `new` command of the ABP CLI to create a new project:
 
@@ -129,11 +129,11 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{end}}{{if DB == "
 
 > You can use different level of namespaces; e.g. BookStore, Acme.BookStore or Acme.Retail.BookStore. 
 
-#### ABP CLI Commands & Options
+#### ABP CLI commands & options
 
 [ABP CLI document](https://docs.abp.io/en/abp/latest/CLI) covers all of the available commands and options for the ABP CLI. The main difference for the ABP Commercial is the template names. See the [ABP Commercial Startup Templates](Startup-Templates/Index.md) document for other commercial templates.
 
-## The Solution Structure
+## The solution structure
 
 {{ if UI == "MVC" }}
 
@@ -177,9 +177,9 @@ Integration tests projects are properly configured to work with in-memory **Mong
 
 > See the [application template document](Startup-Templates/Application.md) to understand the solution structure in details. 
 
-## Create the Database
+## Create the database
 
-### Database Connection String
+### Database connection string
 
 Check the **connection string** in the `appsettings.json` file under the {{if UI == "MVC"}}{{if Tiered == "Yes"}}`.IdentityServer` and `.HttpApi.Host` projects{{else}}`.Web` project{{end}}{{else if UI == "NG" }}`.HttpApi.Host` project{{end}}:
 
@@ -193,17 +193,17 @@ Check the **connection string** in the `appsettings.json` file under the {{if UI
 
 The solution is configured to use **Entity Framework Core** with **MS SQL Server**. EF Core supports [various](https://docs.microsoft.com/en-us/ef/core/providers/) database providers, so you can use another DBMS if you want (see [the document to change DBMS](Change-DBMS-For-EntityFramework.md) for EF Core).
 
-### Apply the Migrations
+### Apply the migrations
 
 The solution uses the [Entity Framework Core Code First Migrations](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli). So, you need to apply migrations to create the database. There are two ways of applying the database migrations.
 
-#### Using the DbMigrator Application
+#### Apply migrations using the DbMigrator
 
 The solution comes with a `.DbMigrator` console application which applies migrations and also seed the initial data. It is useful on development as well as on production environment.
 
 > `.DbMigrator` project has its own `appsettings.json`. So, if you have changed the connection string above, you should also change this one. 
 
-Right click to the `.DbMigrator` project and select **Set as StartUp Project**:
+Right click to the `.DbMigrator` project and select **Set as StartUp Project**
 
 ![set-as-startup-project](images/set-as-startup-project.png)
 
@@ -213,13 +213,13 @@ Right click to the `.DbMigrator` project and select **Set as StartUp Project**:
 
 > Initial seed data creates the `admin` user in the database which is then used to login to the application. So, you need to use `.DbMigrator` at least once for a new database.
 
-#### Using EF Core Update-Database Command
+#### Using EF Core Update-Database command
 
 Ef Core has `Update-Database` command which creates database if necessary and applies pending migrations.
 
 {{ if UI == "MVC" }}
 
-Right click to the {{if Tiered == "Yes"}}`.IdentityServer`{{else}}`.Web`{{end}} project and select **Set as StartUp Project**: 
+Right click to the {{if Tiered == "Yes"}}`.IdentityServer`{{else}}`.Web`{{end}} project and select **Set as StartUp project**: 
 
 {{ else if UI == "NG" }}
 
@@ -247,13 +247,13 @@ This will create a new database based on the configured connection string.
 
 The solution is configured to use **MongoDB** in your local computer, so you need to have a MongoDB server instance up and running or change the connection string to another MongoDB server.
 
-### Seed Initial Data
+### Seed initial data
 
 The solution comes with a `.DbMigrator` console application which seeds the initial data. It is useful on development as well as on production environment.
 
 > `.DbMigrator` project has its own `appsettings.json`. So, if you have changed the connection string above, you should also change this one. 
 
-Right click to the `.DbMigrator` project and select **Set as StartUp Project**:
+Right click to the `.DbMigrator` project and select **Set as StartUp Project**
 
 ![set-as-startup-project](images/set-as-startup-project.png)
 
@@ -265,7 +265,7 @@ Right click to the `.DbMigrator` project and select **Set as StartUp Project**:
 
 {{ end }}
 
-## Run the Application
+## Run the application
 
 {{ if UI == "MVC" }}
 
@@ -283,9 +283,11 @@ Ensure that the `.HttpApi.Host` project is the startup project and run the appli
 
 This is the API application that is used by the web application.
 
-Lastly, ensure that the `.Web` project is the startup project and run the application which will open a **Welcome** page in your browser:![mvc-tiered-app-home](D:\Github\abp-commercial-docs\en\Images\mvc-tiered-app-home.png)
+Lastly, ensure that the `.Web` project is the startup project and run the application which will open a **welcome** page in your browser
 
-Click to the LOGIN button which will redirect you to the Identity Server to login to the application:
+![mvc-tiered-app-home](D:\Github\abp-commercial-docs\en\Images\mvc-tiered-app-home.png)
+
+Click to the **login** button which will redirect you to the `Identity Server` to login to the application:
 
 ![bookstore-login](images/bookstore-login.png)
 
@@ -301,7 +303,7 @@ Ensure that the `.Web` project is the startup project. Run the application which
 
 {{ else if UI == "NG" }}
 
-#### Run the HTTP API Host (Server Side)
+#### Running the HTTP API Host (server-side)
 
 {{ if Tiered == "Yes" }}
 
@@ -329,7 +331,7 @@ You can see the application APIs and test them here. Get [more info](https://swa
 >
 > Most of the HTTP APIs require authentication & authorization. If you want to test authorized APIs, manually go to the `/Account/Login` page, enter `admin` as the username and `1q2w3E*` as the password to login to the application. Then you will be able to execute authorized APIs too.
 
-#### Run the Angular Application (Client Side)
+#### Running the Angular application (client-side)
 
 Go to the `angular` folder, open a command line terminal, type the `yarn` command (we suggest to the [yarn](https://yarnpkg.com/) package manager while `npm install` will also work in most cases):
 
@@ -349,7 +351,7 @@ Wait Angular to start, open your favorite browser and go to `localhost:4200` URL
 
 {{ end }}
 
-Enter `admin` as the username and `1q2w3E*` as the password to login to the application:
+Enter **admin** as the username and **1q2w3E*** as the password to login to the application:
 
 ![bookstore-home](images/bookstore-home.png)
 
@@ -357,7 +359,7 @@ The application is up and running. You can continue to develop your application 
 
 > The [application startup template](Startup-Templates/Application.md) includes the SaaS, Identity, Identity Server, Language Management and Audit Log and a few more modules.
 
-## What's Next?
+## What's next?
 
 [Application development tutorial](Tutorials/BookStore/Mvc-Razor-Pages/Index.md)
 
