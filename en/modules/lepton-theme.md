@@ -61,14 +61,6 @@ Lepton Theme module adds a new tab to the Settings page to customize the behavio
 
 ![lepton-theme-module-settings-page](../images/lepton-theme-module-settings-page.png)
 
-## Data Seed
-
-This module doesn't seed any data.
-
-## Options
-
-This module doesn't define any options.
-
 ## Internals
 
 ### Settings
