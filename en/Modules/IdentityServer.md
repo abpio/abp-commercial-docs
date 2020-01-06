@@ -114,6 +114,18 @@ public override void PreConfigureServices(ServiceConfigurationContext context)
 * `IntegrateToAspNetIdentity` (default: true): Integrate to ASP.NET Identity.
 * `AddDeveloperSigningCredential` (default: true): Set false to suppress AddDeveloperSigningCredential() call on the IIdentityServerBuilder.
 
+`IIdentityServerBuilder` can be configured in `PreConfigureServices` method of your Identity Server [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics). Example:
+
+````csharp
+public override void PreConfigureServices(ServiceConfigurationContext context)
+{
+	PreConfigure<IIdentityServerBuilder>(builder =>
+	{
+    	builder.AddSigningCredential(...);	
+	});
+}
+````
+
 ## Internals
 
 ### Domain Layer
