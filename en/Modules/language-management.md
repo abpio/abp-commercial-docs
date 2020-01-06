@@ -77,26 +77,6 @@ This module adds some initial data (see [the data seed system](https://docs.abp.
 
 If you want to change the seeded language list, see the next section.
 
-## Options
-
-### AbpLocalizationOptions
-
-`AbpLocalizationOptions` can be configured in the Domain layer, in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics). Example:
-
-````csharp
-Configure<AbpLocalizationOptions>(options =>
-{
-    options.Languages.Add(new LanguageInfo("en", "en", "English"));
-    //Add other languages here...
-});
-````
-
-`AbpLocalizationOptions` properties:
-
-* `Resources` : Represents list of resource files used for localization in the application.
-* `GlobalContributors` :  Global localization contributors. Global contributors have precedence over other contributors.
-* `Languages` : List of languages available in the application.
-
 ## Internals
 
 ### Domain Layer
@@ -108,6 +88,7 @@ This module follows the [Entity Best Practices & Conventions](https://docs.abp.i
 ##### Language
 
 * `Language` (aggregate root): Represents a language in the system.
+* `LanguageText` (aggregate root): Represents a language text in the system.
 
 #### Repositories
 
@@ -167,4 +148,4 @@ See the `LanguageManagementPermissions` class members for all permissions define
 
 ## Distributed Events
 
-This module defines events for `Language` aggregate and `LanguageText` entity. When a `Language` changes, `LanguageListCacheInvalidator` invalidates the cache for `LanguageListCacheItem`. When a  `LanguageTextCacheItem ` changes,  `LanguageTextCacheInvalidator` invalidates the cache for  `LanguageTextCacheItem `. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus) for more information about distributed events.
+This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
