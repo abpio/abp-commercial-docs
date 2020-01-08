@@ -4,7 +4,7 @@
 
 Creates a new ABP solution. It's an alternative way of creating an ABP project rather than [ABP CLI](https://docs.abp.io/en/abp/latest/CLI#new) or [abp.io](https://abp.io/get-started) website.  To create a new ABP Solution, click the **Create a new solution** button. It will open a new dialog for the options.
 
-![Create a new ABP Solution](../Images/suite-create-a-new-solution.png)
+![Create a new ABP Solution](../images/suite-create-a-new-solution.png)
 
 You need to provide your *project name*, *output folder* where the project will be created in, *UI Framework* as your front-end and *database provider*.  And the *Tiered* option which separates `Web` and `HTTP API` projects.
 
