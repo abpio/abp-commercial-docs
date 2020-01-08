@@ -6,7 +6,7 @@ Based on the options you've specified, you will get a slightly different solutio
 
 Projects are organized as `src`, `test` and `host` folders:
 
-* `src` folder contains the actual module which is layered based on [DDD](../Domain-Driven-Design.md) principles.
+* `src` folder contains the actual module which is layered based on [DDD](https://docs.abp.io/en/abp/latest/Domain-Driven-Design) principles.
 * `test` folder contains unit & integration tests.
 * `host` folder contains applications with different configurations to demonstrate how to host the module in an application. These are not a part of the module, but useful on development.
 
@@ -26,7 +26,7 @@ An `IssueType` enum and an `IssueConsts` class (which may have some constant fie
 
 ### .Domain Project
 
-This is the domain layer of the solution. It mainly contains [entities, aggregate roots](../Entities.md), [domain services](../Domain-Services.md), [value types](../Value-Types.md), [repository interfaces](../Repositories.md) and other domain objects.
+This is the domain layer of the solution. It mainly contains [entities, aggregate roots](https://docs.abp.io/en/abp/latest/Entities), [domain services](https://docs.abp.io/en/abp/latest/Domain-Services), [value types]( https://docs.abp.io/en/abp/latest/Value-Types), [repository interfaces](https://docs.abp.io/en/abp/latest/Repositories) and other domain objects.
 
 An `Issue` entity, an `IssueManager` domain service and an `IIssueRepository` interface are good candidates for this project.
 
@@ -34,7 +34,7 @@ An `Issue` entity, an `IssueManager` domain service and an `IIssueRepository` in
 
 ### .Application.Contracts Project
 
-This project mainly contains [application service](../Application-Services.md) **interfaces** and [Data Transfer Objects](../Data-Transfer-Objects.md) (DTO) of the application layer. It does exists to separate interface & implementation of the application layer. In this way, the interface project can be shared to the clients as a contract package.
+This project mainly contains [application service](https://docs.abp.io/en/abp/latest/Application-Services) **interfaces** and [Data Transfer Objects](https://docs.abp.io/en/abp/latest/Data-Transfer-Objects) (DTO) of the application layer. It does exists to separate interface & implementation of the application layer. In this way, the interface project can be shared to the clients as a contract package.
 
 An `IIssueAppService` interface and an `IssueCreationDto` class are good candidates for this project.
 
@@ -42,7 +42,7 @@ An `IIssueAppService` interface and an `IssueCreationDto` class are good candida
 
 ### .Application Project
 
-This project contains the [application service](../Application-Services.md) **implementations** of the interfaces defined in the `.Application.Contracts` project.
+This project contains the [application service](https://docs.abp.io/en/abp/latest/Application-Services) **implementations** of the interfaces defined in the `.Application.Contracts` project.
 
 An `IssueAppService` class is a good candidate for this project.
 

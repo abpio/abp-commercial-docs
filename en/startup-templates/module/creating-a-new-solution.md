@@ -1,6 +1,6 @@
 # Creating a new Module Solution
 
-You can use the [ABP CLI](../CLI.md) to create a new project using the module startup template.
+You can use the [ABP CLI](https://docs.abp.io/en/abp/latest/CLI) to create a new project using the module startup template.
 
 First, install the ABP CLI if you haven't installed before:
 
@@ -20,3 +20,7 @@ abp new Acme.IssueManagement -t module-pro
 ## Without User Interface
 
 Use `--no-ui` option to not include the UI layer. This is useful if you only want to create a service/microservice project.
+
+## What's Next?
+
+* [Module Startup Template Solution Structure](solution-structure.md)
