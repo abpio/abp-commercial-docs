@@ -5,6 +5,34 @@
       "path": "getting-started.md"
     },
     {
+      "text": "Tutorials",
+      "items": [
+        {
+          "text": "Application development",
+          "items": [
+            {
+              "text": "With ASP.NET Core MVC UI",
+              "path:": "startup-templates/index.md",
+              "items": [
+                {
+                  "text": "Part-1: Creating project and book list",
+                  "path": "tutorials/book-store/mvc-razor-pages/part-1.md"
+                },
+                {
+                  "text": "Part-2: Creating, updating and deleting books",
+                  "path": "tutorials/book-store/mvc-razor-pages/part-2.md"
+                },
+                {
+                  "text": "Part-3: Integration tests",
+                  "path": "tutorials/book-store/mvc-razor-pages/part-3.md"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "text": "Startup templates",
       "items": [
         {
