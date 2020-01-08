@@ -36,7 +36,7 @@
       "text": "Startup templates",
       "items": [
         {
-          "text": "Application",
+          "text": "Application Template",
           "path:": "startup-templates/index.md",
           "items": [
             {
@@ -46,6 +46,20 @@
             {
               "text": "Solution structure",
               "path": "startup-templates/solution-structure.md"
+            }
+          ]
+        },
+        {
+          "text": "Module Template",
+          "path:": "startup-templates/module/index.md",
+          "items": [
+            {
+              "text": "Creating a new solution",
+              "path": "startup-templates/module/creating-a-new-solution.md"
+            },
+            {
+              "text": "Solution structure",
+              "path": "startup-templates/module/solution-structure.md"
             }
           ]
         }
