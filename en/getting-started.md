@@ -59,7 +59,7 @@ It will ask a password, so you enter the password of your account.
 
 ### Install the ABP Suite
 
-[ABP Suite](Abp-Suite/Index.md) is an application aims to assist you on your development.
+[ABP Suite](abp-suite/index.md) is an application aims to assist you on your development.
 
 First, you need to install the ABP Suite:
 
@@ -131,7 +131,7 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{end}}{{if DB == "
 
 #### ABP CLI commands & options
 
-[ABP CLI document](https://docs.abp.io/en/abp/latest/CLI) covers all of the available commands and options for the ABP CLI. The main difference for the ABP Commercial is the template names. See the [ABP Commercial Startup Templates](Startup-Templates/Index.md) document for other commercial templates.
+[ABP CLI document](https://docs.abp.io/en/abp/latest/CLI) covers all of the available commands and options for the ABP CLI. The main difference for the ABP Commercial is the template names. See the [ABP Commercial Startup Templates](startup-templates/index.md) document for other commercial templates.
 
 ## The solution structure
 
@@ -175,7 +175,7 @@ Integration tests projects are properly configured to work with in-memory **Mong
 
 {{ end }}
 
-> See the [application template document](Startup-Templates/Application.md) to understand the solution structure in details. 
+> See the [solution structure document](startup-templates/solution-structure.md) to understand the solution structure in details. 
 
 ## Create the database
 
@@ -279,13 +279,13 @@ You can login, but you cannot enter to the main application here. This is just t
 
 Ensure that the `.HttpApi.Host` project is the startup project and run the application which will open a **Swagger UI** in your browser.
 
-![swagger-ui](D:\Github\abp-commercial-docs\en\Images\swagger-ui.png)
+![swagger-ui](images\swagger-ui.png)
 
 This is the API application that is used by the web application.
 
 Lastly, ensure that the `.Web` project is the startup project and run the application which will open a **welcome** page in your browser
 
-![mvc-tiered-app-home](D:\Github\abp-commercial-docs\en\Images\mvc-tiered-app-home.png)
+![mvc-tiered-app-home](images\mvc-tiered-app-home.png)
 
 Click to the **login** button which will redirect you to the `Identity Server` to login to the application:
 
@@ -323,7 +323,7 @@ Ensure that the `.HttpApi.Host` project is the startup project and run the appli
 
 {{ end }}
 
-![swagger-ui](D:\Github\abp-commercial-docs\en\Images\swagger-ui.png)
+![swagger-ui](images\swagger-ui.png)
 
 You can see the application APIs and test them here. Get [more info](https://swagger.io/tools/swagger-ui/) about the Swagger UI.
 
@@ -361,5 +361,5 @@ The application is up and running. You can continue to develop your application 
 
 ## What's next?
 
-[Application development tutorial](Tutorials/BookStore/Mvc-Razor-Pages/Index.md)
+[Application development tutorial](tutorials/book-store/mvc-razor-pages/index.md)
 

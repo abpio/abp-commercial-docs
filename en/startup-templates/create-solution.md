@@ -2,7 +2,7 @@
 
 ## Introduction
 
-ABP solution is Visual Studio project which provides a layered structure based on the [Domain Driven Design](../Domain-Driven-Design.md) (DDD) best practices. This document explains how to create a new solution, the structure of the solution and the aims of the projects inside the solution.
+ABP solution is Visual Studio project which provides a layered structure based on the [Domain Driven Design](https://docs.abp.io/en/abp/latest/Domain-Driven-Design) (DDD) best practices. This document explains how to create a new solution, the structure of the solution and the aims of the projects inside the solution.
 
 ## Creating a new ABP Commercial solution
 
