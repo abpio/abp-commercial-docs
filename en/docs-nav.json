@@ -12,7 +12,7 @@
           "items": [
             {
               "text": "With ASP.NET Core MVC UI",
-              "path:": "startup-templates/index.md",
+              "path": "startup-templates/index.md",
               "items": [
                 {
                   "text": "Part-1: Creating project and book list",
