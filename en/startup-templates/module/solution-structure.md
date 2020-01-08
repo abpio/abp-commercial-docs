@@ -2,7 +2,7 @@
 
 Based on the options you've specified, you will get a slightly different solution structure. If you don't specify any option, you will have a solution like shown below:
 
-![issuemanagement-module-solution](../../images/issuemanagement-module-solution.png)
+![issuemanagement-module-solution](../../Images/issuemanagement-module-solution.png)
 
 Projects are organized as `src`, `test` and `host` folders:
 
@@ -12,7 +12,7 @@ Projects are organized as `src`, `test` and `host` folders:
 
 The diagram below shows the layers & project dependencies of the module:
 
-![layered-project-dependencies-module](../../images/layered-project-dependencies-module.png)
+![layered-project-dependencies-module](../../Images/layered-project-dependencies-module.png)
 
 Each section below will explain the related project & its dependencies.
 
@@ -113,7 +113,7 @@ In this scenario, there are three applications;
 
 The diagram below shows the relation of the applications:
 
-![tiered-solution-applications](../../images/tiered-solution-applications.png)
+![tiered-solution-applications](../../Images/tiered-solution-applications.png)
 
 `.Web.Host` project uses OpenId Connect Authentication to get identity and access tokens for the current user from the `.IdentityServer`. Then uses the access token to call the `.HttpApi.Host`. HTTP API server uses bearer token authentication to obtain claims from the access token to authorize the current user.
 
