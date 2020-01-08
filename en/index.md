@@ -6,5 +6,5 @@ Welcome to the ABP Commercial documentation.
 
 ## Getting started
 
-If you've already purchased the ABP Commercial, use the [Getting started](Getting-Started.md) document to setup your development environment and start to develop your application.
+If you've already purchased the ABP Commercial, use the [Getting started](getting-started.md) document to setup your development environment and start to develop your application.
 
