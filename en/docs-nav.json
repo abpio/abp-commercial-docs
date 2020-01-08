@@ -37,7 +37,7 @@
       "items": [
         {
           "text": "Application Template",
-          "path:": "startup-templates/index.md",
+          "path": "startup-templates/index.md",
           "items": [
             {
               "text": "Creating solution",
@@ -51,7 +51,7 @@
         },
         {
           "text": "Module Template",
-          "path:": "startup-templates/module/index.md",
+          "path": "startup-templates/module/index.md",
           "items": [
             {
               "text": "Creating a new solution",
