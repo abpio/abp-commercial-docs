@@ -36,7 +36,7 @@ A `Book` entity, a `BookManager` domain service and an `IBookRepository` interfa
 
 ### *.Application.Contracts project
 
-This project contains [application service](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Application-Services.md) interfaces and [Data Transfer Objects](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Data-Transfer-Objects.md) (DTO) of the application layer. It separates the interface & implementation of the application layer. In this way, the interface project can be shared to the clients as a contract package.
+This project contains [application service](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Application-Services) interfaces and [Data Transfer Objects](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Data-Transfer-Objects) (DTO) of the application layer. It separates the interface & implementation of the application layer. In this way, the interface project can be shared to the clients as a contract package.
 
 `IBookAppService` interface and `BookCreationDto` class are good examples to be inside the `*.Application.Contracts` project.
 
@@ -46,7 +46,7 @@ This project contains [application service](https://docs.abp.io/{{Document_Langu
 
 ### *.Application project
 
-This project contains the [application service](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Application-Services.md) **implementations** of the interfaces defined in the `.Application.Contracts` project.
+This project contains the [application service](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Application-Services) **implementations** of the interfaces defined in the `.Application.Contracts` project.
 
 `BookAppService` is the implementation of `IBookAppService` interface and good examples to be inside the `*.Application` project.
 
@@ -87,7 +87,7 @@ This is a console application which simplifies to execute database migrations on
 
 > Notice that, this project has its own `appsettings.json` file. If you need to change the default database connection string, you must set it in its own `appsettings.json` .
 
-Seeding initial data is important at this point. ABP has a modular data seed infrastructure. Further information see [data seeding documentation](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Data-Seeding.md).
+Seeding initial data is important at this point. ABP has a modular data seed infrastructure. Further information see [data seeding documentation](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/Data-Seeding).
 
 While creating database and applying migrations seem only necessary for relational databases, this project is included even if you choose a `NoSQL` database provider (like `MongoDB`). In that case, it still seeds initial data which is necessary for the application startup.
 
@@ -100,7 +100,7 @@ While creating database and applying migrations seem only necessary for relation
 
 This project is used to define your API Controllers.
 
-Most of the time you don't need to manually define API Controllers since ABP's [Auto API Controllers](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/AspNetCore/Auto-API-Controllers.md) feature creates them automagically based on your application layer. However, in case, you need to write API controllers, this is the best place to do it.
+Most of the time you don't need to manually define API Controllers since ABP's [Auto API Controllers](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/AspNetCore/Auto-API-Controllers) feature creates them automagically based on your application layer. However, in case, you need to write API controllers, this is the best place to do it.
 
 **Dependencies:**
 
@@ -110,7 +110,7 @@ Most of the time you don't need to manually define API Controllers since ABP's [
 
 This is project defines `C#` client proxies to use the HTTP APIs of the solution. You can share this library to 3rd-party clients, so they can easily consume your HTTP APIs in their `.NET` applications. For other type of applications, they can still use the APIs, either manually or using a tool in their own platform.
 
-Most of the time you don't need to manually create C# client proxies, thanks to ABP's [Dynamic C# API Clients](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/AspNetCore/Dynamic-CSharp-API-Clients.md) feature.
+Most of the time you don't need to manually create C# client proxies, thanks to ABP's [Dynamic C# API Clients](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/AspNetCore/Dynamic-CSharp-API-Clients) feature.
 
 `*.HttpApi.Client.ConsoleTestApp` project is a console application created to demonstrate the usage of the client proxies.
 
@@ -236,5 +236,5 @@ The files under the `angular/src/environments` folder has the essential configur
 
 ## What's next?
 
-- See the [Getting Started](../Getting-Started.md) document to create a new solution and run it for this template.
+- See the [Getting Started](../getting-started.md) document to create a new solution and run it for this template.
 - See the [ASP.NET Core MVC Tutorial](../tutorials/book-store/mvc-razor-pages/index.md) to learn how to develop applications using this template.
