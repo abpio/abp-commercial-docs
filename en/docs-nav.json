@@ -66,6 +66,37 @@
       ]
     },
     {
+      "text": "Modules",
+      "path": "modules/index.md",
+      "items": [
+        {
+          "text": "Account",
+          "path": "modules/account.md"
+        },
+        {
+          "text": "Identity",
+          "path": "modules/identity.md"
+        },
+        {
+          "text": "IdentityServer",
+          "path": "modules/identity-server.md"
+        },
+        {
+          "text": "Language Management",
+          "path": "modules/language-management.md"
+        }
+      ]
+    },
+    {
+      "text": "Themes",
+      "items": [
+        {
+          "text": "Lepton",
+          "path": "themes/lepton.md"
+        }
+      ]
+    },
+    {
       "text": "Suite",
       "path": "abp-suite/index.md",
       "items": [
