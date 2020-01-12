@@ -66,7 +66,7 @@
       ]
     },
     {
-      "text": "Modules",
+      "text": "Application Modules",
       "path": "modules/index.md",
       "items": [
         {
@@ -88,7 +88,7 @@
       ]
     },
     {
-      "text": "Themes",
+      "text": "UI Themes",
       "items": [
         {
           "text": "Lepton",
@@ -97,7 +97,7 @@
       ]
     },
     {
-      "text": "Suite",
+      "text": "ABP Suite",
       "path": "abp-suite/index.md",
       "items": [
         {
