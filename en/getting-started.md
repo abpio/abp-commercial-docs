@@ -191,7 +191,7 @@ Check the **connection string** in the `appsettings.json` file under the {{if UI
 }
 ````
 
-The solution is configured to use **Entity Framework Core** with **MS SQL Server**. EF Core supports [various](https://docs.microsoft.com/en-us/ef/core/providers/) database providers, so you can use another DBMS if you want (see [the document to change DBMS](Change-DBMS-For-EntityFramework.md) for EF Core).
+The solution is configured to use **Entity Framework Core** with **MS SQL Server**. EF Core supports [various](https://docs.microsoft.com/en-us/ef/core/providers/) database providers, so you can use any supported DBMS. See [the Entity Framework integration document](https://docs.abp.io/en/abp/latest/Entity-Framework-Core) to learn how to switch to another DBMS.
 
 ### Apply the migrations
 
