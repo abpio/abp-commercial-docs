@@ -24,7 +24,7 @@ You can access to the final **source-code** of this application from the [github
 
 There are multiple test projects in the solution:
 
-![bookstore-test-projects-v2](images/bookstore-test-projects-v2.png)
+![bookstore-test-projects-v2](../../images/bookstore-test-projects-v2.png)
 
 Each project is used to test the related application project. Test projects use the following libraries for testing:
 
@@ -183,7 +183,7 @@ public async Task Should_Not_Create_A_Book_Without_Name()
 
 Open the **Test Explorer Window** (use Test -> Windows -> Test Explorer menu if it is not visible) and **Run All** tests:
 
-![bookstore-appservice-tests](images/bookstore-appservice-tests.png)
+![bookstore-appservice-tests](../../images/bookstore-appservice-tests.png)
 
 Congratulations, green icons show that tests have been successfully passed!
 

@@ -24,13 +24,13 @@ You can access to the final **source-code** of this application from the [github
 
 In this section, you will learn how to create a new modal dialog form to create a new book. The result dialog will be like that:
 
-![bookstore-create-dialog](images/bookstore-create-dialog-2.png)
+![bookstore-create-dialog](../../images/bookstore-create-dialog-2.png)
 
 #### Create the modal form
 
 Create a new razor page, named `CreateModal.cshtml` under the `Pages/Books` folder of the `Acme.BookStore.Web` project:
 
-![bookstore-add-create-dialog](images/bookstore-add-create-dialog-v2.png)
+![bookstore-add-create-dialog](../../images/bookstore-add-create-dialog-v2.png)
 
 ##### CreateModal.cshtml.cs
 
@@ -117,7 +117,7 @@ Open the `Pages/Books/Index.cshtml` and change the `abp-card-header` tag as show
 
 Just added a **New book** button to the **top right** of the table:
 
-![bookstore-new-book-button](images/bookstore-new-book-button.png)
+![bookstore-new-book-button](../../images/bookstore-new-book-button.png)
 
 Open the `pages/books/index.js` and add the following code just after the datatable configuration:
 
@@ -142,7 +142,7 @@ Now, you can **run the application** and add new books using the new modal form.
 
 Create a new razor page, named `EditModal.cshtml` under the `Pages/Books` folder of the `Acme.BookStore.Web` project:
 
-![bookstore-add-edit-dialog](images/bookstore-add-edit-dialog.png)
+![bookstore-add-edit-dialog](../../images/bookstore-add-edit-dialog.png)
 
 #### EditModal.cshtml.cs
 
@@ -245,7 +245,7 @@ This page is very similar to the `CreateModal.cshtml` except;
 
 We will add a dropdown button ("Actions") for each row of the table. The final UI looks like this:
 
-![bookstore-books-table-actions](images/bookstore-books-table-actions.png)
+![bookstore-books-table-actions](../../images/bookstore-books-table-actions.png)
 
 Open the `Pages/Books/Index.cshtml` page and change the table section as shown below:
 

@@ -30,7 +30,7 @@ Create a new project named `Acme.BookStore` where `Acme` is the company name and
 
 This is how the layered solution structure looks like:
 
-![bookstore-visual-studio-solution](images/bookstore-visual-studio-solution-v3.png)
+![bookstore-visual-studio-solution](../../images/bookstore-visual-studio-solution-v3.png)
 
 > You can see the [Application template document](../../Startup-Templates/Application.md) to understand the solution structure in details. However, you will understand the basics with this tutorial.
 
@@ -117,7 +117,7 @@ builder.Entity<Book>(b =>
 
 The Startup template uses [EF Core Code First Migrations](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/) to create and maintain the database schema. Open the **Package Manager Console (PMC)** (under the *Tools/Nuget Package Manager* menu), select the `Acme.BookStore.EntityFrameworkCore.DbMigrations` as the **default project** and execute the following command:
 
-![bookstore-pmc-add-book-migration](images/bookstore-pmc-add-book-migration-v2.png)
+![bookstore-pmc-add-book-migration](../../images/bookstore-pmc-add-book-migration-v2.png)
 
 This will create a new migration class inside the `Migrations` folder. Then execute the `Update-Database` command to update the database schema:
 
@@ -129,7 +129,7 @@ PM> Update-Database
 
 `Update-Database` command created the `AppBooks` table in the database. Open your database and enter a few sample rows, so you can show them on the page:
 
-![bookstore-books-table](images/bookstore-books-table.png)
+![bookstore-books-table](../../images/bookstore-books-table.png)
 
 ### Create the application service
 
@@ -287,7 +287,7 @@ The startup template is configured to run the [swagger UI](https://swagger.io/to
 
 You will see some built-in service endpoints as well as the `Book` service and its REST-style endpoints:
 
-![bookstore-swagger](images/bookstore-swagger.png)
+![bookstore-swagger](../../images/bookstore-swagger.png)
 
 Swagger has a nice UI to test APIs. You can try to execute the `[GET] /api/app/book` API to get a list of books.
 
@@ -313,11 +313,11 @@ acme.bookStore.book.getList({}).done(function (result) { console.log(result); })
 
 Running this code produces the following output:
 
-![bookstore-test-js-proxy-getlist](images/bookstore-test-js-proxy-getlist.png)
+![bookstore-test-js-proxy-getlist](../../images/bookstore-test-js-proxy-getlist.png)
 
 You can see the **book list** returned from the server. You can also check the **network** tab of the developer tools to see the client to server communication:
 
-![bookstore-test-js-proxy-getlist-network](images/bookstore-test-js-proxy-getlist-network.png)
+![bookstore-test-js-proxy-getlist-network](../../images/bookstore-test-js-proxy-getlist-network.png)
 
 Let's **create a new book** using the `create` function:
 
@@ -339,7 +339,7 @@ It's time to create something visible and usable! Instead of classic MVC, we wil
 
 Create a new `Books` folder under the `Pages` folder of the `Acme.BookStore.Web` project and add a new Razor Page named `Index.cshtml`:
 
-![bookstore-add-index-page](images/bookstore-add-index-page-v2.png)
+![bookstore-add-index-page](../../images/bookstore-add-index-page-v2.png)
 
 Open the `Index.cshtml` and change the content as shown below:
 
@@ -370,7 +370,7 @@ context.Menu.AddItem(
 
 Localization texts are located under the `Localization/BookStore` folder of the `Acme.BookStore.Domain.Shared` project:
 
-![bookstore-localization-files](images/bookstore-localization-files-v2.png)
+![bookstore-localization-files](../../images/bookstore-localization-files-v2.png)
 
 Open the `en.json` file and add localization texts for `Menu:BookStore` and `Menu:Books` keys to the end of the file:
 
@@ -389,7 +389,7 @@ Open the `en.json` file and add localization texts for `Menu:BookStore` and `Men
 
 Run the application and see the new menu item has been added to the top bar:
 
-![bookstore-menu-items](images/bookstore-menu-items.png)
+![bookstore-menu-items](../../images/bookstore-menu-items.png)
 
 When you click to the Books menu item, you are redirected to the new Books page.
 
@@ -437,7 +437,7 @@ Change the `Pages/Books/Index.cshtml` as following:
 
 Create `index.js` JavaScript file under the `Pages/Books/` folder:
 
-![bookstore-index-js-file](images/bookstore-index-js-file-v2.png)
+![bookstore-index-js-file](../../images/bookstore-index-js-file-v2.png)
 
 `index.js` content is shown below:
 
@@ -463,7 +463,7 @@ $(function () {
 
 The final UI is shown below:
 
-![bookstore-book-list](images/bookstore-book-list-2.png)
+![bookstore-book-list](../../images/bookstore-book-list-2.png)
 
 ### Next Part
 
