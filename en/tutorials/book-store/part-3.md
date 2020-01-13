@@ -1,8 +1,16 @@
-## ASP.NET Core MVC Tutorial - Part 3
+## ASP.NET Core {{UI_Value}} Tutorial - Part 3
+````json
+//[doc-params]
+{
+    "UI": ["MVC","NG"],
+    "DB": ["EF", "Mongo"],
+    "Tiered": ["Yes", "No"]
+}
+````
 
 ### About this tutorial
 
-This is the third part of the ASP.NET Core MVC tutorial series. See all parts:
+This is the third part of the ASP.NET Core {{UI_Value}} tutorial series. See all parts:
 
 - [Part I: Creating the project and book list page](Part-1.md)
 - [Part II: Creating, updating and deleting books](Part-2.md)

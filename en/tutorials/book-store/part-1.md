@@ -1,10 +1,18 @@
-## ASP.NET Core MVC Tutorial - Part 1
+## ASP.NET Core {{UI_Value}} Tutorial - Part 1
+````json
+//[doc-params]
+{
+    "UI": ["MVC","NG"],
+    "DB": ["EF", "Mongo"],
+    "Tiered": ["Yes", "No"]
+}
+````
 
 ### About this tutorial
 
-In this tutorial series, you will build an application ABP Commercial application named `Acme.BookStore`. In this sample project we will manage a list of books and authors. **Entity Framework Core** (`EF Core`), the default database provider, will be used as the ORM provider. MVC Razor Pages and JavaScript will be used on the front-end. 
+In this tutorial series, you will build an application ABP Commercial application named `Acme.BookStore`. In this sample project we will manage a list of books and authors. **Entity Framework Core** (`EF Core`), the default database provider, will be used as the ORM provider. {{UI_Value}} and JavaScript will be used on the front-end. 
 
-The ASP.NET Core MVC tutorial series consists of 3 parts:
+The ASP.NET Core {{UI_Value}} tutorial series consists of 3 parts:
 
 - **Part-1: Creating the project and book list page (this tutorial)** 
 - [Part-2: Creating, updating and deleting books](part-2.md)

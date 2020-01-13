@@ -10,24 +10,19 @@
         {
           "text": "Application development",
           "items": [
-            {
-              "text": "With ASP.NET Core MVC UI",              
-              "items": [
                 {
                   "text": "Part-1: Creating a new solution and listing items",
-                  "path": "tutorials/book-store/mvc-razor-pages/part-1.md"
+                  "path": "tutorials/book-store/part-1.md"
                 },
                 {
                   "text": "Part-2: CRUD operations",
-                  "path": "tutorials/book-store/mvc-razor-pages/part-2.md"
+                  "path": "tutorials/book-store/part-2.md"
                 },
                 {
                   "text": "Part-3: Integration tests",
-                  "path": "tutorials/book-store/mvc-razor-pages/part-3.md"
+                  "path": "tutorials/book-store/part-3.md"
                 }
-              ]
-            }
-          ]
+		  ]
         }
       ]
     },
