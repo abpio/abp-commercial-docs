@@ -11,15 +11,14 @@
           "text": "Application development",
           "items": [
             {
-              "text": "With ASP.NET Core MVC UI",
-              "path": "startup-templates/index.md",
+              "text": "With ASP.NET Core MVC UI",              
               "items": [
                 {
-                  "text": "Part-1: Creating project and book list",
+                  "text": "Part-1: Creating a new solution and listing items",
                   "path": "tutorials/book-store/mvc-razor-pages/part-1.md"
                 },
                 {
-                  "text": "Part-2: Creating, updating and deleting books",
+                  "text": "Part-2: CRUD operations",
                   "path": "tutorials/book-store/mvc-razor-pages/part-2.md"
                 },
                 {
@@ -37,15 +36,15 @@
       "items": [
         {
           "text": "Application Template",
-          "path": "startup-templates/index.md",
+          "path": "startup-templates/application/index.md",
           "items": [
             {
               "text": "Creating solution",
-              "path": "startup-templates/create-solution.md"
+              "path": "startup-templates/application/create-solution.md"
             },
             {
               "text": "Solution structure",
-              "path": "startup-templates/solution-structure.md"
+              "path": "startup-templates/application/solution-structure.md"
             }
           ]
         },
