@@ -6,11 +6,11 @@ You will get a slightly different solution structure, based on the options you h
 
 If you don't specify any additional option, you will have a solution like the below:
 
-![BookStore Solution Explorer](../images/solution-structure-solution-explorer.png)
+![BookStore Solution Explorer](../../images/solution-structure-solution-explorer.png)
 
 Projects are located in **src** and **test** folders. While the **src** folder contains the actual application, **test** folder contains unit tests and test base projects. The below diagram shows the layers & project dependencies of the application:
 
-![layered-project-dependencies](../images/layered-project-dependencies.png)
+![layered-project-dependencies](../../images/layered-project-dependencies.png)
 
 Each section below describes the related project and its dependencies.
 
@@ -167,7 +167,7 @@ See [Getting Started With the ASP.NET Core MVC Template](https://docs.abp.io/{{D
 
 If you have selected the ASP.NET Core UI and specified the `--tiered` option, it becomes a tiered solution. The purpose of the tiered structure is to be able to deploy the Web application and the HTTP API to separate servers.
 
-![bookstore-visual-studio-solution-v3](../images/tiered-solution-servers.png)
+![bookstore-visual-studio-solution-v3](../../images/tiered-solution-servers.png)
 
 * The browser runs your UI by executing HTML, CSS & JavaScript files.
 * The web servers host static UI files (CSS, JavaScript, images) & dynamic components (e.g: Razor pages). It performs HTTP requests to the API server to execute the business logic of the application.
@@ -180,7 +180,7 @@ Hence, the final solution enables a 4-tiered deployment.
 
 The tiered solution structure is shown below:
 
-![bookstore-visual-studio-solution-v3](../images/bookstore-visual-studio-solution-tiered.png)
+![bookstore-visual-studio-solution-v3](../../images/bookstore-visual-studio-solution-tiered.png)
 
 There are 2 new projects as different from the default structure:
 
@@ -191,7 +191,7 @@ There are 2 new projects as different from the default structure:
 
 This project is used as an authentication server for other projects. `.Web` project uses `OpenId Connect Authentication` to get identity and access token for the current user from the `IdentityServer`. Then uses the access token to call the HTTP API server. The HTTP API server uses bearer token authentication to obtain claims from the token to authorize the current user.
 
-![tiered-solution-applications](../images/tiered-solution-applications.png)
+![tiered-solution-applications](../../images/tiered-solution-applications.png)
 
 ABP uses the open source [Identity Server 4](https://identityserver.io/) framework for the authentication between applications. Further information, check out [Identity Server 4 documentation](http://docs.identityserver.io) for the ` Identity Server 4` and `OpenID Connect protocol`.
 
