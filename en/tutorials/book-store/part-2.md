@@ -10,7 +10,7 @@
 
 ### About this tutorial
 
-This is the second part of the ASP.NET Core {{UI_Value}} tutorial series. See all parts:
+This is the second part of the ASP.NET Core {{UI_Value}} tutorial series. All parts:
 
 * [Part I: Creating the project and book list page](Part-1.md)
 * **Part II: Creating, updating and deleting books (this tutorial)**
@@ -22,13 +22,13 @@ You can access to the final **source-code** of this application from the [github
 
 ### Creating a new book
 
-In this section, you will learn how to create a new modal dialog form to create a new book. The result dialog will be like that:
+In this section, you will learn how to create a new modal dialog form to create a new book. The modal dialog will look like in the below image:
 
 ![bookstore-create-dialog](../../images/bookstore-create-dialog-2.png)
 
 #### Create the modal form
 
-Create a new razor page, named `CreateModal.cshtml` under the `Pages/Books` folder of the `Acme.BookStore.Web` project:
+Create a new razor page, named `CreateModal.cshtml` under the `Pages/Books` folder of the `Acme.BookStore.Web` project.
 
 ![bookstore-add-create-dialog](../../images/bookstore-add-create-dialog-v2.png)
 
@@ -63,9 +63,9 @@ namespace Acme.BookStore.Web.Pages.Books
 }
 ````
 
-* This class is derived from the `BookStorePageModel` instead of standard `PageModel`. `BookStorePageModel` inherits the `PageModel` and adds some common properties/methods those can be used by your page model classes.
+* This class is derived from the `BookStorePageModel` instead of standard `PageModel`. `BookStorePageModel` inherits the `PageModel` and adds some common properties & methods that can be used in your page model classes.
 * `[BindProperty]` attribute on the `Book` property binds post request data to this property.
-* This class simply injects the `IBookAppService` in its constructor and calls the `CreateAsync` method in the `OnPostAsync` handler.
+* This class simply injects the `IBookAppService` in the constructor and calls the `CreateAsync` method in the `OnPostAsync` handler.
 
 ##### CreateModal.cshtml
 
@@ -90,14 +90,14 @@ Open the `CreateModal.cshtml` file and paste the code below:
 </abp-dynamic-form>
 ````
 
-* This modal uses `abp-dynamic-form` tag helper to automatically create the form from the `CreateBookViewModel` class.
-  * `abp-model` attribute indicates the model object, the `Book` property in this case.
-  * `data-ajaxForm` attribute makes the form submitting via AJAX, instead of a classic page post.
-  * `abp-form-content` tag helper is a placeholder to render the form controls (this is optional and needed only if you added some other content in the `abp-dynamic-form` tag, just like in this page).
+* This modal uses `abp-dynamic-form` tag helper to automatically create the form from the model  `CreateBookViewModel`.
+  * `abp-model` attribute indicates the model object where it's the `Book` property in this case.
+  * `data-ajaxForm` attribute sets the form to submit via AJAX, instead of a classic page post.
+  * `abp-form-content` tag helper is a placeholder to render the form controls (it is optional and needed only if you have added some other content in the `abp-dynamic-form` tag, just like in this page).
 
 #### Add the "New book" button
 
-Open the `Pages/Books/Index.cshtml` and change the `abp-card-header` tag as shown below:
+Open the `Pages/Books/Index.cshtml` and set the content of `abp-card-header` tag as below:
 
 ````html
 <abp-card-header>
@@ -115,11 +115,11 @@ Open the `Pages/Books/Index.cshtml` and change the `abp-card-header` tag as show
 </abp-card-header>
 ````
 
-Just added a **New book** button to the **top right** of the table:
+This adds a new button called **New book** to the **top-right** of the table:
 
 ![bookstore-new-book-button](../../images/bookstore-new-book-button.png)
 
-Open the `pages/books/index.js` and add the following code just after the datatable configuration:
+Open the `pages/books/index.js` and add the following code just after the `Datatable` configuration:
 
 ````js
 var createModal = new abp.ModalManager(abp.appPath + 'Books/CreateModal');
@@ -134,7 +134,7 @@ $('#NewBookButton').click(function (e) {
 });
 ````
 
-* `abp.ModalManager` is a helper class to open and manage modals in the client side. It internally uses Twitter Bootstrap's standard modal, but abstracts many details by providing a simple API.
+* `abp.ModalManager` is a helper class to manage modals in the client side. It internally uses Twitter Bootstrap's standard modal, but abstracts many details by providing a simple API.
 
 Now, you can **run the application** and add new books using the new modal form.
 
@@ -186,13 +186,13 @@ namespace Acme.BookStore.Web.Pages.Books
 }
 ````
 
-* `[HiddenInput]` and `[BindProperty]` are standard ASP.NET Core MVC attributes. Used `SupportsGet` to be able to get Id value from query string parameter of the request.
-* Mapped `BookDto` (received from the `BookAppService.GetAsync`) to `CreateUpdateBookDto` in the `GetAsync` method.
-* The `OnPostAsync` simply uses `BookAppService.UpdateAsync` to update the entity.
+* `[HiddenInput]` and `[BindProperty]` are standard ASP.NET Core MVC attributes. `SupportsGet` is used to be able to get `Id` value from query string parameter of the request.
+* In the `GetAsync` method, we get `BookDto `from `BookAppService` and this is being mapped to the DTO object `CreateUpdateBookDto`.
+* The `OnPostAsync` uses `BookAppService.UpdateAsync()` to update the entity.
 
 #### Mapping from BookDto to CreateUpdateBookDto 
 
-In order to perform `BookDto` to `CreateUpdateBookDto` object mapping, open the `BookStoreWebAutoMapperProfile.cs` in the `Acme.BookStore.Web` project and change it as shown below:
+To be able to map the `BookDto` to `CreateUpdateBookDto`, configure a new mapping. To do this, open the `BookStoreWebAutoMapperProfile.cs` in the `Acme.BookStore.Web` project and change it as shown below:
 
 ````csharp
 using AutoMapper;
@@ -209,7 +209,7 @@ namespace Acme.BookStore.Web
 }
 ````
 
-* Just added `CreateMap<BookDto, CreateUpdateBookDto>();` as the mapping definition.
+* We have just added `CreateMap<BookDto, CreateUpdateBookDto>();` to define this mapping.
 
 #### EditModal.cshtml
 
@@ -236,18 +236,16 @@ Replace `EditModal.cshtml` content with the following content:
 </abp-dynamic-form>
 ````
 
-This page is very similar to the `CreateModal.cshtml` except;
+This page is very similar to the `CreateModal.cshtml`, except:
 
-* It includes an `abp-input` for the `Id` property to store id of the editing book (which is a hidden input).
+* It includes an `abp-input` for the `Id` property to store `Id` of the editing book (which is a hidden input).
 * It uses `Books/EditModal` as the post URL and *Update* text as the modal header.
 
 #### Add "Actions" dropdown to the table
 
-We will add a dropdown button ("Actions") for each row of the table. The final UI looks like this:
+We will add a dropdown button to the table named *Actions*. 
 
-![bookstore-books-table-actions](../../images/bookstore-books-table-actions.png)
-
-Open the `Pages/Books/Index.cshtml` page and change the table section as shown below:
+Open the `Pages/Books/Index.cshtml` page and change the `<abp-table>` section as shown below:
 
 ````html
 <abp-table striped-rows="true" id="BooksTable">
@@ -264,7 +262,7 @@ Open the `Pages/Books/Index.cshtml` page and change the table section as shown b
 </abp-table>
 ````
 
-* Just added a new `th` tag for the "Actions".
+* We just added a new `th` tag for the "*Actions*" button.
 
 Open the `pages/books/index.js` and replace the content as below:
 
@@ -322,14 +320,16 @@ $(function () {
 });
 ````
 
-* Used `abp.localization.getResource('BookStore')` to be able to use the same localization texts defined on the server side.
+* Used `abp.localization.getResource('BookStore')` to be able to use the same localization texts defined on the server-side.
 * Added a new `ModalManager` named `createModal` to open the create modal dialog.
 * Added a new `ModalManager` named `editModal` to open the edit modal dialog.
-* Added a new column at the beginning of the `columnDefs` section. This column is used for the "Actions" dropdown button.
-* "New Book" action simply calls `createModal.open` to open the create dialog.
-* "Edit" action simply calls `editModal.open` to open the edit dialog.
-`
-You can run the application and edit any book by selecting the edit action.
+* Added a new column at the beginning of the `columnDefs` section. This column is used for the "*Actions*" dropdown button.
+* "*New Book*" action simply calls `createModal.open()` to open the create dialog.
+* "*Edit*" action simply calls `editModal.open()` to open the edit dialog.
+
+You can run the application and edit any book by selecting the edit action. The final UI looks as below:
+
+![bookstore-books-table-actions](../../images/bookstore-edit-button.png)
 
 ### Deleting a book
 
@@ -353,8 +353,8 @@ Open the `pages/books/index.js` and add a new item to the `rowAction` `items`:
 ````
 
 * `confirmMessage` option is used to ask a confirmation question before executing the `action`.
-* Used `acme.bookStore.book.delete` javascript proxy function to perform an AJAX request to delete a book.
-* `abp.notify.info` is used to show a toastr notification just after the deletion.
+* `acme.bookStore.book.delete()` method makes an AJAX request to JavaScript proxy function to delete a book.
+* `abp.notify.info()` shows a notification after the delete operation.
 
 The final `index.js` content is shown below:
 
@@ -426,10 +426,11 @@ $(function () {
 });
 ````
 
-Open the `en.json` in the `Acme.BookStore.Domain.Shared` project and add the following line:
+Open the `en.json` in the `Acme.BookStore.Domain.Shared` project and add the following line for localization:
 
 ````json
-"BookDeletionConfirmationMessage": "Are you sure to delete the book {0}?" 
+"BookDeletionConfirmationMessage": "Are you sure to delete the book {0}?",
+"SuccessfullyDeleted": "Successfully deleted"
 ````
 
 Run the application and try to delete a book.
