@@ -22,23 +22,21 @@ You can access to the final **source-code** of this application from the [github
 
 ### Test projects in the solution
 
-There are multiple test projects in the solution:
+There are several test projects in the solution:
 
 ![bookstore-test-projects-v2](../../images/bookstore-test-projects-v2.png)
 
-Each project is used to test the related application project. Test projects use the following libraries for testing:
+Each project is used to test the related project. Test projects use the following libraries for testing:
 
-* [xunit](https://xunit.github.io/) as the main test framework.
-* [Shoudly](http://shouldly.readthedocs.io/en/latest/) as an assertion library.
-* [NSubstitute](http://nsubstitute.github.io/) as a mocking library.
+* [Xunit](https://xunit.github.io/) as the main test framework.
+* [Shoudly](http://shouldly.readthedocs.io/en/latest/) as the assertion library.
+* [NSubstitute](http://nsubstitute.github.io/) as the mocking library.
 
 ### Adding test data
 
-Startup template contains the `BookStoreTestDataSeedContributor` class in the `Acme.BookStore.TestBase` project that creates some data to run tests on.
+Startup template contains the `BookStoreTestDataBuilder` class in the `Acme.BookStore.TestBase` project which creates initial data to run tests. Change the content of `BookStoreTestDataSeedContributor` class as show below:
 
-Change the `BookStoreTestDataSeedContributor` class as show below:
-
-````C#
+````csharp
 using System;
 using System.Threading.Tasks;
 using Volo.Abp.Data;
@@ -55,7 +53,7 @@ namespace Acme.BookStore
         private readonly IGuidGenerator _guidGenerator;
 
         public BookStoreTestDataSeedContributor(
-            IRepository<Book, Guid> bookRepository, 
+            IRepository<Book, Guid> bookRepository,
             IGuidGenerator guidGenerator)
         {
             _bookRepository = bookRepository;
@@ -65,43 +63,43 @@ namespace Acme.BookStore
         public async Task SeedAsync(DataSeedContext context)
         {
             await _bookRepository.InsertAsync(
-                new Book
-                {
-                    Id = _guidGenerator.Create(),
-                    Name = "Test book 1",
-                    Type = BookType.Fantastic,
-                    PublishDate = new DateTime(2015, 05, 24),
-                    Price = 21
-                }
+                new Book(id: _guidGenerator.Create(),
+                    name: "Test book 1",
+                    type: BookType.Fantastic,
+                    publishDate: new DateTime(2015, 05, 24),
+                    price: 21
+                )
             );
 
             await _bookRepository.InsertAsync(
-                new Book
-                {
-                    Id = _guidGenerator.Create(),
-                    Name = "Test book 2",
-                    Type = BookType.Science,
-                    PublishDate = new DateTime(2014, 02, 11),
-                    Price = 15
-                }
+                new Book(id: _guidGenerator.Create(),
+                    name: "Test book 2",
+                    type: BookType.Science,
+                    publishDate: new DateTime(2014, 02, 11),
+                    price: 15
+                )
             );
         }
     }
 }
 ````
 
-* Injected `IRepository<Book, Guid>` and used it in the `SeedAsync` to create two book entities as the test data.
-* Used `IGuidGenerator` service to create GUIDs. While `Guid.NewGuid()` would perfectly work for testing, `IGuidGenerator` has additional features especially important while using real databases (see the [Guid generation document](../../Guid-Generation.md) for more).
+* `IRepository<Book, Guid>` is injected and used it in the `SeedAsync` to create two book entities as the test data.
+* `IGuidGenerator` is injected to create GUIDs. While `Guid.NewGuid()` would perfectly work for testing, `IGuidGenerator` has additional features especially important while using real databases. Further information, see the [Guid generation document](../../Guid-Generation.md).
 
 ### Testing the application service BookAppService 
 
 Create a test class named `BookAppService_Tests` in the `Acme.BookStore.Application.Tests` project:
 
-````C#
+````csharp
+using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Xunit;
 using Shouldly;
 using Volo.Abp.Application.Dtos;
-using Xunit;
+using Volo.Abp.Validation;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Acme.BookStore
 {
@@ -134,7 +132,7 @@ namespace Acme.BookStore
 
 Add a new test that creates a valid new book:
 
-````C#
+````csharp
 [Fact]
 public async Task Should_Create_A_Valid_Book()
 {
@@ -144,7 +142,7 @@ public async Task Should_Create_A_Valid_Book()
         {
             Name = "New test book 42",
             Price = 10,
-            PublishDate = DateTime.Now,
+            PublishDate = System.DateTime.Now,
             Type = BookType.ScienceFiction
         }
     );
@@ -157,11 +155,11 @@ public async Task Should_Create_A_Valid_Book()
 
 Add a new test that tries to create an invalid book and fails:
 
-````C#
+````csharp
 [Fact]
 public async Task Should_Not_Create_A_Book_Without_Name()
 {
-    var exception = await Assert.ThrowsAsync<AbpValidationException>(async () =>
+    var exception = await Assert.ThrowsAsync<Volo.Abp.Validation.AbpValidationException>(async () =>
     {
         await _bookAppService.CreateAsync(
             new CreateUpdateBookDto
@@ -179,14 +177,14 @@ public async Task Should_Not_Create_A_Book_Without_Name()
 }
 ````
 
-* Since the `Name` is empty, ABP throws an `AbpValidationException`.
+* Since the `Name` is empty, ABP will throw an `AbpValidationException`.
 
 Open the **Test Explorer Window** (use Test -> Windows -> Test Explorer menu if it is not visible) and **Run All** tests:
 
 ![bookstore-appservice-tests](../../images/bookstore-appservice-tests.png)
 
-Congratulations, green icons show that tests have been successfully passed!
+Congratulations, the green icons show, the tests have been successfully passed!
 
 ---
 
-Finally, you can access to the final **source-code** of this application from the [github.com/abpframework/abp/tree/master/samples/BookStore](https://github.com/abpframework/abp/tree/master/samples/BookStore).
+You can access to the final **source-code** of this application from the [github.com/abpframework/abp/tree/master/samples/BookStore](https://github.com/abpframework/abp/tree/master/samples/BookStore).
