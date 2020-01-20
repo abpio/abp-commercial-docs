@@ -236,5 +236,5 @@ The files under the `angular/src/environments` folder has the essential configur
 
 ## What's next?
 
-- See the [Getting Started](../getting-started.md) document to create a new solution and run it for this template.
-- See the [ASP.NET Core MVC Tutorial](../tutorials/book-store/mvc-razor-pages/index.md) to learn how to develop applications using this template.
+- See the [Getting Started](../../getting-started.md) document to create a new solution and run it for this template.
+- See the [ASP.NET Core MVC Tutorial](../../tutorials/book-store/mvc-razor-pages/index.md) to learn how to develop applications using this template.

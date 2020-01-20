@@ -597,4 +597,4 @@ It's end of this part. The final UI of this work is shown as below:
 
 ### Next Part
 
-See the [part 2](Part-2.md) for creating, updating and deleting books.
+See the [part 2](part-2.md) for creating, updating and deleting books.
