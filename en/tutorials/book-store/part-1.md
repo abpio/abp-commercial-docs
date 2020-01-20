@@ -8,7 +8,7 @@
 
 ### About this tutorial
 
-In this tutorial series, you will build an ABP Commercial application named `Acme.BookStore`. In this sample project we will manage a list of books and authors. **Entity Framework Core** (`EF Core`), the default database provider, will be used as the ORM provider. {{UI_Value}} and JavaScript will be used on the front-end. 
+In this tutorial series, you will build an ABP Commercial application named `Acme.BookStore`. In this sample project, we will manage a list of books and authors. **Entity Framework Core** (`EF Core`), the default database provider, will be used as the ORM provider. {{UI_Value}} and JavaScript will be used on the front-end. 
 
 The ASP.NET Core {{UI_Value}} tutorial series consists of 3 parts:
 
@@ -16,7 +16,9 @@ The ASP.NET Core {{UI_Value}} tutorial series consists of 3 parts:
 - [Part-2: Creating, updating and deleting books](part-2.md)
 - [Part-3: Integration tests](part-3.md)
 
-You can access to the final **source-code** of this application from the following link [GitHub: BookStore](https://github.com/abpframework/abp/tree/master/samples/BookStore). You can also check out [the video course](https://amazingsolutions.teachable.com/p/lets-build-the-bookstore-application) prepared by the community, based on this tutorial.
+> The completed sample is available on GitHub: [BookStore-{{UI}}](https://github.com/volosoft/volo/tree/dev/abp/samples/BookStore-{{UI}}).
+
+*You can also check out [the video course](https://amazingsolutions.teachable.com/p/lets-build-the-bookstore-application) prepared by the community, based on this tutorial.*
 
 ### Creating the project
 

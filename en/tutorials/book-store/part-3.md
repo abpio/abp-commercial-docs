@@ -2,9 +2,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC","NG"],
-    "DB": ["EF", "Mongo"],
-    "Tiered": ["Yes", "No"]
+    "UI": ["MVC","NG"]
 }
 ````
 
@@ -16,9 +14,9 @@ This is the third part of the ASP.NET Core {{UI_Value}} tutorial series. See all
 - [Part II: Creating, updating and deleting books](Part-2.md)
 - **Part III: Integration tests (this tutorial)**
 
-You can access to the final **source-code** of this application from the [github.com/abpframework/abp/tree/master/samples/BookStore](https://github.com/abpframework/abp/tree/master/samples/BookStore).
+> The completed sample is available on GitHub: [BookStore-{{UI}}](https://github.com/volosoft/volo/tree/dev/abp/samples/BookStore-{{UI}}).
 
-> You can also watch [this video course](https://amazingsolutions.teachable.com/p/lets-build-the-bookstore-application) prepared by an ABP community member, based on this tutorial.
+*You can also check out [the video course](https://amazingsolutions.teachable.com/p/lets-build-the-bookstore-application) prepared by the community, based on this tutorial.*
 
 ### Test projects in the solution
 
@@ -187,4 +185,6 @@ Congratulations, the green icons show, the tests have been successfully passed!
 
 ---
 
-You can access to the final **source-code** of this application from the [github.com/abpframework/abp/tree/master/samples/BookStore](https://github.com/abpframework/abp/tree/master/samples/BookStore).
+> You can access to the completed **source-code** of this application from the following link: 
+>
+> [github.com/volosoft/volo/tree/dev/abp/samples/BookStore-{{UI}}](https://github.com/volosoft/volo/tree/dev/abp/samples/BookStore-{{UI}}).

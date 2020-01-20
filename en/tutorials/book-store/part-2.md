@@ -2,9 +2,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC","NG"],
-    "DB": ["EF", "Mongo"],
-    "Tiered": ["Yes", "No"]
+    "UI": ["MVC","NG"]
 }
 ````
 
@@ -16,9 +14,10 @@ This is the second part of the ASP.NET Core {{UI_Value}} tutorial series. All pa
 * **Part II: Creating, updating and deleting books (this tutorial)**
 * [Part III: Integration tests](Part-3.md)
 
-You can access to the final **source-code** of this application from the [github.com/abpframework/abp/tree/master/samples/BookStore](https://github.com/abpframework/abp/tree/master/samples/BookStore).
+> The completed sample is available on GitHub: [BookStore-{{UI}}](https://github.com/volosoft/volo/tree/dev/abp/samples/BookStore-{{UI}}).
+>
 
-> You can also watch [this video course](https://amazingsolutions.teachable.com/p/lets-build-the-bookstore-application) prepared by an ABP community member, based on this tutorial.
+*You can also watch [this video course](https://amazingsolutions.teachable.com/p/lets-build-the-bookstore-application) prepared by an ABP community member, based on this tutorial.*
 
 ### Creating a new book
 
