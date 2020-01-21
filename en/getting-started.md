@@ -279,13 +279,13 @@ You can login, but you cannot enter to the main application here. This is just t
 
 Ensure that the `.HttpApi.Host` project is the startup project and run the application which will open a **Swagger UI** in your browser.
 
-![swagger-ui](images\swagger-ui.png)
+![swagger-ui](images/swagger-ui.png)
 
 This is the API application that is used by the web application.
 
 Lastly, ensure that the `.Web` project is the startup project and run the application which will open a **welcome** page in your browser
 
-![mvc-tiered-app-home](images\mvc-tiered-app-home.png)
+![mvc-tiered-app-home](images/mvc-tiered-app-home.png)
 
 Click to the **login** button which will redirect you to the `Identity Server` to login to the application:
 
@@ -323,7 +323,7 @@ Ensure that the `.HttpApi.Host` project is the startup project and run the appli
 
 {{ end }}
 
-![swagger-ui](images\swagger-ui.png)
+![swagger-ui](images/swagger-ui.png)
 
 You can see the application APIs and test them here. Get [more info](https://swagger.io/tools/swagger-ui/) about the Swagger UI.
 
