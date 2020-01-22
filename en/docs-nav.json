@@ -82,6 +82,10 @@
         {
           "text": "Language Management",
           "path": "modules/language-management.md"
+        },
+		{
+          "text": "SaaS",
+          "path": "modules/saas.md"
         }
       ]
     },
