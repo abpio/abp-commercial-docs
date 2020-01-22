@@ -10,9 +10,9 @@
 
 This is the second part of the ASP.NET Core {{UI_Value}} tutorial series. All parts:
 
-* [Part I: Creating the project and book list page](Part-1.md)
+* [Part I: Creating the project and book list page](part-1.md)
 * **Part II: Creating, updating and deleting books (this tutorial)**
-* [Part III: Integration tests](Part-3.md)
+* [Part III: Integration tests](part-3.md)
 
 > The completed sample is available on GitHub: [BookStore-{{UI}}](https://github.com/volosoft/volo/tree/dev/abp/samples/BookStore-{{UI}}).
 >
@@ -436,4 +436,4 @@ Run the application and try to delete a book.
 
 ### Next Part
 
-See the [next part](Part-3.md) of this tutorial.
+See the [next part](part-3.md) of this tutorial.

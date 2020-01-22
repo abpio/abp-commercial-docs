@@ -107,7 +107,7 @@ Use the `new` command of the ABP CLI to create a new project:
 abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{end}}{{if DB == "Mongo"}} -d mongodb{{end}}{{if Tiered == "Yes"}} --tiered{{end}}
 ````
 
-* `-t` argument specifies the [startup template](Startup-Templates/Index.md) name. `app-pro` is the startup template that contains the essential [ABP Commercial Modules](https://commercial.abp.io/modules) pre-installed and configured for you.
+* `-t` argument specifies the [startup template](startup-templates/application/index.md) name. `app-pro` is the startup template that contains the essential [ABP Commercial Modules](https://commercial.abp.io/modules) pre-installed and configured for you.
 
 {{ if UI == "NG" }}
 
@@ -131,7 +131,7 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{end}}{{if DB == "
 
 #### ABP CLI commands & options
 
-[ABP CLI document](https://docs.abp.io/en/abp/latest/CLI) covers all of the available commands and options for the ABP CLI. The main difference for the ABP Commercial is the template names. See the [ABP Commercial Startup Templates](startup-templates/index.md) document for other commercial templates.
+[ABP CLI document](https://docs.abp.io/en/abp/latest/CLI) covers all of the available commands and options for the ABP CLI. The main difference for the ABP Commercial is the template names. See the [ABP Commercial Startup Templates](startup-templates/application/index.md) document for other commercial templates.
 
 ## The solution structure
 
@@ -175,7 +175,7 @@ Integration tests projects are properly configured to work with in-memory **Mong
 
 {{ end }}
 
-> See the [solution structure document](startup-templates/solution-structure.md) to understand the solution structure in details. 
+> See the [solution structure document](startup-templates/application/solution-structure.md) to understand the solution structure in details. 
 
 ## Create the database
 
@@ -279,13 +279,13 @@ You can login, but you cannot enter to the main application here. This is just t
 
 Ensure that the `.HttpApi.Host` project is the startup project and run the application which will open a **Swagger UI** in your browser.
 
-![swagger-ui](images\swagger-ui.png)
+![swagger-ui](images/swagger-ui.png)
 
 This is the API application that is used by the web application.
 
 Lastly, ensure that the `.Web` project is the startup project and run the application which will open a **welcome** page in your browser
 
-![mvc-tiered-app-home](images\mvc-tiered-app-home.png)
+![mvc-tiered-app-home](images/mvc-tiered-app-home.png)
 
 Click to the **login** button which will redirect you to the `Identity Server` to login to the application:
 
@@ -323,7 +323,7 @@ Ensure that the `.HttpApi.Host` project is the startup project and run the appli
 
 {{ end }}
 
-![swagger-ui](images\swagger-ui.png)
+![swagger-ui](images/swagger-ui.png)
 
 You can see the application APIs and test them here. Get [more info](https://swagger.io/tools/swagger-ui/) about the Swagger UI.
 
@@ -357,9 +357,9 @@ Enter **admin** as the username and **1q2w3E*** as the password to login to the 
 
 The application is up and running. You can continue to develop your application based on this startup template.
 
-> The [application startup template](Startup-Templates/Application.md) includes the SaaS, Identity, Identity Server, Language Management and Audit Log and a few more modules.
+> The [application startup template](startup-templates/application/index.md) includes the SaaS, Identity, Identity Server, Language Management and Audit Log and a few more modules.
 
 ## What's next?
 
-[Application development tutorial](tutorials/book-store/mvc-razor-pages/index.md)
+[Application development tutorial](tutorials/book-store/part-1.md)
 

@@ -10,8 +10,8 @@
 
 This is the third part of the ASP.NET Core {{UI_Value}} tutorial series. See all parts:
 
-- [Part I: Creating the project and book list page](Part-1.md)
-- [Part II: Creating, updating and deleting books](Part-2.md)
+- [Part I: Creating the project and book list page](part-1.md)
+- [Part II: Creating, updating and deleting books](part-2.md)
 - **Part III: Integration tests (this tutorial)**
 
 > The completed sample is available on GitHub: [BookStore-{{UI}}](https://github.com/volosoft/volo/tree/dev/abp/samples/BookStore-{{UI}}).
@@ -83,9 +83,9 @@ namespace Acme.BookStore
 ````
 
 * `IRepository<Book, Guid>` is injected and used it in the `SeedAsync` to create two book entities as the test data.
-* `IGuidGenerator` is injected to create GUIDs. While `Guid.NewGuid()` would perfectly work for testing, `IGuidGenerator` has additional features especially important while using real databases. Further information, see the [Guid generation document](../../Guid-Generation.md).
 
 ### Testing the application service BookAppService 
+* `IGuidGenerator` is injected to create GUIDs. While `Guid.NewGuid()` would perfectly work for testing, `IGuidGenerator` has additional features especially important while using real databases. Further information, see the [Guid generation document](https://docs.abp.io/{{Document_Language_Code}}/abp/{{Document_Version}}/Guid-Generation).
 
 Create a test class named `BookAppService_Tests` in the `Acme.BookStore.Application.Tests` project:
 

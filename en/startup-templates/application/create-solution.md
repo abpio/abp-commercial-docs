@@ -6,7 +6,7 @@ ABP solution is Visual Studio project which provides a layered structure based o
 
 ## Creating a new ABP Commercial solution
 
-There are 2 ways of creating a new ABP Commercial solution. You can use the [ABP CLI](https://docs.abp.io/en/abp/latest/CLI) or [ABP Suite](../abp-suite/add-solution.md).
+There are 2 ways of creating a new ABP Commercial solution. You can use the [ABP CLI](https://docs.abp.io/en/abp/latest/CLI) or [ABP Suite](../../abp-suite/add-solution.md).
 
 ### Creating solution via ABP CLI
 
@@ -76,11 +76,11 @@ abp new Acme.BookStore -t app-pro -d mongodb
 
 ABP Suite allows you to create a new ABP solution. 
 
-If you have not installed ABP Suite, see [how to install ABP Suite](../abp-suite/how-to-install.md).
+If you have not installed ABP Suite, see [how to install ABP Suite](../../abp-suite/how-to-install.md).
 
-To start ABP Suite, see [how to start ABP Suite](../abp-suite/how-to-start.md). 
+To start ABP Suite, see [how to start ABP Suite](../../abp-suite/how-to-start.md). 
 
-To create a new solution, see [how to create a new solution](../abp-suite/create-solution.md). 
+To create a new solution, see [how to create a new solution](../../abp-suite/create-solution.md). 
 
 
 
