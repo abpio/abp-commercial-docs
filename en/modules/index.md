@@ -5,7 +5,7 @@ ABP Commercial provides **production ready, enterprise level** application modul
 ## Commercial Modules
 
 * **[Account](account.md)**: Login, register, forgot password, email activation, social logins and other account related functionalities.
-* **Audit logging**: Reporting the user audit logs and entity histories in details.
+* **[Audit logging](audit-logging.md)**: Reporting the user audit logs and entity histories in details.
 * **[Identity](identity.md)**: User, role, claims and permission management.
 * **[Identity Server](identity-server.md)**: Managing the identity server objects like clients, API resources, identity resources, secrets, application URLs, claims and more.
 * **[Language management](language-management.md)**: Add or remove languages and localize the application UI on the fly.
