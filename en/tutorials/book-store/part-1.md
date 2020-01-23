@@ -30,8 +30,6 @@ The ASP.NET Core {{UI_Value}} tutorial series consists of 3 parts:
 - [Part-2: Creating, updating and deleting books](part-2.md)
 - [Part-3: Integration tests](part-3.md)
 
-> The completed sample is available on GitHub: [bookstore-{{UI_Text}}-{{DB}}](https://github.com/volosoft/volo/tree/dev/abp/samples/bookstore-{{UI_Text}}-{{DB}})
-
 *You can also check out [the video course](https://amazingsolutions.teachable.com/p/lets-build-the-bookstore-application) prepared by the community, based on this tutorial.*
 
 ### Creating the project
