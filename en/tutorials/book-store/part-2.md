@@ -425,7 +425,7 @@ $(function () {
 });
 ````
 
-Open the `en.json` in the `Acme.BookStore.Domain.Shared` project and add the following line for localization:
+Open the `en.json` in the `Acme.BookStore.Domain.Shared` project and add the following translations:
 
 ````json
 "BookDeletionConfirmationMessage": "Are you sure to delete the book {0}?",

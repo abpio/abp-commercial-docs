@@ -5,10 +5,24 @@
     "UI": ["MVC","NG"]
 }
 ````
+{{
+if UI == "MVC"
+  DB="ef"
+  DB_Text="Entity Framework Core"
+  UI_Text="mvc"
+else if UI == "NG"
+  DB="mongodb"
+  DB_Text="MongoDB"
+  UI_Text="angular"
+else 
+  DB ="?"
+  UI_Text="?"
+end
+}}
 
-### About this tutorial
+### About this tutorial:
 
-In this tutorial series, you will build an ABP Commercial application named `Acme.BookStore`. In this sample project, we will manage a list of books and authors. **Entity Framework Core** (`EF Core`), the default database provider, will be used as the ORM provider. {{UI_Value}} and JavaScript will be used on the front-end. 
+In this tutorial series, you will build an ABP Commercial application named `Acme.BookStore`. In this sample project, we will manage a list of books and authors. **{{DB_Text}}** will be used as the ORM provider. And on the front-end side {{UI_Value}} and JavaScript will be used.
 
 The ASP.NET Core {{UI_Value}} tutorial series consists of 3 parts:
 
@@ -16,7 +30,7 @@ The ASP.NET Core {{UI_Value}} tutorial series consists of 3 parts:
 - [Part-2: Creating, updating and deleting books](part-2.md)
 - [Part-3: Integration tests](part-3.md)
 
-> The completed sample is available on GitHub: [BookStore-{{UI}}](https://github.com/volosoft/volo/tree/dev/abp/samples/BookStore-{{UI}}).
+> The completed sample is available on GitHub: [bookstore-{{UI_Text}}-{{DB}}](https://github.com/volosoft/volo/tree/dev/abp/samples/bookstore-{{UI_Text}}-{{DB}})
 
 *You can also check out [the video course](https://amazingsolutions.teachable.com/p/lets-build-the-bookstore-application) prepared by the community, based on this tutorial.*
 
@@ -38,31 +52,62 @@ abp login <username>
 
 #### Create the project
 
-By running the below command, it creates a new ABP Commercial project with the database provider `Entity Framework Core` and UI option `MVC`. To see the other CLI options, check out [ABP CLI](https://docs.abp.io/en/abp/latest/CLI) document.
+By running the below command, it creates a new ABP Commercial project with the database provider `{{DB_Text}}` and UI option `MVC`. To see the other CLI options, check out [ABP CLI](https://docs.abp.io/en/abp/latest/CLI) document.
 
 ```bash
-abp new Acme.BookStore --template app-pro --database-provider ef --ui mvc
+abp new Acme.BookStore --template app-pro --database-provider {{DB}} --ui {{UI_Text}}
 ```
-
-![Creating project](../../images/bookstore-create-project.png)
+![Creating project](../../images/bookstore-create-project-{{UI_Text}}.png)
 
 ### Apply migrations
 
 After creating the project, you need to apply the initial migrations and create the database. To apply migrations, right click on the `Acme.BookStore.DbMigrator` and click **Debug** > **Start New Instance**. This will run the application and apply all migrations. You will see the below result when it successfully completes the process. The application database is  ready!
 
-![Migrations applied](../../images/bookstore-migrations-applied.png)
+![Migrations applied](../../images/bookstore-migrations-applied-{{UI_Text}}.png)
 
 > Alternatively, you can run `Update-Database` command in the Visual Studio > Package Manager Console to apply migrations.
+
+#### Initial database tables
 
 ![Initial database tables](../../images/bookstore-database-tables.png)
 
 ### Run the application
 
-To run the project, right click to the `Acme.BookStore.Web` project and click **Set As StartUp Project**. And run the web project by pressing **CTRL+F5** (*without debugging and fast*) or press **F5** (*with debugging and slow*).
+To run the project, right click to the {{if UI == "MVC"}} `Acme.BookStore.Web`{{end}} {{if UI == "NG"}} `Acme.BookStore.HttpApi.Host` {{end}} project and click **Set As StartUp Project**. And run the web project by pressing **CTRL+F5** (*without debugging and fast*) or press **F5** (*with debugging and slow*). {{if UI == "NG"}}You will see the Swagger UI for BookStore API.{{end}}
 
 Further information, see the [running the application section](../../getting-started.md#run-the-application).
 
-![Set as startup project](../../images/bookstore-start-project.png)
+![Set as startup project](../../images/bookstore-start-project-{{UI_Text}}.png)
+
+{{if UI == "NG"}}
+
+To start Angular project, go to the `angular` folder, open a command line terminal, execute the `yarn`  command:
+
+```bash
+yarn
+```
+
+Once all node modules are loaded, execute the `yarn start` command:
+
+```bash
+yarn start
+```
+
+The website will be accessible from the following default URL:
+
+http://localhost:4200/
+
+If you see the website's landing page successfully, you can exit Angular hosting by pressing `ctrl-c`. (We'll later start it again.)
+
+> Be aware that, Firefox does not use the Windows Certificate Store, so you'll need to add the self-signed developer certificate to Firefox manually. To do this, open Firefox and navigate to the below URL:
+>
+> https://localhost:44322/api/abp/application-configuration
+>
+> If you see the below screen, click the **Accept the Risk and Continue** button to bypass this warning.
+>
+> ![Set as startup project](../../images/mozilla-self-signed-cert-error.png)
+
+{{end}}
 
 The default login credentials are;
 
@@ -73,9 +118,9 @@ The default login credentials are;
 
 This is how the layered solution structure looks like:
 
-![bookstore-visual-studio-solution](../../images/bookstore-visual-studio-solution-v3.png)
+![bookstore-visual-studio-solution](../../images/bookstore-solution-structure-{{UI_Text}}.png)
 
-Check out the [solution structure](../../startup-templates/application/solution-structure.md) document to understand the solution structure in details. 
+Check out the [solution structure](../../startup-templates/application/solution-structure.md) document to understand the structure in details. 
 
 ### Create the book entity
 
@@ -147,6 +192,8 @@ namespace Acme.BookStore
 
 #### Add book entity to the DbContext
 
+{{if DB == "ef"}}
+
 EF Core requires to relate entities with your `DbContext`. The easiest way to do this is to add a `DbSet` property to the `BookStoreDbContext` class in the `Acme.BookStore.EntityFrameworkCore` project, as shown below:
 
 ````csharp
@@ -157,6 +204,25 @@ EF Core requires to relate entities with your `DbContext`. The easiest way to do
 		//...
     }
 ````
+
+{{end}}
+
+{{if DB == "mongodb"}}
+
+Add a `IMongoCollection<Book> Books` property to the `BookStoreMongoDbContext` inside the `Acme.BookStore.MongoDB` project:
+
+```csharp
+public class BookStoreMongoDbContext : AbpMongoDbContext
+{
+        public IMongoCollection<AppUser> Users => Collection<AppUser>();
+        public IMongoCollection<Book> Books => Collection<Book>();//<--added this line-->
+        //...
+}
+```
+
+{{end}}
+
+{{if DB == "ef"}}
 
 #### Configure the book entity
 
@@ -172,6 +238,73 @@ builder.Entity<Book>(b =>
 ````
 
 Add the `using Volo.Abp.EntityFrameworkCore.Modeling;` statement to resolve `ConfigureByConvention` extension method.
+
+{{end}}
+
+{{if DB == "mongodb"}}
+
+#### Add seed (sample) data
+
+Adding sample data is optional, but it's good to have initial data in the database for the first run. ABP provides a [data seed system](https://docs.abp.io/en/abp/latest/Data-Seeding). Create a class deriving from the `IDataSeedContributor` in the `*.Domain` project:
+
+```csharp
+using System;
+using System.Threading.Tasks;
+using Volo.Abp.Data;
+using Volo.Abp.DependencyInjection;
+using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Guids;
+
+namespace Acme.BookStore
+{
+    public class BookStoreDataSeederContributor
+        : IDataSeedContributor, ITransientDependency
+    {
+        private readonly IRepository<Book, Guid> _bookRepository;
+        private readonly IGuidGenerator _guidGenerator;
+
+        public BookStoreDataSeederContributor(
+            IRepository<Book, Guid> bookRepository,
+            IGuidGenerator guidGenerator)
+        {
+            _bookRepository = bookRepository;
+            _guidGenerator = guidGenerator;
+        }
+
+        public async Task SeedAsync(DataSeedContext context)
+        {
+            if (await _bookRepository.GetCountAsync() > 0)
+            {
+                return;
+            }
+
+            await _bookRepository.InsertAsync(
+                new Book(
+                    id: _guidGenerator.Create(),
+                    name: "1984",
+                    type: BookType.Dystopia,
+                    publishDate: new DateTime(1949, 6, 8),
+                    price: 19.84f
+                )
+            );
+
+            await _bookRepository.InsertAsync(
+                new Book(
+                    id: _guidGenerator.Create(),
+                    name: "The Hitchhiker's Guide to the Galaxy",
+                    type: BookType.ScienceFiction,
+                    publishDate: new DateTime(1995, 9, 27),
+                    price: 42.0f
+                )
+            );
+        }
+    }
+}
+```
+
+{{end}}
+
+{{if DB == "ef"}}
 
 #### Add new migration & update the database
 
@@ -195,7 +328,7 @@ Update-Database
 
 ![bookstore-update-database-after-book-entity](../../images/bookstore-update-database-after-book-entity.png)
 
-#### Add some sample data
+#### Add initial (sample) data
 
 `Update-Database` command has created the `AppBooks` table in the database. Open your database and enter a few sample rows, so you can show them on the listing page.
 
@@ -211,6 +344,8 @@ INSERT INTO AppBooks (Id,CreationTime,[Name],[Type],PublishDate,Price) VALUES
 ```
 
 ![bookstore-books-table](../../images/bookstore-books-table.png)
+
+{{end}}
 
 ### Create the application service
 
@@ -370,19 +505,21 @@ namespace Acme.BookStore
 * `BookAppService` injects `IRepository<Book, Guid>` which is the default repository for the `Book` entity. ABP automatically creates default repositories for each aggregate root (or entity). See the [repository document](https://docs.abp.io/en/abp/latest/Repositories).
 * `BookAppService` uses `IObjectMapper` to map `Book` objects to `BookDto` objects and `CreateUpdateBookDto` objects to `Book` objects. The Startup template uses the [AutoMapper](http://automapper.org/) library as the object mapping provider. We have defined the mappings before, so it will work as expected.
 
-### Dynamic JavaScript proxiesAuto API Controllers
+### Auto API Controllers
 
-We normally create **Controllers** to expose application services as **HTTP API** endpoints. That allows browser or 3rd-party clients to call them via AJAX. ABP can [**automagically**](https://docs.abp.io/en/abp/latest/AspNetCore/Auto-API-Controllers) configures your application services as MVC API Controllers by convention.
+We normally create **Controllers** to expose application services as **HTTP API** endpoints. This allows browsers or 3rd-party clients to call them via AJAX. ABP can [**automagically**](https://docs.abp.io/en/abp/latest/AspNetCore/Auto-API-Controllers) configures your application services as MVC API Controllers by convention.
 
 #### Swagger UI
 
-The startup template is configured to run the [Swagger UI](https://swagger.io/tools/swagger-ui/) using the [Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) library. Run the application by pressing `CTRL+F5` and navigate to `https://localhost:XXXX/swagger/` on your browser. (Replace `XXXX` by your own port.)
+The startup template is configured to run the [Swagger UI](https://swagger.io/tools/swagger-ui/) using the [Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) library. Run the application by pressing `CTRL+F5` and navigate to `https://localhost:<port>/swagger/` on your browser. (Replace `<port>` with your own port number.)
 
 You will see some built-in service endpoints as well as the `Book` service and its REST-style endpoints:
 
 ![bookstore-swagger](../../images/bookstore-swagger.png)
 
 Swagger has a nice interface to test the APIs. You can try to execute the `[GET] /api/app/book` API to get a list of books.
+
+{{if UI == "MVC"}}
 
 ### Dynamic JavaScript proxies
 
@@ -470,8 +607,6 @@ namespace Acme.BookStore.Web.Pages.Books
 }
 ```
 
-
-
 #### Add books page to the main menu
 
 Open the `BookStoreMenuContributor` class in the `Menus` folder and add the following code to the end of the `ConfigureMainMenuAsync` method:
@@ -503,7 +638,7 @@ Localization texts are located under the `Localization/BookStore` folder of the 
 
 ![bookstore-localization-files](../../images/bookstore-localization-files-v2.png)
 
-Open the `en.json` (*English translations*) file and add the below localization texts for `Menu:BookStore` and `Menu:Books` keys to the end of the file:
+Open the `en.json` (*English translations*) file and add the below localization texts to the end of the file:
 
 ````json
 {
@@ -511,7 +646,12 @@ Open the `en.json` (*English translations*) file and add the below localization 
   "texts": {
     //...  
     "Menu:BookStore": "Book Store",
-    "Menu:Books": "Books"
+    "Menu:Books": "Books",
+    "PublishDate": "Publish date",
+    "Name": "Name",
+    "Type": "Type",
+    "Price": "Price",
+    "CreationTime": "Creation time",
   }
 }
 ````
@@ -527,7 +667,7 @@ When you click to the Books menu item under the Book Store parent, you are being
 
 #### Book list
 
-We will use the [Datatables.net](https://datatables.net/) jQuery plugin to show the book list. Datatables can completely work via AJAX, it is fast, popular and provides a good user experience. Datatables plugin is configured in the startup template, so you can directly use it in any page without including any style or script file to your page.
+We will use the [Datatables.net](https://datatables.net/) jQuery plugin to show the book list. [Datatables](https://datatables.net/) can completely work via AJAX, it is fast, popular and provides a good user experience. [Datatables](https://datatables.net/) plugin is configured in the startup template, so you can directly use it in any page without including any style or script file to your page.
 
 ##### Index.cshtml
 
@@ -588,14 +728,372 @@ $(function () {
 });
 ````
 
-* `abp.libs.datatables.createAjax` is a helper function to adapt ABP's dynamic JavaScript API proxies to Datatable's format.
-* `abp.libs.datatables.normalizeConfiguration` is another helper function. There's no requirement to use it, but it simplifies the Datatables configuration by providing conventional values for missing options.
+* `abp.libs.datatables.createAjax` is a helper function to adapt ABP's dynamic JavaScript API proxies to [Datatable](https://datatables.net/)'s format.
+* `abp.libs.datatables.normalizeConfiguration` is another helper function. There's no requirement to use it, but it simplifies the [Datatables](https://datatables.net/) configuration by providing conventional values for missing options.
 * `acme.bookStore.book.getList` is the function to get list of books (as described in [dynamic JavaScript proxies](#Dynamic JavaScript proxies)).
-* See [Datatable's documentation](https://datatables.net/manual/) for all configuration options.
+* See [Datatables documentation](https://datatables.net/manual/) for all configuration options.
 
 It's end of this part. The final UI of this work is shown as below:
 
 ![Book list](../../images/bookstore-book-list-2.png)
+
+{{end}}
+
+{{if UI == "NG"}} 
+
+### Angular development
+#### Create the books page
+
+It's time to create something visible and usable! There are some tools that we will use when developing ABP Angular frontend application:
+
+- [Angular CLI](https://angular.io/cli) will be used to create modules, components and services.
+- [NGXS](https://ngxs.gitbook.io/ngxs/) will be used as the state management library.
+- [Ng Bootstrap](https://ng-bootstrap.github.io/#/home) will be used as the UI component library.
+- [Visual Studio Code](https://code.visualstudio.com/) will be used as the code editor (you can use your favorite editor).
+
+#### Install NPM packages
+
+Open a new command line interface (terminal window) and go to your `angular` folder and then run `yarn` command to install NPM packages:
+
+```bash
+yarn
+```
+
+#### BooksModule
+
+Run the following command line to create a new module, named `BooksModule`:
+
+```bash
+yarn ng generate module books --route books --module app.module
+```
+
+![Generating books module](../../images/bookstore-creating-books-module-terminal.png)
+
+Run `yarn start` and wait for Angular to serve the application:
+
+```bash
+yarn start
+```
+
+Open the browser and navigate to http://localhost:4200/books. You'll see a blank page saying "*books works!*".
+
+#### Routing
+
+Open the `app-routing.module.ts` file in `src\app` folder. Add the new `import` and replace `books` path as shown below
+
+```js
+import { ApplicationLayoutComponent } from '@abp/ng.theme.basic'; //==> added this <==
+
+//...
+{
+  path: 'books',
+  component: ApplicationLayoutComponent,
+  loadChildren: () => import('./books/books.module').then(m => m.BooksModule),
+  data: {
+    routes: {
+      name: 'Books',
+    } as ABP.Route,
+  },
+},
+```
+
+The `ApplicationLayoutComponent` configuration sets the application layout to the new page. If you want see your route on the main menu, you must also add the `data` object with `name` property in your route.
+
+![initial-books-page](../../images/bookstore-initial-books-page-with-layout.png)
+
+#### Book list component
+
+Replace the `books.component.html` with the following line to place the router-outlet:
+
+```html
+<router-outlet></router-outlet>
+```
+
+Then run the command below on the terminal in the root folder to generate a new component, named book-list:
+
+```bash
+yarn ng generate component books/book-list
+```
+
+![creating-books-list-terminal](../../images/bookstore-creating-book-list-terminal.png)
+
+Import the `SharedModule` to the `BooksModule` to reuse some components and services defined in:
+
+```js
+import { SharedModule } from '../shared/shared.module';
+
+@NgModule({
+  //...
+  imports: [
+    //...
+    SharedModule,
+  ],
+})
+export class BooksModule {}
+```
+
+Then, update the `routes` in the `books-routing.module.ts` to add the new book-list component:
+
+```js
+import { BookListComponent } from './book-list/book-list.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: BooksComponent,
+    children: [{ path: '', component: BookListComponent }],
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class BooksRoutingModule {}
+```
+
+![initial-book-list-page](../../images/bookstore-initial-book-list-page.png)
+
+#### Create BooksState
+
+Run the following command in the terminal to create a new state, named `BooksState`:
+
+```shell
+yarn ng generate ngxs-schematic:state books
+```
+
+* This command creates several new files and updates `app.modules.ts` file to import the `NgxsModule` with the new state:
+
+```js
+// app.module.ts
+
+import { BooksState } from './store/states/books.state';
+
+@NgModule({
+  imports: [
+    //...
+    NgxsModule.forRoot([BooksState]),
+  ],
+  //...
+})
+export class AppModule {}
+```
+
+#### Get books data from backend
+
+Create data types to map the data from the backend (you can check Swagger UI or your backend API to see the data format).
+
+Modify the `books.ts` as shown below:
+
+```js
+export namespace Books {
+  export interface State {
+    books: Response;
+  }
+
+  export interface Response {
+    items: Book[];
+    totalCount: number;
+  }
+
+  export interface Book {
+    name: string;
+    type: BookType;
+    publishDate: string;
+    price: number;
+    lastModificationTime: string;
+    lastModifierId: string;
+    creationTime: string;
+    creatorId: string;
+    id: string;
+  }
+
+  export enum BookType {
+    Undefined,
+    Adventure,
+    Biography,
+    Dystopia,
+    Fantastic,
+    Horror,
+    Science,
+    ScienceFiction,
+    Poetry,
+  }
+}
+```
+
+* Added `Book` interface that represents a book object and `BookType` enum which represents a book category.
+
+#### BooksService
+
+Create a new service, named `BooksService` to perform `HTTP` calls to the server:
+
+```bash
+yarn ng generate service books/shared/books
+```
+
+![service-terminal-output](../../images/bookstore-service-terminal-output.png)
+
+Modify `books.service.ts` as shown below:
+
+```js
+import { Injectable } from '@angular/core';
+import { RestService } from '@abp/ng.core';
+import { Books } from '../../store/models';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class BooksService {
+  constructor(private restService: RestService) {}
+
+  get(): Observable<Books.Response> {
+    return this.restService.request<void, Books.Response>({
+      method: 'GET',
+      url: '/api/app/book'
+    });
+  }
+}
+```
+
+* Added the `get` method to get the list of books by performing an HTTP request to the related endpoint.
+
+Replace `books.actions.ts` content as shown below:
+
+```js
+export class GetBooks {
+  static readonly type = '[Books] Get';
+}
+```
+
+#### Implement BooksState
+
+Open the `books.state.ts` and change the file as shown below:
+
+```js
+import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { GetBooks } from '../actions/books.actions';
+import { Books } from '../models/books';
+import { BooksService } from '../../books/shared/books.service';
+import { tap } from 'rxjs/operators';
+
+@State<Books.State>({
+  name: 'BooksState',
+  defaults: { books: {} } as Books.State,
+})
+export class BooksState {
+  @Selector()
+  static getBooks(state: Books.State) {
+    return state.books.items || [];
+  }
+
+  constructor(private booksService: BooksService) {}
+
+  @Action(GetBooks)
+  get(ctx: StateContext<Books.State>) {
+    return this.booksService.get().pipe(
+      tap(booksResponse => {
+        ctx.patchState({
+          books: booksResponse,
+        });
+      }),
+    );
+  }
+}
+```
+
+* Added the `GetBooks` action that uses the `BookService` defined above to get the books and patch the state.
+
+> NGXS requires to return the observable without subscribing it, as done in this sample (in the get function).
+
+#### BookListComponent
+
+Modify the `book-list.component.ts` as shown below:
+
+```js
+import { Component, OnInit } from '@angular/core';
+import { Store, Select } from '@ngxs/store';
+import { BooksState } from '../../store/states';
+import { Observable } from 'rxjs';
+import { Books } from '../../store/models';
+import { GetBooks } from '../../store/actions';
+
+@Component({
+  selector: 'app-book-list',
+  templateUrl: './book-list.component.html',
+  styleUrls: ['./book-list.component.scss'],
+})
+export class BookListComponent implements OnInit {
+  @Select(BooksState.getBooks)
+  books$: Observable<Books.Book[]>;
+
+  booksType = Books.BookType;
+
+  loading = false;
+
+  constructor(private store: Store) {}
+
+  ngOnInit() {
+    this.loading = true;
+    this.store.dispatch(new GetBooks()).subscribe(() => {
+      this.loading = false;
+    });
+  }
+}
+```
+
+> See the [Dispatching Actions](https://ngxs.gitbook.io/ngxs/concepts/store#dispatching-actions) and [Select](https://ngxs.gitbook.io/ngxs/concepts/select) on the NGXS documentation for more information on these NGXS features.
+
+Replace `book-list.component.html` content as shown below:
+
+```html
+<div id="wrapper" class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col col-md-6">
+        <h5 class="card-title">
+          Books
+        </h5>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <p-table [value]="books$ | async" [loading]="loading" [paginator]="true" [rows]="10">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Book name</th>
+          <th>Book type</th>
+          <th>Publish date</th>
+          <th>Price</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data>
+        <tr>
+          <td>{%{{{ data.name }}}%}</td>
+          <td>{%{{{ booksType[data.type] }}}%}</td>
+          <td>{%{{{ data.publishDate | date }}}%}</td>
+          <td>{%{{{ data.price }}}%}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+```
+
+> We've used [PrimeNG table](https://www.primefaces.org/primeng/#/table) in this component.
+
+The resulting books page is shown below:
+
+![bookstore-book-list](../../images/bookstore-book-list.png)
+
+The file system structure of the project is as follows:
+
+<img src="../../images/bookstore-angular-file-tree.png" height="75%">
+
+In this tutorial we have applied the rules of official [Angular Style Guide](https://angular.io/guide/styleguide#file-tree).
+
+{{end}}
 
 ### Next Part
 
