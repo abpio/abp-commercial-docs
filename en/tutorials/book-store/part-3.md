@@ -6,6 +6,21 @@
 }
 ````
 
+{{
+if UI == "MVC"
+  DB="ef"
+  DB_Text="Entity Framework Core"
+  UI_Text="mvc"
+else if UI == "NG"
+  DB="mongodb"
+  DB_Text="MongoDB"
+  UI_Text="angular"
+else 
+  DB ="?"
+  UI_Text="?"
+end
+}}
+
 ### About this tutorial
 
 This is the third part of the ASP.NET Core {{UI_Value}} tutorial series. See all parts:
@@ -14,15 +29,15 @@ This is the third part of the ASP.NET Core {{UI_Value}} tutorial series. See all
 - [Part II: Creating, updating and deleting books](part-2.md)
 - **Part III: Integration tests (this tutorial)**
 
-> The completed sample is available on GitHub: [BookStore-{{UI}}](https://github.com/volosoft/volo/tree/dev/abp/samples/BookStore-{{UI}}).
+The completed sample is available on GitHub: [bookstore-{{UI_Text}}-{{DB}}](https://github.com/volosoft/volo/tree/dev/abp/samples/bookstore-{{UI_Text}}-{{DB}})
 
 *You can also check out [the video course](https://amazingsolutions.teachable.com/p/lets-build-the-bookstore-application) prepared by the community, based on this tutorial.*
 
 ### Test projects in the solution
 
-There are several test projects in the solution:
+This part covers the **server side** tests. There are several test projects in the solution:
 
-![bookstore-test-projects-v2](../../images/bookstore-test-projects-v2.png)
+![bookstore-test-projects-v2](../../images/bookstore-test-projects-{{UI_Text}}.png)
 
 Each project is used to test the related project. Test projects use the following libraries for testing:
 
@@ -187,4 +202,7 @@ Congratulations, the green icons show, the tests have been successfully passed!
 
 > You can access to the completed **source-code** of this application from the following link: 
 >
-> [github.com/volosoft/volo/tree/dev/abp/samples/BookStore-{{UI}}](https://github.com/volosoft/volo/tree/dev/abp/samples/BookStore-{{UI}}).
+> [github.com/volosoft/volo/tree/dev/abp/samples/bookstore-{{UI_Text}}-{{DB}}](https://github.com/volosoft/volo/tree/dev/abp/samples/bookstore-{{UI_Text}}-{{DB}}).
+
+
+
