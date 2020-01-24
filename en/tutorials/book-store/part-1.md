@@ -630,6 +630,8 @@ namespace Acme.BookStore.Web.Menus
 }
 ````
 
+{{end}}
+
 #### Localize the menu items
 
 Localization texts are located under the `Localization/BookStore` folder of the `Acme.BookStore.Domain.Shared` project:
@@ -646,16 +648,20 @@ Open the `en.json` (*English translations*) file and add the below localization 
     "Menu:BookStore": "Book Store",
     "Menu:Books": "Books",
     "PublishDate": "Publish date",
+    "NewBook": "New book",
     "Name": "Name",
     "Type": "Type",
     "Price": "Price",
     "CreationTime": "Creation time",
+    "AreYouSureToDelete": "Are you sure you want to delete this item?"
   }
 }
 ````
 
 * ABP's localization system is built on [ASP.NET Core's standard localization](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization) system and extends it in many ways. See the [localization document](https://docs.abp.io/en/abp/latest/Localization) for details.
 * Localization key names are arbitrary. You can set any name. As a best practice, we prefer to add `Menu:` prefix for menu items to distinguish from other texts. If a text is not defined in the localization file, it **fallbacks** to the localization key (as ASP.NET Core's standard behavior).
+
+{{if UI == "MVC"}}
 
 Run the project, login to the application with the username `admin` and password `1q2w3E*` and see the new menu item has been added to the menu.
 
@@ -767,6 +773,29 @@ yarn ng generate module books --route books --module app.module
 
 ![Generating books module](../../images/bookstore-creating-books-module-terminal.png)
 
+#### Routing
+
+Open the `app-routing.module.ts` file in `src\app` folder. Add the new `import` and replace `books` path as shown below
+
+```js
+import { ApplicationLayoutComponent } from '@volo/abp.ng.theme.lepton'; //==> added this line to imports <==
+
+//...replaced original books path with the below
+{
+  path: 'books',
+  component: ApplicationLayoutComponent,
+  loadChildren: () => import('./books/books.module').then(m => m.BooksModule),
+  data: {
+    routes: {
+      name: '::Menu:Books',
+      iconClass:'fas fa-book'
+    } as ABP.Route
+  },
+}
+```
+
+* The `ApplicationLayoutComponent` configuration sets the application layout to the new page. We added the `data` object. The `name` is the menu item name and the `iconClass` is the icon of the menu item.
+
 Run `yarn start` and wait for Angular to serve the application:
 
 ```bash
@@ -775,33 +804,11 @@ yarn start
 
 Open the browser and navigate to http://localhost:4200/books. You'll see a blank page saying "*books works!*".
 
-#### Routing
-
-Open the `app-routing.module.ts` file in `src\app` folder. Add the new `import` and replace `books` path as shown below
-
-```js
-import { ApplicationLayoutComponent } from '@abp/ng.theme.basic'; //==> added this <==
-
-//...
-{
-  path: 'books',
-  component: ApplicationLayoutComponent,
-  loadChildren: () => import('./books/books.module').then(m => m.BooksModule),
-  data: {
-    routes: {
-      name: 'Books',
-    } as ABP.Route,
-  },
-},
-```
-
-The `ApplicationLayoutComponent` configuration sets the application layout to the new page. If you want see your route on the main menu, you must also add the `data` object with `name` property in your route.
-
 ![initial-books-page](../../images/bookstore-initial-books-page-with-layout.png)
 
 #### Book list component
 
-Replace the `books.component.html` with the following line to place the router-outlet:
+Replace the `books.component.html` in the `app\books` folder with the following content:
 
 ```html
 <router-outlet></router-outlet>
@@ -813,28 +820,42 @@ Then run the command below on the terminal in the root folder to generate a new 
 yarn ng generate component books/book-list
 ```
 
-![creating-books-list-terminal](../../images/bookstore-creating-book-list-terminal.png)
+![Creating books list](../../images/bookstore-creating-book-list-terminal.png)
 
-Import the `SharedModule` to the `BooksModule` to reuse some components and services defined in:
+Open `books.module.ts` file in the `app\books` folder and replace the content as below:
 
 ```js
-import { SharedModule } from '../shared/shared.module';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { BooksRoutingModule } from './books-routing.module';
+import { BooksComponent } from './books.component';
+import { BookListComponent } from './book-list/book-list.component';
+import { SharedModule } from '../shared/shared.module'; //<== added this line ==>
 
 @NgModule({
-  //...
+  declarations: [BooksComponent, BookListComponent],
   imports: [
-    //...
-    SharedModule,
-  ],
+    CommonModule,
+    BooksRoutingModule,
+    SharedModule, //<== added this line ==>
+  ]
 })
-export class BooksModule {}
+export class BooksModule { }
 ```
 
-Then, update the `routes` in the `books-routing.module.ts` to add the new book-list component:
+* We imported `SharedModule` and added to `imports` array.
+
+Open `books-routing.module.ts`  file in the `app\books` folder and replace the content as below:
 
 ```js
-import { BookListComponent } from './book-list/book-list.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 
+import { BooksComponent } from './books.component';
+import { BookListComponent } from './book-list/book-list.component'; //<== added this line ==>
+
+//<== replaced routes ==>
 const routes: Routes = [
   {
     path: '',
@@ -845,43 +866,36 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
-export class BooksRoutingModule {}
+export class BooksRoutingModule { }
 ```
 
-![initial-book-list-page](../../images/bookstore-initial-book-list-page.png)
+* We imported `BookListComponent` and replaced `routes` const.
+
+We'll see **book-list works!**  text on the books page:
+
+![Initial book list page](../../images/bookstore-initial-book-list-page.png)
 
 #### Create BooksState
 
 Run the following command in the terminal to create a new state, named `BooksState`:
 
-```shell
+![Initial book list page](../../images/bookstore-generate-state-books.png)
+
+```bash
 yarn ng generate ngxs-schematic:state books
 ```
 
-* This command creates several new files and updates `app.modules.ts` file to import the `NgxsModule` with the new state:
-
-```js
-// app.module.ts
-
-import { BooksState } from './store/states/books.state';
-
-@NgModule({
-  imports: [
-    //...
-    NgxsModule.forRoot([BooksState]),
-  ],
-  //...
-})
-export class AppModule {}
-```
+* This command creates several new files and updates `app.modules.ts` file to import the `NgxsModule` with the new state.
 
 #### Get books data from backend
 
 Create data types to map the data from the backend (you can check Swagger UI or your backend API to see the data format).
 
-Modify the `books.ts` as shown below:
+![BookDto properties](../../images/bookstore-swagger-book-dto-properties.png)
+
+Open the `books.ts` file in the `app\store\models` folder and replace the content as below:
 
 ```js
 export namespace Books {
@@ -932,7 +946,7 @@ yarn ng generate service books/shared/books
 
 ![service-terminal-output](../../images/bookstore-service-terminal-output.png)
 
-Modify `books.service.ts` as shown below:
+Open the `books.service.ts` file in `app\books\shared` folder and replace the content as below:
 
 ```js
 import { Injectable } from '@angular/core';
@@ -955,9 +969,9 @@ export class BooksService {
 }
 ```
 
-* Added the `get` method to get the list of books by performing an HTTP request to the related endpoint.
+* We added the `get` method to get the list of books by performing an HTTP request to the related endpoint.
 
-Replace `books.actions.ts` content as shown below:
+Open the`books.actions.ts` file in `app\store\actions` folder and replace the content below:
 
 ```js
 export class GetBooks {
@@ -967,7 +981,7 @@ export class GetBooks {
 
 #### Implement BooksState
 
-Open the `books.state.ts` and change the file as shown below:
+Open the `books.state.ts` file in `app\store\states` folder and replace the content below:
 
 ```js
 import { State, Action, StateContext, Selector } from '@ngxs/store';
@@ -1001,13 +1015,12 @@ export class BooksState {
 }
 ```
 
-* Added the `GetBooks` action that uses the `BookService` defined above to get the books and patch the state.
-
-> NGXS requires to return the observable without subscribing it, as done in this sample (in the get function).
+* We added the `GetBooks` action that retrieves the books data via `BooksService` and patches the state.
+* `NGXS` requires to return the observable without subscribing it in the get function.
 
 #### BookListComponent
 
-Modify the `book-list.component.ts` as shown below:
+Open the `book-list.component.ts` file in `app\books\book-list` folder and replace the content as below:
 
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -1030,9 +1043,13 @@ export class BookListComponent implements OnInit {
 
   loading = false;
 
-  constructor(private store: Store) {}
+  constructor(private store: Store) { }
 
   ngOnInit() {
+    this.get();
+  }
+
+  get() {
     this.loading = true;
     this.store.dispatch(new GetBooks()).subscribe(() => {
       this.loading = false;
@@ -1041,53 +1058,58 @@ export class BookListComponent implements OnInit {
 }
 ```
 
-> See the [Dispatching Actions](https://ngxs.gitbook.io/ngxs/concepts/store#dispatching-actions) and [Select](https://ngxs.gitbook.io/ngxs/concepts/select) on the NGXS documentation for more information on these NGXS features.
+* We added the `get` function that updates store to get the books.
+* See the [Dispatching actions](https://ngxs.gitbook.io/ngxs/concepts/store#dispatching-actions) and [Select](https://ngxs.gitbook.io/ngxs/concepts/select) on the `NGXS` documentation for more information on these `NGXS` features.
 
-Replace `book-list.component.html` content as shown below:
+Open the `book-list.component.html` file in `app\books\book-list` folder and replace the content as below:
 
 ```html
-<div id="wrapper" class="card">
-  <div class="card-header">
-    <div class="row">
-      <div class="col col-md-6">
-        <h5 class="card-title">
-          Books
-        </h5>
-      </div>
+<div class="row entry-row">
+    <div class="col-auto">
+        <h1 class="content-header-title">{%{{{ '::Menu:Books' | abpLocalization }}}%}</h1>
     </div>
-  </div>
-  <div class="card-body">
-    <p-table [value]="books$ | async" [loading]="loading" [paginator]="true" [rows]="10">
-      <ng-template pTemplate="header">
-        <tr>
-          <th>Book name</th>
-          <th>Book type</th>
-          <th>Publish date</th>
-          <th>Price</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-data>
-        <tr>
-          <td>{%{{{ data.name }}}%}</td>
-          <td>{%{{{ booksType[data.type] }}}%}</td>
-          <td>{%{{{ data.publishDate | date }}}%}</td>
-          <td>{%{{{ data.price }}}%}</td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
+    <div class="col-lg-auto pl-lg-0">
+        <abp-breadcrumb></abp-breadcrumb>
+    </div>
+    <div class="col">
+        <div class="text-lg-right pt-2" id="AbpContentToolbar"></div>
+    </div>
+</div>
+
+<div id="wrapper" class="card">
+    <div class="card-body">
+        <p-table [value]="books$ | async" [loading]="loading" [paginator]="true" [rows]="10">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>{%{{{ '::Name' | abpLocalization }}}%}</th>
+                    <th>{%{{{ '::Type' | abpLocalization }}}%}</th>
+                    <th>{%{{{ '::PublishDate' | abpLocalization }}}%}</th>
+                    <th>{%{{{ '::Price' | abpLocalization }}}%}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data>
+                <tr>
+                    <td>{%{{{ data.name }}}%}</td>
+                    <td>{%{{{ booksType[data.type] }}}%}</td>
+                    <td>{%{{{ data.publishDate | date }}}%}</td>
+                    <td>{%{{{ data.price }}}%}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
 </div>
 ```
 
-> We've used [PrimeNG table](https://www.primefaces.org/primeng/#/table) in this component.
+* We added HTML code of book list page.
+* To list books, we used [PrimeNG table](https://www.primefaces.org/primeng/#/table) in this component.
 
-The resulting books page is shown below:
+Now you can see the final result on your browser:
 
-![bookstore-book-list](../../images/bookstore-book-list.png)
+![Book list final result](../../images/bookstore-book-list.png)
 
-The file system structure of the project is as follows:
+The file system structure of the project:
 
-<img src="../../images/bookstore-angular-file-tree.png" height="75%">
+![Book list final result](../../images/bookstore-angular-file-tree.png)
 
 In this tutorial we have applied the rules of official [Angular Style Guide](https://angular.io/guide/styleguide#file-tree).
 
