@@ -642,9 +642,18 @@ Open the `en.json` (*English translations*) file and add the below localization 
 
 ````json
 {
-  "culture": "en",
-  "texts": {
-    //...  
+  "Culture": "en",
+  "Texts": {
+    "Menu:Home": "Home",
+    "Home": "Home",
+    "Welcome": "Welcome",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information visit abp.io.",
+    "EndDate": "End date",
+    "StartDate": "Start date",
+    "Permission:Dashboard": "Dashboard",
+    "Menu:Dashboard": "Dashboard",
+    "Dashboard": "Dashboard",
+
     "Menu:BookStore": "Book Store",
     "Menu:Books": "Books",
     "PublishDate": "Publish date",
