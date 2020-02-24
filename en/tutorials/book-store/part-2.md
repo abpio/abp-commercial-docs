@@ -1392,7 +1392,7 @@ In the `book-list.component.ts` add a delete method :
 ```js
 import { GetBooks, CreateUpdateBook, DeleteBook } from '../../store/actions'; //<== added DeleteBook ==>
 
-import { ConfirmationService, Toaster } from '@abp/ng.theme.shared'; //<== added Toaster ==>
+import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared'; //<== added Confirmation ==>
 
 //...
 
@@ -1400,7 +1400,7 @@ delete(id: string, name: string) {
     this.confirmationService
         .warn('::AreYouSureToDelete', 'AbpAccount::AreYouSure')
         .subscribe(status => {
-        if (status === Toaster.Status.confirm) {
+        if (status === Confirmation.Status.confirm) {
             this.store.dispatch(new DeleteBook(id)).subscribe(() => this.get());
         }
     });
