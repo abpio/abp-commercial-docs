@@ -1176,10 +1176,15 @@ export class BookListComponent implements OnInit {
   //<== this method is replaced ==>
   buildForm() {
     this.form = this.fb.group({
-      name: [this.selectedBook.name || '', Validators.required],
-      type: this.selectedBook.type || null,
-      publishDate: this.selectedBook.publishDate ? new Date(this.selectedBook.publishDate) : null,
-      price: this.selectedBook.price || null,
+      name: [this.selectedBook.name || "", Validators.required],
+      type: [this.selectedBook.type || null, Validators.required],
+      publishDate: [
+        this.selectedBook.publishDate
+          ? new Date(this.selectedBook.publishDate)
+          : null,
+        Validators.required
+      ],
+      price: [this.selectedBook.price || null, Validators.required]
     });
   }
 
@@ -1209,33 +1214,44 @@ export class BookListComponent implements OnInit {
 
 #### Add "Actions" dropdown to the table
 
-Open the `book-list.component.html` in `app\books\book-list` folder and replace the `p-table` tag as below:
+Open the `book-list.component.html` in `app\books\book-list` folder and replace the `<div class="card-body">` tag as below:
 
 ```html
-<p-table [value]="books$ | async" [loading]="loading" [paginator]="true" [rows]="10">
-  <ng-template pTemplate="header">
+<div class="card-body">
+  <abp-table
+    [value]="books$ | async"
+    [abpLoading]="loading"
+    [headerTemplate]="tableHeader"
+    [bodyTemplate]="tableBody"
+    [rows]="10"
+    [scrollable]="true"
+  >
+  </abp-table>
+  <ng-template #tableHeader>
     <tr>
-      <th>Actions</th>
-      <th>Book name</th>
-      <th>Book type</th>
-      <th>Publish date</th>
-      <th>Price</th>
+      <th>{%{{{ "::Actions" | abpLocalization }}}%}</th>
+      <th>{%{{{ "::Name" | abpLocalization }}}%}</th>
+      <th>{%{{{ "::Type" | abpLocalization }}}%}</th>
+      <th>{%{{{ "::PublishDate" | abpLocalization }}}%}</th>
+      <th>{%{{{ "::Price" | abpLocalization }}}%}</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-data>
+  <ng-template #tableBody let-data>
     <tr>
       <td>
-        <div ngbDropdown class="d-inline-block">
+        <div ngbDropdown container="body" class="d-inline-block">
           <button
             class="btn btn-primary btn-sm dropdown-toggle"
             data-toggle="dropdown"
             aria-haspopup="true"
             ngbDropdownToggle
           >
-            <i class="fa fa-cog mr-1"></i>Actions
+            <i class="fa fa-cog mr-1"></i>{%{{{ "::Actions" | abpLocalization }}}%}
           </button>
           <div ngbDropdownMenu>
-            <button ngbDropdownItem (click)="editBook(data.id)">Edit</button>
+            <button ngbDropdownItem (click)="editBook(data.id)">
+              {%{{{ "::Edit" | abpLocalization }}}%}
+            </button>
           </div>
         </div>
       </td>
@@ -1245,7 +1261,7 @@ Open the `book-list.component.html` in `app\books\book-list` folder and replace
       <td>{%{{{ data.price }}}%}</td>
     </tr>
   </ng-template>
-</p-table>
+</div>
 ```
 
 - We added a `th` for the "Actions" column.
@@ -1266,7 +1282,7 @@ Open `book-list.component.html` in `app\books\book-list` folder and find the `<n
 
 * This template will show **Edit** text for edit record operation, **New Book** for new record operation in the title.
 
-### Deleting an existing book
+### Deleting a book
 
 #### BooksService
 
@@ -1392,7 +1408,7 @@ In the `book-list.component.ts` add a delete method :
 ```js
 import { GetBooks, CreateUpdateBook, DeleteBook } from '../../store/actions'; //<== added DeleteBook ==>
 
-import { ConfirmationService, Toaster } from '@abp/ng.theme.shared'; //<== added Toaster ==>
+import { ConfirmationService, Confirmation } from '@abp/ng.theme.shared'; //<== added Confirmation ==>
 
 //...
 
@@ -1400,7 +1416,7 @@ delete(id: string, name: string) {
     this.confirmationService
         .warn('::AreYouSureToDelete', 'AbpAccount::AreYouSure')
         .subscribe(status => {
-        if (status === Toaster.Status.confirm) {
+        if (status === Confirmation.Status.confirm) {
             this.store.dispatch(new DeleteBook(id)).subscribe(() => this.get());
         }
     });

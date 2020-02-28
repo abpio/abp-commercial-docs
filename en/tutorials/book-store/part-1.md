@@ -656,6 +656,8 @@ Open the `en.json` (*English translations*) file and add the below localization 
 
     "Menu:BookStore": "Book Store",
     "Menu:Books": "Books",
+    "Actions": "Actions",
+    "Edit": "Edit",
     "PublishDate": "Publish date",
     "NewBook": "New book",
     "Name": "Name",
@@ -1087,30 +1089,36 @@ Open the `book-list.component.html` file in `app\books\book-list` folder and rep
 
 <div id="wrapper" class="card">
     <div class="card-body">
-        <p-table [value]="books$ | async" [loading]="loading" [paginator]="true" [rows]="10">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>{%{{{ '::Name' | abpLocalization }}}%}</th>
-                    <th>{%{{{ '::Type' | abpLocalization }}}%}</th>
-                    <th>{%{{{ '::PublishDate' | abpLocalization }}}%}</th>
-                    <th>{%{{{ '::Price' | abpLocalization }}}%}</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-data>
-                <tr>
-                    <td>{%{{{ data.name }}}%}</td>
-                    <td>{%{{{ booksType[data.type] }}}%}</td>
-                    <td>{%{{{ data.publishDate | date }}}%}</td>
-                    <td>{%{{{ data.price }}}%}</td>
-                </tr>
-            </ng-template>
-        </p-table>
+      <abp-table
+        [value]="books$ | async"
+        [abpLoading]="loading"
+        [headerTemplate]="tableHeader"
+        [bodyTemplate]="tableBody"
+        [rows]="10"
+        [scrollable]="true"
+      >
+      </abp-table>
+      <ng-template #tableHeader>
+        <tr>
+          <th>{%{{{ "::Name" | abpLocalization }}}%}</th>
+          <th>{%{{{ "::Type" | abpLocalization }}}%}</th>
+          <th>{%{{{ "::PublishDate" | abpLocalization }}}%}</th>
+          <th>{%{{{ "::Price" | abpLocalization }}}%}</th>
+        </tr>
+      </ng-template>
+      <ng-template #tableBody let-data>
+        <tr>
+          <td>{%{{{ data.name }}}%}</td>
+          <td>{%{{{ booksType[data.type] }}}%}</td>
+          <td>{%{{{ data.publishDate | date }}}%}</td>
+          <td>{%{{{ data.price }}}%}</td>
+        </tr>
+      </ng-template>
     </div>
 </div>
 ```
 
 * We added HTML code of book list page.
-* To list books, we used [PrimeNG table](https://www.primefaces.org/primeng/#/table) in this component.
 
 Now you can see the final result on your browser:
 
