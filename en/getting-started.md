@@ -3,7 +3,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC","NG"],
+    "UI": ["MVC","NG", "RN"],
     "DB": ["EF", "Mongo"],
     "Tiered": ["Yes", "No"]
 }
@@ -104,7 +104,7 @@ Select the UI framework, Database provider and other option based on your requir
 Use the `new` command of the ABP CLI to create a new project:
 
 ````shell
-abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{end}}{{if DB == "Mongo"}} -d mongodb{{end}}{{if Tiered == "Yes"}} --tiered{{end}}
+abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular {{else if UI == "RN" }} -u <angular|mvc> --mobile <react-native|none> {{end}}{{if DB == "Mongo"}} -d mongodb{{end}}{{if Tiered == "Yes"}} --tiered{{end}}
 ````
 
 * `-t` argument specifies the [startup template](startup-templates/application/index.md) name. `app-pro` is the startup template that contains the essential [ABP Commercial Modules](https://commercial.abp.io/modules) pre-installed and configured for you.
@@ -112,6 +112,11 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{end}}{{if DB == "
 {{ if UI == "NG" }}
 
 * `-u` argument specifies the UI framework, `angular` in this case.
+
+{{else if UI == "RN" }}
+
+* `-u` argument specifies the UI framework. There are two options: `angular` or `mvc`.
+* `--mobile` argument specifies the mobile application framework. There are two options  `none` or `react-native`. `react-native` is the default option.
 
 {{ end }}
 
@@ -146,12 +151,13 @@ You will see the following solution structure when you open the `.sln` file in t
 ![vs-default-app-solution-structure](images/vs-default-app-solution-structure.png)
 
 {{ else if UI == "NG" }}
+There are three folders in the created solution:
 
-There are two folders in the created solution:
+![](images/solution-files-non-mvc.png)
 
-![](images/solution-files-angular.png)
-
-`angular` folder contains the Angular UI application while the `aspnet-core` folder contains the backend solution.
+* `angular` folder contains the Angular UI application.
+* `aspnet-core` folder contains the backend solution.
+* `react-native` folder contains the React Native UI application.
 
 Open the `.sln` (Visual Studio solution) file under the `aspnet-core` folder:
 
@@ -221,7 +227,7 @@ Ef Core has `Update-Database` command which creates database if necessary and ap
 
 Right click to the {{if Tiered == "Yes"}}`.IdentityServer`{{else}}`.Web`{{end}} project and select **Set as StartUp project**: 
 
-{{ else if UI == "NG" }}
+{{ else if UI != "MVC" }}
 
 Right click to the `.HttpApi.Host` project and select **Set as StartUp Project**: 
 
@@ -301,11 +307,31 @@ Ensure that the `.Web` project is the startup project. Run the application which
 
 {{ end }}
 
-{{ else if UI == "NG" }}
+{{ else if UI != "MVC" }}
 
 #### Running the HTTP API Host (server-side)
 
+{{ if UI == "RN" && Tiered == "No"}}
+![React Native host project local ip entry](images/rn-host-local-ip.png)
+
+* Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `SelfUrl` and `Authority` properties with your local ip address.
+* Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local ip address.
+
+> React Native application does not trust the auto-generated .NET HTTPS certificate, you should use the HTTP during development.
+{{ end }}
+
 {{ if Tiered == "Yes" }}
+
+{{ if UI == "RN" }}
+![React Native tiered project local ip entry](images/rn-tiered-local-ip.png)
+
+* Open the `appsettings.json` in the `.IdentityServer` folder. Replace the `localhost` address on the `SelfUrl` property with your local ip address.
+* Open the `launchSettings.json` in the `.IdentityServer/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local ip address.
+* Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `Authority` property with your local ip address.
+* Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local ip address.
+
+> React Native application does not trust the auto-generated .NET HTTPS certificate, you should use the HTTP during development.
+{{ end }}
 
 Ensure that the `.IdentityServer` project is the startup project. Run the application which will open a **login** page in your browser.
 
@@ -331,9 +357,12 @@ You can see the application APIs and test them here. Get [more info](https://swa
 >
 > Most of the HTTP APIs require authentication & authorization. If you want to test authorized APIs, manually go to the `/Account/Login` page, enter `admin` as the username and `1q2w3E*` as the password to login to the application. Then you will be able to execute authorized APIs too.
 
+{{ end }}
+
+{{ if UI == "NG" }}
 #### Running the Angular application (client-side)
 
-Go to the `angular` folder, open a command line terminal, type the `yarn` command (we suggest to the [yarn](https://yarnpkg.com/) package manager while `npm install` will also work in most cases):
+Go to the `angular` folder, open a command line terminal, type the `yarn` command (we suggest to the [yarn](https://yarnpkg.com/) package manager while `npm install` will also work in most cases)
 
 ```bash
 yarn
@@ -351,15 +380,59 @@ Wait Angular to start, open your favorite browser and go to `localhost:4200` URL
 
 {{ end }}
 
+{{ if UI == "RN" }}
+#### Running the React Native application (client-side)
+
+
+Go to the `react-native` folder, open a command line terminal, type the `yarn` command (we suggest to the [yarn](https://yarnpkg.com/) package manager while `npm install` will also work in most cases):
+
+```bash
+yarn
+```
+
+* Open the `Environment.js` in the `react-native` folder and replace the `localhost` address on the `apiUrl` and `issuer` properties with your local ip address as shown below:
+
+![react native environment local ip](images/rn-environment-local-ip.png)
+
+{{ if Tiered == "Yes" }}
+
+> Make sure that `issuer` matches the running address of the `.IdentityServer` project
+
+{{ end }}
+
+Once all node modules are loaded, execute `yarn start` (or `npm start`) command:
+
+```bash
+yarn start
+```
+
+Wait Expo CLI to start. Expo CLI opens the management interface on the `http://localhost:19002/` address.
+
+![expo-interface](images/expo-interface.png)
+
+In the above management interface, you can start the application with an Android emulator, an iOS simulator or a physical phone by the scan the QR code with the [Expo Client](https://expo.io/tools#client).
+
+> See the [Android Studio Emulator](https://docs.expo.io/versions/v36.0.0/workflow/android-studio-emulator/), [iOS Simulator](https://docs.expo.io/versions/v36.0.0/workflow/ios-simulator/) documents on expo.io.
+
+![React Native login screen on iPhone 11](images/rn-login-iphone.png)
+
+
+{{ else }}
+
 Enter **admin** as the username and **1q2w3E*** as the password to login to the application:
 
-![bookstore-home](images/bookstore-home.png)
 
+{{ if UI == "RN" }}
+![React Native dashboard screen on iPhone 11](images/rn-dashboard-iphone.png)
+{{ else }}
+![bookstore-home](images/bookstore-home.png)
+{{ end }}
+
+{{ end }}
 The application is up and running. You can continue to develop your application based on this startup template.
 
-> The [application startup template](startup-templates/application/index.md) includes the SaaS, Identity, Identity Server, Language Management and Audit Log and a few more modules.
+> The [application startup template](startup-templates/application/index.md) includes the SaaS, Identity, Identity Server, Language Management and Audit Logging modules.
 
 ## What's next?
 
 [Application development tutorial](tutorials/book-store/part-1.md)
-
