@@ -115,8 +115,8 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular {{else if UI == "R
 
 {{else if UI == "RN" }}
 
-* `-u` argument specifies the UI framework. There are two options to choose that are `angular` or `mvc`.
-* `--mobile` argument specifies the mobile application framework, There are two options to choose that are `none` or `react-native` (selected as default). 
+* `-u` argument specifies the UI framework. There are two options: `angular` or `mvc`.
+* `--mobile` argument specifies the mobile application framework. There are two options  `none` or `react-native`. `react-native` is the default option.
 
 {{ end }}
 
@@ -362,7 +362,7 @@ You can see the application APIs and test them here. Get [more info](https://swa
 {{ if UI == "NG" }}
 #### Running the Angular application (client-side)
 
-Go to the `angular` folder, open a command line terminal, type the `yarn` command (we suggest to the [yarn](https://yarnpkg.com/) package manager while `npm install` will also work in most cases):
+Go to the `angular` folder, open a command line terminal, type the `yarn` command (we suggest to the [yarn](https://yarnpkg.com/) package manager while `npm install` will also work in most cases)
 
 ```bash
 yarn
@@ -431,7 +431,7 @@ Enter **admin** as the username and **1q2w3E*** as the password to login to the 
 {{ end }}
 The application is up and running. You can continue to develop your application based on this startup template.
 
-> The [application startup template](startup-templates/application/index.md) includes the SaaS, Identity, Identity Server, Language Management and Audit Log and a few more modules.
+> The [application startup template](startup-templates/application/index.md) includes the SaaS, Identity, Identity Server, Language Management and Audit Logging modules.
 
 ## What's next?
 
