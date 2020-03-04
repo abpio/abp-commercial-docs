@@ -40,6 +40,10 @@
             {
               "text": "Solution structure",
               "path": "startup-templates/application/solution-structure.md"
+            },
+			{
+              "text": "Security Report",
+              "path": "http://cdn.volosoft.com/reports/zap/ABP_Commercial_ZAP_VULNERABILITY_REPORT.html"
             }
           ]
         },
