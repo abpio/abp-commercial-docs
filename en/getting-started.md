@@ -312,10 +312,10 @@ Ensure that the `.Web` project is the startup project. Run the application which
 #### Running the HTTP API Host (server-side)
 
 {{ if UI == "RN" && Tiered == "No"}}
-![React Native host project local ip entry](images/rn-host-local-ip.png)
+![React Native host project local IP entry](images/rn-host-local-ip.png)
 
-* Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `SelfUrl` and `Authority` properties with your local ip address.
-* Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local ip address.
+* Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `SelfUrl` and `Authority` properties with your local IP address.
+* Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
 
 > React Native application does not trust the auto-generated .NET HTTPS certificate, you should use the HTTP during development.
 {{ end }}
@@ -323,12 +323,12 @@ Ensure that the `.Web` project is the startup project. Run the application which
 {{ if Tiered == "Yes" }}
 
 {{ if UI == "RN" }}
-![React Native tiered project local ip entry](images/rn-tiered-local-ip.png)
+![React Native tiered project local IP entry](images/rn-tiered-local-ip.png)
 
-* Open the `appsettings.json` in the `.IdentityServer` folder. Replace the `localhost` address on the `SelfUrl` property with your local ip address.
-* Open the `launchSettings.json` in the `.IdentityServer/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local ip address.
-* Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `Authority` property with your local ip address.
-* Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local ip address.
+* Open the `appsettings.json` in the `.IdentityServer` folder. Replace the `localhost` address on the `SelfUrl` property with your local IP address.
+* Open the `launchSettings.json` in the `.IdentityServer/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
+* Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `Authority` property with your local IP address.
+* Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
 
 > React Native application does not trust the auto-generated .NET HTTPS certificate, you should use the HTTP during development.
 {{ end }}
@@ -390,9 +390,9 @@ Go to the `react-native` folder, open a command line terminal, type the `yarn` c
 yarn
 ```
 
-* Open the `Environment.js` in the `react-native` folder and replace the `localhost` address on the `apiUrl` and `issuer` properties with your local ip address as shown below:
+* Open the `Environment.js` in the `react-native` folder and replace the `localhost` address on the `apiUrl` and `issuer` properties with your local IP address as shown below:
 
-![react native environment local ip](images/rn-environment-local-ip.png)
+![react native environment local IP](images/rn-environment-local-ip.png)
 
 {{ if Tiered == "Yes" }}
 
