@@ -308,7 +308,7 @@ There are four widgets in the `HostDashboardComponent` which declared in ABP mod
 
 ### Styles
 
-The required style files added to `styles` array in the `angular.json`. `AppComponent` loads some style files lazily via `LazyLoadService` after the application is inited to shorten the first rendering time.
+The required style files added to `styles` array in the `angular.json`. `AppComponent` loads some style files lazily via `LazyLoadService` after the main bundle is loaded to shorten the first rendering time.
 
 ### Logos
 
