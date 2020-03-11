@@ -227,13 +227,13 @@ You must run the application with the below order:
 
 If you choose `Angular` as the UI framework (using the `-u angular` option), the solution is being separated into three folders:
 
-* `angular` folder contains the Angular UI solution, the client-side$$ code.
+* `angular` folder contains the Angular UI application, the client-side$$ code.
 * `aspnet-core` folder contains the ASP.NET Core solution, the server-side code.
-* `react-native` folder contains the React Native UI solution, the client-side code for mobile.
+* `react-native` folder contains the React Native UI application, the client-side code for mobile.
 
 The server-side is similar to the solution described above. `*.HttpApi.Host` project serves the API, so the `Angular` application consumes it.
 
-Angular solution folder structure looks like below:
+Angular application folder structure looks like below:
 
 ![angular-folder-structure](../../images/angular-folder-structure.png)
 
@@ -244,7 +244,7 @@ Each of ABP Commercial modules is an NPM package. Some ABP modules are added as 
 yarn list --pattern abp
 ```
 
-Angular solution module structure:
+Angular application module structure:
 
 ![Angular template structure diagram](../../images/angular-template-structure-diagram.png)
 
@@ -316,7 +316,9 @@ Lepton theme uses two logos for each style. You can change these logos with your
 
 ### Testing
 
-You should create your tests in the same folder as the file TODO: ... See the [testing document](https://angular.io/guide/testing).
+You should create your tests in the same folder as the file file you want to test.
+
+See the [testing document](https://angular.io/guide/testing).
 
 ### Depended Packages
 
