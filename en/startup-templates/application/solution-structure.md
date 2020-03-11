@@ -290,7 +290,7 @@ After the above `routes` definition, if the user is authorized, the dashboard li
 
 The modules that may be required for all modules have imported to the `SharedModule`. You should import the `SharedModule` to all modules.
 
-> See the [Sharing Modules](https://angular.io/guide/sharing-ngmodules) document.
+See the [Sharing Modules](https://angular.io/guide/sharing-ngmodules) document.
 
 ### Environments
 
