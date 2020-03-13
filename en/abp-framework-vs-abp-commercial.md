@@ -2,89 +2,95 @@
 
 **ABP.IO Platform** consists of the open source ABP Framework and the ABP Commercial.
 
- [ABP Framework](https://abp.io) is completely free, open source and community-driven and provides a free theme and some pre-built modules. 
+## Introduction
 
-ABP Commercial **is not a paid version** of the ABP Framework. [ABP Commercial](https://commercial.abp.io) adds the additional benefits to the ABP framework with set of professional modules, UI themes, tools, and services.
+[ABP Framework](https://abp.io) is a completely free, open source and community-driven project. It provides a base framework, [startup templates](https://docs.abp.io/en/abp/latest/Startup-Templates/Index), [CLI](https://docs.abp.io/en/abp/latest/CLI), a [basic theme](https://docs.abp.io/en/abp/latest/Themes/Basic) and some pre-built [application modules](https://docs.abp.io/en/abp/latest/Modules/Index). 
 
-Here are all the differences between ABP Framework and ABP Commercial:
+[ABP Commercial](https://commercial.abp.io) adds some benefits on top of the ABP framework with a set of professional [application modules](https://commercial.abp.io/modules), [UI themes](https://commercial.abp.io/themes), [tools](https://commercial.abp.io/tools), [premium support](https://commercial.abp.io/support) and  [services](https://commercial.abp.io/additional-services). 
 
-| Features                                                     | ABP Framework (Free Template)                                | ABP Commercial (Application Startup Template)                |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| **Infrastructure**                                           |                                                              |                                                              |
-| Abp Framework Features                                       | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Modularity                                                   | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Microservice Compatibility                                   | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Multi-Tenancy                                                | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Domain Driven Design based layering                          | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| **Modules**                                                  | Account<br />Identity<br />Docs<br />Blog<br />Tenant Management<br /> | Account.Pro<br />Identity.Pro<br />IdentityServer<br />Audit Logging<br />Language Management<br />SaaS |
-| **Account**                                                  | Basic                                                        | Pro                                                          |
-| Login                                                        | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Register                                                     | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Forgot Password                                              | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Password Reset                                               | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Email confirmation                                           | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Two Factor authentication                                    | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| User lockout                                                 | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Identity Server authentication                               | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Switch between tenants                                       | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| UI language change                                           | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| **Identity**                                                 |                                                              |                                                              |
-| Role Management & Permissions                                | Basic                                                        | Advanced                                                     |
-| Role Claims Settings                                         | Basic                                                        | Advanced                                                     |
-| Multiple Roles                                               | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| User Management & Permissions                                | Basic                                                        | Advanced                                                     |
-| User Claims                                                  | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| User Profile Management                                      | Basic                                                        | Advanced                                                     |
-| User Password Management                                     | Basic                                                        | Advanced                                                     |
-| Password Complexity Settings                                 | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| User Lockout                                                 | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Claim Type Management                                        | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Identity Module Settings UI                                  | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Two Factor Authentication enable/disable                     | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| **IdentityServer**                                           |                                                              |                                                              |
-| Client Management & Permissions                              | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Identity Resources Management                                | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| API Resources Management                                     | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Standart & Custom Identity Resources Creation                | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| **Audit Logging**                                            |                                                              |                                                              |
-| List, View audit logs                                        | Basic                                                        | Advanced                                                     |
-| Search, Filter audit log entries                             | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Audit log system by class, method, entity and property level | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| **Language Management**                                      |                                                              |                                                              |
-| Add, remove, update the languages                            | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Enable/disable a language                                    | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Select, change the default language                          | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Translate texts in the UI                                    | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Filter to easily find the missing texts                      | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| **SaaS**                                                     |                                                              |                                                              |
-| Tenant Management                                            | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Edition Management                                           | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Feature Settings                                             | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Connection String Management (Separate Database for Tenants) | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| **Blog**                                                     |                                                              |                                                              |
-| Multiple Blog Creation                                       | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Markdown Format                                              | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Comment Writing                                              | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Tags Adding                                                  | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| **Docs**                                                     |                                                              |                                                              |
-| Built-in Github Integration                                  | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Versioning                                                   | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Multi-language                                               | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Markdown & HTML Format                                       | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Navigation                                                   | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Outline                                                      | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Multiple Projects Hosting                                    | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Editing - Easy contribution on Github                        | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| **Tooling**                                                  |                                                              |                                                              |
-| CLI                                                          | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Suite                                                        | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| **UI Themes**                                                | Basic Theme                                                  | [Lepton Themes](https://commercial.abp.io/themes) (with 5 styles) |
-| **Support **                                                 |                                                              |                                                              |
-| Community Support                                            | <i class="fa fa-check text-success"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Premium Forum  Support                                       | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| Private Ticket                                               | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-| E-mail Support                                               | <i class="fa fa-minus text-secondary"></i>                                           | <i class="fa fa-check text-success"></i>                                           |
-|                                                              | [Download](https://abp.io/get-started)                       | [Pricing](https://commercial.abp.io/pricing)                 |
+## Overall
 
+Here are the differences between the open source ABP Framework project and the ABP Commercial in overall:
 
+|                                                              | Open Source ABP Framework Project          | ABP Commercial                                               |
+| ------------------------------------------------------------ | ------------------------------------------ | ------------------------------------------------------------ |
+| [Base framework](https://github.com/abpframework/abp/)       | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i>                     |
+| [Free (basic) application modules](https://docs.abp.io/en/abp/latest/Modules/Index) | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i>|
+| [Pro application modules](https://commercial.abp.io/modules) | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i>                     |
+| [ABP CLI](https://docs.abp.io/en/abp/latest/CLI) (Command Line Interface) | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i>        |
+| [ABP Suite](https://commercial.abp.io/tools/suite)           | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i>                     |
+| [Free (basic) UI theme](https://docs.abp.io/en/abp/latest/Themes/Basic) | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i>          |
+| [Pro UI themes](https://commercial.abp.io/themes)            | <i class="fa fa-minus text-success"></i>   | <i class="fa fa-check text-success"></i>                     |
+| [Community support](https://stackoverflow.com/questions/tagged/abp) | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i>              |
+| [Premium support](https://commercial.abp.io/support)         | <i class="fa fa-minus text-success"></i>   | <i class="fa fa-check text-success"></i>                     |
+|                                                              | [Download](https://abp.io/get-started)     | [Pricing](https://commercial.abp.io/pricing)                 |
 
+## The Framework
+
+**ABP Framework** is completely open source and developed in a community-driven manner. While it is mainly developed and maintained by the [Volosoft](https://volosoft.com/) Team, it is [getting contributions](https://github.com/abpframework/abp/graphs/contributors) from the community. It will always remain open source and free.
+
+**ABP Commercial** doesn't try to provide a replacement or paid version for the ABP Framework. It directly uses the ABP Framework and adds the benefits on top of it, those are described in this document.
+
+## Modules
+
+ABP Commercial has some additional modules compared to the open source ABP Framework project. Also, some modules have commercial versions with more features. The table below shows the list of module differences in overall:
+
+| Module                                                       | Open Source ABP Framework Project                            | ABP Commercial                                             |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ---------------------------------------------------------- |
+| Identity                                                     | [Basic](https://docs.abp.io/en/abp/latest/Modules/Identity)  | [Pro](https://commercial.abp.io/modules/Volo.Identity.Pro) |
+| Account                                                      | [Basic](https://docs.abp.io/en/abp/latest/Modules/Account)   | [Pro](https://commercial.abp.io/modules/Volo.Account.Pro)  |
+| Multi-Tenancy                                                | [Basic](https://docs.abp.io/en/abp/latest/Modules/Tenant-Management) (tenant management) | [Pro](https://commercial.abp.io/modules/Volo.Saas) (SaaS)  |
+| [Blogging](https://docs.abp.io/en/abp/latest/Modules/Blogging) | <i class="fa fa-check text-success"></i>                     | <i class="fa fa-check text-success"></i>                   |
+| [Docs](https://docs.abp.io/en/abp/latest/Modules/Docs)       | <i class="fa fa-check text-success"></i>                     | <i class="fa fa-check text-success"></i>                   |
+| [Identity Server Integration](https://docs.abp.io/en/abp/latest/Modules/IdentityServer) | <i class="fa fa-check text-success"></i>                     | <i class="fa fa-check text-success"></i>                   |
+| [Identity Server Management UI](https://commercial.abp.io/modules/Volo.Identityserver.Ui) | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
+| [Audit Log Reporting UI](https://commercial.abp.io/modules/Volo.AuditLogging.Ui) | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
+| [Dynamic Language Management](https://commercial.abp.io/modules/Volo.LanguageManagement) | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
+
+Some modules have "Basic" (open source) and "Pro" (commercial) versions. The next sections show the differences between the basic and the pro versions.
+
+### Identity Module: Basic vs Pro
+
+Identity module's domain layer is the same. But the application, HTTP API and UI layers have differences shown below:
+
+| Feature                                                | Basic                                      | Pro                                      |
+| ------------------------------------------------------ | ------------------------------------------ | ---------------------------------------- |
+| User Management                                        | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
+| Role Management                                        | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
+| Claim Type Management                                  | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+| Unlocking a User                                       | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+| Setting Management (like Password Complexity Settings) | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+
+### Account Module: Basic vs Pro
+
+| Feature                          | Basic                                      | Pro                                      |
+| -------------------------------- | ------------------------------------------ | ---------------------------------------- |
+| Login                            | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
+| Register                         | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
+| Multi-Tenancy (tenant switch)    | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
+| User Lockout                     | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
+| Forgot Password / Password Reset | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+| Email Confirmation               | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+| Two Factor Authentication        | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+| Social Logins                    | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+
+### Multi-Tenancy
+
+Open source multi-tenancy module named as "Tenant Management" while the commercial one named as "SaaS". The "SaaS" module is aimed to be a complete SaaS solution while the free one is for basic tenant management.
+
+| Feature                          | Basic (Tenant Management)                  | Pro (SaaS)                               |
+| -------------------------------- | ------------------------------------------ | ---------------------------------------- |
+| Tenant Management                | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
+| Edition Management               | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+
+## ABP CLI vs ABP Suite
+
+TODO
+
+## Basic Theme vs Pro Theme
+
+TODO
+
+## Support
+
+TODO
