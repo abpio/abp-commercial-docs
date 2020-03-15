@@ -135,6 +135,15 @@
           "path": "abp-suite/configuration.md"
         }
       ]
+    },
+    {
+      "text": "Others",
+      "items": [
+        {
+          "text": "ABP Framework vs ABP Commercial",
+          "path": "abp-framework-vs-abp-commercial.md"
+        }
+      ]
     }
   ]
 }
