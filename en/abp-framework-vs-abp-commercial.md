@@ -83,14 +83,53 @@ Open source multi-tenancy module named as "Tenant Management" while the commerci
 | Tenant Management                | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
 | Edition Management               | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
 
+Subscription, payment and other features are on the road map for the SaaS module.
+
 ## ABP CLI vs ABP Suite
 
-TODO
+[ABP CLI](https://docs.abp.io/en/abp/latest/CLI) is an open source & free command line interface that is used to create a new solution, add a module/package to the solution, update ABP related packages and so on. Example usage:
+
+````bash
+abp new Acme.BookStore -d mongodb -u angular
+````
+
+ABP Suite is a commercial tool that aims to assist to your development;
+
+* It has the **UI for the ABP CLI**, so you don't have to memorize the commands.
+* It has a **code generator** can create a CRUD page from database to the user interface, including HTTP APIs, entities, services, DTOs and so on. It is a huge time saver while creating new entities.
+* It is planned to ad more features in the future to help you on your development.
+
+A screenshot from the CRUD Page Generator:
+
+![abp-suite-example](images/abp-suite-example.png)
 
 ## Basic Theme vs Pro Theme
 
-TODO
+ABP Framework provides a theme system that has the following goals:
+
+* To allow us to develop different kind of themes and let the application to use and upgrade a theme easily.
+* To determine a standard set of libraries (like Bootstrap) to be supported by all the themes.
+* To provide a standard and theme-independent development model for module developers, so a module can play nice with any theme.
+
+There are currently two standard themes;
+
+[The Basic Theme](https://docs.abp.io/en/abp/latest/Themes/Basic) is open source and free. It provides fundamental layout and features and looks like a standard Bootstrap UI.
+
+Example screenshot from the user management page:
+
+![abp-basic-theme](images/abp-basic-theme.png)
+
+[The Lepton Theme](https://commercial.abp.io/themes) is a commercial theme development by the ABP Framework Core Team. It is 100% bootstrap compatible, lightweight and powerful theme with multiple color styles and layout options.
+
+Example screenshot from the user management page:
+
+![lepton-theme-users-page](images/lepton-theme-users-page.png)
 
 ## Support
 
-TODO
+ABP Commercial provides two premium support options;
+
+* All [license types](https://commercial.abp.io/pricing) has the premium forum support. Your questions are answered by the ABP Framework development and experienced support team with a high priority.
+* Enterprise license includes email & private ticket support too.
+
+If you only use the open source project, you still get community support on the [Stack Overflow](https://stackoverflow.com/questions/tagged/abp) and the [GitHub issues](https://github.com/abpframework/abp/). However, commercial customers have higher priority as you expect.
