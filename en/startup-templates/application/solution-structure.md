@@ -227,7 +227,7 @@ You must run the application with the below order:
 
 If you choose `Angular` as the UI framework (using the `-u angular` option), the solution is being separated into three folders:
 
-* `angular` folder contains the Angular UI application, the client-side$$ code.
+* `angular` folder contains the Angular UI application, the client-side code.
 * `aspnet-core` folder contains the ASP.NET Core solution, the server-side code.
 * `react-native` folder contains the React Native UI application, the client-side code for mobile.
 
