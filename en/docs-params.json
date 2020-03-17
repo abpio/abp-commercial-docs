@@ -5,8 +5,7 @@
       "displayName": "UI",
       "values": {
         "MVC": "MVC / Razor Pages",
-        "NG": "Angular",
-		"RN": "React Native"
+        "NG": "Angular"
       }
     },
     {

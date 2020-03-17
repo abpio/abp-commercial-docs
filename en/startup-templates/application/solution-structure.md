@@ -4,11 +4,11 @@ You will get a slightly different solution structure, based on the options you h
 
 ## Default structure
 
-If you don't specify any additional option, you will have a solution like the below:
+If you don't specify any additional option, you will have a solution in the **aspnet-core** folder like the below:
 
 ![BookStore Solution Explorer](../../images/solution-structure-solution-explorer.png)
 
-Projects are located in **src** and **test** folders. While the **src** folder contains the actual application, **test** folder contains unit tests and test base projects. The below diagram shows the layers & project dependencies of the application:
+Projects are located in **aspnet-core/src** and **aspnet-core/test** folders. While the **aspnet-core/src** folder contains the actual application, **aspnet-core/test** folder contains unit tests and test base projects. The below diagram shows the layers & project dependencies of the application:
 
 ![layered-project-dependencies](../../images/layered-project-dependencies.png)
 
@@ -100,7 +100,7 @@ While creating database and applying migrations seem only necessary for relation
 
 This project is used to define your API Controllers.
 
-Most of the time you don't need to manually define API Controllers since ABP's [Auto API Controllers](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/AspNetCore/Auto-API-Controllers) feature creates them automagically based on your application layer. However, in case, you need to write API controllers, this is the best place to do it.
+Most of the time you don't need to manually define API Controllers since ABP's [Auto API Controllers](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/API/Auto-API-Controllers) feature creates them automagically based on your application layer. However, in case, you need to write API controllers, this is the best place to do it.
 
 **Dependencies:**
 
@@ -110,7 +110,7 @@ Most of the time you don't need to manually define API Controllers since ABP's [
 
 This is project defines `C#` client proxies to use the HTTP APIs of the solution. You can share this library to 3rd-party clients, so they can easily consume your HTTP APIs in their `.NET` applications. For other type of applications, they can still use the APIs, either manually or using a tool in their own platform.
 
-Most of the time you don't need to manually create C# client proxies, thanks to ABP's [Dynamic C# API Clients](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/AspNetCore/Dynamic-CSharp-API-Clients) feature.
+Most of the time you don't need to manually create C# client proxies, thanks to ABP's [Dynamic C# API Clients](https://docs.abp.io/{{Document_Language_Code}}/abp/latest/API/Dynamic-CSharp-API-Clients) feature.
 
 `*.HttpApi.Client.ConsoleTestApp` project is a console application created to demonstrate the usage of the client proxies.
 
@@ -225,14 +225,108 @@ You must run the application with the below order:
 
 ## Angular UI
 
-If you choose `Angular` as the UI framework (using the `-u angular` option), the solution is being separated into two folders:
+If you choose `Angular` as the UI framework (using the `-u angular` option), the solution is being separated into three folders:
 
-* `angular` folder contains the Angular UI solution, the client-side code.
+* `angular` folder contains the Angular UI application, the client-side code.
 * `aspnet-core` folder contains the ASP.NET Core solution, the server-side code.
+* `react-native` folder contains the React Native UI application, the client-side code for mobile.
 
 The server-side is similar to the solution described above. `*.HttpApi.Host` project serves the API, so the `Angular` application consumes it.
 
-The files under the `angular/src/environments` folder has the essential configuration of the application.
+Angular application folder structure looks like below:
+
+![angular-folder-structure](../../images/angular-folder-structure.png)
+
+
+Each of ABP Commercial modules is an NPM package. Some ABP modules are added as a dependency in `package.json`. These modules install with their dependencies. To see all ABP packages, you can run the following command in the `angular` folder:
+
+```bash
+yarn list --pattern abp
+```
+
+Angular application module structure:
+
+![Angular template structure diagram](../../images/angular-template-structure-diagram.png)
+
+### AppModule
+
+`AppModule` is the root module of the application. Some of ABP modules and some essential modules imported to the `AppModule`.
+
+ABP Config modules also have imported to `AppModule`  for initially requirements of lazy-loadable ABP modules.
+
+### AppRoutingModule
+
+There are lazy-loadable ABP modules in the `AppRoutingModule` as routes.
+
+> Paths of ABP Modules should not be changed.
+
+You should add `routes` property in the `data` object to add a link on the menu to redirect to your custom pages.
+
+```js
+{
+   path: 'dashboard',
+   loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+   canActivate: [AuthGuard, PermissionGuard],
+   data: {
+      routes: {
+         name: 'ProjectName::Menu:Dashboard',
+         order: 2,
+         iconClass: 'fa fa-dashboard',
+         requiredPolicy: 'ProjectName.Dashboard.Host'
+      } as ABP.Route
+   }
+}
+```
+In the above example;
+*  If the user is not logged in, AuthGuard blocks access and redirects to the login page.
+*  PermissionGuard checks the user's permission with `requiredPolicy` property of the `rotues` object. If the user is not authorized to access the page, the 403 page appears.
+*  `name` property of `routes` is the menu link label. A localization key can be defined .
+*  `iconClass` property of `routes` object is the menu link icon class.
+*  `requiredPolicy` property of `routes` object is the required policy key to access the page.
+
+After the above `routes` definition, if the user is authorized, the dashboard link will appear on the menu.
+
+### Shared Module
+
+The modules that may be required for all modules have imported to the `SharedModule`. You should import the `SharedModule` to all modules.
+
+See the [Sharing Modules](https://angular.io/guide/sharing-ngmodules) document.
+
+### Environments
+
+The files under the `src/environments` folder has the essential configuration of the application.
+
+### Home Module
+
+Home module is an example lazy-loadable module that loads on the root address of the application.
+
+### Dashboard Module
+
+Dashboard module is a lazy-loadable module. `HostDashboardComponent` and `TenantDashboardComponent` declared to this module. One of these components is shown according to the user's authorization. 
+
+There are four widgets in the `HostDashboardComponent` which declared in ABP modules.
+
+### Styles
+
+The required style files added to `styles` array in the `angular.json`. `AppComponent` loads some style files lazily via `LazyLoadService` after the main bundle is loaded to shorten the first rendering time.
+
+### Logos
+
+Lepton theme uses two logos for each style. You can change these logos with your own logos without changing the filenames in the `assets/images/logo` folder.
+
+### Testing
+
+You should create your tests in the same folder as the file file you want to test.
+
+See the [testing document](https://angular.io/guide/testing).
+
+### Depended Packages
+
+* [NG Bootstrap](https://ng-bootstrap.github.io/) is used as UI component library.
+* [NGXS](https://www.ngxs.io/) is used as state management library.
+* [angular-oauth2-oidc](https://github.com/manfredsteyer/angular-oauth2-oidc) is used to support for OAuth 2 and OpenId Connect (OIDC).
+* [Chart.js](https://www.chartjs.org/) is used to create widgets.
+* [ngx-validate](https://github.com/ng-turkey/ngx-validate) is used for dynamic validation of reactive forms.
 
 ## What's next?
 

@@ -3,7 +3,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC","NG", "RN"],
+    "UI": ["MVC","NG"],
     "DB": ["EF", "Mongo"],
     "Tiered": ["Yes", "No"]
 }
@@ -104,7 +104,7 @@ Select the UI framework, Database provider and other option based on your requir
 Use the `new` command of the ABP CLI to create a new project:
 
 ````shell
-abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular {{else if UI == "RN" }} -u <angular|mvc> --mobile <react-native|none> {{end}}{{if DB == "Mongo"}} -d mongodb{{end}}{{if Tiered == "Yes"}} --tiered{{end}}
+abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular {{end}}{{if DB == "Mongo"}} -d mongodb{{end}}{{if Tiered == "Yes" && UI != "NG"}} --tiered {{else if Tiered == "Yes" && UI == "NG"}}--separate-identity-server{{end}}
 ````
 
 * `-t` argument specifies the [startup template](startup-templates/application/index.md) name. `app-pro` is the startup template that contains the essential [ABP Commercial Modules](https://commercial.abp.io/modules) pre-installed and configured for you.
@@ -113,10 +113,11 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular {{else if UI == "R
 
 * `-u` argument specifies the UI framework, `angular` in this case.
 
-{{else if UI == "RN" }}
+{{ if Tiered == "Yes" }}
 
-* `-u` argument specifies the UI framework. There are two options: `angular` or `mvc`.
-* `--mobile` argument specifies the mobile application framework. There are two options  `none` or `react-native`. `react-native` is the default option.
+* `--separate-identity-server` argument is used to separate the identity server application from the API host application. If not specified, you will have a single endpoint.
+
+{{ end }}
 
 {{ end }}
 
@@ -126,7 +127,7 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular {{else if UI == "R
 
 {{ end }}
 
-{{ if Tiered == "Yes" }}
+{{ if Tiered == "Yes" && UI != "NG" }}
 
 * `--tiered` argument is used to create N-tiered solution where authentication server, UI and API layers are physically separated.
 
@@ -311,27 +312,7 @@ Ensure that the `.Web` project is the startup project. Run the application which
 
 #### Running the HTTP API Host (server-side)
 
-{{ if UI == "RN" && Tiered == "No"}}
-![React Native host project local IP entry](images/rn-host-local-ip.png)
-
-* Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `SelfUrl` and `Authority` properties with your local IP address.
-* Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
-
-> React Native application does not trust the auto-generated .NET HTTPS certificate, you should use the HTTP during development.
-{{ end }}
-
 {{ if Tiered == "Yes" }}
-
-{{ if UI == "RN" }}
-![React Native tiered project local IP entry](images/rn-tiered-local-ip.png)
-
-* Open the `appsettings.json` in the `.IdentityServer` folder. Replace the `localhost` address on the `SelfUrl` property with your local IP address.
-* Open the `launchSettings.json` in the `.IdentityServer/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
-* Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `Authority` property with your local IP address.
-* Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
-
-> React Native application does not trust the auto-generated .NET HTTPS certificate, you should use the HTTP during development.
-{{ end }}
 
 Ensure that the `.IdentityServer` project is the startup project. Run the application which will open a **login** page in your browser.
 
@@ -380,9 +361,40 @@ Wait Angular to start, open your favorite browser and go to `localhost:4200` URL
 
 {{ end }}
 
-{{ if UI == "RN" }}
-#### Running the React Native application (client-side)
+Enter **admin** as the username and **1q2w3E*** as the password to login to the application:
 
+![bookstore-home](images/bookstore-home.png)
+
+The application is up and running. You can continue to develop your application based on this startup template.
+
+#### Mobile Development
+
+ABP Commercial platform provide [React Native](https://reactnative.dev/) template to develop mobile applications.
+
+>The solution includes the React Native application in the `react-native` folder as default. If you don't plan to develop a mobile application with React Native, you can ignore this step and delete the `react-native` folder.
+
+The React Native application running on an Android emulator or a physical phone cannot connect to the backend on `localhost`. To fix this problem, it is necessary to run backend on the local IP.
+
+{{ if Tiered == "No"}}
+![React Native host project local IP entry](images/rn-host-local-ip.png)
+
+* Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `SelfUrl` and `Authority` properties with your local IP address.
+* Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
+
+{{ else if Tiered == "Yes" }}
+
+![React Native tiered project local IP entry](images/rn-tiered-local-ip.png)
+
+* Open the `appsettings.json` in the `.IdentityServer` folder. Replace the `localhost` address on the `SelfUrl` property with your local IP address.
+* Open the `launchSettings.json` in the `.IdentityServer/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
+* Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `Authority` property with your local IP address.
+* Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
+
+{{ end }}
+
+Run the backend as described in the [**Running the HTTP API Host (server-side)**](#running-the-http-api-host-server-side) section.
+
+> React Native application does not trust the auto-generated .NET HTTPS certificate, you should use the HTTP during development.
 
 Go to the `react-native` folder, open a command line terminal, type the `yarn` command (we suggest to the [yarn](https://yarnpkg.com/) package manager while `npm install` will also work in most cases):
 
@@ -396,7 +408,11 @@ yarn
 
 {{ if Tiered == "Yes" }}
 
-> Make sure that `issuer` matches the running address of the `.IdentityServer` project
+> Make sure that `issuer` matches the running address of the `.IdentityServer` project, `apiUrl` matches the running address of the `.HttpApi.Host` project.
+
+{{else}}
+
+> Make sure that `issuer` and `apiUrl` matches the running address of the `.HttpApi.Host` project.
 
 {{ end }}
 
@@ -416,19 +432,10 @@ In the above management interface, you can start the application with an Android
 
 ![React Native login screen on iPhone 11](images/rn-login-iphone.png)
 
-
-{{ else }}
-
 Enter **admin** as the username and **1q2w3E*** as the password to login to the application:
 
-
-{{ if UI == "RN" }}
 ![React Native dashboard screen on iPhone 11](images/rn-dashboard-iphone.png)
-{{ else }}
-![bookstore-home](images/bookstore-home.png)
-{{ end }}
 
-{{ end }}
 The application is up and running. You can continue to develop your application based on this startup template.
 
 > The [application startup template](startup-templates/application/index.md) includes the SaaS, Identity, Identity Server, Language Management and Audit Logging modules.
