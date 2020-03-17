@@ -115,7 +115,7 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular {{end}}{{if DB == 
 
 {{ if Tiered == "Yes" }}
 
-* `--separate-identity-server` argument is used to separate the identity server application from the API host application. If not specified, you will have a single endpoint in the server side.
+* `--separate-identity-server` argument is used to separate the identity server application from the API host application. If not specified, you will have a single endpoint.
 
 {{ end }}
 
