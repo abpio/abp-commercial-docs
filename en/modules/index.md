@@ -15,3 +15,7 @@ ABP Commercial provides **production ready, enterprise level** application modul
 
 * **[Blog](https://docs.abp.io/en/abp/latest/Modules/Blogging)**: Create and manage your own blogs.
 * **[Docs](https://docs.abp.io/en/abp/latest/Modules/Docs)**: Publish your technical documentation with a clean and professional UI.
+
+## See Also
+
+* [Guide: Customizing the Modules](../guides/customizing-modules.md)
