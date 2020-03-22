@@ -147,5 +147,3 @@ data.actionList.addLast([{ ... }, { ... }, { ... }]);
 ### getList()
 
 Returns the current list of actions as an array of objects.
-
-#### 
