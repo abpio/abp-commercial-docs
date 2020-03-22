@@ -370,7 +370,7 @@ Enter **admin** as the username and **1q2w3E*** as the password to login to the 
 
 ![bookstore-home](images/bookstore-home.png)
 
-The application is up and running. You can continue to develop your application based on this startup template.
+The application is up and running. You can start developing your application based on this startup template.
 
 #### Mobile Development
 
