@@ -22,7 +22,16 @@
                   "text": "Part-3: Integration tests",
                   "path": "tutorials/book-store/part-3.md"
                 }
-		  ]
+		      ]
+        }
+      ]
+    },
+    {
+      "text": "Guides",
+      "items": [
+        {
+          "text": "Customizing the Modules",
+          "path": "guides/customizing-modules.md"
         }
       ]
     },
