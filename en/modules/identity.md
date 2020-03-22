@@ -282,6 +282,6 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 
 See the `IdentityPermissions` class members for all permissions defined for this module.
 
-## Distributed Eevents
+## Distributed Events
 
 This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
