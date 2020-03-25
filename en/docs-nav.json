@@ -10,19 +10,19 @@
         {
           "text": "Application development",
           "items": [
-                {
-                  "text": "Part-1: Creating a new solution and listing items",
-                  "path": "tutorials/book-store/part-1.md"
-                },
-                {
-                  "text": "Part-2: CRUD operations",
-                  "path": "tutorials/book-store/part-2.md"
-                },
-                {
-                  "text": "Part-3: Integration tests",
-                  "path": "tutorials/book-store/part-3.md"
-                }
-		      ]
+            {
+              "text": "Part-1: Creating a new solution and listing items",
+              "path": "tutorials/book-store/part-1.md"
+            },
+            {
+              "text": "Part-2: CRUD operations",
+              "path": "tutorials/book-store/part-2.md"
+            },
+            {
+              "text": "Part-3: Integration tests",
+              "path": "tutorials/book-store/part-3.md"
+            }
+          ]
         }
       ]
     },
@@ -50,7 +50,7 @@
               "text": "Solution structure",
               "path": "startup-templates/application/solution-structure.md"
             },
-			{
+            {
               "text": "Security Report",
               "path": "http://cdn.volosoft.com/reports/zap/ABP_Commercial_ZAP_VULNERABILITY_REPORT.html"
             }
@@ -80,7 +80,7 @@
           "text": "Account",
           "path": "modules/account.md"
         },
-		{
+        {
           "text": "Audit Logging",
           "path": "modules/audit-logging.md"
         },
@@ -96,9 +96,13 @@
           "text": "Language Management",
           "path": "modules/language-management.md"
         },
-		{
+        {
           "text": "SaaS",
           "path": "modules/saas.md"
+        },
+        {
+          "text": "Twilio SMS",
+          "path": "modules/twilio-sms.md"
         }
       ]
     },
