@@ -334,41 +334,41 @@ The solution includes the [React Native](https://reactnative.dev/) application i
 
 The server-side is similar to the solution described above. `*.HttpApi.Host` project serves the API, so the React Native application consumes it.
 
-The React Native application was generated with [Expo](https://expo.io/). Expo is a set of tools built around React Native to help you quickly start an app and, while it has many features.
+The React Native application was generated with [Expo](https://expo.io/). Expo is a set of tools built around React Native to help you quickly start an app and has many useful features.
 
-React Native application folder structure as like below:
+React Native application folder structure is like below:
 
 ![react-native-folder-structure](../../images/react-native-folder-structure.png)
 
-* `App.js` is bootstrap component of the application.
-* `Environment.js` file has the essential configuration of the application. `prod` and `dev` configurations defined in this file. 
+* `App.js` is the bootstrap component of the application.
+* `Environment.js` file has the essential configuration of the application. `prod` and `dev` configurations are defined in this file. 
 * [Contexts](https://reactjs.org/docs/context.html) are created in the `src/contexts` folder.
-* [Higher order components](https://reactjs.org/docs/higher-order-components.html) are created in the`src/hocs` folder.
-* [Custom hooks](https://reactjs.org/docs/hooks-custom.html#extracting-a-custom-hook) are created in the`src/hooks`.
+* [Higher order components](https://reactjs.org/docs/higher-order-components.html) are created in the `src/hocs` folder.
+* [Custom hooks](https://reactjs.org/docs/hooks-custom.html#extracting-a-custom-hook) are created in the `src/hooks`.
 * [Axios interceptors](https://github.com/axios/axios#interceptors) are created in the `src/interceptors` folder.
 * Utility functions are exported from `src/utils` folder.
 
 ### Components
 
-Components that can be used on all screens are created in the `src/components` folder. All components have created as a function that able to use [hooks](https://reactjs.org/docs/hooks-intro.html).
+Components that can be used on all screens are created in the `src/components` folder. All are function components and able to use [hooks](https://reactjs.org/docs/hooks-intro.html).
 
 ### Screens
 
 ![react-native-navigation-structure](../../images/react-native-navigation-structure.png)
 
-Screens are created by creating folders that separate their names in the `src/screens` folder. Certain parts of some screens can be split into components.
+Screens are created in separate folders defined by their names under `src/screens`. Certain parts of some screens can be split into components.
 
-Each screen is used in a navigator in the `src/navigators` folder.
+Each screen is used by a navigator in the `src/navigators` folder.
 
 ### Navigation
 
-[React Navigation](https://reactnavigation.org/) is used as a navigation library. Navigators are created in the `src/navigators`. A [drawer](https://reactnavigation.org/docs/drawer-based-navigation/) navigator and several [stack](https://reactnavigation.org/docs/hello-react-navigation/#installing-the-stack-navigator-library) navigators have created in this folder. See the [above diagram](#screens) for navigation structure.
+[React Navigation](https://reactnavigation.org/) is used as the navigation library. A [drawer](https://reactnavigation.org/docs/drawer-based-navigation/) navigator and several [stack](https://reactnavigation.org/docs/hello-react-navigation/#installing-the-stack-navigator-library) navigators are created in the `src/navigators` folder. See the [above diagram](#screens) for navigation structure.
 
 ### State Management
 
 [Redux](https://redux.js.org/) is used as state management library. [Redux Toolkit](https://redux-toolkit.js.org/) library is used as a toolset for efficient Redux development.
 
-Actions, reducers, sagas, selectors are created in the `src/store` folder. Store folder as like below:
+Actions, reducers, sagas, selectors are created in the `src/store` folder. Store folder is like below:
 
 ![react-native-store-folder](../../images/react-native-store-folder.png)
 
@@ -380,15 +380,15 @@ Actions, reducers, sagas, selectors are created in the `src/store` folder. Store
 
 ### APIs
 
-[Axios](https://github.com/axios/axios) is used as an HTTP client library. An Axios instance has exported from  `src/api/API.js` file to make HTTP calls with the same config. `src/api` folder also has the API files that have been created for API calls.
+[Axios](https://github.com/axios/axios) is used as the HTTP client library. An Axios instance is exported from  `src/api/API.js` file to make HTTP calls with the same config. `src/api` folder also has the API files that have been created for API calls.
 
 ### Theming
 
-[Native Base](https://nativebase.io/) is used as UI components library. Native Base components can customize easily. See the [Native Base customize](https://docs.nativebase.io/Customize.html#Customize) documentation. We followed the same way.
+[Native Base](https://nativebase.io/) is used as UI components library. Native Base components can be customized easily. See the [Native Base customize](https://docs.nativebase.io/Customize.html#Customize) documentation. We followed the same way.
 
 * Native Base theme variables are in the `src/theme/variables` folder.
 * Native Base component styles are in the `src/theme/components` folder. These files have been generated with Native Base's `ejectTheme` script.
-* Styles of components override with the files under the `src/theme/overrides` folder.
+* Styles of components can be overridden by files under the `src/theme/overrides` folder.
 
 ### Testing
 
@@ -404,7 +404,7 @@ See the [Testing Overview](https://reactjs.org/docs/testing.html) document.
 * [Redux](https://redux.js.org/) is used as state management library.
 * [Redux Toolkit](https://redux-toolkit.js.org/) library is used as a toolset for efficient Redux development.
 * [Redux-Saga](https://redux-saga.js.org/) is used to manage asynchronous processes.
-* [Redux Persist](https://github.com/rt2zz/redux-persist) is used as state persistance.
+* [Redux Persist](https://github.com/rt2zz/redux-persist) is used for state persistance.
 * [Reselect](https://github.com/reduxjs/reselect) is used to create memoized selectors.
 * [i18n-js](https://github.com/fnando/i18n-js) is used as i18n library.
 * [expo-font](https://docs.expo.io/versions/latest/sdk/font/) library allows loading fonts easily.
