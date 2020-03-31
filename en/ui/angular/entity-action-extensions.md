@@ -159,6 +159,19 @@ It also has two static methods to create its instances:
 
 `ActionList` is the list of actions passed to every action contributor callback as the first parameter named `actionList`. It is a **doubly linked list**. You may find [all available methods here](#).
 
+The items in the list will be displayed according to the liked list order, i.e. from head to tail. If you want to re-order them, all you have to do is something like this:
+
+```js
+export function reorderUserContributors(actionList: ActionList<Identity.User>) {
+  const unlockActionNode = actionList.dropByValue(
+    'AbpIdentity::Unlock',
+    (action, text) => action.text === text,
+  );
+  
+  actionList.addHead(unlockActionNode.value);
+}
+```
+
 ### EntityActionContributorCallback\<R = any\>
 
 `EntityActionContributorCallback` is the type that you can pass as entity action contributor callbacks to static `forRoot` methods of the modules.
