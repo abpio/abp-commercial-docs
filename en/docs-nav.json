@@ -32,6 +32,10 @@
         {
           "text": "Customizing the Modules",
           "path": "guides/customizing-modules.md"
+        },
+        {
+          "text": "Implementing Passwordless Authentication ",
+          "path": "guides/implementing-passwordless-authentication.md"
         }
       ]
     },
