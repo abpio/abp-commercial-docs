@@ -29,11 +29,9 @@ This is the second part of the ASP.NET Core {{UI_Value}} tutorial series. All pa
 * **Part II: Creating, updating and deleting books (this tutorial)**
 * [Part III: Integration tests](part-3.md)
 
-> The completed sample is available: [bookstore-{{UI_Text}}-{{DB}}](https://abp.io/api/download/samples/bookstore-{{UI_Text}}-{{DB}})
->
-> *Before downloading the sample, login to [commercial.abp.io](https://account.abp.io/Account/Login) with your ABP Commercial license credentials.*
+> The completed sample is available: [bookstore-{{UI_Text}}-{{DB}}.zip](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-{{UI_Text}}-{{DB}}). To be able to download this sample, you need to hold an active ABP Commercial license.
 
-*You can also watch [this video course](https://amazingsolutions.teachable.com/p/lets-build-the-bookstore-application) prepared by an ABP community member, based on this tutorial.*
+You can also watch [this video course](https://amazingsolutions.teachable.com/p/lets-build-the-bookstore-application) prepared by an ABP community member, based on this tutorial.*
 
 {{if UI == "MVC"}}
 

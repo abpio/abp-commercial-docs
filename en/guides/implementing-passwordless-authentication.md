@@ -1,6 +1,8 @@
 # Implementing Passwordless Authentication in ASP.NET Core Identity
 To allow a user login with a magic URL, you need to implement a custom token provider. 
-I'll show you how to add a custom token provider to authenticate a user with a link.
+In this tutorial, we will show you how to add a custom token provider to authenticate a user with a link.
+
+> The completed sample is available: [passwordless-authentication.zip](https://abp.io/Account/Login?returnUrl=/api/download/samples/passwordless-authentication). To be able to download this sample, you need to hold an active ABP Commercial license.
 
 ## Step-1
 
@@ -209,7 +211,10 @@ public class PasswordlessController : AbpController
 }
 ```
 
-We created an endpoint for `/Passwordless/Login` that gets the token and the user Id.  In this action, we find the user via repository and validating the token via `UserManager.VerifyUserTokenAsync()` method. If it's valid, we create claims of the user then call `HttpContext.SignInAsync` to be able to create an encrypted cookie and add it to the current response.  Finally we redirect the page to the root URL.
+We created an endpoint for `/Passwordless/Login` that gets the token and the user Id.  In this action, we find the user via repository and validate the token via `UserManager.VerifyUserTokenAsync()` method. If it's valid, we create claims of the user then call `HttpContext.SignInAsync` to be able to create an encrypted cookie and add it to the current response.  Finally we redirect the page to the root URL.
 
 That's all! We created a passwordless login with 6 steps.
 
+
+
+> The completed sample is available: [passwordless-authentication.zip](https://abp.io/Account/Login?returnUrl=/api/download/samples/passwordless-authentication). To be able to download this sample, you need to hold an active ABP Commercial license.
