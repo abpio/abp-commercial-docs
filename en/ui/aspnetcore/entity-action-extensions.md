@@ -111,4 +111,4 @@ abp.ui.extensions.entityActions
 
 ### abp.ui.extensions.ActionList
 
-`ActionList` is the class an instance of which is passed as the `actionList` parameter to the `addContributor` method. It is a doubly linked list provided by `@abp/utils` package. You may find [all available methods explained here](../../Common/Utils/Linked-List).
+`ActionList` returns an instance of LinkedList class, a doubly linked list provided by the @abp/utils package. That instance is passed as the `actionList` parameter to the `addContributor` method. You may find [all available methods explained here](../../Common/Utils/Linked-List).
