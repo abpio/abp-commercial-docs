@@ -29,7 +29,7 @@ Here are the differences between the open source ABP Framework project and the A
 
 **ABP Framework** is completely open source and developed in a community-driven manner. While it is mainly developed and maintained by the [Volosoft](https://volosoft.com/) Team, it is [getting contributions](https://github.com/abpframework/abp/graphs/contributors) from the community. It will always remain open source and free.
 
-**ABP Commercial** doesn't try to provide a replacement or paid version for the ABP Framework. It directly uses the ABP Framework and adds the benefits on top of it, those are described in this document.
+**ABP Commercial** is not a replacement for the ABP Framework. It directly uses the ABP Framework and adds some benefits on top of it, those are described in this document.
 
 ## Modules
 
