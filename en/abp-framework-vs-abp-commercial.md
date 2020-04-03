@@ -96,8 +96,8 @@ abp new Acme.BookStore -d mongodb -u angular
 ABP Suite is a commercial tool that aims to assist to your development;
 
 * It has the **UI for the ABP CLI**, so you don't have to memorize the commands.
-* It has a **code generator** can create a CRUD page from database to the user interface, including HTTP APIs, entities, services, DTOs and so on. It is a huge time saver while creating new entities.
-* It is planned to ad more features in the future to help you on your development.
+* It has a **code generator** that creates a CRUD page from database to the user interface, including HTTP APIs, entities, services, DTOs, database migration and so on. It is a big time saver for creating new entities.
+* It is planned to add more features in the future to help your development process.
 
 A screenshot from the CRUD Page Generator:
 
