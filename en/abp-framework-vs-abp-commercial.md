@@ -119,9 +119,9 @@ Example screenshot from the user management page:
 
 ![abp-basic-theme](images/abp-basic-theme.png)
 
-[The Lepton Theme](https://commercial.abp.io/themes) is a commercial theme development by the ABP Framework Core Team. It is 100% bootstrap compatible, lightweight and powerful theme with multiple color styles and layout options.
+[The Lepton Theme](https://commercial.abp.io/themes) is a commercial theme development by the ABP Framework Core Team. It is 100% Bootstrap compatible, lightweight and powerful with multiple color styles and layout options.
 
-Example screenshot from the user management page:
+A screenshot from the user management page of Lepton Theme:
 
 ![lepton-theme-users-page](images/lepton-theme-users-page.png)
 
@@ -132,4 +132,4 @@ ABP Commercial provides two premium support options;
 * All [license types](https://commercial.abp.io/pricing) has the premium forum support. Your questions are answered by the ABP Framework development and experienced support team with a high priority.
 * Enterprise license includes email & private ticket support too.
 
-If you only use the open source project, you still get community support on the [Stack Overflow](https://stackoverflow.com/questions/tagged/abp) and the [GitHub issues](https://github.com/abpframework/abp/). However, commercial customers have higher priority as you expect.
+If you only use the open source project, you still get community support from the [Stack Overflow](https://stackoverflow.com/questions/tagged/abp) and [GitHub Issues](https://github.com/abpframework/abp/). However, commercial customers have higher priority.
