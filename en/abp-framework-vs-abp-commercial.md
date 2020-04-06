@@ -29,7 +29,7 @@ Here are the differences between the open source ABP Framework project and the A
 
 **ABP Framework** is completely open source and developed in a community-driven manner. While it is mainly developed and maintained by the [Volosoft](https://volosoft.com/) Team, it is [getting contributions](https://github.com/abpframework/abp/graphs/contributors) from the community. It will always remain open source and free.
 
-**ABP Commercial** doesn't try to provide a replacement or paid version for the ABP Framework. It directly uses the ABP Framework and adds the benefits on top of it, those are described in this document.
+**ABP Commercial** is not a replacement for the ABP Framework. It directly uses the ABP Framework and adds some benefits on top of it, those are described in this document.
 
 ## Modules
 
@@ -96,8 +96,8 @@ abp new Acme.BookStore -d mongodb -u angular
 ABP Suite is a commercial tool that aims to assist to your development;
 
 * It has the **UI for the ABP CLI**, so you don't have to memorize the commands.
-* It has a **code generator** can create a CRUD page from database to the user interface, including HTTP APIs, entities, services, DTOs and so on. It is a huge time saver while creating new entities.
-* It is planned to ad more features in the future to help you on your development.
+* It has a **code generator** that creates a CRUD page from database to the user interface, including HTTP APIs, entities, services, DTOs, database migration and so on. It is a big time saver for creating new entities.
+* It is planned to add more features in the future to help your development process.
 
 A screenshot from the CRUD Page Generator:
 
@@ -119,9 +119,9 @@ Example screenshot from the user management page:
 
 ![abp-basic-theme](images/abp-basic-theme.png)
 
-[The Lepton Theme](https://commercial.abp.io/themes) is a commercial theme development by the ABP Framework Core Team. It is 100% bootstrap compatible, lightweight and powerful theme with multiple color styles and layout options.
+[The Lepton Theme](https://commercial.abp.io/themes) is a commercial theme development by the ABP Framework Core Team. It is 100% Bootstrap compatible, lightweight and powerful with multiple color styles and layout options.
 
-Example screenshot from the user management page:
+A screenshot from the user management page of Lepton Theme:
 
 ![lepton-theme-users-page](images/lepton-theme-users-page.png)
 
@@ -132,4 +132,4 @@ ABP Commercial provides two premium support options;
 * All [license types](https://commercial.abp.io/pricing) has the premium forum support. Your questions are answered by the ABP Framework development and experienced support team with a high priority.
 * Enterprise license includes email & private ticket support too.
 
-If you only use the open source project, you still get community support on the [Stack Overflow](https://stackoverflow.com/questions/tagged/abp) and the [GitHub issues](https://github.com/abpframework/abp/). However, commercial customers have higher priority as you expect.
+If you only use the open source project, you still get community support from the [Stack Overflow](https://stackoverflow.com/questions/tagged/abp) and [GitHub Issues](https://github.com/abpframework/abp/). However, commercial customers have higher priority.
