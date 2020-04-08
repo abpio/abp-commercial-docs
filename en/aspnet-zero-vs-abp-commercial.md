@@ -24,8 +24,8 @@
             </tr>
             <tr>
                 <td>Base Framework</td>
-                <td><a href="https://github.com/abpframework/abp/"> ABP Framework</a></td>
-                <td><a href="https://github.com/aspnetboilerplate/aspnetboilerplate">AspNet Boilerplate</a></td>
+                <td><a href="https://github.com/abpframework/abp/" target="_blank"> ABP Framework</a></td>
+                <td><a href="https://github.com/aspnetboilerplate/aspnetboilerplate" target="_blank">AspNet Boilerplate</a></td>
             </tr>
             <tr>
                 <td>Microservice compatible</td>
@@ -59,7 +59,7 @@
             </tr>
             <tr>
                 <td>Command Line Interface</td>
-                <td><a href="https://docs.abp.io/en/abp/latest/CLI">ABP CLI</a></td>
+                <td><a href="https://docs.abp.io/en/abp/latest/CLI" target="_blank">ABP CLI</a></td>
                 <td><i class="fa fa-minus text-secondary"></i></td>
             </tr>
             <tr>
@@ -295,8 +295,8 @@
             </tr>
             <tr>
                 <td>UI Theme</td>
-                <td><a href="http://leptontheme.com/">Lepton</a></td>
-                <td><a href="https://keenthemes.com/metronic/">Metronic</a></td>
+                <td><a href="http://leptontheme.com/" target="_blank">Lepton</a></td>
+                <td><a href="https://keenthemes.com/metronic/" target="_blank">Metronic</a></td>
             </tr>
             <tr>
                 <td colspan="3"><strong>User Interface (Public Web Site)</strong></td>
@@ -324,8 +324,8 @@
             </tr>
             <tr>
                 <td>Code generation extension</td>
-                <td><a href="https://docs.abp.io/en/commercial/latest/abp-suite/index">ABP Suite</a></td>
-                <td><a href="https://docs.aspnetzero.com/en/common/latest/Rapid-Application-Development">Power Tools</a></td>
+                <td><a href="https://docs.abp.io/en/commercial/latest/abp-suite/index" target="_blank">ABP Suite</a></td>
+                <td><a href="https://docs.aspnetzero.com/en/common/latest/Rapid-Application-Development" target="_blank">Power Tools</a></td>
             </tr>
             <tr>
                 <td colspan="3"><strong>Support</strong></td>
