@@ -23,22 +23,22 @@ import { ActionList, EntityAction } from '@volo/abp.commercial.ng.ui';
 import { Identity } from '@volo/abp.ng.identity';
 import { IdentityToolbarContributors } from '@volo/abp.ng.identity.config';
 
-const logUsers = new EntityAction<Identity.User[]>({
+const logUserNames = new EntityAction<Identity.User[]>({
   text: 'Click Me!',
   action: data => {
     // Replace log with your custom code
-    console.log(data.record.map(user => user.name));
+    console.log(data.record.map(user => user.userName));
   },
 });
 
-export function logUsersContributor(actionList: ActionList<Identity.User[]>) {
-  actionList.addHead(logUsers);
+export function logUserNamesContributor(actionList: ActionList<Identity.User[]>) {
+  actionList.addHead(logUserNames);
 }
 
 export const identityToolbarContributors: IdentityToolbarContributors = {
   // 'Identity.UsersComponent' indicates where this action will be placed
   'Identity.UsersComponent': [
-    logUsersContributor,
+    logUserNamesContributor,
     // You can add more contributors here
   ],
 };
@@ -47,7 +47,7 @@ export const identityToolbarContributors: IdentityToolbarContributors = {
 
 The list of actions, conveniently named as `actionList`, is a **doubly linked list**. That is why we have used the `addHead` method, which adds the given value to the beginning of the list. You may find [all available methods here](../../Common/Utils/Linked-List).
 
-> **Important Note:** AoT compilation does not support function calls in decorator metadata. This is why we have defined `logUsersContributor` as an exported function declaration here. Please do not forget exporting your contributor callbacks and forget about lambda functions (a.k.a. arrow functions). Please refer to [AoT metadata errors](https://angular.io/guide/aot-metadata-errors#function-calls-not-supported) for details.
+> **Important Note:** AoT compilation does not support function calls in decorator metadata. This is why we have defined `logUserNamesContributor` as an exported function declaration here. Please do not forget exporting your contributor callbacks and forget about lambda functions (a.k.a. arrow functions). Please refer to [AoT metadata errors](https://angular.io/guide/aot-metadata-errors#function-calls-not-supported) for details.
 
 ### Step 2. Import and Use Content Toolbar Contributors
 
@@ -74,7 +74,7 @@ import { identityToolbarContributors } from './content-toolbar-contributors';
 export class AppModule {}
 ```
 
-That is it, `logUsers` toolbar action will be added as the first action on the content toolbar in the users page (`UsersComponent`) of the `IdentityModule`.
+That is it, `logUserNames` toolbar action will be added as the first action on the content toolbar in the users page (`UsersComponent`) of the `IdentityModule`.
 
 ## API
 
