@@ -54,7 +54,7 @@ Import `identityActionContributors` in your root module and pass it to the stati
 
 ```js
 import { IdentityConfigModule } from '@volo/abp.ng.identity.config';
-import { getIdentityActionContributors } from './entity-action-contributors';
+import { identityActionContributors } from './entity-action-contributors';
 
 @NgModule({
   imports: [
