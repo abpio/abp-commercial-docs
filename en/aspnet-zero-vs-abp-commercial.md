@@ -24,8 +24,8 @@
             </tr>
             <tr>
                 <td>Base Framework</td>
-                <td>[ABP Framework](https://github.com/abpframework/abp/)</td>
-                <td>[AspNet Boilerplate](https://github.com/aspnetboilerplate/aspnetboilerplate)</td>
+                <td><a href="https://github.com/abpframework/abp/" target="_blank"> ABP Framework</a></td>
+                <td><a href="https://github.com/aspnetboilerplate/aspnetboilerplate" target="_blank">AspNet Boilerplate</a></td>
             </tr>
             <tr>
                 <td>Microservice compatible</td>
@@ -53,8 +53,13 @@
                 <td><i class="fa fa-minus text-secondary"></i></td>
             </tr>
             <tr>
+                <td>Distributed Event Bus</td>
+                <td><i class="fa fa-check text-success"></i></td>
+                <td><i class="fa fa-minus text-secondary"></i></td>
+            </tr>
+            <tr>
                 <td>Command Line Interface</td>
-                <td>[ABP CLI](https://docs.abp.io/en/abp/latest/CLI)</td>
+                <td><a href="https://docs.abp.io/en/abp/latest/CLI" target="_blank">ABP CLI</a></td>
                 <td><i class="fa fa-minus text-secondary"></i></td>
             </tr>
             <tr>
@@ -77,12 +82,12 @@
             </tr>
             <tr>
                 <td>Social logins</td>
-                <td>Facebook, Twitter, Google+ and Microsoft Account</td>
                 <td><i class="fa fa-minus text-secondary"></i></td>
+                <td>Facebook, Twitter, Google+ and Microsoft Account</td>
             </tr>
             <tr>
                 <td>LDAP (Active Directory) / ADFS login</td>
-                <td><i class="fa fa-minus text-secondary"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
@@ -290,8 +295,8 @@
             </tr>
             <tr>
                 <td>UI Theme</td>
-                <td>[Lepton](http://leptontheme.com/)</td>
-                <td>[Metronic](https://keenthemes.com/metronic/)</td>
+                <td><a href="http://leptontheme.com/" target="_blank">Lepton</a></td>
+                <td><a href="https://keenthemes.com/metronic/" target="_blank">Metronic</a></td>
             </tr>
             <tr>
                 <td colspan="3"><strong>User Interface (Public Web Site)</strong></td>
@@ -319,8 +324,8 @@
             </tr>
             <tr>
                 <td>Code generation extension</td>
-                <td>[ABP Suite](https://docs.abp.io/en/commercial/latest/abp-suite/index)</td>
-                <td>[Power Tools](https://docs.aspnetzero.com/en/common/latest/Rapid-Application-Development)</td>
+                <td><a href="https://docs.abp.io/en/commercial/latest/abp-suite/index" target="_blank">ABP Suite</a></td>
+                <td><a href="https://docs.aspnetzero.com/en/common/latest/Rapid-Application-Development" target="_blank">Power Tools</a></td>
             </tr>
             <tr>
                 <td colspan="3"><strong>Support</strong></td>
@@ -337,8 +342,8 @@
             </tr>
             <tr>
                 <td>&nbsp;</td>
-                <td><a class="btn btn-default btn-sm" href="https://commercial.abp.io/pricing" target="_blank" rel="noopener">Pricing</a></td>
-                <td><a class="btn btn-default btn-sm" href="https://aspnetzero.com/Pricing">Pricing</a></td>
+                <td><a href="https://commercial.abp.io/pricing" target="_blank" rel="noopener">Pricing</a></td>
+                <td><a href="https://aspnetzero.com/Pricing">Pricing</a></td>
             </tr>
         </tbody>
     </table>
