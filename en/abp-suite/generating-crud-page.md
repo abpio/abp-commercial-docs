@@ -125,17 +125,17 @@ A navigation property is a foreign key field in the entity which holds the prima
 * **Display property**: Name of the property, that belongs to and exist in the entity you want to use as navigation property, that will be used in interface as display name. It must be a string.
 * **Ui pick type**: Determinates how the relation between entities will be set in user interface.  Modal: A paged table inside a modal will allow you to select a navigation property. Dropdown: A dropdown will allow you to select a navigation property.
 
-In an example scenario, we are creating a **Student** entity and adding a navigation property to existing **Teacher** entity. See screeshots below:
+In an example scenario, we are creating a **Student** entity and adding a navigation property to existing **Teacher** entity. See screenshots below:
 
-![Navigation property example](../Images/suite-np-define.png)
+![Navigation property example](../images/suite-np-define.png)
 
-![Navigation entity example](../Images/suite-example-navigation-entity.png)
+![Navigation entity example](../images/suite-example-navigation-entity.png)
 
-![Navigation entity example](../Images/suite-example-navigation-entity-dto.png)
+![Navigation entity example](../images/suite-example-navigation-entity-dto.png)
 
-![Navigation entity example](../Images/suite-navigation-property.png)
+![Navigation entity example](../images/suite-navigation-property.png)
 
-![Navigation entity example](../Images/suite-navigation-property-dbcontext-collection.png)
+![Navigation entity example](../images/suite-navigation-property-dbcontext-collection.png)
 
 ### Saving
 
