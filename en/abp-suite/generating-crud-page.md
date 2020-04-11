@@ -117,13 +117,13 @@ A navigation property is a foreign key field in the entity which holds the prima
 
 * **Entity namespace**: Namespace of the entity you want to use as navigation property.
 * **Entity name**: Name of the entity.
-* **Entity collection name**: Collection name of the entity in DbContext.
-* **Dto namespace**: Namespace of Dto object of the entity.
-* **Dto name**: Name of Dto object of the entity.
+* **Entity collection name**: Collection name of the entity in `DbContext`.
+* **DTO namespace**: Namespace of DTO object of the entity.
+* **DTO name**: Name of DTO object of the entity.
 * **Primary key**: Primary key type of the entity.
 * **Property name**: Name of the (reference) property that will be created in main entity.
 * **Display property**: Name of the property, that belongs to and exist in the entity you want to use as navigation property, that will be used in interface as display name. It must be a string.
-* **Ui pick type**: Determinates how the relation between entities will be set in user interface.  Modal: A paged table inside a modal will allow you to select a navigation property. Dropdown: A dropdown will allow you to select a navigation property.
+* **UI pick type**: Determinates how the relation between entities will be set in user interface.  Modal: A paged table inside a modal will allow you to select a navigation property. Dropdown: A dropdown will allow you to select a navigation property.
 
 In an example scenario, we are creating a **Student** entity and adding a navigation property to existing **Teacher** entity. See screenshots below:
 
