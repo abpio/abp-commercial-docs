@@ -111,7 +111,7 @@ You can use sorting field column to specify or change the order in which results
 
 A navigation property is a foreign key field in the entity which holds the primary key of another entity.
 
-![Navigation property example](../Images/suite-entity-with-navigation-property.png)
+![Navigation property example](../images/suite-entity-with-navigation-property.png)
 
 #### Define a navigation property
 
