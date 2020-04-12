@@ -109,35 +109,40 @@ You can use sorting field column to specify or change the order in which results
 
 ## Navigation Properties
 
-A navigation property is a foreign key field in the entity which holds the primary key of another entity.
+A **navigation property** is an optional **property** on an entity type that allows for **navigation** from one end of an association to the other end. Unlike other properties, **navigation properties** do not carry data.
+
+Here's a navigation property example; The `student` entity holds a foreign key to the `teacher` entity which stores the primary key of the `teacher` entity.
 
 ![Navigation property example](../images/suite-entity-with-navigation-property.png)
 
-#### Define a navigation property
+#### How to define a navigation property?
 
-* **Entity namespace**: Namespace of the entity you want to use as navigation property.
-* **Entity name**: Name of the entity.
-* **Entity collection name**: Collection name of the entity in `DbContext`.
+* **Entity namespace**: Namespace of the **target entity** you want to use as the navigation property.
+  * Example:`SampleMongoSchoolApp.Teachers`
+* **Entity name**: Name of the **target entity**.
+  * Example: `Teacher`
+* **Entity collection name**: Collection name of the **target entity** in `DbContext`.
+  * Example: `Teachers`
 * **DTO namespace**: Namespace of DTO object of the entity.
-* **DTO name**: Name of DTO object of the entity.
-* **Primary key**: Primary key type of the entity.
-* **Property name**: Name of the (reference) property that will be created in main entity.
-* **Display property**: Name of the property, that belongs to and exist in the entity you want to use as navigation property, that will be used in interface as display name. It must be a string.
-* **UI pick type**: Determinates how the relation between entities will be set in user interface.  Modal: A paged table inside a modal will allow you to select a navigation property. Dropdown: A dropdown will allow you to select a navigation property.
+  * Example:`SampleMongoSchoolApp.Teachers`
+* **DTO name**: Name of the DTO object of the **target entity**.
+  * Example:`TeacherDto`
+* **Primary key**: Primary key type of the **target entity**.
+  * Example: `Guid`
+* **Property name**: Name of the (reference) property that will be created in the main entity.
+  * Example: `TeacherId`
+* **Display property**: Property name of the target entity which you want to show as display text. It must be a string property.
+  * Example: `Name`
+* **UI pick type**: Determinates how to set the navigation value. 
+  * **Modal**: In a modal window, it opens the target entity list and allows you to select one. Recommended for entities with large data.
+  * **Dropdown**: A dropdown will allow you to select a navigation property. Recommended for entities with fewer data.
 
-In an example scenario, we are creating a **Student** entity and adding a navigation property to existing **Teacher** entity. See screenshots below:
+In this example scenario, we will create a `Student` entity and add a navigation property to the already existing entity `Teacher`. In the end, the user will be able select a teacher for a student. 
+See the screenshot that shows you how to do this:
 
-![Navigation property example](../images/suite-np-define.png)
+![Navigation property example](../images/suite-navigation-property-create-new.png)
 
-![Navigation entity example](../images/suite-example-navigation-entity.png)
-
-![Navigation entity example](../images/suite-example-navigation-entity-dto.png)
-
-![Navigation entity example](../images/suite-navigation-property.png)
-
-![Navigation entity example](../images/suite-navigation-property-dbcontext-collection.png)
-
-### Saving
+### Saving an entity
 
 There are 2 action to save the entity. 
 
