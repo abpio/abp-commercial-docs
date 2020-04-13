@@ -4,7 +4,7 @@
 
 Entity action extension system allows you to add a new action to the action menu for an entity. A "Click Me" action was added to the user management page below:
 
-![user-action-extension-click-me](../../images/user-action-extension-click-me.png)
+![Entity Action Extension Example: "Click Me!" Action](../../images/user-action-extension-click-me-ng.png)
 
 You can take any action (open a modal, make an HTTP API call, redirect to another page... etc) by writing your custom code. You can access to the current entity in your code.
 
@@ -54,7 +54,7 @@ Import `identityActionContributors` in your root module and pass it to the stati
 
 ```js
 import { IdentityConfigModule } from '@volo/abp.ng.identity.config';
-import { getIdentityActionContributors } from './entity-action-contributors';
+import { identityActionContributors } from './entity-action-contributors';
 
 @NgModule({
   imports: [
