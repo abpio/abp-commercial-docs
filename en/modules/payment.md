@@ -119,7 +119,31 @@ Configure<PaymentOptions>(options =>
   * ```Recommended```: Is payment gateway is recommended or not. This information is displayed on payment gateway selection page.
   * ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
 
+Instead of configuring options in your module class, you can configure it in your appsettings.json file like below;
 
+```json
+"Payment": {
+    "Payu": {
+      "Merchant": "TEST",
+      "Signature": "SECRET_KEY",
+      "LanguageCode": "en",
+      "CurrencyCode": "USD",
+      "VatRate": "0",
+      "PriceType": "GROSS",
+      "Shipping": "0",
+      "Installment": "1",
+      "TestOrder": "1",
+      "Debug": "1"
+    },
+    "TwoCheckout": {
+      "Signature": "SECRET_KEY",
+      "CheckoutUrl": "https://secure.2checkout.com/order/checkout.php",
+      "LanguageCode": "en",
+      "CurrencyCode": "USD",
+      "TestOrder": "1"
+    }
+  }
+```
 
 ## Internals
 
