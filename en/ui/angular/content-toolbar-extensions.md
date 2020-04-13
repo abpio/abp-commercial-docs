@@ -78,4 +78,4 @@ That is it, `logUserNames` toolbar action will be added as the first action on t
 
 ## API
 
-Content toolbar extension exposes the same API with [entity action extension](./entity-action-extension.md).
+Content toolbar extension exposes the same API with [entity action extension](./entity-action-extensions.md).
