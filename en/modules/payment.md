@@ -119,6 +119,32 @@ Configure<PaymentOptions>(options =>
   * ```Recommended```: Is payment gateway is recommended or not. This information is displayed on payment gateway selection page.
   * ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
 
+### PayuOptions
+
+```PayuOptions``` is used to configure PayU payment gateway options.
+
+* ```Merchant```: Merchant code for PayU account.
+* ```Signature```: Signature of Merchant.
+* ```LanguageCode```: Language of the order. This will be used for notification email that are sent to the client, if available.
+* ```CurrencyCode```: Currency code of order (USD, EUR, etc...).
+* ```VatRate```: Vat rate of order.
+* ```PriceType```: Price type of order (GROSS or NET).
+* ```Shipping```: A positive number indicating the price of shipping.
+* ```Installment```: The number of installments. It can be an integer between 1 and 12.
+* ```TestOrder```: Is the order a test order or not (true or false).
+* ```Debug```: Writes detailed log on PAYU side.
+* ```Recommended```: Is payment gateway is recommended or not. This information is displayed on payment gateway selection page.
+* ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
+
+### TwoCheckoutOptions
+
+* Signature: Signature of Merchant's 2Checkout account.
+* CheckoutUrl: 2Checkout checkout URL (it must be set to https://secure.2checkout.com/order/checkout.php).
+* ```LanguageCode```: Language of the order. This will be used for notification email that are sent to the client, if available.
+* ```CurrencyCode```: Currency code of order (USD, EUR, etc...).
+* ```Recommended```: Is payment gateway is recommended or not. This information is displayed on payment gateway selection page.
+* ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
+
 Instead of configuring options in your module class, you can configure it in your appsettings.json file like below;
 
 ```json
@@ -139,8 +165,7 @@ Instead of configuring options in your module class, you can configure it in you
       "Signature": "SECRET_KEY",
       "CheckoutUrl": "https://secure.2checkout.com/order/checkout.php",
       "LanguageCode": "en",
-      "CurrencyCode": "USD",
-      "TestOrder": "1"
+      "CurrencyCode": "USD"
     }
   }
 ```
