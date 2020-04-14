@@ -107,6 +107,10 @@
         {
           "text": "Twilio SMS",
           "path": "modules/twilio-sms.md"
+        },
+		{
+          "text": "Payment",
+          "path": "modules/payment.md"
         }
       ]
     },
