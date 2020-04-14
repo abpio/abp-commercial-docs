@@ -82,4 +82,57 @@ This configuration adds `my-user-extensions.js` to the user management page of t
 
 ## Advanced Use Cases
 
+While you typically want to add a button action to the page toolbar, it is possible to add any type of component.
+
+### Add View Component to a Page Toolbar
+
+First, create a new view component in your project:
+
+![page-toolbar-custom-component](D:\Github\abp-commercial-docs\en\images\page-toolbar-custom-component.png)
+
+For this example, we've created a `MyToolbarItem` view component under the `/Pages/Identity/Users/MyToolbarItem` folder.
+
+`MyToolbarItemViewComponent.cs` content:
+
+````csharp
+public class MyToolbarItemViewComponent : AbpViewComponent
+{
+    public IViewComponentResult Invoke()
+    {
+        return View("~/Pages/Identity/Users/MyToolbarItem/Default.cshtml");
+    }
+}
+````
+
+`Default.cshtml` content:
+
+````xml
+<span>
+    <button type="button" class="btn btn-dark">CLICK ME</button>
+</span>
+````
+
+* `.cshtml` file can contain any type of component(s). It is a typical view component.
+* `MyToolbarItemViewComponent` can inject and use any service if you need.
+
+Then you can add the `MyToolbarItemViewComponent` to the user management page:
+
+````csharp
+Configure<AbpPageToolbarOptions>(options =>
+{
+    options.Configure<Volo.Abp.Identity.Web.Pages.Identity.Users.IndexModel>(toolbar =>
+    {
+        toolbar.AddComponent<MyToolbarItemViewComponent>();
+    });
+});
+````
+
+* If your component accepts arguments (in the `Invoke`/`InvokeAsync` method), you can pass them to the `AddComponent` method as an anonymous object.
+
+#### Permissions
+
+If your button/component should be available based on a [permission/policy](https://docs.abp.io/en/abp/latest/Authorization), you can pass the permission/policy name as the `requiredPolicyName` parameter to the `AddButton` and `AddComponent` methods.
+
+### Add a Page Toolbar Contributor
+
 TODO
