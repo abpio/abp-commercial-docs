@@ -37,9 +37,7 @@ When you run the application, you will see the button added next to the current 
 
 ### Create a JavaScript File
 
-Now, we can go to the client side to handle click event of the new button.
-
-First, add a new JavaScript file to your solution. We added inside the `/Pages/Identity/Users` folder of the `.Web` project:
+Now, we can go to the client side to handle click event of the new button. First, add a new JavaScript file to your solution. We added inside the `/Pages/Identity/Users` folder of the `.Web` project:
 
 ![user-action-extension-on-solution](../../images/user-action-extension-on-solution.png)
 
@@ -47,16 +45,14 @@ Here, the content of this JavaScript file:
 
 ````js
 $(function () {
-
     $('#ImportUsersFromExcel').click(function (e) {
         e.preventDefault();
         alert('TODO: import users from excel');
     });
-
 });
 ````
 
-In the `click` event, you can do anything you need.
+In the `click` event, you can do anything you need to do.
 
 ### Add the File to the User Management Page
 
@@ -120,10 +116,12 @@ Then you can add the `MyToolbarItemViewComponent` to the user management page:
 ````csharp
 Configure<AbpPageToolbarOptions>(options =>
 {
-    options.Configure<Volo.Abp.Identity.Web.Pages.Identity.Users.IndexModel>(toolbar =>
-    {
-        toolbar.AddComponent<MyToolbarItemViewComponent>();
-    });
+    options.Configure<Volo.Abp.Identity.Web.Pages.Identity.Users.IndexModel>(
+        toolbar =>
+        {
+            toolbar.AddComponent<MyToolbarItemViewComponent>();
+        }
+    );
 });
 ````
 
@@ -135,4 +133,33 @@ If your button/component should be available based on a [permission/policy](http
 
 ### Add a Page Toolbar Contributor
 
-TODO
+If you perform advanced custom logic while adding an item to a page toolbar, you can create a class that implements the `IPageToolbarContributor` interface or inherits from the `PageToolbarContributor` class:
+
+````csharp
+public class MyToolbarContributor : PageToolbarContributor
+{
+    public override Task ContributeAsync(PageToolbarContributionContext context)
+    {
+        context.Items.Insert(0, new PageToolbarItem(typeof(MyToolbarItemViewComponent)));
+
+        return Task.CompletedTask;
+    }
+}
+````
+
+* You can use `context.ServiceProvider` to resolve dependencies if you need.
+
+Then add your class to the `Contributors` list:
+
+````csharp
+Configure<AbpPageToolbarOptions>(options =>
+{
+    options.Configure<Volo.Abp.Identity.Web.Pages.Identity.Users.IndexModel>(
+        toolbar =>
+        {
+            toolbar.Contributors.Add(new MyToolbarContributor());
+        }
+    );
+});
+````
+
