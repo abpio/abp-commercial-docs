@@ -1,8 +1,8 @@
-# Content Toolbar Extensions for Angular UI
+# Page Toolbar Extensions for Angular UI
 
 ## Introduction
 
-Content toolbar extension system allows you to add a new action to the content toolbar of a page. A "Click Me" action was added to the user management page below:
+Page toolbar extension system allows you to add a new action to the content toolbar of a page. A "Click Me" action was added to the user management page below:
 
 ![Content Toolbar Extension Example: "Click Me!" Action](../../images/user-content-toolbar-extension-click-me-ng.png)
 
