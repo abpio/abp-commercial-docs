@@ -1,7 +1,5 @@
 # Page Toolbar Extensions for ASP.NET Core UI
 
-## Introduction
-
 Page toolbar system allows you to add components to the toolbar of any page. The page toolbar is the area right to the header of a page. A button ("Import users from excel") was added to the user management page below:
 
 ![page-toolbar-button](../../images/page-toolbar-button.png)
@@ -84,7 +82,7 @@ While you typically want to add a button action to the page toolbar, it is possi
 
 First, create a new view component in your project:
 
-![page-toolbar-custom-component](D:\Github\abp-commercial-docs\en\images\page-toolbar-custom-component.png)
+![page-toolbar-custom-component](../../images/page-toolbar-custom-component.png)
 
 For this example, we've created a `MyToolbarItem` view component under the `/Pages/Identity/Users/MyToolbarItem` folder.
 
