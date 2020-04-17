@@ -47,7 +47,7 @@ export const identityEntityActionContributors: IdentityEntityActionContributors 
 };
 ```
 
-The list of actions, conveniently named as `actionList`, is a **doubly linked list**. That is why we have used the `addTail` method, which adds the given value to the end of the list. You may find [all available methods here](../../Common/Utils/Linked-List).
+The list of actions, conveniently named as `actionList`, is a **doubly linked list**. That is why we have used the `addTail` method, which adds the given value to the end of the list. You may find [all available methods here](https://docs.abp.io/en/abp/latest/UI/Common/Utils/Linked-List).
 
 > **Important Note:** AoT compilation does not support function calls in decorator metadata. This is why we have defined `alertUserNameContributor` as an exported function declaration here. Please do not forget exporting your contributor callbacks and forget about lambda functions (a.k.a. arrow functions). Please refer to [AoT metadata errors](https://angular.io/guide/aot-metadata-errors#function-calls-not-supported) for details.
 
@@ -190,7 +190,7 @@ It also has two static methods to create its instances:
 
 ### EntityActionList\<R = any\>
 
-`EntityActionList` is the list of actions passed to every action contributor callback as the first parameter named `actionList`. It is a **doubly linked list**. You may find [all available methods here](../../Common/Utils/Linked-List).
+`EntityActionList` is the list of actions passed to every action contributor callback as the first parameter named `actionList`. It is a **doubly linked list**. You may find [all available methods here](https://docs.abp.io/en/abp/latest/UI/Common/Utils/Linked-List).
 
 The items in the list will be displayed according to the linked list order, i.e. from head to tail. If you want to re-order them, all you have to do is something like this:
 

@@ -72,7 +72,7 @@ This method is used to access the entity actions of a specific module. It takes 
 
 ### abp.ui.extensions.entityActions.get(entityName).actions
 
-The `actions` property is used to retrieve a [doubly linked list](../../Common/Utils/Linked-List) of previously defined actions for an entity. All contributors are executed in order to prepare the final actions list. This is normally called by the modules to show the actions in the grid. However, you can use it if you are building your own extensible UIs.
+The `actions` property is used to retrieve a [doubly linked list](https://docs.abp.io/en/abp/latest/UI/Common/Utils/Linked-List) of previously defined actions for an entity. All contributors are executed in order to prepare the final actions list. This is normally called by the modules to show the actions in the grid. However, you can use it if you are building your own extensible UIs.
 
 ### abp.ui.extensions.entityActions.get(entityName).addContributor(contributeCallback)
 
@@ -111,4 +111,4 @@ abp.ui.extensions.entityActions
 
 ### abp.ui.extensions.ActionList
 
-`ActionList` returns an instance of LinkedList class, a doubly linked list provided by the @abp/utils package. That instance is passed as the `actionList` parameter to the `addContributor` method. You may find [all available methods explained here](../../Common/Utils/Linked-List).
+`ActionList` returns an instance of LinkedList class, a doubly linked list provided by the @abp/utils package. That instance is passed as the `actionList` parameter to the `addContributor` method. You may find [all available methods explained here](https://docs.abp.io/en/abp/latest/UI/Common/Utils/Linked-List).
