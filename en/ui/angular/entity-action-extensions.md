@@ -10,7 +10,7 @@ You can take any action (open a modal, make an HTTP API call, redirect to anothe
 
 ## How to Set Up
 
-In this example, we will add a "Click Me!" action and execute a JavaScript code for the user management page of the [Identity Module](../../modules/identity.md).
+In this example, we will add a "Click Me!" action and alert the current row's `userName` in the user management page of the [Identity Module](../../modules/identity.md).
 
 ### Step 1. Create Entity Action Contributors
 
@@ -19,54 +19,56 @@ The following code prepares a constant named `identityActionContributors`, ready
 ```js
 // entity-action-contributors.ts
 
-import { ActionList, EntityAction } from '@volo/abp.commercial.ng.ui';
+import { EntityAction, EntityActionList } from '@volo/abp.commercial.ng.ui';
 import { Identity } from '@volo/abp.ng.identity';
-import { IdentityActionContributors } from '@volo/abp.ng.identity.config';
+import { IdentityEntityActionContributors } from '@volo/abp.ng.identity.config';
 
-const alertUserName = new EntityAction<Identity.User>({
+const alertUserName = new EntityAction<Identity.UserItem>({
   text: 'Click Me!',
   action: data => {
     // Replace alert with your custom code
     alert(data.record.userName);
   },
+  // See EntityActionOptions in API section for all options
 });
 
-export function alertUserNameContributor(actionList: ActionList<Identity.User>) {
+export function alertUserNameContributor(
+  actionList: EntityActionList<Identity.UserItem>,
+) {
   actionList.addTail(alertUserName);
 }
 
-export const identityActionContributors: IdentityActionContributors = {
-  // 'Identity.UsersComponent' indicates where this action will be placed
-  'Identity.UsersComponent': [
+export const identityEntityActionContributors: IdentityEntityActionContributors = {
+  // enum indicates the page to add contributors to
+  [eIdentityComponents.Users]: [
     alertUserNameContributor,
     // You can add more contributors here
   ],
 };
 ```
 
-The list of actions, conveniently named as `actionList`, is a **doubly linked list**. That is why we have used the `addTail` method, which adds the given value to the end of the list. You may find [all available methods here](../../Common/Utils/Linked-List).
+The list of actions, conveniently named as `actionList`, is a **doubly linked list**. That is why we have used the `addTail` method, which adds the given value to the end of the list. You may find [all available methods here](https://docs.abp.io/en/abp/latest/UI/Common/Utils/Linked-List).
 
 > **Important Note:** AoT compilation does not support function calls in decorator metadata. This is why we have defined `alertUserNameContributor` as an exported function declaration here. Please do not forget exporting your contributor callbacks and forget about lambda functions (a.k.a. arrow functions). Please refer to [AoT metadata errors](https://angular.io/guide/aot-metadata-errors#function-calls-not-supported) for details.
 
 ### Step 2. Import and Use Entity Action Contributors
 
-Import `identityActionContributors` in your root module and pass it to the static `forRoot` method of `IdentityConfigModule` as seen below:
+Import `identityEntityActionContributors` in your root module and pass it to the static `forRoot` method of `IdentityConfigModule` as seen below:
 
 ```js
 import { IdentityConfigModule } from '@volo/abp.ng.identity.config';
-import { identityActionContributors } from './entity-action-contributors';
+import { identityEntityActionContributors } from './entity-action-contributors';
 
 @NgModule({
   imports: [
     // Other imports
-    
+
     IdentityConfigModule.forRoot({
-      entityActionContributors: identityActionContributors,
+      entityActionContributors: identityEntityActionContributors,
     }),
-    
+
     // Other imports
   ],
-  providers: [],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
 })
@@ -77,33 +79,58 @@ That is it, `alertUserName` entity action will be added as the last action on th
 
 ## API
 
-### EntityData\<R = any\>
+### ActionData\<R = any\>
 
-`EntityData` is the shape of the parameter passed to all callbacks or predicates in an `EntityAction`.
+`ActionData` is the shape of the parameter passed to all callbacks or predicates in an `EntityAction`.
 
 It has the following properties:
 
-* **record** is the row data, i.e. current value rendered in the table.
+- **record** is the row data, i.e. current value rendered in the table.
 
-* **index** is the table index where the record is at.
+  ```js
+  {
+    text: 'Click Me!',
+    action: data => {
+      alert(data.record.userName);
+    },
+  }
+  ```
 
-* **getInjected** is the equivalent of [Injector.get](https://angular.io/api/core/Injector#get). You can use it to reach injected dependencies of `GridActionsComponent`, including, but not limited to, its parent component.
+- **index** is the table index where the record is at.
+
+- **getInjected** is the equivalent of [Injector.get](https://angular.io/api/core/Injector#get). You can use it to reach injected dependencies of `GridActionsComponent`, including, but not limited to, its parent component.
 
   ```js
   {
     text: 'Click Me!',
     action: data => {
       const restService = data.getInjected(RestService);
-      
+
       // Use restService public props and methods here
     },
     visible: data => {
       const usersComponent = data.getInjected(UsersComponent);
-      
+
       // Use usersComponent public props and methods here
     },
   }
   ```
+
+### ActionCallback\<R = any\>
+
+`ActionCallback` is the type of the callback function that can be passed to an `EntityAction` as `action` parameter. An action callback gets a single parameter, the `ActionData`. The return type may be anything, including `void`. Here is a simplified representation:
+
+```js
+type ActionCallback<R> = (data?: ActionData<R>) => any;
+```
+
+### ActionPredicate\<R = any\>
+
+`ActionPredicate` is the type of the predicate function that can be passed to an `EntityAction` as `visible` parameter. An action predicate gets a single parameter, the `ActionData`. The return type must be `boolean`. Here is a simplified representation:
+
+```js
+type ActionPredicate<R> = (data?: ActionData<R>) => boolean;
+```
 
 ### EntityActionOptions\<R = any\>
 
@@ -113,21 +140,21 @@ Its type definition is as follows:
 
 ```js
 type EntityActionOptions<R = any> = {
-  action: EntityActionCallback<R>;
-  text: string;
-  icon?: string;
-  permission?: string;
-  visible?: EntityActionPredicate<R>;
-}
+  action: ActionCallback<R>,
+  text: string,
+  icon?: string,
+  permission?: string,
+  visible?: ActionPredicate<R>,
+};
 ```
 
 As you see, passing `action` and `text` is enough to create an entity action. Here is what each property is good for:
 
-* **action** is a callback that is called when the grid action is clicked. (_required_)
-* **text** is the button text which will be localized. (_required_)
-* **icon** is the classes that define an icon to be placed before the text. (_default:_ `''`)
-* **permission** is the permission context which will be used to decide if this type of grid action should be displayed to the user or not. (_default:_ `undefined`)
-* **visible** is a predicate that will be used to decide if the current record should have this grid action or not. (_default:_ `() => true`)
+- **action** is a callback that is called when the grid action is clicked. (_required_)
+- **text** is the button text which will be localized. (_required_)
+- **icon** is the classes that define an icon to be placed before the text. (_default:_ `''`)
+- **permission** is the permission context which will be used to decide if this type of grid action should be displayed to the user or not. (_default:_ `undefined`)
+- **visible** is a predicate that will be used to decide if the current record should have this grid action or not. (_default:_ `() => true`)
 
 You may find a full example below.
 
@@ -135,8 +162,8 @@ You may find a full example below.
 
 `EntityAction` is the class that defines your entity actions. It takes an `EntityActionOptions` and sets the default values to the properties, creating an entity action that can be passed to an entity contributor.
 
-```
-const options: EntityActionOptions<Identity.User> = {
+```js
+const options: EntityActionOptions<Identity.UserItem> = {
   action: data => {
     const component = data.getInjected(UsersComponent);
     component.unlock(data.record.id);
@@ -144,30 +171,40 @@ const options: EntityActionOptions<Identity.User> = {
   text: 'AbpIdentity::Unlock',
   icon: 'fa fa-unlock',
   permission: 'AbpIdentity.Users.Update',
-  visible: data => !data.record.isLockedOut,
+  visible: data => data.record.isLockedOut,
 };
 
-const action = new EntityAction<Identity.User>(options);
+const action = new EntityAction(options);
 ```
 
 It also has two static methods to create its instances:
 
-* **EntityAction.create\<R = any\>\(options: EntityActionOptions\<R\>\)** is used to create an instance of `EntityAction`.
-* **EntityAction.createMany\<R = any\>\(options: EntityActionOptions\<R\>\[\]\)** is used to create multiple instances of `EntityAction` with given array of `EntityActionOptions`.
+- **EntityAction.create\<R = any\>\(options: EntityActionOptions\<R\>\)** is used to create an instance of `EntityAction`.
+  ```js
+  const action = EntityAction.create(options);
+  ```
+- **EntityAction.createMany\<R = any\>\(options: EntityActionOptions\<R\>\[\]\)** is used to create multiple instances of `EntityAction` with given array of `EntityActionOptions`.
+  ```js
+  const actions = EntityAction.createMany(optionsArray);
+  ```
 
-### ActionList\<R = any\>
+### EntityActionList\<R = any\>
 
-`ActionList` is the list of actions passed to every action contributor callback as the first parameter named `actionList`. It is a **doubly linked list**. You may find [all available methods here](../../Common/Utils/Linked-List).
+`EntityActionList` is the list of actions passed to every action contributor callback as the first parameter named `actionList`. It is a **doubly linked list**. You may find [all available methods here](https://docs.abp.io/en/abp/latest/UI/Common/Utils/Linked-List).
 
-The items in the list will be displayed according to the liked list order, i.e. from head to tail. If you want to re-order them, all you have to do is something like this:
+The items in the list will be displayed according to the linked list order, i.e. from head to tail. If you want to re-order them, all you have to do is something like this:
 
 ```js
-export function reorderUserContributors(actionList: ActionList<Identity.User>) {
+export function reorderUserContributors(
+  actionList: EntityActionList<Identity.UserItem>,
+) {
+  // drop "Unlock" button
   const unlockActionNode = actionList.dropByValue(
     'AbpIdentity::Unlock',
     (action, text) => action.text === text,
   );
-  
+
+  // add it back to the head of the list
   actionList.addHead(unlockActionNode.value);
 }
 ```
@@ -177,30 +214,20 @@ export function reorderUserContributors(actionList: ActionList<Identity.User>) {
 `EntityActionContributorCallback` is the type that you can pass as entity action contributor callbacks to static `forRoot` methods of the modules.
 
 ```js
-// app.module.ts
-
-export function lockUserContributor(actionList: ActionList<Identity.User>) {
+export function lockUserContributor(
+  actionList: EntityActionList<Identity.UserItem>,
+) {
+  // add lockUser as 3rd action
   actionList.add(lockUser).byIndex(2);
-  
-  // lockUser should have EntityActionContributorCallback<Identity.User> type
+
+  // lockUser should have EntityActionContributorCallback<Identity.UserItem> type
 }
 
-@NgModule({
-  imports: [
-    // Other imports
-    
-    IdentityConfigModule.forRoot({
-      entityActionContributors: {
-        'Identity.UsersComponent': [ lockUserContributor ],
-      },
-    }),
-    
-    // Other imports
-  ],
-  providers: [],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
+export const identityEntityActionContributors = {
+  [eIdentityComponents.Users]: [lockUserContributor],
+};
 ```
 
+## See Also
+
+- [Guide: Customizing the Modules](../../guides/customizing-modules.md)
