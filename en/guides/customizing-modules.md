@@ -37,5 +37,5 @@ You can add any type of view component item to the page toolbar or modify existi
 
 See the related documents to learn how to use this system:
 
-* [Entity Action Extensions for ASP.NET Core UI](../ui/aspnetcore/page-toolbar-extensions.md)
-* [Entity Action Extensions for Angular](../ui/angular/content-toolbar-extensions.md)
+* [Page Toolbar Extensions for ASP.NET Core UI](../ui/aspnetcore/page-toolbar-extensions.md)
+* [Page Toolbar Extensions for Angular](../ui/angular/page-toolbar-extensions.md)
