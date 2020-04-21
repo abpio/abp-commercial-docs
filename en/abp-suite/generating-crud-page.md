@@ -144,15 +144,15 @@ See the screenshot that shows you how to do this:
 
 ### Saving an entity
 
-There are 2 action to save the entity. 
+There are 2 options to save an entity. 
 
-#### Save as draft
+#### Save
 
-Saves only the entity and not generates any code. This is useful when you don't want to apply changes to your project.
+Saves only the entity as draft and doesn't generate code. This is useful when you don't want to apply changes to your project.
 
 #### Save and generate
 
-Saves the entity and generates related code. Your project will be updated.
+Saves the entity and generates code. Your project will be added a new CRUD page.
 
 ### Database table
 
