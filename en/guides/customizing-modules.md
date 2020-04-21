@@ -12,7 +12,9 @@ ABP Commercial adds **more extension points** on top of the ABP Framework.
 
 > This section **only focuses on the additional features** provided by the ABP Commercial. You should definitely see the guide mentioned in the previous section.
 
-### Entity Actions
+### User Interface
+
+#### Entity Actions
 
 Entity action extension system allows you to add a new action to the action menu for an entity. A "Click Me" action was added to the user management page below:
 
@@ -24,3 +26,16 @@ See the related documents to learn how to use this system:
 
 * [Entity Action Extensions for ASP.NET Core UI](../ui/aspnetcore/entity-action-extensions.md)
 * [Entity Action Extensions for Angular](../ui/angular/entity-action-extensions.md)
+
+#### Page Toolbar
+
+Page toolbar system allows you to add components to the toolbar of any page. The page toolbar is the area right to the header of a page. A button ("Import users from excel") was added to the user management page below:
+
+![page-toolbar-button](../images/page-toolbar-button.png)
+
+You can add any type of view component item to the page toolbar or modify existing items.
+
+See the related documents to learn how to use this system:
+
+* [Page Toolbar Extensions for ASP.NET Core UI](../ui/aspnetcore/page-toolbar-extensions.md)
+* [Page Toolbar Extensions for Angular](../ui/angular/page-toolbar-extensions.md)

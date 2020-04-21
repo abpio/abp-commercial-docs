@@ -107,6 +107,59 @@ You can use sorting field column to specify or change the order in which results
 
 ![Property list](../images/suite-list-properties.png)
 
+## Navigation Properties
+
+A **navigation property** is an optional **property** on an entity type that allows for **navigation** from one end of an association to the other end. Unlike other properties, **navigation properties** do not carry data.
+
+Here's a navigation property example; The `student` entity holds a foreign key to the `teacher` entity which stores the primary key of the `teacher` entity.
+
+![Navigation property example](../images/suite-entity-with-navigation-property.png)
+
+#### How to define a navigation property?
+
+* **Entity namespace**: Namespace of the **target entity** you want to use as the navigation property.
+  * Example:`SampleMongoSchoolApp.Teachers`
+* **Entity name**: Name of the **target entity**.
+  * Example: `Teacher`
+* **Entity collection name**: Collection name of the **target entity** in `DbContext`.
+  * Example: `Teachers`
+* **DTO namespace**: Namespace of DTO object of the entity.
+  * Example:`SampleMongoSchoolApp.Teachers`
+* **DTO name**: Name of the DTO object of the **target entity**.
+  * Example:`TeacherDto`
+* **Primary key**: Primary key type of the **target entity**.
+  * Example: `Guid`
+* **Property name**: Name of the (reference) property that will be created in the main entity.
+  * Example: `TeacherId`
+* **Display property**: Property name of the target entity which you want to show as display text. It must be a string property.
+  * Example: `Name`
+* **UI pick type**: Determinates how to set the navigation value. 
+  * **Modal**: In a modal window, it opens the target entity list and allows you to select one. Recommended for entities with large data.
+  * **Dropdown**: A dropdown will allow you to select a navigation property. Recommended for entities with fewer data.
+
+In this example scenario, we will create a `Student` entity and add a navigation property to the already existing entity `Teacher`. In the end, the user will be able select a teacher for a student. 
+See the screenshot that shows you how to do this:
+
+![Navigation property example](../images/suite-navigation-property-create-new.png)
+
+### Saving an entity
+
+There are 2 options to save an entity. 
+
+#### Save
+
+Saves only the entity as draft and doesn't generate code. This is useful when you don't want to apply changes to your project.
+
+#### Save and generate
+
+Saves the entity and generates code. Your project will be added a new CRUD page.
+
+### Database table
+
+When you click **Save and generate** button it'll create all the related objects. The below screenshot is the MS SQL database table that's generated via ABP Suite.
+
+![Database table for the new entity](../images/suite-database-table.png)
+
 ## User interface
 
 ### New book dialog

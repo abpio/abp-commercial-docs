@@ -20,7 +20,7 @@ First, add a new JavaScript file to your solution. We added inside the `/Pages/I
 
 Here, the content of this JavaScript file:
 
-````js
+```js
 var clickMeAction = {
     text: 'Click Me!',
     action: function(data) {
@@ -34,7 +34,7 @@ abp.ui.extensions.entityActions
     .addContributor(function(actionList) {
         actionList.addTail(clickMeAction);
     });
-````
+```
 
 In the `action` function, you can do anything you need. See the (*API*)[#api] section for detailed usage.
 
@@ -44,7 +44,7 @@ Then you need to add this JavaScript file to the user management page. You can t
 
 Write the following code inside the `ConfigureServices` of your module class:
 
-````csharp
+```csharp
 Configure<AbpBundlingOptions>(options =>
 {
     options.ScriptBundles.Configure(
@@ -56,7 +56,7 @@ Configure<AbpBundlingOptions>(options =>
             );
         });
 });
-````
+```
 
 This configuration adds `my-user-extensions.js` to the user management page of the Identity Module. `typeof(Volo.Abp.Identity.Web.Pages.Identity.Users.IndexModel).FullName` is the name of the bundle in the user management page. This is a common convention used for all the ABP Commercial modules.
 
@@ -72,7 +72,7 @@ This method is used to access the entity actions of a specific module. It takes 
 
 ### abp.ui.extensions.entityActions.get(entityName).actions
 
-The `actions` property is used to retrieve a [doubly liked list](../../Common/Utils/Linked-List) of previously defined actions for an entity. All contributors are executed in order to prepare the final actions list. This is normally called by the modules to show the actions in the grid. However, you can use it if you are building your own extensible UIs.
+The `actions` property is used to retrieve a [doubly linked list](https://docs.abp.io/en/abp/latest/UI/Common/Utils/Linked-List) of previously defined actions for an entity. All contributors are executed in order to prepare the final actions list. This is normally called by the modules to show the actions in the grid. However, you can use it if you are building your own extensible UIs.
 
 ### abp.ui.extensions.entityActions.get(entityName).addContributor(contributeCallback)
 
@@ -82,7 +82,7 @@ The `addContributor` method covers all scenarios, e.g. you want to add your acti
 
 #### Example
 
-````js
+```js
 var clickMe2Action = {
     text: 'Click Me 2!',
     icon: 'fas fa-hand-point-right',
@@ -105,10 +105,10 @@ abp.ui.extensions.entityActions
         var lastAction = actionList.dropTail().value;
         actionList.addAfter(lastAction, clickMe2Action);
     });
-````
+```
 
 > `actionList` is an object of type `ActionList` that is explained below. You can use its methods to build a list of actions however you need.
 
 ### abp.ui.extensions.ActionList
 
-`ActionList` returns an instance of LinkedList class, a doubly linked list provided by the @abp/utils package. That instance is passed as the `actionList` parameter to the `addContributor` method. You may find [all available methods explained here](../../Common/Utils/Linked-List).
+`ActionList` returns an instance of LinkedList class, a doubly linked list provided by the @abp/utils package. That instance is passed as the `actionList` parameter to the `addContributor` method. You may find [all available methods explained here](https://docs.abp.io/en/abp/latest/UI/Common/Utils/Linked-List).
