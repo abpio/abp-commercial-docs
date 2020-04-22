@@ -4,6 +4,9 @@ This module implements the Audit Logging system of an application;
 
 * See all audit logs of the system and filter audit logs easily.
 * View audit log details, executed actions and changed entities.
+* See all changes of entities and filter entity change logs.
+* View details of an entity change. 
+* View all changes of an entity. 
 * This module also defines reusable "Average Execution Duration Per Day" and "Error Rate" widgets.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Identity.Pro) for an overview of the module features.
@@ -39,7 +42,7 @@ This module follows the [module development best practices guide](https://docs.a
 
 Audit logs module adds the following items to the "Main" menu, under the "Administration" menu item:
 
-* **Audit Logs**: List, view and filter audit logs.
+* **Audit Logs**: List, view and filter audit logs and entity changes.
 
 `IAbpAuditLoggingMainMenuNames` class has the constants for the menu item names.
 
@@ -47,9 +50,9 @@ Audit logs module adds the following items to the "Main" menu, under the "Admini
 
 #### Audit Logs
 
-Audit logs page is used to list, view and filter audit logs in the system. 
+Audit logs tab is used to list, view and filter audit logs and entity changes in the system. 
 
-![audit-logging-module-list-page](../images/audit-logging-module-list-page.png)
+![audit-logging-module-list-page](../images/audit-logging-module-list-page-1.png)
 
 
 
@@ -64,6 +67,30 @@ You can view details of an audit log by clicking the magnifier icon on each audi
 * **Overall:** This tab contains detailed information about audit log.
 * **Actions:** This tab shows list of actions (controller actions and application service method calls with their parameters) executed during a web request.
 * **Changes:** This tab shows changed entities during the web request.
+
+#### Entity Changes
+
+Entity changes tab is used to list, view and filter entity change logs. 
+
+![audit-logging-module-entity-changes-list-page](../images/audit-logging-module-entity-changes-list-page.png)
+
+
+
+Each line on the list contains basic information about an entity change log like Time (time of change), Change Type etc...
+
+##### Change Details Modal
+
+You can view details of an entity change log by clicking the "Change Details" action item in the entity change log list:
+
+![audit-logging-module-entity-change-details-modal](../images/audit-logging-module-entity-change-details-modal.png)
+
+
+
+##### Full Change History Modal
+
+You can view details of all changes of an entity by clicking the "Full Change History" action item in the entity change log list:
+
+![audit-logging-module-full-entity-change-details-modal](../images/audit-logging-module-full-entity-change-details-modal.png)
 
 ## Data seed
 
