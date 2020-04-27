@@ -4,7 +4,7 @@
 
 Entity action extension system allows you to add a new action to the action menu for an entity. A "Click Me" action was added to the user management page below:
 
-![Entity Action Extension Example: "Click Me!" Action](../../images/user-action-extension-click-me-ng.png)
+![Entity Action Extension Example: "Click Me!" Action](../../images/user-action-extension-click-me.png)
 
 You can take any action (open a modal, make an HTTP API call, redirect to another page... etc) by writing your custom code. You can access to the current entity in your code.
 
