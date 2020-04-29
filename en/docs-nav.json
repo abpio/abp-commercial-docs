@@ -78,8 +78,11 @@
     },
     {
       "text": "Application Modules",
-      "path": "modules/index.md",
       "items": [
+        {
+          "text": "Overall",
+          "path": "modules/index.md"
+        },
         {
           "text": "Account",
           "path": "modules/account.md"
@@ -125,8 +128,11 @@
     },
     {
       "text": "ABP Suite",
-      "path": "abp-suite/index.md",
       "items": [
+        {
+          "text": "Overall",
+          "path": "abp-suite/index.md"
+        },
         {
           "text": "How to install",
           "path": "abp-suite/how-to-install.md"

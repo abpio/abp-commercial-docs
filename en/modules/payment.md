@@ -165,7 +165,8 @@ Instead of configuring options in your module class, you can configure it in you
       "Signature": "SECRET_KEY",
       "CheckoutUrl": "https://secure.2checkout.com/order/checkout.php",
       "LanguageCode": "en",
-      "CurrencyCode": "USD"
+      "CurrencyCode": "USD",
+      "TestOrder": "1"
     }
   }
 ```

@@ -160,8 +160,6 @@ When you click **Save and generate** button it'll create all the related objects
 
 ![Database table for the new entity](../images/suite-database-table.png)
 
-
-
 ## User interface
 
 ### New book dialog
