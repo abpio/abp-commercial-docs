@@ -117,7 +117,7 @@ Incase you need to place a custom modal that will be triggered by an entity acti
 3. Add an entity action similar to this:
   ```js
   const customModalAction = new EntityAction<Identity.UserItem>({
-    text: 'User Salesforce Hierarchy',
+    text: 'Custom Modal Action',
     action: data => {
       const component = data.getInjected(AppComponent);
       component.openModal(/* you may pass parameters */);
@@ -259,7 +259,7 @@ Consider the modal will be displayed in the Identity module. How can we lazy-loa
 7. Add an entity action similar to this:
   ```js
   const customModalAction = new EntityAction<Identity.UserItem>({
-    text: 'User Salesforce Hierarchy',
+    text: 'Custom Modal Action',
     action: data => {
       const store = data.getInjected(Store);
       store.dispatch(new ToggleIdentityPopup(true));
