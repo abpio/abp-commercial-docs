@@ -77,6 +77,198 @@ export class AppModule {}
 
 That is it, `alertUserName` entity action will be added as the last action on the grid dropdown in the users page (`UsersComponent`) of the `IdentityModule`.
 
+## How to Place a Custom Modal and Trigger It by Entity Actions
+
+Incase you need to place a custom modal that will be triggered by an entity action, there are two ways to do it: A quick one and an elaborate one.
+
+### The Quick Solution
+
+1. Place your custom modal inside `AppComponent` template.
+  ```html
+  <abp-modal [(visible)]="isModalOpen">
+    <ng-template #abpHeader>
+      <h3><!-- YOUR TITLE HERE --></h3>
+    </ng-template>
+
+    <ng-template #abpBody>
+      <!-- YOUR CONTENT HERE -->
+    </ng-template>
+
+    <ng-template #abpFooter>
+      <button type="button" class="btn btn-secondary" #abpClose>
+        {{ 'AbpIdentity::Cancel' | abpLocalization }}
+      </button>
+      
+      <!-- YOUR CONFIRMATION BUTTON HERE -->
+    </ng-template>
+  </abp-modal>
+  ```
+
+2. Add the following inside your `AppComponent` class:
+  ```js
+  isModalOpen: boolean;
+
+  openModal(/* may take parameters */) {
+    /* and set things before showing the modal */
+    this.isModalOpen = true;
+  }
+  ```
+
+3. Add an entity action similar to this:
+  ```js
+  const customModalAction = new EntityAction<Identity.UserItem>({
+    text: 'Custom Modal Action',
+    action: data => {
+      const component = data.getInjected(AppComponent);
+      component.openModal(/* you may pass parameters */);
+    },
+  });
+  ```
+
+That should work. However, there is a longer but lazy-loading solution, and we are going to use NGXS for it.
+
+### The Elaborate Solution
+
+Consider the modal will be displayed in the Identity module. How can we lazy-load it too?
+
+1. Create a folder called `identity-extended` inside your app folder.
+2. Create a file called `identity-popups.store.ts` in it.
+3. Insert the following code in the new file:
+  ```js
+  import { Action, Selector, State, StateContext } from '@ngxs/store';
+
+  export class ToggleIdentityPopup {
+    static readonly type = '[IdentityPopups] Toggle';
+    constructor(public readonly payload: boolean) {}
+  }
+
+  @State<IdentityPopupsStateModel>({
+    name: 'IdentityPopups',
+    defaults: {
+      isVisible: false,
+    },
+  })
+  export class IdentityPopupsState {
+    @Selector()
+    static isVisible(state: IdentityPopupsStateModel) {
+      return state.isVisible;
+    }
+
+    @Action(ToggleIdentityPopup)
+    toggleModal(
+      context: StateContext<IdentityPopupsStateModel>,
+      { payload }: ToggleIdentityPopup,
+    ) {
+      context.patchState({ isVisible: payload });
+    }
+  }
+
+  interface IdentityPopupsStateModel {
+    isVisible: boolean;
+  }
+  ```
+
+4. Create a file called `identity-extended.module.ts` in the same folder.
+5. Insert the following code in the new file:
+  ```js
+  import { CoreModule } from '@abp/ng.core';
+  import { ThemeSharedModule } from '@abp/ng.theme.shared';
+  import { Component, NgModule } from '@angular/core';
+  import { RouterModule } from '@angular/router';
+  import { NgxsModule, Select, Store } from '@ngxs/store';
+  import { Observable } from 'rxjs';
+  import { IdentityPopupsState, ToggleIdentityPopup } from './identity-popups.store';
+
+  @Component({
+    template: `
+      <router-outlet></router-outlet>
+      <router-outlet name="popup"></router-outlet>
+    `,
+  })
+  export class IdentityOutletComponent {}
+
+  @Component({
+    template: `
+      <abp-modal [visible]="isVisible$ | async" (disappear)="onDisappear()">
+        <ng-template #abpHeader>
+          <h3><!-- YOUR TITLE HERE --></h3>
+        </ng-template>
+
+        <ng-template #abpBody>
+          <!-- YOUR CONTENT HERE -->
+        </ng-template>
+
+        <ng-template #abpFooter>
+          <button type="button" class="btn btn-secondary" #abpClose>
+            {{ 'AbpIdentity::Cancel' | abpLocalization }}
+          </button>
+          
+          <!-- YOUR CONFIRMATION BUTTON HERE -->
+        </ng-template>
+      </abp-modal>
+    `,
+  })
+  export class IdentityPopupsComponent {
+    @Select(IdentityPopupsState.isVisible)
+    isVisible$: Observable<boolean>;
+
+    constructor(private store: Store) {}
+
+    onDisappear() {
+      this.store.dispatch(new ToggleIdentityPopup(false));
+    }
+  }
+
+  @NgModule({
+    declarations: [IdentityPopupsComponent, IdentityOutletComponent],
+    imports: [
+      CoreModule,
+      ThemeSharedModule,
+      NgxsModule.forFeature([IdentityPopupsState]),
+      RouterModule.forChild([
+        {
+          path: '',
+          component: IdentityOutletComponent,
+          children: [
+            {
+              path: '',
+              outlet: 'popup',
+              component: IdentityPopupsComponent,
+            },
+            {
+              path: '',
+              loadChildren: () => import('@volo/abp.ng.identity').then(m => m.IdentityModule),
+            },
+          ],
+        },
+      ]),
+    ],
+  })
+  export class IdentityExtendedModule {}
+  ```
+
+6. Change the `identity` path in your `AppRoutingModule` to this:
+  ```js
+  {
+    path: 'identity',
+    loadChildren: () =>
+      import('./identity-extended/identity-extended.module').then(m => m.IdentityExtendedModule),
+  },
+  ```
+
+7. Add an entity action similar to this:
+  ```js
+  const customModalAction = new EntityAction<Identity.UserItem>({
+    text: 'Custom Modal Action',
+    action: data => {
+      const store = data.getInjected(Store);
+      store.dispatch(new ToggleIdentityPopup(true));
+    },
+  });
+  ```
+
+It should now be working well with lazy-loading. The files are compact in the description to make it quicker to explain. You may split the files as you wish.
+
 ## API
 
 ### ActionData\<R = any\>
