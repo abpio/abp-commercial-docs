@@ -4,7 +4,7 @@
 
 Page toolbar extension system allows you to add a new action to the toolbar of a page. A "Click Me" action was added to the user management page below:
 
-![Page Toolbar Extension Example: "Click Me!" Action](../../Images/user-page-toolbar-extension-click-me-ng.png)
+![Page Toolbar Extension Example: "Click Me!" Action](../../images/user-page-toolbar-extension-click-me-ng.png)
 
 You can take any action (open a modal, make an HTTP API call, redirect to another page... etc) by writing your custom code. You can also access to page data (the main record, usually an entity list) in your code. Additionally, you can pass in custom components instead of using the default button.
 
@@ -180,7 +180,7 @@ export class AppModule {}
 
 That is it, `logUserNames` toolbar action will be added as the first action on the page toolbar in the users page (`UsersComponent`) of the `IdentityModule` and it will be triggered by a custom button, i.e. `ClickMeButtonComponent`. Please note that **component projection is not limited to buttons** and you may use other UI components.
 
-![Page Toolbar Extension Example: Custom "Click Me!" Button](../../Images/user-page-toolbar-extension-custom-click-me-ng.png)
+![Page Toolbar Extension Example: Custom "Click Me!" Button](../../images/user-page-toolbar-extension-custom-click-me-ng.png)
 
 ## How to Place a Custom Modal and Trigger It by Toolbar Actions
 
