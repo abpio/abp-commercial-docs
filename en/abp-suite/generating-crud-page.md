@@ -109,38 +109,99 @@ You can use sorting field column to specify or change the order in which results
 
 ## Navigation Properties
 
-A **navigation property** is an optional **property** on an entity type that allows for **navigation** from one end of an association to the other end. Unlike other properties, **navigation properties** do not carry data.
+A **navigation property** is a type of property on an entity that allows for navigation from one end of an association to the other end. Unlike normal properties, navigation properties do not carry data.
 
-Here's a navigation property example; The `student` entity holds a foreign key to the `teacher` entity which stores the primary key of the `teacher` entity.
+Navigation properties provide a way to navigate an association between two entity types. Every object can have a navigation property for every relationship in which it participates. 
 
-![Navigation property example](../images/suite-entity-with-navigation-property.png)
+When you create a navigation property with ABP Suite, you will have a dropdown or look up table to pick a record from the dependent record list. ABP Suite allows you to create a navigation property for only **1-to-many (1:N)** relationships.
 
-#### How to define a navigation property?
+> Currently there's no support for many-to-1 (N:1) or many-to-many (N:N) relationships!
 
-* **Entity namespace**: Namespace of the **target entity** you want to use as the navigation property.
-  * Example:`SampleMongoSchoolApp.Teachers`
-* **Entity name**: Name of the **target entity**.
-  * Example: `Teacher`
-* **Entity collection name**: Collection name of the **target entity** in `DbContext`.
-  * Example: `Teachers`
-* **DTO namespace**: Namespace of DTO object of the entity.
-  * Example:`SampleMongoSchoolApp.Teachers`
-* **DTO name**: Name of the DTO object of the **target entity**.
-  * Example:`TeacherDto`
-* **Primary key**: Primary key type of the **target entity**.
-  * Example: `Guid`
-* **Property name**: Name of the (reference) property that will be created in the main entity.
-  * Example: `TeacherId`
-* **Display property**: Property name of the target entity which you want to show as display text. It must be a string property.
-  * Example: `Name`
-* **UI pick type**: Determinates how to set the navigation value. 
-  * **Modal**: In a modal window, it opens the target entity list and allows you to select one. Recommended for entities with large data.
-  * **Dropdown**: A dropdown will allow you to select a navigation property. Recommended for entities with fewer data.
+In this scenario there are multiple records from one entity associated with a single record from another entity. This means you have a principal (parent) entity and many dependent (child) entities. 
 
-In this example scenario, we will create a `Student` entity and add a navigation property to the already existing entity `Teacher`. In the end, the user will be able select a teacher for a student. 
-See the screenshot that shows you how to do this:
+Let's see an example to understand it deeper... 
+We will have a `Book` entity and an `Author` entity. Let each book has an author.
 
-![Navigation property example](../images/suite-navigation-property-create-new.png)
+- `Book` entity (1) is associated to `Author` entity (N).
+
+### Step by step creating a navigation property
+
+Let's see how to create a navigation property for a **Book Store** project.  We will create an `Author` entity and a `Book` entity. The `Book` entity will hold a foreign key to the `Author` entity which will store the primary key of the `Author` entity.
+
+#### 1- Create the "Author" entity
+
+`Author` entity is the dependent or child entity of the `Book` entity. So we will firstly create the `Author` entity. In the **Entity Info** tab, write "**Author**" in the **name** field. The rest will be automatically filled. Then click **Properties** tab and add the below 2 properties:
+
+1. **Property name:** `NameSurname`, **Property type:** `string`
+2. **Property name:** `Age`, **Property type:** `int`
+
+Click **Save and generate** button and wait for ABP Suite to create the page.
+
+![navigation-property-author-entity](../images/navigation-property-author-entity.png)
+
+After it finishes, run the web project and go to **Authors** page. Click **New Author** button and add the below 3 records:
+
+1. **Name Surname:** `Miguel de Cervantes`, **Age:** `40`
+2. **Name Surname:** `Charles Dickens`, **Age:** `35`
+3. **Name Surname:** `Antoine de Saint-Exupery`, **Age:** `45`
+
+![navigation-property-authors-page](../images/navigation-property-authors-page.png)
+
+#### 1- Create the "Book" entity
+
+`Book` is the principal (parent) entity. It will hold a reference to the `Author` entity in `AuthorId` property. Let's create the `Book` entity in the ABP Suite. Click **-New entity-** in the **Entity** dropdown on the top of the page and write **"Book"** in the **Name** field. The rest will be automatically filled. Then click **Properties** tab and add 2 properties:
+
+1. **Property name:** `Title`, **Property type:** `string`
+2. **Property name:** `Year`, **Property type:** `int`
+
+Click the **Navigation properties** tab. Then click **Add navigation property** button. In the opening window, click **Select dependent entity** textbox. A file browser will pop up. Find the `Author.cs` that we previously created in step 1.  `Author.cs`  is located in `src\Acme.BookStore.Domain\Authors` directory. After you select the file, almost all fields will be automatically filled, except **Display Property**. Select `NameSurname` from the **Properties** dropdown. It will write it to the **Display Property** textbox. Revise the other fields for the last check and click **OK** button. A new navigation property is added. Click **Save and generate** button and wait for the ABP Suite to create the Books page with the navigation property.
+
+> Notice that almost all fields are automatically filled by convention. If you don't rename the `DTO` names, `DbSet` names in the `DbContext`, navigation property names or namespaces, this tool will automatically set all required fields. On the other hand, these textboxes are not readonly, so that you can change them according to your requirements.
+>
+> 
+
+![navigation-property-book-entity](../images/navigation-property-book-entity.png)
+
+In the below image, you will see the mappings of navigation property fields with the code classes.
+
+![Navigation property example](../images/navigation-property-field-mappings.png)
+
+##### Description of the navigation property window fields
+
+* **Entity namespace**: Namespace of the dependent (child) entity you want to use as the navigation property. Example: `Acme.BookStore.Authors`.
+
+* **Entity name**: Name of the dependent entity. Example `Author`.
+
+* **Display property**: Property name of the dependent entity which you want to show as display text on the UI. Should be a string field. Example: `NameSurname`.
+
+* **Primary key**: Primary key type of the dependent entity. Example: `Guid`.
+
+* **DTO name**: Name of the dependent entity DTO.  Example: `AuthorDto`.
+
+* **DTO namespace**: Namespace of the dependent entity DTO. Example: `Acme.BookStore.Authors`.
+
+* **Collection name**: Collection name or DbSet name of the of the dependent entity in the `DbContext`.  You can select your collection name from **Collection names** dropdown. Example: `Authors`.
+
+* **Property name**: Name of the property that will be created in the principal (parent) entity. Example: `AuthorId`.
+
+* **UI pick type**: Specifies the method of setting the navigation value. There are 2 types:
+
+  * **Modal**: Value is being set in a modal window. A button named as **Pick** will allow users to open a look up table which has search functionality. User will be able to select a single record from the look up table. It's recommended for entities with large data.
+  * **Dropdown**: A dropdown will allow users to select a single record. It's recommended for entities with fewer data. 
+
+##### Database structure of navigation property
+
+`AppBooks` table stores items for the principal entity and `AppAuthors` stores the items for dependent entity. Each book has an `AuthorId` field referenced to `Authors` table.
+
+![navigation-property-database](../images/navigation-property-database.png)
+
+##### Final look
+
+The below image is the final page created by the ABP Suite. The **new book** dialog has **Author** dropdown which lists all authors. After saving the book, the author column will show the `NameSurname` field (display property) of the author entity.
+
+![navigation-property-books-page](../images/navigation-property-books-page.png)
+
+
 
 ### Saving an entity
 
@@ -156,7 +217,7 @@ Saves the entity and generates code. Your project will be added a new CRUD page.
 
 ### Database table
 
-When you click **Save and generate** button it'll create all the related objects. The below screenshot is the MS SQL database table that's generated via ABP Suite.
+When you click **Save and generate** button it'll create all the related objects. The below screenshot is the MS-SQL database table which is generated by the ABP Suite.
 
 ![Database table for the new entity](../images/suite-database-table.png)
 
