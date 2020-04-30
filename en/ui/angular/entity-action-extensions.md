@@ -4,7 +4,7 @@
 
 Entity action extension system allows you to add a new action to the action menu for an entity. A "Click Me" action was added to the user management page below:
 
-![Entity Action Extension Example: "Click Me!" Action](../../images/user-action-extension-click-me.png)
+![Entity Action Extension Example: "Click Me!" Action](../../images/user-action-extension-click-me-ng.png)
 
 You can take any action (open a modal, make an HTTP API call, redirect to another page... etc) by writing your custom code. You can access to the current entity in your code.
 
@@ -49,7 +49,21 @@ export const identityEntityActionContributors: IdentityEntityActionContributors 
 
 The list of actions, conveniently named as `actionList`, is a **doubly linked list**. That is why we have used the `addTail` method, which adds the given value to the end of the list. You may find [all available methods here](https://docs.abp.io/en/abp/latest/UI/Common/Utils/Linked-List).
 
-> **Important Note:** AoT compilation does not support function calls in decorator metadata. This is why we have defined `alertUserNameContributor` as an exported function declaration here. Please do not forget exporting your contributor callbacks and forget about lambda functions (a.k.a. arrow functions). Please refer to [AoT metadata errors](https://angular.io/guide/aot-metadata-errors#function-calls-not-supported) for details.
+> **Important Note 1:** AoT compilation does not support function calls in decorator metadata. This is why we have defined `alertUserNameContributor` as an exported function declaration here. Please do not forget exporting your contributor callbacks and forget about lambda functions (a.k.a. arrow functions). Please refer to [AoT metadata errors](https://angular.io/guide/aot-metadata-errors#function-calls-not-supported) for details.
+
+> **Important Note 2:** Please use one of the following if Ivy is not enabled in your project. Otherwise, you will get an "Expression form not supported." error.
+
+```js
+export const identityEntityActionContributors: IdentityEntityActionContributors = {
+  'Identity.UsersComponent': [ alertUserNameContributor ],
+};
+
+/* OR */
+
+const identityContributors: IdentityEntityActionContributors = {};
+identityContributors[eIdentityComponents.Users] = [ alertUserNameContributor ];
+export const identityEntityActionContributors = identityContributors;
+```
 
 ### Step 2. Import and Use Entity Action Contributors
 
