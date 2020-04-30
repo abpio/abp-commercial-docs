@@ -150,7 +150,21 @@ export const identityToolbarActionContributors: IdentityToolbarActionContributor
 
 The list of actions, conveniently named as `actionList`, is a **doubly linked list**. That is why we have used the `addHead` method, which adds the given value to the beginning of the list. You may find [all available methods here](https://docs.abp.io/en/abp/latest/UI/Common/Utils/Linked-List).
 
-> **Important Note:** AoT compilation does not support function calls in decorator metadata. This is why we have defined `logUserNamesContributor` as an exported function declaration here. Please do not forget exporting your contributor callbacks and forget about lambda functions (a.k.a. arrow functions). Please refer to [AoT metadata errors](https://angular.io/guide/aot-metadata-errors#function-calls-not-supported) for details.
+> **Important Note 1:** AoT compilation does not support function calls in decorator metadata. This is why we have defined `logUserNamesContributor` as an exported function declaration here. Please do not forget exporting your contributor callbacks and forget about lambda functions (a.k.a. arrow functions). Please refer to [AoT metadata errors](https://angular.io/guide/aot-metadata-errors#function-calls-not-supported) for details.
+
+> **Important Note 2:** Please use one of the following if Ivy is not enabled in your project. Otherwise, you will get an "Expression form not supported." error.
+
+```js
+export const identityToolbarActionContributors: IdentityToolbarActionContributors = {
+  'Identity.UsersComponent': [ logUserNamesContributor ],
+};
+
+/* OR */
+
+const identityContributors: IdentityToolbarActionContributors = {};
+identityContributors[eIdentityComponents.Users] = [ logUserNamesContributor ];
+export const identityToolbarActionContributors = identityContributors;
+```
 
 ### Step 3. Import and Use Toolbar Action Contributors
 
