@@ -14,7 +14,7 @@ ABP Commercial adds **more extension points** on top of the ABP Framework.
 
 ### Module Entity Extension System
 
-Module entity extension system is the main extension system that allows you to **define new properties** for existing entities of the depended modules. It automatically **adds properties to the entity, database, HTTP API and the user interface** in a single point.
+Module entity extension system is the **main extension system** that allows you to **define new properties** for existing entities of the depended modules. It automatically **adds properties to the entity, database, HTTP API and the user interface** in a single point.
 
 * See the [Module Entity Extensions document](module-entity-extensions.md) to learn how to use it.
 
@@ -26,6 +26,13 @@ Entity action extension system allows you to add a new action to the action menu
 
 * [Entity Action Extensions for ASP.NET Core UI](../ui/aspnetcore/entity-action-extensions.md)
 * [Entity Action Extensions for Angular](../ui/angular/entity-action-extensions.md)
+
+#### Data Table Column Extensions
+
+Data table column extension system allows you to add a new column in the data table on the user interface. See the related documents to learn how to use this system:
+
+* [Data Table Column Extensions for ASP.NET Core UI](../ui/aspnetcore/data-table-column-extensions.md)
+* [Data Table Column Extensions for Angular](../ui/angular/data-table-column-extensions.md)
 
 #### Page Toolbar
 

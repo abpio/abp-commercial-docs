@@ -95,20 +95,12 @@ var clickMe2Action = {
 abp.ui.extensions.entityActions
     .get('identity.user')
     .addContributor(function(actionList) {
-        // You can now remove an item from actionList
+        // Remove an item from actionList
         actionList.dropHead();
         
-        // or add a new item to the actionList
+        // Add the new item to the actionList
         actionList.addHead(clickMe2Action);
-
-        // or even re-order the actions in the actionList
-        var lastAction = actionList.dropTail().value;
-        actionList.addAfter(lastAction, clickMe2Action);
     });
 ```
 
-> `actionList` is an object of type `ActionList` that is explained below. You can use its methods to build a list of actions however you need.
-
-### abp.ui.extensions.ActionList
-
-`ActionList` returns an instance of LinkedList class, a doubly linked list provided by the @abp/utils package. That instance is passed as the `actionList` parameter to the `addContributor` method. You may find [all available methods explained here](https://docs.abp.io/en/abp/latest/UI/Common/Utils/Linked-List).
+> `actionList` is [linked list](https://docs.abp.io/en/abp/latest/UI/Common/Utils/Linked-List). You can use its methods to build a list of columns however you need.
