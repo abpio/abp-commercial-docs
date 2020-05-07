@@ -27,6 +27,7 @@ abp.ui.extensions.tableColumns
         columnList.addTail({ //add as the last column
             title: 'Social security no',
             data: 'extraProperties.SocialSecurityNumber',
+            orderable: false,
             render: function (data, type, row) {
                 if (row.extraProperties.SocialSecurityNumber) {
                     return '<strong>' + 
@@ -97,6 +98,7 @@ abp.ui.extensions.tableColumns
         columnList.addTail({
             title: 'Custom column',
             data: {},
+            orderable: false,
             render: function (data) {
                 if (data.phoneNumber) {
                     return "call: " + data.phoneNumber;
@@ -135,6 +137,7 @@ The `addContributor` method covers all scenarios, e.g. you want to add your colu
 var myColumnDefinition = {
     title: 'Custom column',
     data: {},
+    orderable: false,
     render: function(data) {
         if (data.phoneNumber) {
             return "call: " + data.phoneNumber;
