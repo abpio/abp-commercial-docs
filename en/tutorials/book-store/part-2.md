@@ -1329,7 +1329,7 @@ Open `book-list.component.html` in `app\book\book-list` folder and modify the `n
 ```html
 <div ngbDropdownMenu>
   <!-- added Delete button -->
-    <button ngbDropdownItem (click)="delete(data.id, data.name)">
+    <button ngbDropdownItem (click)="delete(data.id)">
         {%{{{ 'AbpAccount::Delete' | abpLocalization }}}%}
     </button>
 </div>

@@ -642,7 +642,7 @@ Localization texts are located under the `Localization/BookStore` folder of the 
 
 Open the `en.json` (*English translations*) file and add the below localization texts to the end of the file:
 
-````json
+```json
 {
   "Culture": "en",
   "Texts": {
@@ -669,7 +669,7 @@ Open the `en.json` (*English translations*) file and add the below localization 
     "AreYouSureToDelete": "Are you sure you want to delete this item?"
   }
 }
-````
+```
 
 * ABP's localization system is built on [ASP.NET Core's standard localization](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization) system and extends it in many ways. See the [localization document](https://docs.abp.io/en/abp/latest/Localization) for details.
 * Localization key names are arbitrary. You can set any name. As a best practice, we prefer to add `Menu:` prefix for menu items to distinguish from other texts. If a text is not defined in the localization file, it **fallbacks** to the localization key (as ASP.NET Core's standard behavior).
@@ -890,7 +890,7 @@ Import the `BookState` to the `app.module.ts` in the `src/app` folder and then a
 
 ```js
 // ...
-import { BookState } from './books/state/books.state'; //<== imported BookState ==>
+import { BookState } from './books/state/book.state'; //<== imported BookState ==>
 
 @NgModule({
   imports: [
