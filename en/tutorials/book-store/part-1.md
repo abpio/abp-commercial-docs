@@ -809,11 +809,6 @@ import { ApplicationLayoutComponent } from '@abp/ng.theme.basic'; //==> added th
 
 * The `ApplicationLayoutComponent` configuration sets the application layout to the new page. We added the `data` object. The `name` is the menu item name and the `iconClass` is the icon of the menu item.
 
-Run `yarn start` and wait for Angular to serve the application:
-
-```bash
-yarn start
-```
 
 #### Book list component
 
