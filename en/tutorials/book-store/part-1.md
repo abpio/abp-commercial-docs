@@ -881,7 +881,7 @@ Open the browser and navigate to http://localhost:4200/books. We'll see **book-l
 
 ![Initial book list page](../../images/bookstore-initial-book-list-page.png)
 
-#### Create BooksState
+#### Create BookState
 
 Run the following command in the terminal to create a new state, named `BooksState`:
 
