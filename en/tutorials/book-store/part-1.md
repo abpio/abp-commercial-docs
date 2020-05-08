@@ -642,7 +642,7 @@ Localization texts are located under the `Localization/BookStore` folder of the 
 
 Open the `en.json` (*English translations*) file and add the below localization texts to the end of the file:
 
-````json
+```json
 {
   "Culture": "en",
   "Texts": {
@@ -669,7 +669,7 @@ Open the `en.json` (*English translations*) file and add the below localization 
     "AreYouSureToDelete": "Are you sure you want to delete this item?"
   }
 }
-````
+```
 
 * ABP's localization system is built on [ASP.NET Core's standard localization](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization) system and extends it in many ways. See the [localization document](https://docs.abp.io/en/abp/latest/Localization) for details.
 * Localization key names are arbitrary. You can set any name. As a best practice, we prefer to add `Menu:` prefix for menu items to distinguish from other texts. If a text is not defined in the localization file, it **fallbacks** to the localization key (as ASP.NET Core's standard behavior).
@@ -809,11 +809,6 @@ import { ApplicationLayoutComponent } from '@abp/ng.theme.basic'; //==> added th
 
 * The `ApplicationLayoutComponent` configuration sets the application layout to the new page. We added the `data` object. The `name` is the menu item name and the `iconClass` is the icon of the menu item.
 
-Run `yarn start` and wait for Angular to serve the application:
-
-```bash
-yarn start
-```
 
 #### Book list component
 
@@ -881,7 +876,7 @@ Open the browser and navigate to http://localhost:4200/books. We'll see **book-l
 
 ![Initial book list page](../../images/bookstore-initial-book-list-page.png)
 
-#### Create BooksState
+#### Create BookState
 
 Run the following command in the terminal to create a new state, named `BooksState`:
 
@@ -895,7 +890,7 @@ Import the `BookState` to the `app.module.ts` in the `src/app` folder and then a
 
 ```js
 // ...
-import { BookState } from './books/state/books.state'; //<== imported BookState ==>
+import { BookState } from './books/state/book.state'; //<== imported BookState ==>
 
 @NgModule({
   imports: [
