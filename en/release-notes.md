@@ -24,7 +24,7 @@ See the detailed **blog post / announcement** for the v2.7.0 release:  https://b
 * ABP Suite: Improve **enum usage** while creating new entities.
 * Improvements on the [Lepton Theme](https://commercial.abp.io/themes), [ABP Suite](https://commercial.abp.io/tools/suite) and  other modules.
 
-### What's Coming..?
+### What's Coming Next?
 
 Beside the completed features, the following features are currently being developed and will be released in the next versions:
 
