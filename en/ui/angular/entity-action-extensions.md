@@ -14,7 +14,7 @@ In this example, we will add a "Click Me!" action and alert the current row's `u
 
 ### Step 1. Create Entity Action Contributors
 
-The following code prepares a constant named `identityActionContributors`, ready to be imported and used in your root module:
+The following code prepares a constant named `identityEntityActionContributors`, ready to be imported and used in your root module:
 
 ```js
 // entity-action-contributors.ts
