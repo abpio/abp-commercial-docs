@@ -14,7 +14,7 @@ In this example, we will add a "Click Me!" action and alert the current row's `u
 
 ### Step 1. Create Entity Action Contributors
 
-The following code prepares a constant named `identityActionContributors`, ready to be imported and used in your root module:
+The following code prepares a constant named `identityEntityActionContributors`, ready to be imported and used in your root module:
 
 ```js
 // entity-action-contributors.ts
@@ -322,20 +322,20 @@ It has the following properties:
   }
   ```
 
-### ActionCallback\<R = any\>
+### ActionCallback\<T, R = any\>
 
 `ActionCallback` is the type of the callback function that can be passed to an `EntityAction` as `action` parameter. An action callback gets a single parameter, the `ActionData`. The return type may be anything, including `void`. Here is a simplified representation:
 
 ```js
-type ActionCallback<R> = (data?: ActionData<R>) => any;
+type ActionCallback<T, R = any> = (data?: ActionData<T>) => R;
 ```
 
-### ActionPredicate\<R = any\>
+### ActionPredicate\<T\>
 
 `ActionPredicate` is the type of the predicate function that can be passed to an `EntityAction` as `visible` parameter. An action predicate gets a single parameter, the `ActionData`. The return type must be `boolean`. Here is a simplified representation:
 
 ```js
-type ActionPredicate<R> = (data?: ActionData<R>) => boolean;
+type ActionPredicate<T> = (data?: ActionData<T>) => boolean;
 ```
 
 ### EntityActionOptions\<R = any\>
@@ -420,13 +420,13 @@ export function reorderUserContributors(
 `EntityActionContributorCallback` is the type that you can pass as entity action contributor callbacks to static `forRoot` methods of the modules.
 
 ```js
+// lockUserContributor should have EntityActionContributorCallback<Identity.UserItem> type
+
 export function lockUserContributor(
   actionList: EntityActionList<Identity.UserItem>,
 ) {
   // add lockUser as 3rd action
   actionList.add(lockUser).byIndex(2);
-
-  // lockUser should have EntityActionContributorCallback<Identity.UserItem> type
 }
 
 export const identityEntityActionContributors = {
