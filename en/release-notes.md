@@ -22,7 +22,7 @@ See the detailed **blog post / announcement** for the v2.7.0 release:  https://b
 * **Optimize database migrations** & seed code for multi-tenant multi-database systems.
 * ABP Suite: Make **menu item active** on navigation menu when selected.
 * ABP Suite: Improve **enum usage** while creating new entities.
-* Bug fixes on the [Lepton Theme](https://commercial.abp.io/themes), [ABP Suite](https://commercial.abp.io/tools/suite) and  other modules.
+* Bug fixes in the [Lepton Theme](https://commercial.abp.io/themes), [ABP Suite](https://commercial.abp.io/tools/suite) and  other modules.
 
 ### What's Coming Next?
 
