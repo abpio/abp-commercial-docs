@@ -11,8 +11,8 @@ See the detailed **blog post / announcement** for the v2.7.0 release:  https://b
 ### Major features
 
 * New module: **Text template management** (with angular and mvc UI - document is [coming](modules/text-template-management.md)).
-* **Dynamically add properties** to current entities of the depended modules (see [the document](guides/module-entity-extensions.md))
-* Adding **navigation properties** to entities on the ABP Suite.
+* **Dynamically add properties** to current entities of the depended modules (see [module entity extensions](guides/module-entity-extensions.md))
+* To be able to add **navigation properties** to entities with the ABP Suite (see [navigation properties](https://docs.abp.io/en/commercial/latest/abp-suite/generating-crud-page#navigation-properties))
 * Dynamically add **data table columns** on the user interface (see the documents: [angular](ui/angular/data-table-column-extensions.md), [mvc](ui/aspnetcore/data-table-column-extensions.md))
 * Created a rich **sample solution**, named "Easy CRM" (see the document)
 
@@ -22,9 +22,9 @@ See the detailed **blog post / announcement** for the v2.7.0 release:  https://b
 * **Optimize database migrations** & seed code for multi-tenant multi-database systems.
 * ABP Suite: Make **menu item active** on navigation menu when selected.
 * ABP Suite: Improve **enum usage** while creating new entities.
-* Other improvements on the [Lepton Theme](https://commercial.abp.io/themes), [ABP Suite](https://commercial.abp.io/tools/suite) and the other modules.
+* Bug fixes in the [Lepton Theme](https://commercial.abp.io/themes), [ABP Suite](https://commercial.abp.io/tools/suite) and  other modules.
 
-### What's Coming..?
+### What's Coming Next?
 
 Beside the completed features, the following features are currently being developed and will be released in the next versions:
 
