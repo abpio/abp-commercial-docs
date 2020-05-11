@@ -110,7 +110,7 @@ Incase you need to place a custom modal that will be triggered by an entity acti
 
     <ng-template #abpFooter>
       <button type="button" class="btn btn-secondary" #abpClose>
-        {{ 'AbpIdentity::Cancel' | abpLocalization }}
+        {%{{{ 'AbpIdentity::Cancel' | abpLocalization }}}%}
       </button>
       
       <!-- YOUR CONFIRMATION BUTTON HERE -->
@@ -214,7 +214,7 @@ Consider the modal will be displayed in the Identity module. How can we lazy-loa
 
         <ng-template #abpFooter>
           <button type="button" class="btn btn-secondary" #abpClose>
-            {{ 'AbpIdentity::Cancel' | abpLocalization }}
+            {%{{{ 'AbpIdentity::Cancel' | abpLocalization }}}%}
           </button>
           
           <!-- YOUR CONFIRMATION BUTTON HERE -->
