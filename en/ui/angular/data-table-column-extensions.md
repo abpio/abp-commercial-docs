@@ -46,7 +46,7 @@ export const identityEntityPropContributors: IdentityEntityPropContributors = {
 
 ```
 
-The list of props, conveniently named as `propList`, is a **doubly linked list**. That is why we have used the `addTail` method, which adds the given value to the end of the list. You may find [all available methods here](https://docs.abp.io/en/abp/latest/UI/Common/Utils/Linked-List).
+The list of props, conveniently named as `propList`, is a **doubly linked list**. That is why we have used the `addAfter` method, which adds a node with given value after the first node that has the previous value. You may find [all available methods here](https://docs.abp.io/en/abp/latest/UI/Common/Utils/Linked-List).
 
 > **Important Note 1:** AoT compilation does not support function calls in decorator metadata. This is why we have defined `namePropContributor` as an exported function declaration here. Please do not forget exporting your contributor callbacks and forget about lambda functions (a.k.a. arrow functions). Please refer to [AoT metadata errors](https://angular.io/guide/aot-metadata-errors#function-calls-not-supported) for details.
 
