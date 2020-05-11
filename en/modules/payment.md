@@ -111,6 +111,7 @@ Configure<PaymentOptions>(options =>
 
 * ```CallbackUrl```: Final callback URL for internal payment gateway modules to return. User will be redirected to this URL on your website.
 * ```RootUrl```: Root URL of your website.
+* ```GatewaySelectionCheckoutButtonStyle```: Css style to add Checkout button on gateway selection page. This class can be used for tracking user activity via 3rd party tools like Google Tag Manager.
 * ```PaymentGatewayWebConfigurationDictionary```:  Used to store web related payment gateway configuration.
   * ```Name```: Name of payment gateway.
   * ```PrePaymentUrl```: URL of the page before redirecting user to payment gateway for payment.
@@ -135,6 +136,7 @@ Configure<PaymentOptions>(options =>
 * ```Debug```: Writes detailed log on PAYU side.
 * ```Recommended```: Is payment gateway is recommended or not. This information is displayed on payment gateway selection page.
 * ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
+* ```PrePaymentCheckoutButtonStyle```: Css style to add Checkout button on PayU prepayment page. This class can be used for tracking user activity via 3rd party tools like Google Tag Manager.
 
 ### TwoCheckoutOptions
 
