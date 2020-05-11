@@ -1,14 +1,14 @@
 {
   "items": [
     {
-      "text": "Getting started",
+      "text": "Getting Started",
       "path": "getting-started.md"
     },
     {
       "text": "Tutorials",
       "items": [
         {
-          "text": "Application development",
+          "text": "Application Development",
           "items": [
             {
               "text": "Part-1: Creating a new solution and listing items",
@@ -40,7 +40,7 @@
       ]
     },
     {
-      "text": "Startup templates",
+      "text": "Startup Templates",
       "items": [
         {
           "text": "Application Template",
@@ -162,6 +162,10 @@
           "path": "abp-suite/configuration.md"
         }
       ]
+    },
+    {
+      "text": "Release Notes / Change Logs",
+      "path": "release-notes.md"
     },
     {
       "text": "Others",
