@@ -11,8 +11,8 @@ See the detailed **blog post / announcement** for the v2.7.0 release:  https://b
 ### Major features
 
 * New module: **Text template management** (with angular and mvc UI - document is [coming](modules/text-template-management.md)).
-* **Dynamically add properties** to current entities of the depended modules (see [the document](guides/module-entity-extensions.md))
-* To be able to add **navigation properties** to entities with the ABP Suite (check out [navigation properties](https://docs.abp.io/en/commercial/latest/abp-suite/generating-crud-page#navigation-properties))
+* **Dynamically add properties** to current entities of the depended modules (see [module entity extensions](guides/module-entity-extensions.md))
+* To be able to add **navigation properties** to entities with the ABP Suite (see [navigation properties](https://docs.abp.io/en/commercial/latest/abp-suite/generating-crud-page#navigation-properties))
 * Dynamically add **data table columns** on the user interface (see the documents: [angular](ui/angular/data-table-column-extensions.md), [mvc](ui/aspnetcore/data-table-column-extensions.md))
 * Created a rich **sample solution**, named "Easy CRM" (see the document)
 
