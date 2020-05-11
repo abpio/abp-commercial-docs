@@ -40,6 +40,19 @@
       ]
     },
     {
+      "text": "Samples",
+      "items": [
+        {
+          "text": "Overall",
+          "path": "samples/index.md"
+        },
+        {
+          "text": "Easy CRM",
+          "path": "samples/easy-crm.md"
+        }
+      ]
+    },
+    {
       "text": "Startup Templates",
       "items": [
         {
