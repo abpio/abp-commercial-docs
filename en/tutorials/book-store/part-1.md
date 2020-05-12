@@ -791,7 +791,7 @@ yarn ng generate module book --routing true
 Open the `app-routing.module.ts` file in `src\app` folder. Add the new `import` and add a route as shown below
 
 ```js
-import { ApplicationLayoutComponent } from '@abp/ng.theme.basic'; //==> added this line to imports <==
+import { ApplicationLayoutComponent } from '@volo/abp.ng.theme.lepton'; //==> added this line to imports <==
 
 //...added books path with the below to the routes array
 {
