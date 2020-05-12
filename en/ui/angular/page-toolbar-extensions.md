@@ -239,20 +239,20 @@ It has the following properties:
   }
   ```
 
-### ActionCallback\<R = any\>
+### ActionCallback\<T, R = any\>
 
 `ActionCallback` is the type of the callback function that can be passed to a `ToolbarAction` as `action` parameter. An action callback gets a single parameter, the `ActionData`. The return type may be anything, including `void`. Here is a simplified representation:
 
 ```js
-type ActionCallback<R> = (data?: ActionData<R>) => any;
+type ActionCallback<T, R = any> = (data?: ActionData<T>) => R;
 ```
 
-### ActionPredicate\<R = any\>
+### ActionPredicate\<T\>
 
 `ActionPredicate` is the type of the predicate function that can be passed to a `ToolbarAction` as `visible` parameter. An action predicate gets a single parameter, the `ActionData`. The return type must be `boolean`. Here is a simplified representation:
 
 ```js
-type ActionPredicate<R> = (data?: ActionData<R>) => boolean;
+type ActionPredicate<T> = (data?: ActionData<T>) => boolean;
 ```
 
 ### ToolbarActionOptions\<R = any\>
@@ -396,13 +396,13 @@ export const identityEntityActionContributors = {
 `ToolbarActionContributorCallback` is the type that you can pass as toolbar action contributor callbacks to static `forRoot` methods of the modules.
 
 ```js
+// exportUsersContributor should have ToolbarActionContributorCallback<Identity.UserItem[]> type
+
 export function exportUsersContributor(
   actionList: ToolbarActionList<Identity.UserItem[]>,
 ) {
   // add exportUsers just before the last action
   actionList.add(exportUsers).byIndex(-1);
-
-  // exportUsers should have ToolbarActionContributorCallback<Identity.UserItem[]> type
 }
 
 export const identityEntityActionContributors = {
