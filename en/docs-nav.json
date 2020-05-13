@@ -121,10 +121,14 @@
           "path": "modules/saas.md"
         },
         {
+          "text": "Text Template Management",
+          "path": "modules/text-template-management.md"
+        },
+        {
           "text": "Twilio SMS",
           "path": "modules/twilio-sms.md"
         },
-		{
+		    {
           "text": "Payment",
           "path": "modules/payment.md"
         }
