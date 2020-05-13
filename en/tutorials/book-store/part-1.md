@@ -890,7 +890,7 @@ Import the `BookState` to the `app.module.ts` in the `src/app` folder and then a
 
 ```js
 // ...
-import { BookState } from './books/state/book.state'; //<== imported BookState ==>
+import { BookState } from './book/state/book.state'; //<== imported BookState ==>
 
 @NgModule({
   imports: [
