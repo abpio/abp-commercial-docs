@@ -2,15 +2,15 @@
 
 ## ABP Commercial Samples
 
-These samples are only for the ABP Commercial customers.
+These samples are **only for the ABP Commercial customers**.
 
-> IMPORTANT: You need to login to the https://abp.io/ first to be able to download the related source code.
+> **IMPORTANT**: You need to **login to the https://abp.io/ first** to be able to download the related source code.
 
 ### Easy CRM
 
 An example CRM application that includes accounts, contacts, products, orders and so on. It is a good application for a real life scenario.
 
-* [See the Easy CRM documentation](easy-crm.md)
+* [Documentation](easy-crm.md)
 * [Download the source code](https://abp.io/api/download/samples/EasyCrm)
 
 ### Book Store
@@ -19,12 +19,18 @@ A simple CRUD application to demonstrate the basics of an application developmen
 
 - **Book Store: Razor Pages UI & Entity Framework Core**
   - [Tutorial](https://docs.abp.io/en/commercial/latest/tutorials/book-store/part-1?UI=MVC)
-  - [Source code](https://abp.io/api/download/samples/bookstore-mvc-ef)
+  - [Download the source code](https://abp.io/api/download/samples/bookstore-mvc-ef)
 - **Book Store: Angular UI & MongoDB**
   - [Tutorial](https://docs.abp.io/en/commercial/latest/tutorials/book-store/part-1?UI=NG)
-  - [Source code](https://abp.io/api/download/samples/bookstore-angular-mongodb)
+  - [Download the source code](https://abp.io/api/download/samples/bookstore-angular-mongodb)
 
 While there is no Razor Pages & MongoDB combination, you can check both documents to understand it since DB & UI selection don't effect each other.
+
+### Other Samples
+
+* **Passwordless Authentication**: Step by step guide to show you how to implement a passwordless authentication option for your application.
+  * [Documentation](../how-to/implementing-passwordless-authentication.md)
+  * [Download the source code](https://abp.io/api/download/samples/passwordless-authentication)
 
 ## ABP Framework Samples
 
