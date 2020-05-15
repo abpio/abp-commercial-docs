@@ -1,9 +1,8 @@
 # Text Template Management Module
 
-This module implements Text Template Management system of an application;
+This module is used to store and edit template contents for [the text templating system](https://docs.abp.io/en/abp/latest/Text-Templating) of the ABP framework. So, you may need to understand it to better understand the purpose of this module.
 
-* Edit **text template contents** in the UI.
-* Add different contents for different cultures.
+There are different use cases of the text templating system. For example, [the Account Module](Account.md) is using it to define templates for sending emails when it needs to send emails to users (like sending "password reset link" email). This module provides UI to easily edit these email templates.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.TextTemplateManagement) for an overview of the module features.
 
@@ -38,7 +37,7 @@ This module follows the [module development best practices guide](https://docs.a
 
 Text Template Management module adds the following items to the "Main" menu, under the "Administration" menu item:
 
-* **Text Templates**: List, view and filter text template definitions.
+* **Text Templates**: List, view and filter text templates.
 
 `TextTemplateManagementMainMenuNames` class has the constants for the menu item names.
 
@@ -46,17 +45,21 @@ Text Template Management module adds the following items to the "Main" menu, und
 
 #### Text Templates
 
-Text Templates page is used to view template definitions.
+Text Templates page is used to view the list of templates defined in the application.
 
 ![text-template-managemet-text-templates-page](../images/text-template-managemet-text-templates-page.png)
 
-You can edit your template contents for different cultures:
+Click to the `Actions -> Edit Contents` to edit content for a template. There are two types of UI to edit a template content:
 
-**Inline Localized Content Edit**
+##### Editing Content for Inline Localized Templates
+
+This kind of templates uses the `L` function to perform inline localization. In this way, it is easier to manage the template for different cultures.
 
 ![text-template-management-inline-edit](../images/text-template-management-inline-edit.png)
 
-**Culture Localized Content Edit**
+##### Editing Contents for Culture-Specific Templates
+
+This kind of templates provides different content for each culture. In this way, you can define a completely different content for a specific culture.
 
 ![text-template-management-multiple-culture-edit](../images/text-template-management-multiple-culture-edit.png)
 
