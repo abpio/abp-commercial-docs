@@ -1,6 +1,6 @@
 # Lepton Theme Module
 
-This module provides a theme for [abp.io](https://www.abp.io) based applications. To see live preview of Lepton Theme, please visit [leptontheme.com](http://leptontheme.com/).
+The Lepton Theme is a professional theme for the ABP Commercial.
 
 * Built on the [Bootstrap 4](https://getbootstrap.com) library.
 * 100% compatible with  [Bootstrap 4](https://getbootstrap.com) HTML structure and CSS classes
@@ -8,7 +8,11 @@ This module provides a theme for [abp.io](https://www.abp.io) based applications
 * Provides different style like Material, Dark, Light.
 * Provides styles for [Datatables](https://datatables.net).
 
-See [the module description page](https://commercial.abp.io/modules/Volo.Identity.Pro) for an overview of the module features.
+A screenshot from the light style of the theme:
+
+![lepton-theme-light](../images/lepton-theme-light.png)
+
+> [See all the theme styles and create a demo to see it in action](https://commercial.abp.io/themes).
 
 ## How to Install
 
@@ -45,12 +49,6 @@ Lepton Theme module doesn't provide any UI pages. It just changes the existing U
 
 ![lepton-theme-module-languages-page](../images/lepton-theme-module-languages-page.png)
 
-
-
-### Menu Items
-
-This module doesn't define any menu items.
-
 ### Pages
 
 This module doesn't define any pages.
@@ -70,7 +68,3 @@ See the `LeptonThemeSettingNames` class members for all settings defined for thi
 ### Permissions
 
 See the `LeptonThemeManagementPermissions` class members for all permissions defined for this module.
-
-## Distributed Events
-
-This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).

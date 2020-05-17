@@ -20,9 +20,11 @@ else
 end
 }}
 
-### About this tutorial:
+### About this tutorial
 
 In this tutorial series, you will build an ABP Commercial application named `Acme.BookStore`. In this sample project, we will manage a list of books and authors. **{{DB_Text}}** will be used as the ORM provider. And on the front-end side {{UI_Value}} and JavaScript will be used.
+
+> Instead of creating this application manually, you can automatically generate the same code using the [ABP Suite](../../abp-suite/index.md). However, it is recommended to follow this tutorial to learn the basics of an application development using the ABP Commercial.
 
 The ASP.NET Core {{UI_Value}} tutorial series consists of 3 parts:
 
@@ -31,8 +33,6 @@ The ASP.NET Core {{UI_Value}} tutorial series consists of 3 parts:
 - [Part-3: Integration tests](part-3.md)
 
 > The completed sample is available: [bookstore-{{UI_Text}}-{{DB}}.zip](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-{{UI_Text}}-{{DB}}). To be able to download this sample, you need to hold an active ABP Commercial license.
-
-*You can also check out [the video course](https://amazingsolutions.teachable.com/p/lets-build-the-bookstore-application) prepared by the community, based on this tutorial.*
 
 ### Creating the project
 
