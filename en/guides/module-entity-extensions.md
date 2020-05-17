@@ -119,6 +119,38 @@ property =>
 
 > See [the localization document](https://docs.abp.io/en/abp/latest/Localization) if you want to learn more about the localization system.
 
+#### Default Value
+
+A default value is automatically set for the new property, which is the natural default value for the property type, like `null` for `string`, `false` for `bool` or `0` for `int`.
+
+There are two ways to override the default value:
+
+##### DefaultValue Option
+
+`DefaultValue` option can be set to any value:
+
+````csharp
+property =>
+{
+    property.DefaultValue = 42;
+}
+````
+
+##### DefaultValueFactory Options
+
+`DefaultValueFactory` can be set to a function that returns the default value:
+
+````csharp
+property =>
+{
+    property.DefaultValueFactory = () => DateTime.Now;
+}
+````
+
+`options.DefaultValueFactory` has a higher priority than the `options.DefaultValue` .
+
+> Tip: Use `DefaultValueFactory` option only if the default value may change over the time (like `DateTime.Now` in this example). If it is a constant value, then use the `DefaultValue` option.
+
 ### Validation
 
 Entity extension system allows you to define validation for extension properties in a few ways.
@@ -148,6 +180,15 @@ Since we've added the `RequiredAttribute`, it doesn't allow to left it blank. Th
 So, it automatically makes a full stack validation.
 
 > See the [ASP.NET Core MVC Validation document](https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation) to learn more about the attribute based validation.
+
+##### Default Validation Attributes
+
+There are some attributes **automatically added** when you create certain type of properties;
+
+* `RequiredAttribute` is added for non nullable primitive property types (e.g. `int`, `bool`, `DateTime`...) and `enum` types.
+* `EnumDataTypeAttribute` is added for enum types, to prevent to set invalid enum values.
+
+Use `property.Attributes.Clear();` if you don't want these attributes.
 
 #### Validation Actions
 
@@ -238,6 +279,49 @@ property =>
 ````
 
 In addition to the `property.Api.OnUpdate`, you can set `property.Api.OnCreate` and `property.Api.OnGet` for a fine control the API endpoint.
+
+## Special Types
+
+### Enum
+
+Module extension system naturally supports the `enum` types.
+
+An example enum type:
+
+````csharp
+public enum UserType
+{
+    Regular,
+    Moderator,
+    SuperUser
+}
+````
+
+You can add enum properties just like others:
+
+````csharp
+user.AddOrUpdateProperty<UserType>("Type");
+````
+
+An enum properties is shown as combobox (select) in the create/edit forms:
+
+![add-new-property-enum](../images/add-new-property-enum.png)
+
+#### Localization
+
+Enum member name is shown on the table and forms by default. If you want to localize it, just create a new entry on your [localization](https://docs.abp.io/en/abp/latest/Localization) file:
+
+````json
+"UserType.SuperUser": "Super user" 
+````
+
+One of the following names can be used as the localization key:
+
+* `Enum:UserType.SuperUser`
+* `UserType.SuperUser`
+* `SuperUser`
+
+Localization system searches for the key with the given order. Localized text are used on the table and the create/edit forms.
 
 ## Database Mapping
 
