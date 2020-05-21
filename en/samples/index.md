@@ -11,7 +11,7 @@ These samples are **only for the ABP Commercial customers**.
 An example CRM application that includes accounts, contacts, products, orders and so on. It is a good application for a real life scenario.
 
 * [Documentation](easy-crm.md)
-* [Download the source code](https://abp.io/api/download/samples/EasyCrm)
+* [Download the source code](https://abp.io/api/download/samples/easy-crm)
 
 ### Book Store
 

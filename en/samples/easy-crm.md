@@ -6,7 +6,7 @@ This is a sample solution developed using the ABP Commercial.
 
 ## Download
 
-* [Download the source code from here](https://abp.io/api/download/samples/EasyCrm) (you need to login to the https://abp.io/ first).
+* [Download the source code from here](https://abp.io/api/download/samples/easy-crm) (you need to login to the https://abp.io/ first).
 
 ## How To Run?
 
