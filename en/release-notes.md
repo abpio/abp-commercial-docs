@@ -6,7 +6,7 @@ This document contains **brief release notes** for each release. Release notes o
 
 ### Blog Post
 
-See the detailed **blog post / announcement** for the v2.8.0 release:  [https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2020-05-22%20v2_8_Release/Post.md](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2020-05-22 v2_8_Release/Post.md) 
+See the detailed **blog post / announcement** for the v2.8.0 release: [https://blog.abp.io/abp/ABP-v2.8.0-Releases-%26-Road-Map](https://blog.abp.io/abp/ABP-v2.8.0-Releases-%26-Road-Map)
 
 This post also covers the [road map](road-map.md) and other news for the ABP.IO Platform.
 
