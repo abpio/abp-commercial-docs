@@ -12,7 +12,7 @@
    
 Wait for the process to download and install to your computer. It may take about a minute on a 25 Megabit internet to complete the process.
 
-# How to update ABP Suite?
+## How to update ABP Suite?
 
 To update your existing ABP Suite, write the following command to your terminal:
 
