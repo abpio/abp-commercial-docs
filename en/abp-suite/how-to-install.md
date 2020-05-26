@@ -17,7 +17,7 @@ Wait for the process to download and install to your computer. It may take about
 To update your existing ABP Suite, write the following command to your terminal:
 
 ```bash
-    abp suite update
+abp suite update
 ```
 
 ## What's next?
