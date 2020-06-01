@@ -34,6 +34,12 @@ Data table column extension system allows you to add a new column in the data ta
 * [Data Table Column Extensions for ASP.NET Core UI](../ui/aspnetcore/data-table-column-extensions.md)
 * [Data Table Column Extensions for Angular](../ui/angular/data-table-column-extensions.md)
 
+#### Dynamic Form Extensions
+
+Dynamic form extension system allows you to add a new field in the create and/or edit forms on the user interface. See the related documents to learn how to use this system:
+
+* [Dynamic Form Extensions for Angular](../ui/angular/dynamic-form-extensions.md)
+
 #### Page Toolbar
 
 Page toolbar system allows you to add components to the toolbar of any page. See the related documents to learn how to use this system:

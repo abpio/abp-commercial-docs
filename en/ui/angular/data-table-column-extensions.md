@@ -142,6 +142,10 @@ export const identityEntityPropContributors: IdentityEntityPropContributors = {
 
 > The `valueResolver` method should return an observable. You can wrap your return values with `of` from RxJS for that.
 
+## Object Extensions
+
+Extra properties defined on an existing entity will be included in the table based on their configuration. The values will also be mapped to and from `extraProperties` automatically. They are available when defining custom contributors, so you can drop, modify, or reorder them. The `isExtra` identifier will be set to `true` for these properties and will define this automatic behavior.
+
 ## API
 
 ### PropData\<R = any\>
@@ -254,7 +258,8 @@ const options: EntityPropOptions<Identity.UserItem> = {
     const selectSensitiveDataVisibility = ConfigState.getSetting(
       'Abp.Identity.IsSensitiveDataVisible'  // hypothetical
     );
-    return store.selectSnapshot(selectSensitiveDataVisibility);
+    
+    return store.selectSnapshot(selectSensitiveDataVisibility).toLowerCase() === 'true';
   }
 };
 
