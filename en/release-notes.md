@@ -2,6 +2,20 @@
 
 This document contains **brief release notes** for each release. Release notes only include major features and visible enhancements. They not don't include all the development done in the related version.
 
+## 2.9.0 (2020-06-04)
+
+### Blog Post
+
+See the detailed **[blog post / announcement](https://blog.abp.io/)** for the v2.9.0 release.
+
+### Major Features / Enhancements
+
+* New **Organization Unit** Management UI for the [Identity Module](https://commercial.abp.io/modules/Volo.Identity.Pro) to create hierarchical organization units and manage their members and roles.
+* Created **Angular UI** for the [Chat Module](https://commercial.abp.io/modules/Volo.Chat).
+* Implemented **Angular UI** for the [Easy CRM](https://docs.abp.io/en/commercial/latest/samples/easy-crm) application.
+* [ABP Suite](https://commercial.abp.io/tools/suite) code generation support for **module development**.
+* New [leptontheme.com](http://leptontheme.com/) web site to show the **[Lepton Theme](https://commercial.abp.io/themes) components**.
+
 ## 2.8.0 (2020-05-21)
 
 ### Blog Post
@@ -17,16 +31,6 @@ This post also covers the [road map](road-map.md) and other news for the ABP.IO 
 * Implemented **[module entity extension](guides/module-entity-extensions.md) system** for the **Angular UI**. Also improved the system to better handle float/double/decimal, date, datetime, enum and boolean properties.
 * **Gravatar** integration for the Angular UI.
 * Managing product groups on a **tree view** for the [EasyCRM sample application](samples/easy-crm.md).
-
-### What's Coming Next?
-
-The following features are currently being developed and will be released in the next versions:
-
-* **Organization units** system for the [identity module](modules/identity.md) to create hierarchical organization units and manage their members and roles.
-* A **File Management Module** that is used to manage (upload/download) and share files between users.
-* **Angular UI** for the **Chat Module** and the Easy CRM.
-
-Also see [the road map](road-map.md) for middle and long term planning.
 
 ## 2.7.0 (2020-05-07)
 
