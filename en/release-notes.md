@@ -6,7 +6,7 @@ This document contains **brief release notes** for each release. Release notes o
 
 ### Blog Post
 
-See the detailed **[blog post / announcement](https://blog.abp.io/)** for the v2.9.0 release.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-v2.9.0-Has-Been-Released)** for the v2.9.0 release.
 
 ### Major Features / Enhancements
 
