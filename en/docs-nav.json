@@ -196,6 +196,10 @@
           "path": "abp-framework-vs-abp-commercial.md"
         }
       ]
+    },
+    {
+      "text": "API Documentation",
+      "path": "{ApiDocumentationUrl}"
     }
   ]
 }
