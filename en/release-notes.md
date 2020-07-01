@@ -2,6 +2,18 @@
 
 This document contains **brief release notes** for each release. Release notes only include major features and visible enhancements. They not don't include all the development done in the related version.
 
+## 3.0.0 (2020-07-01)
+
+### Blog Post
+
+See the detailed **[blog post / announcement](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2020-07-01%20v3_0_Release/Post.md)** for the v2.9.0 release.
+
+### Major Features
+
+* New **File Management Module** that is used to store and manage files in your application.
+* Migrated the Angular UI to the **Angular 10**.
+* Published an **[API documentation](https://docs.abp.io/api-docs/commercial/2.9/api/index.html)** web site to explore the classes of the ABP Commercial.
+
 ## 2.9.0 (2020-06-04)
 
 ### Blog Post

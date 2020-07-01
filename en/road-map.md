@@ -8,7 +8,6 @@ We will work on the following major items in the middle term:
 In addition, we will be working on the following items in the middle and long term:
 
 * A startup template to create microservice solutions (that has Ocelot, Redis, RabbitMQ, ElasticSearch, IdentityServer... pre-integrated and configured).
-* File Management module.
 * Dynamic dashboard system.
 * Real-time notification system.
 * gRPC integration and implementation for all the pre-built modules.
