@@ -105,6 +105,10 @@
           "path": "modules/audit-logging.md"
         },
         {
+          "text": "File Management",
+          "path": "modules/file-management.md"
+        },
+        {
           "text": "Identity",
           "path": "modules/identity.md"
         },
@@ -128,7 +132,7 @@
           "text": "Twilio SMS",
           "path": "modules/twilio-sms.md"
         },
-		    {
+        {
           "text": "Payment",
           "path": "modules/payment.md"
         }
