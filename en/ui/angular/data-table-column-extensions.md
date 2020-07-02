@@ -22,7 +22,7 @@ The following code prepares a constant named `identityEntityPropContributors`, r
 
 import { EntityProp, EntityPropList, ePropType } from '@abp/ng.theme.shared/extensions';
 import { Identity } from '@volo/abp.ng.identity';
-import { IdentityEntityPropContributors } from '@volo/abp.ng.identity.config';
+import { IdentityEntityPropContributors } from '@volo/abp.ng.identity/config';
 
 const nameProp = new EntityProp<Identity.UserItem>({
   type: ePropType.String,
@@ -66,26 +66,30 @@ export const identityEntityPropContributors = identityContributors;
 
 ### Step 2. Import and Use Entity Prop Contributors
 
-Import `identityEntityPropContributors` in your root module and pass it to the static `forRoot` method of `IdentityConfigModule` as seen below:
+Import `identityEntityPropContributors` in your routing module and pass it to the static `forLazy` method of `IdentityModule` as seen below:
 
 ```js
-import { IdentityConfigModule } from '@volo/abp.ng.identity.config';
 import { identityEntityPropContributors } from './entity-prop-contributors';
 
-@NgModule({
-  imports: [
-    // Other imports
-
-    IdentityConfigModule.forRoot({
-      entityPropContributors: identityEntityPropContributors,
-    }),
-
-    // Other imports
-  ],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
+const routes: Routes = [
+  {
+    path: '',
+    component: DynamicLayoutComponent,
+    children: [
+      {
+        path: 'identity',
+        loadChildren: () =>
+          import('@volo/abp.ng.identity').then(m =>
+            m.IdentityModule.forLazy({
+              entityPropContributors: identityEntityPropContributors,
+            }),
+          ),
+      },
+      // other child routes
+    ],
+    // other routes
+  }
+];
 ```
 
 That is it, `nameProp` entity prop will be added, and you will see the "Name" column next to the usernames on the grid in the users page (`UsersComponent`) of the `IdentityModule`.
@@ -99,7 +103,7 @@ You can use the `valueResolver` to render an HTML string in the table. Imagine w
 
 import { EntityProp, EntityPropList, ePropType } from '@abp/ng.theme.shared/extensions';
 import { Identity } from '@volo/abp.ng.identity';
-import { IdentityEntityPropContributors } from '@volo/abp.ng.identity.config';
+import { IdentityEntityPropContributors } from '@volo/abp.ng.identity/config';
 
 export function emailPropContributor(propList: EntityPropList<Identity.UserItem>) {
   const index = propList.indexOf('email', (value, name) => value.name === name);
@@ -304,7 +308,7 @@ export function reorderUserContributors(
 
 ### EntityPropContributorCallback\<R = any\>
 
-`EntityPropContributorCallback` is the type that you can pass as entity prop contributor callbacks to static `forRoot` methods of the modules.
+`EntityPropContributorCallback` is the type that you can pass as entity prop contributor callbacks to static `forLazy` methods of the modules.
 
 ```js
 export function isLockedOutPropContributor(

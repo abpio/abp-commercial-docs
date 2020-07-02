@@ -21,7 +21,7 @@ The following code prepares a constant named `identityToolbarActionContributors`
 
 import { ToolbarActionList, ToolbarAction } from '@abp/ng.theme.shared/extensions';
 import { Identity } from '@volo/abp.ng.identity';
-import { IdentityToolbarActionContributors } from '@volo/abp.ng.identity.config';
+import { IdentityToolbarActionContributors } from '@volo/abp.ng.identity/config';
 
 const logUserNames = new ToolbarAction<Identity.UserItem[]>({
   text: 'Click Me!',
@@ -54,26 +54,30 @@ The list of actions, conveniently named as `actionList`, is a **doubly linked li
 
 ### Step 2. Import and Use Toolbar Action Contributors
 
-Import `identityToolbarActionContributors` in your root module and pass it to the static `forRoot` method of `IdentityConfigModule` as seen below:
+Import `identityToolbarActionContributors` in your routing module and pass it to the static `forLazy` method of `IdentityModule` as seen below:
 
 ```js
-import { IdentityConfigModule } from '@volo/abp.ng.identity.config';
 import { identityToolbarActionContributors } from './toolbar-action-contributors';
 
-@NgModule({
-  imports: [
-    // Other imports
-
-    IdentityConfigModule.forRoot({
-      toolbarActionContributors: identityToolbarActionContributors,
-    }),
-
-    // Other imports
-  ],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
+const routes: Routes = [
+  {
+    path: '',
+    component: DynamicLayoutComponent,
+    children: [
+      {
+        path: 'identity',
+        loadChildren: () =>
+          import('@volo/abp.ng.identity').then(m =>
+            m.IdentityModule.forLazy({
+              toolbarActionContributors: identityToolbarActionContributors,
+            }),
+          ),
+      },
+      // other child routes
+    ],
+    // other routes
+  }
+];
 ```
 
 That is it, `logUserNames` toolbar action will be added as the first action on the page toolbar in the users page (`UsersComponent`) of the `IdentityModule`.
@@ -124,7 +128,7 @@ The following code prepares a constant named `identityToolbarActionContributors`
 
 import { ToolbarActionList, ToolbarComponent } from '@abp/ng.theme.shared/extensions';
 import { Identity } from '@volo/abp.ng.identity';
-import { IdentityToolbarActionContributors } from '@volo/abp.ng.identity.config';
+import { IdentityToolbarActionContributors } from '@volo/abp.ng.identity/config';
 import { ClickMeButtonComponent } from './click-me-button.component';
 
 const logUserNames = new ToolbarComponent<Identity.UserItem[]>({
@@ -168,28 +172,30 @@ export const identityToolbarActionContributors = identityContributors;
 
 ### Step 3. Import and Use Toolbar Action Contributors
 
-Import `identityToolbarActionContributors` in your root module and pass it to the static `forRoot` method of `IdentityConfigModule` as seen below. If Ivy is not enabled in your project, do not forget putting `ClickMeButtonComponent` into `entryComponents`:
+Import `identityToolbarActionContributors` in your routing module and pass it to the static `forLazy` method of `IdentityModule` as seen below. If Ivy is not enabled in your project, do not forget putting `ClickMeButtonComponent` into `entryComponents`:
 
 ```js
-import { IdentityConfigModule } from '@volo/abp.ng.identity.config';
 import { identityToolbarActionContributors } from './toolbar-action-contributors';
-import { ClickMeButtonComponent } from './click-me-button.component';
 
-@NgModule({
-  imports: [
-    // Other imports
-
-    IdentityConfigModule.forRoot({
-      toolbarActionContributors: identityToolbarActionContributors,
-    }),
-
-    // Other imports
-  ],
-  entryComponents: [ClickMeButtonComponent], // If not Ivy, do not forget this
-  declarations: [AppComponent, ClickMeButtonComponent],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
+const routes: Routes = [
+  {
+    path: '',
+    component: DynamicLayoutComponent,
+    children: [
+      {
+        path: 'identity',
+        loadChildren: () =>
+          import('@volo/abp.ng.identity').then(m =>
+            m.IdentityModule.forLazy({
+              toolbarActionContributors: identityToolbarActionContributors,
+            }),
+          ),
+      },
+      // other child routes
+    ],
+    // other routes
+  }
+];
 ```
 
 That is it, `logUserNames` toolbar action will be added as the first action on the page toolbar in the users page (`UsersComponent`) of the `IdentityModule` and it will be triggered by a custom button, i.e. `ClickMeButtonComponent`. Please note that **component projection is not limited to buttons** and you may use other UI components.
@@ -393,7 +399,7 @@ export const identityEntityActionContributors = {
 
 ### ToolbarActionContributorCallback\<R = any\>
 
-`ToolbarActionContributorCallback` is the type that you can pass as toolbar action contributor callbacks to static `forRoot` methods of the modules.
+`ToolbarActionContributorCallback` is the type that you can pass as toolbar action contributor callbacks to static `forLazy` methods of the modules.
 
 ```js
 // exportUsersContributor should have ToolbarActionContributorCallback<Identity.UserItem[]> type

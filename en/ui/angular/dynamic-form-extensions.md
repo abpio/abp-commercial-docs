@@ -26,7 +26,7 @@ import { Identity } from '@volo/abp.ng.identity';
 import {
   IdentityCreateFormPropContributors,
   IdentityEditFormPropContributors,
-} from '@volo/abp.ng.identity.config';
+} from '@volo/abp.ng.identity/config';
 
 const birthdayProp = new FormProp<Identity.UserItem>({
   type: ePropType.Date,
@@ -70,30 +70,34 @@ export const identityCreateFormPropContributors = identityCreateContributors;
 
 ### Step 2. Import and Use Form Prop Contributors
 
-Import `identityCreateFormPropContributors` and `identityEditFormPropContributors` in your root module and pass it to the static `forRoot` method of `IdentityConfigModule` as seen below:
+Import `identityCreateFormPropContributors` and `identityEditFormPropContributors` in your routing module and pass it to the static `forLazy` method of `IdentityModule` as seen below:
 
 ```js
-import { IdentityConfigModule } from '@volo/abp.ng.identity.config';
 import {
   identityCreateFormPropContributors,
   identityEditFormPropContributors,
 } from './form-prop-contributors';
 
-@NgModule({
-  imports: [
-    // Other imports
-
-    IdentityConfigModule.forRoot({
-      createFormPropContributors: identityCreateFormPropContributors,
-      editFormPropContributors: identityEditFormPropContributors,
-    }),
-
-    // Other imports
-  ],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
+const routes: Routes = [
+  {
+    path: '',
+    component: DynamicLayoutComponent,
+    children: [
+      {
+        path: 'identity',
+        loadChildren: () =>
+          import('@volo/abp.ng.identity').then(m =>
+            m.IdentityModule.forLazy({
+              createFormPropContributors: identityCreateFormPropContributors,
+              editFormPropContributors: identityEditFormPropContributors,
+            }),
+          ),
+      },
+      // other child routes
+    ],
+    // other routes
+  }
+];
 ```
 
 That is it, `birthdayProp` form prop will be added, and you will see the datepicker for the "Date of Birth" field right before the "Email address" in the forms of the users page in the `IdentityModule`.
@@ -288,7 +292,7 @@ export function reorderUserContributors(
 
 ### CreateFormPropContributorCallback\<R = any\>
 
-`CreateFormPropContributorCallback` is the type that you can pass as **create form** prop contributor callbacks to static `forRoot` methods of the modules.
+`CreateFormPropContributorCallback` is the type that you can pass as **create form** prop contributor callbacks to static `forLazy` methods of the modules.
 
 ```js
 export function myPropCreateContributor(
@@ -305,7 +309,7 @@ export const identityCreateFormPropContributors = {
 
 ### EditFormPropContributorCallback\<R = any\>
 
-`EditFormPropContributorCallback` is the type that you can pass as **edit form** prop contributor callbacks to static `forRoot` methods of the modules.
+`EditFormPropContributorCallback` is the type that you can pass as **edit form** prop contributor callbacks to static `forLazy` methods of the modules.
 
 ```js
 export function myPropEditContributor(
