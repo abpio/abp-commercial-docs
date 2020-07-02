@@ -8,7 +8,7 @@ See [the module description page](https://commercial.abp.io/modules/Volo.TextTem
 
 ## How to Install
 
-Text Template Management management module is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
+Text Template Management module is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
 
 ## Packages
 
