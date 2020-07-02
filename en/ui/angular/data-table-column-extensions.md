@@ -20,7 +20,7 @@ The following code prepares a constant named `identityEntityPropContributors`, r
 ```js
 // entity-prop-contributors.ts
 
-import { EntityProp, EntityPropList, ePropType } from '@volo/abp.commercial.ng.ui';
+import { EntityProp, EntityPropList, ePropType } from '@abp/ng.theme.shared/extensions';
 import { Identity } from '@volo/abp.ng.identity';
 import { IdentityEntityPropContributors } from '@volo/abp.ng.identity.config';
 
@@ -97,7 +97,7 @@ You can use the `valueResolver` to render an HTML string in the table. Imagine w
 ```js
 // entity-prop-contributors.ts
 
-import { EntityProp, EntityPropList, ePropType } from '@volo/abp.commercial.ng.ui';
+import { EntityProp, EntityPropList, ePropType } from '@abp/ng.theme.shared/extensions';
 import { Identity } from '@volo/abp.ng.identity';
 import { IdentityEntityPropContributors } from '@volo/abp.ng.identity.config';
 

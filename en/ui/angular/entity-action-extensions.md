@@ -19,7 +19,7 @@ The following code prepares a constant named `identityEntityActionContributors`,
 ```js
 // entity-action-contributors.ts
 
-import { EntityAction, EntityActionList } from '@volo/abp.commercial.ng.ui';
+import { EntityAction, EntityActionList } from '@abp/ng.theme.shared/extensions';
 import { Identity } from '@volo/abp.ng.identity';
 import { IdentityEntityActionContributors } from '@volo/abp.ng.identity.config';
 

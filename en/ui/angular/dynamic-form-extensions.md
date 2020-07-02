@@ -21,7 +21,7 @@ The following code prepares two constants named `identityCreateFormPropContribut
 // form-prop-contributors.ts
 
 import { Validators } from '@angular/forms';
-import { ePropType, FormProp, FormPropList } from '@volo/abp.commercial.ng.ui';
+import { ePropType, FormProp, FormPropList } from '@abp/ng.theme.shared/extensions';
 import { Identity } from '@volo/abp.ng.identity';
 import {
   IdentityCreateFormPropContributors,

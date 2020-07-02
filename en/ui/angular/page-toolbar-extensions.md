@@ -19,7 +19,7 @@ The following code prepares a constant named `identityToolbarActionContributors`
 ```js
 // toolbar-action-contributors.ts
 
-import { ToolbarActionList, ToolbarAction } from '@volo/abp.commercial.ng.ui';
+import { ToolbarActionList, ToolbarAction } from '@abp/ng.theme.shared/extensions';
 import { Identity } from '@volo/abp.ng.identity';
 import { IdentityToolbarActionContributors } from '@volo/abp.ng.identity.config';
 
@@ -90,7 +90,7 @@ We need to have a component before we can pass it to the toolbar action contribu
 // click-me-button.component.ts
 
 import { Component, Inject } from '@angular/core';
-import { ActionData, EXTENSIONS_ACTION_DATA } from '@volo/abp.commercial.ng.ui';
+import { ActionData, EXTENSIONS_ACTION_DATA } from '@abp/ng.theme.shared/extensions';
 import { Identity } from '@volo/abp.ng.identity';
 
 @Component({
@@ -113,7 +113,7 @@ export class ClickMeButtonComponent {
 
 Here, `EXTENSIONS_ACTION_DATA` token provides us the context from the page toolbar. Therefore, we are able to reach the page data via `record`, which is an array of users, i.e. `Identity.UserItem[]`.
 
-> We could also import `EXTENSIONS_ACTION_CALLBACK` from **@volo/abp.commercial.ng.ui** module, which is a higher order function that triggers the predefined `action` when called. It passes `ActionData` as the first parameter, so you do not have to pass it explicitly. In other words, `EXTENSIONS_ACTION_CALLBACK` can be called without any parameters and it will not fail.
+> We could also import `EXTENSIONS_ACTION_CALLBACK` from **@abp/ng.theme.shared/extensions** package, which is a higher order function that triggers the predefined `action` when called. It passes `ActionData` as the first parameter, so you do not have to pass it explicitly. In other words, `EXTENSIONS_ACTION_CALLBACK` can be called without any parameters and it will not fail.
 
 ### Step 2. Create Toolbar Action Contributors
 
@@ -122,7 +122,7 @@ The following code prepares a constant named `identityToolbarActionContributors`
 ```js
 // toolbar-action-contributors.ts
 
-import { ToolbarActionList, ToolbarComponent } from '@volo/abp.commercial.ng.ui';
+import { ToolbarActionList, ToolbarComponent } from '@abp/ng.theme.shared/extensions';
 import { Identity } from '@volo/abp.ng.identity';
 import { IdentityToolbarActionContributors } from '@volo/abp.ng.identity.config';
 import { ClickMeButtonComponent } from './click-me-button.component';
