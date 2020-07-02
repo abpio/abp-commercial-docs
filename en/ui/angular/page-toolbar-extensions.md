@@ -19,9 +19,9 @@ The following code prepares a constant named `identityToolbarActionContributors`
 ```js
 // toolbar-action-contributors.ts
 
-import { ToolbarActionList, ToolbarAction } from '@volo/abp.commercial.ng.ui';
+import { ToolbarActionList, ToolbarAction } from '@abp/ng.theme.shared/extensions';
 import { Identity } from '@volo/abp.ng.identity';
-import { IdentityToolbarActionContributors } from '@volo/abp.ng.identity.config';
+import { IdentityToolbarActionContributors } from '@volo/abp.ng.identity/config';
 
 const logUserNames = new ToolbarAction<Identity.UserItem[]>({
   text: 'Click Me!',
@@ -54,26 +54,30 @@ The list of actions, conveniently named as `actionList`, is a **doubly linked li
 
 ### Step 2. Import and Use Toolbar Action Contributors
 
-Import `identityToolbarActionContributors` in your root module and pass it to the static `forRoot` method of `IdentityConfigModule` as seen below:
+Import `identityToolbarActionContributors` in your routing module and pass it to the static `forLazy` method of `IdentityModule` as seen below:
 
 ```js
-import { IdentityConfigModule } from '@volo/abp.ng.identity.config';
 import { identityToolbarActionContributors } from './toolbar-action-contributors';
 
-@NgModule({
-  imports: [
-    // Other imports
-
-    IdentityConfigModule.forRoot({
-      toolbarActionContributors: identityToolbarActionContributors,
-    }),
-
-    // Other imports
-  ],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
+const routes: Routes = [
+  {
+    path: '',
+    component: DynamicLayoutComponent,
+    children: [
+      {
+        path: 'identity',
+        loadChildren: () =>
+          import('@volo/abp.ng.identity').then(m =>
+            m.IdentityModule.forLazy({
+              toolbarActionContributors: identityToolbarActionContributors,
+            }),
+          ),
+      },
+      // other child routes
+    ],
+    // other routes
+  }
+];
 ```
 
 That is it, `logUserNames` toolbar action will be added as the first action on the page toolbar in the users page (`UsersComponent`) of the `IdentityModule`.
@@ -90,7 +94,7 @@ We need to have a component before we can pass it to the toolbar action contribu
 // click-me-button.component.ts
 
 import { Component, Inject } from '@angular/core';
-import { ActionData, EXTENSIONS_ACTION_DATA } from '@volo/abp.commercial.ng.ui';
+import { ActionData, EXTENSIONS_ACTION_DATA } from '@abp/ng.theme.shared/extensions';
 import { Identity } from '@volo/abp.ng.identity';
 
 @Component({
@@ -113,7 +117,7 @@ export class ClickMeButtonComponent {
 
 Here, `EXTENSIONS_ACTION_DATA` token provides us the context from the page toolbar. Therefore, we are able to reach the page data via `record`, which is an array of users, i.e. `Identity.UserItem[]`.
 
-> We could also import `EXTENSIONS_ACTION_CALLBACK` from **@volo/abp.commercial.ng.ui** module, which is a higher order function that triggers the predefined `action` when called. It passes `ActionData` as the first parameter, so you do not have to pass it explicitly. In other words, `EXTENSIONS_ACTION_CALLBACK` can be called without any parameters and it will not fail.
+> We could also import `EXTENSIONS_ACTION_CALLBACK` from **@abp/ng.theme.shared/extensions** package, which is a higher order function that triggers the predefined `action` when called. It passes `ActionData` as the first parameter, so you do not have to pass it explicitly. In other words, `EXTENSIONS_ACTION_CALLBACK` can be called without any parameters and it will not fail.
 
 ### Step 2. Create Toolbar Action Contributors
 
@@ -122,9 +126,9 @@ The following code prepares a constant named `identityToolbarActionContributors`
 ```js
 // toolbar-action-contributors.ts
 
-import { ToolbarActionList, ToolbarComponent } from '@volo/abp.commercial.ng.ui';
+import { ToolbarActionList, ToolbarComponent } from '@abp/ng.theme.shared/extensions';
 import { Identity } from '@volo/abp.ng.identity';
-import { IdentityToolbarActionContributors } from '@volo/abp.ng.identity.config';
+import { IdentityToolbarActionContributors } from '@volo/abp.ng.identity/config';
 import { ClickMeButtonComponent } from './click-me-button.component';
 
 const logUserNames = new ToolbarComponent<Identity.UserItem[]>({
@@ -168,28 +172,30 @@ export const identityToolbarActionContributors = identityContributors;
 
 ### Step 3. Import and Use Toolbar Action Contributors
 
-Import `identityToolbarActionContributors` in your root module and pass it to the static `forRoot` method of `IdentityConfigModule` as seen below. If Ivy is not enabled in your project, do not forget putting `ClickMeButtonComponent` into `entryComponents`:
+Import `identityToolbarActionContributors` in your routing module and pass it to the static `forLazy` method of `IdentityModule` as seen below. If Ivy is not enabled in your project, do not forget putting `ClickMeButtonComponent` into `entryComponents`:
 
 ```js
-import { IdentityConfigModule } from '@volo/abp.ng.identity.config';
 import { identityToolbarActionContributors } from './toolbar-action-contributors';
-import { ClickMeButtonComponent } from './click-me-button.component';
 
-@NgModule({
-  imports: [
-    // Other imports
-
-    IdentityConfigModule.forRoot({
-      toolbarActionContributors: identityToolbarActionContributors,
-    }),
-
-    // Other imports
-  ],
-  entryComponents: [ClickMeButtonComponent], // If not Ivy, do not forget this
-  declarations: [AppComponent, ClickMeButtonComponent],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
+const routes: Routes = [
+  {
+    path: '',
+    component: DynamicLayoutComponent,
+    children: [
+      {
+        path: 'identity',
+        loadChildren: () =>
+          import('@volo/abp.ng.identity').then(m =>
+            m.IdentityModule.forLazy({
+              toolbarActionContributors: identityToolbarActionContributors,
+            }),
+          ),
+      },
+      // other child routes
+    ],
+    // other routes
+  }
+];
 ```
 
 That is it, `logUserNames` toolbar action will be added as the first action on the page toolbar in the users page (`UsersComponent`) of the `IdentityModule` and it will be triggered by a custom button, i.e. `ClickMeButtonComponent`. Please note that **component projection is not limited to buttons** and you may use other UI components.
@@ -239,20 +245,20 @@ It has the following properties:
   }
   ```
 
-### ActionCallback\<R = any\>
+### ActionCallback\<T, R = any\>
 
 `ActionCallback` is the type of the callback function that can be passed to a `ToolbarAction` as `action` parameter. An action callback gets a single parameter, the `ActionData`. The return type may be anything, including `void`. Here is a simplified representation:
 
 ```js
-type ActionCallback<R> = (data?: ActionData<R>) => any;
+type ActionCallback<T, R = any> = (data?: ActionData<T>) => R;
 ```
 
-### ActionPredicate\<R = any\>
+### ActionPredicate\<T\>
 
 `ActionPredicate` is the type of the predicate function that can be passed to a `ToolbarAction` as `visible` parameter. An action predicate gets a single parameter, the `ActionData`. The return type must be `boolean`. Here is a simplified representation:
 
 ```js
-type ActionPredicate<R> = (data?: ActionData<R>) => boolean;
+type ActionPredicate<T> = (data?: ActionData<T>) => boolean;
 ```
 
 ### ToolbarActionOptions\<R = any\>
@@ -393,16 +399,16 @@ export const identityEntityActionContributors = {
 
 ### ToolbarActionContributorCallback\<R = any\>
 
-`ToolbarActionContributorCallback` is the type that you can pass as toolbar action contributor callbacks to static `forRoot` methods of the modules.
+`ToolbarActionContributorCallback` is the type that you can pass as toolbar action contributor callbacks to static `forLazy` methods of the modules.
 
 ```js
+// exportUsersContributor should have ToolbarActionContributorCallback<Identity.UserItem[]> type
+
 export function exportUsersContributor(
   actionList: ToolbarActionList<Identity.UserItem[]>,
 ) {
   // add exportUsers just before the last action
   actionList.add(exportUsers).byIndex(-1);
-
-  // exportUsers should have ToolbarActionContributorCallback<Identity.UserItem[]> type
 }
 
 export const identityEntityActionContributors = {

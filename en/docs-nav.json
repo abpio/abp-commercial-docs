@@ -43,7 +43,7 @@
       "text": "Samples",
       "items": [
         {
-          "text": "Overall",
+          "text": "All Samples",
           "path": "samples/index.md"
         },
         {
@@ -121,10 +121,14 @@
           "path": "modules/saas.md"
         },
         {
+          "text": "Text Template Management",
+          "path": "modules/text-template-management.md"
+        },
+        {
           "text": "Twilio SMS",
           "path": "modules/twilio-sms.md"
         },
-		{
+		    {
           "text": "Payment",
           "path": "modules/payment.md"
         }
@@ -181,6 +185,10 @@
       "path": "release-notes.md"
     },
     {
+      "text": "Road Map",
+      "path": "road-map.md"
+    },
+    {
       "text": "Others",
       "items": [
         {
@@ -188,6 +196,10 @@
           "path": "abp-framework-vs-abp-commercial.md"
         }
       ]
+    },
+    {
+      "text": "API Documentation",
+      "path": "{ApiDocumentationUrl}"
     }
   ]
 }

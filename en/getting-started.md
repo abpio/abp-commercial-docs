@@ -1,4 +1,4 @@
-# Getting started
+# Getting Started
 
 ````json
 //[doc-params]
@@ -24,6 +24,11 @@ The following tools should be installed on your development machine:
 
 * [Node v12+](https://nodejs.org)
 * [Yarn v1.19+](https://yarnpkg.com/)
+{{ if Tiered == "Yes" }}
+
+* [Redis](https://redis.io/): The applications use Redis as as [distributed cache](../Caching.md). So, you need to have Redis installed & running.
+
+{{ end }}
 
 > You can use another editor instead of Visual Studio as long as it supports .NET Core and ASP.NET Core.
 

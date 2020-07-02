@@ -4,16 +4,21 @@
 
 2. Make sure you have logged in to abp.io via ABP CLI. If you are not logged in, [click here to see how to login](https://docs.abp.io/{{Document_Language_Code}}/abp/{{Document_Version}}/CLI#login).
 
-3. To install ABP Suite write the following command:
+3. To install ABP Suite write the following command to your terminal:
 
    ```bash
    abp suite install
    ```
-
    
-   
-
 Wait for the process to download and install to your computer. It may take about a minute on a 25 Megabit internet to complete the process.
+
+## How to update ABP Suite?
+
+To update your existing ABP Suite, write the following command to your terminal:
+
+```bash
+abp suite update
+```
 
 ## What's next?
 
