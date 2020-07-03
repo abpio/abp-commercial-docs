@@ -6,7 +6,7 @@ This document contains **brief release notes** for each release. Release notes o
 
 ### Blog Post
 
-See the detailed **[blog post / announcement](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2020-07-01%20v3_0_Release/Post.md)** for the v2.9.0 release.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-v3.0-Has-Been-Released)** for the v3.0.0 release.
 
 ### Major Features
 
