@@ -215,7 +215,7 @@
             </tr>
             <tr>
                 <td>Organization Unit management</td>
-                <td><i class="fa fa-minus text-secondary"></i></td>
+                <td><i class="fa fa-minus text-success"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
@@ -292,6 +292,11 @@
                 <td>Session timeout & User lock Screen</td>
                 <td><i class="fa fa-minus text-secondary"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>
+            </tr>
+            <tr>
+                <td>File Management UI</td>
+                <td><i class="fa fa-minus text-success"></i></td>
+                <td><i class="fa fa-check text-secondary"></i></td>
             </tr>
             <tr>
                 <td>UI Theme</td>
