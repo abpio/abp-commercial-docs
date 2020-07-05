@@ -25,7 +25,7 @@ If you modified your solution structure, adding module using ABP CLI might not w
 In order to do that, add packages listed below to matching project on your solution. For example, `Volo.FileManagement.Application` package to your **{ProjectName}.Application.csproj** like below;
 
 ```json
-(<PackageReference Include="Volo.FileManagement.Application" Version="x.x.x" />)
+<PackageReference Include="Volo.FileManagement.Application" Version="x.x.x" />
 ```
 
 After adding the package reference, open the module class of the project (eg: `{ProjectName}ApplicationModule`) and add the below code to the `DependsOn` attribute.
