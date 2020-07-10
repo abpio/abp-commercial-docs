@@ -1,10 +1,12 @@
-#### Mobile Development
+# Getting Started with the React Native
 
-ABP Commercial platform provide [React Native](https://reactnative.dev/) template to develop mobile applications.
+ABP Commercial platform provides a basic [React Native](https://reactnative.dev/) template to develop mobile applications **integrated to your ABP based backends**.
 
->The solution includes the React Native application in the `react-native` folder as default. If you don't plan to develop a mobile application with React Native, you can ignore this step and delete the `react-native` folder.
+When you **create a new application** as described in the [getting started document](getting-started.md), the solution includes the React Native application in the `react-native` folder as default.
 
-The React Native application running on an Android emulator or a physical phone cannot connect to the backend on `localhost`. To fix this problem, it is necessary to run backend on the local IP.
+## Configure Your Local IP Address
+
+A React Native application running on an Android emulator or a physical phone **cannot connect to the backend** on `localhost`. To fix this problem, it is necessary to run backend on your **local IP address**.
 
 {{ if Tiered == "No"}}
 ![React Native host project local IP entry](D:/GitHub/abp-commercial-docs/en/images/rn-host-local-ip.png)
@@ -23,7 +25,9 @@ The React Native application running on an Android emulator or a physical phone 
 
 {{ end }}
 
-Run the backend as described in the [**Running the HTTP API Host (server-side)**](#running-the-http-api-host-server-side) section.
+## Run the Server Application
+
+Run the backend application as described in the [getting started document](getting-started.md).
 
 > React Native application does not trust the auto-generated .NET HTTPS certificate, you should use the HTTP during development.
 
@@ -43,7 +47,7 @@ yarn
 
 {{else}}
 
-> Make sure that `issuer` and `apiUrl` matches the running address of the `.HttpApi.Host` project.
+> Make sure that `issuer` and `apiUrl` matches the running address of the `.HttpApi.Host` or `.Web` project.
 
 {{ end }}
 
@@ -68,5 +72,3 @@ Enter **admin** as the username and **1q2w3E*** as the password to login to the 
 ![React Native dashboard screen on iPhone 11](D:/GitHub/abp-commercial-docs/en/images/rn-dashboard-iphone.png)
 
 The application is up and running. You can continue to develop your application based on this startup template.
-
-> The [application startup template](startup-templates/application/index.md) includes the SaaS, Identity, Identity Server, Language Management and Audit Logging modules.
