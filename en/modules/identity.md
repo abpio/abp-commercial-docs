@@ -37,7 +37,6 @@ This module follows the [module development best practices guide](https://docs.a
 ### NPM packages
 
 * @volo/abp.ng.identity
-* @volo/abp.ng.identity.config
 
 ## User interface
 
@@ -281,6 +280,92 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 ### Permissions
 
 See the `IdentityPermissions` class members for all permissions defined for this module.
+
+### Angular UI
+
+#### Modules
+
+##### IdentityModule
+The module to import and lazy-load in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.identity`.
+
+Implementation:
+
+```js
+// app-routing.module.ts
+const routes: Routes = [
+  // other route definitions
+  {
+    path: 'identity',
+    loadChildren: () =>
+      import('@volo/abp.ng.identity').then(m => m.IdentityModule.forLazy(/* options here */)),
+  },
+];
+
+@NgModule(/* AppRoutingModule metadata */)
+export class AppRoutingModule {}
+```
+
+Identity is pre-installed in the startup template. No need to manually define the route above.
+
+###### IdentityModule Configuration
+You need to import `IdentityConfigModule` from `@volo/abp.ng.identity/config` to root module (usually called `AppModule`) and include it in imports NgModule metadata. `IdentityConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+
+Implementation:
+```js
+// app.module.ts
+import { IdentityConfigModule } from '@volo/abp.ng.identity/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    IdentityConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+Identity is pre-installed in the startup template. No need to manually import the `IdentityConfigModule` to `AppModule`. 
+
+
+
+###### IdentityModule Options
+
+- **IDENTITY_ENTITY_PROP_CONTRIBUTORS:** If you like to add or modify columns in `Roles`, `Users`, or `Claims` pages, you should use this token to pass your contributors to `IdentityModule.forLazy`. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/data-table-column-extensions) for details.
+- **IDENTITY_ENTITY_ACTION_CONTRIBUTORS:** If you like to add or modify grid actions in `Roles`, `Users`, or `Claims` pages, you should use this token to pass your contributors to `IdentityModule.forLazy`. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/entity-action-extensions) for details.
+- **IDENTITY_TOOLBAR_ACTION_CONTRIBUTORS:** If you like to add or modify page toolbar in `Roles`, `Users`, or `Claims`, you should use this token to pass your contributors to `IdentityModule.forLazy`. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/page-toolbar-extensions) for details.
+- **IDENTITY_CREATE_FORM_PROP_CONTRIBUTORS:** If you like to add or modify create form in `Roles`, `Users`, or `Claims` pages, you should use this token to pass your contributors to `IdentityModule.forLazy`. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+- **IDENTITY_EDIT_FORM_PROP_CONTRIBUTORS:** If you like to add or modify edit form in `Roles`, `Users`, or `Claims` pages, you should use this token to pass your contributors to `IdentityModule.forLazy`. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+
+###### IdentityModule Services
+
+- **IdentityService:** Covers essential methods that making API calls for `Roles`, `Users`, and `Claims` pages.
+- **OrganizationUnitService:** Covers essential methods that making API calls for `Organization Units` page.
+
+The services above are available for import from `@volo/abp.ng.identity`.
+
+###### IdentityModule Types
+
+* **IdentityConfigOptions:** The type of IdentityModule options
+* **Identity:** A namespace that covers essential interfaces for `Roles`, `Users`, and `Claims` pages.
+* **OrganizationUnitWithDetailsDto:** A class that corresponds [OrganizationUnitWithDetailsDto](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitWithDetailsDto.html) in backend
+* **OrganizationUnitCreateOrUpdateDtoBase:** A class that corresponds [OrganizationUnitCreateOrUpdateDtoBase](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitCreateOrUpdateDtoBase.html) in backend
+* **OrganizationUnitCreateDto:** A class that corresponds [OrganizationUnitCreateDto](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitCreateDto.html) in backend
+* **OrganizationUnitUpdateDto:** A class that corresponds [OrganizationUnitUpdateDto](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitUpdateDto.html) in backend
+* **OrganizationUnitMoveInput:** A class that corresponds [OrganizationUnitMoveInput](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitMoveInput.html) in backend
+* **OrganizationUnitRoleInput:** A class that corresponds [OrganizationUnitRoleInput](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitRoleInput.html) in backend
+* **GetOrganizationUnitInput:** A class that corresponds [GetOrganizationUnitInput](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.GetOrganizationUnitInput.html) in backend
+* **OrganizationUnitUserInput:** A class that corresponds [OrganizationUnitUserInput](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitUserInput.html) in backend
+
+The types above are available for import from `@volo/abp.ng.identity`.
+
+###### IdentityModule Replaceable Components
+
+`eIdentityComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.identity`.
+
+Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
+
 
 ## Distributed Events
 
