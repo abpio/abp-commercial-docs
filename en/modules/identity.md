@@ -286,9 +286,27 @@ See the `IdentityPermissions` class members for all permissions defined for this
 #### Modules
 
 ##### IdentityModule
-The module to import and lazy-load in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.identity`.
 
-Usage:
+###### Installation
+
+In order to configure the applcation to use the `IdentityModule`, you first need to import `IdentityConfigModule` from `@volo/abp.ng.identity/config` to root module. `IdentityConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+
+```js
+// app.module.ts
+import { IdentityConfigModule } from '@volo/abp.ng.identity/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    IdentityConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+The `IdentityModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.identity`.
 
 ```js
 // app-routing.module.ts
@@ -305,49 +323,33 @@ const routes: Routes = [
 export class AppRoutingModule {}
 ```
 
-Identity is pre-installed in the startup template. No need to manually define the route above.
+> If you have generated your project via the startup template, you do not have to do anything, because it already has both `IdentityConfigModule` and `IdentityModule`.
 
-###### IdentityModule Configuration
-You need to import `IdentityConfigModule` from `@volo/abp.ng.identity/config` to root module (usually called `AppModule`) and include it in imports NgModule metadata. `IdentityConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+<h5 id="h-identity-module-options">Options</h5>
 
-Usage:
-```js
-// app.module.ts
-import { IdentityConfigModule } from '@volo/abp.ng.identity/config';
+You can modify the look and behavior of the module pages by passing the following options to `IdentityModule.forLazy` static method:
 
-@NgModule({
-  imports: [
-    // other imports
-    IdentityConfigModule.forRoot(),
-    // other imports
-  ],
-  // ...
-})
-export class AppModule {}
-```
-
-Identity is pre-installed in the startup template. No need to manually import the `IdentityConfigModule` to `AppModule`. 
+- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/entity-action-extensions) for details.
+- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/page-toolbar-extensions) for details.
+- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/data-table-column-extensions) for details.
+- **createFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+- **editFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
 
 
 
-###### IdentityModule Options
+###### Services
 
-- **IDENTITY_ENTITY_PROP_CONTRIBUTORS:** If you like to add or modify columns in `Roles`, `Users`, or `Claims` pages, you should use this token to pass your contributors to `IdentityModule.forLazy`. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/data-table-column-extensions) for details.
-- **IDENTITY_ENTITY_ACTION_CONTRIBUTORS:** If you like to add or modify grid actions in `Roles`, `Users`, or `Claims` pages, you should use this token to pass your contributors to `IdentityModule.forLazy`. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/entity-action-extensions) for details.
-- **IDENTITY_TOOLBAR_ACTION_CONTRIBUTORS:** If you like to add or modify page toolbar in `Roles`, `Users`, or `Claims`, you should use this token to pass your contributors to `IdentityModule.forLazy`. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/page-toolbar-extensions) for details.
-- **IDENTITY_CREATE_FORM_PROP_CONTRIBUTORS:** If you like to add or modify create form in `Roles`, `Users`, or `Claims` pages, you should use this token to pass your contributors to `IdentityModule.forLazy`. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
-- **IDENTITY_EDIT_FORM_PROP_CONTRIBUTORS:** If you like to add or modify edit form in `Roles`, `Users`, or `Claims` pages, you should use this token to pass your contributors to `IdentityModule.forLazy`. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+The `@volo/abp.ng.identity` package exports the following services which cover HTTP requests to counterpart APIs:
 
-###### IdentityModule Services
+- **IdentityService:** Covers `Roles`, `Users`, and `Claims` pages.
+- **OrganizationUnitService:** Covers `Organization Units` page.
 
-- **IdentityService:** Covers essential methods that making API calls for `Roles`, `Users`, and `Claims` pages.
-- **OrganizationUnitService:** Covers essential methods that making API calls for `Organization Units` page.
 
-The services above are available for import from `@volo/abp.ng.identity`.
+###### Types
 
-###### IdentityModule Types
+The `@volo/abp.ng.identity` package exports the following types:
 
-* **IdentityConfigOptions:** The type of IdentityModule options
+* **IdentityConfigOptions:** The type for `IdentityModule.forLazy` options [described above](#h-identity-module-options).
 * **Identity:** A namespace that covers essential interfaces for `Roles`, `Users`, and `Claims` pages.
 * **OrganizationUnitWithDetailsDto:** A class that corresponds [OrganizationUnitWithDetailsDto](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitWithDetailsDto.html) in backend
 * **OrganizationUnitCreateOrUpdateDtoBase:** A class that corresponds [OrganizationUnitCreateOrUpdateDtoBase](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitCreateOrUpdateDtoBase.html) in backend
@@ -357,8 +359,6 @@ The services above are available for import from `@volo/abp.ng.identity`.
 * **OrganizationUnitRoleInput:** A class that corresponds [OrganizationUnitRoleInput](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitRoleInput.html) in backend
 * **GetOrganizationUnitInput:** A class that corresponds [GetOrganizationUnitInput](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.GetOrganizationUnitInput.html) in backend
 * **OrganizationUnitUserInput:** A class that corresponds [OrganizationUnitUserInput](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitUserInput.html) in backend
-
-The types above are available for import from `@volo/abp.ng.identity`.
 
 ###### IdentityModule Replaceable Components
 
