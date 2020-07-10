@@ -11,6 +11,8 @@
 
 > This tutorial assumes that you've already purchased an [ABP Commercial license](https://commercial.abp.io/pricing) and have an active ABP Commercial account.
 
+This tutorial explains how to create a new {{if UI == "MVC"}} ASP.NET Core MVC (Razor Pages) web {{else if UI == "NG"}} Angular {{end}} application using the startup template.
+
 ## Setup your development environment
 
 First things first! Let's setup your development environment before creating the first project.
@@ -19,7 +21,7 @@ First things first! Let's setup your development environment before creating the
 
 The following tools should be installed on your development machine:
 
-* [Visual Studio 2019 (v16.4+)](https://visualstudio.microsoft.com/vs/) for Windows / [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/).
+* [Visual Studio 2019 (v16.4+)](https://visualstudio.microsoft.com/vs/) for Windows / [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/). *
 * [.NET Core 3.0+](https://www.microsoft.com/net/download/dotnet-core/)
 
 * [Node v12+](https://nodejs.org)
@@ -30,11 +32,11 @@ The following tools should be installed on your development machine:
 
 {{ end }}
 
-> You can use another editor instead of Visual Studio as long as it supports .NET Core and ASP.NET Core.
+> *You can use another editor instead of Visual Studio as long as it supports .NET Core and ASP.NET Core.
 
 ### Install the ABP CLI
 
-[ABP CLI](https://docs.abp.io/en/abp/latest/CLI) is a command line interface that is used to authenticate and automate some tasks for ABP based applications.
+[ABP CLI](./CLI.md) is a command line interface that is used to automate some common tasks for ABP based applications.
 
 > ABP CLI is a free & open source tool for [the ABP framework](https://abp.io/). It is also used for ABP Commercial application development.
 
@@ -58,7 +60,7 @@ In order to use ABP Commercial features, you need to login your account using th
 abp login <username>
 ````
 
-It will ask a password, so you enter the password of your account.
+It will ask a password, so you must enter the password of your account.
 
 > You can freely create a new account from the [ABP Account web site](https://account.abp.io/Account/Register). However, your account should be registered to an organization as a developer to be able to use the ABP Commercial. If your company has an ABP Commercial license, ask your manager to add your account to the developer list of the organization.
 
@@ -120,7 +122,7 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular {{end}}{{if DB == 
 
 {{ if Tiered == "Yes" }}
 
-* `--separate-identity-server` argument is used to separate the identity server application from the API host application. If not specified, you will have a single endpoint.
+* `--separate-identity-server` argument is used to separate the identity server application from the API host application. If not specified, you will have a single endpoint on the server.
 
 {{ end }}
 
@@ -154,7 +156,15 @@ After creating your project, you will have the following solution folders & file
 
 You will see the following solution structure when you open the `.sln` file in the Visual Studio:
 
-![vs-default-app-solution-structure](images/vs-default-app-solution-structure.png)
+{{if DB == "Mongo"}}
+
+![vs-default-app-solution-structure](images/vs-app-solution-structure-mongodb-mvc.png)
+
+{{else}}
+
+![vs-default-app-solution-structure](images/vs-{{if Tiered != "Yes"}}default-{{end}}app-solution-structure{{if Tiered == "Yes"}}-tiered{{end}}.png)
+
+{{end}}
 
 {{ else if UI == "NG" }}
 There are three folders in the created solution:
@@ -167,7 +177,7 @@ There are three folders in the created solution:
 
 Open the `.sln` (Visual Studio solution) file under the `aspnet-core` folder:
 
-![vs-angular-app-backend-solution-structure](images/vs-angular-app-backend-solution-structure.png)
+![vs-angular-app-backend-solution-structure](images/vs-spa-app-backend-structure{{if DB == "Mongo"}}-mongodb{{end}}.png)
 
 {{ end }}
 
@@ -203,7 +213,7 @@ Check the **connection string** in the `appsettings.json` file under the {{if UI
 }
 ````
 
-The solution is configured to use **Entity Framework Core** with **MS SQL Server**. EF Core supports [various](https://docs.microsoft.com/en-us/ef/core/providers/) database providers, so you can use any supported DBMS. See [the Entity Framework integration document](https://docs.abp.io/en/abp/latest/Entity-Framework-Core) to learn how to switch to another DBMS.
+The solution is configured to use **Entity Framework Core** with **MS SQL Server**. EF Core supports [various](https://docs.microsoft.com/en-us/ef/core/providers/) database providers, so you can use any supported DBMS. See [the Entity Framework integration document](https://docs.abp.io/en/abp/latest/Entity-Framework-Core) to learn how to [switch to another DBMS](https://docs.abp.io/en/abp/latest/Entity-Framework-Core-Other-DBMS).
 
 ### Apply the migrations
 
@@ -223,7 +233,7 @@ Right click to the `.DbMigrator` project and select **Set as StartUp Project**
 
  ![db-migrator-output](images/db-migrator-output.png)
 
-> Initial seed data creates the `admin` user in the database which is then used to login to the application. So, you need to use `.DbMigrator` at least once for a new database.
+> Initial [seed data](https://docs.abp.io/en/abp/latest/Data-Seeding) creates the `admin` user in the database which is then used to login to the application. So, you need to use `.DbMigrator` at least once for a new database.
 
 #### Using EF Core Update-Database command
 
@@ -247,7 +257,9 @@ Open the **Package Manager Console**, select `.EntityFrameworkCore.DbMigrations`
 
 This will create a new database based on the configured connection string.
 
-> Using the `.Migrator` tool is the suggested way, because it also seeds the initial data to be able to properly run the web application. 
+> **Using the `.DbMigrator` tool is the suggested way**, because it also seeds the initial data to be able to properly run the web application.
+>
+> If you just use the `Update-Database` command, you will have an empty database, so you can not login to the application since there is no initial admin user in the database. You can use the `Update-Database` command in development time when you don't need to seed the database. However, using the `.DbMigrator` application is easier and you can always use it to migrate the schema and seed the database.
 
 {{ else if DB == "Mongo" }}
 
@@ -273,7 +285,7 @@ Right click to the `.DbMigrator` project and select **Set as StartUp Project**
 
  ![db-migrator-output](images/db-migrator-output.png)
 
-> Initial seed data creates the `admin` user in the database which is then used to login to the application. So, you need to use `.DbMigrator` at least once for a new database.
+> Initial [seed data](https://docs.abp.io/en/abp/latest/Data-Seeding) creates the `admin` user in the database which is then used to login to the application. So, you need to use `.DbMigrator` at least once for a new database.
 
 {{ end }}
 
@@ -360,7 +372,6 @@ Once all node modules are loaded, execute `yarn start` (or `npm start`) command:
 yarn start
 ```
 
-Wait `Angular CLI` to launch `Webpack` dev-server with `BrowserSync`. 
 This will take care of compiling your `TypeScript` code, and automatically reloading your browser. 
 After it finishes, `Angular Live Development Server` will be listening on localhost:4200, 
 open your web browser and navigate to [localhost:4200](http://localhost:4200/)
@@ -371,85 +382,22 @@ open your web browser and navigate to [localhost:4200](http://localhost:4200/)
 
 {{ end }}
 
-Enter **admin** as the username and **1q2w3E*** as the password to login to the application:
+Enter **admin** as the username and **1q2w3E*** as the password to login to the application. 
 
 ![bookstore-home](images/bookstore-home.png)
 
 The application is up and running. You can start developing your application based on this startup template.
 
-#### Mobile Development
+## Mobile Development
 
-ABP Commercial platform provide [React Native](https://reactnative.dev/) template to develop mobile applications.
+When you create a new application, the solution includes `react-native` folder by default. This is a basic [React Native](https://reactnative.dev/) startup template to develop mobile applications integrated to your ABP based backends.
 
->The solution includes the React Native application in the `react-native` folder as default. If you don't plan to develop a mobile application with React Native, you can ignore this step and delete the `react-native` folder.
+If you don't plan to develop a mobile application with React Native, you can safely delete the `react-native` folder.
 
-The React Native application running on an Android emulator or a physical phone cannot connect to the backend on `localhost`. To fix this problem, it is necessary to run backend on the local IP.
+> You can specifying the `-m none` option to the ABP CLI to not create the `react-native` folder in the beginning.
 
-{{ if Tiered == "No"}}
-![React Native host project local IP entry](images/rn-host-local-ip.png)
+See the "[Getting Started with the React Native](getting-started-react-native.md)" document to learn how to configure and run the React Native application.
 
-* Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `SelfUrl` and `Authority` properties with your local IP address.
-* Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
+## Next
 
-{{ else if Tiered == "Yes" }}
-
-![React Native tiered project local IP entry](images/rn-tiered-local-ip.png)
-
-* Open the `appsettings.json` in the `.IdentityServer` folder. Replace the `localhost` address on the `SelfUrl` property with your local IP address.
-* Open the `launchSettings.json` in the `.IdentityServer/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
-* Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `Authority` property with your local IP address.
-* Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
-
-{{ end }}
-
-Run the backend as described in the [**Running the HTTP API Host (server-side)**](#running-the-http-api-host-server-side) section.
-
-> React Native application does not trust the auto-generated .NET HTTPS certificate, you should use the HTTP during development.
-
-Go to the `react-native` folder, open a command line terminal, type the `yarn` command (we suggest to the [yarn](https://yarnpkg.com/) package manager while `npm install` will also work in most cases):
-
-```bash
-yarn
-```
-
-* Open the `Environment.js` in the `react-native` folder and replace the `localhost` address on the `apiUrl` and `issuer` properties with your local IP address as shown below:
-
-![react native environment local IP](images/rn-environment-local-ip.png)
-
-{{ if Tiered == "Yes" }}
-
-> Make sure that `issuer` matches the running address of the `.IdentityServer` project, `apiUrl` matches the running address of the `.HttpApi.Host` project.
-
-{{else}}
-
-> Make sure that `issuer` and `apiUrl` matches the running address of the `.HttpApi.Host` project.
-
-{{ end }}
-
-Once all node modules are loaded, execute `yarn start` (or `npm start`) command:
-
-```bash
-yarn start
-```
-
-Wait Expo CLI to start. Expo CLI opens the management interface on the `http://localhost:19002/` address.
-
-![expo-interface](images/expo-interface.png)
-
-In the above management interface, you can start the application with an Android emulator, an iOS simulator or a physical phone by the scan the QR code with the [Expo Client](https://expo.io/tools#client).
-
-> See the [Android Studio Emulator](https://docs.expo.io/workflow/android-studio-emulator), [iOS Simulator](https://docs.expo.io/workflow/ios-simulator) documents on expo.io.
-
-![React Native login screen on iPhone 11](images/rn-login-iphone.png)
-
-Enter **admin** as the username and **1q2w3E*** as the password to login to the application:
-
-![React Native dashboard screen on iPhone 11](images/rn-dashboard-iphone.png)
-
-The application is up and running. You can continue to develop your application based on this startup template.
-
-> The [application startup template](startup-templates/application/index.md) includes the SaaS, Identity, Identity Server, Language Management and Audit Logging modules.
-
-## What's next?
-
-[Application development tutorial](tutorials/book-store/part-1.md)
+[Web Application development tutorial](tutorials/book-store/part-1.md)
