@@ -288,7 +288,7 @@ See the `IdentityPermissions` class members for all permissions defined for this
 ##### IdentityModule
 The module to import and lazy-load in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.identity`.
 
-Implementation:
+Usage:
 
 ```js
 // app-routing.module.ts
@@ -310,7 +310,7 @@ Identity is pre-installed in the startup template. No need to manually define th
 ###### IdentityModule Configuration
 You need to import `IdentityConfigModule` from `@volo/abp.ng.identity/config` to root module (usually called `AppModule`) and include it in imports NgModule metadata. `IdentityConfigModule` has a static `forRoot` method which you should call for a proper configuration.
 
-Implementation:
+Usage:
 ```js
 // app.module.ts
 import { IdentityConfigModule } from '@volo/abp.ng.identity/config';
