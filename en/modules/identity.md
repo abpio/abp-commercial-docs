@@ -283,11 +283,7 @@ See the `IdentityPermissions` class members for all permissions defined for this
 
 ### Angular UI
 
-#### Modules
-
-##### IdentityModule
-
-###### Installation
+#### Installation
 
 In order to configure the applcation to use the `IdentityModule`, you first need to import `IdentityConfigModule` from `@volo/abp.ng.identity/config` to root module. `IdentityConfigModule` has a static `forRoot` method which you should call for a proper configuration.
 
@@ -325,7 +321,7 @@ export class AppRoutingModule {}
 
 > If you have generated your project via the startup template, you do not have to do anything, because it already has both `IdentityConfigModule` and `IdentityModule`.
 
-<h5 id="h-identity-module-options">Options</h5>
+<h4 id="h-identity-module-options">Options</h4>
 
 You can modify the look and behavior of the module pages by passing the following options to `IdentityModule.forLazy` static method:
 
@@ -337,7 +333,7 @@ You can modify the look and behavior of the module pages by passing the followin
 
 
 
-###### Services
+#### Services
 
 The `@volo/abp.ng.identity` package exports the following services which cover HTTP requests to counterpart APIs:
 
@@ -345,22 +341,7 @@ The `@volo/abp.ng.identity` package exports the following services which cover H
 - **OrganizationUnitService:** Covers `Organization Units` page.
 
 
-###### Types
-
-The `@volo/abp.ng.identity` package exports the following types:
-
-* **IdentityConfigOptions:** The type for `IdentityModule.forLazy` options [described above](#h-identity-module-options).
-* **Identity:** A namespace that covers essential interfaces for `Roles`, `Users`, and `Claims` pages.
-* **OrganizationUnitWithDetailsDto:** A class that corresponds [OrganizationUnitWithDetailsDto](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitWithDetailsDto.html) in backend
-* **OrganizationUnitCreateOrUpdateDtoBase:** A class that corresponds [OrganizationUnitCreateOrUpdateDtoBase](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitCreateOrUpdateDtoBase.html) in backend
-* **OrganizationUnitCreateDto:** A class that corresponds [OrganizationUnitCreateDto](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitCreateDto.html) in backend
-* **OrganizationUnitUpdateDto:** A class that corresponds [OrganizationUnitUpdateDto](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitUpdateDto.html) in backend
-* **OrganizationUnitMoveInput:** A class that corresponds [OrganizationUnitMoveInput](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitMoveInput.html) in backend
-* **OrganizationUnitRoleInput:** A class that corresponds [OrganizationUnitRoleInput](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitRoleInput.html) in backend
-* **GetOrganizationUnitInput:** A class that corresponds [GetOrganizationUnitInput](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.GetOrganizationUnitInput.html) in backend
-* **OrganizationUnitUserInput:** A class that corresponds [OrganizationUnitUserInput](https://docs.abp.io/api-docs/commercial/3.0/api/Volo.Abp.Identity.OrganizationUnitUserInput.html) in backend
-
-###### IdentityModule Replaceable Components
+#### IdentityModule Replaceable Components
 
 `eIdentityComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.identity`.
 
