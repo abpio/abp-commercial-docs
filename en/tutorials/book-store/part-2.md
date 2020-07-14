@@ -71,11 +71,11 @@ acme.bookStore.books.book.getList({}).done(function (result) { console.log(resul
 
 Running this code produces the following output:
 
-![bookstore-javascript-proxy-console](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-javascript-proxy-console.png)
+![bookstore-javascript-proxy-console](images/bookstore-javascript-proxy-console.png)
 
 You can see the **book list** returned from the server. You can also check the **network** tab of the developer tools to see the client to server communication:
 
-![bookstore-getlist-result-network](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-getlist-result-network.png)
+![bookstore-getlist-result-network](images/bookstore-getlist-result-network.png)
 
 Let's **create a new book** using the `create` function:
 
@@ -108,7 +108,7 @@ Before starting to the UI development, we first want to prepare the localization
 
 Localization texts are located under the `Localization/BookStore` folder of the `Acme.BookStore.Domain.Shared` project:
 
-![bookstore-localization-files](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-localization-files-v2.png)
+![bookstore-localization-files](images/bookstore-localization-files-v2.png)
 
 Open the `en.json` (*the English translations*) file and change the content as below:
 
@@ -117,8 +117,14 @@ Open the `en.json` (*the English translations*) file and change the content as b
   "Culture": "en",
   "Texts": {
     "Menu:Home": "Home",
+    "Home": "Home",
     "Welcome": "Welcome",
-    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information visit abp.io.",
+    "EndDate": "End date",
+    "StartDate": "Start date",
+    "Permission:Dashboard": "Dashboard",
+    "Menu:Dashboard": "Dashboard",
+    "Dashboard": "Dashboard",
     "Menu:BookStore": "Book Store",
     "Menu:Books": "Books",
     "Actions": "Actions",
@@ -159,7 +165,7 @@ It's time to create something visible and usable! Instead of classic MVC, we wil
 
 Create `Books` folder under the `Pages` folder of the `Acme.BookStore.Web` project. Add a new Razor Page by right clicking the Books folder then selecting **Add > Razor Page** menu item. Name it as `Index`:
 
-![bookstore-add-index-page](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-add-index-page-v2.png)
+![bookstore-add-index-page](images/bookstore-add-index-page-v2.png)
 
 Open the `Index.cshtml` and change the whole content as shown below:
 
@@ -210,7 +216,7 @@ context.Menu.AddItem(
 
 Run the project, login to the application with the username `admin` and the password `1q2w3E*` and see the new menu item has been added to the main menu:
 
-![bookstore-menu-items](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-new-menu-item.png)
+![bookstore-menu-items](images/bookstore-new-menu-item.png)
 
 When you click to the Books menu item under the Book Store parent, you are being redirected to the new empty Books Page.
 
@@ -229,8 +235,13 @@ Change the `Pages/Books/Index.cshtml` as following:
 @using Acme.BookStore.Localization
 @using Acme.BookStore.Web.Pages.Books
 @using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
 @model IndexModel
 @inject IStringLocalizer<BookStoreResource> L
+@inject IPageLayout PageLayout
+@{
+    PageLayout.Content.MenuItemName = "BooksStore";
+}
 @section scripts
 {
     <abp-script src="/Pages/Books/Index.js" />
@@ -243,16 +254,18 @@ Change the `Pages/Books/Index.cshtml` as following:
         <abp-table striped-rows="true" id="BooksTable"></abp-table>
     </abp-card-body>
 </abp-card>
+
 ````
 
 * `abp-script` [tag helper](https://docs.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/intro) is used to add external **scripts** to the page. It has many additional features compared to standard `script` tag. It handles **minification** and **versioning**. See the [bundling & minification document](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Bundling-Minification) for details.
 * `abp-card` is a tag helper for Twitter Bootstrap's [card component](https://getbootstrap.com/docs/4.5/components/card/). There are other useful tag helpers provided by the ABP Framework to easily use most of the [bootstrap](https://getbootstrap.com/) components. You could use the regular HTML tags instead of these tag helpers, but using tag helpers reduces HTML code and prevents errors by help the of IntelliSense and compile time type checking. Further information, see the [tag helpers](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Tag-Helpers/Index) document.
+* Setting ```PageLayout.Content.MenuItemName``` in the Index.cshtml file allows ABP to select the menu item when user navigates to this page.
 
 #### Index.js
 
 Create an `Index.js` file under the `Pages/Books` folder:
 
-![bookstore-index-js-file](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-index-js-file-v3.png)
+![bookstore-index-js-file](images/bookstore-index-js-file-v3.png)
 
 The content of the file is shown below:
 
@@ -323,7 +336,7 @@ $(function () {
 
 You can run the application! The final UI of this part is shown below:
 
-![Book list](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-book-list-3.png)
+![Book list](images/bookstore-book-list.png)
 
 This is a fully working, server side paged, sorted and localized table of books.
 
@@ -464,7 +477,7 @@ abp generate-proxy --apiUrl https://localhost:XXXXX
 
 The generated files looks like below:
 
-![Generated files](D:/GitHub/abp/docs/en/Tutorials/images/generated-proxies-2.png)
+![Generated files](images/generated-proxies-2.png)
 
 ### BookComponent
 
@@ -541,7 +554,7 @@ Open the `/src/app/book/book.component.html` and replace the content as below:
 
 Now you can see the final result on your browser:
 
-![Book list final result](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-book-list.png)
+![Book list final result](images/bookstore-book-list-3.png)
 
 {{end}}
 
