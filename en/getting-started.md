@@ -32,7 +32,7 @@ The following tools should be installed on your development machine:
 
 {{ end }}
 
-> *You can use another editor instead of Visual Studio as long as it supports .NET Core and ASP.NET Core.
+> You can use another editor instead of Visual Studio as long as it supports .NET Core and ASP.NET Core.
 
 ### Install the ABP CLI
 
@@ -96,7 +96,7 @@ abp suite
 
 This command starts the ABP Suite and opens in your default browser:
 
-![suite-ui](images/suite-entrance.png)
+![suite-ui](images/suite-entrance-2.png)
 
 Click to the **Create solution** button and fill the modal form:
 
@@ -313,7 +313,7 @@ Lastly, ensure that the `.Web` project is the startup project and run the applic
 
 Click to the **login** button which will redirect you to the `Identity Server` to login to the application:
 
-![bookstore-login](images/bookstore-login.png)
+![bookstore-login](images/bookstore-login-2.png)
 
 {{ else }}
 
@@ -321,7 +321,7 @@ Ensure that the `.Web` project is the startup project. Run the application which
 
 > Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
 
-![bookstore-login](images/bookstore-login.png)
+![bookstore-login](images/bookstore-login-2.png)
 
 {{ end }}
 
@@ -378,13 +378,13 @@ open your web browser and navigate to [localhost:4200](http://localhost:4200/)
 
 
 
-![bookstore-login](images/bookstore-login.png)
+![bookstore-login](images/bookstore-login-2.png)
 
 {{ end }}
 
 Enter **admin** as the username and **1q2w3E*** as the password to login to the application. 
 
-![bookstore-home](images/bookstore-home.png)
+![bookstore-home](images/bookstore-home-2.png)
 
 The application is up and running. You can start developing your application based on this startup template.
 

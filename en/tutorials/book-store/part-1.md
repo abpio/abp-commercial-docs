@@ -192,7 +192,7 @@ Select the `Acme.BookStore.EntityFrameworkCore.DbMigrations` as the **default pr
 Add-Migration "Created_Book_Entity"
 ```
 
-![bookstore-pmc-add-book-migration](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-pmc-add-book-migration-v2.png)
+![bookstore-pmc-add-book-migration](/images/bookstore-pmc-add-book-migration-v2.png)
 
 This will create a new migration class inside the `Migrations` folder of the `Acme.BookStore.EntityFrameworkCore.DbMigrations` project.
 
