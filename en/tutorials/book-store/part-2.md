@@ -421,7 +421,7 @@ const routes: Routes = [
 ];
 ````
 
-Now, open the `src/app/route.provider.ts` file replace the `configureRoutes` function declaration as shown below:
+Now, open the `src/app/route.provider.ts` file and replace the `configureRoutes` function declaration as shown below:
 
 ```js
 function configureRoutes(routes: RoutesService) {
@@ -435,18 +435,26 @@ function configureRoutes(routes: RoutesService) {
         layout: eLayoutType.application,
       },
       {
+        path: '/dashboard',
+        name: '::Menu:Dashboard',
+        iconClass: 'fas fa-chart-line',
+        order: 2,
+        layout: eLayoutType.application,
+        requiredPolicy: 'BookStore.Dashboard.Host || AbpAccount.SettingManagement',
+      },
+      {
         path: '/book-store',
         name: '::Menu:BookStore',
         iconClass: 'fas fa-book',
-        order: 2,
+        order: 101,
         layout: eLayoutType.application,
       },
       {
         path: '/books',
         name: '::Menu:Books',
         parentName: '::Menu:BookStore',
-        layout: eLayoutType.application,
-      },
+        layout: eLayoutType.application
+      }
     ]);
   };
 }
@@ -554,7 +562,7 @@ Open the `/src/app/book/book.component.html` and replace the content as below:
 
 Now you can see the final result on your browser:
 
-![Book list final result](images/bookstore-book-list-3.png)
+![Book list final result](images/bookstore-book-list.png)
 
 {{end}}
 

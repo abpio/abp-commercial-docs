@@ -684,47 +684,48 @@ export class BookComponent implements OnInit {
 Open `/src/app/book/book.component.html` and make the following changes:
 
 ```html
-<div class="card">
-  <div class="card-header">
-    <div class="row">
-      <div class="col col-md-6">
-        <h5 class="card-title">{%{{{ '::Menu:Books' | abpLocalization }}}%}</h5>
-      </div>        
-      <div class="text-right col col-md-6">
-          
+<div class="row entry-row">
+    <div class="col-auto">
+        <h1 class="content-header-title">
+            {%{{{ '::Menu:Books' | abpLocalization }}}%}
+        </h1>
+    </div>
+    <div class="col-lg-auto pl-lg-0">
+        <abp-breadcrumb></abp-breadcrumb>
+    </div>
+    <div class="col">
         <!-- Add the "new book" button here -->
         <div class="text-lg-right pt-2">
-          <button id="create" class="btn btn-primary" type="button" (click)="createBook()">
-            <i class="fa fa-plus mr-1"></i>
-            <span>{%{{{ "::NewBook" | abpLocalization }}}%}</span>
-          </button>
+            <button id="create" class="btn btn-primary" type="button" (click)="createBook()">
+                <i class="fa fa-plus mr-1"></i>
+                <span>{%{{{ "::NewBook" | abpLocalization }}}%}</span>
+            </button>
         </div>
-          
-      </div>
     </div>
-  </div>
-  <div class="card-body">
-    <!-- ngx-datatable should be here! -->
-  </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <!-- ngx-datatable should be here! -->
+    </div>
 </div>
 
 <!-- Add the modal here -->
 <abp-modal [(visible)]="isModalOpen">
-  <ng-template #abpHeader>
-    <h3>{%{{{ '::NewBook' | abpLocalization }}}%}</h3>
-  </ng-template>
+    <ng-template #abpHeader>
+        <h3>{%{{{ '::NewBook' | abpLocalization }}}%}</h3>
+    </ng-template>
 
-  <ng-template #abpBody> </ng-template>
+    <ng-template #abpBody> </ng-template>
 
-  <ng-template #abpFooter>
-    <button type="button" class="btn btn-secondary" #abpClose>
-      {%{{{ 'AbpAccount::Close' | abpLocalization }}}%}
-    </button>
-  </ng-template>
+    <ng-template #abpFooter>
+        <button type="button" class="btn btn-secondary" #abpClose>
+            {%{{{ 'AbpAccount::Close' | abpLocalization }}}%}
+        </button>
+    </ng-template>
 </abp-modal>
 ```
 
-* Added `New book` button to the card header..
+* Added `New book` button to the page header.
 * Added the `abp-modal` which renders a modal to allow user to create a new book. `abp-modal` is a pre-built component to show modals. While you could use another approach to show a modal, `abp-modal` provides additional benefits.
 
 You can open your browser and click **New book** button to see the new modal.
@@ -977,7 +978,7 @@ export class BookComponent implements OnInit {
 
 Now, you can open your browser to see the changes:
 
-![Save button to the modal](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-new-book-form-v2.png)
+![Save button to the modal](images/bookstore-new-book-form-v2.png)
 
 ## Updating a Book
 
@@ -1110,7 +1111,7 @@ Open the `/src/app/book/book.component.html`  and add the following `ngx-datata
 
 Added an "Actions" dropdown as the first column of the table that is shown below:
 
-![Action buttons](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-actions-buttons.png)
+![Action buttons](images/bookstore-actions-buttons.png)
 
 Also, change the `ng-template #abpHeader` section as shown below:
 
@@ -1174,11 +1175,11 @@ Open `/src/app/book/book.component.html` and modify the `ngbDropdownMenu` to add
 
 The final actions dropdown UI looks like below:
 
-![bookstore-final-actions-dropdown](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-final-actions-dropdown.png)
+![bookstore-final-actions-dropdown](images/bookstore-final-actions-dropdown.png)
 
 Clicking the "Delete" action calls the `delete` method which then shows a confirmation popup as shown below:
 
-![bookstore-confirmation-popup](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-confirmation-popup.png)
+![bookstore-confirmation-popup](images/bookstore-confirmation-popup.png)
 
 {{end}}
 
