@@ -53,13 +53,13 @@ This tutorials has multiple versions based on your **UI** and **Database** prefe
 
 In this section, you will learn how to create a new modal dialog form to create a new book. The modal dialog will look like in the image below:
 
-![bookstore-create-dialog](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-create-dialog-2.png)
+![bookstore-create-dialog](images/bookstore-create-dialog.png)
 
 ### Create the Modal Form
 
 Create a new razor page, named `CreateModal.cshtml` under the `Pages/Books` folder of the `Acme.BookStore.Web` project.
 
-![bookstore-add-create-dialog](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-add-create-dialog-v2.png)
+![bookstore-add-create-dialog](images/bookstore-add-create-dialog-v2.png)
 
 #### CreateModal.cshtml.cs
 
@@ -191,7 +191,7 @@ The final content of the `Index.cshtml` is shown below:
 
 This adds a new button called **New book** to the **top-right** of the table:
 
-![bookstore-new-book-button](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-new-book-button-2.png)
+![bookstore-new-book-button](images/bookstore-new-book-button.png)
 
 Open the `Pages/Books/Index.js` and add the following code just after the `Datatable` configuration:
 
@@ -286,7 +286,7 @@ Now, you can **run the application** and add some new books using the new modal 
 
 Create a new razor page, named `EditModal.cshtml` under the `Pages/Books` folder of the `Acme.BookStore.Web` project:
 
-![bookstore-add-edit-dialog](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-add-edit-dialog.png)
+![bookstore-add-edit-dialog](images/bookstore-add-edit-dialog.png)
 
 ### EditModal.cshtml.cs
 
@@ -489,7 +489,7 @@ You can run the application and edit any book by selecting the edit action on a 
 
 The final UI looks as below:
 
-![bookstore-books-table-actions](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-edit-button-2.png)
+![bookstore-books-table-actions](images/bookstore-edit-button.png)
 
 ## Deleting a Book
 
@@ -729,7 +729,7 @@ Open `/src/app/book/book.component.html` and make the following changes:
 
 You can open your browser and click **New book** button to see the new modal.
 
-![Empty modal for new book](D:/GitHub/abp/docs/en/Tutorials/images/bookstore-empty-new-book-modal.png)
+![Empty modal for new book](images/bookstore-empty-new-book-modal.png)
 
 ### Create a Reactive Form
 
