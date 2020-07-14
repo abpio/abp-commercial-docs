@@ -85,6 +85,7 @@ Open the `BookStorePermissionDefinitionProvider` class inside the `Acme.BookStor
 using Acme.BookStore.Localization;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
+using Volo.Abp.MultiTenancy;
 
 namespace Acme.BookStore.Permissions
 {
@@ -92,8 +93,11 @@ namespace Acme.BookStore.Permissions
     {
         public override void Define(IPermissionDefinitionContext context)
         {
-            var bookStoreGroup = context.AddGroup(BookStorePermissions.GroupName, L("Permission:BookStore"));
+            var bookStoreGroup = context.AddGroup(BookStorePermissions.GroupName);
 
+            bookStoreGroup.AddPermission(BookStorePermissions.Dashboard.Host, L("Permission:Dashboard"), MultiTenancySides.Host);
+            bookStoreGroup.AddPermission(BookStorePermissions.Dashboard.Tenant, L("Permission:Dashboard"), MultiTenancySides.Tenant);
+            
             var booksPermission = bookStoreGroup.AddPermission(BookStorePermissions.Books.Default, L("Permission:Books"));
             booksPermission.AddChild(BookStorePermissions.Books.Create, L("Permission:Books.Create"));
             booksPermission.AddChild(BookStorePermissions.Books.Edit, L("Permission:Books.Edit"));
@@ -126,7 +130,7 @@ Finally, edit the localization file (`en.json` under the `Localization/BookStore
 
 Once you define the permissions, you can see them on the **permission management modal**.
 
-Go to the *Administration -> Identity -> Roles* page, select *Permissions* action for the admin role to open the permission management modal:
+Go to the *Administration -> Identity Management -> Roles* page, select *Permissions* action for the admin role to open the permission management modal:
 
 ![bookstore-permissions-ui](images/bookstore-permissions-ui.png)
 
@@ -179,14 +183,16 @@ Added code to the constructor. Base `CrudAppService` automatically uses these pe
 
 While securing the HTTP API & the application service prevents unauthorized users to use the services, they can still navigate to the book management page. While they will get authorization exception when the page makes the first AJAX call to the server, we should also authorize the page for a better user experience and security.
 
-Open the `BookStoreWebModule` and add the following code block inside the `ConfigureServices` method:
+Open the `BookStoreWebModule` and modify the configuration of `RazorPagesOptions` as the following code block inside the `ConfigureServices` method:
 
 ````csharp
 Configure<RazorPagesOptions>(options =>
 {
-    options.Conventions.AuthorizePage("/Books/Index", BookStorePermissions.Books.Default);
-    options.Conventions.AuthorizePage("/Books/CreateModal", BookStorePermissions.Books.Create);
-    options.Conventions.AuthorizePage("/Books/EditModal", BookStorePermissions.Books.Edit);
+	// existing configuration
+	
+	options.Conventions.AuthorizePage("/Books/Index", BookStorePermissions.Books.Default);
+	options.Conventions.AuthorizePage("/Books/CreateModal", BookStorePermissions.Books.Create);
+	options.Conventions.AuthorizePage("/Books/EditModal", BookStorePermissions.Books.Edit);
 });
 ````
 
