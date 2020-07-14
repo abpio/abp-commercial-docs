@@ -60,7 +60,9 @@ File Management module's MVC user interface depends on following npm packages. a
 
 ## Setting BLOB Provider
 
-File Management module is depends on [BLOB Storing](https://docs.abp.io/en/abp/latest/Blob-Storing) system, and it uses `FileManagementContainer` as a BLOB container. You must define a provider for `FileManagementContainer`.
+File Management module is based on the [BLOB Storing](https://docs.abp.io/en/abp/latest/Blob-Storing) system as defined before, and it uses `FileManagementContainer` as a BLOB container.
+
+You must set a BLOB provider for `FileManagementContainer`.
 
 ```csharp
 Configure<AbpBlobStoringOptions>(options =>
