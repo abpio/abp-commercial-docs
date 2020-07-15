@@ -29,7 +29,6 @@ This module follows the [module development best practices guide](https://docs.a
 ### NPM Packages
 
 * @volo/abp.ng.text-template-management
-* @volo/abp.ng.text-template-management.config
 
 ## User Interface
 
@@ -135,6 +134,71 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 ### Permissions
 
 See the `TextTemplateManagementPermissions` class members for all permissions defined for this module.
+
+
+### Angular UI
+
+#### Installation
+
+In order to configure the application to use the `TextTemplateManagementModule`, you first need to import `TextTemplateManagementConfigModule` from `@volo/abp.ng.text-template-management/config` to root module. `TextTemplateManagementConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+
+```js
+// app.module.ts
+import { TextTemplateManagementConfigModule } from '@volo/abp.ng.text-template-management/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    TextTemplateManagementConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+The `TextTemplateManagementModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.text-template-management`.
+
+```js
+// app-routing.module.ts
+const routes: Routes = [
+  // other route definitions
+  {
+    path: 'text-template-management',
+    loadChildren: () =>
+      import('@volo/abp.ng.text-template-management').then(m => m.TextTemplateManagementModule.forLazy(/* options here */)),
+  },
+];
+
+@NgModule(/* AppRoutingModule metadata */)
+export class AppRoutingModule {}
+```
+
+> If you have generated your project via the startup template, you do not have to do anything, because it already has both `TextTemplateManagementConfigModule` and `TextTemplateManagementModule`.
+
+<h4 id="h-text-template-management-module-options">Options</h4>
+
+You can modify the look and behavior of the module pages by passing the following options to `TextTemplateManagementModule.forLazy` static method:
+
+- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/entity-action-extensions) for details.
+- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/page-toolbar-extensions) for details.
+- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/data-table-column-extensions) for details.
+
+
+#### Services
+
+The `@volo/abp.ng.text-template-management` package exports the following services which cover HTTP requests to counterpart APIs:
+
+- **TemplateDefinitionService:** Covers several methods that performing HTTP calls for `Text templates` page.
+- **TemplateContentService:** Covers several methods that performing HTTP calls for `Create update template content` page.
+
+
+#### TextTemplateManagementModule Replaceable Components
+
+`eTextTemplateManagementComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.text-template-management`.
+
+Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
+
 
 ## Distributed Events
 
