@@ -7,11 +7,11 @@ This module implements the User and Role system of an application;
 * Set **connection string** of tenants.
 * Set **features** of editions.
 
-See [the module description page](https://commercial.abp.io/modules/Volo.Identity.Pro) for an overview of the module features.
+See [the module description page](https://commercial.abp.io/modules/Volo.Saas) for an overview of the module features.
 
 ## How to install
 
-Identity is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
+Saas is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
 
 ## Packages
 
@@ -37,7 +37,6 @@ This module follows the [module development best practices guide](https://docs.a
 ### NPM packages
 
 * @volo/abp.ng.saas
-* @volo/abp.ng.saas.config
 
 ## User interface
 
@@ -173,6 +172,73 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 ### Permissions
 
 See the `SaasHostPermissions` class members for all permissions defined for this module.
+
+
+### Angular UI
+
+#### Installation
+
+In order to configure the application to use the `SaasModule`, you first need to import `SaasConfigModule` from `@volo/abp.ng.saas/config` to root module. `SaasConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+
+```js
+// app.module.ts
+import { SaasConfigModule } from '@volo/abp.ng.saas/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    SaasConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+The `SaasModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.saas`.
+
+```js
+// app-routing.module.ts
+const routes: Routes = [
+  // other route definitions
+  {
+    path: 'saas',
+    loadChildren: () =>
+      import('@volo/abp.ng.saas').then(m => m.SaasModule.forLazy(/* options here */)),
+  },
+];
+
+@NgModule(/* AppRoutingModule metadata */)
+export class AppRoutingModule {}
+```
+
+> If you have generated your project via the startup template, you do not have to do anything, because it already has both `SaasConfigModule` and `SaasModule`.
+
+<h4 id="h-saas-module-options">Options</h4>
+
+You can modify the look and behavior of the module pages by passing the following options to `SaasModule.forLazy` static method:
+
+- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/entity-action-extensions) for details.
+- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/page-toolbar-extensions) for details.
+- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/data-table-column-extensions) for details.
+- **createFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+- **editFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+
+
+
+#### Services
+
+The `@volo/abp.ng.saas` package exports the following services which cover HTTP requests to counterpart APIs:
+
+- **SaasService:** Covers several methods that performing HTTP calls for `Tenants` and `Editions` pages.
+
+
+#### SaasModule Replaceable Components
+
+`eSaasComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.saas`.
+
+Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
+
 
 ## Distributed Events
 
