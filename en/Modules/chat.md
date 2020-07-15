@@ -98,7 +98,6 @@ This module follows the [module development best practices guide](https://docs.a
 
 * @volo/chat (MVC)
 * @volo/abp.ng.chat (Angular)
-* @volo/abp.ng.chat.config (Angular)
 
 ## User interface
 
@@ -196,6 +195,52 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 * **ChatMessages**
 * **ChatUserMessages**
 * **ChatConversations**
+
+
+### Angular UI
+
+#### Installation
+
+In order to configure the application to use the `ChatModule`, you first need to import `ChatConfigModule` from `@volo/abp.ng.chat/config` to root module. `ChatConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+
+```js
+// app.module.ts
+import { ChatConfigModule } from '@volo/abp.ng.chat/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    ChatConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+The `ChatModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. It is available for import from `@volo/abp.ng.chat`.
+
+```js
+// app-routing.module.ts
+const routes: Routes = [
+  // other route definitions
+  {
+    path: 'chat',
+    loadChildren: () =>
+      import('@volo/abp.ng.chat').then(m => m.ChatModule.forLazy(/* options here */)),
+  },
+];
+
+@NgModule(/* AppRoutingModule metadata */)
+export class AppRoutingModule {}
+```
+
+#### Services
+
+The `@volo/abp.ng.chat` package exports the following services which cover HTTP requests to counterpart APIs:
+
+**ConversationService** and **ContactService:** covers several methods that performing HTTP calls for `Chat` page.
+
 
 ## Distributed Events
 
