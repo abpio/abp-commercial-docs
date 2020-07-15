@@ -285,7 +285,7 @@ See the `IdentityPermissions` class members for all permissions defined for this
 
 #### Installation
 
-In order to configure the applcation to use the `IdentityModule`, you first need to import `IdentityConfigModule` from `@volo/abp.ng.identity/config` to root module. `IdentityConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+In order to configure the application to use the `IdentityModule`, you first need to import `IdentityConfigModule` from `@volo/abp.ng.identity/config` to root module. `IdentityConfigModule` has a static `forRoot` method which you should call for a proper configuration.
 
 ```js
 // app.module.ts
@@ -337,8 +337,8 @@ You can modify the look and behavior of the module pages by passing the followin
 
 The `@volo/abp.ng.identity` package exports the following services which cover HTTP requests to counterpart APIs:
 
-- **IdentityService:** Covers `Roles`, `Users`, and `Claims` pages.
-- **OrganizationUnitService:** Covers `Organization Units` page.
+- **IdentityService:** Covers several methods that performing HTTP calls for `Roles`, `Users`, and `Claims` pages.
+- **OrganizationUnitService:** Covers several methods that performing HTTP calls for `Organization Units` page.
 
 
 #### IdentityModule Replaceable Components
