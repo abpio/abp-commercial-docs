@@ -35,7 +35,6 @@ This module follows the [module development best practices guide](https://docs.a
 ### NPM Packages
 
 * @volo/abp.ng.identity-server
-* @volo/abp.ng.identity-server.config
 
 ## User Interface
 
@@ -254,6 +253,71 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 ### Permissions
 
 See the `AbpIdentityServerPermissions` class members for all permissions defined for this module.
+
+### Angular UI
+
+#### Installation
+
+In order to configure the application to use the `IdentityServerModule`, you first need to import `IdentityServerConfigModule` from `@volo/abp.ng.identity-server/config` to root module. `IdentityServerConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+
+```js
+// app.module.ts
+import { IdentityServerConfigModule } from '@volo/abp.ng.identity-server/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    IdentityServerConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+The `IdentityServerModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.identity-server`.
+
+```js
+// app-routing.module.ts
+const routes: Routes = [
+  // other route definitions
+  {
+    path: 'identity-server',
+    loadChildren: () =>
+      import('@volo/abp.ng.identity-server').then(m => m.IdentityServerModule.forLazy(/* options here */)),
+  },
+];
+
+@NgModule(/* AppRoutingModule metadata */)
+export class AppRoutingModule {}
+```
+
+> If you have generated your project via the startup template, you do not have to do anything, because it already has both `IdentityServerConfigModule` and `IdentityServerModule`.
+
+<h4 id="h-identity-server-module-options">Options</h4>
+
+You can modify the look and behavior of the module pages by passing the following options to `IdentityServerModule.forLazy` static method:
+
+- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/entity-action-extensions) for details.
+- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/page-toolbar-extensions) for details.
+- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/data-table-column-extensions) for details.
+- **createFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+- **editFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+
+
+#### Services
+
+The `@volo/abp.ng.identity-server` package exports the following services which cover HTTP requests to counterpart APIs:
+
+- **IdentityServerService:** Covers several methods that performing HTTP calls for `Clients`, `Identity Resources`, and `Api Resources` pages.
+
+
+#### IdentityServerModule Replaceable Components
+
+`eIdentityServerComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.identity-server`.
+
+Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
+
 
 ## Distributed Events
 
