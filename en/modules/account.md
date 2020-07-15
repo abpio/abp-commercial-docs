@@ -35,7 +35,6 @@ This module follows the [module development best practices guide](https://docs.a
 ### NPM Packages
 
 * @volo/abp.ng.account
-* @volo/abp.ng.account.config
 
 ## User Interface
 
@@ -110,6 +109,66 @@ See the `IAccountSettingNames` class members for all settings defined for this m
 ### Permissions
 
 See the `AccountPermissions` class members for all permissions defined for this module.
+
+
+### Angular UI
+
+#### Installation
+
+In order to configure the application to use the `AccountModule`, you first need to import `AccountConfigModule` from `@volo/abp.ng.account/config` to root module. `AccountConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+
+```js
+// app.module.ts
+import { AccountConfigModule } from '@volo/abp.ng.account/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    AccountConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+The `AccountModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.account`.
+
+```js
+// app-routing.module.ts
+const routes: Routes = [
+  // other route definitions
+  {
+    path: 'account',
+    loadChildren: () =>
+      import('@volo/abp.ng.account').then(m => m.AccountModule.forLazy(/* options here */)),
+  },
+];
+
+@NgModule(/* AppRoutingModule metadata */)
+export class AppRoutingModule {}
+```
+
+> If you have generated your project via the startup template, you do not have to do anything, because it already has both `AccountConfigModule` and `AccountModule`.
+
+<h4 id="h-account-module-options">Options</h4>
+
+You can modify the look and behavior of the module pages by passing the following options to `AccountModule.forLazy` static method:
+
+- **redirectUrl:** Default redirect URL after logging in.
+
+#### Services
+
+The `@volo/abp.ng.account` package exports the following services which cover HTTP requests to counterpart APIs:
+
+- **AccountService:** Covers several methods that performing HTTP calls for `Login`, `Register`, `Change Password`, `Forgot Password`, and `Manage Profile` pages.
+
+
+#### AccountModule Replaceable Components
+
+`eAccountComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.account`.
+
+Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
 
 ## Distributed Events
 

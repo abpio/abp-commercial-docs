@@ -34,7 +34,6 @@ This module follows the [module development best practices guide](https://docs.a
 ### NPM packages
 
 * @volo/abp.ng.audit-logging
-* @volo/abp.ng.audit-logging.config
 
 ## User interface
 
@@ -173,6 +172,70 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 ### Permissions
 
 See the `AbpAuditLoggingPermissions` class members for all permissions defined for this module.
+
+
+### Angular UI
+
+#### Installation
+
+In order to configure the application to use the `AuditLoggingModule`, you first need to import `AuditLoggingConfigModule` from `@volo/abp.ng.audit-logging/config` to root module. `AuditLoggingConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+
+```js
+// app.module.ts
+import { AuditLoggingConfigModule } from '@volo/abp.ng.audit-logging/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    AuditLoggingConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+The `AuditLoggingModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.audit-logging`.
+
+```js
+// app-routing.module.ts
+const routes: Routes = [
+  // other route definitions
+  {
+    path: 'audit-logs',
+    loadChildren: () =>
+      import('@volo/abp.ng.audit-logging').then(m => m.AuditLoggingModule.forLazy(/* options here */)),
+  },
+];
+
+@NgModule(/* AppRoutingModule metadata */)
+export class AppRoutingModule {}
+```
+
+> If you have generated your project via the startup template, you do not have to do anything, because it already has both `AuditLoggingConfigModule` and `AuditLoggingModule`.
+
+<h4 id="h-audit-logging-module-options">Options</h4>
+
+You can modify the look and behavior of the module pages by passing the following options to `AuditLoggingModule.forLazy` static method:
+
+- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/entity-action-extensions) for details.
+- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/page-toolbar-extensions) for details.
+- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/data-table-column-extensions) for details.
+
+
+#### Services
+
+The `@volo/abp.ng.audit-logging` package exports the following services which cover HTTP requests to counterpart APIs:
+
+- **AuditLoggingService:** Covers several methods that performing HTTP calls for `Audit Logs` page.
+- **EntityChangeService:** Covers several methods that performing HTTP calls for `Entity Changes` tab in `Audit Logs` page.
+
+
+#### AuditLoggingModule Replaceable Components
+
+`eAuditLoggingComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.audit-logging`.
+
+Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
 
 ## Distributed Events
 
