@@ -62,6 +62,14 @@ namespace Acme.BookStore.Permissions
     {
         public const string GroupName = "BookStore";
 
+        public static class Dashboard
+        {
+            public const string DashboardGroup = GroupName + ".Dashboard";
+            public const string Host = DashboardGroup + ".Host";
+            public const string Tenant = GroupName + ".Tenant";
+        }
+
+        // Added items
         public static class Books
         {
             public const string Default = GroupName + ".Books";
@@ -124,7 +132,7 @@ Finally, edit the localization file (`en.json` under the `Localization/BookStore
 "Permission:Books.Delete": "Deleting the books"
 ````
 
-> Localization key names are arbitrary and no forcing rule. But we prefer the convention used above.
+> Localization key names are arbitrary and there is no forcing rule. But we prefer the convention used above.
 
 ### Permission Management UI
 
