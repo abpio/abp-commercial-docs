@@ -8,19 +8,27 @@
       "text": "Tutorials",
       "items": [
         {
-          "text": "Application Development",
+          "text": "Web Application Development",
           "items": [
             {
-              "text": "Part-1: Creating a new solution and listing items",
+              "text": "1: Creating the Server Side",
               "path": "tutorials/book-store/part-1.md"
             },
             {
-              "text": "Part-2: CRUD operations",
+              "text": "2: The Book List Page",
               "path": "tutorials/book-store/part-2.md"
             },
             {
-              "text": "Part-3: Integration tests",
+              "text": "3: Creating, Updating and Deleting Books",
               "path": "tutorials/book-store/part-3.md"
+            },
+			{
+              "text": "4: Integration Tests",
+              "path": "tutorials/book-store/part-4.md"
+            },
+			{
+              "text": "5: Authorization",
+              "path": "tutorials/book-store/part-5.md"
             }
           ]
         }
