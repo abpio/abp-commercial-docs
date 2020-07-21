@@ -241,6 +241,30 @@ The `@volo/abp.ng.chat` package exports the following services which cover HTTP 
 
 **ConversationService** and **ContactService:** covers several methods that performing HTTP calls for `Chat` page.
 
+#### Remote Endpoint URL
+
+The Chat module remote endpoint URLs can be configured in the environment files.
+
+```js
+export const environment = {
+  // other configurations
+  apis: {
+    default: {
+      url: 'default url here',
+    },
+    Chat: {
+      url: 'Chat remote url here',
+      signalRUrl: 'Chat signalR remote url here',
+    },
+    // other api configurations
+  },
+};
+```
+
+The Chat module remote URL configurations shown above are optional.
+
+> If you don't set the `signalRUrl`, `Chat.url` will be used as fallback. If you don't set the `Chat` property, the `default.url` will be used as fallback.
+
 
 ## Distributed Events
 
