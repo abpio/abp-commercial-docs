@@ -204,7 +204,7 @@ That is it, `logUserNames` toolbar action will be added as the first action on t
 
 ## How to Place a Custom Modal and Trigger It by Toolbar Actions
 
-Please check the same topic in [entity action extensions page](../entity-action-extensions.md) and replace entity action with a toolbar action.
+Please check the same topic in [entity action extensions page](entity-action-extensions.md) and replace entity action with a toolbar action.
 
 ## API
 

@@ -36,7 +36,7 @@ The following tools should be installed on your development machine:
 
 ### Install the ABP CLI
 
-[ABP CLI](./CLI.md) is a command line interface that is used to automate some common tasks for ABP based applications.
+[ABP CLI](https://docs.abp.io/en/abp/latest/CLI) is a command line interface that is used to automate some common tasks for ABP based applications.
 
 > ABP CLI is a free & open source tool for [the ABP framework](https://abp.io/). It is also used for ABP Commercial application development.
 

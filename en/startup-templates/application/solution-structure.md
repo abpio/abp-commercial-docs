@@ -414,4 +414,4 @@ See the [Testing Overview](https://reactjs.org/docs/testing.html) document.
 ## What's next?
 
 - See the [Getting Started](../../getting-started.md) document to create a new solution and run it for this template.
-- See the [ASP.NET Core MVC Tutorial](../../tutorials/book-store/mvc-razor-pages/index.md) to learn how to develop applications using this template.
+- See the [ASP.NET Core MVC Tutorial](../../tutorials/book-store/part-1.md) to learn how to develop applications using this template.

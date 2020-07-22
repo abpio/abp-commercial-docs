@@ -85,7 +85,7 @@ namespace Acme.BookStore.Books
 * `Book` entity inherits from the `AuditedAggregateRoot` which adds some base [auditing](https://docs.abp.io/en/abp/latest/Audit-Logging) properties (like `CreationTime`, `CreatorId`, `LastModificationTime`...) on top of the `AggregateRoot` class. ABP automatically manages these properties for you.
 * `Guid` is the **primary key type** of the `Book` entity.
 
-> This tutorials leaves the entity properties with **public get/set** for the sake of simplicity. See the [entities document](../Entities.md) if you learn more about DDD best practices.
+> This tutorials leaves the entity properties with **public get/set** for the sake of simplicity. See the [entities document](https://docs.abp.io/en/abp/latest/Entities) if you learn more about DDD best practices.
 
 ### BookType Enum
 
