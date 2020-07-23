@@ -319,6 +319,28 @@ The `@volo/abp.ng.identity-server` package exports the following services which 
 Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
 
 
+#### Remote Endpoint URL
+
+The Identity Server module remote endpoint URL can be configured in the environment files.
+
+```js
+export const environment = {
+  // other configurations
+  apis: {
+    default: {
+      url: 'default url here',
+    },
+    AbpIdentityServer: {
+      url: 'Identity Server remote url here'
+    }
+    // other api configurations
+  },
+};
+```
+
+The Identity Server module remote URL configuration shown above is optional. If you don't set a URL, the `default.url` will be used as fallback.
+
+
 ## Distributed Events
 
 This module defines events for `Client` aggregate and `ClientCorsOrigin` entity. When a `Client` or  `ClientCorsOrigin` changes, `AllowedCorsOriginsCacheItemInvalidator` invalidates the cache for `AllowedCorsOriginsCacheItem`. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus) for more information about distributed events.

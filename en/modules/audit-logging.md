@@ -237,6 +237,28 @@ The `@volo/abp.ng.audit-logging` package exports the following services which co
 
 Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
 
+
+#### Remote Endpoint URL
+
+The Audit Logging module remote endpoint URL can be configured in the environment files.
+
+```js
+export const environment = {
+  // other configurations
+  apis: {
+    default: {
+      url: 'default url here',
+    },
+    AbpAuditLogging: {
+      url: 'Audit Logging remote url here'
+    }
+    // other api configurations
+  },
+};
+```
+
+The Audit Logging module remote URL configuration shown above is optional. If you don't set a URL, the `default.url` will be used as fallback.
+
 ## Distributed Events
 
 This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
