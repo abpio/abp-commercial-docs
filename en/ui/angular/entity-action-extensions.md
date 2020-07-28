@@ -20,8 +20,7 @@ The following code prepares a constant named `identityEntityActionContributors`,
 // entity-action-contributors.ts
 
 import { EntityAction, EntityActionList } from '@abp/ng.theme.shared/extensions';
-import { Identity } from '@volo/abp.ng.identity';
-import { IdentityEntityActionContributors } from '@volo/abp.ng.identity/config';
+import { Identity, IdentityEntityActionContributors } from '@volo/abp.ng.identity';
 
 const alertUserName = new EntityAction<Identity.UserItem>({
   text: 'Click Me!',
