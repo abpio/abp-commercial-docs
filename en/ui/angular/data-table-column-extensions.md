@@ -21,8 +21,7 @@ The following code prepares a constant named `identityEntityPropContributors`, r
 // entity-prop-contributors.ts
 
 import { EntityProp, EntityPropList, ePropType } from '@abp/ng.theme.shared/extensions';
-import { Identity } from '@volo/abp.ng.identity';
-import { IdentityEntityPropContributors } from '@volo/abp.ng.identity/config';
+import { Identity, IdentityEntityPropContributors } from '@volo/abp.ng.identity';
 
 const nameProp = new EntityProp<Identity.UserItem>({
   type: ePropType.String,
