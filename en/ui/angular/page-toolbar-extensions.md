@@ -20,8 +20,7 @@ The following code prepares a constant named `identityToolbarActionContributors`
 // toolbar-action-contributors.ts
 
 import { ToolbarActionList, ToolbarAction } from '@abp/ng.theme.shared/extensions';
-import { Identity } from '@volo/abp.ng.identity';
-import { IdentityToolbarActionContributors } from '@volo/abp.ng.identity/config';
+import { Identity, IdentityToolbarActionContributors } from '@volo/abp.ng.identity';
 
 const logUserNames = new ToolbarAction<Identity.UserItem[]>({
   text: 'Click Me!',
