@@ -22,11 +22,7 @@ The following code prepares two constants named `identityCreateFormPropContribut
 
 import { Validators } from '@angular/forms';
 import { ePropType, FormProp, FormPropList } from '@abp/ng.theme.shared/extensions';
-import { Identity } from '@volo/abp.ng.identity';
-import {
-  IdentityCreateFormPropContributors,
-  IdentityEditFormPropContributors,
-} from '@volo/abp.ng.identity/config';
+import { Identity, IdentityCreateFormPropContributors, IdentityEditFormPropContributors } from '@volo/abp.ng.identity';
 
 const birthdayProp = new FormProp<Identity.UserItem>({
   type: ePropType.Date,
