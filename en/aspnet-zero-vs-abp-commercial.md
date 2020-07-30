@@ -95,8 +95,8 @@
             </tr>
             <tr>
                 <td>Social logins</td>
-                <td><i class="fa fa-minus text-secondary"></i></td>
-                <td>Facebook, Twitter, Google+ and Microsoft Account</td>
+                <td><i class="fa fa-check text-success"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
                 <td>LDAP (Active Directory) / ADFS login</td>
