@@ -32,23 +32,23 @@ In this tutorial series, you will build an ABP based web application named `Acme
 
 This tutorial is organized as the following parts;
 
-- [Part 1: Creating the server side](Part-1.md)
-- [Part 2: The book list page](Part-2.md)
-- [Part 3: Creating, updating and deleting books](Part-3.md)
-- [Part 4: Integration tests](Part-4.md)
-- [Part 5: Authorization](Part-5.md)
-- [Part 6: Authors: Domain layer](Part-6.md)
-- [Part 7: Authors: Database Integration](Part-7.md)
-- [Part 8: Authors: Application Layer](Part-8.md)
-- [Part 9: Authors: User Interface](Part-9.md)
+- [Part 1: Creating the server side](part-1.md)
+- [Part 2: The book list page](part-2.md)
+- [Part 3: Creating, updating and deleting books](part-3.md)
+- [Part 4: Integration tests](part-4.md)
+- [Part 5: Authorization](part-5.md)
+- [Part 6: Authors: Domain layer](part-6.md)
+- [Part 7: Authors: Database Integration](part-7.md)
+- [Part 8: Authors: Application Layer](part-8.md)
+- [Part 9: Authors: User Interface](part-9.md)
 - **Part 10: Book to Author Relation (this part)**
 
 ### Download the Source Code
 
 This tutorials has multiple versions based on your **UI** and **Database** preferences. We've prepared two combinations of the source code to be downloaded:
 
-* [MVC (Razor Pages) UI with EF Core](https://github.com/abpframework/abp-samples/tree/master/BookStore-Mvc-EfCore)
-* [Angular UI with MongoDB](https://github.com/abpframework/abp-samples/tree/master/BookStore-Angular-MongoDb)
+* [MVC (Razor Pages) UI with EF Core](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Mvc-EfCore)
+* [Angular UI with MongoDB](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Angular-MongoDb)
 
 ## Introduction
 
@@ -445,7 +445,7 @@ Let's see the changes we've done:
 * Injected `IAuthorRepository` to query from the authors.
 * Overrode the `GetAsync` method of the base `CrudAppService`, which returns a single `BookDto` object with the given `id`.
   * Used a simple LINQ expression to join books and authors and query them together for the given book id.
-  * Used `AsyncExecuter.FirstOrDefaultAsync(...)` to execute the query and get a result. `AsyncExecuter` was previously used in the `AuthorAppService`. Check the [repository documentation](../Repositories.md) to understand why we've used it.
+  * Used `AsyncExecuter.FirstOrDefaultAsync(...)` to execute the query and get a result. `AsyncExecuter` was previously used in the `AuthorAppService`. Check the [repository documentation](https://docs.abp.io/en/abp/latest/Repositories) to understand why we've used it.
   * Throws an `EntityNotFoundException` which results an `HTTP 404` (not found) result if requested book was not present in the database.
   * Finally, created a `BookDto` object using the `ObjectMapper`, then assigning the `AuthorName` manually.
 * Overrode the `GetListAsync` method of the base `CrudAppService`, which returns a list of books. The logic is similar to the previous method, so you can easily understand the code.
