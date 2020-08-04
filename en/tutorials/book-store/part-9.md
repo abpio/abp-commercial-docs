@@ -32,23 +32,23 @@ In this tutorial series, you will build an ABP based web application named `Acme
 
 This tutorial is organized as the following parts;
 
-- [Part 1: Creating the server side](Part-1.md)
-- [Part 2: The book list page](Part-2.md)
-- [Part 3: Creating, updating and deleting books](Part-3.md)
-- [Part 4: Integration tests](Part-4.md)
-- [Part 5: Authorization](Part-5.md)
-- [Part 6: Authors: Domain layer](Part-6.md)
-- [Part 7: Authors: Database Integration](Part-7.md)
-- [Part 8: Authors: Application Layer](Part-8.md)
+- [Part 1: Creating the server side](part-1.md)
+- [Part 2: The book list page](part-2.md)
+- [Part 3: Creating, updating and deleting books](part-3.md)
+- [Part 4: Integration tests](part-4.md)
+- [Part 5: Authorization](part-5.md)
+- [Part 6: Authors: Domain layer](part-6.md)
+- [Part 7: Authors: Database Integration](part-7.md)
+- [Part 8: Authors: Application Layer](part-8.md)
 - **Part 9: Authors: User Interface (this part)**
-- [Part 10: Book to Author Relation](Part-10.md)
+- [Part 10: Book to Author Relation](part-10.md)
 
 ### Download the Source Code
 
 This tutorials has multiple versions based on your **UI** and **Database** preferences. We've prepared two combinations of the source code to be downloaded:
 
-* [MVC (Razor Pages) UI with EF Core](https://github.com/abpframework/abp-samples/tree/master/BookStore-Mvc-EfCore)
-* [Angular UI with MongoDB](https://github.com/abpframework/abp-samples/tree/master/BookStore-Angular-MongoDb)
+* [MVC (Razor Pages) UI with EF Core](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Mvc-EfCore)
+* [Angular UI with MongoDB](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Angular-MongoDb)
 
 ## Introduction
 
@@ -291,7 +291,7 @@ Create a new razor page, `CreateModal.cshtml` under the `Pages/Authors` folder o
 </form>
 ```
 
-We had used [dynamic forms](../UI/AspNetCore/Tag-Helpers/Dynamic-Forms.md) of the ABP Framework for the books page before. We could use the same approach here, but we wanted to show how to do it manually. Actually, not so manually, because we've used `abp-input` tag helper in this case to simplify creating the form elements.
+We had used [dynamic forms](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Tag-Helpers/Dynamic-Forms) of the ABP Framework for the books page before. We could use the same approach here, but we wanted to show how to do it manually. Actually, not so manually, because we've used `abp-input` tag helper in this case to simplify creating the form elements.
 
 You can definitely use the standard Bootstrap HTML structure, but it requires to write a lot of code. `abp-input` automatically adds validation, localization and other standard elements based on the data type.
 
@@ -851,4 +851,4 @@ That's all! This is a fully working CRUD page, you can create, edit and delete a
 
 ## The Next Part
 
-See the [next part](Part-10.md) of this tutorial.
+See the [next part](part-10.md) of this tutorial.
