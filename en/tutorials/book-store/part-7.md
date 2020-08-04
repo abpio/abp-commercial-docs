@@ -32,23 +32,23 @@ In this tutorial series, you will build an ABP based web application named `Acme
 
 This tutorial is organized as the following parts;
 
-- [Part 1: Creating the server side](Part-1.md)
-- [Part 2: The book list page](Part-2.md)
-- [Part 3: Creating, updating and deleting books](Part-3.md)
-- [Part 4: Integration tests](Part-4.md)
-- [Part 5: Authorization](Part-5.md)
-- [Part 6: Authors: Domain layer](Part-6.md)
+- [Part 1: Creating the server side](part-1.md)
+- [Part 2: The book list page](part-2.md)
+- [Part 3: Creating, updating and deleting books](part-3.md)
+- [Part 4: Integration tests](part-4.md)
+- [Part 5: Authorization](part-5.md)
+- [Part 6: Authors: Domain layer](part-6.md)
 - **Part 7: Authors: Database Integration (this part)**
-- [Part 8: Authors: Application Layer](Part-8.md)
-- [Part 9: Authors: User Interface](Part-9.md)
-- [Part 10: Book to Author Relation](Part-10.md)
+- [Part 8: Authors: Application Layer](part-8.md)
+- [Part 9: Authors: User Interface](part-9.md)
+- [Part 10: Book to Author Relation](part-10.md)
 
 ### Download the Source Code
 
 This tutorials has multiple versions based on your **UI** and **Database** preferences. We've prepared two combinations of the source code to be downloaded:
 
-* [MVC (Razor Pages) UI with EF Core](https://github.com/abpframework/abp-samples/tree/master/BookStore-Mvc-EfCore)
-* [Angular UI with MongoDB](https://github.com/abpframework/abp-samples/tree/master/BookStore-Angular-MongoDb)
+* [MVC (Razor Pages) UI with EF Core](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Mvc-EfCore)
+* [Angular UI with MongoDB](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Angular-MongoDb)
 
 ## Introduction
 
@@ -166,7 +166,7 @@ namespace Acme.BookStore.Authors
 * `WhereIf` is a shortcut extension method of the ABP Framework. It adds the `Where` condition only if the first condition meets (it filters by name, only if the filter was provided). You could do the same yourself, but these type of shortcut methods makes our life easier.
 * `sorting` can be a string like `Name`, `Name ASC` or `Name DESC`. It is possible by using the [System.Linq.Dynamic.Core](https://www.nuget.org/packages/System.Linq.Dynamic.Core) NuGet package.
 
-> See the [EF Core Integration document](../Entity-Framework-Core.md) for more information on the EF Core based repositories.
+> See the [EF Core Integration document](https://docs.abp.io/en/abp/latest/Entity-Framework-Core) for more information on the EF Core based repositories.
 
 {{else if DB=="Mongo"}}
 
@@ -227,10 +227,10 @@ namespace Acme.BookStore.Authors
 * `WhereIf` is a shortcut extension method of the ABP Framework. It adds the `Where` condition only if the first condition meets (it filters by name, only if the filter was provided). You could do the same yourself, but these type of shortcut methods makes our life easier.
 * `sorting` can be a string like `Name`, `Name ASC` or `Name DESC`. It is possible by using the [System.Linq.Dynamic.Core](https://www.nuget.org/packages/System.Linq.Dynamic.Core) NuGet package.
 
-> See the [MongoDB Integration document](../MongoDB.md) for more information on the MongoDB based repositories.
+> See the [MongoDB Integration document](https://docs.abp.io/en/abp/latest/MongoDB) for more information on the MongoDB based repositories.
 
 {{end}}
 
 ## The Next Part
 
-See the [next part](Part-8.md) of this tutorial.
+See the [next part](part-8.md) of this tutorial.
