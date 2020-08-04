@@ -29,6 +29,26 @@
 			{
               "text": "5: Authorization",
               "path": "tutorials/book-store/part-5.md"
+            },
+			{
+              "text": "6: Authors: Domain layer",
+              "path": "tutorials/book-store/part-6.md"
+            },
+			{
+              "text": "7: Authors: Database Integration",
+              "path": "tutorials/book-store/part-7.md"
+            },
+			{
+              "text": "8: Authors: Application Layer",
+              "path": "tutorials/book-store/part-8.md"
+            },
+			{
+              "text": "9: Authors: User Interface",
+              "path": "tutorials/book-store/part-9.md"
+            },
+			{
+              "text": "10: Book to Author Relation",
+              "path": "tutorials/book-store/part-10.md"
             }
           ]
         }
