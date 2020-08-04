@@ -54,8 +54,8 @@ This tutorials has multiple versions based on your **UI** and **Database** prefe
 
 In the previous parts, we've used the ABP infrastructure to easily build some services;
 
-* Used the [CrudAppService](../Application-Services.md) base class instead of manually developing an application service for standard create, read, update and delete operations.
-* Used [generic repositories](../Repositories.md) to completely automate the database layer.
+* Used the [CrudAppService](https://docs.abp.io/en/abp/latest/Application-Services) base class instead of manually developing an application service for standard create, read, update and delete operations.
+* Used [generic repositories](https://docs.abp.io/en/abp/latest/Repositories) to completely automate the database layer.
 
 For the "Authors" part;
 
@@ -117,7 +117,7 @@ namespace Acme.BookStore.Authors
 }
 ````
 
-* Inherited from `FullAuditedAggregateRoot<Guid>` which makes the entity [soft delete](../Data-Filtering.md) (that means when you delete it, it is not deleted in the database, but just marked as deleted) with all the [auditing](../Entities.md) properties.
+* Inherited from `FullAuditedAggregateRoot<Guid>` which makes the entity [soft delete](https://docs.abp.io/en/abp/latest/Data-Filtering) (that means when you delete it, it is not deleted in the database, but just marked as deleted) with all the [auditing](https://docs.abp.io/en/abp/latest/Entities) properties.
 * `private set` for the `Name` property restricts to set this property from out of this class. There are two ways of setting the name (in both cases, we validate the name):
   * In the constructor, while creating a new author.
   * Using the `ChangeName` method to update the name later.
@@ -136,11 +136,11 @@ namespace Acme.BookStore.Authors
 }
 ````
 
-Created this class inside the `Acme.BookStore.Domain.Shared` project since we will re-use it on the [Data Transfer Objects](../Data-Transfer-Objects.md) (DTOs) later.
+Created this class inside the `Acme.BookStore.Domain.Shared` project since we will re-use it on the [Data Transfer Objects](https://docs.abp.io/en/abp/latest/Data-Transfer-Objects) (DTOs) later.
 
 ## AuthorManager: The Domain Service
 
-`Author` constructor and `ChangeName` method is `internal`, so they can be usable only in the domain layer. Create an `AuthorManager` class in the `Authors` folder (namespace) of the `Acme.BookStore.Domain` project:
+`Author` constructor and `ChangeName` methods are `internal`, so they can be used only in the domain layer. Create an `AuthorManager` class in the `Authors` folder (namespace) of the `Acme.BookStore.Domain` project:
 
 ````csharp
 using System;
@@ -202,9 +202,9 @@ namespace Acme.BookStore.Authors
 
 * `AuthorManager` forces to create an author and change name of an author in a controlled way. The application layer (will be introduced later) will use these methods.
 
-> **DDD tip**: Do not introduce domain service methods unless they are really needed and perform some core business rules. For this case, we needed to this service to be able to force the unique name constraint.
+> **DDD tip**: Do not introduce domain service methods unless they are really needed and perform some core business rules. For this case, we needed this service to be able to force the unique name constraint.
 
-Both methods checks if there is already an author with the given name and throws a special business exception, `AuthorAlreadyExistsException`, defined in the `Acme.BookStore.Domain` project as shown below:
+Both methods check if there is already an author with the given name and throws a special business exception, `AuthorAlreadyExistsException`, defined in the `Acme.BookStore.Domain` project as shown below:
 
 ````csharp
 using Volo.Abp;
@@ -242,7 +242,7 @@ This is a unique string represents the error code thrown by your application and
 "BookStore:00001": "There is already an author with the same name: {name}"
 ````
 
-Whenever you throw an `AuthorAlreadyExistsException`, the end use will see a nice error message on the UI.
+Whenever you throw an `AuthorAlreadyExistsException`, the end user will see a nice error message on the UI.
 
 ## IAuthorRepository
 
@@ -270,7 +270,7 @@ namespace Acme.BookStore.Authors
 }
 ````
 
-* `IAuthorRepository` extends the standard `IRepository<Author, Guid>` interface, so all the standard [repository](../Repositories.md) methods will also be available for the `IAuthorRepository`.
+* `IAuthorRepository` extends the standard `IRepository<Author, Guid>` interface, so all the standard [repository](https://docs.abp.io/en/abp/latest/Repositories) methods will also be available for the `IAuthorRepository`.
 * `FindByNameAsync` was used in the `AuthorManager` to query an author by name.
 * `GetListAsync` will be used in the application layer to get a listed, sorted and filtered list of authors to show on the UI.
 
@@ -286,4 +286,4 @@ This part covered the domain layer of the authors functionality of the book stor
 
 ## The Next Part
 
-See the [next part](Part-7.md) of this tutorial.
+See the [next part](part-7.md) of this tutorial.
