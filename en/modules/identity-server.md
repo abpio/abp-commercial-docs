@@ -1,4 +1,4 @@
-# Identity Module
+# Identity Server Module
 
 This module provides integration and management functionality for Identity Server;
 
