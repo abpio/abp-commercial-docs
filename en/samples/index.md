@@ -26,12 +26,6 @@ A simple CRUD application to demonstrate the basics of an application developmen
 
 While there is no Razor Pages & MongoDB combination, you can check both documents to understand it since DB & UI selection don't effect each other.
 
-### Other Samples
-
-* **Passwordless Authentication**: Step by step guide to show you how to implement a passwordless authentication option for your application.
-  * [Documentation](../how-to/implementing-passwordless-authentication.md)
-  * [Download the source code](https://abp.io/Account/Login?returnUrl=/api/download/samples/passwordless-authentication)
-
 ## ABP Framework Samples
 
 Also see the [open source sample applications](https://docs.abp.io/en/abp/latest/Samples/Index) built with the ABP framework.
