@@ -10,6 +10,7 @@
    abp suite install
    ```
    
+
 Wait for the process to download and install to your computer. It may take about a minute on a 25 Megabit internet to complete the process.
 
 ## How to update ABP Suite?
@@ -19,6 +20,15 @@ To update your existing ABP Suite, write the following command to your terminal:
 ```bash
 abp suite update
 ```
+
+## Preview versions
+
+You can add `--preview` option to get latest preview version of ABP Suite:
+
+`````bash
+abp suite update --preview
+abp suite install --preview
+````
 
 ## What's next?
 
