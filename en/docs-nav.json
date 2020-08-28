@@ -129,6 +129,10 @@
           "path": "modules/audit-logging.md"
         },
         {
+          "text": "Chat",
+          "path": "modules/chat.md"
+        },
+        {
           "text": "File Management",
           "path": "modules/file-management.md"
         },
