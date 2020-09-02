@@ -645,8 +645,7 @@ Open `/src/app/book/book.component.ts` and replace the content as below:
 ```js
 import { ListService, PagedResultDto } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
-import { BookDto, BookType } from './models';
-import { BookService } from './services';
+import { BookService, BookDto } from '@proxy/books';
 
 @Component({
   selector: 'app-book',
@@ -664,7 +663,7 @@ export class BookComponent implements OnInit {
   constructor(public readonly list: ListService, private bookService: BookService) {}
 
   ngOnInit() {
-    const bookStreamCreator = (query) => this.bookService.getListByInput(query);
+    const bookStreamCreator = (query) => this.bookService.getList(query);
 
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.book = response;
@@ -741,8 +740,8 @@ Open `/src/app/book/book.component.ts` and replace the content as below:
 ```js
 import { ListService, PagedResultDto } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
-import { BookDto, BookType } from './models';
-import { BookService } from './services';
+// import bookTypeOptions from @proxy/books
+import { BookService, BookDto, bookTypeOptions } from '@proxy/books';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'; // add this
 
 @Component({
@@ -754,14 +753,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms'; // add this
 export class BookComponent implements OnInit {
   book = { items: [], totalCount: 0 } as PagedResultDto<BookDto>;
 
-  booksType = BookType;
-
   form: FormGroup; // add this line
 
   // add bookTypes as a list of enum members
-  bookTypes = Object.keys(BookType).filter(
-    (bookType) => typeof this.booksType[bookType] === 'number'
-  );
+  bookTypes = bookTypeOptions;
 
   isModalOpen = false;
 
@@ -772,7 +767,7 @@ export class BookComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const bookStreamCreator = (query) => this.bookService.getListByInput(query);
+    const bookStreamCreator = (query) => this.bookService.getList(query);
 
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.book = response;
@@ -800,7 +795,7 @@ export class BookComponent implements OnInit {
       return;
     }
 
-    this.bookService.createByInput(this.form.value).subscribe(() => {
+    this.bookService.create(this.form.value).subscribe(() => {
       this.isModalOpen = false;
       this.form.reset();
       this.list.get();
@@ -811,7 +806,7 @@ export class BookComponent implements OnInit {
 
 * Imported `FormGroup`, `FormBuilder` and `Validators` from `@angular/forms`.
 * Added `form: FormGroup` property.
-* Add `bookTypes` as a list of `BookType` enum members.
+* Added `bookTypes` property as a list of `BookType` enum members. That will be used in form options.
 * Injected `FormBuilder` into the constructor. [FormBuilder](https://angular.io/api/forms/FormBuilder) provides convenient methods for generating form controls. It reduces the amount of boilerplate needed to build complex forms.
 * Added `buildForm` method to the end of the file and executed  the `buildForm()` in the `createBook` method.
 * Added `save` method.
@@ -835,7 +830,7 @@ Open `/src/app/book/book.component.html` and replace `<ng-template #abpBody> </n
       <label for="book-type">Type</label><span> * </span>
       <select class="form-control" id="book-type" formControlName="type">
         <option [ngValue]="null">Select a book type</option>
-        <option [ngValue]="booksType[type]" *ngFor="let type of bookTypes"> {%{{{ type }}}%}</option>
+        <option [ngValue]="type.value" *ngFor="let type of bookTypes"> {%{{{ type.key }}}%}</option>
       </select>
     </div>
 
@@ -901,8 +896,7 @@ Open `/src/app/book/book.component.ts` and replace the content as below:
 ```js
 import { ListService, PagedResultDto } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
-import { BookDto, BookType } from './models';
-import { BookService } from './services';
+import { BookService, BookDto, bookTypeOptions } from '@proxy/books';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 // added this line
@@ -920,14 +914,9 @@ import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap
 export class BookComponent implements OnInit {
   book = { items: [], totalCount: 0 } as PagedResultDto<BookDto>;
 
-  booksType = BookType;
-
   form: FormGroup;
 
-  // <== added bookTypes array ==>
-  bookTypes = Object.keys(BookType).filter(
-    (bookType) => typeof this.booksType[bookType] === 'number'
-  );
+  bookTypes = bookTypeOptions;
 
   isModalOpen = false;
 
@@ -938,7 +927,7 @@ export class BookComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const bookStreamCreator = (query) => this.bookService.getListByInput(query);
+    const bookStreamCreator = (query) => this.bookService.getList(query);
 
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.book = response;
@@ -964,7 +953,7 @@ export class BookComponent implements OnInit {
       return;
     }
 
-    this.bookService.createByInput(this.form.value).subscribe(() => {
+    this.bookService.create(this.form.value).subscribe(() => {
       this.isModalOpen = false;
       this.form.reset();
       this.list.get();
@@ -987,8 +976,7 @@ Open `/src/app/book/book.component.ts` and replace the content as shown below:
 ```js
 import { ListService, PagedResultDto } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
-import { BookDto, BookType, CreateUpdateBookDto } from './models';
-import { BookService } from './services';
+import { BookService, BookDto, bookTypeOptions } from '@proxy/books';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
 
@@ -1001,15 +989,11 @@ import { NgbDateNativeAdapter, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap
 export class BookComponent implements OnInit {
   book = { items: [], totalCount: 0 } as PagedResultDto<BookDto>;
 
-  booksType = BookType;
-
   form: FormGroup;
 
-  selectedBook = new BookDto(); // declare selectedBook
+  selectedBook = {} as BookDto; // declare selectedBook
 
-  bookTypes = Object.keys(BookType).filter(
-    (bookType) => typeof this.booksType[bookType] === 'number'
-  );
+  bookTypes = bookTypeOptions;
 
   isModalOpen = false;
 
@@ -1020,7 +1004,7 @@ export class BookComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const bookStreamCreator = (query) => this.bookService.getListByInput(query);
+    const bookStreamCreator = (query) => this.bookService.getList(query);
 
     this.list.hookToQuery(bookStreamCreator).subscribe((response) => {
       this.book = response;
@@ -1028,14 +1012,14 @@ export class BookComponent implements OnInit {
   }
 
   createBook() {
-    this.selectedBook = new BookDto(); // reset the selected book
+    this.selectedBook = {} as BookDto; // reset the selected book
     this.buildForm();
     this.isModalOpen = true;
   }
 
   // Add editBook method
   editBook(id: string) {
-    this.bookService.getById(id).subscribe((book) => {
+    this.bookService.get(id).subscribe((book) => {
       this.selectedBook = book;
       this.buildForm();
       this.isModalOpen = true;
@@ -1061,8 +1045,8 @@ export class BookComponent implements OnInit {
     }
 
     const request = this.selectedBook.id
-      ? this.bookService.updateByIdAndInput(this.form.value, this.selectedBook.id)
-      : this.bookService.createByInput(this.form.value);
+      ? this.bookService.update(this.selectedBook.id, this.form.value)
+      : this.bookService.create(this.form.value);
 
     request.subscribe(() => {
       this.isModalOpen = false;
@@ -1147,7 +1131,7 @@ constructor(
 delete(id: string) {
   this.confirmation.warn('::AreYouSureToDelete', 'AbpAccount::AreYouSure').subscribe((status) => {
     if (status === Confirmation.Status.confirm) {
-      this.bookService.deleteById(id).subscribe(() => this.list.get());
+      this.bookService.delete(id).subscribe(() => this.list.get());
     }
   });
 }
