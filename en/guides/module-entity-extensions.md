@@ -337,7 +337,10 @@ If you are using the Entity Framework Core database provider, you can configure 
 ObjectExtensionManager.Instance
     .MapEfCoreProperty<IdentityUser, string>(
         "SocialSecurityNumber",
-        b => { b.HasMaxLength(64); }
+        (entityBuilder, propertyBuilder) =>
+        {
+            propertyBuilder.HasMaxLength(64);
+        }
     );
 ````
 
