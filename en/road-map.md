@@ -14,7 +14,6 @@ In addition, we will be working on the following items in the middle and long te
 * Subscription and payment system for the [SaaS module](https://commercial.abp.io/modules/Volo.Saas).
 * New application modules like form module, user guiding module, email sending module...
 * New themes & theme styles (including public/corporate web site themes).
-* More authentication options.
 * More module extension points.
 * More code generation / developer assistance features for the [ABP Suite](https://commercial.abp.io/tools/suite).
 * New features to existing modules.

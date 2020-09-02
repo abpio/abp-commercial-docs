@@ -2,6 +2,23 @@
 
 This document contains **brief release notes** for each release. Release notes only include major features and visible enhancements. They not don't include all the development done in the related version.
 
+## 3.1.0 (2020-09-03)
+
+### Blog Post
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-v3.1-RC-Has-Been-Released)** for the v3.1.0 release.
+
+### Major Features / Changes
+
+* Completely re-written the ABP Suite **Angular UI code generation**, using the Angular Schematics system.
+* Implemented **Authorization Code Authentication Flow** for the Angular UI.
+* Revised and documented **social/external logins** for the account module and tested with major providers.
+* Introduced the new external login system supporting to login via **LDAP / Active Directory**. Also, added a setting page to configure the LDAP options.
+* Created a new **security log system** and the user interface to save and report all the authentication related operations (login, logout, change password...) for users.
+* Implemented **email & phone number verification**.
+* Implementing **locking a user** for a given period of time (locked users can not login to the application).
+* Added breadcrumb and file icons for the file management module.
+
 ## 3.0.0 (2020-07-01)
 
 ### Blog Post
