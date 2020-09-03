@@ -99,6 +99,11 @@
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
+                <td>Social logins per tenant</td>
+                <td><i class="fa fa-check text-secondary"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
+            </tr>
+            <tr>
                 <td>LDAP (Active Directory) / ADFS login</td>
                 <td><i class="fa fa-check text-success"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>
@@ -313,6 +318,11 @@
             </tr>
             <tr>
                 <td>Text Template Management</td>
+                <td><i class="fa fa-check text-success"></i></td>
+                <td><i class="fa fa-minus text-secondary"></i></td>
+            </tr>
+            <tr>
+                <td>Security Logs UI</td>
                 <td><i class="fa fa-check text-success"></i></td>
                 <td><i class="fa fa-minus text-secondary"></i></td>
             </tr>
