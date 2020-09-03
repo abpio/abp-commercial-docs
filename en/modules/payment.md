@@ -46,21 +46,7 @@ In order to use Payment Gateway you want to use, you need to add related NuGet p
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-### NuGet packages
-
-* Volo.Payment.Domain.Shared
-* Volo.Payment.Domain
-* Volo.Payment.Application.Contracts
-* Volo.Payment.Application
-* Volo.Payment.EntityFrameworkCore
-* Volo.Payment.MongoDB
-* Volo.Payment.HttpApi
-* Volo.Payment.HttpApi.Client
-* Volo.Payment.Web
-* Volo.Payment.Payu.Domain
-* Volo.Payment.Payu.Web
-* Volo.Payment.TwoCheckout.Domain
-* Volo.Payment.TwoCheckout.Web
+You can visit [Payment module package list page](https://abp.io/packages?moduleName=Volo.Payment) to see list of packages related with this module.
 
 ## User interface
 

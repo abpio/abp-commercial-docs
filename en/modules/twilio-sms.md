@@ -23,16 +23,11 @@ After you add the package reference, open the module class of the project (eg: `
 )]
 ```
 
-
-
 ## Packages
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and depends on the below NuGet packages. See the guide if you want to understand the packages and relations between them.
 
-### NuGet Packages
-
-* Volo.Abp.Sms
-* Volo.Abp.Commercial.Core
+You can visit [Twilio SMS module package list page](https://abp.io/packages?moduleName=Volo.Abp.Sms.Twilio) to see list of packages related with this module.
 
 ## User Interface
 
@@ -44,7 +39,7 @@ This module doesn't seed any data.
 
 ## Configuration
 
-You can configure `AbpTwilioSms` module in several ways. It uses the [options pattern](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options) in ASP.NET Core.
+You can configure `Twilio SMS` module in several ways. It uses the [options pattern](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options) in ASP.NET Core.
 
 ### Configure by AbpTwilioSmsOptions
 

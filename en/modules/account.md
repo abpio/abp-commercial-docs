@@ -16,25 +16,7 @@ Identity is pre-installed in [the startup templates](../Startup-Templates/Index)
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-### NuGet Packages
-
-* Volo.Abp.Account.Pro.Admin.Application
-* Volo.Abp.Account.Pro.Admin.Application.Contracts
-* Volo.Abp.Account.Pro.Admin.HttpApi
-* Volo.Abp.Account.Pro.Admin.HttpApi.Client
-* Volo.Abp.Account.Pro.Admin.Web
-* Volo.Abp.Account.Pro.Public.Application
-* Volo.Abp.Account.Pro.Public.Application.Contracts
-* Volo.Abp.Account.Pro.Public.HttpApi
-* Volo.Abp.Account.Pro.Public.HttpApi.Client
-* Volo.Abp.Account.Pro.Public.Web
-* Volo.Abp.Account.Pro.Public.Web.IdentityServer
-* Volo.Abp.Account.Pro.Shared.Application
-* Volo.Abp.Account.Pro.Shared.Application.Contracts
-
-### NPM Packages
-
-* @volo/abp.ng.account
+You can visit [Account module package list page](https://abp.io/packages?moduleName=Volo.Account.Pro) to see list of packages related with this module.
 
 ## User Interface
 

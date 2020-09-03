@@ -17,21 +17,7 @@ Language management module is pre-installed in [the startup templates](../Startu
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-### NuGet Packages
-
-* Volo.Abp.LanguageManagement.Domain.Shared
-* Volo.Abp.LanguageManagement.Domain
-* Volo.Abp.LanguageManagement.Application.Contracts
-* Volo.Abp.LanguageManagement.Application
-* Volo.Abp.LanguageManagement.EntityFrameworkCore
-* Volo.Abp.LanguageManagement.MongoDB
-* Volo.Abp.LanguageManagement.HttpApi
-* Volo.Abp.LanguageManagement.HttpApi.Client
-* Volo.Abp.LanguageManagement.Web
-
-### NPM Packages
-
-* @volo/abp.ng.language-management
+You can visit [Language Management module package list page](https://abp.io/packages?moduleName=Volo.LanguageManagement) to see list of packages related with this module.
 
 ## User Interface
 

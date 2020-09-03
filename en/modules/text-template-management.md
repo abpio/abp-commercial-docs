@@ -14,21 +14,7 @@ Text Template Management module is pre-installed in [the startup templates](../S
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-### NuGet Packages
-
-* Volo.Abp.TextTemplateManagement.Domain.Shared
-* Volo.Abp.TextTemplateManagement.Domain
-* Volo.Abp.TextTemplateManagement.Application.Contracts
-* Volo.Abp.TextTemplateManagement.Application
-* Volo.Abp.TextTemplateManagement.EntityFrameworkCore
-* Volo.Abp.TextTemplateManagement.MongoDB
-* Volo.Abp.TextTemplateManagement.HttpApi
-* Volo.Abp.TextTemplateManagement.HttpApi.Client
-* Volo.Abp.TextTemplateManagement.Web
-
-### NPM Packages
-
-* @volo/abp.ng.text-template-management
+You can visit [Text Template Management module package list page](https://abp.io/packages?moduleName=Volo.TextTemplateManagement) to see list of packages related with this module.
 
 ## User Interface
 

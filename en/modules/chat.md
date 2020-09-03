@@ -81,23 +81,7 @@ If your project has such an architecture (example: MVC + tiered option), then yo
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-### NuGet packages
-
-* Volo.Chat.Domain.Shared
-* Volo.Chat.Domain
-* Volo.Chat.Application.Contracts
-* Volo.Chat.Application
-* Volo.Chat.EntityFrameworkCore
-* Volo.Chat.MongoDB
-* Volo.Chat.HttpApi
-* Volo.Chat.HttpApi.Client
-* Volo.Chat.Web
-* Volo.Chat.SignalR
-
-### Npm packages
-
-* @volo/chat (MVC)
-* @volo/abp.ng.chat (Angular)
+You can visit [Chat module package list page](https://abp.io/packages?moduleName=Volo.Chat) to see list of packages related with this module.
 
 ## User interface
 

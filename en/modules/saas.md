@@ -17,26 +17,7 @@ Saas is pre-installed in [the startup templates](../Startup-Templates/Index). So
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-### NuGet packages
-
-* Volo.Saas.Domain.Shared
-* Volo.Saas.Domain
-* Volo.Saas.EntityFrameworkCore
-* Volo.Saas.MongoDB
-* Volo.Saas.Tenant.Application
-* Volo.Saas.Tenant.Application.Contracts
-* Volo.Saas.Tenant.HttpApi
-* Volo.Saas.Tenant.HttpApi.Client
-* Volo.Saas.Tenant.Web
-* Volo.Saas.Host.Application
-* Volo.Saas.Host.Application.Contracts
-* Volo.Saas.Host.HttpApi
-* Volo.Saas.Host.HttpApi.Client
-* Volo.Saas.Host.Web
-
-### NPM packages
-
-* @volo/abp.ng.saas
+You can visit [SaaS module package list page](https://abp.io/packages?moduleName=Volo.Saas) to see list of packages related with this module.
 
 ## User interface
 
