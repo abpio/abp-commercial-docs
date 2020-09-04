@@ -6,7 +6,7 @@ This document contains **brief release notes** for each release. Release notes o
 
 ### Blog Post
 
-See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-v3.1-RC-Has-Been-Released)** for the v3.1.0 release.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-v3.1-Final-Has-Been-Released)** for the v3.1.0 release.
 
 ### Major Features / Changes
 
