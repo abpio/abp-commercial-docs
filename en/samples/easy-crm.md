@@ -8,6 +8,10 @@ This is a sample solution developed on top of ABP Commercial.
 
 * You can download the complete source-code from [https://abp.io/api/download/samples/easy-crm](https://abp.io/Account/Login?returnUrl=/api/download/samples/easy-crm)
 
+## Demo
+
+Visit [easycrm.samples.commercial.abp.io](http://easycrm.samples.commercial.abp.io/) to see this sample application in action. The online demo is with the ASP.NET Core MVC / Razor Pages UI, while the sample project is available with the Angular UI too, when you download its source code.
+
 ## How To Run?
 
 When you download and open the zip file, you will see two folders:
