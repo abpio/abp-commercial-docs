@@ -22,7 +22,7 @@ When you download and open the zip file, you will see two folders:
 ### Server Side / MVC (Razor Pages) Application
 
 * Open the solution (inside the mvc folder) in **Visual Studio 2019** or later (or with another IDE that supports ASP.NET Core).
-* Run the `Volo.EasyCrm.DbMigrator` console application to create the database and seed the initial data. It uses SQL Server by default. You can [switch](https://docs.abp.io/en/abp/latest/Entity-Framework-Core-Other-DBMS) it to your favorite DBMS.
+* This project use `Sqlite`, the default database folder is located at appsettings (`"SqliteDbFolder": "c:\\Temp\\SqliteDbs\\"`, you should create this folder).
 * Run the `Volo.EasyCrm.Web` application.
 * You can login using `admin` as the user name and `1q2w3E*` as the password.
 * To generate random data, click to "**Generate and import sample data**" on the home page.
