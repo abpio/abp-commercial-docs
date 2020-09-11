@@ -199,6 +199,10 @@
           "path": "abp-suite/generating-crud-page.md"
         },
         {
+          "text": "Accessing source code of modules",
+          "path": "abp-suite/source-code.md"
+        },
+        {
           "text": "Updating packages",
           "path": "abp-suite/updating-packages.md"
         },
