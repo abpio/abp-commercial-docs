@@ -100,7 +100,7 @@
             </tr>
             <tr>
                 <td>Social logins per tenant</td>
-                <td><i class="fa fa-check text-secondary"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
@@ -160,7 +160,7 @@
             </tr>
             <tr>
                 <td>Show login attempts</td>
-                <td><i class="fa fa-minus text-secondary"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
