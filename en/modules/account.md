@@ -1,6 +1,6 @@
 # Account Module
 
-This module implements the Login, Register, Forgot Password, Email Confirmation, Password Reset, sending and confirming Two-Factor Authentication functionalities of an application;
+This module implements the Login, Register, Forgot Password, Email Confirmation, Password Reset, sending and confirming Two-Factor Authentication, user lockout, switch between tenants functionalities of an application;
 
 * Built on the [Microsoft's ASP.NET Core Identity](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity) library.
 * Identity Server Grant and Consent pages.
@@ -30,13 +30,13 @@ This module doesn't define any menu items.
 
 Login page is used to log in to the system.
 
-![account-pro-module-login-page](../images/account-pro-module-login-page.png)
+![account-pro-module-login-page](../images/account-pro-module-login-page-2.png)
 
 #### Register Page
 
 Register page allows new users to register to your system.
 
-![identity-users-page](../images/account-pro-module-register-page.png)
+![identity-users-page](../images/account-pro-module-register-page-2.png)
 
 #### Two Factor Authentication
 
@@ -46,13 +46,13 @@ Identity module allows two factor authentication pages.
 
 Send security code page allows selecting a two factor authentication provider (Email, Phone etc...) and sends a security code to user via selected provider.
 
-![account-pro-module-two-factor-send-page](../images/account-pro-module-two-factor-send-page.png)
+![account-pro-module-two-factor-send-page](../images/account-pro-module-two-factor-send-page-2.png)
 
 ##### Verify Security Code
 
 Verify security code page verifies the security code sent to user and if the code is verified, user logs in to the system.
 
-![account-pro-module-two-factor-verify-page](../images/account-pro-module-two-factor-verify-page.png)
+![account-pro-module-two-factor-verify-page](../images/account-pro-module-two-factor-verify-page-2.png)
 
 ## Data Seed
 
