@@ -15,10 +15,6 @@ See [the module description page](https://commercial.abp.io/modules/Volo.Identit
 
 Identity is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
 
-## Packages
-
-This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
-
 ### Packages
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
