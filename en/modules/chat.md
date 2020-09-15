@@ -12,7 +12,7 @@ Chat module is not installed in [the startup templates](../Startup-Templates/Ind
 
 #### 1. Using ABP Suite
 
-ABP Sute allows adding a module to a solution using ``Add to your solution`` option in modules list.
+ABP Suite allows adding a module to a solution using ``Add to your solution`` option in modules list.
 ![suite-chat-add](../images/suite-chat-add.png)
 
 #### 2. Manual Installation
@@ -89,7 +89,7 @@ You can visit [Chat module package list page](https://abp.io/packages?moduleName
 
 This is the page that users send messages to each other.
 
-![chat-page](../images/chat-page.png)
+![chat-page](../images/chat-page-2.png)
 
 #### Chat icon on navigation bar
 

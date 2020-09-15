@@ -36,39 +36,39 @@ SaaS module adds the following items to the "Main" menu, under the "Administrati
 
 Tenant page is used to manage tenants in the system. 
 
-![saas-module-tenants-page](../images/saas-module-tenants-page.png)
+![saas-module-tenants-page](../images/saas-module-tenants-page-2.png)
 
 You can create a new tenant or edit a tenant in this page:
 
-![saas-module-tenant-edit-modal](../images/saas-module-tenant-edit-modal.png)
+![saas-module-tenant-edit-modal](../images/saas-module-tenant-edit-modal-2.png)
 
 ##### Connection String
 
 You can manage connection string of a tenant in case you want to use a separate database for a specific tenant. If you want to use Host database for a tenant, select "Use the Shared Database" option.
 
-![saas-module-tenant-connection-strings-modal](../images/saas-module-tenant-connection-strings-modal.png)
+![saas-module-tenant-connection-strings-modal](../images/saas-module-tenant-connection-strings-modal-2.png)
 
 ##### Tenant Features
 
 You can set features of tenants.
 
-![saas-module-features-modal](../images/saas-module-features-modal.png)
+![saas-module-features-modal](../images/saas-module-features-modal-2.png)
 
 #### Edition management
 
 Editions page is used to manage the editions in your system.
 
-![saas-module-editions-page](../images/saas-module-editions-page.png)
+![saas-module-editions-page](../images/saas-module-editions-page-2.png)
 
 You can create a new edition or edit an existing edition in this page:
 
-![saas-module-edition-edit-modal](../images/saas-module-edition-edit-modal.png)
+![saas-module-edition-edit-modal](../images/saas-module-edition-edit-modal-2.png)
 
 ##### Edition Features
 
 You can set features of an edition in this page:
 
-![saas-module-features-modal](../images/saas-module-features-modal.png)
+![saas-module-features-modal](../images/saas-module-features-modal-2.png)
 
 ## Data seed
 

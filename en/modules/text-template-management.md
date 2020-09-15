@@ -32,7 +32,7 @@ Text Template Management module adds the following items to the "Main" menu, und
 
 Text Templates page is used to view the list of templates defined in the application.
 
-![text-template-managemet-text-templates-page](../images/text-template-managemet-text-templates-page.png)
+![text-template-managemet-text-templates-page](../images/text-template-managemet-text-templates-page-2.png)
 
 Click to the `Actions -> Edit Contents` to edit content for a template. There are two types of UI to edit a template content:
 
@@ -40,13 +40,13 @@ Click to the `Actions -> Edit Contents` to edit content for a template. There ar
 
 This kind of templates uses the `L` function to perform inline localization. In this way, it is easier to manage the template for different cultures.
 
-![text-template-management-inline-edit](../images/text-template-management-inline-edit.png)
+![text-template-management-inline-edit](../images/text-template-management-inline-edit-2.png)
 
 ##### Editing Contents for Culture-Specific Templates
 
 This kind of templates provides different content for each culture. In this way, you can define a completely different content for a specific culture.
 
-![text-template-management-multiple-culture-edit](../images/text-template-management-multiple-culture-edit.png)
+![text-template-management-multiple-culture-edit](../images/text-template-management-multiple-culture-edit-2.png)
 
 ## Data Seed
 

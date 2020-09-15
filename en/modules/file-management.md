@@ -98,7 +98,7 @@ File Management module adds the following items to the "Main" menu, under the "A
 
 File Management page is used to create folders, upload files and view the list of folders and files that stored in the application.
 
-![file-management-index-page](../images/file-management-index-page.png)
+![file-management-index-page](../images/file-management-index-page-2.png)
 
 ##### Folders
 
