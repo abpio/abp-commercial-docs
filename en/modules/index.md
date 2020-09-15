@@ -13,6 +13,8 @@ ABP Commercial provides **production ready, enterprise level** application modul
 * **[SaaS](saas.md)**: Manage tenants, editions and features to create your multi-tenant / SaaS application.
 * **[Twilio SMS](twilio-sms.md)**: Send SMS messages with [Twilio](https://www.twilio.com/) cloud service.
 * **[Payment](payment.md)**: Payment gateway integrations.
+* **[Chat](chat.md)**: Real time messaging between users of the application.
+* **[Text template management](text-template-management.md)**: Manage text templates in the system.
 
 ## Free Modules
 
