@@ -36,11 +36,11 @@ Language management module adds the following items to the "Main" menu, under th
 
 Languages page is used to manage languages in the system. 
 
-![language-management-languages-page](../images/language-management-languages-page.png)
+![language-management-languages-page](../images/language-management-languages-page-2.png)
 
 You can create a new language or edit an existing language in this page:
 
-![language-management-edit-language-modal](../images/language-management-edit-language-modal.png)
+![language-management-edit-language-modal](../images/language-management-edit-language-modal-2.png)
 
 * **Enabled** languages can be selected as the system language.
 
@@ -48,11 +48,11 @@ You can create a new language or edit an existing language in this page:
 
 Language texts page is used to manage texts in different languages.
 
-![language-management-language-texts-page](../images/language-management-language-texts-page.png)
+![language-management-language-texts-page](../images/language-management-language-texts-page-2.png)
 
 You can translate a text for a language or edit the already existing translation in this page.
 
-![language-management-edit-language-text-modal](../images/language-management-edit-language-text-modal.png)
+![language-management-edit-language-text-modal](../images/language-management-edit-language-text-modal-2.png)
 
 ## Data Seed
 
