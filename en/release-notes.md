@@ -2,6 +2,22 @@
 
 This document contains **brief release notes** for each release. Release notes only include major features and visible enhancements. They not don't include all the development done in the related version.
 
+## 3.2.0 RC (2020-09-17)
+
+This version is currently in the preview stage and the final release has been planned for 2020-10-01. You can try the preview version and provide feedback to us.
+
+### Blog Post
+
+See the detailed **[blog post / announcement](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2020-09-17%20v3_2_Preview/POST.md)** for the v3.2.0 RC.
+
+### Major Features / Changes
+
+* Released the preview (experimental) **Blazor UI** option.
+* **Angular** UI for the [file management](https://commercial.abp.io/modules/Volo.FileManagement) module.
+* Managing the **application features** for the **host** side.
+* User **profile picture** for the account module.
+* Options to enable, disable or force **two factor authentication** for tenants and users.
+
 ## 3.1.0 (2020-09-03)
 
 ### Blog Post
