@@ -1,6 +1,6 @@
 # Account Module
 
-This module implements the Login, Register, Forgot Password, Email Confirmation, Password Reset, sending and confirming Two-Factor Authentication functionalities of an application;
+This module implements the Login, Register, Forgot Password, Email Confirmation, Password Reset, sending and confirming Two-Factor Authentication, user lockout, switch between tenants functionalities of an application;
 
 * Built on the [Microsoft's ASP.NET Core Identity](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity) library.
 * Identity Server Grant and Consent pages.
@@ -16,26 +16,7 @@ Identity is pre-installed in [the startup templates](../Startup-Templates/Index)
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-### NuGet Packages
-
-* Volo.Abp.Account.Pro.Admin.Application
-* Volo.Abp.Account.Pro.Admin.Application.Contracts
-* Volo.Abp.Account.Pro.Admin.HttpApi
-* Volo.Abp.Account.Pro.Admin.HttpApi.Client
-* Volo.Abp.Account.Pro.Admin.Web
-* Volo.Abp.Account.Pro.Public.Application
-* Volo.Abp.Account.Pro.Public.Application.Contracts
-* Volo.Abp.Account.Pro.Public.HttpApi
-* Volo.Abp.Account.Pro.Public.HttpApi.Client
-* Volo.Abp.Account.Pro.Public.Web
-* Volo.Abp.Account.Pro.Public.Web.IdentityServer
-* Volo.Abp.Account.Pro.Shared.Application
-* Volo.Abp.Account.Pro.Shared.Application.Contracts
-
-### NPM Packages
-
-* @volo/abp.ng.account
-* @volo/abp.ng.account.config
+You can visit [Account module package list page](https://abp.io/packages?moduleName=Volo.Account.Pro) to see list of packages related with this module.
 
 ## User Interface
 
@@ -49,13 +30,13 @@ This module doesn't define any menu items.
 
 Login page is used to log in to the system.
 
-![account-pro-module-login-page](../images/account-pro-module-login-page.png)
+![account-pro-module-login-page](../images/account-pro-module-login-page-2.png)
 
 #### Register Page
 
 Register page allows new users to register to your system.
 
-![identity-users-page](../images/account-pro-module-register-page.png)
+![identity-users-page](../images/account-pro-module-register-page-2.png)
 
 #### Two Factor Authentication
 
@@ -65,13 +46,13 @@ Identity module allows two factor authentication pages.
 
 Send security code page allows selecting a two factor authentication provider (Email, Phone etc...) and sends a security code to user via selected provider.
 
-![account-pro-module-two-factor-send-page](../images/account-pro-module-two-factor-send-page.png)
+![account-pro-module-two-factor-send-page](../images/account-pro-module-two-factor-send-page-2.png)
 
 ##### Verify Security Code
 
 Verify security code page verifies the security code sent to user and if the code is verified, user logs in to the system.
 
-![account-pro-module-two-factor-verify-page](../images/account-pro-module-two-factor-verify-page.png)
+![account-pro-module-two-factor-verify-page](../images/account-pro-module-two-factor-verify-page-2.png)
 
 ## Data Seed
 
@@ -110,6 +91,92 @@ See the `IAccountSettingNames` class members for all settings defined for this m
 ### Permissions
 
 See the `AccountPermissions` class members for all permissions defined for this module.
+
+
+### Angular UI
+
+#### Installation
+
+In order to configure the application to use the `AccountModule`, you first need to import `AccountConfigModule` from `@volo/abp.ng.account/config` to root module. `AccountConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+
+```js
+// app.module.ts
+import { AccountConfigModule } from '@volo/abp.ng.account/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    AccountConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+The `AccountModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.account`.
+
+```js
+// app-routing.module.ts
+const routes: Routes = [
+  // other route definitions
+  {
+    path: 'account',
+    loadChildren: () =>
+      import('@volo/abp.ng.account').then(m => m.AccountModule.forLazy(/* options here */)),
+  },
+];
+
+@NgModule(/* AppRoutingModule metadata */)
+export class AppRoutingModule {}
+```
+
+> If you have generated your project via the startup template, you do not have to do anything, because it already has both `AccountConfigModule` and `AccountModule`.
+
+<h4 id="h-account-module-options">Options</h4>
+
+You can modify the look and behavior of the module pages by passing the following options to `AccountModule.forLazy` static method:
+
+- **redirectUrl:** Default redirect URL after logging in.
+
+#### Services
+
+The `@volo/abp.ng.account` package exports the following services which cover HTTP requests to counterpart APIs:
+
+- **AccountService:** Covers several methods that performing HTTP calls for `Login`, `Register`, `Change Password`, `Forgot Password`, and `Manage Profile` pages.
+
+
+#### AccountModule Replaceable Components
+
+`eAccountComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.account`.
+
+Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
+
+
+#### Remote Endpoint URL
+
+The Account module remote endpoint URLs can be configured in the environment files.
+
+```js
+export const environment = {
+  // other configurations
+  apis: {
+    default: {
+      url: 'default url here',
+    },
+    AbpAccountPublic: {
+      url: 'AbpAccountPublic remote url here'
+    },
+    AbpAccountAdmin: {
+      url: 'AbpAccountAdmin remote url here'
+    },
+    // other api configurations
+  },
+};
+```
+
+The Account module remote URL configurations shown above are optional. If you don't set any URLs, the `default.url` will be used as fallback.
+
 
 ## Distributed Events
 

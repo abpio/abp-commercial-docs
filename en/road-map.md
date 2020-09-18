@@ -8,14 +8,12 @@ We will work on the following major items in the middle term:
 In addition, we will be working on the following items in the middle and long term:
 
 * A startup template to create microservice solutions (that has Ocelot, Redis, RabbitMQ, ElasticSearch, IdentityServer... pre-integrated and configured).
-* File Management module.
 * Dynamic dashboard system.
 * Real-time notification system.
 * gRPC integration and implementation for all the pre-built modules.
 * Subscription and payment system for the [SaaS module](https://commercial.abp.io/modules/Volo.Saas).
 * New application modules like form module, user guiding module, email sending module...
 * New themes & theme styles (including public/corporate web site themes).
-* More authentication options.
 * More module extension points.
 * More code generation / developer assistance features for the [ABP Suite](https://commercial.abp.io/tools/suite).
 * New features to existing modules.

@@ -8,19 +8,47 @@
       "text": "Tutorials",
       "items": [
         {
-          "text": "Application Development",
+          "text": "Web Application Development",
           "items": [
             {
-              "text": "Part-1: Creating a new solution and listing items",
+              "text": "1: Creating the Server Side",
               "path": "tutorials/book-store/part-1.md"
             },
             {
-              "text": "Part-2: CRUD operations",
+              "text": "2: The Book List Page",
               "path": "tutorials/book-store/part-2.md"
             },
             {
-              "text": "Part-3: Integration tests",
+              "text": "3: Creating, Updating and Deleting Books",
               "path": "tutorials/book-store/part-3.md"
+            },
+			{
+              "text": "4: Integration Tests",
+              "path": "tutorials/book-store/part-4.md"
+            },
+			{
+              "text": "5: Authorization",
+              "path": "tutorials/book-store/part-5.md"
+            },
+			{
+              "text": "6: Authors: Domain layer",
+              "path": "tutorials/book-store/part-6.md"
+            },
+			{
+              "text": "7: Authors: Database Integration",
+              "path": "tutorials/book-store/part-7.md"
+            },
+			{
+              "text": "8: Authors: Application Layer",
+              "path": "tutorials/book-store/part-8.md"
+            },
+			{
+              "text": "9: Authors: User Interface",
+              "path": "tutorials/book-store/part-9.md"
+            },
+			{
+              "text": "10: Book to Author Relation",
+              "path": "tutorials/book-store/part-10.md"
             }
           ]
         }
@@ -32,10 +60,6 @@
         {
           "text": "Customizing the Modules",
           "path": "guides/customizing-modules.md"
-        },
-        {
-          "text": "\"How To\" Guides",
-          "path": "how-to/index.md"
         }
       ]
     },
@@ -66,10 +90,6 @@
             {
               "text": "Solution structure",
               "path": "startup-templates/application/solution-structure.md"
-            },
-            {
-              "text": "Security Report",
-              "path": "http://cdn.volosoft.com/reports/zap/ABP_Commercial_ZAP_VULNERABILITY_REPORT.html"
             }
           ]
         },
@@ -105,6 +125,14 @@
           "path": "modules/audit-logging.md"
         },
         {
+          "text": "Chat",
+          "path": "modules/chat.md"
+        },
+        {
+          "text": "File Management",
+          "path": "modules/file-management.md"
+        },
+        {
           "text": "Identity",
           "path": "modules/identity.md"
         },
@@ -128,7 +156,7 @@
           "text": "Twilio SMS",
           "path": "modules/twilio-sms.md"
         },
-		    {
+        {
           "text": "Payment",
           "path": "modules/payment.md"
         }

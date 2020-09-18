@@ -63,6 +63,19 @@
                 <td><i class="fa fa-minus text-secondary"></i></td>
             </tr>
             <tr>
+                <td colspan="3"><strong>User Interface (Overall)</strong></td>
+            </tr>
+            <tr>
+                <td>ASP.NET Core UI</td>
+                <td>Razor Pages</td>
+                <td>MVC</td>
+            </tr>
+            <tr>
+                <td>Angular UI</td>
+                <td><i class="fa fa-check text-success"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
+            </tr>
+            <tr>
                 <td colspan="3"><strong>User Interface (Account / Login)</strong></td>
             </tr>
             <tr>
@@ -82,8 +95,13 @@
             </tr>
             <tr>
                 <td>Social logins</td>
-                <td><i class="fa fa-minus text-secondary"></i></td>
-                <td>Facebook, Twitter, Google+ and Microsoft Account</td>
+                <td><i class="fa fa-check text-success"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
+            </tr>
+            <tr>
+                <td>Social logins per tenant</td>
+                <td><i class="fa fa-check text-success"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
                 <td>LDAP (Active Directory) / ADFS login</td>
@@ -142,7 +160,7 @@
             </tr>
             <tr>
                 <td>Show login attempts</td>
-                <td><i class="fa fa-minus text-secondary"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
@@ -215,7 +233,7 @@
             </tr>
             <tr>
                 <td>Organization Unit management</td>
-                <td><i class="fa fa-minus text-secondary"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
@@ -235,7 +253,7 @@
             </tr>
             <tr>
                 <td>Chat (with SignalR)</td>
-                <td><i class="fa fa-minus text-secondary"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
@@ -250,7 +268,7 @@
             </tr>
             <tr>
                 <td>RTL support</td>
-                <td><i class="fa fa-minus text-secondary"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>   
             </tr>
             <tr>
@@ -284,7 +302,7 @@
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
-                <td>Webhook Feature</td>
+                <td>Webhook System</td>
                 <td><i class="fa fa-minus text-secondary"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
@@ -292,6 +310,21 @@
                 <td>Session timeout & User lock Screen</td>
                 <td><i class="fa fa-minus text-secondary"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>
+            </tr>
+            <tr>
+                <td>File Management</td>
+                <td><i class="fa fa-check text-success"></i></td>
+                <td><i class="fa fa-minus text-secondary"></i></td>
+            </tr>
+            <tr>
+                <td>Text Template Management</td>
+                <td><i class="fa fa-check text-success"></i></td>
+                <td><i class="fa fa-minus text-secondary"></i></td>
+            </tr>
+            <tr>
+                <td>Security Logs UI</td>
+                <td><i class="fa fa-check text-success"></i></td>
+                <td><i class="fa fa-minus text-secondary"></i></td>
             </tr>
             <tr>
                 <td>UI Theme</td>

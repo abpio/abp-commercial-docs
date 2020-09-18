@@ -2,6 +2,51 @@
 
 This document contains **brief release notes** for each release. Release notes only include major features and visible enhancements. They not don't include all the development done in the related version.
 
+## 3.2.0 RC (2020-09-17)
+
+This version is currently in the preview stage and the final release has been planned for 2020-10-01. You can try the preview version and provide feedback to us.
+
+### Blog Post
+
+See the detailed **[blog post / announcement](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2020-09-17%20v3_2_Preview/POST.md)** for the v3.2.0 RC.
+
+### Major Features / Changes
+
+* Released the preview (experimental) **Blazor UI** option.
+* **Angular** UI for the [file management](https://commercial.abp.io/modules/Volo.FileManagement) module.
+* Managing the **application features** for the **host** side.
+* User **profile picture** for the account module.
+* Options to enable, disable or force **two factor authentication** for tenants and users.
+
+## 3.1.0 (2020-09-03)
+
+### Blog Post
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-v3.1-Final-Has-Been-Released)** for the v3.1.0 release.
+
+### Major Features / Changes
+
+* Completely re-written the ABP Suite **Angular UI code generation**, using the Angular Schematics system.
+* Implemented **Authorization Code Authentication Flow** for the Angular UI.
+* Revised and documented **social/external logins** for the account module and tested with major providers.
+* Introduced the new external login system supporting to login via **LDAP / Active Directory**. Also, added a setting page to configure the LDAP options.
+* Created a new **security log system** and the user interface to save and report all the authentication related operations (login, logout, change password...) for users.
+* Implemented **email & phone number verification**.
+* Implementing **locking a user** for a given period of time (locked users can not login to the application).
+* Added breadcrumb and file icons for the file management module.
+
+## 3.0.0 (2020-07-01)
+
+### Blog Post
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-v3.0-Has-Been-Released)** for the v3.0.0 release.
+
+### Major Features
+
+* New **File Management Module** that is used to store and manage files in your application.
+* Migrated the Angular UI to the **Angular 10**.
+* Published an **[API documentation](https://docs.abp.io/api-docs/commercial/2.9/api/index.html)** web site to explore the classes of the ABP Commercial.
+
 ## 2.9.0 (2020-06-04)
 
 ### Blog Post

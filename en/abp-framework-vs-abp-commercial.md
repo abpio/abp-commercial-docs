@@ -8,6 +8,8 @@
 
 [ABP Commercial](https://commercial.abp.io) adds some benefits on top of the ABP framework with a set of professional [application modules](https://commercial.abp.io/modules), [UI themes](https://commercial.abp.io/themes), [tools](https://commercial.abp.io/tools), [premium support](https://commercial.abp.io/support) and  [services](https://commercial.abp.io/additional-services). 
 
+> This document only focuses the major differences between the ABP Framework and the ABP Commercial. It doesn't cover all the features.
+
 ## Overall
 
 Here are the differences between the open source ABP Framework project and the ABP Commercial in overall:
@@ -33,19 +35,24 @@ Here are the differences between the open source ABP Framework project and the A
 
 ## Modules
 
-ABP Commercial has some additional modules compared to the open source ABP Framework project. Also, some modules have commercial versions with more features. The table below shows the list of module differences in overall:
+ABP Commercial has a lot of **additional modules** compared to the open source ABP Framework project. Also, some modules have commercial versions with more features. The table below shows the list of module differences in overall:
 
 | Module                                                       | Open Source ABP Framework Project                            | ABP Commercial                                             |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ---------------------------------------------------------- |
 | Identity                                                     | [Basic](https://docs.abp.io/en/abp/latest/Modules/Identity)  | [Pro](https://commercial.abp.io/modules/Volo.Identity.Pro) |
 | Account                                                      | [Basic](https://docs.abp.io/en/abp/latest/Modules/Account)   | [Pro](https://commercial.abp.io/modules/Volo.Account.Pro)  |
-| Multi-Tenancy                                                | [Basic](https://docs.abp.io/en/abp/latest/Modules/Tenant-Management) (tenant management) | [Pro](https://commercial.abp.io/modules/Volo.Saas) (SaaS)  |
+| Multi-Tenancy                                                | [Basic](https://docs.abp.io/en/abp/latest/Modules/Tenant-Management) (only tenant management) | [Pro](https://commercial.abp.io/modules/Volo.Saas) (SaaS)  |
 | [Blogging](https://docs.abp.io/en/abp/latest/Modules/Blogging) | <i class="fa fa-check text-success"></i>                     | <i class="fa fa-check text-success"></i>                   |
 | [Docs](https://docs.abp.io/en/abp/latest/Modules/Docs)       | <i class="fa fa-check text-success"></i>                     | <i class="fa fa-check text-success"></i>                   |
 | [Identity Server Integration](https://docs.abp.io/en/abp/latest/Modules/IdentityServer) | <i class="fa fa-check text-success"></i>                     | <i class="fa fa-check text-success"></i>                   |
 | [Identity Server Management UI](https://commercial.abp.io/modules/Volo.Identityserver.Ui) | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
 | [Audit Log Reporting UI](https://commercial.abp.io/modules/Volo.AuditLogging.Ui) | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
 | [Dynamic Language Management](https://commercial.abp.io/modules/Volo.LanguageManagement) | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
+| [Payment](https://commercial.abp.io/modules/Volo.Payment)    | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
+| [Text Template Management](https://commercial.abp.io/modules/Volo.TextTemplateManagement) | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
+| [Chat](https://commercial.abp.io/modules/Volo.Chat)          | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
+| [File Management](https://commercial.abp.io/modules/Volo.FileManagement) | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
+| [Twilio SMS Integration](https://commercial.abp.io/modules/Volo.Abp.Sms.Twilio) | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
 
 Some modules have "Basic" (open source) and "Pro" (commercial) versions. The next sections show the differences between the basic and the pro versions.
 
@@ -57,8 +64,10 @@ Identity module's domain layer is the same. But the application, HTTP API and UI
 | ------------------------------------------------------ | ------------------------------------------ | ---------------------------------------- |
 | User Management                                        | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
 | Role Management                                        | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
+| Organization Unit Management                           | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
 | Claim Type Management                                  | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
-| Unlocking a User                                       | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+| Security Log Reporting                                 | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+| Locok/Unlock a User                                    | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
 | Setting Management (like Password Complexity Settings) | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
 
 ### Account Module: Basic vs Pro
@@ -69,10 +78,12 @@ Identity module's domain layer is the same. But the application, HTTP API and UI
 | Register                         | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
 | Multi-Tenancy (tenant switch)    | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
 | User Lockout                     | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
-| Forgot Password / Password Reset | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+| Forgot Password / Password Reset | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
+| Social Logins                    | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
 | Email Confirmation               | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
 | Two Factor Authentication        | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
-| Social Logins                    | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+| LDAP / Active Directory Login    | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+| Email / Phone Verification       | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
 
 ### Multi-Tenancy
 
@@ -93,7 +104,9 @@ Subscription, payment and other features are on the road map for the SaaS module
 abp new Acme.BookStore -d mongodb -u angular
 ````
 
-ABP Suite is a commercial tool that aims to assist to your development;
+ABP CLI can be used by the ABP Framework and the ABP Commercial developers.
+
+ABP Suite, on the other hand, is a commercial tool that aims to assist to your development;
 
 * It has the **UI for the ABP CLI**, so you don't have to memorize the commands.
 * It has a **code generator** that creates a CRUD page from database to the user interface, including HTTP APIs, entities, services, DTOs, database migration and so on. It is a big time saver for creating new entities.
@@ -124,6 +137,12 @@ Example screenshot from the user management page:
 A screenshot from the user management page of Lepton Theme:
 
 ![lepton-theme-users-page](images/lepton-theme-users-page.png)
+
+## Samples
+
+We provide a lot of sample solutions based on the ABP Framework and ABP Commercial. All the [sample solutions built with the ABP Framework](https://docs.abp.io/en/abp/latest/Samples/Index) are also valid for the ABP Commercial. So, ABP Commercial users can benefit from these samples. Because of that, we tend to create samples in the open source side to provide more value for everyone.
+
+However, there are some samples only for the ABP Commercial. See the [unique samples for the ABP Commercial](https://docs.abp.io/en/commercial/latest/samples/index).
 
 ## Support
 

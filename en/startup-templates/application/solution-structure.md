@@ -411,7 +411,11 @@ See the [Testing Overview](https://reactjs.org/docs/testing.html) document.
 * [Formik](https://github.com/jaredpalmer/formik) is used to build forms.
 * [Yup](https://github.com/jquense/yup) is used for form validations.
 
+## Social / External Logins
+
+If you want to configure social/external logins for your application, please follow the [Social/External Logins](https://docs.abp.io/en/abp/latest/Authentication/Social-External-Logins) document.
+
 ## What's next?
 
 - See the [Getting Started](../../getting-started.md) document to create a new solution and run it for this template.
-- See the [ASP.NET Core MVC Tutorial](../../tutorials/book-store/mvc-razor-pages/index.md) to learn how to develop applications using this template.
+- See the [ASP.NET Core MVC Tutorial](../../tutorials/book-store/part-1.md) to learn how to develop applications using this template.

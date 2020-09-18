@@ -15,26 +15,11 @@ See [the module description page](https://commercial.abp.io/modules/Volo.Identit
 
 Identity is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
 
-## Packages
+### Packages
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-### NuGet packages
-
-* Volo.Abp.AuditLogging.Domain.Shared
-* Volo.Abp.AuditLogging.Domain
-* Volo.Abp.AuditLogging.Application.Contracts
-* Volo.Abp.AuditLogging.Application
-* Volo.Abp.AuditLogging.EntityFrameworkCore
-* Volo.Abp.AuditLogging.MongoDB
-* Volo.Abp.AuditLogging.HttpApi
-* Volo.Abp.AuditLogging.HttpApi.Client
-* Volo.Abp.AuditLogging.Web
-
-### NPM packages
-
-* @volo/abp.ng.audit-logging
-* @volo/abp.ng.audit-logging.config
+You can visit [Audit Logging module package list page](https://abp.io/packages?moduleName=Volo.AuditLogging.Ui) to see list of packages related with this module.
 
 ## User interface
 
@@ -52,7 +37,7 @@ Audit logs module adds the following items to the "Main" menu, under the "Admini
 
 Audit logs tab is used to list, view and filter audit logs and entity changes in the system. 
 
-![audit-logging-module-list-page](../images/audit-logging-module-list-page-1.png)
+![audit-logging-module-list-page](../images/audit-logging-module-list-page-2.png)
 
 
 
@@ -62,7 +47,7 @@ Each line on the list contains basic information about an audit log like HTTP St
 
 You can view details of an audit log by clicking the magnifier icon on each audit log line:
 
-![audit-logging-module-log-detail-modal](../images/audit-logging-module-log-detail-modal.png)
+![audit-logging-module-log-detail-modal](../images/audit-logging-module-log-detail-modal-2.png)
 
 * **Overall:** This tab contains detailed information about audit log.
 * **Actions:** This tab shows list of actions (controller actions and application service method calls with their parameters) executed during a web request.
@@ -72,7 +57,7 @@ You can view details of an audit log by clicking the magnifier icon on each audi
 
 Entity changes tab is used to list, view and filter entity change logs. 
 
-![audit-logging-module-entity-changes-list-page](../images/audit-logging-module-entity-changes-list-page.png)
+![audit-logging-module-entity-changes-list-page](../images/audit-logging-module-entity-changes-list-page-2.png)
 
 
 
@@ -82,7 +67,7 @@ Each line on the list contains basic information about an entity change log like
 
 You can view details of an entity change log by clicking the "Change Details" action item in the entity change log list:
 
-![audit-logging-module-entity-change-details-modal](../images/audit-logging-module-entity-change-details-modal.png)
+![audit-logging-module-entity-change-details-modal](../images/audit-logging-module-entity-change-details-modal-2.png)
 
 
 
@@ -90,7 +75,7 @@ You can view details of an entity change log by clicking the "Change Details" ac
 
 You can view details of all changes of an entity by clicking the "Full Change History" action item in the entity change log list:
 
-![audit-logging-module-full-entity-change-details-modal](../images/audit-logging-module-full-entity-change-details-modal.png)
+![audit-logging-module-full-entity-change-details-modal](../images/audit-logging-module-full-entity-change-details-modal-2.png)
 
 ## Data seed
 
@@ -173,6 +158,92 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 ### Permissions
 
 See the `AbpAuditLoggingPermissions` class members for all permissions defined for this module.
+
+
+### Angular UI
+
+#### Installation
+
+In order to configure the application to use the `AuditLoggingModule`, you first need to import `AuditLoggingConfigModule` from `@volo/abp.ng.audit-logging/config` to root module. `AuditLoggingConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+
+```js
+// app.module.ts
+import { AuditLoggingConfigModule } from '@volo/abp.ng.audit-logging/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    AuditLoggingConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+The `AuditLoggingModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.audit-logging`.
+
+```js
+// app-routing.module.ts
+const routes: Routes = [
+  // other route definitions
+  {
+    path: 'audit-logs',
+    loadChildren: () =>
+      import('@volo/abp.ng.audit-logging').then(m => m.AuditLoggingModule.forLazy(/* options here */)),
+  },
+];
+
+@NgModule(/* AppRoutingModule metadata */)
+export class AppRoutingModule {}
+```
+
+> If you have generated your project via the startup template, you do not have to do anything, because it already has both `AuditLoggingConfigModule` and `AuditLoggingModule`.
+
+<h4 id="h-audit-logging-module-options">Options</h4>
+
+You can modify the look and behavior of the module pages by passing the following options to `AuditLoggingModule.forLazy` static method:
+
+- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/entity-action-extensions) for details.
+- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/page-toolbar-extensions) for details.
+- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/data-table-column-extensions) for details.
+
+
+#### Services
+
+The `@volo/abp.ng.audit-logging` package exports the following services which cover HTTP requests to counterpart APIs:
+
+- **AuditLoggingService:** Covers several methods that performing HTTP calls for `Audit Logs` page.
+- **EntityChangeService:** Covers several methods that performing HTTP calls for `Entity Changes` tab in `Audit Logs` page.
+
+
+#### AuditLoggingModule Replaceable Components
+
+`eAuditLoggingComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.audit-logging`.
+
+Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
+
+
+#### Remote Endpoint URL
+
+The Audit Logging module remote endpoint URL can be configured in the environment files.
+
+```js
+export const environment = {
+  // other configurations
+  apis: {
+    default: {
+      url: 'default url here',
+    },
+    AbpAuditLogging: {
+      url: 'Audit Logging remote url here'
+    }
+    // other api configurations
+  },
+};
+```
+
+The Audit Logging module remote URL configuration shown above is optional. If you don't set a URL, the `default.url` will be used as fallback.
 
 ## Distributed Events
 

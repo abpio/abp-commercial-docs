@@ -7,37 +7,17 @@ This module implements the User and Role system of an application;
 * Set **connection string** of tenants.
 * Set **features** of editions.
 
-See [the module description page](https://commercial.abp.io/modules/Volo.Identity.Pro) for an overview of the module features.
+See [the module description page](https://commercial.abp.io/modules/Volo.Saas) for an overview of the module features.
 
 ## How to install
 
-Identity is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
+Saas is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
 
 ## Packages
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-### NuGet packages
-
-* Volo.Saas.Domain.Shared
-* Volo.Saas.Domain
-* Volo.Saas.EntityFrameworkCore
-* Volo.Saas.MongoDB
-* Volo.Saas.Tenant.Application
-* Volo.Saas.Tenant.Application.Contracts
-* Volo.Saas.Tenant.HttpApi
-* Volo.Saas.Tenant.HttpApi.Client
-* Volo.Saas.Tenant.Web
-* Volo.Saas.Host.Application
-* Volo.Saas.Host.Application.Contracts
-* Volo.Saas.Host.HttpApi
-* Volo.Saas.Host.HttpApi.Client
-* Volo.Saas.Host.Web
-
-### NPM packages
-
-* @volo/abp.ng.saas
-* @volo/abp.ng.saas.config
+You can visit [SaaS module package list page](https://abp.io/packages?moduleName=Volo.Saas) to see list of packages related with this module.
 
 ## User interface
 
@@ -56,39 +36,39 @@ SaaS module adds the following items to the "Main" menu, under the "Administrati
 
 Tenant page is used to manage tenants in the system. 
 
-![saas-module-tenants-page](../images/saas-module-tenants-page.png)
+![saas-module-tenants-page](../images/saas-module-tenants-page-2.png)
 
 You can create a new tenant or edit a tenant in this page:
 
-![saas-module-tenant-edit-modal](../images/saas-module-tenant-edit-modal.png)
+![saas-module-tenant-edit-modal](../images/saas-module-tenant-edit-modal-2.png)
 
 ##### Connection String
 
 You can manage connection string of a tenant in case you want to use a separate database for a specific tenant. If you want to use Host database for a tenant, select "Use the Shared Database" option.
 
-![saas-module-tenant-connection-strings-modal](../images/saas-module-tenant-connection-strings-modal.png)
+![saas-module-tenant-connection-strings-modal](../images/saas-module-tenant-connection-strings-modal-2.png)
 
 ##### Tenant Features
 
 You can set features of tenants.
 
-![saas-module-features-modal](../images/saas-module-features-modal.png)
+![saas-module-features-modal](../images/saas-module-features-modal-2.png)
 
 #### Edition management
 
 Editions page is used to manage the editions in your system.
 
-![saas-module-editions-page](../images/saas-module-editions-page.png)
+![saas-module-editions-page](../images/saas-module-editions-page-2.png)
 
 You can create a new edition or edit an existing edition in this page:
 
-![saas-module-edition-edit-modal](../images/saas-module-edition-edit-modal.png)
+![saas-module-edition-edit-modal](../images/saas-module-edition-edit-modal-2.png)
 
 ##### Edition Features
 
 You can set features of an edition in this page:
 
-![saas-module-features-modal](../images/saas-module-features-modal.png)
+![saas-module-features-modal](../images/saas-module-features-modal-2.png)
 
 ## Data seed
 
@@ -173,6 +153,98 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 ### Permissions
 
 See the `SaasHostPermissions` class members for all permissions defined for this module.
+
+
+### Angular UI
+
+#### Installation
+
+In order to configure the application to use the `SaasModule`, you first need to import `SaasConfigModule` from `@volo/abp.ng.saas/config` to root module. `SaasConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+
+```js
+// app.module.ts
+import { SaasConfigModule } from '@volo/abp.ng.saas/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    SaasConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+The `SaasModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.saas`.
+
+```js
+// app-routing.module.ts
+const routes: Routes = [
+  // other route definitions
+  {
+    path: 'saas',
+    loadChildren: () =>
+      import('@volo/abp.ng.saas').then(m => m.SaasModule.forLazy(/* options here */)),
+  },
+];
+
+@NgModule(/* AppRoutingModule metadata */)
+export class AppRoutingModule {}
+```
+
+> If you have generated your project via the startup template, you do not have to do anything, because it already has both `SaasConfigModule` and `SaasModule`.
+
+<h4 id="h-saas-module-options">Options</h4>
+
+You can modify the look and behavior of the module pages by passing the following options to `SaasModule.forLazy` static method:
+
+- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/entity-action-extensions) for details.
+- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/page-toolbar-extensions) for details.
+- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/data-table-column-extensions) for details.
+- **createFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+- **editFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+
+
+
+#### Services
+
+The `@volo/abp.ng.saas` package exports the following services which cover HTTP requests to counterpart APIs:
+
+- **SaasService:** Covers several methods that performing HTTP calls for `Tenants` and `Editions` pages.
+
+
+#### SaasModule Replaceable Components
+
+`eSaasComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.saas`.
+
+Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
+
+
+#### Remote Endpoint URL
+
+The Saas module remote endpoint URLs can be configured in the environment files.
+
+```js
+export const environment = {
+  // other configurations
+  apis: {
+    default: {
+      url: 'default url here',
+    },
+    SaasHost: {
+      url: 'SaasHost remote url here'
+    },
+    SaasTenant: {
+      url: 'SaasTenant remote url here'
+    },
+    // other api configurations
+  },
+};
+```
+
+The Saas module remote URL configurations shown above are optional. If you don't set any URLs, the `default.url` will be used as fallback.
+
 
 ## Distributed Events
 

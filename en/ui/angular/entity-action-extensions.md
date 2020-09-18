@@ -19,9 +19,8 @@ The following code prepares a constant named `identityEntityActionContributors`,
 ```js
 // entity-action-contributors.ts
 
-import { EntityAction, EntityActionList } from '@volo/abp.commercial.ng.ui';
-import { Identity } from '@volo/abp.ng.identity';
-import { IdentityEntityActionContributors } from '@volo/abp.ng.identity.config';
+import { EntityAction, EntityActionList } from '@abp/ng.theme.shared/extensions';
+import { Identity, IdentityEntityActionContributors } from '@volo/abp.ng.identity';
 
 const alertUserName = new EntityAction<Identity.UserItem>({
   text: 'Click Me!',
@@ -67,26 +66,30 @@ export const identityEntityActionContributors = identityContributors;
 
 ### Step 2. Import and Use Entity Action Contributors
 
-Import `identityEntityActionContributors` in your root module and pass it to the static `forRoot` method of `IdentityConfigModule` as seen below:
+Import `identityEntityActionContributors` in your routing module and pass it to the static `forLazy` method of `IdentityModule` as seen below:
 
 ```js
-import { IdentityConfigModule } from '@volo/abp.ng.identity.config';
 import { identityEntityActionContributors } from './entity-action-contributors';
 
-@NgModule({
-  imports: [
-    // Other imports
-
-    IdentityConfigModule.forRoot({
-      entityActionContributors: identityEntityActionContributors,
-    }),
-
-    // Other imports
-  ],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
+const routes: Routes = [
+  {
+    path: '',
+    component: DynamicLayoutComponent,
+    children: [
+      {
+        path: 'identity',
+        loadChildren: () =>
+          import('@volo/abp.ng.identity').then(m =>
+            m.IdentityModule.forLazy({
+              entityActionContributors: identityEntityActionContributors,
+            }),
+          ),
+      },
+      // other child routes
+    ],
+    // other routes
+  }
+];
 ```
 
 That is it, `alertUserName` entity action will be added as the last action on the grid dropdown in the users page (`UsersComponent`) of the `IdentityModule`.
@@ -417,7 +420,7 @@ export function reorderUserContributors(
 
 ### EntityActionContributorCallback\<R = any\>
 
-`EntityActionContributorCallback` is the type that you can pass as entity action contributor callbacks to static `forRoot` methods of the modules.
+`EntityActionContributorCallback` is the type that you can pass as entity action contributor callbacks to static `forLazy` methods of the modules.
 
 ```js
 // lockUserContributor should have EntityActionContributorCallback<Identity.UserItem> type

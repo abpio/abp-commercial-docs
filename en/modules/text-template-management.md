@@ -8,28 +8,13 @@ See [the module description page](https://commercial.abp.io/modules/Volo.TextTem
 
 ## How to Install
 
-Text Template Management management module is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
+Text Template Management module is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
 
 ## Packages
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-### NuGet Packages
-
-* Volo.Abp.TextTemplateManagement.Domain.Shared
-* Volo.Abp.TextTemplateManagement.Domain
-* Volo.Abp.TextTemplateManagement.Application.Contracts
-* Volo.Abp.TextTemplateManagement.Application
-* Volo.Abp.TextTemplateManagement.EntityFrameworkCore
-* Volo.Abp.TextTemplateManagement.MongoDB
-* Volo.Abp.TextTemplateManagement.HttpApi
-* Volo.Abp.TextTemplateManagement.HttpApi.Client
-* Volo.Abp.TextTemplateManagement.Web
-
-### NPM Packages
-
-* @volo/abp.ng.text-template-management
-* @volo/abp.ng.text-template-management.config
+You can visit [Text Template Management module package list page](https://abp.io/packages?moduleName=Volo.TextTemplateManagement) to see list of packages related with this module.
 
 ## User Interface
 
@@ -47,7 +32,7 @@ Text Template Management module adds the following items to the "Main" menu, und
 
 Text Templates page is used to view the list of templates defined in the application.
 
-![text-template-managemet-text-templates-page](../images/text-template-managemet-text-templates-page.png)
+![text-template-managemet-text-templates-page](../images/text-template-managemet-text-templates-page-2.png)
 
 Click to the `Actions -> Edit Contents` to edit content for a template. There are two types of UI to edit a template content:
 
@@ -55,13 +40,13 @@ Click to the `Actions -> Edit Contents` to edit content for a template. There ar
 
 This kind of templates uses the `L` function to perform inline localization. In this way, it is easier to manage the template for different cultures.
 
-![text-template-management-inline-edit](../images/text-template-management-inline-edit.png)
+![text-template-management-inline-edit](../images/text-template-management-inline-edit-2.png)
 
 ##### Editing Contents for Culture-Specific Templates
 
 This kind of templates provides different content for each culture. In this way, you can define a completely different content for a specific culture.
 
-![text-template-management-multiple-culture-edit](../images/text-template-management-multiple-culture-edit.png)
+![text-template-management-multiple-culture-edit](../images/text-template-management-multiple-culture-edit-2.png)
 
 ## Data Seed
 
@@ -135,6 +120,93 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 ### Permissions
 
 See the `TextTemplateManagementPermissions` class members for all permissions defined for this module.
+
+
+### Angular UI
+
+#### Installation
+
+In order to configure the application to use the `TextTemplateManagementModule`, you first need to import `TextTemplateManagementConfigModule` from `@volo/abp.ng.text-template-management/config` to root module. `TextTemplateManagementConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+
+```js
+// app.module.ts
+import { TextTemplateManagementConfigModule } from '@volo/abp.ng.text-template-management/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    TextTemplateManagementConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+The `TextTemplateManagementModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.text-template-management`.
+
+```js
+// app-routing.module.ts
+const routes: Routes = [
+  // other route definitions
+  {
+    path: 'text-template-management',
+    loadChildren: () =>
+      import('@volo/abp.ng.text-template-management').then(m => m.TextTemplateManagementModule.forLazy(/* options here */)),
+  },
+];
+
+@NgModule(/* AppRoutingModule metadata */)
+export class AppRoutingModule {}
+```
+
+> If you have generated your project via the startup template, you do not have to do anything, because it already has both `TextTemplateManagementConfigModule` and `TextTemplateManagementModule`.
+
+<h4 id="h-text-template-management-module-options">Options</h4>
+
+You can modify the look and behavior of the module pages by passing the following options to `TextTemplateManagementModule.forLazy` static method:
+
+- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/entity-action-extensions) for details.
+- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/page-toolbar-extensions) for details.
+- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/data-table-column-extensions) for details.
+
+
+#### Services
+
+The `@volo/abp.ng.text-template-management` package exports the following services which cover HTTP requests to counterpart APIs:
+
+- **TemplateDefinitionService:** Covers several methods that performing HTTP calls for `Text templates` page.
+- **TemplateContentService:** Covers several methods that performing HTTP calls for `Create update template content` page.
+
+
+#### TextTemplateManagementModule Replaceable Components
+
+`eTextTemplateManagementComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.text-template-management`.
+
+Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
+
+
+#### Remote Endpoint URL
+
+The Text Template Management module remote endpoint URL can be configured in the environment files.
+
+```js
+export const environment = {
+  // other configurations
+  apis: {
+    default: {
+      url: 'default url here',
+    },
+    TextTemplateManagement: {
+      url: 'Text Template Management remote url here'
+    }
+    // other api configurations
+  },
+};
+```
+
+The Text Template Management module remote URL configuration shown above is optional. If you don't set a URL, the `default.url` will be used as fallback.
+
 
 ## Distributed Events
 

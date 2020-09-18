@@ -9,6 +9,11 @@ This module implements the User and Role system of an application;
 * Manage basic **user profile** and **password**.
 * Manage **claim types** in the system, set claims to roles and users.
 * Setting page to manage **password complexity**, user sign-in, account and lockout.
+* Supports **LDAP** authentication.
+* Provides **email & phone number** verification.
+* Supports social login integrations (Twitter, Facebook, GitHub etc...).
+* Manage **organization units** in the system.
+* View security logs (login, logout, change password...) in the system.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Identity.Pro) for an overview of the module features.
 
@@ -20,24 +25,7 @@ Identity is pre-installed in [the startup templates](../Startup-Templates/Index)
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-### NuGet packages
-
-* Volo.Abp.Identity.Domain.Shared
-* Volo.Abp.Identity.Domain
-* Volo.Abp.Identity.Pro.Application.Contracts
-* Volo.Abp.Identity.Pro.Application
-* Volo.Abp.Identity.EntityFrameworkCore
-* Volo.Abp.Identity.MongoDB
-* Volo.Abp.Identity.AspNetCore
-* Volo.Abp.PermissionManagement.Domain.Identity
-* Volo.Abp.Identity.Pro.HttpApi
-* Volo.Abp.Identity.Pro.HttpApi.Client
-* Volo.Abp.Identity.Pro.Web
-
-### NPM packages
-
-* @volo/abp.ng.identity
-* @volo/abp.ng.identity.config
+You can visit [Identity Server module package list page](https://abp.io/packages?moduleName=Volo.Identityserver.Ui) to see list of packages related with this module.
 
 ## User interface
 
@@ -48,6 +36,8 @@ Identity module adds the following items to the "Main" menu, under the "Administ
 * **Roles**: Role management page.
 * **Users**: User management page.
 * **Claim Types**: Claim type management page.
+* **Organization Units**: Organization unit management page.
+* **Security Logs**: Security log search page.
 
 `IdentityMenuNames` class has the constants for the menu item names.
 
@@ -57,11 +47,11 @@ Identity module adds the following items to the "Main" menu, under the "Administ
 
 Roles page is used to manage roles in the system. A role is a set of permissions assigned to the users.
 
-![identity-role-page](../images/identity-role-page.png)
+![identity-role-page](../images/identity-role-page-2.png)
 
 You can create a new role or edit a role in this page:
 
-![identity-edit-role-modal](../images/identity-edit-role-modal.png)
+![identity-edit-role-modal](../images/identity-edit-role-modal-2.png)
 
 * **Default** roles are assigned to new users by default.
 * **Public** roles are visible to other users.
@@ -70,7 +60,7 @@ You can create a new role or edit a role in this page:
 
 You can manage permissions of a role:
 
-![identity-edit-role-permissions-modal](../images/identity-edit-role-permissions-modal.png)
+![identity-edit-role-permissions-modal](../images/identity-edit-role-permissions-modal-2.png)
 
 * A permission is an **action of the application** granted to roles and users.
 * A user with a role will **inherit** all the permissions granted for the role.
@@ -81,7 +71,7 @@ You can manage permissions of a role:
 
 You can set custom claim values for a role:
 
-![identity-edit-role-claims-modal](../images/identity-edit-role-claims-modal.png)
+![identity-edit-role-claims-modal](../images/identity-edit-role-claims-modal-2.png)
 
 Claim types are retrieved from the claim list defined in the Claim Types  Management page (see below).
 
@@ -89,11 +79,11 @@ Claim types are retrieved from the claim list defined in the Claim Types  Manage
 
 Users page is used to manage the users in your system.
 
-![identity-users-page](../images/identity-user-page.png)
+![identity-users-page](../images/identity-user-page-2.png)
 
 You can create a new user or edit an existing user in this page:
 
-![identity-user-edit-modal](../images/identity-user-edit-modal.png)
+![identity-user-edit-modal](../images/identity-user-edit-modal-2.png)
 
 * A user can have **zero or more roles** in the system.
 * You can set **two factor** verification and user **lockout** settings per user.
@@ -102,13 +92,13 @@ You can create a new user or edit an existing user in this page:
 
 A user has union of the permissions of the assigned roles. Identity module also allows to grant extra permissions to a specific user.
 
-![identity-edit-user-permissions-modal](../images/identity-edit-user-permissions-modal.png)
+![identity-edit-user-permissions-modal](../images/identity-edit-user-permissions-modal-2.png)
 
 ##### User claims
 
 You can also set custom claim values for a user:
 
-![identity-edit-user-claims-modal](../images/identity-edit-user-claims-modal.png)
+![identity-edit-user-claims-modal](../images/identity-edit-user-claims-modal-2.png)
 
 Claim types are retrieved from the claim list defined in the Claim Type Management page (see below).
 
@@ -116,7 +106,7 @@ Claim types are retrieved from the claim list defined in the Claim Type Manageme
 
 Identity module allows to define custom claim types.
 
-![identity-claim-type-page](../images/identity-claim-type-page.png)
+![identity-claim-type-page](../images/identity-claim-type-page-2.png)
 
 * Custom claims can be used to store additional information to a user or role.
 * Custom claim values then can be accessed in the application code for an authenticated user.
@@ -126,7 +116,31 @@ Identity module allows to define custom claim types.
 
 Identity module adds a new tab to the Settings page to customize the behavior on runtime.
 
-![identity-settings-ui](../images/identity-settings-ui.png)
+![identity-settings-ui](../images/identity-settings-ui-2.png)
+
+### Organization Units
+
+Organization units page is used to manage organization units, members of organization units and roles of organization units.
+
+![identity-organization-units-ui-page](../images/identity-organization-units-ui-page.png)
+
+You can manage members of an organization unit using the members tab or by right clicking to an item on the organization unit tree.
+
+![identity-organization-units-ui-add-member](../images/identity-organization-units-ui-add-member.png)	
+
+You can manage roles of an organization unit using the members tab or by right clicking to an item on the organization unit tree. An organization unit inherits permissions of its roles. 
+
+![identity-organization-units-ui-add-role](../images/identity-organization-units-ui-add-role.png)
+
+### Security Logs
+
+Security logs page is used to search and view authentication related operations (login, logout, change password...) in the system. 
+
+![identity-security-logs-ui-page](../images/identity-security-logs-ui-page.png)	
+
+Also, each user can view security logs for his/her account as shown in the screenshot below;
+
+![identity-security-logs-ui-my-logs-page](../images/identity-security-logs-ui-my-logs-page.png)	
 
 ## Data seed
 
@@ -202,6 +216,19 @@ A claim type is a definition of a custom claim that can be assigned to other ent
 
 * `IdentityClaimType` (aggregate root): Represents a claim type definition. It contains some properties (e.g. Required, Regex, Description, ValueType) to define the claim type and the validation rules.
 
+##### Identity Security Log
+
+A IdentitySecurityLog represents an authentication related operation in the system.
+
+* ```IdentitySecurityLog``` (aggregate root): Represents a security log in the system.
+
+##### OrganizationUnit
+
+An Organization unit is a entity in a hierarchical structure.
+
+* ```OrganizationUnit``` (aggregate root): Represents an organization unit in the system.
+  * ```Roles``` (collection): Roles of the organization unit.
+
 #### Repositories
 
 This module follows the [Repository Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Repositories) guide.
@@ -211,6 +238,8 @@ Following custom repositories are defined for this module:
 * `IIdentityUserRepository`
 * `IIdentityRoleRepository`
 * `IIdentityClaimTypeRepository`
+* ```IIdentitySecurityLogRepository```
+* ```IOrganizationUnitRepository```
 
 #### Domain services
 
@@ -228,6 +257,14 @@ This module follows the [Domain Services Best Practices & Conventions]( https://
 
 `IdenityClaimTypeManager` is used to perform some operations for the `IdentityClaimType` aggregate root.
 
+##### Organization unit manager
+
+```OrganizationUnitManager``` is used to perform some operations for the ```OrganizationUnit``` aggregate root.
+
+##### Security log manager
+
+```IdentitySecurityLogManager``` is used to save security logs.
+
 ### Settings
 
 See the `IdentitySettingNames` class members for all settings defined for this module.
@@ -242,6 +279,8 @@ See the `IdentitySettingNames` class members for all settings defined for this m
 * `IdentitySettingsAppService` (implements `IIdentitySettingsAppService`): Used to get and update settings for the Identity module.
 * `IdentityUserLookupAppService` (implements `IIdentityUserLookupAppService`): Used to get information for a user by `id` or `userName`. It is aimed to be used internally by the ABP framework.
 * `ProfileAppService` (implements `IProfileAppService`): Used to change a user's profile and the password.
+* ```IdentitySecurityLogAppService``` (implements ```IIdentitySecurityLogAppService```): Implements the use cases of the security logs UI.
+* ```OrganizationUnitAppService``` (implements ```OrganizationUnitAppService```): Implements the use cases of the organization unit management UI.
 
 ### Database providers
 
@@ -269,6 +308,10 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
   * AbpUserRoles
   * AbpUserTokens
 * **AbpClaimTypes**
+* **AbpOrganizationUnits**
+  * AbpOrganizationUnitRoles
+  * AbpUserOrganizationUnits
+* **AbpSecurityLogs**
 
 #### MongoDB
 
@@ -277,10 +320,101 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 * **AbpRoles**
 * **AbpUsers**
 * **AbpClaimTypes**
+* **AbpOrganizationUnits**
+* **AbpSecurityLogs**
 
 ### Permissions
 
 See the `IdentityPermissions` class members for all permissions defined for this module.
+
+### Angular UI
+
+#### Installation
+
+In order to configure the application to use the `IdentityModule`, you first need to import `IdentityConfigModule` from `@volo/abp.ng.identity/config` to root module. `IdentityConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+
+```js
+// app.module.ts
+import { IdentityConfigModule } from '@volo/abp.ng.identity/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    IdentityConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+The `IdentityModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.identity`.
+
+```js
+// app-routing.module.ts
+const routes: Routes = [
+  // other route definitions
+  {
+    path: 'identity',
+    loadChildren: () =>
+      import('@volo/abp.ng.identity').then(m => m.IdentityModule.forLazy(/* options here */)),
+  },
+];
+
+@NgModule(/* AppRoutingModule metadata */)
+export class AppRoutingModule {}
+```
+
+> If you have generated your project via the startup template, you do not have to do anything, because it already has both `IdentityConfigModule` and `IdentityModule`.
+
+<h4 id="h-identity-module-options">Options</h4>
+
+You can modify the look and behavior of the module pages by passing the following options to `IdentityModule.forLazy` static method:
+
+- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/entity-action-extensions) for details.
+- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/page-toolbar-extensions) for details.
+- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/data-table-column-extensions) for details.
+- **createFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+- **editFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+
+
+
+#### Services
+
+The `@volo/abp.ng.identity` package exports the following services which cover HTTP requests to counterpart APIs:
+
+- **IdentityService:** Covers several methods that performing HTTP calls for `Roles`, `Users`, and `Claims` pages.
+- **OrganizationUnitService:** Covers several methods that performing HTTP calls for `Organization Units` page.
+- **IdentitySecurityLogService **: Covers several methods that performing HTTP calls for `Security Logs` page.
+
+
+#### IdentityModule Replaceable Components
+
+`eIdentityComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.identity`.
+
+Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
+
+
+#### Remote Endpoint URL
+
+The Identity module remote endpoint URL can be configured in the environment files.
+
+```js
+export const environment = {
+  // other configurations
+  apis: {
+    default: {
+      url: 'default url here',
+    },
+    AbpIdentity: {
+      url: 'Identity remote url here'
+    }
+    // other api configurations
+  },
+};
+```
+
+The Identity module remote URL configuration shown above is optional. If you don't set a URL, the `default.url` will be used as fallback.
 
 ## Distributed Events
 

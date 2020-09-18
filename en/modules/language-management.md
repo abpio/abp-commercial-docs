@@ -17,22 +17,7 @@ Language management module is pre-installed in [the startup templates](../Startu
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-### NuGet Packages
-
-* Volo.Abp.LanguageManagement.Domain.Shared
-* Volo.Abp.LanguageManagement.Domain
-* Volo.Abp.LanguageManagement.Application.Contracts
-* Volo.Abp.LanguageManagement.Application
-* Volo.Abp.LanguageManagement.EntityFrameworkCore
-* Volo.Abp.LanguageManagement.MongoDB
-* Volo.Abp.LanguageManagement.HttpApi
-* Volo.Abp.LanguageManagement.HttpApi.Client
-* Volo.Abp.LanguageManagement.Web
-
-### NPM Packages
-
-* @volo/abp.ng.language-management
-* @volo/abp.ng.language-management.config
+You can visit [Language Management module package list page](https://abp.io/packages?moduleName=Volo.LanguageManagement) to see list of packages related with this module.
 
 ## User Interface
 
@@ -51,11 +36,11 @@ Language management module adds the following items to the "Main" menu, under th
 
 Languages page is used to manage languages in the system. 
 
-![language-management-languages-page](../images/language-management-languages-page.png)
+![language-management-languages-page](../images/language-management-languages-page-2.png)
 
 You can create a new language or edit an existing language in this page:
 
-![language-management-edit-language-modal](../images/language-management-edit-language-modal.png)
+![language-management-edit-language-modal](../images/language-management-edit-language-modal-2.png)
 
 * **Enabled** languages can be selected as the system language.
 
@@ -63,11 +48,11 @@ You can create a new language or edit an existing language in this page:
 
 Language texts page is used to manage texts in different languages.
 
-![language-management-language-texts-page](../images/language-management-language-texts-page.png)
+![language-management-language-texts-page](../images/language-management-language-texts-page-2.png)
 
 You can translate a text for a language or edit the already existing translation in this page.
 
-![language-management-edit-language-text-modal](../images/language-management-edit-language-text-modal.png)
+![language-management-edit-language-text-modal](../images/language-management-edit-language-text-modal-2.png)
 
 ## Data Seed
 
@@ -145,6 +130,94 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 ### Permissions
 
 See the `LanguageManagementPermissions` class members for all permissions defined for this module.
+
+
+### Angular UI
+
+#### Installation
+
+In order to configure the application to use the `LanguageManagementModule`, you first need to import `LanguageManagementConfigModule` from `@volo/abp.ng.language-management/config` to root module. `LanguageManagementConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+
+```js
+// app.module.ts
+import { LanguageManagementConfigModule } from '@volo/abp.ng.language-management/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    LanguageManagementConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+The `LanguageManagementModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.language-management`.
+
+```js
+// app-routing.module.ts
+const routes: Routes = [
+  // other route definitions
+  {
+    path: 'language-management',
+    loadChildren: () =>
+      import('@volo/abp.ng.language-management').then(m => m.LanguageManagementModule.forLazy(/* options here */)),
+  },
+];
+
+@NgModule(/* AppRoutingModule metadata */)
+export class AppRoutingModule {}
+```
+
+> If you have generated your project via the startup template, you do not have to do anything, because it already has both `LanguageManagementConfigModule` and `LanguageManagementModule`.
+
+<h4 id="h-language-management-module-options">Options</h4>
+
+You can modify the look and behavior of the module pages by passing the following options to `LanguageManagementModule.forLazy` static method:
+
+- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/entity-action-extensions) for details.
+- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/page-toolbar-extensions) for details.
+- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/data-table-column-extensions) for details.
+- **createFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+- **editFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+
+
+#### Services
+
+The `@volo/abp.ng.language-management` package exports the following services which cover HTTP requests to counterpart APIs:
+
+- **LanguageManagementService:** Covers several methods that performing HTTP calls for `Languages` and `Language Texts` pages.
+
+
+#### LanguageManagementModule Replaceable Components
+
+`eLanguageManagementComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.language-management`.
+
+Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
+
+
+#### Remote Endpoint URL
+
+The Language Management module remote endpoint URL can be configured in the environment files.
+
+```js
+export const environment = {
+  // other configurations
+  apis: {
+    default: {
+      url: 'default url here',
+    },
+    LanguageManagement: {
+      url: 'Language Management remote url here'
+    }
+    // other api configurations
+  },
+};
+```
+
+The Language Management module remote URL configuration shown above is optional. If you don't set a URL, the `default.url` will be used as fallback.
+
 
 ## Distributed Events
 

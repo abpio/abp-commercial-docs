@@ -1,4 +1,4 @@
-# Identity Module
+# Identity Server Module
 
 This module provides integration and management functionality for Identity Server;
 
@@ -19,23 +19,7 @@ Identity Server is pre-installed in [the startup templates](../Startup-Templates
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-### NuGet Packages
-
-* Volo.Abp.IdentityServer.Domain
-* Volo.Abp.IdentityServer.Domain.Shared
-* Volo.Abp.IdentityServer.EntityFrameworkCore
-* Volo.Abp.IdentityServer.MongoDB
-* Volo.Abp.PermissionManagement.Domain.IdentityServer
-* Volo.Abp.IdentityServer.Application
-* Volo.Abp.IdentityServer.Application.Contracts
-* Volo.Abp.IdentityServer.HttpApi
-* Volo.Abp.IdentityServer.HttpApi.Client
-* Volo.Abp.IdentityServer.Web
-
-### NPM Packages
-
-* @volo/abp.ng.identity-server
-* @volo/abp.ng.identity-server.config
+You can visit [Identity module package list page](https://abp.io/packages?moduleName=Volo.Identity.Pro) to see list of packages related with this module.
 
 ## User Interface
 
@@ -55,21 +39,21 @@ Identity Server module adds the following items to the "Main" menu, under the "A
 
 Clients page is used to manage Identity Server clients. A client represent applications that can request tokens from your Identity Server.
 
-![identity-server-clients-page](../images/identity-server-clients-page.png)
+![identity-server-clients-page](../images/identity-server-clients-page-2.png)
 
 You can create new clients or edit existing clients in this page:
 
-![identity-server-edit-client-modal](../images/identity-server-edit-client-modal.png)
+![identity-server-edit-client-modal](../images/identity-server-edit-client-modal-2.png)
 
 #### Identity Resource Management
 
 Identity resource page is used to manage identity resources of Identity Server. Identity resources are data like user ID, name, or email address of a user.
 
-![identity-server-identity-resources-page](../images/identity-server-identity-resources-page.png)
+![identity-server-identity-resources-page](../images/identity-server-identity-resources-page-2.png)
 
 You can create a new identity resource or edit an existing identity resource in this page:
 
-![identity-server-edit-identity-resource-modal](../images/identity-server-edit-identity-resource-modal.png)
+![identity-server-edit-identity-resource-modal](../images/identity-server-edit-identity-resource-modal-2.png)
 
 This page allows creating standard identity resources (role, profile, phone, openid, email and address) using "Create standard resources" button.
 
@@ -77,11 +61,11 @@ This page allows creating standard identity resources (role, profile, phone, ope
 
 Identity Server module allows to manage API resources. To allow clients to request access tokens for APIs, you need to define API resources.
 
-![identity-server-api-resources-page](../images/identity-server-api-resources-page.png)
+![identity-server-api-resources-page](../images/identity-server-api-resources-page-2.png)
 
 You can create a new API resource or edit an existing API resource in this page:
 
-![identity-server-edit-api-resource-modal](../images/identity-server-edit-api-resource-modal.png)
+![identity-server-edit-api-resource-modal](../images/identity-server-edit-api-resource-modal-2.png)
 
 ## Data Seed
 
@@ -254,6 +238,93 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 ### Permissions
 
 See the `AbpIdentityServerPermissions` class members for all permissions defined for this module.
+
+### Angular UI
+
+#### Installation
+
+In order to configure the application to use the `IdentityServerModule`, you first need to import `IdentityServerConfigModule` from `@volo/abp.ng.identity-server/config` to root module. `IdentityServerConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+
+```js
+// app.module.ts
+import { IdentityServerConfigModule } from '@volo/abp.ng.identity-server/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    IdentityServerConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+The `IdentityServerModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.identity-server`.
+
+```js
+// app-routing.module.ts
+const routes: Routes = [
+  // other route definitions
+  {
+    path: 'identity-server',
+    loadChildren: () =>
+      import('@volo/abp.ng.identity-server').then(m => m.IdentityServerModule.forLazy(/* options here */)),
+  },
+];
+
+@NgModule(/* AppRoutingModule metadata */)
+export class AppRoutingModule {}
+```
+
+> If you have generated your project via the startup template, you do not have to do anything, because it already has both `IdentityServerConfigModule` and `IdentityServerModule`.
+
+<h4 id="h-identity-server-module-options">Options</h4>
+
+You can modify the look and behavior of the module pages by passing the following options to `IdentityServerModule.forLazy` static method:
+
+- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/entity-action-extensions) for details.
+- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/page-toolbar-extensions) for details.
+- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/data-table-column-extensions) for details.
+- **createFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+- **editFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/dynamic-form-extensions) for details.
+
+
+#### Services
+
+The `@volo/abp.ng.identity-server` package exports the following services which cover HTTP requests to counterpart APIs:
+
+- **IdentityServerService:** Covers several methods that performing HTTP calls for `Clients`, `Identity Resources`, and `Api Resources` pages.
+
+
+#### IdentityServerModule Replaceable Components
+
+`eIdentityServerComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.identity-server`.
+
+Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
+
+
+#### Remote Endpoint URL
+
+The Identity Server module remote endpoint URL can be configured in the environment files.
+
+```js
+export const environment = {
+  // other configurations
+  apis: {
+    default: {
+      url: 'default url here',
+    },
+    AbpIdentityServer: {
+      url: 'Identity Server remote url here'
+    }
+    // other api configurations
+  },
+};
+```
+
+The Identity Server module remote URL configuration shown above is optional. If you don't set a URL, the `default.url` will be used as fallback.
+
 
 ## Distributed Events
 

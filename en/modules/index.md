@@ -6,12 +6,15 @@ ABP Commercial provides **production ready, enterprise level** application modul
 
 * **[Account](account.md)**: Login, register, forgot password, email activation, social logins and other account related functionalities.
 * **[Audit logging](audit-logging.md)**: Reporting the user audit logs and entity histories in details.
+* **[File Management](file-management.md)**: Upload, download and organize files in a hierarchical folder structure.
 * **[Identity](identity.md)**: User, role, claims and permission management.
 * **[Identity Server](identity-server.md)**: Managing the identity server objects like clients, API resources, identity resources, secrets, application URLs, claims and more.
 * **[Language management](language-management.md)**: Add or remove languages and localize the application UI on the fly.
 * **[SaaS](saas.md)**: Manage tenants, editions and features to create your multi-tenant / SaaS application.
 * **[Twilio SMS](twilio-sms.md)**: Send SMS messages with [Twilio](https://www.twilio.com/) cloud service.
 * **[Payment](payment.md)**: Payment gateway integrations.
+* **[Chat](chat.md)**: Real time messaging between users of the application.
+* **[Text template management](text-template-management.md)**: Manage text templates in the system.
 
 ## Free Modules
 
