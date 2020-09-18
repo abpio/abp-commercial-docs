@@ -8,7 +8,7 @@ This version is currently in the preview stage and the final release has been pl
 
 ### Blog Post
 
-See the detailed **[blog post / announcement](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2020-09-17%20v3_2_Preview/POST.md)** for the v3.2.0 RC.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-ABP-Commercial-3.2-RC-With-The-New-Blazor-UI)** for the v3.2.0 RC.
 
 ### Major Features / Changes
 
