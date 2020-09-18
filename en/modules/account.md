@@ -60,7 +60,7 @@ This module doesn't seed any data.
 
 ## Options
 
-### AbpIdentityAspNetCoreOptions
+### AbpAccountOptions
 
 `AbpAccountOptions` can be configured in the UI layer, in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics). Example:
 
