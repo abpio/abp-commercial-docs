@@ -208,9 +208,11 @@ The [startup template](Startup-templates/Index.md) **disables** transactions in 
   ```csharp
   Configure<AbpUnitOfWorkDefaultOptions>(options =>
   {
-      options.TransactionBehavior = UnitOfWorkTransactionBehavior.Enabled;
+      options.TransactionBehavior = UnitOfWorkTransactionBehavior.Auto;
   });
   ```
+
+> Or you can delete this code since this is already the default behavior.
 
 {{ end }}
 
