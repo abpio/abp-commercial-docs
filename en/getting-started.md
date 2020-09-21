@@ -199,6 +199,23 @@ Integration tests projects are properly configured to work with in-memory **Mong
 
 > See the [solution structure document](startup-templates/application/solution-structure.md) to understand the solution structure in details. 
 
+{{ if DB == "Mongo" }}
+
+#### MongoDB Transactions
+
+The [startup template](Startup-templates/Index.md) **disables** transactions in the `.MongoDB` project by default. If your MongoDB server supports transactions, you can enable the it in the *YourProjectMongoDbModule* class:
+
+  ```csharp
+  Configure<AbpUnitOfWorkDefaultOptions>(options =>
+  {
+      options.TransactionBehavior = UnitOfWorkTransactionBehavior.Auto;
+  });
+  ```
+
+> Or you can delete this code since this is already the default behavior.
+
+{{ end }}
+
 ## Create the database
 
 ### Database connection string
