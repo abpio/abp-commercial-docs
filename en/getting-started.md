@@ -42,17 +42,33 @@ The following tools should be installed on your development machine:
 
 > ABP CLI is a free & open source tool for [the ABP framework](https://abp.io/). It is also used for ABP Commercial application development.
 
-First, you need to install the ABP CLI using the following command:
+{{if UI == "Blazor"}}
+
+BLAZOR UI IS ONLY AVAILABLE WITH THE PREVIEW VERSION. SO, YOU NEED TO INSTALL THE PREVIEW VERSION OF THE ABP CLI
+
+First, you need to install the ABP CLI **RC.2** using the following command:
 
 ````shell
-dotnet tool install -g Volo.Abp.Cli
+dotnet tool install Volo.Abp.Cli -g --version 3.2.0-rc.2
 ````
 
 If you've already installed, you can update it using the following command:
 
 ````shell
+dotnet tool update Volo.Abp.Cli -g --version 3.2.0-rc.2
+````
+{{else}}
+
+First, you need to install the ABP CLI using the following command:
+
+````shell
+dotnet tool install -g Volo.Abp.Cli
+````
+If you've already installed, you can update it using the following command:
+````shell
 dotnet tool update -g Volo.Abp.Cli
 ````
+{{end}}
 
 #### Login to your account
 
@@ -113,8 +129,12 @@ Select the UI framework, Database provider and other option based on your requir
 Use the `new` command of the ABP CLI to create a new project:
 
 ````shell
-abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular {{end}}{{if DB == "Mongo"}} -d mongodb{{end}}{{if Tiered == "Yes" && UI != "NG"}} --tiered {{else if Tiered == "Yes" && UI == "NG"}}--separate-identity-server{{end}}
+abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Blazor"}} -u blazor --preview {{end}}{{if DB == "Mongo"}} -d mongodb{{end}}{{if Tiered == "Yes" && UI != "NG"}} --tiered {{else if Tiered == "Yes" && UI == "NG"}}--separate-identity-server{{end}}
 ````
+
+{{if UI == "Blazor"}}
+> BLAZOR UI IS ONLY AVAILABLE WITH THE PREVIEW VERSION. THIS IS WHY IT IS REQUIRED TO SET THE `--PREVIEW` OPTION.
+> {{end}}
 
 * `-t` argument specifies the [startup template](startup-templates/application/index.md) name. `app-pro` is the startup template that contains the essential [ABP Commercial Modules](https://commercial.abp.io/modules) pre-installed and configured for you.
 
@@ -124,7 +144,11 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular {{end}}{{if DB == 
 
 {{ if Tiered == "Yes" }}
 
+{{ if UI == "MVC" }}
+* `--tiered` argument is used to create N-tiered solution where authentication server, UI and API layers are physically separated.
+{{ else }}
 * `--separate-identity-server` argument is used to separate the identity server application from the API host application. If not specified, you will have a single endpoint on the server.
+{{ end }}
 
 {{ end }}
 
@@ -150,56 +174,7 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular {{end}}{{if DB == 
 
 ## The solution structure
 
-{{ if UI == "MVC" }}
-
-After creating your project, you will have the following solution folders & files:
-
-![](images/solution-files-mvc.png)
-
-You will see the following solution structure when you open the `.sln` file in the Visual Studio:
-
-{{if DB == "Mongo"}}
-
-![vs-default-app-solution-structure](images/vs-app-solution-structure-mongodb-mvc.png)
-
-{{else}}
-
-![vs-default-app-solution-structure](images/vs-{{if Tiered != "Yes"}}default-{{end}}app-solution-structure{{if Tiered == "Yes"}}-tiered{{end}}.png)
-
-{{end}}
-
-{{ else if UI == "NG" }}
-There are three folders in the created solution:
-
-![](images/solution-files-non-mvc.png)
-
-* `angular` folder contains the Angular UI application.
-* `aspnet-core` folder contains the backend solution.
-* `react-native` folder contains the React Native UI application.
-
-Open the `.sln` (Visual Studio solution) file under the `aspnet-core` folder:
-
-![vs-angular-app-backend-solution-structure](images/vs-spa-app-backend-structure{{if DB == "Mongo"}}-mongodb{{end}}.png)
-
-{{ end }}
-
-> ###### About the projects in your solution
->
-> Your solution may have slightly different structure based on your **UI**, **database** and other preferences.
-
-The solution has a layered structure (based on [Domain Driven Design](https://docs.abp.io/en/abp/latest/Domain-Driven-Design)) and also contains unit & integration test projects.
-
-{{ if DB == "EF" }}
-
-Integration tests projects are properly configured to work with **EF Core** & **SQLite in-memory** database.
-
-{{ else if DB == "Mongo" }}
-
-Integration tests projects are properly configured to work with in-memory **MongoDB** database created per test (used [Mongo2Go](https://github.com/Mongo2Go/Mongo2Go) library).
-
-{{ end }}
-
-> See the [solution structure document](startup-templates/application/solution-structure.md) to understand the solution structure in details. 
+The solution has a layered structure (based on the [Domain Driven Design](Domain-Driven-Design.md)) and contains unit & integration test projects. See the [solution structure document](startup-templates/application/solution-structure.md) to understand the solution structure in details. 
 
 {{ if DB == "Mongo" }}
 
