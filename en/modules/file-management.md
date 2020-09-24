@@ -58,6 +58,14 @@ File Management module's MVC user interface depends on following npm packages. a
 
 > After adding packages, you need to run `yarn` and `gulp` cli actions for your `Web` project.
 
+#### Angular UI
+
+For user interface, we also provide an Angular module. 
+
+You can install it to your project by running `yarn add @volo/abp.ng.file-management` or `npm install @volo/abp.ng.file-management`
+
+For detailed information about how to set it up and running with your angular project, you can visit [Feature Libraries](https://docs.abp.io/en/abp/latest/UI/Angular/Feature-Libraries) 
+
 ## Setting BLOB Provider
 
 File Management module is based on the [BLOB Storing](https://docs.abp.io/en/abp/latest/Blob-Storing) system as defined before, and it uses `FileManagementContainer` as a BLOB container.
