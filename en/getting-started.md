@@ -3,7 +3,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC","NG"],
+    "UI": ["MVC", "Blazor", "NG"],
     "DB": ["EF", "Mongo"],
     "Tiered": ["Yes", "No"]
 }
@@ -11,7 +11,9 @@
 
 > This tutorial assumes that you've already purchased an [ABP Commercial license](https://commercial.abp.io/pricing) and have an active ABP Commercial account.
 
-This tutorial explains how to create a new {{if UI == "MVC"}} ASP.NET Core MVC (Razor Pages) web {{else if UI == "NG"}} Angular {{end}} application using the startup template.
+This tutorial explains how to create a new web application using the startup template.
+
+> This document assumes that you prefer to use **{{ UI_Value }}** as the UI framework and **{{ DB_Value }}** as the database provider. For other options, please change the preference on top of this document.
 
 ## Setup your development environment
 
@@ -21,7 +23,7 @@ First things first! Let's setup your development environment before creating the
 
 The following tools should be installed on your development machine:
 
-* [Visual Studio 2019 (v16.4+)](https://visualstudio.microsoft.com/vs/) for Windows / [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/). *
+* [Visual Studio 2019](https://visualstudio.microsoft.com/vs/) for Windows / [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/). *
 * [.NET Core 3.0+](https://www.microsoft.com/net/download/dotnet-core/)
 
 * [Node v12+](https://nodejs.org)
@@ -36,7 +38,7 @@ The following tools should be installed on your development machine:
 
 ### Install the ABP CLI
 
-[ABP CLI](https://docs.abp.io/en/abp/latest/CLI) is a command line interface that is used to automate some common tasks for ABP based applications.
+[ABP CLI](https://docs.abp.io/en/abp/latest/CLI) is a command line interface that is used to automate some common tasks for ABP based solutions.
 
 > ABP CLI is a free & open source tool for [the ABP framework](https://abp.io/). It is also used for ABP Commercial application development.
 
