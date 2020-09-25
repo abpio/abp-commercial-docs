@@ -85,6 +85,26 @@ It will ask a password, so you must enter the password of your account.
 
 [ABP Suite](abp-suite/index.md) is an application aims to assist you on your development.
 
+{{if UI == "Blazor"}}
+
+BLAZOR UI IS ONLY AVAILABLE WITH THE PREVIEW VERSION. SO, YOU NEED TO INSTALL THE PREVIEW VERSION OF THE ABP SUITE
+
+First, you need to uninstall the ABP Suite if it is already installed:
+
+````shell
+dotnet tool uninstall --global Volo.Abp.Suite
+````
+
+Then, install the preview version using the command below;
+
+````shell
+dotnet tool install -g Volo.Abp.Suite --version 3.2.0-rc.2 --add-source https://nuget.abp.io/{{API_Key}}/v3/index.json
+````
+
+You can find your API Key in https://commercial.abp.io/my-organizations under your organization detial page.
+
+{{else}}
+
 First, you need to install the ABP Suite:
 
 ````shell
@@ -96,6 +116,7 @@ If you've already installed, you can update it:
 ````shell
 abp suite update
 ````
+{{end}}
 
 ## Create a new project
 
@@ -175,7 +196,7 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Bl
 
 ## The solution structure
 
-The solution has a layered structure (based on the [Domain Driven Design](Domain-Driven-Design.md)) and contains unit & integration test projects. See the [solution structure document](startup-templates/application/solution-structure.md) to understand the solution structure in details. 
+The solution has a layered structure (based on the [Domain Driven Design](https://docs.abp.io/en/abp/Domain-Driven-Design)) and contains unit & integration test projects. See the [solution structure document](startup-templates/application/solution-structure.md) to understand the solution structure in details. 
 
 {{ if DB == "Mongo" }}
 
@@ -362,7 +383,7 @@ Ensure that the `.Blazor` project is the startup project and run the application
 
 Once the application starts, click to the **Login** link on to header, which redirects you to the authentication server to enter a username and password:
 
-![bookstore-login](images/bookstore-login.png)
+![bookstore-login](images/bookstore-login-2.png)
 
 {{ else if UI == "NG" }}
 
@@ -390,7 +411,11 @@ It may take a longer time for the first build. Once it finishes, it opens the An
 
 Enter **admin** as the username and **1q2w3E*** as the password to login to the application. 
 
+{{ if UI == "Blazor" }}
+![bookstore-home](images/bookstore-blazor-home.png)
+{{else}}
 ![bookstore-home](images/bookstore-home-2.png)
+{{end}}
 
 The application is up and running. You can start developing your application based on this startup template.
 
