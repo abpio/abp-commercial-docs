@@ -6,23 +6,6 @@
     "DB": ["EF","Mongo"]
 }
 ````
-{{
-if UI == "MVC"
-  UI_Text="mvc"
-else if UI == "NG"
-  UI_Text="angular"
-else
-  UI_Text="?"
-end
-if DB == "EF"
-  DB_Text="Entity Framework Core"
-else if DB == "Mongo"
-  DB_Text="MongoDB"
-else
-  DB_Text="?"
-end
-}}
-
 ## About this tutorial
 
 In this tutorial series, you will build an ABP Commercial application named `Acme.BookStore`. This application is used to manage a list of books and their authors. It is developed using the following technologies:
@@ -42,7 +25,7 @@ This tutorial is organized as the following parts;
 
 ### Download the Source Code
 
-This tutorials has multiple versions based on your **UI** and **Database** preferences. We've prepared a few combinations of the source code to be downloaded:
+This tutorial has multiple versions based on your **UI** and **Database** preferences. We've prepared a few combinations of the source code to be downloaded:
 
 * [MVC (Razor Pages) UI with EF Core](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Mvc-EfCore)
 * [Blazor UI with EF Core](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Blazor-EfCore)
@@ -86,7 +69,7 @@ namespace Acme.BookStore.Books
 * `Book` entity inherits from the `AuditedAggregateRoot` which adds some base [auditing](https://docs.abp.io/en/abp/latest/Audit-Logging) properties (like `CreationTime`, `CreatorId`, `LastModificationTime`...) on top of the `AggregateRoot` class. ABP automatically manages these properties for you.
 * `Guid` is the **primary key type** of the `Book` entity.
 
-> This tutorials leaves the entity properties with **public get/set** for the sake of simplicity. See the [entities document](https://docs.abp.io/en/abp/latest/Entities) if you learn more about DDD best practices.
+> This tutorial leaves the entity properties with **public get/set** for the sake of simplicity. See the [entities document](https://docs.abp.io/en/abp/latest/Entities) if you learn more about DDD best practices.
 
 ### BookType Enum
 

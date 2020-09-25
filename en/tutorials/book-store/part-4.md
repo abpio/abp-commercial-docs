@@ -10,7 +10,7 @@
 
 In this tutorial series, you will build an ABP based web application named `Acme.BookStore`. This application is used to manage a list of books and their authors. It is developed using the following technologies:
 
-* **{{DB_Value}}** as the ORM provider. 
+* **{{DB_Value}}** as the database provider. 
 * **{{UI_Value}}** as the UI Framework.
 
 This tutorial is organized as the following parts;
@@ -23,7 +23,7 @@ This tutorial is organized as the following parts;
 
 ### Download the Source Code
 
-This tutorials has multiple versions based on your **UI** and **Database** preferences. We've prepared a few combinations of the source code to be downloaded:
+This tutorial has multiple versions based on your **UI** and **Database** preferences. We've prepared a few combinations of the source code to be downloaded:
 
 * [MVC (Razor Pages) UI with EF Core](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Mvc-EfCore)
 * [Blazor UI with EF Core](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Blazor-EfCore)
