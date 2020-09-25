@@ -25,7 +25,6 @@ The following tools should be installed on your development machine:
 
 * [Visual Studio 2019](https://visualstudio.microsoft.com/vs/) for Windows / [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/). *
 * [.NET Core 3.0+](https://www.microsoft.com/net/download/dotnet-core/)
-
 * [Node v12+](https://nodejs.org)
 * [Yarn v1.19+](https://yarnpkg.com/)
 {{ if Tiered == "Yes" }}
@@ -134,7 +133,9 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Bl
 
 {{if UI == "Blazor"}}
 > BLAZOR UI IS ONLY AVAILABLE WITH THE PREVIEW VERSION. THIS IS WHY IT IS REQUIRED TO SET THE `--PREVIEW` OPTION.
-> {{end}}
+>
+
+{{end}}
 
 * `-t` argument specifies the [startup template](startup-templates/application/index.md) name. `app-pro` is the startup template that contains the essential [ABP Commercial Modules](https://commercial.abp.io/modules) pre-installed and configured for you.
 
@@ -331,8 +332,6 @@ Ensure that the `.IdentityServer` project is the startup project. Run the applic
 
 You can login, but you cannot enter to the main application here. This is just the authentication server.
 
-{{ end }}
-
 Ensure that the `.HttpApi.Host` project is the startup project and run the application which will open a Swagger UI:
 
 {{ else # Tiered == "No" }}
@@ -353,9 +352,6 @@ You can see the application APIs and test them here. Get [more info](https://swa
 
 {{ end # UI }}
 
-{{ if UI == "NG" }}
-#### Running the Angular application (client-side)
-
 {{ if UI == "Blazor" }}
 
 ### Running the Blazor Application (Client Side)
@@ -363,7 +359,8 @@ You can see the application APIs and test them here. Get [more info](https://swa
 Ensure that the `.Blazor` project is the startup project and run the application.
 
 > Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
-> Once the application starts, click to the **Login** link on to header, which redirects you to the authentication server to enter a username and password:
+
+Once the application starts, click to the **Login** link on to header, which redirects you to the authentication server to enter a username and password:
 
 ![bookstore-login](images/bookstore-login.png)
 
