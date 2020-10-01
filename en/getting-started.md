@@ -41,23 +41,6 @@ The following tools should be installed on your development machine:
 
 > ABP CLI is a free & open source tool for [the ABP framework](https://abp.io/). It is also used for ABP Commercial application development.
 
-{{if UI == "Blazor"}}
-
-BLAZOR UI IS ONLY AVAILABLE WITH THE PREVIEW VERSION. SO, YOU NEED TO INSTALL THE PREVIEW VERSION OF THE ABP CLI
-
-First, you need to install the ABP CLI **RC.2** using the following command:
-
-````shell
-dotnet tool install Volo.Abp.Cli -g --version 3.2.0-rc.2
-````
-
-If you've already installed, you can update it using the following command:
-
-````shell
-dotnet tool update Volo.Abp.Cli -g --version 3.2.0-rc.2
-````
-{{else}}
-
 First, you need to install the ABP CLI using the following command:
 
 ````shell
@@ -67,8 +50,6 @@ If you've already installed, you can update it using the following command:
 ````shell
 dotnet tool update -g Volo.Abp.Cli
 ````
-{{end}}
-
 #### Login to your account
 
 In order to use ABP Commercial features, you need to login your account using the ABP CLI:
@@ -85,26 +66,6 @@ It will ask a password, so you must enter the password of your account.
 
 [ABP Suite](abp-suite/index.md) is an application aims to assist you on your development.
 
-{{if UI == "Blazor"}}
-
-BLAZOR UI IS ONLY AVAILABLE WITH THE PREVIEW VERSION. SO, YOU NEED TO INSTALL THE PREVIEW VERSION OF THE ABP SUITE
-
-First, you need to uninstall the ABP Suite if it is already installed:
-
-````shell
-dotnet tool uninstall --global Volo.Abp.Suite
-````
-
-Then, install the preview version using the command below;
-
-````shell
-dotnet tool install -g Volo.Abp.Suite --version 3.2.0-rc.2 --add-source https://nuget.abp.io/{{API_Key}}/v3/index.json
-````
-
-You can find your API Key in https://commercial.abp.io/my-organizations under your organization detial page.
-
-{{else}}
-
 First, you need to install the ABP Suite:
 
 ````shell
@@ -116,8 +77,6 @@ If you've already installed, you can update it:
 ````shell
 abp suite update
 ````
-{{end}}
-
 ## Create a new project
 
 > This document assumes that you prefer to use **{{ UI_Value }}** as the UI framework and **{{ DB_Value }}** as the database provider. For other options, please change the preference on top of this document.
@@ -149,14 +108,8 @@ Select the UI framework, Database provider and other option based on your requir
 Use the `new` command of the ABP CLI to create a new project:
 
 ````shell
-abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Blazor"}} -u blazor --preview {{end}}{{if DB == "Mongo"}} -d mongodb{{end}}{{if Tiered == "Yes" && UI != "NG"}} --tiered {{else if Tiered == "Yes" && UI == "NG"}}--separate-identity-server{{end}}
+abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Blazor"}} -u blazor{{end}}{{if DB == "Mongo"}} -d mongodb{{end}}{{if Tiered == "Yes" && UI != "NG"}} --tiered {{else if Tiered == "Yes" && UI == "NG"}}--separate-identity-server{{end}}
 ````
-
-{{if UI == "Blazor"}}
-> BLAZOR UI IS ONLY AVAILABLE WITH THE PREVIEW VERSION. THIS IS WHY IT IS REQUIRED TO SET THE `--PREVIEW` OPTION.
->
-
-{{end}}
 
 * `-t` argument specifies the [startup template](startup-templates/application/index.md) name. `app-pro` is the startup template that contains the essential [ABP Commercial Modules](https://commercial.abp.io/modules) pre-installed and configured for you.
 
