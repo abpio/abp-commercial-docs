@@ -3,7 +3,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC","NG"],
+    "UI": ["MVC", "Blazor", "NG"],
     "DB": ["EF", "Mongo"],
     "Tiered": ["Yes", "No"]
 }
@@ -11,7 +11,9 @@
 
 > This tutorial assumes that you've already purchased an [ABP Commercial license](https://commercial.abp.io/pricing) and have an active ABP Commercial account.
 
-This tutorial explains how to create a new {{if UI == "MVC"}} ASP.NET Core MVC (Razor Pages) web {{else if UI == "NG"}} Angular {{end}} application using the startup template.
+This tutorial explains how to create a new web application using the startup template.
+
+> This document assumes that you prefer to use **{{ UI_Value }}** as the UI framework and **{{ DB_Value }}** as the database provider. For other options, please change the preference on top of this document.
 
 ## Setup your development environment
 
@@ -21,9 +23,8 @@ First things first! Let's setup your development environment before creating the
 
 The following tools should be installed on your development machine:
 
-* [Visual Studio 2019 (v16.4+)](https://visualstudio.microsoft.com/vs/) for Windows / [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/). *
+* [Visual Studio 2019](https://visualstudio.microsoft.com/vs/) for Windows / [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/). *
 * [.NET Core 3.0+](https://www.microsoft.com/net/download/dotnet-core/)
-
 * [Node v12+](https://nodejs.org)
 * [Yarn v1.19+](https://yarnpkg.com/)
 {{ if Tiered == "Yes" }}
@@ -36,21 +37,37 @@ The following tools should be installed on your development machine:
 
 ### Install the ABP CLI
 
-[ABP CLI](https://docs.abp.io/en/abp/latest/CLI) is a command line interface that is used to automate some common tasks for ABP based applications.
+[ABP CLI](https://docs.abp.io/en/abp/latest/CLI) is a command line interface that is used to automate some common tasks for ABP based solutions.
 
 > ABP CLI is a free & open source tool for [the ABP framework](https://abp.io/). It is also used for ABP Commercial application development.
+
+{{if UI == "Blazor"}}
+
+BLAZOR UI IS ONLY AVAILABLE WITH THE PREVIEW VERSION. SO, YOU NEED TO INSTALL THE PREVIEW VERSION OF THE ABP CLI
+
+First, you need to install the ABP CLI **RC.2** using the following command:
+
+````shell
+dotnet tool install Volo.Abp.Cli -g --version 3.2.0-rc.2
+````
+
+If you've already installed, you can update it using the following command:
+
+````shell
+dotnet tool update Volo.Abp.Cli -g --version 3.2.0-rc.2
+````
+{{else}}
 
 First, you need to install the ABP CLI using the following command:
 
 ````shell
 dotnet tool install -g Volo.Abp.Cli
 ````
-
 If you've already installed, you can update it using the following command:
-
 ````shell
 dotnet tool update -g Volo.Abp.Cli
 ````
+{{end}}
 
 #### Login to your account
 
@@ -68,6 +85,26 @@ It will ask a password, so you must enter the password of your account.
 
 [ABP Suite](abp-suite/index.md) is an application aims to assist you on your development.
 
+{{if UI == "Blazor"}}
+
+BLAZOR UI IS ONLY AVAILABLE WITH THE PREVIEW VERSION. SO, YOU NEED TO INSTALL THE PREVIEW VERSION OF THE ABP SUITE
+
+First, you need to uninstall the ABP Suite if it is already installed:
+
+````shell
+dotnet tool uninstall --global Volo.Abp.Suite
+````
+
+Then, install the preview version using the command below;
+
+````shell
+dotnet tool install -g Volo.Abp.Suite --version 3.2.0-rc.2 --add-source https://nuget.abp.io/{{API_Key}}/v3/index.json
+````
+
+You can find your API Key in https://commercial.abp.io/my-organizations under your organization detial page.
+
+{{else}}
+
 First, you need to install the ABP Suite:
 
 ````shell
@@ -79,6 +116,7 @@ If you've already installed, you can update it:
 ````shell
 abp suite update
 ````
+{{end}}
 
 ## Create a new project
 
@@ -111,8 +149,14 @@ Select the UI framework, Database provider and other option based on your requir
 Use the `new` command of the ABP CLI to create a new project:
 
 ````shell
-abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular {{end}}{{if DB == "Mongo"}} -d mongodb{{end}}{{if Tiered == "Yes" && UI != "NG"}} --tiered {{else if Tiered == "Yes" && UI == "NG"}}--separate-identity-server{{end}}
+abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Blazor"}} -u blazor --preview {{end}}{{if DB == "Mongo"}} -d mongodb{{end}}{{if Tiered == "Yes" && UI != "NG"}} --tiered {{else if Tiered == "Yes" && UI == "NG"}}--separate-identity-server{{end}}
 ````
+
+{{if UI == "Blazor"}}
+> BLAZOR UI IS ONLY AVAILABLE WITH THE PREVIEW VERSION. THIS IS WHY IT IS REQUIRED TO SET THE `--PREVIEW` OPTION.
+>
+
+{{end}}
 
 * `-t` argument specifies the [startup template](startup-templates/application/index.md) name. `app-pro` is the startup template that contains the essential [ABP Commercial Modules](https://commercial.abp.io/modules) pre-installed and configured for you.
 
@@ -122,7 +166,11 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular {{end}}{{if DB == 
 
 {{ if Tiered == "Yes" }}
 
+{{ if UI == "MVC" }}
+* `--tiered` argument is used to create N-tiered solution where authentication server, UI and API layers are physically separated.
+{{ else }}
 * `--separate-identity-server` argument is used to separate the identity server application from the API host application. If not specified, you will have a single endpoint on the server.
+{{ end }}
 
 {{ end }}
 
@@ -148,56 +196,7 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular {{end}}{{if DB == 
 
 ## The solution structure
 
-{{ if UI == "MVC" }}
-
-After creating your project, you will have the following solution folders & files:
-
-![](images/solution-files-mvc.png)
-
-You will see the following solution structure when you open the `.sln` file in the Visual Studio:
-
-{{if DB == "Mongo"}}
-
-![vs-default-app-solution-structure](images/vs-app-solution-structure-mongodb-mvc.png)
-
-{{else}}
-
-![vs-default-app-solution-structure](images/vs-{{if Tiered != "Yes"}}default-{{end}}app-solution-structure{{if Tiered == "Yes"}}-tiered{{end}}.png)
-
-{{end}}
-
-{{ else if UI == "NG" }}
-There are three folders in the created solution:
-
-![](images/solution-files-non-mvc.png)
-
-* `angular` folder contains the Angular UI application.
-* `aspnet-core` folder contains the backend solution.
-* `react-native` folder contains the React Native UI application.
-
-Open the `.sln` (Visual Studio solution) file under the `aspnet-core` folder:
-
-![vs-angular-app-backend-solution-structure](images/vs-spa-app-backend-structure{{if DB == "Mongo"}}-mongodb{{end}}.png)
-
-{{ end }}
-
-> ###### About the projects in your solution
->
-> Your solution may have slightly different structure based on your **UI**, **database** and other preferences.
-
-The solution has a layered structure (based on [Domain Driven Design](https://docs.abp.io/en/abp/latest/Domain-Driven-Design)) and also contains unit & integration test projects.
-
-{{ if DB == "EF" }}
-
-Integration tests projects are properly configured to work with **EF Core** & **SQLite in-memory** database.
-
-{{ else if DB == "Mongo" }}
-
-Integration tests projects are properly configured to work with in-memory **MongoDB** database created per test (used [Mongo2Go](https://github.com/Mongo2Go/Mongo2Go) library).
-
-{{ end }}
-
-> See the [solution structure document](startup-templates/application/solution-structure.md) to understand the solution structure in details. 
+The solution has a layered structure (based on the [Domain Driven Design](https://docs.abp.io/en/abp/Domain-Driven-Design)) and contains unit & integration test projects. See the [solution structure document](startup-templates/application/solution-structure.md) to understand the solution structure in details. 
 
 {{ if DB == "Mongo" }}
 
@@ -220,7 +219,7 @@ The [startup template](Startup-templates/Index.md) **disables** transactions in 
 
 ### Database connection string
 
-Check the **connection string** in the `appsettings.json` file under the {{if UI == "MVC"}}{{if Tiered == "Yes"}}`.IdentityServer` and `.HttpApi.Host` projects{{else}}`.Web` project{{end}}{{else if UI == "NG" }}`.HttpApi.Host` project{{end}}:
+Check the **connection string** in the `appsettings.json` file under the {{if Tiered == "Yes"}}`.IdentityServer` and `.HttpApi.Host` projects{{else}}{{if UI=="MVC"}}`.Web` project{{else}}`.HttpApi.Host` project{{end}}{{end}}
 
 {{ if DB == "EF" }}
 
@@ -230,7 +229,7 @@ Check the **connection string** in the `appsettings.json` file under the {{if UI
 }
 ````
 
-The solution is configured to use **Entity Framework Core** with **MS SQL Server**. EF Core supports [various](https://docs.microsoft.com/en-us/ef/core/providers/) database providers, so you can use any supported DBMS. See [the Entity Framework integration document](https://docs.abp.io/en/abp/latest/Entity-Framework-Core) to learn how to [switch to another DBMS](https://docs.abp.io/en/abp/latest/Entity-Framework-Core-Other-DBMS).
+The solution is configured to use **Entity Framework Core** with **MS SQL Server** by default. EF Core supports [various](https://docs.microsoft.com/en-us/ef/core/providers/) database providers, so you can use any supported DBMS. See [the Entity Framework integration document](https://docs.abp.io/en/abp/latest/Entity-Framework-Core) to learn how to [switch to another DBMS](https://docs.abp.io/en/abp/latest/Entity-Framework-Core-Other-DBMS).
 
 ### Apply the migrations
 
@@ -238,7 +237,7 @@ The solution uses the [Entity Framework Core Code First Migrations](https://docs
 
 #### Apply migrations using the DbMigrator
 
-The solution comes with a `.DbMigrator` console application which applies migrations and also seed the initial data. It is useful on development as well as on production environment.
+The solution comes with a `.DbMigrator` console application which applies migrations and also **seeds the initial data**. It is useful on **development** as well as on **production** environment.
 
 > `.DbMigrator` project has its own `appsettings.json`. So, if you have changed the connection string above, you should also change this one. 
 
@@ -250,7 +249,7 @@ Right click to the `.DbMigrator` project and select **Set as StartUp Project**
 
  ![db-migrator-output](images/db-migrator-output.png)
 
-> Initial [seed data](https://docs.abp.io/en/abp/latest/Data-Seeding) creates the `admin` user in the database which is then used to login to the application. So, you need to use `.DbMigrator` at least once for a new database.
+> Initial [seed data](https://docs.abp.io/en/abp/latest/Data-Seeding) creates the `admin` user in the database (with the password is `1q2w3E*`) which is then used to login to the application. So, you need to use `.DbMigrator` at least once for a new database.
 
 #### Using EF Core Update-Database command
 
@@ -290,7 +289,7 @@ The solution is configured to use **MongoDB** in your local computer, so you nee
 
 ### Seed initial data
 
-The solution comes with a `.DbMigrator` console application which seeds the initial data. It is useful on development as well as on production environment.
+The solution comes with a `.DbMigrator` console application which **seeds the initial data**. It is useful on **development** as well as on **production** environment.
 
 > `.DbMigrator` project has its own `appsettings.json`. So, if you have changed the connection string above, you should also change this one. 
 
@@ -302,7 +301,7 @@ Right click to the `.DbMigrator` project and select **Set as StartUp Project**
 
  ![db-migrator-output](images/db-migrator-output.png)
 
-> Initial [seed data](https://docs.abp.io/en/abp/latest/Data-Seeding) creates the `admin` user in the database which is then used to login to the application. So, you need to use `.DbMigrator` at least once for a new database.
+> Initial [seed data](https://docs.abp.io/en/abp/latest/Data-Seeding) creates the `admin` user in the database (with the password is `1q2w3E*`) which is then used to login to the application. So, you need to use `.DbMigrator` at least once for a new database.
 
 {{ end }}
 
@@ -312,27 +311,27 @@ Right click to the `.DbMigrator` project and select **Set as StartUp Project**
 
 {{ if Tiered == "Yes" }}
 
-Ensure that the `.IdentityServer` project is the startup project. Run the application which will open a **login** page in your browser.
+1. Ensure that the `.IdentityServer` project is the startup project. Run this application that will open a **login** page in your browser.
 
 > Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
 
-You can login, but you cannot enter to the main application here. This is just the authentication server.
+You can login, but you cannot enter to the main application here. This is **just the authentication server**.
 
-Ensure that the `.HttpApi.Host` project is the startup project and run the application which will open a **Swagger UI** in your browser.
+2. Ensure that the `.HttpApi.Host` project is the startup project and run the application which will open a **Swagger UI** in your browser.
 
 ![swagger-ui](images/swagger-ui.png)
 
-This is the API application that is used by the web application.
+This is the HTTP API that is used by the web application.
 
-Lastly, ensure that the `.Web` project is the startup project and run the application which will open a **welcome** page in your browser
+3. Lastly, ensure that the `.Web` project is the startup project and run the application which will open a **welcome** page in your browser
 
 ![mvc-tiered-app-home](images/mvc-tiered-app-home.png)
 
-Click to the **login** button which will redirect you to the `Identity Server` to login to the application:
+Click to the **login** button which will redirect you to the *authentication server* to login to the application:
 
 ![bookstore-login](images/bookstore-login-2.png)
 
-{{ else }}
+{{ else # Tiered != "Yes" }}
 
 Ensure that the `.Web` project is the startup project. Run the application which will open the **login** page in your browser:
 
@@ -340,11 +339,11 @@ Ensure that the `.Web` project is the startup project. Run the application which
 
 ![bookstore-login](images/bookstore-login-2.png)
 
-{{ end }}
+{{ end # Tiered }}
 
-{{ else if UI != "MVC" }}
+{{ else # UI != "MVC" }}
 
-#### Running the HTTP API Host (server-side)
+#### Running the HTTP API Host (Server Side)
 
 {{ if Tiered == "Yes" }}
 
@@ -354,15 +353,15 @@ Ensure that the `.IdentityServer` project is the startup project. Run the applic
 
 You can login, but you cannot enter to the main application here. This is just the authentication server.
 
-{{ end }}
+Ensure that the `.HttpApi.Host` project is the startup project and run the application which will open a Swagger UI:
+
+{{ else # Tiered == "No" }}
 
 Ensure that the `.HttpApi.Host` project is the startup project and run the application which will open a Swagger UI:
 
-{{ if Tiered == "No" }}
-
 > Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
 
-{{ end }}
+{{ end # Tiered }}
 
 ![swagger-ui](images/swagger-ui.png)
 
@@ -372,12 +371,25 @@ You can see the application APIs and test them here. Get [more info](https://swa
 >
 > Most of the HTTP APIs require authentication & authorization. If you want to test authorized APIs, manually go to the `/Account/Login` page, enter `admin` as the username and `1q2w3E*` as the password to login to the application. Then you will be able to execute authorized APIs too.
 
-{{ end }}
+{{ end # UI }}
 
-{{ if UI == "NG" }}
-#### Running the Angular application (client-side)
+{{ if UI == "Blazor" }}
 
-Go to the `angular` folder, open a command line terminal, type the `yarn` command (we suggest to the [yarn](https://yarnpkg.com/) package manager while `npm install` will also work in most cases)
+### Running the Blazor Application (Client Side)
+
+Ensure that the `.Blazor` project is the startup project and run the application.
+
+> Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
+
+Once the application starts, click to the **Login** link on to header, which redirects you to the authentication server to enter a username and password:
+
+![bookstore-login](images/bookstore-login-2.png)
+
+{{ else if UI == "NG" }}
+
+### Running the Angular Application (Client Side)
+
+Go to the `angular` folder, open a command line terminal, type the `yarn` command (we suggest to the [yarn](https://yarnpkg.com/) package manager while `npm install` will also work)
 
 ```bash
 yarn
@@ -389,9 +401,7 @@ Once all node modules are loaded, execute `yarn start` (or `npm start`) command:
 yarn start
 ```
 
-This will take care of compiling your `TypeScript` code, and automatically reloading your browser. 
-After it finishes, `Angular Live Development Server` will be listening on localhost:4200, 
-open your web browser and navigate to [localhost:4200](http://localhost:4200/)
+It may take a longer time for the first build. Once it finishes, it opens the Angular UI in your default browser with the [localhost:4200](http://localhost:4200/) address.
 
 
 
@@ -401,7 +411,11 @@ open your web browser and navigate to [localhost:4200](http://localhost:4200/)
 
 Enter **admin** as the username and **1q2w3E*** as the password to login to the application. 
 
+{{ if UI == "Blazor" }}
+![bookstore-home](images/bookstore-blazor-home.png)
+{{else}}
 ![bookstore-home](images/bookstore-home-2.png)
+{{end}}
 
 The application is up and running. You can start developing your application based on this startup template.
 
@@ -413,7 +427,7 @@ If you don't plan to develop a mobile application with React Native, you can saf
 
 > You can specifying the `-m none` option to the ABP CLI to not create the `react-native` folder in the beginning.
 
-See the "[Getting Started with the React Native](getting-started-react-native.md)" document to learn how to configure and run the React Native application.
+See the [Getting Started with the React Native](getting-started-react-native.md) document to learn how to configure and run the React Native application.
 
 ## Next
 
