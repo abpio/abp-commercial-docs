@@ -58,7 +58,7 @@ File Management module's MVC user interface depends on following npm packages. a
 
 > After adding packages, you need to run `yarn` and `gulp` cli actions for your `Web` project.
 
-#### Angular UI
+#### Angular UI
 
 For user interface, an Angular module called `FileManagementModule` is included in the `@volo/abp.ng.file-management` library.
 
