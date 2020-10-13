@@ -25,10 +25,10 @@ abp suite update
 
 You can add `--preview` option to get latest preview version of ABP Suite:
 
-`````bash
+```bash
 abp suite update --preview
 abp suite install --preview
-````
+```
 
 ## What's next?
 

@@ -233,4 +233,4 @@ When you click **Save and generate** button it'll create all the related objects
 
 ## What's next?
 
-[Updating packages](updating-packages.md)
+[Accessing source code of modules](source-code.md)

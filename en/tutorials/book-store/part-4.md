@@ -2,32 +2,15 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC","NG"],
+    "UI": ["MVC","Blazor","NG"],
     "DB": ["EF","Mongo"]
 }
 ````
-{{
-if UI == "MVC"
-  UI_Text="mvc"
-else if UI == "NG"
-  UI_Text="angular"
-else
-  UI_Text="?"
-end
-if DB == "EF"
-  DB_Text="Entity Framework Core"
-else if DB == "Mongo"
-  DB_Text="MongoDB"
-else
-  DB_Text="?"
-end
-}}
-
 ## About This Tutorial
 
 In this tutorial series, you will build an ABP based web application named `Acme.BookStore`. This application is used to manage a list of books and their authors. It is developed using the following technologies:
 
-* **{{DB_Text}}** as the ORM provider. 
+* **{{DB_Value}}** as the database provider. 
 * **{{UI_Value}}** as the UI Framework.
 
 This tutorial is organized as the following parts;
@@ -37,19 +20,27 @@ This tutorial is organized as the following parts;
 - [Part 3: Creating, updating and deleting books](part-3.md)
 - **Part 4: Integration tests (this part)**
 - [Part 5: Authorization](part-5.md)
+- [Part 6: Authors: Domain layer](part-6.md)
+- [Part 7: Authors: Database Integration](part-7.md)
+- [Part 8: Authors: Application Layer](part-8.md)
+- [Part 9: Authors: User Interface](part-9.md)
+- [Part 10: Book to Author Relation](part-10.md)
 
 ### Download the Source Code
 
-This tutorials has multiple versions based on your **UI** and **Database** preferences. We've prepared two combinations of the source code to be downloaded:
+This tutorial has multiple versions based on your **UI** and **Database** preferences. We've prepared a few combinations of the source code to be downloaded:
 
 * [MVC (Razor Pages) UI with EF Core](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Mvc-EfCore)
+* [Blazor UI with EF Core](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-blazor-efcore)
 * [Angular UI with MongoDB](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Angular-MongoDb)
 
 ## Test Projects in the Solution
 
 This part covers the **server side** tests. There are several test projects in the solution:
 
-![bookstore-test-projects-v2](./images/bookstore-test-projects-{{UI_Text}}.png)
+![bookstore-test-projects-v2](./images/bookstore-test-projects-mvc.png)
+
+> Test projects slightly differs based on your UI and Database selection. For example, if you select MongoDB, then the `Acme.BookStore.EntityFrameworkCore.Tests` will be `Acme.BookStore.MongoDB.Tests`.
 
 Each project is used to test the related project. Test projects use the following libraries for testing:
 
@@ -59,11 +50,11 @@ Each project is used to test the related project. Test projects use the followin
 
 {{if DB=="EF"}}
 
-> The test projects are configured to use **SQLite in-memory** as the database. A separate database instance is created and seeded (with the data seed system) to prepare a fresh database for every test.
+> The test projects are configured to use **SQLite in-memory** as the database. A separate database instance is created and seeded (with the [data seed system](https://docs.abp.io/en/abp/latest/Data-Seeding)) to prepare a fresh database for every test.
 
 {{else if DB=="Mongo"}}
 
-> **[Mongo2Go](https://github.com/Mongo2Go/Mongo2Go)** library is used to mock the MongoDB database. A separate database instance is created and seeded (with the data seed system) to prepare a fresh database for every test.
+> **[Mongo2Go](https://github.com/Mongo2Go/Mongo2Go)** library is used to mock the MongoDB database. A separate database instance is created and seeded (with the [data seed system](https://docs.abp.io/en/abp/latest/Data-Seeding)) to prepare a fresh database for every test.
 
 {{end}}
 

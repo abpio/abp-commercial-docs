@@ -51,6 +51,7 @@ dotnet tool update -g Volo.Abp.Cli
 The template provides multiple UI frameworks:
 
 * `mvc`: ASP.NET Core MVC UI with Razor Pages (default)
+* `blazor`: Blazor UI
 * `angular`: Angular UI
 
 Use `-u` or `--ui` option to specify the UI framework:
