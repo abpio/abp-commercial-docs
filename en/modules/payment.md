@@ -2,7 +2,7 @@
 
 This module implements payment gateway integration of an application;
 
-* Supports PayU and 2Checkout payment gateways.
+* Supports PayU, 2Checkout, Stripe and Paypal payment gateways.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Identity.Pro) for an overview of the module features.
 
@@ -126,12 +126,32 @@ Configure<PaymentOptions>(options =>
 
 ### TwoCheckoutOptions
 
+```TwoCheckoutOptions``` is used to configure TwoCheckout payment gateway options.
+
 * Signature: Signature of Merchant's 2Checkout account.
 * CheckoutUrl: 2Checkout checkout URL (it must be set to https://secure.2checkout.com/order/checkout.php).
 * ```LanguageCode```: Language of the order. This will be used for notification email that are sent to the client, if available.
 * ```CurrencyCode```: Currency code of order (USD, EUR, etc...).
 * ```Recommended```: Is payment gateway is recommended or not. This information is displayed on payment gateway selection page.
 * ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
+
+### StripeConsts
+
+```StripeConsts``` is used to configure Stripe payment gateway options.
+
+* ```PublishableKey``` Publishable Key for Stripe account.
+* ```SecretKey``` Secret Key for Stripe account.
+* ```PaymentMethodTypes```  A list of the types of payment methods (e.g., card) this Checkout session can accept. See https://stripe.com/docs/payments/checkout/payment-methods.
+
+### PayPalOptions
+
+```PayPalOptions``` is used to configure PayPal payment gateway options.
+
+* ```ClientId``` Client Id for Paypal Account.
+* ```Secret``` Secret fro PayPal account.
+* ```CurrencyCode``` Currency code of order (USD, EUR, etc...).
+* ```Environment``` Payment environment. ("Sandbox" or "Live", default value is "Sandbox")
+* ```Locale``` PayPal-supported language and locale to localize PayPal checkout pages. See https://developer.paypal.com/docs/api/reference/locale-codes/.
 
 Instead of configuring options in your module class, you can configure it in your appsettings.json file like below;
 
@@ -155,6 +175,18 @@ Instead of configuring options in your module class, you can configure it in you
       "LanguageCode": "en",
       "CurrencyCode": "USD",
       "TestOrder": "1"
+    },
+    "PayPal": {
+      "ClientId": "CLIENT_ID",
+      "Secret": "SECRET",
+      "CurrencyCode": "USD",
+      "Environment": "Sandbox",
+      "Locale": "en_US"
+    },
+    "Stripe": {
+      "PublishableKey": "PUBLISHABLE_KEY",
+      "SecretKey": "SECRET_KEY",
+      "PaymentMethodTypes": ["alipay"]
     }
   }
 ```
