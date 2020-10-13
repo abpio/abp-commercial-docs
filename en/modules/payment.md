@@ -141,7 +141,7 @@ Configure<PaymentOptions>(options =>
 
 * ```PublishableKey``` Publishable Key for Stripe account.
 * ```SecretKey``` Secret Key for Stripe account.
-* ```PaymentMethodTypes```  A list of the types of payment methods (e.g., card) this Checkout session canaccept. See https://stripe.com/docs/payments/checkout/payment-methods.
+* ```PaymentMethodTypes```  A list of the types of payment methods (e.g., card) this Checkout session can accept. See https://stripe.com/docs/payments/checkout/payment-methods.
 
 ### PayPalOptions
 
