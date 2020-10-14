@@ -4,6 +4,11 @@ This module implements real time messaging between users for an application.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Chat) for an overview of the module features.
 
+To download the source-code of the Chat module, you can use ABP Suite or you can use the ABP CLI with the following command
+```
+abp get-source Volo.Chat
+```
+
 ## How to Install
 
 Chat module is not installed in [the startup templates](../Startup-Templates/Index). So, it needs to be installed manually. There are two ways of installing a module into your application.
