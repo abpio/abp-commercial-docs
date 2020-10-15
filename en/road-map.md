@@ -18,3 +18,6 @@ In addition, we will be working on the following items in the middle and long te
 * More code generation / developer assistance features for the [ABP Suite](https://commercial.abp.io/tools/suite).
 * New features to existing modules.
 
+## See Also
+
+* [Release Notes](release-notes.md)
