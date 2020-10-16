@@ -6,7 +6,7 @@ This document contains **brief release notes** for each release. Release notes o
 
 > This version is currently in preview and the final release will be available at October 27.
 
-See the detailed **[blog post / announcement](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2020-10-15%20v3_3_Preview/POST.md)** for the v3.3.0.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-3.3-RC-Has-Been-Published)** for the v3.3.0.
 
 * Completed fundamental features, modules and the theme integration for the **Blazor UI**.
 * Multi-Tenant **social/external logins** with options configurable on runtime.
