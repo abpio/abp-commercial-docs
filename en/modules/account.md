@@ -124,7 +124,7 @@ context.Services.AddAuthentication()
 If your `.IdentityServer` is separated from the `.Host` project, then the `.Host` project should also be configured.
 
 * Add the [Microsoft.AspNetCore.Authentication.Facebook](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.Facebook) package to your `.Host` project.
-* Add `WithDynamicOptions<FacebookOptions>()` configuration to the `ConfigureServices` method of your module (just copy the all code above and remove the `.AddFacebook(...)` part since it is only needed in the IdentityServer side).
+* Add `WithDynamicOptions<FacebookOptions>()` configuration into the `ConfigureServices` method of your module (just copy the all code above and remove the `.AddFacebook(...)` part since it is only needed in the IdentityServer side).
 
 ## Internals
 
