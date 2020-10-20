@@ -38,7 +38,7 @@ This tutorial has multiple versions based on your **UI** and **Database** prefer
 
 We have created `Book` and `Author` functionalities for the book store application. However, currently there is no relation between these entities.
 
-In this tutorial, we will establish a **1 to N** relation between the `Book` and the `Author`.
+In this tutorial, we will establish a **1 to N** relation between the `Author` and the `Book` entities.
 
 ## Add Relation to The Book Entity
 
@@ -1048,7 +1048,7 @@ It is very easy to show the *Author Name* in the book list. Open the `/Pages/Boo
 
 When you run the application, you can see the *Author* column on the table:
 
-![blazor-bookstore-book-list-with-authors](images/blazor-bookstore-book-list-with-authors.png)
+![blazor-bookstore-book-list-with-authors](images/blazor-bookstore-book-list-with-authors-2.png)
 
 ### Create Book Modal
 
@@ -1114,7 +1114,7 @@ This requires to add a new localization key to the `en.json` file:
 
 You can run the application to see the *Author Selection* while creating a new book:
 
-![book-create-modal-with-author](images/book-create-modal-with-author.png)
+![book-create-modal-with-author](images/book-create-modal-with-author-2.png)
 
 ### Edit Book Modal
 
