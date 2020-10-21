@@ -255,3 +255,41 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 ## Distributed Events
 
 This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
+
+## Sample
+
+In order to initiate a payment process, inject ```IPaymentRequestAppService```, create a payment request using it's ```CreateAsync``` method and redirect user to gateway selection page with the created payment request's Id. Here is a sample Razor Page code which starts a payment process on it's OnPost method.
+
+```c#
+public class IndexModel: PageModel
+    {
+        private readonly IPaymentRequestAppService _paymentRequestAppService;
+
+        public IndexModel(IPaymentRequestAppService paymentRequestAppService)
+        {
+            _paymentRequestAppService = paymentRequestAppService;
+        }
+
+        public virtual async Task<IActionResult> OnPost()
+        {
+            var paymentRequest = await _paymentRequestAppService.CreateAsync(new PaymentRequestCreateDto()
+            {
+                Products = new List<PaymentRequestProductCreateDto>()
+                {
+                    new PaymentRequestProductCreateDto
+                    {
+                        Code = "Product_01",
+                        Name = "LEGO Super Mario",
+                        Count = 2,
+                        UnitPrice = 60,
+                        TotalPrice = 200
+                    }
+                }
+            });
+
+            return LocalRedirectPreserveMethod("/Payment/GatewaySelection?paymentRequestId=" + paymentRequest.Id);
+        }
+    }
+```
+
+If the payment is successful, payment module will return to configured ```PaymentWebOptions.CallbackUrl```, the main application can take necessary actions for a successful payment (Activating a user account, triggering a shipment start process etc...).
