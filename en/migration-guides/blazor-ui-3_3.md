@@ -4,6 +4,7 @@
 
 All these changes should be done for the `.Blazor` project in your solution;
 
+* Update the`AddOidcAuthentication` options in your *YourProjectBlazorModule* class as described in the issue [#5913](https://github.com/abpframework/abp/issues/5913).
 * Add a `Components/Layout/MainFooterComponent.razor ` file with the following content:
 
 ````html
