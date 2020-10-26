@@ -231,6 +231,20 @@ When you click **Save and generate** button it'll create all the related objects
 
 ![Book list page](../images/suite-book-list.png)
 
+## Troubleshooting
+
+### What to Check If Angular UI Cannot Be Generated
+
+There are some adjustments you may need to make before generating CRUD pages for your legacy ABP app using the latest version of the suite. 
+ 
+- Check if your environment variables have `rootNamespace` defined as explained [here](https://docs.abp.io/en/abp/latest/UI/Angular/Service-Proxies#angular-project-configuration).
+
+- Check if your [workspace configuration](https://angular.io/guide/workspace-config) satisfies one of the following. Examples assume your solution namespace is `BookStore`, `Acme.BookStore`, or `Acme.Retail.BookStore`.
+  - Project key is in pascal case. E.g. `BookStore`.
+  - Project key is in camel case. E.g. `bookStore`.
+  - Project key is in kebab case. E.g. `book-store`.
+  - Project is defined as `defaultProject`.
+
 ## What's next?
 
 [Accessing source code of modules](source-code.md)
