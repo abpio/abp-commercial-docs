@@ -660,7 +660,7 @@ Open the `Books.razor` and replace the content as the following:
 </Card>
 ````
 
-> If you see some syntax errors, you can ignore them if your application property built and run. Visual Studio still has some bugs with Blazor.
+> If you see some syntax errors, you can ignore them as long as your application properly builds and runs. Visual Studio still has some bugs with Blazor.
 * Inherited from the `BlazoriseCrudPageBase<IBookAppService, BookDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateBookDto>` which implements all the CRUD details for us.
 * `Entities`, `TotalCount`, `PageSize`, `OnDataGridReadAsync` are defined in the base blass.
 * Injected `IStringLocalizer<BookStoreResource>` (as `L` object) and used for localization.
