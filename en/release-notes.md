@@ -4,7 +4,7 @@ This document contains **brief release notes** for each release. Release notes o
 
 ## 3.3.0 (2020-10-27)
 
-See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-ABP-Commercial-v3.3-RC-Have-Been-Released)** for the v3.3.0.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-ABP-Commercial-3.3-Final-Have-Been-Released)** for the v3.3.0.
 
 * Completed fundamental features, modules and the theme integration for the **Blazor UI**.
 * Multi-Tenant **social/external logins** with options configurable on runtime.
