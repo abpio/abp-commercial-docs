@@ -1,6 +1,6 @@
 # ABP Commercial Road Map
 
-We will work on the following major items in the middle term:
+We will work on the following major items in the short term:
 
 * **Blazor UI** for the framework and all the pre-built modules (**in progress**).
 * **.NET 5.0**! As Microsoft has announced that the .NET 5.0 will be released in November 2020, we will prepare for this change before and move to the .NET 5.0 just after Microsoft releases it. We hope a smooth transition.
