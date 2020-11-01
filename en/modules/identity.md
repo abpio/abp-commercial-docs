@@ -25,7 +25,7 @@ Identity is pre-installed in [the startup templates](../Startup-Templates/Index)
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-You can visit [Identity Server module package list page](https://abp.io/packages?moduleName=Volo.Identityserver.Ui) to see list of packages related with this module.
+You can visit [Identity module package list page](https://abp.io/packages?moduleName=Volo.Identity.Pro) to see list of packages related with this module.
 
 ## User interface
 
