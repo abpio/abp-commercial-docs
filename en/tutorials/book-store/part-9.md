@@ -1017,7 +1017,7 @@ namespace Acme.BookStore.Blazor.Pages
             NewAuthor = new CreateAuthorDto();
             EditingAuthor = new UpdateAuthorDto();
         }
-        protected override async Task OnInitializedAsync()
+        protected async override Task OnInitializedAsync()
         {
             await SetPermissionsAsync();
             await GetAuthorsAsync();
