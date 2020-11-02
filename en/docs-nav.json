@@ -209,6 +209,10 @@
         {
           "text": "Configuration",
           "path": "abp-suite/configuration.md"
+        },
+        {
+          "text": "Editing templates",
+          "path": "abp-suite/editing-templates.md"
         }
       ]
     },

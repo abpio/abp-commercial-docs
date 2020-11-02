@@ -75,6 +75,57 @@ Configure<AbpAccountOptions>(options =>
 
 * `WindowsAuthenticationSchemeName` (default: Windows): Name of the Windows authentication scheme.
 
+## Social / External Logins
+
+Account module implements social/external login system. All you need to do is to install & configure the provider you want to use.
+
+The application startup template comes with **Twitter**, **Google** and **Microsoft** logins pre-installed. You can configure the client id and secrets on the Settings page:
+
+![account-pro-external-login-settings](../images/account-pro-external-login-settings.png)
+
+Social/External login system is compatible with the multi-tenancy. Each tenant can configure their own provider settings if your application is multi-tenant.
+
+### Install a new External Login
+
+Follow the steps below to install a new external/social login. We will show the Facebook authentication as an example.
+
+> When you follow the steps below, the provider settings (e.g. ClientId and ClientSecret) will be managed on the settings page on the UI and will support multi-tenancy as explained above. If you don't want these features, you can follow [the standard way](https://docs.abp.io/en/abp/latest/Authentication/Social-External-Logins) to install and configure the provider.
+
+#### Add the NuGet Package
+
+Add the [Microsoft.AspNetCore.Authentication.Facebook](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.Facebook) package to your project. Based on your architecture, this can be `.Web`, `.IdentityServer` (for tiered setup) or `.Host` project.
+
+#### Configure the Provider
+
+Use the `.AddFacebook(...)` and `WithDynamicOptions()` extension methods in the `ConfigureServices` method of your module:
+
+````csharp
+context.Services.AddAuthentication()
+    .AddFacebook(facebook =>
+    {
+        facebook.Scope.Add("email");
+        facebook.Scope.Add("public_profile");
+    })
+    .WithDynamicOptions<FacebookOptions>(
+        FacebookDefaults.AuthenticationScheme,
+        options =>
+        {
+            options.WithProperty(x => x.AppId);
+            options.WithProperty(x => x.AppSecret, isSecret: true);
+        }
+    );
+````
+
+* `AddFacebook()` is the standard method that you can set hard-coded configuration.
+* `WithDynamicOptions<FacebookOptions>` is provided by the Account Module that makes possible to configure the provided properties on the UI.
+
+#### For Tiered / Separate IdentityServer Solutions
+
+If your `.IdentityServer` is separated from the `.Host` project, then the `.Host` project should also be configured.
+
+* Add the [Microsoft.AspNetCore.Authentication.Facebook](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.Facebook) package to your `.Host` project.
+* Add `WithDynamicOptions<FacebookOptions>()` configuration into the `ConfigureServices` method of your module (just copy the all code above and remove the `.AddFacebook(...)` part since it is only needed in the IdentityServer side).
+
 ## Internals
 
 ### Settings

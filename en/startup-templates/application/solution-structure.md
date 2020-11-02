@@ -413,7 +413,7 @@ See the [Testing Overview](https://reactjs.org/docs/testing.html) document.
 
 ## Social / External Logins
 
-If you want to configure social/external logins for your application, please follow the [Social/External Logins](https://docs.abp.io/en/abp/latest/Authentication/Social-External-Logins) document.
+The application startup template comes with **Twitter**, **Google** and **Microsoft** logins pre-installed. If you want to configure an additional social/external provider, please see the *Social / External Logins* section of the [Account Module document](../../modules/account.md).
 
 ## What's next?
 

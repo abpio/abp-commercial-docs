@@ -1160,7 +1160,7 @@ Clicking the "Delete" action calls the `delete` method which then shows a confir
 
 ## Creating a New Book
 
-In this section, you will learn how to create a new modal dialog form to create a new book. Since we've inherited from the `BlazoriseCrudPage`, we only need to develop the view part.
+In this section, you will learn how to create a new modal dialog form to create a new book. Since we've inherited from the `AbpCrudPageBase`, we only need to develop the view part.
 
 ### Add "New Button" Button
 
@@ -1184,7 +1184,7 @@ Open the `Books.razor` and replace the `<CardHeader>` section with the following
 
 This will change the card header by adding a "New book" button to the right side:
 
-![blazor-add-book-button](images/blazor-add-book-button.png)
+![blazor-add-book-button](images/blazor-add-book-button-2.png)
 
 Now, we can add a modal that will be opened when we click to the button.
 
@@ -1239,7 +1239,7 @@ Open the `Books.razor` and add the following code to the end of the page:
 
 That's all. Run the application and try to add a new book:
 
-![blazor-new-book-modal](images/blazor-new-book-modal.png)
+![blazor-new-book-modal](images/blazor-new-book-modal-2.png)
 
 ## Updating a Book
 
@@ -1274,7 +1274,7 @@ Open the `Books.razor` and add the following `DataGridColumn` section inside the
 
 This adds an "Actions" dropdown to all the books inside the `DataGrid` with an `Edit` action:
 
-![blazor-edit-book-action](images/blazor-edit-book-action.png)
+![blazor-edit-book-action](images/blazor-edit-book-action-2.png)
 
 ### Edit Modal
 
@@ -1325,7 +1325,7 @@ We can now define a modal to edit the book. Add the following code to the end of
 
 ### AutoMapper Configuration
 
-The base `BlazoriseCrudPage` uses the [object to object mapping](../Object-To-Object-Mapping.md) system to convert an incoming `BookDto` object to a `CreateUpdateBookDto` object. So, we need to define the mapping.
+The base `AbpCrudPageBase` uses the [object to object mapping](../Object-To-Object-Mapping.md) system to convert an incoming `BookDto` object to a `CreateUpdateBookDto` object. So, we need to define the mapping.
 
 Open the `BookStoreBlazorAutoMapperProfile` inside the `Acme.BookStore.Blazor` project and change the content as the following:
 
@@ -1350,7 +1350,7 @@ namespace Acme.BookStore.Blazor
 
 You can now run the application and try to edit a book.
 
-![blazor-edit-book-modal](images/blazor-edit-book-modal.png)
+![blazor-edit-book-modal](images/blazor-edit-book-modal-2.png)
 
 ## Deleting a Book
 
@@ -1378,7 +1378,7 @@ Here the complete code to create the book management CRUD page, that has been de
 @using Acme.BookStore.Localization
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<BookStoreResource> L
-@inherits BlazoriseCrudPageBase<IBookAppService, BookDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateBookDto>
+@inherits AbpCrudPageBase<IBookAppService, BookDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateBookDto>
 
 <Card>
     <CardHeader>
@@ -1389,7 +1389,9 @@ Here the complete code to create the book management CRUD page, that has been de
             <Column ColumnSize="ColumnSize.Is6">
                 <Paragraph Alignment="TextAlignment.Right">
                     <Button Color="Color.Primary"
-                            Clicked="OpenCreateModalAsync">@L["NewBook"]</Button>
+                            Clicked="OpenCreateModalAsync">
+                        @L["NewBook"]
+                    </Button>
                 </Paragraph>
             </Column>
         </Row>

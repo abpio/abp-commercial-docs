@@ -2,6 +2,17 @@
 
 This document contains **brief release notes** for each release. Release notes only include major features and visible enhancements. They not don't include all the development done in the related version.
 
+## 3.3.0 (2020-10-27)
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-ABP-Commercial-3.3-Final-Have-Been-Released)** for the v3.3.0.
+
+* Completed fundamental features, modules and the theme integration for the **Blazor UI**.
+* Multi-Tenant **social/external logins** with options configurable on runtime.
+* **Linked Accounts** system to link multiple accounts and switch between them easily.
+* **Paypal** & **Stripe** integrations for the Payment Module.
+* **reCAPTCHA** option for login & register forms.
+* **ABP Suite** improvements.
+
 ## 3.2.0 (2020-10-01)
 
 ### Blog Post

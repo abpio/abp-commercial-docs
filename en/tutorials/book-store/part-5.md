@@ -131,7 +131,7 @@ Go to the *Administration -> Identity Management -> Roles* page, select *Permiss
 
 {{if UI == "Blazor"}}
 
-![bookstore-permissions-ui](images/bookstore-blazor-permissions-ui.png)
+![bookstore-permissions-ui](images/bookstore-blazor-permissions-ui-2.png)
 
 {{else}}
 
@@ -467,7 +467,7 @@ Open the `/src/app/book/book.component.html` file and replace the edit and delet
 
 ### Authorize the Razor Component
 
-Open the `/Pages/Books.razor` file in the `Acme.BookStore.Blazor` project and add an `Authorize` attribute just after the `@page` directive, as shown below:
+Open the `/Pages/Books.razor` file in the `Acme.BookStore.Blazor` project and add an `Authorize` attribute just after the `@page` directive and the following namespace imports (`@using` lines), as shown below:
 
 ````html
 @page "/books"
@@ -482,14 +482,6 @@ Adding this attribute prevents to enter this page if the current hasn't logged i
 ### Show/Hide the Actions
 
 The book management page has a *New Book* button and *Edit* and *Delete* actions for each book. We should hide these buttons/actions if the current user has not granted for the related permissions.
-
-#### Inject the IAuthorizationService
-
-Inject the `IAuthorizationService` into the `Books.razor`:
-
-````csharp
-@inject IAuthorizationService AuthorizationService
-````
 
 #### Get the Permissions On Initialization
 
@@ -511,7 +503,7 @@ Add the following code block to the end of the `Books.razor` file:
 }
 ````
 
-We will use these `bool` fields to check the permissions.
+We will use these `bool` fields to check the permissions. `AuthorizationService` comes from the base class as an injected property.
 
 > **Blazor Tip**: While adding the C# code into a `@code` block is fine for small code parts, it is suggested to use the code behind approach to develop a more maintainable code base when the code block becomes longer. We will use this approach for the authors part.
 #### Hide the New Book Button
@@ -522,7 +514,9 @@ Wrap the *New Book* button by an `if` block as shown below:
 @if (canCreateBook)
 {
     <Button Color="Color.Primary"
-            Clicked="OpenCreateModalAsync">@L["NewBook"]</Button>
+            Clicked="OpenCreateModalAsync">
+        @L["NewBook"]
+    </Button>
 }
 ````
 
@@ -549,7 +543,7 @@ As similar to the *New Book* button, we can use `if` blocks to conditionally sho
 
 You can run and test the permissions. Remove a book related permission from the admin role to see the related button/action disappears from the UI.
 
-However, ABP Framework caches the permissions of the current user in the client side. So, when you change a permission for yourself, you need to manually **refresh the page** to take the effect. If you don't refresh and try to use the prohibited action you get an HTTP 403 (forbidden) response from the server.
+***\*ABP Framework caches the permissions\**** of the current user in the client side. So, when you change a permission for yourself, you need to manually ***\*refresh the page\**** to take the effect. If you don't refresh and try to use the prohibited action you get an HTTP 403 (forbidden) response from the server.
 
 > Changing a permission for a role or user immediately available on the server side. So, this cache system doesn't cause any security problem.
 ### Menu Item
@@ -600,33 +594,65 @@ You also need to add `async` keyword to the `ConfigureMenuAsync` method and re-a
 using System.Threading.Tasks;
 using Acme.BookStore.Localization;
 using Acme.BookStore.Permissions;
+using Volo.Abp.AuditLogging.Blazor.Menus;
+using Volo.Abp.Identity.Pro.Blazor.Navigation;
+using Volo.Abp.LanguageManagement.Blazor.Menus;
+using Volo.Abp.SettingManagement.Blazor.Menus;
+using Volo.Abp.TextTemplateManagement.Blazor.Menus;
 using Volo.Abp.UI.Navigation;
-namespace Acme.BookStore.Blazor
+using Volo.Saas.Host.Blazor.Navigation;
+
+namespace Acme.BookStore.Blazor.Navigation
 {
     public class BookStoreMenuContributor : IMenuContributor
     {
         public async Task ConfigureMenuAsync(MenuConfigurationContext context)
         {
-            if(context.Menu.DisplayName != StandardMenus.Main)
+            if (context.Menu.DisplayName != StandardMenus.Main)
             {
                 return;
             }
+
             var l = context.GetLocalizer<BookStoreResource>();
-            context.Menu.Items.Insert(
-                0,
-                new ApplicationMenuItem(
-                    "BookStore.Home",
-                    l["Menu:Home"],
-                    "/",
-                    icon: "fas fa-home"
-                )
-            );
+
+            context.Menu.AddItem(new ApplicationMenuItem(
+                BookStoreMenus.Home,
+                l["Menu:Home"],
+                "/",
+                icon: "fas fa-home",
+                order: 1
+            ));
+
+            //Administration
+            var administration = context.Menu.GetAdministration();
+            administration.Order = 2;
+
+            //Administration->Saas
+            administration.SetSubItemOrder(SaasHostMenus.GroupName, 1);
+
+            //Administration->Identity
+            administration.SetSubItemOrder(IdentityProMenus.GroupName, 2);
+
+            //Administration->Language Management
+            administration.SetSubItemOrder(LanguageManagementMenus.GroupName, 3);
+
+            //Administration->Text Template Management
+            administration.SetSubItemOrder(TextTemplateManagementMenus.GroupName, 4);
+
+            //Administration->Audit Logs
+            administration.SetSubItemOrder(AbpAuditLoggingMenus.GroupName, 5);
+
+            //Administration->Settings
+            administration.SetSubItemOrder(SettingManagementMenus.GroupName, 6);
+            
             var bookStoreMenu = new ApplicationMenuItem(
                 "BooksStore",
                 l["Menu:BookStore"],
                 icon: "fa fa-book"
             );
             context.Menu.AddItem(bookStoreMenu);
+            
+            //CHECK the PERMISSION
             if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
             {
                 bookStoreMenu.AddItem(new ApplicationMenuItem(
