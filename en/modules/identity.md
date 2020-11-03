@@ -124,7 +124,15 @@ Organization units page is used to manage organization units, members of organiz
 
 ![identity-organization-units-ui-page](../images/identity-organization-units-ui-page.png)
 
-You can manage members of an organization unit using the members tab or by right clicking to an item on the organization unit tree.
+You can add a new organization unit or edit an existing organization unit on this page. In order to add a new root organization unit, click "Add root unit" button and fill the opening form.
+
+![identity-organization-units-add-modal](../images/identity-organization-units-add-modal.png)
+
+In order to add a sub-unit to an existing organization unit, right click on an existing organization unit and click "Add sub-unit" context menu item. Similarly, in order to edit an organization unit, right click on an existing organization unit and click "Edit" context menu item. 
+
+![identity-organization-units-edit-modal](../images/identity-organization-units-edit-modal.png)
+
+You can manage members of an organization unit using the members tab by selection an organization unit or by right clicking to an item on the organization unit tree.
 
 ![identity-organization-units-ui-add-member](../images/identity-organization-units-ui-add-member.png)	
 
