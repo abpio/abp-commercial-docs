@@ -1,6 +1,6 @@
 # Customizing the Modules
 
-This guide has references to related documents those explain **how to customize a depended [application module](../modules/index.md)** when you want to use the module as **NuGet/NPM package references**.
+This guide has references to related documents that explain **how to customize a depended [application module](../modules/index.md)** when you want to use the module as **NuGet/NPM package references**.
 
 ## ABP Framework Infrastructure
 
