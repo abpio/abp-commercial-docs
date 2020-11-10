@@ -2,6 +2,19 @@
 
 This document contains **brief release notes** for each release. Release notes only include major features and visible enhancements. They not don't include all the development done in the related version.
 
+## 4.0.0 (2020-11-26)
+
+> This version is currently in preview and the final version will be released at November 26.
+
+* Upgraded to .NET 5.0.
+* The Blazor UI option is now stable and officially supported.
+* Completed the Blazor UI for the file management module.
+* Upgraded to the Identity Server 4.1.1 and revised the management UI.
+* ABP Suite: Blazor UI code generation.
+* ABP Suite: Navigation property selection supports dropdowns with auto-complete & lazy load.
+* ABP Suite: Generate new modules inside an application solution.
+* ABP Suite: Made the backend code generation optional to allow re-generate the UI with a different UI framework.
+
 ## 3.3.0 (2020-10-27)
 
 See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-ABP-Commercial-3.3-Final-Have-Been-Released)** for the v3.3.0.
