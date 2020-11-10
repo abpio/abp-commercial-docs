@@ -362,7 +362,7 @@ namespace Acme.BookStore.Books
             DeletePolicyName = BookStorePermissions.Books.Create;
         }
 
-        public override async Task<BookDto> GetAsync(Guid id)
+        public async override Task<BookDto> GetAsync(Guid id)
         {
             //Prepare a query to join books and authors
             var query = from book in Repository
@@ -382,7 +382,7 @@ namespace Acme.BookStore.Books
             return bookDto;
         }
 
-        public override async Task<PagedResultDto<BookDto>>
+        public async override Task<PagedResultDto<BookDto>>
             GetListAsync(PagedAndSortedResultRequestDto input)
         {
             //Prepare a query to join books and authors
@@ -481,7 +481,7 @@ namespace Acme.BookStore.Books
             DeletePolicyName = BookStorePermissions.Books.Create;
         }
 
-        public override async Task<BookDto> GetAsync(Guid id)
+        public async override Task<BookDto> GetAsync(Guid id)
         {
             var book = await Repository.GetAsync(id);
             var bookDto = ObjectMapper.Map<Book, BookDto>(book);
@@ -492,7 +492,7 @@ namespace Acme.BookStore.Books
             return bookDto;
         }
 
-        public override async Task<PagedResultDto<BookDto>> 
+        public async override Task<PagedResultDto<BookDto>> 
             GetListAsync(PagedAndSortedResultRequestDto input)
         {
             //Set a default sorting, if not provided
@@ -1074,7 +1074,7 @@ The final `@code` block should be the following:
     bool canDeleteBook;
     //ADDED A NEW FIELD
     IReadOnlyList<AuthorLookupDto> authorList = Array.Empty<AuthorLookupDto>();
-    protected override async Task OnInitializedAsync()
+    protected async override Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         canCreateBook = await 
