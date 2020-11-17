@@ -23,17 +23,19 @@ First things first! Let's setup your development environment before creating the
 
 The following tools should be installed on your development machine:
 
-* [Visual Studio 2019](https://visualstudio.microsoft.com/vs/) for Windows / [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/). *
-* [.NET Core 3.0+](https://www.microsoft.com/net/download/dotnet-core/)
-* [Node v12+](https://nodejs.org)
-* [Yarn v1.19+](https://yarnpkg.com/)
+* [Visual Studio 2019](https://visualstudio.microsoft.com/vs/) (v16.8+) for Windows / [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/). <sup id="a-editor">[1](#f-editor)</sup>
+* [.NET Core 5.0+](https://www.microsoft.com/net/download/dotnet-core/)
+{{ if UI != "Blazor" }}
+* [Node v12 or v14](https://nodejs.org/)
+* [Yarn v1.20+ (not v2)](https://classic.yarnpkg.com/en/docs/install) <sup id="a-yarn">[2](#f-yarn)</sup> or npm v6+ (already installed with Node)
+{{ end }}
 {{ if Tiered == "Yes" }}
-
-* [Redis](https://redis.io/): The applications use Redis as as [distributed cache](../Caching.md). So, you need to have Redis installed & running.
-
+* [Redis](https://redis.io/) (the startup solution uses the Redis as the [distributed cache](Caching.md)).
 {{ end }}
 
-> You can use another editor instead of Visual Studio as long as it supports .NET Core and ASP.NET Core.
+<sup id="f-editor"><b>1</b></sup> _You can use another editor instead of Visual Studio as long as it supports .NET Core and ASP.NET Core._ <sup>[↩](#a-editor)</sup>
+
+<sup id="f-yarn"><b>2</b></sup> _Yarn v2 works differently and is not supported._ <sup>[↩](#a-yarn)</sup>
 
 ### Install the ABP CLI
 
@@ -264,6 +266,8 @@ Right click to the `.DbMigrator` project and select **Set as StartUp Project**
 
 {{ if Tiered == "Yes" }}
 
+> Tiered solutions use Redis as the distributed cache. Ensure that it is installed and running in your local computer. If you are using a remote Redis Server, set the configuration in the `appsettings.json` files of the projects below.
+
 1. Ensure that the `.IdentityServer` project is the startup project. Run this application that will open a **login** page in your browser.
 
 > Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
@@ -299,6 +303,8 @@ Ensure that the `.Web` project is the startup project. Run the application which
 #### Running the HTTP API Host (Server Side)
 
 {{ if Tiered == "Yes" }}
+
+> Tiered solutions use Redis as the distributed cache. Ensure that it is installed and running in your local computer. If you are using a remote Redis Server, set the configuration in the `appsettings.json` files of the projects below.
 
 Ensure that the `.IdentityServer` project is the startup project. Run the application which will open a **login** page in your browser.
 
