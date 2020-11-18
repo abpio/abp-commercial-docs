@@ -42,7 +42,7 @@ The `Volo.Chat.SignalR` package must be added according to your project structur
 
 * **Mvc**
   * **Non-Tiered**: {ProjectName}.Web project.
-  * **Tiered**: {ProjectName}.HttpApi.Host project.
+  * **Tiered**: {ProjectName}.Web project.
 * **Angular**
   * **Unified Backend**: {ProjectName}.HttpApi.Host project.
   * **Separated Identity Server**:  {ProjectName}.HttpApi.Host project. 
