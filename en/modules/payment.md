@@ -4,7 +4,7 @@ This module implements payment gateway integration of an application;
 
 * Supports PayU, 2Checkout, Stripe and Paypal payment gateways.
 
-See [the module description page](https://commercial.abp.io/modules/Volo.Identity.Pro) for an overview of the module features.
+See [the module description page](https://commercial.abp.io/modules/Volo.Payment) for an overview of the module features.
 
 ## How to install
 
