@@ -76,6 +76,11 @@
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
+                <td>Blazor UI</td>
+                <td><i class="fa fa-check text-success"></i></td>
+                <td><i class="fa fa-minus text-secondary"></i></td>
+            </tr>
+            <tr>
                 <td colspan="3"><strong>User Interface (Account / Login)</strong></td>
             </tr>
             <tr>
@@ -150,7 +155,7 @@
             </tr>
             <tr>
                 <td>Account linking</td>
-                <td><i class="fa fa-minus text-secondary"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
