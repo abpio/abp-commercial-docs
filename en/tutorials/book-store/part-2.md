@@ -450,12 +450,12 @@ function configureRoutes(routes: RoutesService) {
 `RoutesService` is a service provided by the ABP Framework to configure the main menu and the routes.
 
 * `path` is the URL of the route.
-* `name` is the localized menu item name (see the [localization document](../UI/Angular/Localization.md) for details).
+* `name` is the localized menu item name (see the [localization document](https://docs.abp.io/en/abp/latest/UI/Angular/Localization) for details).
 * `iconClass` is the icon of the menu item (you can use [Font Awesome](https://fontawesome.com/) icons by default).
 * `order` is the order of the menu item.
 * `layout` is the layout of the BooksModule's routes (there are three types of pre-defined layouts: `eLayoutType.application`, `eLayoutType.account` or `eLayoutType.empty`).
 
-For more information, see the [RoutesService document](https://docs.abp.io/en/abp/latest/UI/Angular/Modifying-the-Menu.md#via-routesservice).
+For more information, see the [RoutesService document](https://docs.abp.io/en/abp/latest/UI/Angular/Modifying-the-Menu#via-routesservice).
 
 ### Service Proxy Generation
 
