@@ -8,7 +8,7 @@ See [the module description page](https://commercial.abp.io/modules/Volo.Identit
 
 ## How to install
 
-Payment module is not installed in [the startup templates](../Startup-Templates/Index). So, it needs to be installed manually. There are two ways of installing a module into your application.
+Payment module is not installed in [the startup templates](../startup-templates/application/index.md). So, it needs to be installed manually. There are two ways of installing a module into your application.
 
 
 ### 1. Using ABP CLI
