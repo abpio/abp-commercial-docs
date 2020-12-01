@@ -23,14 +23,23 @@ abp suite update
 
 ## Preview versions
 
-You can add `--preview` option to get latest preview version of ABP Suite:
+You can add `--preview` or `-p` parameters to your command arguments, to install/update the latest preview version of ABP Suite:
 
 ```bash
-abp suite update --preview
 abp suite install --preview
+abp suite update --p
+```
+
+
+## Older versions
+
+You can install older versions of the ABP Suite. The version of ABP Suite and your solution's ABP package versions must be the same. Otherwise you will get errors due to templates not suitable for your project. Add `--version` or `-v` parameter to the arguments.
+
+```bash
+abp suite install --version 3.3.1
+abp suite update --v 4.0.0-rc.5
 ```
 
 ## What's next?
 
 [How to start ABP Suite?](how-to-start.md)
-
