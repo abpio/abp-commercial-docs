@@ -607,7 +607,6 @@ Open the `Books.razor` and replace the content as the following:
 ````xml
 @page "/books"
 @using Volo.Abp.Application.Dtos
-@using Volo.Abp.BlazoriseUI
 @using Acme.BookStore.Books
 @using Acme.BookStore.Localization
 @using Microsoft.Extensions.Localization
