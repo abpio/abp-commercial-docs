@@ -114,6 +114,15 @@ Open the `en.json` (*the English translations*) file and change the content as b
     "Permission:Dashboard": "Dashboard",
     "Menu:Dashboard": "Dashboard",
     "Dashboard": "Dashboard",
+    "ExternalProvider:Google":"Google",
+    "ExternalProvider:Google:ClientId":"Client ID",
+    "ExternalProvider:Google:ClientSecret":"Client Secret",
+    "ExternalProvider:Microsoft":"Microsoft",
+    "ExternalProvider:Microsoft:ClientId":"Client ID",
+    "ExternalProvider:Microsoft:ClientSecret":"Client Secret",
+    "ExternalProvider:Twitter":"Twitter",
+    "ExternalProvider:Twitter:ConsumerKey":"Consumer Key",
+    "ExternalProvider:Twitter:ConsumerSecret":"Consumer Secret",
     "Menu:BookStore": "Book Store",
     "Menu:Books": "Books",
     "Actions": "Actions",
@@ -607,7 +616,6 @@ Open the `Books.razor` and replace the content as the following:
 ````xml
 @page "/books"
 @using Volo.Abp.Application.Dtos
-@using Volo.Abp.BlazoriseUI
 @using Acme.BookStore.Books
 @using Acme.BookStore.Localization
 @using Microsoft.Extensions.Localization
