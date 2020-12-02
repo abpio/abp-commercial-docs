@@ -20,9 +20,9 @@ The following code prepares a constant named `identityToolbarActionContributors`
 // toolbar-action-contributors.ts
 
 import { ToolbarActionList, ToolbarAction } from '@abp/ng.theme.shared/extensions';
-import { Identity, IdentityToolbarActionContributors } from '@volo/abp.ng.identity';
+import { IdentityToolbarActionContributors, IdentityUserDto } from '@volo/abp.ng.identity';
 
-const logUserNames = new ToolbarAction<Identity.UserItem[]>({
+const logUserNames = new ToolbarAction<IdentityUserDto[]>({
   text: 'Click Me!',
   action: data => {
     // Replace log with your custom code
@@ -32,7 +32,7 @@ const logUserNames = new ToolbarAction<Identity.UserItem[]>({
 });
 
 export function logUserNamesContributor(
-  actionList: ToolbarActionList<Identity.UserItem[]>
+  actionList: ToolbarActionList<IdentityUserDto[]>
 ) {
   actionList.addHead(logUserNames);
 }
@@ -94,7 +94,7 @@ We need to have a component before we can pass it to the toolbar action contribu
 
 import { Component, Inject } from '@angular/core';
 import { ActionData, EXTENSIONS_ACTION_DATA } from '@abp/ng.theme.shared/extensions';
-import { Identity } from '@volo/abp.ng.identity';
+import { IdentityUserDto } from '@volo/abp.ng.identity';
 
 @Component({
   selector: 'app-click-me-button',
@@ -105,7 +105,7 @@ import { Identity } from '@volo/abp.ng.identity';
 export class ClickMeButtonComponent {
   constructor(
     @Inject(EXTENSIONS_ACTION_DATA)
-    private data: ActionData<Identity.UserItem[]>
+    private data: ActionData<IdentityUserDto[]>
   ) {}
 
   handleClick() {
@@ -114,7 +114,7 @@ export class ClickMeButtonComponent {
 }
 ```
 
-Here, `EXTENSIONS_ACTION_DATA` token provides us the context from the page toolbar. Therefore, we are able to reach the page data via `record`, which is an array of users, i.e. `Identity.UserItem[]`.
+Here, `EXTENSIONS_ACTION_DATA` token provides us the context from the page toolbar. Therefore, we are able to reach the page data via `record`, which is an array of users, i.e. `IdentityUserDto[]`.
 
 > We could also import `EXTENSIONS_ACTION_CALLBACK` from **@abp/ng.theme.shared/extensions** package, which is a higher order function that triggers the predefined `action` when called. It passes `ActionData` as the first parameter, so you do not have to pass it explicitly. In other words, `EXTENSIONS_ACTION_CALLBACK` can be called without any parameters and it will not fail.
 
@@ -126,17 +126,17 @@ The following code prepares a constant named `identityToolbarActionContributors`
 // toolbar-action-contributors.ts
 
 import { ToolbarActionList, ToolbarComponent } from '@abp/ng.theme.shared/extensions';
-import { Identity } from '@volo/abp.ng.identity';
+import { IdentityUserDto } from '@volo/abp.ng.identity';
 import { IdentityToolbarActionContributors } from '@volo/abp.ng.identity/config';
 import { ClickMeButtonComponent } from './click-me-button.component';
 
-const logUserNames = new ToolbarComponent<Identity.UserItem[]>({
+const logUserNames = new ToolbarComponent<IdentityUserDto[]>({
   component: ClickMeButtonComponent,
   // See ToolbarActionOptions in API section for all options
 });
 
 export function logUserNamesContributor(
-  actionList: ToolbarActionList<Identity.UserItem[]>
+  actionList: ToolbarActionList<IdentityUserDto[]>
 ) {
   actionList.addHead(logUserNames);
 }
@@ -291,7 +291,7 @@ You may find a full example below.
 `ToolbarAction` is the class that defines your toolbar actions. It takes an `ToolbarActionOptions` and sets the default values to the properties, creating an toolbar action that can be passed to an toolbar contributor.
 
 ```js
-const options: ToolbarActionOptions<Identity.UserItem[]> = {
+const options: ToolbarActionOptions<IdentityUserDto[]> = {
   action: data => {
     const service = data.getInjected(MyCustomIdentityService);
     const lockedUsers = data.record.filter(user => user.isLockedOut);
@@ -343,7 +343,7 @@ You may find a full example below.
 `ToolbarComponent` is the class that defines toolbar actions which project a custom component. It takes an `ToolbarComponentOptions` and sets the default values to the properties, creating a toolbar action that can be passed to an toolbar contributor.
 
 ```js
-const options: ToolbarComponentOptions<Identity.UserItem[]> = {
+const options: ToolbarComponentOptions<IdentityUserDto[]> = {
   component: UnlockAllButton,
   action: data => {
     const service = data.getInjected(MyCustomIdentityService);
@@ -376,7 +376,7 @@ The items in the list will be displayed according to the linked list order, i.e.
 
 ```js
 export function reorderUserContributors(
-  actionList: ToolbarActionList<Identity.UserItem[]>,
+  actionList: ToolbarActionList<IdentityUserDto[]>,
 ) {
   // drop "New User" button
   const newUserActionNode = actionList.dropByValue(
@@ -401,10 +401,10 @@ export const identityEntityActionContributors = {
 `ToolbarActionContributorCallback` is the type that you can pass as toolbar action contributor callbacks to static `forLazy` methods of the modules.
 
 ```js
-// exportUsersContributor should have ToolbarActionContributorCallback<Identity.UserItem[]> type
+// exportUsersContributor should have ToolbarActionContributorCallback<IdentityUserDto[]> type
 
 export function exportUsersContributor(
-  actionList: ToolbarActionList<Identity.UserItem[]>,
+  actionList: ToolbarActionList<IdentityUserDto[]>,
 ) {
   // add exportUsers just before the last action
   actionList.add(exportUsers).byIndex(-1);

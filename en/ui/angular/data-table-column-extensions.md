@@ -21,9 +21,9 @@ The following code prepares a constant named `identityEntityPropContributors`, r
 // entity-prop-contributors.ts
 
 import { EntityProp, EntityPropList, ePropType } from '@abp/ng.theme.shared/extensions';
-import { Identity, IdentityEntityPropContributors } from '@volo/abp.ng.identity';
+import { IdentityEntityPropContributors, IdentityUserDto } from '@volo/abp.ng.identity';
 
-const nameProp = new EntityProp<Identity.UserItem>({
+const nameProp = new EntityProp<IdentityUserDto>({
   type: ePropType.String,
   name: 'name',
   displayName: 'AbpIdentity::Name',
@@ -31,7 +31,7 @@ const nameProp = new EntityProp<Identity.UserItem>({
   columnWidth: 250,
 });
 
-export function namePropContributor(propList: EntityPropList<Identity.UserItem>) {
+export function namePropContributor(propList: EntityPropList<IdentityUserDto>) {
   propList.addAfter(
     nameProp,
     'userName',
@@ -101,13 +101,13 @@ You can use the `valueResolver` to render an HTML string in the table. Imagine w
 // entity-prop-contributors.ts
 
 import { EntityProp, EntityPropList, ePropType } from '@abp/ng.theme.shared/extensions';
-import { Identity } from '@volo/abp.ng.identity';
+import { IdentityUserDto } from '@volo/abp.ng.identity';
 import { IdentityEntityPropContributors } from '@volo/abp.ng.identity/config';
 
-export function emailPropContributor(propList: EntityPropList<Identity.UserItem>) {
+export function emailPropContributor(propList: EntityPropList<IdentityUserDto>) {
   const index = propList.indexOf('email', (value, name) => value.name === name);
   const droppedNode = propList.dropByIndex(index);
-  const emailProp = new EntityProp<Identity.UserItem>({
+  const emailProp = new EntityProp<IdentityUserDto>({
     ...droppedNode.value,
     valueResolver: data => {
       const { email, emailConfirmed } = data.record;
@@ -120,10 +120,10 @@ export function emailPropContributor(propList: EntityPropList<Identity.UserItem>
   propList.addByIndex(emailProp, index);
 }
 
-export function phonePropContributor(propList: EntityPropList<Identity.UserItem>) {
+export function phonePropContributor(propList: EntityPropList<IdentityUserDto>) {
   const index = propList.indexOf('phoneNumber', (value, name) => value.name === name);
   const droppedNode = propList.dropByIndex(index);
-  const phoneProp = new EntityProp<Identity.UserItem>({
+  const phoneProp = new EntityProp<IdentityUserDto>({
     ...droppedNode.value,
     valueResolver: data => {
       const { phoneNumber, phoneNumberConfirmed } = data.record;
@@ -242,7 +242,7 @@ You may find a full example below.
 `EntityProp` is the class that defines your entity props. It takes an `EntityPropOptions` and sets the default values to the properties, creating an entity prop that can be passed to an entity contributor.
 
 ```js
-const options: EntityPropOptions<Identity.UserItem> = {
+const options: EntityPropOptions<IdentityUserDto> = {
   type: ePropType.String,
   name: 'email',
   displayName: 'AbpIdentity::EmailAddress',
@@ -288,7 +288,7 @@ The items in the list will be displayed according to the linked list order, i.e.
 
 ```js
 export function reorderUserContributors(
-  propList: EntityPropList<Identity.UserItem>,
+  propList: EntityPropList<IdentityUserDto>,
 ) {
   // drop email node
   const emailPropNode = propList.dropByValue(
@@ -311,7 +311,7 @@ export function reorderUserContributors(
 
 ```js
 export function isLockedOutPropContributor(
-  propList: EntityPropList<Identity.UserItem>,
+  propList: EntityPropList<IdentityUserDto>,
 ) {
   // add isLockedOutProp as 2nd column
   propList.add(isLockedOutProp).byIndex(1);
