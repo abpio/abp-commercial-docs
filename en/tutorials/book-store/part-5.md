@@ -589,7 +589,7 @@ if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
 }
 ````
 
-You also need to add `async` keyword to the `ConfigureMenuAsync` method and re-arrange the return values. The final `BookStoreMenuContributor` class should be the following:
+The final `ConfigureMainMenuAsync` method in the  `BookStoreMenuContributor` should be like below:
 
 ````csharp
 private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
