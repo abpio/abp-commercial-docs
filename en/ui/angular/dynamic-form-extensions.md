@@ -22,16 +22,16 @@ The following code prepares two constants named `identityCreateFormPropContribut
 
 import { Validators } from '@angular/forms';
 import { ePropType, FormProp, FormPropList } from '@abp/ng.theme.shared/extensions';
-import { Identity, IdentityCreateFormPropContributors, IdentityEditFormPropContributors } from '@volo/abp.ng.identity';
+import { IdentityCreateFormPropContributors, IdentityEditFormPropContributors, IdentityUserDto } from '@volo/abp.ng.identity';
 
-const birthdayProp = new FormProp<Identity.UserItem>({
+const birthdayProp = new FormProp<IdentityUserDto>({
   type: ePropType.Date,
   name: 'birthday',
   displayName: 'Date of Birth',
   validators: () => [Validators.required],
 });
 
-export function birthdayPropContributor(propList: FormPropList<Identity.UserItem>) {
+export function birthdayPropContributor(propList: FormPropList<IdentityUserDto>) {
   propList.addByIndex(birthdayProp, 4);
 }
 
@@ -202,7 +202,7 @@ You may find a full example below.
 `FormProp` is the class that defines your form props. It takes a `FormPropOptions` and sets the default values to the properties, creating a form prop that can be passed to a form contributor.
 
 ```js
-const options: FormPropOptions<Identity.UserItem> = {
+const options: FormPropOptions<IdentityUserDto> = {
   type: ePropType.Enum,
   name: 'myProp',
   displayName: 'Default::MyPropName',
@@ -269,7 +269,7 @@ The items in the list will be displayed according to the linked list order, i.e.
 
 ```js
 export function reorderUserContributors(
-  propList: FormPropList<Identity.UserItem>,
+  propList: FormPropList<IdentityUserDto>,
 ) {
   // drop email node
   const emailPropNode = propList.dropByValue(
@@ -292,7 +292,7 @@ export function reorderUserContributors(
 
 ```js
 export function myPropCreateContributor(
-  propList: FormPropList<Identity.UserItem>,
+  propList: FormPropList<IdentityUserDto>,
 ) {
   // add myProp as 2nd field from the start
   propList.add(myProp).byIndex(1);
@@ -309,7 +309,7 @@ export const identityCreateFormPropContributors = {
 
 ```js
 export function myPropEditContributor(
-  propList: FormPropList<Identity.UserItem>,
+  propList: FormPropList<IdentityUserDto>,
 ) {
   // add myProp as 2nd field from the end
   propList.add(myProp).byIndex(-1);

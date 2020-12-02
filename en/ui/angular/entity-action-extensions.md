@@ -20,9 +20,9 @@ The following code prepares a constant named `identityEntityActionContributors`,
 // entity-action-contributors.ts
 
 import { EntityAction, EntityActionList } from '@abp/ng.theme.shared/extensions';
-import { Identity, IdentityEntityActionContributors } from '@volo/abp.ng.identity';
+import { IdentityEntityActionContributors, IdentityUserDto } from '@volo/abp.ng.identity';
 
-const alertUserName = new EntityAction<Identity.UserItem>({
+const alertUserName = new EntityAction<IdentityUserDto>({
   text: 'Click Me!',
   action: data => {
     // Replace alert with your custom code
@@ -32,7 +32,7 @@ const alertUserName = new EntityAction<Identity.UserItem>({
 });
 
 export function alertUserNameContributor(
-  actionList: EntityActionList<Identity.UserItem>,
+  actionList: EntityActionList<IdentityUserDto>,
 ) {
   actionList.addTail(alertUserName);
 }
@@ -133,7 +133,7 @@ Incase you need to place a custom modal that will be triggered by an entity acti
 
 3. Add an entity action similar to this:
   ```js
-  const customModalAction = new EntityAction<Identity.UserItem>({
+  const customModalAction = new EntityAction<IdentityUserDto>({
     text: 'Custom Modal Action',
     action: data => {
       const component = data.getInjected(AppComponent);
@@ -275,7 +275,7 @@ Consider the modal will be displayed in the Identity module. How can we lazy-loa
 
 7. Add an entity action similar to this:
   ```js
-  const customModalAction = new EntityAction<Identity.UserItem>({
+  const customModalAction = new EntityAction<IdentityUserDto>({
     text: 'Custom Modal Action',
     action: data => {
       const store = data.getInjected(Store);
@@ -372,7 +372,7 @@ You may find a full example below.
 `EntityAction` is the class that defines your entity actions. It takes an `EntityActionOptions` and sets the default values to the properties, creating an entity action that can be passed to an entity contributor.
 
 ```js
-const options: EntityActionOptions<Identity.UserItem> = {
+const options: EntityActionOptions<IdentityUserDto> = {
   action: data => {
     const component = data.getInjected(UsersComponent);
     component.unlock(data.record.id);
@@ -405,7 +405,7 @@ The items in the list will be displayed according to the linked list order, i.e.
 
 ```js
 export function reorderUserContributors(
-  actionList: EntityActionList<Identity.UserItem>,
+  actionList: EntityActionList<IdentityUserDto>,
 ) {
   // drop "Unlock" button
   const unlockActionNode = actionList.dropByValue(
@@ -423,10 +423,10 @@ export function reorderUserContributors(
 `EntityActionContributorCallback` is the type that you can pass as entity action contributor callbacks to static `forLazy` methods of the modules.
 
 ```js
-// lockUserContributor should have EntityActionContributorCallback<Identity.UserItem> type
+// lockUserContributor should have EntityActionContributorCallback<IdentityUserDto> type
 
 export function lockUserContributor(
-  actionList: EntityActionList<Identity.UserItem>,
+  actionList: EntityActionList<IdentityUserDto>,
 ) {
   // add lockUser as 3rd action
   actionList.add(lockUser).byIndex(2);
