@@ -490,7 +490,7 @@ Open the `/src/app/book/book.component.ts` file and replace the content as below
 ```js
 import { ListService, PagedResultDto } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
-import { BookService, BookDto } from '@proxy/books';
+import { BookService, BookDto, BookType } from "@proxy/acme/book-store/books";
 
 @Component({
   selector: 'app-book',
