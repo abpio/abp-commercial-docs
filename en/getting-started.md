@@ -375,7 +375,7 @@ It may take a longer time for the first build. Once it finishes, it opens the An
 Enter **admin** as the username and **1q2w3E*** as the password to login to the application. 
 
 {{ if UI == "Blazor" }}
-![bookstore-home](images/bookstore-blazor-home.png)
+![bookstore-home](images/bookstore-blazor-home-2.png)
 {{else}}
 ![bookstore-home](images/bookstore-home-2.png)
 {{end}}
