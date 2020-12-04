@@ -2,9 +2,7 @@
 
 This document contains **brief release notes** for each release. Release notes only include major features and visible enhancements. They not don't include all the development done in the related version.
 
-## 4.0.0 (2020-11-26)
-
-> This version is currently in preview and the final version will be released at November 26.
+## 4.0.0 (2020-12-03)
 
 * Upgraded to .NET 5.0.
 * The Blazor UI option is now stable and officially supported.
