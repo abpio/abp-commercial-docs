@@ -22,31 +22,31 @@
               "text": "3: Creating, Updating and Deleting Books",
               "path": "tutorials/book-store/part-3.md"
             },
-			{
+            {
               "text": "4: Integration Tests",
               "path": "tutorials/book-store/part-4.md"
             },
-			{
+            {
               "text": "5: Authorization",
               "path": "tutorials/book-store/part-5.md"
             },
-			{
+            {
               "text": "6: Authors: Domain layer",
               "path": "tutorials/book-store/part-6.md"
             },
-			{
+            {
               "text": "7: Authors: Database Integration",
               "path": "tutorials/book-store/part-7.md"
             },
-			{
+            {
               "text": "8: Authors: Application Layer",
               "path": "tutorials/book-store/part-8.md"
             },
-			{
+            {
               "text": "9: Authors: User Interface",
               "path": "tutorials/book-store/part-9.md"
             },
-			{
+            {
               "text": "10: Book to Author Relation",
               "path": "tutorials/book-store/part-10.md"
             }
@@ -225,6 +225,14 @@
       "path": "road-map.md"
     },
     {
+      "text": "API Documentation",
+      "path": "{ApiDocumentationUrl}"
+    },
+    {
+      "text": "FAQ",
+      "path": "faq.md"
+    },
+    {
       "text": "Others",
       "items": [
         {
@@ -232,10 +240,6 @@
           "path": "abp-framework-vs-abp-commercial.md"
         }
       ]
-    },
-    {
-      "text": "API Documentation",
-      "path": "{ApiDocumentationUrl}"
     }
   ]
 }
