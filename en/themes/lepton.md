@@ -68,3 +68,11 @@ See the `LeptonThemeSettingNames` class members for all settings defined for thi
 ### Permissions
 
 See the `LeptonThemeManagementPermissions` class members for all permissions defined for this module.
+
+### Source code
+
+To download the source-code of the Lepton Theme use the following CLI command
+
+```
+abp get-source Volo.LeptonTheme 
+```

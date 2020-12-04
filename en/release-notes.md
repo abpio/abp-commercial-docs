@@ -2,9 +2,9 @@
 
 This document contains **brief release notes** for each release. Release notes only include major features and visible enhancements. They not don't include all the development done in the related version.
 
-## 4.0.0 (2020-11-26)
+## 4.0 (2020-12-03)
 
-> This version is currently in preview and the final version will be released at November 26.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-4.0-with-.NET-5.0-in-the-4th-Year)** for the v4.0.
 
 * Upgraded to .NET 5.0.
 * The Blazor UI option is now stable and officially supported.
@@ -15,9 +15,9 @@ This document contains **brief release notes** for each release. Release notes o
 * ABP Suite: Generate new modules inside an application solution.
 * ABP Suite: Made the backend code generation optional to allow re-generate the UI with a different UI framework.
 
-## 3.3.0 (2020-10-27)
+## 3.3 (2020-10-27)
 
-See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-ABP-Commercial-3.3-Final-Have-Been-Released)** for the v3.3.0.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-ABP-Commercial-3.3-Final-Have-Been-Released)** for the v3.3.
 
 * Completed fundamental features, modules and the theme integration for the **Blazor UI**.
 * Multi-Tenant **social/external logins** with options configurable on runtime.
@@ -26,11 +26,11 @@ See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framew
 * **reCAPTCHA** option for login & register forms.
 * **ABP Suite** improvements.
 
-## 3.2.0 (2020-10-01)
+## 3.2 (2020-10-01)
 
 ### Blog Post
 
-See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-ABP-Commercial-3.2-RC-With-The-New-Blazor-UI)** for the v3.2.0.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-ABP-Commercial-3.2-RC-With-The-New-Blazor-UI)** for the v3.2.
 
 ### Major Features / Changes
 
@@ -40,11 +40,11 @@ See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framew
 * User **profile picture** for the account module.
 * Options to enable, disable or force **two factor authentication** for tenants and users.
 
-## 3.1.0 (2020-09-03)
+## 3.1 (2020-09-03)
 
 ### Blog Post
 
-See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-v3.1-Final-Has-Been-Released)** for the v3.1.0 release.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-v3.1-Final-Has-Been-Released)** for the v3.1 release.
 
 ### Major Features / Changes
 
@@ -57,11 +57,11 @@ See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framew
 * Implementing **locking a user** for a given period of time (locked users can not login to the application).
 * Added breadcrumb and file icons for the file management module.
 
-## 3.0.0 (2020-07-01)
+## 3.0 (2020-07-01)
 
 ### Blog Post
 
-See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-v3.0-Has-Been-Released)** for the v3.0.0 release.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-v3.0-Has-Been-Released)** for the v3.0 release.
 
 ### Major Features
 
@@ -69,11 +69,11 @@ See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framew
 * Migrated the Angular UI to the **Angular 10**.
 * Published an **[API documentation](https://docs.abp.io/api-docs/commercial/2.9/api/index.html)** web site to explore the classes of the ABP Commercial.
 
-## 2.9.0 (2020-06-04)
+## 2.9 (2020-06-04)
 
 ### Blog Post
 
-See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-v2.9.0-Has-Been-Released)** for the v2.9.0 release.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framework-v2.9.0-Has-Been-Released)** for the v2.9 release.
 
 ### Major Features / Enhancements
 
@@ -83,11 +83,11 @@ See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Framew
 * [ABP Suite](https://commercial.abp.io/tools/suite) code generation support for **module development**.
 * New [leptontheme.com](http://leptontheme.com/) web site to show the **[Lepton Theme](https://commercial.abp.io/themes) components**.
 
-## 2.8.0 (2020-05-21)
+## 2.8 (2020-05-21)
 
 ### Blog Post
 
-See the detailed **blog post / announcement** for the v2.8.0 release: [https://blog.abp.io/abp/ABP-v2.8.0-Releases-%26-Road-Map](https://blog.abp.io/abp/ABP-v2.8.0-Releases-%26-Road-Map)
+See the detailed **blog post / announcement** for the v2.8 release: [https://blog.abp.io/abp/ABP-v2.8.0-Releases-%26-Road-Map](https://blog.abp.io/abp/ABP-v2.8.0-Releases-%26-Road-Map)
 
 This post also covers the [road map](road-map.md) and other news for the ABP.IO Platform.
 
@@ -99,11 +99,11 @@ This post also covers the [road map](road-map.md) and other news for the ABP.IO 
 * **Gravatar** integration for the Angular UI.
 * Managing product groups on a **tree view** for the [EasyCRM sample application](samples/easy-crm.md).
 
-## 2.7.0 (2020-05-07)
+## 2.7 (2020-05-07)
 
 ### Blog Post
 
-See the detailed **blog post / announcement** for the v2.7.0 release:  https://blog.abp.io/abp/ABP-Framework-v2_7_0-Has-Been-Released 
+See the detailed **blog post / announcement** for the v2.7 release:  https://blog.abp.io/abp/ABP-Framework-v2_7_0-Has-Been-Released 
 
 ### Major Features
 
