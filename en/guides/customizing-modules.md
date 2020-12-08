@@ -16,7 +16,7 @@ ABP Commercial adds **more extension points** on top of the ABP Framework.
 
 Module entity extension system is the **main extension system** that allows you to **define new properties** for existing entities of the depended modules. It automatically **adds properties to the entity, database, HTTP API and the user interface** in a single point.
 
-* See the [Module Entity Extensions document](module-entity-extensions.md) to learn how to use it.
+* See the [Module Entity Extensions document](https://docs.abp.io/en/abp/latest/Module-Entity-Extensions) to learn how to use it.
 
 ### Other Extension Points
 
