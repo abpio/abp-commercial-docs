@@ -677,7 +677,7 @@ While the code above pretty easy to understand, you can check the Blazorise [Car
 
 #### About the AbpCrudPageBase
 
-We will continue to benefit from the `AbpCrudPageBase` for the books page. You could just inject the `IBookAppService` and perform all the server side calls yourself (thanks to the [Dynamic C# HTTP API Client Proxy](../API/Dynamic-CSharp-API-Clients.md) system of the ABP Framework). We will do it manually for the authors page to demonstrate how to call server side HTTP APIs in your Blazor applications.
+We will continue to benefit from the `AbpCrudPageBase` for the books page. You could just inject the `IBookAppService` and perform all the server side calls yourself (thanks to the [Dynamic C# HTTP API Client Proxy](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients) system of the ABP Framework). We will do it manually for the authors page to demonstrate how to call server side HTTP APIs in your Blazor applications.
 
 ## Run the Final Application
 
