@@ -48,6 +48,32 @@ This kind of templates provides different content for each culture. In this way,
 
 ![text-template-management-multiple-culture-edit](../images/text-template-management-multiple-culture-edit-2.png)
 
+
+## Configure `TextTemplateManagementOptions`
+
+`TextTemplateManagementOptions` can be used to configure the module. You can use the below code to configure it in the ConfigureServices method of your module (eg: BookStoreApplicationModule).
+
+```csharp
+Configure<TextTemplateManagementOptions>(options =>
+{
+	options.MinimumCacheDuration = TimeSpan.FromHours(1);
+});
+```
+
+## Caching
+
+[`DatabaseTemplateContentContributor`](#DatabaseTemplateContentContributor) caches template contents to increase performance. 
+
+You can get cache store by injecting `IDistributedCache<string, TemplateContentCacheKey>`.
+
+For more information, please check the [Caching](https://docs.abp.io/en/abp/latest/Caching) guide.
+
+### TemplateContentCacheKey
+
+`TemplateContentCacheKey` is a special cache key for template contents.
+
+It has `TemplateDefinitionName` and `Culture` properties.
+
 ## Data Seed
 
 This module doesn't seed any data.
@@ -78,7 +104,7 @@ This module follows the [Domain Services Best Practices & Conventions]( https://
 
 ##### DatabaseTemplateContentContributor
 
-`DatabaseTemplateContentContributor` is used by `ITemplateContentProvider` to get template contents that stored in DB.
+`DatabaseTemplateContentContributor` is used by `ITemplateContentProvider` to get template contents that stored in DB and Cache.
 
 ### Settings
 
