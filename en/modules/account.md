@@ -10,7 +10,7 @@ See [the module description page](https://commercial.abp.io/modules/Volo.Identit
 
 ## How to Install
 
-Identity is pre-installed in [the startup templates](../startup-templates/application/index.md). So, no need to manually install it.
+Account is pre-installed in [the startup templates](../startup-templates/application/index.md). So, no need to manually install it.
 
 ## Packages
 
