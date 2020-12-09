@@ -19,7 +19,7 @@ See [the module description page](https://commercial.abp.io/modules/Volo.Identit
 
 ## How to install
 
-Identity is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
+Identity is pre-installed in [the startup templates](../startup-templates/application/index.md). So, no need to manually install it.
 
 ## Packages
 

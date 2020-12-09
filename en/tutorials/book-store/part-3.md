@@ -1346,7 +1346,7 @@ We can now define a modal to edit the book. Add the following code to the end of
 
 ### AutoMapper Configuration
 
-The base `AbpCrudPageBase` uses the [object to object mapping](../Object-To-Object-Mapping.md) system to convert an incoming `BookDto` object to a `CreateUpdateBookDto` object. So, we need to define the mapping.
+The base `AbpCrudPageBase` uses the [object to object mapping](https://docs.abp.io/en/abp/latest/Object-To-Object-Mapping) system to convert an incoming `BookDto` object to a `CreateUpdateBookDto` object. So, we need to define the mapping.
 
 Open the `BookStoreBlazorAutoMapperProfile` inside the `Acme.BookStore.Blazor` project and change the content as the following:
 

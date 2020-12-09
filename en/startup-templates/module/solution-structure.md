@@ -26,7 +26,7 @@ An `IssueType` enum and an `IssueConsts` class (which may have some constant fie
 
 ### .Domain Project
 
-This is the domain layer of the solution. It mainly contains [entities, aggregate roots](https://docs.abp.io/en/abp/latest/Entities), [domain services](https://docs.abp.io/en/abp/latest/Domain-Services), [value types]( https://docs.abp.io/en/abp/latest/Value-Types), [repository interfaces](https://docs.abp.io/en/abp/latest/Repositories) and other domain objects.
+This is the domain layer of the solution. It mainly contains [entities, aggregate roots](https://docs.abp.io/en/abp/latest/Entities), [domain services](https://docs.abp.io/en/abp/latest/Domain-Services), [value objects](https://docs.abp.io/en/abp/latest/Value-Objects), [repository interfaces](https://docs.abp.io/en/abp/latest/Repositories) and other domain objects.
 
 An `Issue` entity, an `IssueManager` domain service and an `IIssueRepository` interface are good candidates for this project.
 
