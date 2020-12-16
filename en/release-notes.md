@@ -1,19 +1,30 @@
 # Release Notes / Change Logs
 
-This document contains **brief release notes** for each release. Release notes only include major features and visible enhancements. They not don't include all the development done in the related version.
+This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
+
+## 4.1 (2020-12-17)
+
+> This version is currently in preview. The planned release date is January 4, 2021.
+
+See the detailed **[blog post / announcement](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2020-12-18%20v4_1_Preview/POST.md)** for the v4.1.
+
+* **Organization Unit** Management for the Blazor UI.
+* **Identity Server** Management for the Blazor UI.
+* ABP Suite: **Navigation Property Selection** with Typeahead (supported by all UI types).
+* **Spanish** language translation.
 
 ## 4.0 (2020-12-03)
 
 See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-4.0-with-.NET-5.0-in-the-4th-Year)** for the v4.0.
 
-* Upgraded to .NET 5.0.
-* The Blazor UI option is now stable and officially supported.
-* Completed the Blazor UI for the file management module.
-* Upgraded to the Identity Server 4.1.1 and revised the management UI.
-* ABP Suite: Blazor UI code generation.
-* ABP Suite: Navigation property selection supports dropdowns with auto-complete & lazy load.
-* ABP Suite: Generate new modules inside an application solution.
-* ABP Suite: Made the backend code generation optional to allow re-generate the UI with a different UI framework.
+* Upgraded to **.NET 5.0**.
+* The **Blazor UI** option is now stable and officially supported.
+* Completed the Blazor UI for the **file management** module.
+* Upgraded to the **Identity Server 4.1.1** and revised the management UI.
+* ABP Suite: Blazor UI **code generation**.
+* ABP Suite: **Navigation property selection** supports dropdowns with auto-complete & lazy load.
+* ABP Suite: **Generate new modules** inside an application solution.
+* ABP Suite: Made the **backend code generation optional** to allow re-generate the UI with a different UI framework.
 
 ## 3.3 (2020-10-27)
 
