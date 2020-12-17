@@ -22,6 +22,7 @@ Links for the most frequently asked technical questions on the [support website]
 * [How to disable user self registration?](https://support.abp.io/QA/Questions/185/How-to-disable-user-self-registration)
 * [How to use Telerik KendoUI components in ABP project?](https://support.abp.io/QA/Questions/173/How-to-use-Telerik--KendoUI-components-in-ABP-project)
 * [How to add a new JavaScript library to my MVC project?](https://support.abp.io/QA/Questions/132/How-to-add-a-new-JavaScript-library-to-my-MVC-project)
+* [How can I change database table prefix?](https://support.abp.io/QA/Questions/699/How-can-I-change-database-table-prefix#answer-22fb65c1-007f-e8b9-04a4-39f983085ebc)
 
 ## See Also
 
