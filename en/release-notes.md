@@ -6,7 +6,7 @@ This document contains **brief release notes** for each release. Release notes o
 
 > This version is currently in preview. The planned release date is January 4, 2021.
 
-See the detailed **[blog post / announcement](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2020-12-18%20v4_1_Preview/POST.md)** for the v4.1.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-v4.1-RC-Has-Been-Released)** for the v4.1.
 
 * **Organization Unit** Management for the Blazor UI.
 * **Identity Server** Management for the Blazor UI.
