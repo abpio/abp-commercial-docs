@@ -37,10 +37,33 @@ ABP Framework provides a [theming](https://docs.abp.io/en/abp/latest/UI/AspNetCo
 
 ### Coding Standards & Training
 
-Once you create the solution that is ready for development, you typically need to **train the developers** to make them understand the system and develop it with the same **conventions** in a **standard** and consistent way.
+Once you create the solution that is ready for development, you typically need to **train the developers** to make them understand the system and develop it with the same **conventions** in a **standard** and consistent way. Even if you train the developers, it is **hard to prepare and maintain a documentation** to explain how to make development. So, by the time, every developer will write the code in a different style and can't understand the code of each other.
 
 ABP solution is already **well-defined** and **well-documented**. [Tutorials](https://docs.abp.io/en/abp/latest/Tutorials/Part-1) and best practice guides clearly explains how to make development on this solution.
 
 ## Don't Repeat Yourself!
+
+Creating a base solution takes an important time and requires a good architectural experience. However, it is just the beginning. When you start the development, you will find that you need to write a lot of repeating code that would be awesome if all these could be automated handled.
+
+### Cross Cutting Concerns
+
+Cross Cutting Concerns are the fundamental repeating logic that should be implemented for each use case. Some examples;
+
+* Starting **transactions**, committing on success and rollback on errors.
+* **Handling and reporting exceptions**, returning a proper error response to the clients. Handling error cases in the client side.
+* Implementing **authorization** and **validation**, returning proper responses and handling these in the client side.
+* Writing **audit logs** and **entity histories** to track when an entity is changed by a user.
+
+ABP Framework automates or simplifies all the standard cross cutting concerns. You only write code that matters for your business and ABP handles the rest by conventions.
+
+### Architectural Infrastructure
+
+You typically need to build **infrastructure** to properly implement your **architecture**. For example, you generally implement some kind of the **Repository** pattern. You define some **base classes** to **simplify** and **standardize** to create entities, services, controllers and other kind of objects.
+
+All these infrastructure, even in the most simple way, takes a lot of time to **build**, **maintain** and **document**. It gets bigger by the time and becomes hard to maintain it in your solution. Separating these into a reusable project is the starting point to build your own **internal framework**.
+
+ABP Framework provides all these and more out of the box. It is mature and well documented.
+
+### Enterprise Application Patterns
 
 TODO
