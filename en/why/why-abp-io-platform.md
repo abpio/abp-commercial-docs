@@ -17,26 +17,30 @@ Even creating an almost-empty solution is challenging;
 * How do you **integrate** to 3rd-party library and systems?
 * How to setup the automated **tests**?
 
-ABP Framework provides a **well-architected** solution structure for you:
+ABP provides a **well-architected**, **layered** and **production-ready** [startup solution](https://docs.abp.io/en/abp/latest/Startup-Templates/Application) based on the [Domain Driven Design](https://docs.abp.io/en/abp/latest/Domain-Driven-Design) principles. The solution also includes pre-configured **unit** and **integration** [test](https://docs.abp.io/en/abp/latest/Testing) projects for each layer.
 
-![solution-structure](images/solution-structure.png)
-
-*Figure: Example solution structure*
-
-> ABP provides a lot of options while creating a new solution, including multiple UI Framework options (**MVC / Razor Pages**, **Angular** and **Blazor**) and Database Provider options (**EF Core** and **MongoDB**).
-
-The solution structure is well-defined and [documented](https://docs.abp.io/en/abp/latest/Startup-Templates/Application);
-
-* It is **layered** based on the [Domain Driven Design](https://docs.abp.io/en/abp/latest/Domain-Driven-Design) principles.
-* It includes pre-configured **unit** and **integration** [test](https://docs.abp.io/en/abp/latest/Testing) projects.
-
-ABP documentation clearly explains how to organize your code in this solution structure;
-
-* The [Tutorials](https://docs.abp.io/en/abp/latest/Tutorials/Part-1) show how to **start** your development and build your application.
-* [DDD Implementation Guide](https://docs.abp.io/en/abp/latest/Domain-Driven-Design-Implementation-Guide) deep dives into Domain Driven Design if you want to go further.
+Creating such a solution structure requires a good **architectural experience** and a **significant time to prepare** it. ABP provides it in just one minute.
 
 ### Common Libraries
 
-Which **libraries** you should use to implement **common requirements**? Software development ecosystem is highly dynamic and it is hard to follow the latest tools, libraries and approaches.
+Which **libraries** you should use to implement **common requirements**? Software development ecosystem is highly dynamic and it is **hard to follow** the latest tools, libraries, trends and approaches.
 
-...
+ABP **pre-integrates** the **popular**, **mature** and **up to date libraries** into the solution. You don't spend your time to integrate them and talk to each other. They properly work out of the box.
+
+### UI Theme
+
+When it comes to the UI, there are a lot of challenges including to prepare a foundation to create a **responsive**, **modern** and **flexible** UI kit with a consistent look & feel and tons of features (like left/top navigation menu, header, toolbar, footer, widgets... etc).
+
+Even if you buy a pre-built theme, **integrating** it to your solution may take **days of development**, if not weeks. Upgrading such a theme is another problem. Most of the times, the theme's HTML/CSS structure is mixed to your UI code and it is not easy to **upgrade** or **change** the theme later.
+
+ABP Framework provides a [theming](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Theming) system that makes your UI code independent from the theme. Themes are just **NuGet/NPM packages**. Installing or upgrading a theme is just a minute. While you can build your own theme (or integrate an existing theme), ABP Commercial offers **professional and modern** [themes](https://commercial.abp.io/themes).
+
+### Coding Standards & Training
+
+Once you create the solution that is ready for development, you typically need to **train the developers** to make them understand the system and develop it with the same **conventions** in a **standard** and consistent way.
+
+ABP solution is already **well-defined** and **well-documented**. [Tutorials](https://docs.abp.io/en/abp/latest/Tutorials/Part-1) and best practice guides clearly explains how to make development on this solution.
+
+## Don't Repeat Yourself!
+
+TODO
