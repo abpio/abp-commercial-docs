@@ -12,7 +12,7 @@ File Management module is not installed in [the startup templates](../Startup-Te
 
 ### 1. Using ABP CLI
 
-ABP CLI allows adding a module to a solution using `add-module` command. You can check its [documentation](https://docs.abp.io/en/abp/latest/CLI#add-module) for more information. So, file management module can be added using the command below;
+[ABP CLI](https://docs.abp.io/en/abp/latest/CLI) allows adding a module to a solution using `add-module` command. You can check its [documentation](https://docs.abp.io/en/abp/latest/CLI#add-module) for more information. So, file management module can be added using the command below;
 
 ```bash
 abp add-module Volo.FileManagement
