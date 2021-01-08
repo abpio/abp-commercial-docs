@@ -22,6 +22,8 @@ Links for the most frequently asked technical questions on the [support website]
 * [How to disable user self registration?](https://support.abp.io/QA/Questions/185/How-to-disable-user-self-registration)
 * [How to use Telerik KendoUI components in ABP project?](https://support.abp.io/QA/Questions/173/How-to-use-Telerik--KendoUI-components-in-ABP-project)
 * [How to add a new JavaScript library to my MVC project?](https://support.abp.io/QA/Questions/132/How-to-add-a-new-JavaScript-library-to-my-MVC-project)
+* [I'm getting license error ABP-LIC-0012 Given user 'XYZ' has reached the maximum allowed developer computer count](
+https://support.abp.io/QA/Questions/593/2020-11-24-140531951-0200-ERR-ABP-LIC-0012---License-Error-Given-user-%27asaifdiginationmeanet%27-has-reached-the-maximum-allowed-developer-computer-count-2-for-the-organization-%27DigiNation%27-Can-not-use-the-license-in-a-new-computer-Contact-to-li#answer-c5727d5a-c916-ee3e-047d-39f910868962)
 
 ## See Also
 
