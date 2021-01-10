@@ -53,6 +53,8 @@ ABP solution is already **well-defined** and **well-documented**. [Tutorials](ht
 
 Creating a base solution takes a significant amount of time and requires a good architectural experience. However, this is just the beginning! As you start developing, you will find that you have to write lots of repetitive code that would be great if all this could be handled automatically.
 
+ABP automates or simplifies repeating code as much as possible by following the convention over configuration principle. However, it doesn't restrict you when you need to do things manually.
+
 ### Authentication
 
 IDS4, Single Sign On, AD Integration, Social Logins, Two factor auth... etc.
@@ -84,8 +86,13 @@ There are a lot of requirements you repeatedly implement in every business appli
 * Creating abstractions and wrappers to **consume your backend APIs** from the frontend code.
 * Enqueuing and executing **background jobs**.
 * Handling multiple **time zones** in a global system.
+* Sharing **validation**, **localization**, **authorization** logic between server and client.
 
 There are a lot of more. ABP provides infrastructure to implement such requirements easily. Again, you don't spend your valuable time to re-implement all these again and again.
+
+### Generating Initial Code & Tooling
+
+TODO: Mention about ABP Suite & CLI
 
 ### Integrating to 3rd-Party Libraries and Systems
 
@@ -99,13 +106,17 @@ ABP's RabbitMQ Distributed Event Bus integration abstracts all these details. Yo
 
 TODO
 
+### Tons of Features
+
+TODO: Tag helpers, dynamic forms, BLOB storing system... etc.
+
 ### Why Not Build Your Own Framework?
 
 All these infrastructure, even in the most simple way, takes a lot of time to **build**, **maintain** and **document**. It gets bigger by the time and becomes hard to maintain it in your solution. Separating these into a reusable project is the starting point to build your own **internal framework**.
 
 Building, documenting, training and maintaining an internal framework is really hard. If you don't have a large dedicated framework team, your internal framework rapidly turns into an undocumented legacy code that no one can understand and maintain anymore.
 
-## Architectural Features
+## Architectural Infrastructure
 
 ### Modularity
 
@@ -121,11 +132,15 @@ TODO
 
 TODO
 
+## Pre-Built Modules
+
+TODO
+
 ## ABP Community
 
 Being in a big community that everyone follows similar coding styles, principles and share a common infrastructure brings power when you have troubles or you need to get help on design decisions. Since we write code in a similar way, we can to help each other much better. ABP Community is one of the most active communities on GitHub.
 
-It is easy to share code, or even reusable libraries between ABP developers. A code works for you will also work for others.
+It is easy to share code, or even reusable libraries between ABP developers. A code works for you will also work for others. There are a lot of samples and tutorials that you can directly implement for your application.
 
 When you hire a developer worked before with the ABP architecture will immediately understand your solution and start development in a very short time.
 
