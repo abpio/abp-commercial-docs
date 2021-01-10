@@ -64,8 +64,6 @@ ABP Framework automates or simplifies all the standard cross-cutting concerns. Y
 
 You typically need to build **infrastructure** to properly implement your **architecture**. For example, you generally implement some kind of the **Repository** pattern. You define some **base classes** to **simplify** and **standardize** to create entities, services, controllers and other kinds of objects.
 
-All these infrastructure, even in the most simple way, takes a lot of time to **build**, **maintain** and **document**. It gets bigger by the time and becomes hard to maintain it in your solution. Separating these into a reusable project is the starting point to build your own **internal framework**. If you don't have a dedicated development team, your internal framework rapidly turns into an undocumented legacy code that no one can understand and maintain anymore.
-
 ABP Framework provides all these and more out of the box. It is mature and well documented.
 
 ### Enterprise Application Requirements
@@ -89,8 +87,18 @@ For example assume that you need to use **RabbitMQ** as a distributed event bus.
 
 ABP's RabbitMQ Distributed Event Bus integration abstracts all these details. You just send and receive messages. You need to write low level code? No problem, you can always do. ABP doesn't restrict you when you need to use low level features of the library you are using.
 
+### Why Not Build Your Own Framework?
+
+All these infrastructure, even in the most simple way, takes a lot of time to **build**, **maintain** and **document**. It gets bigger by the time and becomes hard to maintain it in your solution. Separating these into a reusable project is the starting point to build your own **internal framework**.
+
+Building, documenting, training and maintaining an internal framework is really hard. If you don't have a large dedicated framework team, your internal framework rapidly turns into an undocumented legacy code that no one can understand and maintain anymore.
+
 ## Modularity
 
 Building a true modular system is not easy. All the aspects of the system (database, entities, APIs, UI pages/components) can be splitted into modules and each module can be reusable without others. Plain ASP.NET Core doesn't provide such a modular architecture. If you need it, you should think on it from scratch.
 
 ABP Framework is designed to build modular applications and systems. Every feature in the framework is developed so it is compatible with the modularity. Documentation and guides explain how to develop reusable modules in a standard way.
+
+## Microservice Architecture
+
+TODO
