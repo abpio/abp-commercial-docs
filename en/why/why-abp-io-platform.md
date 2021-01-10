@@ -39,6 +39,10 @@ ABP Framework provides a [theming](https://docs.abp.io/en/abp/latest/UI/AspNetCo
 
 > There are also UI **component providers** (like Telerik and DevExpress). But they only provide individual components. You are the responsible to create your own **layout system**. You **can use** such libraries in your ABP based solutions just like using in any other project.
 
+### Test Infrastructure
+
+TODO
+
 ### Coding Standards & Training
 
 Once you create the solution that is ready for development, you typically need to **train the developers** to make them understand the system and develop it with the same **conventions** in a **standard** and consistent way. Even if you train the developers, it is **hard to prepare and maintain a documentation** to explain how to make the development. So, by the time, every developer will write the code in a different style and coding standards will begin to diverge.
@@ -48,6 +52,10 @@ ABP solution is already **well-defined** and **well-documented**. [Tutorials](ht
 ## Don't Repeat Yourself!
 
 Creating a base solution takes a significant amount of time and requires a good architectural experience. However, this is just the beginning! As you start developing, you will find that you have to write lots of repetitive code that would be great if all this could be handled automatically.
+
+### Authentication
+
+IDS4, Single Sign On, AD Integration, Social Logins, Two factor auth... etc.
 
 ### Cross-Cutting Concerns
 
@@ -87,18 +95,54 @@ For example assume that you need to use **RabbitMQ** as a distributed event bus.
 
 ABP's RabbitMQ Distributed Event Bus integration abstracts all these details. You just send and receive messages. You need to write low level code? No problem, you can always do. ABP doesn't restrict you when you need to use low level features of the library you are using.
 
+### Fine Tune ASP.NET Core & the Libraries
+
+TODO
+
 ### Why Not Build Your Own Framework?
 
 All these infrastructure, even in the most simple way, takes a lot of time to **build**, **maintain** and **document**. It gets bigger by the time and becomes hard to maintain it in your solution. Separating these into a reusable project is the starting point to build your own **internal framework**.
 
 Building, documenting, training and maintaining an internal framework is really hard. If you don't have a large dedicated framework team, your internal framework rapidly turns into an undocumented legacy code that no one can understand and maintain anymore.
 
-## Modularity
+## Architectural Features
+
+### Modularity
 
 Building a true modular system is not easy. All the aspects of the system (database, entities, APIs, UI pages/components) can be splitted into modules and each module can be reusable without others. Plain ASP.NET Core doesn't provide such a modular architecture. If you need it, you should think on it from scratch.
 
 ABP Framework is designed to build modular applications and systems. Every feature in the framework is developed so it is compatible with the modularity. Documentation and guides explain how to develop reusable modules in a standard way.
 
-## Microservice Architecture
+### Microservices
 
 TODO
+
+### SaaS / Multi-Tenancy
+
+TODO
+
+## ABP Community
+
+Being in a big community that everyone follows similar coding styles, principles and share a common infrastructure brings power when you have troubles or you need to get help on design decisions. Since we write code in a similar way, we can to help each other much better. ABP Community is one of the most active communities on GitHub.
+
+It is easy to share code, or even reusable libraries between ABP developers. A code works for you will also work for others.
+
+When you hire a developer worked before with the ABP architecture will immediately understand your solution and start development in a very short time.
+
+TODO: More
+
+## Questions You May Ask
+
+Is learning curve high?
+
+Is it an overhead for simple CRUD applications?
+
+Is it sufficient for complex systems?
+
+What if I want to customize it?
+
+What if I need to bypass ABP abstractions?
+
+Does ABP slows my application?
+
+Is ABP a CMS?
