@@ -450,7 +450,17 @@ ABP can [**automagically**](https://docs.abp.io/en/abp/latest/API/Auto-API-Contr
 
 ### Swagger UI
 
-The startup template is configured to run the [Swagger UI](https://swagger.io/tools/swagger-ui/) using the [Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) library. Run the application ({{if UI=="MVC"}}`Acme.BookStore.Web`{{else}}`Acme.BookStore.HttpApi.Host`{{end}}) by pressing `CTRL+F5` and navigate to `https://localhost:<port>/swagger/` on your browser. Replace `<port>` with your own port number.
+The startup template is configured to run the [Swagger UI](https://swagger.io/tools/swagger-ui/) using the [Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) library. 
+
+Before proceeding with building and running the project, verify the database connection string points to your database. It's in the Web project's json file here: Acme.Bookstore.Web\appsettings.json
+
+Also, comment out the Automapper for Appuser. Otherwise the project won't build. This automapper entry is unnecessary as of v4.0.0. The file is located here: Acme.BookStore.Application\BookStoreApplicationAutoMapperProfile.cs:
+````csharp
+//CreateMap<AppUser, AppUserDto>().Ignore(x => x.ExtraProperties);
+````
+
+
+Run the application ({{if UI=="MVC"}}`Acme.BookStore.Web`{{else}}`Acme.BookStore.HttpApi.Host`{{end}}) by pressing `CTRL+F5` and navigate to `https://localhost:<port>/swagger/` on your browser. Replace `<port>` with your own port number. 
 
 You will see some built-in service endpoints as well as the `Book` service and its REST-style endpoints:
 
