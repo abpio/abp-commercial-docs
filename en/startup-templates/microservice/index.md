@@ -12,6 +12,8 @@ This section introduce the solution structure and briefly explains the solution 
 
 ![microservice-template-main-diagram](../../images/microservice-template-main-diagram.png)
 
+*Figure: Overall Diagram of the Solution (not all associations are shown, for the sake of simplicity)*
+
 * The **Authentication Server** is a web application that is used as the single sign-on authentication server. It hosts the login, register, forgot password, two factor authentication, profile management... pages, OAuth endpoints and authentication related APIs. All applications and services use this application as a central authority for the authentication.
 * There are two **web applications** in the solution (you can add more yourself);
   * The **Web Application** is the main UI of the system. It uses the *Authentication Server* to make users login to the application. Then it uses the *Web Gateway* to access to the HTTP APIs. You mostly develop your UI here. Based on your preference, it can be an **MVC (Razor Pages)**, **Angular** or **Blazor** application.
@@ -33,5 +35,9 @@ This section introduce the solution structure and briefly explains the solution 
   * **Kibana** is used to visualize the logs in the Elasticsearch database.
 
 ## Get Started
+
+This document explains how to start development with this solution template.
+
+### Downloading the Solution
 
 TODO
