@@ -1,4 +1,4 @@
-# Module startup template
+# Module Startup Template
 
 This startup template is used to develop reusable application modules.
 
