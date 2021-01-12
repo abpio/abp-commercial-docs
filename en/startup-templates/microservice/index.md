@@ -28,7 +28,7 @@ This section introduce the solution structure and briefly explains the solution 
   * **Administration Microservice** is mostly related to infrastructure requirements like permissions, settings, audit logs, dynamic localizations and BLOB storing. This service and the related database can be splitted based on your design decisions.
   * **Product Microservice** is an example microservices that can be investigated to learn how to develop your own microservices.
 * There are **four databases**, each is owned by the related microservice. Databases are SQL Server with EF Core integrated in the applications. You can switch to another RDBMS or MongoDB for any of them. Administration and SaaS databases are used by other services since they contains cross-cutting style data (like permissions and audit logs) that is needed by all services. The reasons behind this design decision will be discussed and alternative implementations will be explained.
-* There are some infrastructure services are configured in the solution;
+* There are some infrastructure services are configured in the solution (they are configured to run with docker-compose);
   * **Redis** is used as a distributed cache server.
   * **RabbitMQ** is used a a distributed event/message bus.
   * **ElasticSearch** is used as a central point to write application logs.
@@ -38,6 +38,52 @@ This section introduce the solution structure and briefly explains the solution 
 
 This document explains how to start development with this solution template.
 
+### Pre-Requirements
+
+The following tools are required in order to run the solution;
+
+* [Visual Studio 2019](https://visualstudio.microsoft.com/vs/community/) (v16.8+) or another suitable IDE.
+* [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (If you want to use localdb, you need to change the connection strings. If you want to use another RDBMS, you need to [switch the provider](https://docs.abp.io/en/abp/latest/Entity-Framework-Core-Other-DBMS))
+* [.NET 5.0+ SDK](https://dotnet.microsoft.com/download)
+* [NPM](https://nodejs.org/) v14+ (or [Yarn](https://classic.yarnpkg.com/en/docs/install) 1.20+).
+* [Powershell](https://docs.microsoft.com/en-us/powershell/) 5.0+
+* [Docker Desktop](https://www.docker.com/products/docker-desktop) v3.0+
+
+Other dependencies (like Redis and RabbitMQ) comes with a docker-compose configuration, so no external installation required.
+
 ### Downloading the Solution
 
-TODO
+Use the [ABP Suite](../../abp-suite/index.md) to [create a new solution](../../abp-suite/create-solution.md) by selecting the *Microservice* as the project type.
+
+TODO: Screenshot
+
+### Run the Infrastructure
+
+The root folder of the solution contains a `run-infrastructure.ps1` file. Execute it to run the necessary infrastructure services. First run will take time since it will download the missing Docker images.
+
+### Create the Databases
+
+The root folder of the solution contains a `update-databases.ps1` file. Execute it to create all the databases in one step.
+
+### Open the Solution
+
+Now, you can open the solution in Visual Studio or your favorite IDE. You will see a solution structure similar to the figure below (solution and project names will be different based on your naming preference);
+
+![microservice-template-solution-in-visual-studio](../../images/microservice-template-solution-in-visual-studio.png)
+
+## Run the Solution
+
+Run the projects with the following order (right click to each project, *Set as Startup Project* and hit Ctrl+F5);
+
+* AuthServer
+* InternalGateway
+* AdministrationService
+* IdentityService
+* SaasService
+* ProductService
+* WebGateway
+* Web
+
+This will begin the *Main Web Application*. If you want to run the *Public Website*, you need to run the PublicWebGateway project first, then the PublicWeb project.
+
+> Notice: Visual Studio may stop a previously started service (we think it is kind of a bug of the VS). In this case, re-start the stopped application. Alternatively, you can run the project or projects in a command line terminal, using the `dotnet run` command.
