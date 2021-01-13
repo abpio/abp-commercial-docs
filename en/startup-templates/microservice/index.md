@@ -85,13 +85,16 @@ It will open a Login page:
 
 ![microservice-template-auth-server-login](../../images/microservice-template-auth-server-login.png)
 
-If you want to test it, enter `admin` as the username and `1q2w3E*` as the password and hit ENTER. If you login successfully, you are redirected a test page that lists the user claims.
+If you want to test it, enter `admin` as the username and `1q2w3E*` as the password and hit ENTER. If you login successfully, you are redirected a *developer test page* that lists the current user claims:
+
+![microservice-template-auth-server-after-login-page](../../images/microservice-template-auth-server-after-login-page.png)
+
+> You can change this page however you like. Users are typically redirected to the *Authentication Server* from the other applications to login the system and they are automatically redirected to the client application after the login process. If you want, this test page can be converted to a landing page that contains links to your actual applications.
 
 ### Running the Services
 
-First, run the projects with the following order (right click to each project, *Set as Startup Project* and hit Ctrl+F5) to make the services running;
+Run the following applications in the given order (right click to each project, *Set as Startup Project* and hit Ctrl+F5) to make the services running;
 
-* AuthServer
 * InternalGateway
 * AdministrationService
 * IdentityService
@@ -99,6 +102,8 @@ First, run the projects with the following order (right click to each project, *
 * product-service/HttpApi.Host
 
 ### Running the Main Web Application
+
+The main *Web Application* can be an MVC (Razor Pages), Angular or Blazor application based on your preference.
 
 TODO
 
