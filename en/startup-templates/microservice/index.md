@@ -123,7 +123,7 @@ All these applications open a Swagger UI to explore the HTTP APIs. For example, 
 
 The main *Web Application* can be an MVC (Razor Pages), Angular or Blazor application based on your preference. Regardless of your frontend application, you first need to run the **WebGateway** application. 
 
-#### Running the Web Gateway
+#### Run the Web Gateway
 
 When you run the **WebGateway** application, it opens a Swagger UI to explore the HTTP APIs provided by this API Gateway:
 
@@ -131,19 +131,19 @@ When you run the **WebGateway** application, it opens a Swagger UI to explore th
 
 > API Gateways in this solution truly shows the APIs they expose. That's normally not possible with using Swagger and Ocelot. However, we have developed a solution to make this possible by using a proper layering and code sharing. Details will be covered later.
 
-#### Running the *MVC (Razor Pages)* Web Application
+#### Run the *MVC (Razor Pages)* Web Application
 
 > You can skip this section if you haven't selected the **MVC (Razor Pages)** as the main web application UI framework.
 
 Run the **Web** application in the solution.
 
-#### Running the *Blazor* Web Application
+#### Run the *Blazor* Web Application
 
 > You can skip this section if you haven't selected the **Blazor** as the main web application UI framework.
 
 Run the **Blazor** application in the solution.
 
-#### Running the Angular Web Application
+#### Run the Angular Web Application
 
 > You can skip this section if you haven't selected the **Angular** as the main web application UI framework.
 
@@ -177,4 +177,18 @@ Then you will be able to see all the menu items for the [modules](../../modules/
 
 ### Running the Public Website
 
-TODO
+The *Public Web Site* application uses the *Public Web Gateway*, so we need to run it first.
+
+#### Run the Public Web Gateway
+
+When you run the **PublicWebGateway** application, it opens a Swagger UI to explore the HTTP APIs provided by this API Gateway:
+
+![microservice-template-web-gateway-swagger-ui](../../images/microservice-template-public-web-gateway-swagger-ui.png)
+
+#### Run the Public Website
+
+Now, you can run the **PublicWeb** application:
+
+![microservice-template-public-web-app](../../images/microservice-template-public-web-app.jpg)
+
+> This is an example application if you need to a public/landing page for your system. It supports login (with **single sign-on** support) via the *Authentication Server*.
