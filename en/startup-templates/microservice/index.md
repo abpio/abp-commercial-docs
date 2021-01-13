@@ -55,8 +55,6 @@ Other dependencies (like Redis and RabbitMQ) comes with a docker-compose configu
 
 Use the [ABP Suite](../../abp-suite/index.md) to [create a new solution](../../abp-suite/create-solution.md) by selecting the *Microservice* as the project type.
 
-TODO: Screenshot
-
 ### Run the Infrastructure
 
 The root folder of the solution contains a `run-infrastructure.ps1` file. Execute it to run the necessary infrastructure services. First run will take time since it will download the missing Docker images.
@@ -71,19 +69,48 @@ Now, you can open the solution in Visual Studio or your favorite IDE. You will s
 
 ![microservice-template-solution-in-visual-studio](../../images/microservice-template-solution-in-visual-studio.png)
 
+*Figure: The solution structure (it will be a slightly different based on your UI preference).*
+
 ## Run the Solution
 
-Run the projects with the following order (right click to each project, *Set as Startup Project* and hit Ctrl+F5);
+The system consists of multiple applications should be running together.
+
+### Running the Authentication Server
+
+First, run the AuthServer application.
+
+> Right click to the project, *Set as Startup Project* and hit Ctrl+F5 while running the applications if you don't need to DEBUG it.
+
+It will open a Login page:
+
+![microservice-template-auth-server-login](../../images/microservice-template-auth-server-login.png)
+
+If you want to test it, enter `admin` as the username and `1q2w3E*` as the password and hit ENTER. If you login successfully, you are redirected a test page that lists the user claims.
+
+### Running the Services
+
+First, run the projects with the following order (right click to each project, *Set as Startup Project* and hit Ctrl+F5) to make the services running;
 
 * AuthServer
 * InternalGateway
 * AdministrationService
 * IdentityService
 * SaasService
-* ProductService
+* product-service/HttpApi.Host
+
+### Running the Main Web Application
+
+TODO
+
 * WebGateway
 * Web
 
-This will begin the *Main Web Application*. If you want to run the *Public Website*, you need to run the PublicWebGateway project first, then the PublicWeb project.
+This will begin the *Main Web Application*. Click to the *Login* link. It will redirect to the *Authentication Server*. Enter `admin` as the username and `1q2w3E*` as the password to login to the system. You will be redirected back to the web application.
+
+ If you want to run the *Public Website*, you need to run the PublicWebGateway project first, then the PublicWeb project.
 
 > Notice: Visual Studio may stop a previously started service (we think it is kind of a bug of the VS). In this case, re-start the stopped application. Alternatively, you can run the project or projects in a command line terminal, using the `dotnet run` command.
+
+Notes
+
+* Need to give permissions on first run!
