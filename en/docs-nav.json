@@ -94,6 +94,10 @@
           ]
         },
         {
+          "text": "Microservice Template",
+          "path": "startup-templates/microservice/index.md"
+        },
+        {
           "text": "Module Template",
           "path": "startup-templates/module/index.md",
           "items": [
