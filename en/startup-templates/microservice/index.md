@@ -77,7 +77,7 @@ The system consists of multiple applications should be running together.
 
 ### Running the Authentication Server
 
-First, run the AuthServer application.
+First, run the **AuthServer** application.
 
 > Right click to the project, *Set as Startup Project* and hit Ctrl+F5 while running the applications if you don't need to DEBUG it.
 
@@ -95,26 +95,37 @@ If you want to test it, enter `admin` as the username and `1q2w3E*` as the passw
 
 Run the following applications in the given order (right click to each project, *Set as Startup Project* and hit Ctrl+F5) to make the services running;
 
-* InternalGateway
-* AdministrationService
-* IdentityService
-* SaasService
-* product-service/HttpApi.Host
+* **InternalGateway**
+* **AdministrationService**
+* **IdentityService**
+* **SaasService**
+* product-service/**HttpApi.Host**
+
+> Notice: Visual Studio may stop a previously started service (we think it is kind of a bug of the VS). In this case, re-start the stopped application. Alternatively, you can run the project or projects in a command line terminal, using the `dotnet run` command.
+
+All these applications open a Swagger UI to explore the HTTP APIs. For example, the screenshot below was taken from the SaasService:
+
+![microservice-template-saas-api-swagger-ui](../../images/microservice-template-saas-api-swagger-ui.png)
 
 ### Running the Main Web Application
 
-The main *Web Application* can be an MVC (Razor Pages), Angular or Blazor application based on your preference.
+The main *Web Application* can be an MVC (Razor Pages), Angular or Blazor application based on your preference. Regardless of your frontend application, you first need to run the **WebGateway** application. 
 
-TODO
+#### Running the Web Gateway
 
-* WebGateway
-* Web
+When you run the **WebGateway** application, it opens a Swagger UI to explore the HTTP APIs provided by this API Gateway:
 
-This will begin the *Main Web Application*. Click to the *Login* link. It will redirect to the *Authentication Server*. Enter `admin` as the username and `1q2w3E*` as the password to login to the system. You will be redirected back to the web application.
+![microservice-template-web-gateway-swagger-ui](../../images/microservice-template-web-gateway-swagger-ui.png)
 
- If you want to run the *Public Website*, you need to run the PublicWebGateway project first, then the PublicWeb project.
+> API Gateways in this solution truly shows the APIs they expose. That's normally not possible with using Swagger and Ocelot. However, we have developed a solution to make this possible by using a proper layering and code sharing. Details will be covered later.
 
-> Notice: Visual Studio may stop a previously started service (we think it is kind of a bug of the VS). In this case, re-start the stopped application. Alternatively, you can run the project or projects in a command line terminal, using the `dotnet run` command.
+#### Running the MVC (Razor Pages) Web Application
+
+> You can skip this section if you haven't selected the MVC (Razor Pages) as the main web application UI framework.
+
+Run the **Web** application in the solution. This will begin the *Main Web Application*. Click to the *Login* link. It will redirect to the *Authentication Server*. Enter `admin` as the username and `1q2w3E*` as the password to login to the system. You will be redirected back to the web application. If you have previously logged into the *Authentication Server* then you are automatically login to this application - this is single sign on.
+
+
 
 Notes
 
