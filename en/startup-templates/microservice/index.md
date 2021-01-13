@@ -27,7 +27,7 @@ This section introduce the solution structure and briefly explains the solution 
   * **SaaS Microservice** is used to manage tenants and editions for a multi-tenant system. If your system is not multi-tenant, you can remove this service and its database from the solution.
   * **Administration Microservice** is mostly related to infrastructure requirements like permissions, settings, audit logs, dynamic localizations and BLOB storing. This service and the related database can be splitted based on your design decisions.
   * **Product Microservice** is an example microservices that can be investigated to learn how to develop your own microservices.
-* There are **four databases**, each is owned by the related microservice. Databases are SQL Server with EF Core integrated in the applications. You can switch to another RDBMS or MongoDB for any of them. Administration and SaaS databases are used by other services since they contains cross-cutting style data (like permissions and audit logs) that is needed by all services. The reasons behind this design decision will be discussed and alternative implementations will be explained.
+* There are **four databases**, each is owned by the related microservice. Databases are SQL Server with EF Core integrated in the applications. You can [switch to another RDBMS](https://docs.abp.io/en/abp/latest/Entity-Framework-Core-Other-DBMS) or [MongoDB](https://docs.abp.io/en/abp/latest/MongoDB) for any of them. Administration and SaaS databases are used by other services since they contains cross-cutting style data (like permissions and audit logs) that is needed by all services. The reasons behind this design decision will be discussed and alternative implementations will be explained.
 * There are some infrastructure services are configured in the solution (they are configured to run with docker-compose);
   * **Redis** is used as a distributed cache server.
   * **RabbitMQ** is used a a distributed event/message bus.
@@ -55,13 +55,25 @@ Other dependencies (like Redis and RabbitMQ) comes with a docker-compose configu
 
 Use the [ABP Suite](../../abp-suite/index.md) to [create a new solution](../../abp-suite/create-solution.md) by selecting the *Microservice* as the project type.
 
+![microservice-template-create-solution-suite](D:\Github\abp-commercial-docs\en\images\microservice-template-create-solution-suite.png)
+
 ### Run the Infrastructure
 
-The root folder of the solution contains a `run-infrastructure.ps1` file. Execute it to run the necessary infrastructure services. First run will take time since it will download the missing Docker images.
+The root folder of the solution contains a `run-infrastructure.ps1` file. Execute it to run the necessary infrastructure services:
+
+![microservice-template-run-infrastructure](../../images/microservice-template-run-infrastructure.png)
+
+> First running may contain additional steps and take a long time since it will download the missing Docker images.
 
 ### Create the Databases
 
-The root folder of the solution contains a `update-databases.ps1` file. Execute it to create all the databases in one step.
+The root folder of the solution contains a `update-databases.ps1` file. Execute it to create all the databases in one step:
+
+![microservice-template-database-update](../../images/microservice-template-database-update.png)
+
+It creates four databases in the SQL Server:
+
+![microservice-template-databases](../../images/microservice-template-databases.png)
 
 ### Open the Solution
 
@@ -119,14 +131,50 @@ When you run the **WebGateway** application, it opens a Swagger UI to explore th
 
 > API Gateways in this solution truly shows the APIs they expose. That's normally not possible with using Swagger and Ocelot. However, we have developed a solution to make this possible by using a proper layering and code sharing. Details will be covered later.
 
-#### Running the MVC (Razor Pages) Web Application
+#### Running the *MVC (Razor Pages)* Web Application
 
-> You can skip this section if you haven't selected the MVC (Razor Pages) as the main web application UI framework.
+> You can skip this section if you haven't selected the **MVC (Razor Pages)** as the main web application UI framework.
 
-Run the **Web** application in the solution. This will begin the *Main Web Application*. Click to the *Login* link. It will redirect to the *Authentication Server*. Enter `admin` as the username and `1q2w3E*` as the password to login to the system. You will be redirected back to the web application. If you have previously logged into the *Authentication Server* then you are automatically login to this application - this is single sign on.
+Run the **Web** application in the solution.
 
+#### Running the *Blazor* Web Application
 
+> You can skip this section if you haven't selected the **Blazor** as the main web application UI framework.
 
-Notes
+Run the **Blazor** application in the solution.
 
-* Need to give permissions on first run!
+#### Running the Angular Web Application
+
+> You can skip this section if you haven't selected the **Angular** as the main web application UI framework.
+
+* Open a command line terminal in the `angular` folder in the root folder of the solution.
+* Execute `npm install` (or `yarn` if you prefer Yarn as the package manager).
+* Execute `yarn start`.
+
+#### Login to the Web Application
+
+This will begin the *Main Web Application*:
+
+![microservice-template-web-app-welcome-page](../../images/microservice-template-web-app-welcome-page.png)
+
+Click to the *Login* link. It will redirect to the *Authentication Server*. Enter `admin` as the username and `1q2w3E*` as the password to login to the system. You will be redirected back to the web application.
+
+> If you have previously logged into the *Authentication Server* then you are automatically login to this application when you click to the Login link thanks to the **single sign on** system.
+
+#### Grant the Permissions
+
+When you first login the the application, you won't see much items on the main menu:
+
+![microservice-template-web-app](../../images/microservice-template-web-app.png)
+
+This is because not all the permissions have been granted for the admin role. Click to the **Actions** menu for the admin role and **grant all the permissions** as shown below:
+
+![microservice-template-permission-dialog](../../images/microservice-template-permission-dialog.png)
+
+Then you will be able to see all the menu items for the [modules](../../modules/index.md) pre-installed into the solution:
+
+![microservice-template-web-app-with-all-permissions](../../images/microservice-template-web-app-with-all-permissions.png)
+
+### Running the Public Website
+
+TODO
