@@ -55,7 +55,7 @@ Other dependencies (like Redis and RabbitMQ) comes with a docker-compose configu
 
 Use the [ABP Suite](../../abp-suite/index.md) to [create a new solution](../../abp-suite/create-solution.md) by selecting the *Microservice* as the project type.
 
-![microservice-template-create-solution-suite](D:\Github\abp-commercial-docs\en\images\microservice-template-create-solution-suite.png)
+![microservice-template-create-solution-suite](../../images/microservice-template-create-solution-suite.png)
 
 ### Run the Infrastructure
 
