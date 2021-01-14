@@ -2,8 +2,8 @@
 
 We will be working on the following items in the middle and long term:
 
-* A startup template to create microservice solutions (that has Ocelot, Redis, RabbitMQ, ElasticSearch, IdentityServer... pre-integrated and configured).
-* CMS Kit as a set of full-stack reusable CMS components (like articles, newsletter, FAQ, comments, contact form, tags, image gallery)
+* Improvements on the Microservice Startup Template, providing guides for different architectures and use cases.
+* CMS Kit as a set of full-stack reusable CMS components (like articles, newsletter, FAQ, comments, contact form, tags, image gallery).
 * Subscription and payment system for the SaaS module.
 * Dynamic dashboard system.
 * Real-time notification system.
