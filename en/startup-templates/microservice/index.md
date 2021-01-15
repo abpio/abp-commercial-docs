@@ -50,7 +50,7 @@ dotnet tool update Volo.Abp.Cli -g --version 4.2.0-rc.1
 
 **Update ABP Suite:**
 
-````
+````bash
 abp suite update --preview
 ````
 
