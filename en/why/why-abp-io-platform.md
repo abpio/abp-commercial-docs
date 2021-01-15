@@ -104,6 +104,8 @@ ABP's RabbitMQ Distributed Event Bus integration abstracts all these details. Yo
 
 ### Fine Tune ASP.NET Core & the Libraries
 
+There are so many popular frameworks, tools and libraries it's hard to know where to start! This is one of the most common stresses among the developers. There are just so many tools and libraries out there. It is difficult to know if you're going down the right path. ABP picks up the best tools and libraries for you. Orchestrates and sets them up nicely. Decreases boilerplate startup code of the libraries.
+
 TODO
 
 ### Tons of Features
@@ -164,18 +166,19 @@ Is ABP a CMS?
 
 ---
 
-### End to end %100 working working website
+### End to end %100 working website
+
 Once you generate an ABP project, you will have a %100 full-stack working website.
   
 ### Stay up to date
 
-We regularly update all components to the latest. 
+We regularly update all components to the latest versions.
 ABP project pulls down packages from NPM and NuGet.
 Hence you can instantly be able to get new fresh content, bug fixes and features as we ship them out.
 
-### Popular
+### Big community
 
-Currently ABP Framework has 5K stars on GitHub. 1.006.173 total downloads on NuGet. 1.078 downloads per day.
+Currently ABP Framework has 5K stars on GitHub. 1.006.173 total downloads on NuGet. 1.078 downloads per day. There's a great community behind the open-source framework. The community is impactful and it's at the center of how we innovate and build a better project. The big community help us connect with others, allows you to get new ideas, learn other's experiences and it provides solidarity. It is effective in maturing the product. 
 
 ### Pre-implemented best practises
 
