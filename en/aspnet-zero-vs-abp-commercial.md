@@ -341,7 +341,7 @@
             </tr>
             <tr>
                 <td>Simple public web site</td>
-                <td><i class="fa fa-minus text-secondary"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
@@ -376,7 +376,7 @@
             <tr>
                 <td>Private ticket & email support</td>
                 <td><i class="fa fa-check text-success"></i></td>
-                <td><i class="fa fa-minus text-secondary"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
                 <td>&nbsp;</td>
