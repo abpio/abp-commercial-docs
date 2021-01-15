@@ -2,6 +2,21 @@
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
 
+## 4.2 (2021-01-14)
+
+> **This version is currently in preview. The planned release date is January 28, 2021.**
+
+See the detailed **[blog post / announcement](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2021-01-14%20v4_2_Preview/POST.md)** for the v4.2.
+
+* **Microservice startup template** (initial) to create microservice solutions.
+* **Public website** application in the application startup template.
+* **Blazor UI** for the Easy CRM sample application.
+* Added login / **authorization** to the **Swagger UI** to test authorized APIs.
+* **DBMS selection** on new application creation.
+* Infrastructure for **Angular Unit Testing**.
+* Iyzico integration for the **Payment** module.
+* **Performance** optimization and other enhancements.
+
 ## 4.1 (2021-01-06)
 
 See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-IO-Platform-v4-1-Final-Has-Been-Released)** for the v4.1.
