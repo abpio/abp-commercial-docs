@@ -161,3 +161,22 @@ What if I need to bypass ABP abstractions?
 Does ABP slows my application?
 
 Is ABP a CMS?
+
+---
+
+### End to end %100 working working website
+Once you generate an ABP project, you will have a %100 full-stack working website.
+  
+### Stay up to date
+
+We regularly update all components to the latest. 
+ABP project pulls down packages from NPM and NuGet.
+Hence you can instantly be able to get new fresh content, bug fixes and features as we ship them out.
+
+### Popular
+
+Currently ABP Framework has 5K stars on GitHub. 1.006.173 total downloads on NuGet. 1.078 downloads per day.
+
+### Pre-implemented best practises
+
+It gives you a whole bunch of "best practises". In structural design, Domain Driven Design principles are applied.
