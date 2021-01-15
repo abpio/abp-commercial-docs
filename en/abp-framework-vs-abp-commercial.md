@@ -17,10 +17,12 @@ Here are the differences between the open source ABP Framework project and the A
 |                                                              | Open Source ABP Framework Project          | ABP Commercial                               |
 | ------------------------------------------------------------ | ------------------------------------------ | -------------------------------------------- |
 | [Base framework](https://github.com/abpframework/abp/)       | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i>     |
+| [Free startup templates](https://docs.abp.io/en/abp/latest/Startup-Templates/Index) | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i>     |
 | [Free (basic) application modules](https://docs.abp.io/en/abp/latest/Modules/Index) | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i>     |
 | [Free (basic) UI theme](https://docs.abp.io/en/abp/latest/Themes/Basic) | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i>     |
 | [ABP CLI](https://docs.abp.io/en/abp/latest/CLI) (Command Line Interface) | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i>     |
 | [Community support](https://stackoverflow.com/questions/tagged/abp) | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i>     |
+| [Pro startup templates](https://commercial.abp.io/startup-templates) | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i>     |
 | [Pro application modules](https://commercial.abp.io/modules) | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i>     |
 | [Pro UI themes](https://commercial.abp.io/themes)            | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i>     |
 | [ABP Suite](https://commercial.abp.io/tools/suite)           | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i>     |
@@ -32,6 +34,18 @@ Here are the differences between the open source ABP Framework project and the A
 **ABP Framework** is completely open source and developed in a community-driven manner. While it is mainly developed and maintained by the [Volosoft](https://volosoft.com/) Team, it is [getting contributions](https://github.com/abpframework/abp/graphs/contributors) from the community. It will always remain open source and free.
 
 **ABP Commercial** is not a replacement for the ABP Framework. It directly uses the ABP Framework and adds some benefits on top of it, those are described in this document.
+
+## Startup Templates
+
+Startup Templates are pre-built and configured solution templates that you can easily create your own solutions based on them.
+
+| Startup Template      | Open Source ABP Framework Project          | ABP Commercial                           |
+| --------------------- | ------------------------------------------ | ---------------------------------------- |
+| Application           | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
+| Module / Service      | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
+| Microservice Solution | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+
+>**Open source** startup templates use the **open source themes and modules** while **ABP Commercial** startup templates use the **commercial (pro) modules and themes**.
 
 ## Modules
 
