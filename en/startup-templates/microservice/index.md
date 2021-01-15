@@ -38,6 +38,22 @@ This section introduce the solution structure and briefly explains the solution 
 
 This document explains how to start development with this solution template.
 
+### Preview Note!
+
+This template is available with the version 4.2 and 4.2 version is currently in preview. So, if you want to use it, you first need to update ABP CLI and ABP Suite to the preview versions.
+
+**Update ABP CLI:**
+
+````bash
+dotnet tool update Volo.Abp.Cli -g --version 4.2.0-rc.1
+````
+
+**Update ABP Suite:**
+
+````
+abp suite update --preview
+````
+
 ### Pre-Requirements
 
 The following tools are required in order to run the solution;
@@ -56,6 +72,8 @@ Other dependencies (like Redis and RabbitMQ) comes with a docker-compose configu
 Use the [ABP Suite](../../abp-suite/index.md) to [create a new solution](../../abp-suite/create-solution.md) by selecting the *Microservice* as the project type.
 
 ![microservice-template-create-solution-suite](../../images/microservice-template-create-solution-suite.png)
+
+> Type `abp suite` in a command line terminal to start the ABP Suite.
 
 ### Run the Infrastructure
 
