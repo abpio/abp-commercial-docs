@@ -78,6 +78,7 @@
     },
     {
       "text": "Startup Templates",
+      "path": "startup-templates/index.md",
       "items": [
         {
           "text": "Application Template",
