@@ -51,6 +51,12 @@ Once you create the solution that is ready for development, you typically need t
 
 ABP solution is already **well-defined** and **well-documented**. [Tutorials](https://docs.abp.io/en/abp/latest/Tutorials/Part-1) and [best practice guides](https://docs.abp.io/en/abp/latest/Best-Practices/Index) clearly explain how to make development on this solution.
 
+### Keeping Your Solution Up to Date
+
+After starting your development, you need to follow the libraries you are using for upgrades/patches. We regularly update all packages to the latest versions and testing them with the framework. So, when you update the ABP Framework, all its dependencies are also upgraded.
+
+`abp update` CLI command automatically discovers and upgrades all ABP related NuGet and NPM packages in a solution in a few seconds. With ABP, it is easier to stay with the latest versions.
+
 ## Don't Repeat Yourself!
 
 Creating a base solution takes a significant amount of time and requires a good architectural experience. However, this is just the beginning! As you start developing, you will find that you have to write lots of repetitive code that would be great if all this could be handled automatically.
@@ -183,32 +189,39 @@ We definitely know that there is no limit of the **mountain of complexity** and 
 
 ### What if I want to customize it?
 
+Customization has different types and levels;
 
+* ABP Framework itself is highly customizable. You can almost replace and override any service. 3rd-party dependencies are abstracted and generally multiple alternatives are provided. You can implement your own integrations to extend the framework.
+* Modules are designed to be customizable and extensible from database to the user interface. The Framework provides a [standard extensibility model](https://docs.abp.io/en/abp/latest/Customizing-Application-Modules-Guide) that is implemented wherever possible.
+* Modules are designed as layered and compatible with [different architectures](https://docs.abp.io/en/abp/latest/Best-Practices/Index). They can be used as a part of a monolithic application or they can be deployed as standalone microservices with their own databases.
+* Modules are independent from each other. You can remove one module without touching to others.
+
+For most of the applications, these are more than necessary. However, it can not be the same freedom as the code in your own solution. For such cases, you can always replace a module by its source code when you want to completely change it. For ABP Commercial modules, we always provide a source code option.
 
 ### What if I need to bypass ABP abstractions?
 
+ABP provides a lot of abstractions on top of the ASP.NET Core and some other libraries to simplify development and increase your productivity. However, it is always possible to not use ABP abstractions and directly use the underlying API.
+
+For example, ABP provides repositories to simplify data access. However, if you prefer, you can directly access to the DbContext and use any Entity Framework Core API as you can do it in any .NET project.
+
+### Can I use other database systems?
+
+ABP provides Entity Framework Core (you can use almost any relational database system) and MongoDB integrations out of the box. In addition, it provides EF Core compatible Dapper integration. All pre-built modules have EF Core and MongoDB options.
+
+If you need to use any other database system, you are free to use its own libraries and APIs. ABP Framework doesn't have any restrictions here. For example, you can use Cassandra for your own application code. If you use a pre-built module, it will probably not have a Cassandra integration package. You have two options here: You can implement the Cassandra integration yourself (by implementing a few  repository interfaces defined by the module) or let the module continue to use its own database. Multiple database systems can run in a single application without any problem.
+
 ### Does ABP slows my application?
+
+ABP automates a lot of common tasks that you would implement them manually if you didn't use it. Some examples are exception handling, validation, authorization, unit of work (and transaction management), audit logging... etc.
+
+If you'd written all these code yourself and if they run in every HTTP request, wouldn't it make your application code a little slower? So, yes, ABP will make your application slightly slower. The good news is that the overhead is not much and the ABP features are already optimized. If you start to disable these ABP features, you will see the overhead disappears. However, you typically need these features and the slight performance difference worth. As said before, if you would write these yourself, it would have the same performance overhead.
+
+So, for most of the systems, the performance overhead can be safely ignored. For others, you can disable the ABP features you don't need to.
+
+***TODO: We will share benchmarks***
 
 ### Is ABP a CMS?
 
----
+**ABP is not a CMS** (Content Management System). It is a **generic business application development framework**. The Framework doesn't make any assumption for CMS or any type of applications. It is well layered so that the core modules are Web or ASP.NET Core independent and can be used to develop console applications, background services or any type of .NET compatible application.
 
-## ALPER's notes:
-
-### End to end %100 working website
-
-Once you generate an ABP project, you will have a %100 full-stack working website.
-
-### Stay up to date
-
-We regularly update all components to the latest versions.
-ABP project pulls down packages from NPM and NuGet.
-Hence you can instantly be able to get new fresh content, bug fixes and features as we ship them out.
-
-### Big community
-
-Currently ABP Framework has 5K stars on GitHub. 1.006.173 total downloads on NuGet. 1.078 downloads per day. There's a great community behind the open-source framework. The community is impactful and it's at the center of how we innovate and build a better project. The big community help us connect with others, allows you to get new ideas, learn other's experiences and it provides solidarity. It is effective in maturing the product. 
-
-### Pre-implemented best practises
-
-It gives you a whole bunch of "best practises". In structural design, Domain Driven Design principles are applied.
+By the way ABP Framework provides modularity and a CMS module or CMS system can be developed on top of it. We are currently building such a CMS Kit module for the ABP Framework that provides CMS primitives and features to develop your own CMS application.
