@@ -41,7 +41,9 @@ ABP Framework provides a [theming](https://docs.abp.io/en/abp/latest/UI/AspNetCo
 
 ### Test Infrastructure
 
-TODO
+Preparing a robust test environment takes a time. You need to **setup test projects** in your solution, select the tools, **mock the services and database**, create some base classes and utility services to reduce repeating code in the tests and so on.
+
+ABP Startup Templates comes with the test projects already configured for you and you can immediately write your first unit or integration test code.
 
 ### Coding Standards & Training
 
@@ -66,7 +68,6 @@ Cross-Cutting Concerns are the fundamental repeating logic that should be implem
 *   Starting **transactions**, committing on success and rollback on errors.
 *   **Handling and reporting exceptions**, returning a proper error response to the clients. Handling error cases in the client-side.
 *   Implementing **authorization** and **validation**, returning proper responses and handling these in the client-side.
-*   TODO: MORE
 
 ABP Framework automates or simplifies all the standard cross-cutting concerns. You only write code that matters for your business and ABP handles the rest by conventions.
 
@@ -92,7 +93,7 @@ There are a lot of more. ABP provides infrastructure to implement such requireme
 
 ### Generating Initial Code & Tooling
 
-TODO: Mention about ABP Suite & CLI
+ABP Suite can generate a full stack CRUD page for your entities in a few seconds. The generated code is layered and clean. All the standard validation and authorization requirements are implemented. Once you get a fully running page in seconds, you can change and improve the code based on your business requirements.
 
 ### Integrating to 3rd-Party Libraries and Systems
 
@@ -106,11 +107,9 @@ ABP's RabbitMQ Distributed Event Bus integration abstracts all these details. Yo
 
 There are so many popular frameworks, tools and libraries it's hard to know where to start! This is one of the most common stresses among the developers. There are just so many tools and libraries out there. It is difficult to know if you're going down the right path. ABP picks up the best tools and libraries for you. Orchestrates and sets them up nicely. Decreases boilerplate startup code of the libraries.
 
-TODO
-
 ### Tons of Features
 
-TODO: Tag helpers, dynamic forms, BLOB storing system... etc.
+Tag helpers, dynamic forms, BLOB storing system and other ABP features helps you to keep DRY and focus on your own business.
 
 ### Why Not Build Your Own Framework?
 
@@ -132,11 +131,17 @@ TODO
 
 ### SaaS / Multi-Tenancy
 
-TODO
+Multi-Tenancy is a common way to implement SaaS systems. However, implementing a consistent multi-tenant infrastructure may become complicated.
+
+ABP Framework provides a complete multi-tenant infrastructure and abstract complexity from your business code. Your application code will be mostly multi-tenancy aware while the ABP Framework automatically isolates database, cache and other details of the tenants from each other. It supports single database, per tenant database and hybrid approaches. It properly configures the libraries like Microsoft Identity and IdentityServer those are not multi-tenancy compatible normally.
 
 ## Pre-Built Modules
 
-TODO
+To be honest, all we have similar, but slightly different business requirements. However, we all should re-invent the wheel since no one's code can directly work in our solution. They are all embedded part of a larger solution.
+
+ABP Commercial [modules](https://commercial.abp.io/modules) provides a lot of **re-usable application modules** like payment, chat, file management, audit log reporting... etc. All of these modules are easily installed into your solution and directly work. We are constantly adding more modules.
+
+All modules are designed as customizable for your business requirements. If you need to have a complete control, you can download the full source code of any module and completely customize based on your specific business requirements.
 
 ## ABP Community
 
@@ -146,30 +151,34 @@ It is easy to share code, or even reusable libraries between ABP developers. A c
 
 When you hire a developer worked before with the ABP architecture will immediately understand your solution and start development in a very short time.
 
-TODO: More
-
 ## Questions You May Ask
 
-Is learning curve high?
+### Is the learning curve high?
 
-Is it an overhead for simple CRUD applications?
+We can easily say the learning curve is much lower than not using the ABP Framework. That may sound surprising, but let us to explain it;
 
-Is it sufficient for complex systems?
 
-What if I want to customize it?
 
-What if I need to bypass ABP abstractions?
+### Is it an overhead for simple CRUD applications?
 
-Does ABP slows my application?
+### Is it sufficient for complex systems?
 
-Is ABP a CMS?
+### What if I want to customize it?
+
+### What if I need to bypass ABP abstractions?
+
+### Does ABP slows my application?
+
+### Is ABP a CMS?
 
 ---
+
+## ALPER's notes:
 
 ### End to end %100 working website
 
 Once you generate an ABP project, you will have a %100 full-stack working website.
-  
+
 ### Stay up to date
 
 We regularly update all components to the latest versions.
