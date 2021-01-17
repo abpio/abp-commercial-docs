@@ -21,6 +21,8 @@ There are two ways of creating a new project: ABP Suite and ABP CLI.
 
 ### Using the ABP Suite to create a new project
 
+> ABP Suite is the recommended way to create new solutions for the ABP Commercial.
+
 Run the ABP Suite with the following command:
 
 ````bash
@@ -35,7 +37,7 @@ Click to the **Create solution** button and fill the modal form:
 
 ![suite-new-project-modal](/images/suite-new-project-modal.png)
 
-Select the UI framework, Database provider and other option based on your requirements then click to the OK button.
+Select the UI framework, Database provider and other options based on your preferences then click to the OK button.
 
 > You can use different level of namespaces; e.g. BookStore, Acme.BookStore or Acme.Retail.BookStore. 
 
@@ -82,7 +84,7 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Bl
 
 #### ABP CLI commands & options
 
-[ABP CLI document](https://docs.abp.io/en/abp/latest/CLI) covers all of the available commands and options for the ABP CLI. The main difference for the ABP Commercial is the template names. See the [ABP Commercial Startup Templates](startup-templates/application/index.md) document for other commercial templates.
+[ABP CLI document](https://docs.abp.io/en/abp/latest/CLI) covers all of the available commands and options for the ABP CLI. The main difference for the ABP Commercial is the template names. See the [ABP Commercial Startup Templates](startup-templates/index.md) document for other commercial templates.
 
 ## The solution structure
 
