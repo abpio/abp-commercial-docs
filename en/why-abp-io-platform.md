@@ -157,9 +157,23 @@ When you hire a developer worked before with the ABP architecture will immediate
 
 We can easily say the learning curve is much lower than not using the ABP Framework. That may sound surprising, but let us to explain it;
 
+ABP creates a full stack, production ready, working solution for you in a few seconds. Many of the real-life problems are already solved and many fine tune configurations are already applied for the ASP.NET Core and the other used libraries. If you start from scratch, you will experience and learn all these details yourself to truly implement for your solution.
 
+ABP uses the industry standard frameworks, libraries and systems you already know (or need to learn to build a real world product) like EF Core, AutoMapper, IdentityServer, Bootstrap, Redis, Angular, Blazor, SignalR... etc. So, all the knowledge you have is directly re-usable with the ABP Framework. ABP even simplifies to use these libraries and systems and solves the integration problems. If you don't know these tools now, learning them will be easier within the ABP Framework.
+
+ABP provides an awesome infrastructure to apply DDD principles and other best practices. It provides a lot of sweet abstractions and automations to reduce the repeating code. However, it doesn't force you to use or apply all these. A common mistake is to see that ABP has a lot of features and hard to learn all. Having a lot of features is an advantage when you come to the point that you need them. However, until you need a feature, you don't need to know it and you can continue the development approach you like. You can write your code just like ABP doesn't provide all these benefits for you if you want to do it or when you don't know how to do with the ABP Framework. Learning ABP infrastructure is progressive. You will love it whenever you learn a new feature, but can continue to the development without knowing their existence.
+
+Finally, learning an ABP Framework feature is much more easier building the same feature yourself when you need it (and believe us you will need it soon or later). We've done the hard work for you and documented well. We believe that you will enjoy and love it as you learn.
 
 ### Is it an overhead for simple CRUD applications?
+
+ABP Framework pretty simplifies building CRUD applications, because CRUD applications are more suitable to automate.
+
+ABP provides default repositories, CRUD application service base class, pre-built DTO classes, simplified client-to-server communication approach, UI components, helpers and more to build CRUD functionalities for your applications in the production quality.
+
+ABP Suite even automatically creates production level CRUD functionality when you just define the properties of your entity.
+
+Finally, most of the applications and systems are thought as simple at the beginning, but they grow by the time. Once your application grows and you need to implement some advanced requirements, ABP will be here to help you even more.
 
 ### Is it sufficient for complex systems?
 
