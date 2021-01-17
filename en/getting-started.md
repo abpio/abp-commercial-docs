@@ -15,8 +15,12 @@
 
 ## Contents
 
-This tutorial explains how to **create and run** a new web application using the startup template.
+This tutorial explains how to **create and run** a new web application using the [application startup template](startup-templates/application/index.md).
 
 1. [Setup your development environment](getting-started-setup-environment)
 2. [Creating a new solution](getting-started-create-solution.md)
 3. [Running the solution](getting-started-running-solution.md)
+
+## See Also
+
+* [All Startup Templates](startup-templates/index.md)
