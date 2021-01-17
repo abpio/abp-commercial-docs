@@ -177,7 +177,13 @@ Finally, most of the applications and systems are thought as simple at the begin
 
 ### Is it sufficient for complex systems?
 
+ABP Framework is designed to solve real-time problems and build complex systems. It provides a lot of infrastructure requirements already implemented for your system and provides lots of integrations to enterprise systems and tools.
+
+We definitely know that there is no limit of the **mountain of complexity** and no one can provide everything to you. **ABP Platform is a helicopter that puts you at a high point of the mountain and provides many useful tools to help you climb the rest yourself.**
+
 ### What if I want to customize it?
+
+
 
 ### What if I need to bypass ABP abstractions?
 
