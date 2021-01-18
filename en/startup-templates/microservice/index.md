@@ -40,12 +40,12 @@ This document explains how to start development with this solution template.
 
 ### Preview Note!
 
-This template is available with the version 4.2 and 4.2 version is currently in preview. So, if you want to use it, you first need to update ABP CLI and ABP Suite to the preview versions.
+**This template is available with the version 4.2 and the version 4.2 is currently in preview.** So, if you want to use it, you first need to update ABP CLI and ABP Suite to the preview versions.
 
 **Update ABP CLI:**
 
 ````bash
-dotnet tool update Volo.Abp.Cli -g --version 4.2.0-rc.1
+dotnet tool update Volo.Abp.Cli -g --version 4.2.0-rc.2
 ````
 
 **Update ABP Suite:**
