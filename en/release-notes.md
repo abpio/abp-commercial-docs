@@ -6,7 +6,7 @@ This document contains **brief release notes** for each release. Release notes o
 
 > **This version is currently in preview. The planned release date is January 28, 2021.**
 
-See the detailed **[blog post / announcement](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2021-01-14%20v4_2_Preview/POST.md)** for the v4.2.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-IO-Platform-v4-2-RC-Has-Been-Released)** for the v4.2.
 
 * **Microservice startup template** (initial) to create microservice solutions.
 * **Public website** application in the application startup template.
