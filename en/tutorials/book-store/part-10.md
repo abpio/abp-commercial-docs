@@ -487,7 +487,7 @@ namespace Acme.BookStore.Books
             DeletePolicyName = BookStorePermissions.Books.Create;
         }
 
-        public async override Task<BookDto> GetAsync(Guid id)
+        public override async Task<BookDto> GetAsync(Guid id)
         {
             var book = await Repository.GetAsync(id);
             var bookDto = ObjectMapper.Map<Book, BookDto>(book);
@@ -498,7 +498,7 @@ namespace Acme.BookStore.Books
             return bookDto;
         }
 
-        public async override Task<PagedResultDto<BookDto>> 
+        public override async Task<PagedResultDto<BookDto>>
             GetListAsync(PagedAndSortedResultRequestDto input)
         {
             //Set a default sorting, if not provided
@@ -506,7 +506,7 @@ namespace Acme.BookStore.Books
             {
                 input.Sorting = nameof(Book.Name);
             }
-            
+
             //Get the IQueryable<Book> from the repository
             var queryable = await Repository.GetQueryableAsync();
 
@@ -525,7 +525,7 @@ namespace Acme.BookStore.Books
             var authorDictionary = await GetAuthorDictionaryAsync(books);
 
             //Set AuthorName for the DTOs
-            bookDtos.ForEach(bookDto => bookDto.AuthorName = 
+            bookDtos.ForEach(bookDto => bookDto.AuthorName =
                              authorDictionary[bookDto.AuthorId].Name);
 
             //Get the total count with another query (required for the paging)
