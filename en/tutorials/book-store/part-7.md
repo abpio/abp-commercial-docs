@@ -200,7 +200,7 @@ namespace Acme.BookStore.Authors
             string filter = null)
         {
             var queryable = await GetMongoQueryableAsync();
-            return queryable
+            return await queryable
                 .WhereIf<Author, IMongoQueryable<Author>>(
                     !filter.IsNullOrWhiteSpace(),
                     author => author.Name.Contains(filter)
