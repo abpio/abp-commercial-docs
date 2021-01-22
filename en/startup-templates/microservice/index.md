@@ -54,6 +54,12 @@ dotnet tool update Volo.Abp.Cli -g --version 4.2.0-rc.2
 abp suite update --preview
 ````
 
+#### Known Issues
+
+There is **one known issue** in the 4.2.0-rc.2 version, which will be fixed with the 4.2.0 final:
+
+* After downloading the solution, before opening it, open the `src/product-service/xxx.ProductService.HttpApi.Host/Properties/launchSettings.json` in a text editor and replace `http://localhost:44361` by `https://localhost:44361`.
+
 ### Pre-Requirements
 
 The following tools are required in order to run the solution;
