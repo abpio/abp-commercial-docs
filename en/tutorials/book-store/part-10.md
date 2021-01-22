@@ -364,8 +364,11 @@ namespace Acme.BookStore.Books
 
         public override async Task<BookDto> GetAsync(Guid id)
         {
+            //Get the IQueryable<Book> from the repository
+            var queryable = await Repository.GetQueryableAsync();
+
             //Prepare a query to join books and authors
-            var query = from book in Repository
+            var query = from book in queryable
                 join author in _authorRepository on book.AuthorId equals author.Id
                 where book.Id == id
                 select new { book, author };
@@ -385,8 +388,11 @@ namespace Acme.BookStore.Books
         public override async Task<PagedResultDto<BookDto>>
             GetListAsync(PagedAndSortedResultRequestDto input)
         {
+            //Get the IQueryable<Book> from the repository
+            var queryable = await Repository.GetQueryableAsync();
+
             //Prepare a query to join books and authors
-            var query = from book in Repository
+            var query = from book in queryable
                 join author in _authorRepository on book.AuthorId equals author.Id
                 orderby input.Sorting
                 select new {book, author};
@@ -500,10 +506,13 @@ namespace Acme.BookStore.Books
             {
                 input.Sorting = nameof(Book.Name);
             }
+            
+            //Get the IQueryable<Book> from the repository
+            var queryable = await Repository.GetQueryableAsync();
 
             //Get the books
             var books = await AsyncExecuter.ToListAsync(
-                Repository
+                queryable
                     .OrderBy(input.Sorting)
                     .Skip(input.SkipCount)
                     .Take(input.MaxResultCount)
@@ -545,8 +554,9 @@ namespace Acme.BookStore.Books
                 .Distinct()
                 .ToArray();
 
+            var queryable = await _authorRepository.GetQueryableAsync();
             var authors = await AsyncExecuter.ToListAsync(
-                _authorRepository.Where(a => authorIds.Contains(a.Id))
+                queryable.Where(a => authorIds.Contains(a.Id))
             );
 
             return authors.ToDictionary(x => x.Id, x => x);
