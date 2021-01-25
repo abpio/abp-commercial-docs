@@ -439,7 +439,7 @@ Let's see the changes we've done:
 * Injected `IAuthorRepository` to query from the authors.
 * Overrode the `GetAsync` method of the base `CrudAppService`, which returns a single `BookDto` object with the given `id`.
   * Used a simple LINQ expression to join books and authors and query them together for the given book id.
-  * Used `AsyncExecuter.FirstOrDefaultAsync(...)` to execute the query and get a result. `AsyncExecuter` was previously used in the `AuthorAppService`. Check the [repository documentation](https://docs.abp.io/en/abp/latest/Repositories) to understand why we've used it.
+  * Used `AsyncExecuter.FirstOrDefaultAsync(...)` to execute the query and get a result. It is a way to use asynchronous LINQ extensions without depending on the database provider API. Check the [repository documentation](https://docs.abp.io/en/abp/latest/Repositories) to understand why we've used it.
   * Throws an `EntityNotFoundException` which results an `HTTP 404` (not found) result if requested book was not present in the database.
   * Finally, created a `BookDto` object using the `ObjectMapper`, then assigning the `AuthorName` manually.
 * Overrode the `GetListAsync` method of the base `CrudAppService`, which returns a list of books. The logic is similar to the previous method, so you can easily understand the code.
