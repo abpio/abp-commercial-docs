@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The Account pro module has built-in `LdapExternalLoginProvider` and `OpenLdapManager` services. It implements LDAP authentication and gets user info for external login.
+The Account pro module has built-in `LdapExternalLoginProvider` and `OpenLdapManager` services. It implements LDAP authentication and gets user info for [external login](https://github.com/abpframework/abp/issues/4977).
 
 We use [ldap4net](https://github.com/flamencist/ldap4net) library. For more information you can check [its Github homepage](https://github.com/flamencist/ldap4net).
 
@@ -13,6 +13,10 @@ We need to enable the LDAP login feature and configure related settings.
 ![enable-ldap-feature](../../images/enable-ldap-feature.png)
 
 ![configure-ldap-setting](../../images/configure-ldap-setting.png)
+
+Now you can enter the LDAP user name and password on the Login page for external login.
+
+![ldap-login](../../images/ldap-login.png)
 
 ## Customize built-in services
 
