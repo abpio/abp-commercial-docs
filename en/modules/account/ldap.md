@@ -111,3 +111,4 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 Testing the LDAP configuration using your application might be complicated. Therefore you can use our test application. The following dotnet console app is for testing your LDAP configuration. Before using the configuration, test in this app and see if it works.
 
 [AbpLdapSample](https://github.com/abpframework/abp-samples/tree/master/AbpLdapSample)
+
