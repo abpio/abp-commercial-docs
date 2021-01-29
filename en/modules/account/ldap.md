@@ -2,19 +2,19 @@
 
 ## Introduction
 
-The Account pro module has built-in `LdapExternalLoginProvider` and `OpenLdapManager` services. It implements LDAP authentication and gets user info for [external login](https://github.com/abpframework/abp/issues/4977).
+The Account PRO module has built-in `LdapExternalLoginProvider` and `OpenLdapManager` services. It implements LDAP authentication and gets user info for [external login](https://github.com/abpframework/abp/issues/4977).
 
-We use [ldap4net](https://github.com/flamencist/ldap4net) library. For more information you can check [its Github homepage](https://github.com/flamencist/ldap4net).
+Cross platform [LdapForNet](https://www.nuget.org/packages/LdapForNet/) library is used for Windows LDAP authentication. See [LdapForNet GitHub repository](https://github.com/flamencist/ldap4net) for more information.
 
 ## How to enable LDAP external login?
 
-We need to enable the LDAP login feature and configure related settings.
+Youu need to enable the LDAP login feature and configure related settings.
 
 ![enable-ldap-feature](../../images/enable-ldap-feature.png)
 
 ![configure-ldap-setting](../../images/configure-ldap-setting.png)
 
-Now you can enter the LDAP user name and password on the Login page for external login.
+Then you can enter the LDAP user name and password on the login page for external login.
 
 ![ldap-login](../../images/ldap-login.png)
 
@@ -55,7 +55,7 @@ public class VoloOpenLdapManager : OpenLdapManager
 }
 ```
 
-At the same time, `$"uid={userName}, {BaseDc}"` is used in the built-in `LdapExternalLoginProvider` service to normalize the username, you have to change it together.
+Besides, `$"uid={userName}, {BaseDc}"` is used in the built-in `LdapExternalLoginProvider` service to normalize the username, you have to change it together.
 
 ```cs
 public class VoloLdapExternalLoginProvider : LdapExternalLoginProvider
@@ -108,6 +108,6 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 
 ## Test application
 
-It is more complicated to test the LDAP configuration in the ABP project. We provide a test application for this. You can test those settings in the console.
+Testing the LDAP configuration using your application might be complicated. Therefore you can use our test application. The following dotnet console app is for testing your LDAP configuration. Before using the configuration, test in this app and see if it works.
 
-See [AbpLdapSample/Program.cs](https://github.com/abpframework/abp-samples/blob/master/AbpLdapSample/AbpLdapSample/Program.cs)
+[AbpLdapSample](https://github.com/abpframework/abp-samples/tree/master/AbpLdapSample)
