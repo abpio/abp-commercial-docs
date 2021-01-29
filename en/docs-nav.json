@@ -230,10 +230,6 @@
       "path": "road-map.md"
     },
     {
-      "text": "API Documentation",
-      "path": "{ApiDocumentationUrl}"
-    },
-    {
       "text": "FAQ",
       "path": "faq.md"
     },

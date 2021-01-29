@@ -38,22 +38,6 @@ This section introduce the solution structure and briefly explains the solution 
 
 This document explains how to start development with this solution template.
 
-### Preview Note!
-
-**This template is available with the version 4.2 and the version 4.2 is currently in preview.** So, if you want to use it, you first need to update ABP CLI and ABP Suite to the preview versions.
-
-**Update ABP CLI:**
-
-````bash
-dotnet tool update Volo.Abp.Cli -g --version 4.2.0-rc.2
-````
-
-**Update ABP Suite:**
-
-````bash
-abp suite update --preview
-````
-
 ### Pre-Requirements
 
 The following tools are required in order to run the solution;
