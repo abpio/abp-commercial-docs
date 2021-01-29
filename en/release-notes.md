@@ -2,11 +2,9 @@
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
 
-## 4.2 (2021-01-14)
+## 4.2 (2021-01-28)
 
-> **This version is currently in preview. The planned release date is January 28, 2021.**
-
-See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-IO-Platform-v4-2-RC-Has-Been-Released)** for the v4.2.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-4-2-Final-Has-Been-Released)** for the v4.2.
 
 * **Microservice startup template** (initial) to create microservice solutions.
 * **Public website** application in the application startup template.
