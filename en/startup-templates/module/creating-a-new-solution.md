@@ -21,6 +21,18 @@ abp new Acme.IssueManagement -t module-pro
 
 Use `--no-ui` option to not include the UI layer. This is useful if you only want to create a service/microservice project.
 
+
+### Creating Module Solution via ABP Suite
+
+ABP Suite allows you to create a new ABP Module Solution. 
+
+If you have not installed ABP Suite, see [how to install ABP Suite](../../abp-suite/how-to-install.md).
+
+To start ABP Suite, see [how to start ABP Suite](../../abp-suite/how-to-start.md). 
+
+To create a new module solution, see [how to create a new module solution](../../abp-suite/create-module-solution.md). 
+
+
 ## What's Next?
 
 * [Module Startup Template Solution Structure](solution-structure.md)
