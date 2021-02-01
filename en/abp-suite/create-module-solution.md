@@ -6,7 +6,7 @@ Creates a new ABP module solution. It's an alternative way of creating an ABP mo
 
 ![Create a new ABP Module Solution](../images/suite-create-a-new-module-solution.png)
 
-You need to select the `Template type` as `Module template`.
+You need to select the `Module template` as `Template type`.
 
 ![Select template type](../images/suite-select-template-type.png)
 
