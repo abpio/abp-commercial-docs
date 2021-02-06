@@ -111,10 +111,6 @@ For example assume that you need to use **RabbitMQ** as a distributed event bus.
 
 ABP's RabbitMQ Distributed Event Bus integration abstracts all these details. You just send and receive messages. You need to write low level code? No problem, you can always do. ABP doesn't restrict you when you need to use low level features of the library you are using.
 
-### Fine Tune ASP.NET Core & the Libraries
-
-There are so many popular frameworks, tools and libraries it's hard to know where to start! This is one of the most common stresses among the developers. There are just so many tools and libraries out there. It is difficult to know if you're going down the right path. ABP picks up the best tools and libraries for you. Orchestrates and sets them up nicely. Decreases boilerplate startup code of the libraries.
-
 ### Tons of Features
 
 Tag helpers, dynamic forms, BLOB storing system and other ABP features helps you to keep DRY and focus on your own business.
