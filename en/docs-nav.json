@@ -145,7 +145,13 @@
         },
         {
           "text": "Identity",
-          "path": "modules/identity.md"
+          "path": "modules/identity.md",
+          "items": [
+            {
+              "text": "Two Factor Authentication",
+              "path": "modules/identity/2-factor-authentication.md"
+            }
+          ]
         },
         {
           "text": "IdentityServer",
