@@ -468,16 +468,13 @@ For more information, see the [RoutesService document](https://docs.abp.io/en/ab
 
 ### Service Proxy Generation
 
-[ABP CLI](https://docs.abp.io/en/abp/latest/CLI) provides `generate-proxy` command that generates client proxies for your HTTP APIs to make easy to consume your HTTP APIs from the client side. Before running `generate-proxy` command, your host must be up and running.
+[ABP CLI](../CLI.md) provides `generate-proxy` command that generates client proxies for your HTTP APIs to make easy to consume your HTTP APIs from the client side. Before running `generate-proxy` command, your host must be up and running.
 
 Run the following command in the `angular` folder:
 
 ```bash
-abp generate-proxy --apiUrl https://localhost:XXXXX
+abp generate-proxy
 ```
-
-* XXXXX should be replaced with the backend port of your application.
-* If you don't specify the `--apiUrl` parameter, it will try to get the URL from the `src/environments/environment.ts` file.
 
 This command will create the following files under the `/src/app/proxy/books` folder:
 
