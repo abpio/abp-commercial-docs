@@ -682,8 +682,8 @@ Open `/src/app/book/book.component.html` and make the following changes:
         <abp-breadcrumb></abp-breadcrumb>
     </div>
     <div class="col">
-        <!-- Add the "new book" button here -->
         <div class="text-lg-right pt-2">
+            <!-- Add the "new book" button here -->
             <button id="create" class="btn btn-primary" type="button" (click)="createBook()">
                 <i class="fa fa-plus mr-1"></i>
                 <span>{%{{{ "::NewBook" | abpLocalization }}}%}</span>
@@ -691,6 +691,7 @@ Open `/src/app/book/book.component.html` and make the following changes:
         </div>
     </div>
 </div>
+
 <div class="card">
     <div class="card-body">
         <!-- ngx-datatable should be here! -->
