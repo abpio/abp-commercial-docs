@@ -567,11 +567,19 @@ function configureRoutes(routes: RoutesService) {
         order: 1,
         layout: eLayoutType.application,
       },
+            {
+        path: '/dashboard',
+        name: '::Menu:Dashboard',
+        iconClass: 'fas fa-chart-line',
+        order: 2,
+        layout: eLayoutType.application,
+        requiredPolicy: 'BookStore.Dashboard.Host || AbpAccount.SettingManagement',
+      },
       {
         path: '/book-store',
         name: '::Menu:BookStore',
         iconClass: 'fas fa-book',
-        order: 2,
+        order: 101,
         layout: eLayoutType.application,
       },
       {
@@ -710,84 +718,104 @@ Open the `/src/app/author/author.component.html` and replace the content as belo
 
 ````html
 <div class="row entry-row">
-    <div class="col col-auto">
-        <h1 class="content-header-title">
-            {%{{{ '::Menu:Authors' | abpLocalization }}}%}
-        </h1>
+  <div class="col-12 col-sm-auto">
+    <h1 class="content-header-title">{%{{{ '::Menu:Authors' | abpLocalization }}}%}</h1>
+  </div>
+
+  <div class="col-lg-auto pl-lg-0">
+    <abp-breadcrumb></abp-breadcrumb>
+  </div>
+
+  <div class="col">
+    <div class="text-lg-right pt-2">
+      <button
+        *abpPermission="'BookStore.Authors.Create'"
+        class="btn btn-primary btn-sm"
+        type="button"
+        (click)="createAuthor()"
+      >
+        <i class="fa fa-plus mr-1" aria-hidden="true"></i>
+        {%{{{ '::NewAuthor' | abpLocalization }}}%}
+      </button>
     </div>
-    <div class="col-lg-auto pl-lg-0">
-        <abp-breadcrumb></abp-breadcrumb>
-    </div>
-    <div class="col">
-        <div class="text-lg-right pt-2">
-            <button id="create" class="btn btn-primary" type="button" (click)="createAuthor()">
-                <i class="fa fa-plus mr-1"></i>
-                <span>{%{{{ '::NewAuthor' | abpLocalization }}}%}</span>
-            </button>
-        </div>
-    </div>
+  </div>
 </div>
+
 <div class="card">
-    <div class="card-body">
-        <ngx-datatable [rows]="author.items" [count]="author.totalCount" [list]="list" default>
-            <ngx-datatable-column [name]="'::Actions' | abpLocalization" [maxWidth]="150" [sortable]="false">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    <div ngbDropdown container="body" class="d-inline-block">
-                        <button class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"
-                            aria-haspopup="true" ngbDropdownToggle>
-                            <i class="fa fa-cog mr-1"></i>{%{{{ '::Actions' | abpLocalization }}}%}
-                        </button>
-                        <div ngbDropdownMenu>
-                            <button ngbDropdownItem (click)="editAuthor(row.id)">
-                                {%{{{ '::Edit' | abpLocalization }}}%}
-                            </button>
-                            <button ngbDropdownItem (click)="delete(row.id)">
-                                {%{{{ '::Delete' | abpLocalization }}}%}
-                            </button>
-                        </div>
-                    </div>
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
-            <ngx-datatable-column [name]="'::BirthDate' | abpLocalization">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                    {%{{{ row.birthDate | date }}}%}
-                </ng-template>
-            </ngx-datatable-column>
-        </ngx-datatable>
-    </div>
+  <div class="card-body">
+    <ngx-datatable [rows]="author.items" [count]="author.totalCount" [list]="list" default>
+      <ngx-datatable-column
+        [name]="'::Actions' | abpLocalization"
+        [maxWidth]="150"
+        [sortable]="false"
+      >
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div ngbDropdown container="body" class="d-inline-block">
+            <button
+              class="btn btn-primary btn-sm dropdown-toggle"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              ngbDropdownToggle
+            >
+              <i class="fa fa-cog mr-1"></i>{%{{{ '::Actions' | abpLocalization }}}%}
+            </button>
+            <div ngbDropdownMenu>
+              <button ngbDropdownItem (click)="editAuthor(row.id)">
+                {%{{{ '::Edit' | abpLocalization }}}%}
+              </button>
+              <button ngbDropdownItem (click)="delete(row.id)">
+                {%{{{ '::Delete' | abpLocalization }}}%}
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
+      <ngx-datatable-column [name]="'::BirthDate' | abpLocalization">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          {%{{{ row.birthDate | date }}}%}
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
 </div>
 
 <abp-modal [(visible)]="isModalOpen">
-    <ng-template #abpHeader>
-        <h3>{%{{{ (selectedAuthor.id ? '::Edit' : '::NewAuthor') | abpLocalization }}}%}</h3>
-    </ng-template>
+  <ng-template #abpHeader>
+    <h3>{%{{{ (selectedAuthor.id ? '::Edit' : '::NewAuthor') | abpLocalization }}}%}</h3>
+  </ng-template>
 
-    <ng-template #abpBody>
-        <form [formGroup]="form" (ngSubmit)="save()">
-            <div class="form-group">
-                <label for="author-name">Name</label><span> * </span>
-                <input type="text" id="author-name" class="form-control" formControlName="name" autofocus />
-            </div>
+  <ng-template #abpBody>
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="author-name">Name</label><span> * </span>
+        <input type="text" id="author-name" class="form-control" formControlName="name" autofocus />
+      </div>
 
-            <div class="form-group">
-                <label>Birth date</label><span> * </span>
-                <input #datepicker="ngbDatepicker" class="form-control" name="datepicker" formControlName="birthDate"
-                    ngbDatepicker (click)="datepicker.toggle()" />
-            </div>
-        </form>
-    </ng-template>
+      <div class="form-group">
+        <label>Birth date</label><span> * </span>
+        <input
+          #datepicker="ngbDatepicker"
+          class="form-control"
+          name="datepicker"
+          formControlName="birthDate"
+          ngbDatepicker
+          (click)="datepicker.toggle()"
+        />
+      </div>
+    </form>
+  </ng-template>
 
-    <ng-template #abpFooter>
-        <button type="button" class="btn btn-secondary" #abpClose>
-            {%{{{ '::Close' | abpLocalization }}}%}
-        </button>
+  <ng-template #abpFooter>
+    <button type="button" class="btn btn-secondary" #abpClose>
+      {%{{{ '::Close' | abpLocalization }}}%}
+    </button>
 
-        <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
-            <i class="fa fa-check mr-1"></i>
-            {%{{{ '::Save' | abpLocalization }}}%}
-        </button>
-    </ng-template>
+    <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
+      <i class="fa fa-check mr-1"></i>
+      {%{{{ '::Save' | abpLocalization }}}%}
+    </button>
+  </ng-template>
 </abp-modal>
 ````
 
