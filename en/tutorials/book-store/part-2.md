@@ -498,8 +498,6 @@ import { BookService, BookDto } from '@proxy/books';
 export class BookComponent implements OnInit {
   book = { items: [], totalCount: 0 } as PagedResultDto<BookDto>;
 
-  booksType = BookType;
-
   constructor(public readonly list: ListService, private bookService: BookService) {}
 
   ngOnInit() {
