@@ -645,8 +645,6 @@ import { BookService, BookDto } from '@proxy/books';
 export class BookComponent implements OnInit {
   book = { items: [], totalCount: 0 } as PagedResultDto<BookDto>;
 
-  booksType = BookType;
-
   isModalOpen = false; // add this line
 
   constructor(public readonly list: ListService, private bookService: BookService) {}
