@@ -125,8 +125,6 @@ Open the `en.json` (*the English translations*) file and change the content as b
     "ExternalProvider:Twitter:ConsumerSecret":"Consumer Secret",
     "Menu:BookStore": "Book Store",
     "Menu:Books": "Books",
-    "Actions": "Actions",
-    "Edit": "Edit",
     "PublishDate": "Publish date",
     "NewBook": "New book",
     "Name": "Name",
