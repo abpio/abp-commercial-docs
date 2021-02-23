@@ -516,17 +516,21 @@ export class BookComponent implements OnInit {
 Open the `/src/app/book/book.component.html` and replace the content as below:
 
 ```html
-<div class="card">
-  <div class="card-header">
-    <div class="row">
-      <div class="col col-md-6">
-        <h5 class="card-title">
-          {%{{{ '::Menu:Books' | abpLocalization }}}%}
-        </h5>
-      </div>
-      <div class="text-right col col-md-6"></div>
-    </div>
+<div class="row entry-row">
+  <div class="col-12 col-sm-auto">
+    <h1 class="content-header-title">{%{{{ '::Menu:Books' | abpLocalization }}}%}</h1>
   </div>
+
+  <div class="col-lg-auto pl-lg-0">
+    <abp-breadcrumb></abp-breadcrumb>
+  </div>
+
+  <div class="col">
+    <div class="text-lg-right pt-2"></div>
+  </div>
+</div>
+
+<div class="card">
   <div class="card-body">
     <ngx-datatable [rows]="book.items" [count]="book.totalCount" [list]="list" default>
       <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
@@ -552,7 +556,7 @@ Open the `/src/app/book/book.component.html` and replace the content as below:
 
 Now you can see the final result on your browser:
 
-![Book list final result](images/bookstore-book-list.png)
+![Book list final result](images/bookstore-angular-book-list.png)
 
 {{else if UI == "Blazor"}}
 
