@@ -388,6 +388,12 @@ namespace Acme.BookStore.Books
         public override async Task<PagedResultDto<BookDto>>
             GetListAsync(PagedAndSortedResultRequestDto input)
         {
+            //Set a default sorting, if not provided
+            if (input.Sorting.IsNullOrWhiteSpace())
+            {
+                input.Sorting = nameof(Book.Name);
+            }
+
             //Get the IQueryable<Book> from the repository
             var queryable = await Repository.GetQueryableAsync();
 
@@ -919,7 +925,7 @@ Since the HTTP APIs have been changed, you need to update Angular client side [s
 
 Run the following command in the `angular` folder (you may need to stop the angular application):
 
-```
+```bash
 abp generate-proxy
 ```
 
@@ -950,7 +956,7 @@ Added the Author dropdown as the first element in the form.
 
 Open the `/src/app/book/book.component.ts` and and change the content as shown below:
 
-````typescript
+````js
 import { ListService, PagedResultDto } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
 import { BookService, BookDto, bookTypeOptions, AuthorLookupDto } from '@proxy/books';

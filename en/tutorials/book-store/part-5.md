@@ -42,7 +42,7 @@ ABP Framework provides an [authorization system](https://docs.abp.io/en/abp/late
 
 A permission must have a unique name (a `string`). The best way is to define it as a `const`, so we can reuse the permission name.
 
-Open the `BookStorePermissions` class inside the `Acme.BookStore.Application.Contracts` project and change the content as shown below:
+Open the `BookStorePermissions` class inside the `Acme.BookStore.Application.Contracts` project (in the `Permissions` folder) and change the content as shown below:
 
 ````csharp
 namespace Acme.BookStore.Permissions
@@ -76,7 +76,7 @@ This is a hierarchical way of defining permission names. For example, "create bo
 
 You should define permissions before using them.
 
-Open the `BookStorePermissionDefinitionProvider` class inside the `Acme.BookStore.Application.Contracts` project and change the content as shown below:
+Open the `BookStorePermissionDefinitionProvider` class inside the `Acme.BookStore.Application.Contracts` project (in the `Permissions` folder) and change the content as shown below:
 
 ````csharp
 using Acme.BookStore.Localization;
@@ -90,7 +90,7 @@ namespace Acme.BookStore.Permissions
     {
         public override void Define(IPermissionDefinitionContext context)
         {
-            var bookStoreGroup = context.AddGroup(BookStorePermissions.GroupName);
+            var bookStoreGroup = context.AddGroup(BookStorePermissions.GroupName, L("Permission:BookStore"));
 
             bookStoreGroup.AddPermission(BookStorePermissions.Dashboard.Host, L("Permission:Dashboard"), MultiTenancySides.Host);
             bookStoreGroup.AddPermission(BookStorePermissions.Dashboard.Tenant, L("Permission:Dashboard"), MultiTenancySides.Tenant);
@@ -329,7 +329,7 @@ if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
 }
 ````
 
-You also need to add `async` keyword to the `ConfigureMenuAsync` method and re-arrange the return value. The final `ConfigureMainMenuAsync` method should be the following:
+You also need to add `async` keyword to the `ConfigureMenuAsync` method and re-arrange the return values. The final `BookStoreMenuContributor` class should be the following:
 
 ````csharp
 using System.Threading.Tasks;
@@ -340,6 +340,7 @@ using Acme.BookStore.MultiTenancy;
 using Acme.BookStore.Permissions;
 using Volo.Abp.TenantManagement.Web.Navigation;
 using Volo.Abp.UI.Navigation;
+
 namespace Acme.BookStore.Web.Menus
 {
     public class BookStoreMenuContributor : IMenuContributor
@@ -351,6 +352,7 @@ namespace Acme.BookStore.Web.Menus
                 await ConfigureMainMenuAsync(context);
             }
         }
+
         private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
         {
             if (!MultiTenancyConsts.IsEnabled)
@@ -358,14 +360,19 @@ namespace Acme.BookStore.Web.Menus
                 var administration = context.Menu.GetAdministration();
                 administration.TryRemoveMenuItem(TenantManagementMenuNames.GroupName);
             }
+
             var l = context.GetLocalizer<BookStoreResource>();
+
             context.Menu.Items.Insert(0, new ApplicationMenuItem("BookStore.Home", l["Menu:Home"], "~/"));
+
             var bookStoreMenu = new ApplicationMenuItem(
                 "BooksStore",
                 l["Menu:BookStore"],
                 icon: "fa fa-book"
             );
+
             context.Menu.AddItem(bookStoreMenu);
+
             //CHECK the PERMISSION
             if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
             {
@@ -430,13 +437,13 @@ Open the `/src/app/book/book.component.html` file and replace the create button 
 
 ````html
 <!-- Add the abpPermission directive -->
-<button abpPermission="BookStore.Books.Create" id="create" class="btn btn-primary" type="button" (click)="createBook()">
+<button *abpPermission="'BookStore.Books.Create'" id="create" class="btn btn-primary" type="button" (click)="createBook()">
   <i class="fa fa-plus mr-1"></i>
   <span>{%{{{ '::NewBook' | abpLocalization }}}%}</span>
 </button>
 ````
 
-* Just added `abpPermission="BookStore.Books.Create"` that hides the button if the current user has no permission.
+* Just added `*abpPermission="'BookStore.Books.Create'"` that hides the button if the current user has no permission.
 
 ### Hide the Edit and Delete Actions
 
@@ -450,18 +457,18 @@ Open the `/src/app/book/book.component.html` file and replace the edit and delet
 
 ````html
 <!-- Add the abpPermission directive -->
-<button abpPermission="BookStore.Books.Edit" ngbDropdownItem (click)="editBook(row.id)">
+<button *abpPermission="'BookStore.Books.Edit'" ngbDropdownItem (click)="editBook(row.id)">
   {%{{{ '::Edit' | abpLocalization }}}%}
 </button>
 
 <!-- Add the abpPermission directive -->
-<button abpPermission="BookStore.Books.Delete" ngbDropdownItem (click)="delete(row.id)">
-  {%{{{ 'AbpAccount::Delete' | abpLocalization }}}%}
+<button *abpPermission="'BookStore.Books.Delete'" ngbDropdownItem (click)="delete(row.id)">
+  {%{{{ '::Delete' | abpLocalization }}}%}
 </button>
 ````
 
-* Added `abpPermission="BookStore.Books.Edit"` that hides the edit action if the current user has no editing permission.
-* Added `abpPermission="BookStore.Books.Delete"` that hides the delete action if the current user has no delete permission.
+* Added `*abpPermission="'BookStore.Books.Edit'"` that hides the edit action if the current user has no editing permission.
+* Added `*abpPermission="'BookStore.Books.Delete'"` that hides the delete action if the current user has no delete permission.
 
 {{else if UI == "Blazor"}}
 
@@ -508,6 +515,7 @@ The base `AbpCrudPageBase` class automatically checks these permissions on the r
 * `HasDeletePermission`: True, if the current user has permission to delete the entity.
 
 > **Blazor Tip**: While adding the C# code into a `@code` block is fine for small code parts, it is suggested to use the code behind approach to develop a more maintainable code base when the code block becomes longer. We will use this approach for the authors part.
+
 #### Hide the New Book Button
 
 Wrap the *New Book* button by an `if` block as shown below:
@@ -544,9 +552,10 @@ Update the `EntityActions` section as shown below:
 
 You can run and test the permissions. Remove a book related permission from the admin role to see the related button/action disappears from the UI.
 
-***\*ABP Framework caches the permissions\**** of the current user in the client side. So, when you change a permission for yourself, you need to manually ***\*refresh the page\**** to take the effect. If you don't refresh and try to use the prohibited action you get an HTTP 403 (forbidden) response from the server.
+**ABP Framework caches the permissions** of the current user in the client side. So, when you change a permission for yourself, you need to manually **refresh the page** to take the effect. If you don't refresh and try to use the prohibited action you get an HTTP 403 (forbidden) response from the server.
 
 > Changing a permission for a role or user immediately available on the server side. So, this cache system doesn't cause any security problem.
+
 ### Menu Item
 
 Even we have secured all the layers of the book management page, it is still visible on the main menu of the application. We should hide the menu item if the current user has no permission.
@@ -577,7 +586,9 @@ var bookStoreMenu = new ApplicationMenuItem(
     l["Menu:BookStore"],
     icon: "fa fa-book"
 );
+
 context.Menu.AddItem(bookStoreMenu);
+
 //CHECK the PERMISSION
 if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
 {
@@ -589,7 +600,7 @@ if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
 }
 ````
 
-The final `ConfigureMainMenuAsync` method in the  `BookStoreMenuContributor` should be like below:
+You also need to add `async` keyword to the `ConfigureMenuAsync` method and re-arrange the return value. The final `ConfigureMainMenuAsync` method should be the following:
 
 ````csharp
 private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)

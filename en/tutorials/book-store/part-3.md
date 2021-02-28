@@ -645,8 +645,6 @@ import { BookService, BookDto } from '@proxy/books';
 export class BookComponent implements OnInit {
   book = { items: [], totalCount: 0 } as PagedResultDto<BookDto>;
 
-  booksType = BookType;
-
   isModalOpen = false; // add this line
 
   constructor(public readonly list: ListService, private bookService: BookService) {}
@@ -682,8 +680,8 @@ Open `/src/app/book/book.component.html` and make the following changes:
         <abp-breadcrumb></abp-breadcrumb>
     </div>
     <div class="col">
-        <!-- Add the "new book" button here -->
         <div class="text-lg-right pt-2">
+            <!-- Add the "new book" button here -->
             <button id="create" class="btn btn-primary" type="button" (click)="createBook()">
                 <i class="fa fa-plus mr-1"></i>
                 <span>{%{{{ "::NewBook" | abpLocalization }}}%}</span>
@@ -691,6 +689,7 @@ Open `/src/app/book/book.component.html` and make the following changes:
         </div>
     </div>
 </div>
+
 <div class="card">
     <div class="card-body">
         <!-- ngx-datatable should be here! -->
@@ -707,7 +706,7 @@ Open `/src/app/book/book.component.html` and make the following changes:
 
     <ng-template #abpFooter>
         <button type="button" class="btn btn-secondary" #abpClose>
-            {%{{{ 'AbpAccount::Close' | abpLocalization }}}%}
+            {%{{{ '::Close' | abpLocalization }}}%}
         </button>
     </ng-template>
 </abp-modal>
@@ -729,8 +728,7 @@ Open `/src/app/book/book.component.ts` and replace the content as below:
 ```js
 import { ListService, PagedResultDto } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
-// import bookTypeOptions from @proxy/books
-import { BookService, BookDto, bookTypeOptions } from '@proxy/books';
+import { BookService, BookDto, bookTypeOptions } from '@proxy/books'; // add bookTypeOptions
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'; // add this
 
 @Component({
@@ -843,13 +841,13 @@ Also replace `<ng-template #abpFooter> </ng-template>` with the following code p
 ````html
 <ng-template #abpFooter>
   <button type="button" class="btn btn-secondary" #abpClose>
-      {%{{{ 'AbpAccount::Close' | abpLocalization }}}%}
+      {%{{{ '::Close' | abpLocalization }}}%}
   </button>
 
   <!--added save button-->
   <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
         <i class="fa fa-check mr-1"></i>
-        {%{{{ 'AbpAccount::Save' | abpLocalization }}}%}
+        {%{{{ '::Save' | abpLocalization }}}%}
   </button>
 </ng-template>
 ````
@@ -1118,7 +1116,7 @@ constructor(
 
 // Add a delete method
 delete(id: string) {
-  this.confirmation.warn('::AreYouSureToDelete', 'AbpAccount::AreYouSure').subscribe((status) => {
+  this.confirmation.warn('::AreYouSureToDelete', '::AreYouSure').subscribe((status) => {
     if (status === Confirmation.Status.confirm) {
       this.bookService.delete(id).subscribe(() => this.list.get());
     }
@@ -1141,7 +1139,7 @@ Open `/src/app/book/book.component.html` and modify the `ngbDropdownMenu` to add
 <div ngbDropdownMenu>
   <!-- add the Delete button -->
     <button ngbDropdownItem (click)="delete(row.id)">
-        {%{{{ 'AbpAccount::Delete' | abpLocalization }}}%}
+        {%{{{ '::Delete' | abpLocalization }}}%}
     </button>
 </div>
 ```
