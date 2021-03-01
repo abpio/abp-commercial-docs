@@ -20,7 +20,7 @@ Right click to microservices solution folder in your solution and add **HttpApi.
 
 Rename all the MyProjectName fields to your project name and update AbpLicenseCode
 
-![microservice-template-appsettings-bug](D:\Github\abp-commercial-docs\en\images\microservice-template-appsettings-bug.png)
+![microservice-template-appsettings-bug](../../images/microservice-template-appsettings-bug.png)
 
 
 
