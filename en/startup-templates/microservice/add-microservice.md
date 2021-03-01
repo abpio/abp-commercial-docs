@@ -52,7 +52,7 @@ Update **appsettings**.json ConnectionStrings:
 
 Update **DbMigrationService** MigrateAllDatabasesAsync method: 
 
-![microservice-template-dbmigrator-migration-service-update](../../images/microservice-template-dbmigrator-migration-service-update.PNG)
+![microservice-template-dbmigrator-migration-service-update](../../images/microservice-template-dbmigrator-migration-service-update.png)
 
 
 
