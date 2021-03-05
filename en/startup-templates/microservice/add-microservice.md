@@ -78,7 +78,7 @@ To keep IdentityServerDataSeeder updated, you need to:
 
   > AdministrationService microservice has configuration for making sync calls to IdentityService which can be examined if you are planning sync communication for your new microservice.  
 
-You can see updated **IdentityServerDataSeeder** below that has granted scopes to all swagger clients.
+You can see updated **IdentityServerDataSeeder** image below that creates OrderService ApiResource and ApiScope which also granted scopes to all swagger clients.
 
 <img src="../../images/microservice-template-dbmigrator-identityserver-seeder-update.png" alt="microservice-template-dbmigrator-identityserver-seeder-update" style="zoom:60%;" />
 
@@ -152,7 +152,7 @@ This way you can separate the frontend and backend team and develop each of them
 
 #### Updating Tye configuration:
 
-If you are planning to use tye for your solution, you can also update your tye.yaml configuration that is already provided after project creation. Add **OrderService.HttpApi.Host.csproj** path and port with self-sign development certification information as below:
+If you are planning to use [dotnet tye](https://github.com/dotnet/tye) for your solution, you can also update your tye.yaml configuration that is already provided after project creation. Add **OrderService.HttpApi.Host.csproj** path and port with self-sign development certification information as below:
 
 ```yaml
 - name: order-service
