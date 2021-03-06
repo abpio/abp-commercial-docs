@@ -30,31 +30,26 @@ typeof(OrderServiceApplicationContractsModule)
 
 Since OrderService is using its own database, you should add it to DbMigrator aswell so that DbMigrator can handle OrderService migrations and data seeding. 
 
-Start updating DbMigrator by referencing to **OrderService.Application.Contracts** and **OrderService.EntityFrameworkCore** projects then adding respected dependencies to **DbMigratorModule** as below:
+- **Update Project References:** Add **OrderService.Application.Contracts** and **OrderService.EntityFrameworkCore** project references to **DbMigrator** project then add the related dependencies to **DbMigratorModule** as below:
 
-```csharp
-typeof(OrderServiceApplicationContractsModule),
-typeof(OrderServiceEntityFrameworkCoreModule)
-```
+  ```csharp
+  typeof(OrderServiceApplicationContractsModule),
+  typeof(OrderServiceEntityFrameworkCoreModule)
+  ```
 
-DbMigratorHostedService runs the MigrateAsync method which eventually runs the **MigrateAllDatabasesAsync** method. Add the new database migration with the others: 
+- **Update DbMigrationService:** DbMigratorHostedService runs the MigrateAsync method which eventually runs the **MigrateAllDatabasesAsync** method. Add the new database migration with the others: 
 
-```csharp
-await MigrateDatabaseAsync(
-    new OrderServiceDbContextFactory(connectionString ?? GetConnectionString(OrderServiceDbProperties.ConnectionStringName)),
-    cancellationToken
-);
-```
+  ```csharp
+  await MigrateDatabaseAsync<OrderServiceDbContext>(cancellationToken);
+  ```
 
-<img src="../../images/microservice-template-dbmigrator-migration-service-update.png" alt="microservice-template-dbmigrator-migration-service-update" style="zoom:50%;" />
+- **Update appsetings.json:** Migration of OrderService will require predefined connection string name under OrderService.Domain.OrderServiceDbProperties. Add related connection string name to **appsettings.json** ConnectionStrings sections of DbMigrator as below:
 
-Since OrderServiceDbContextFactory will be looking for predefined connection string name under OrderService.Domain.OrderServiceDbProperties; add related connection string name to **appsettings.json** ConnectionStrings sections of DbMigrator as below:
+  ```json
+  "OrderService": "Server=localhost;Database=BookStore_OrderService;Trusted_Connection=True"
+  ```
 
-```json
-"OrderService": "Server=localhost;Database=BookStore_OrderService;Trusted_Connection=True"
-```
-
-### Updating IdentityServer
+  ### Updating IdentityServer
 
 > This is an optional step since identityserver management can be done via UI. However it is a good practice to keep IdentityServerDataSeeder updated. 
 
