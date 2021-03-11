@@ -67,9 +67,11 @@ To keep IdentityServerDataSeeder updated, you need to:
   await CreateApiScopeAsync("OrderService");
   ```
 
-- **Update SwaggerClients**: Swagger clients are used for **authorizing** the microservice endpoints via *authorization code* flow for the swagger endpoints. You need to update the related swagger client creation scopes with adding the *OrderService* scope. You can select the gateways you want to grant for new service to be reached. Keep in mind, you need to add route configuration for each gateway. 
+- **Update SwaggerClients**: Swagger clients are used for ***authorizing*** the microservice endpoints via *authorization code* flow for the swagger endpoints. You need to update the related swagger client creation scopes with adding the **OrderService** scope. You can select the gateways you want to grant for new service to be reached. Keep in mind, you need to add route configuration for each gateway. 
 
-- **Update Clients**: If you are planning a synced inter-communication between OrderService and an other services , you need to add OrderService as a client under **CreateClientsAsync** aswell. Then, update appsettings.json of the OrderService with **IdentityClients** section with the ClientId and granted scopes you have defined in **CreateClientAsync** method for client credential flow. Also, check microservice intercommunication docs for more information (**TODO**).
+- **Update Clients**: Update Web and/or Public (angular or blazor if application is not mvc) client creations in **CreateClientsAsync** method. Add **OrderService** scope. If you want to call OrderService from an other service, add OrderService scope to caller service client aswell.
+
+- **Create New Client:** If you want OrderService to be able call other services, you need to add OrderService as a client under **CreateClientsAsync** aswell. Then, update appsettings.json of the OrderService with **IdentityClients** section with the ClientId and granted scopes you have defined in **CreateClientAsync** method for client credential flow. Also, check microservice intercommunication docs for more information (**TODO**).
 
   > AdministrationService microservice has configuration for making sync calls to IdentityService which can be examined if you are planning sync communication for your new microservice.  
 
