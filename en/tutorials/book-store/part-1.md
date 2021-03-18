@@ -283,7 +283,7 @@ While MongoDB **doesn't require** a database schema migration, it is still good 
 
 ### BookDto
 
-`CrudAppService` base class requires to define the fundamental DTOs for the entity. Create a DTO class named `BookDto` into the `Acme.BookStore.Application.Contracts` project:
+`CrudAppService` base class requires to define the fundamental DTOs for the entity. Create a `Books` folder (namespace) in the `Acme.BookStore.Application.Contracts` project and add a `BookDto` class inside it:
 
 ````csharp
 using System;
@@ -332,7 +332,7 @@ See the [object to object mapping](https://docs.abp.io/en/abp/latest/Object-To-O
 
 ### CreateUpdateBookDto
 
-Create another DTO class named `CreateUpdateBookDto` into the `Acme.BookStore.Application.Contracts` project:
+Create a `CreateUpdateBookDto` class in the Books folder (namespace) of the `Acme.BookStore.Application.Contracts` project:
 
 ````csharp
 using System;

@@ -42,7 +42,7 @@ This tutorial has multiple versions based on your **UI** and **Database** prefer
 
 It's common to call the HTTP API endpoints via AJAX from the **JavaScript** side. You can use `$.ajax` or another tool to call the endpoints. However, ABP offers a better way.
 
-ABP **dynamically** creates **[JavaScript Proxies](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients#client-proxy-generation)** for all API endpoints. So, you can use any **endpoint** just like calling a **JavaScript function**.
+ABP **dynamically** creates **[JavaScript Proxies](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Dynamic-JavaScript-Proxies)** for all API endpoints. So, you can use any **endpoint** just like calling a **JavaScript function**.
 
 ### Testing in the Developer Console
 
@@ -125,8 +125,6 @@ Open the `en.json` (*the English translations*) file and change the content as b
     "ExternalProvider:Twitter:ConsumerSecret":"Consumer Secret",
     "Menu:BookStore": "Book Store",
     "Menu:Books": "Books",
-    "Actions": "Actions",
-    "Edit": "Edit",
     "PublishDate": "Publish date",
     "NewBook": "New book",
     "Name": "Name",
@@ -473,11 +471,8 @@ For more information, see the [RoutesService document](https://docs.abp.io/en/ab
 Run the following command in the `angular` folder:
 
 ```bash
-abp generate-proxy --apiUrl https://localhost:XXXXX
+abp generate-proxy
 ```
-
-* XXXXX should be replaced with the backend port of your application.
-* If you don't specify the `--apiUrl` parameter, it will try to get the URL from the `src/environments/environment.ts` file.
 
 This command will create the following files under the `/src/app/proxy/books` folder:
 
@@ -501,8 +496,6 @@ import { BookService, BookDto } from '@proxy/books';
 export class BookComponent implements OnInit {
   book = { items: [], totalCount: 0 } as PagedResultDto<BookDto>;
 
-  booksType = BookType;
-
   constructor(public readonly list: ListService, private bookService: BookService) {}
 
   ngOnInit() {
@@ -521,17 +514,21 @@ export class BookComponent implements OnInit {
 Open the `/src/app/book/book.component.html` and replace the content as below:
 
 ```html
-<div class="card">
-  <div class="card-header">
-    <div class="row">
-      <div class="col col-md-6">
-        <h5 class="card-title">
-          {%{{{ '::Menu:Books' | abpLocalization }}}%}
-        </h5>
-      </div>
-      <div class="text-right col col-md-6"></div>
-    </div>
+<div class="row entry-row">
+  <div class="col-12 col-sm-auto">
+    <h1 class="content-header-title">{%{{{ '::Menu:Books' | abpLocalization }}}%}</h1>
   </div>
+
+  <div class="col-lg-auto pl-lg-0">
+    <abp-breadcrumb></abp-breadcrumb>
+  </div>
+
+  <div class="col">
+    <div class="text-lg-right pt-2"></div>
+  </div>
+</div>
+
+<div class="card">
   <div class="card-body">
     <ngx-datatable [rows]="book.items" [count]="book.totalCount" [list]="list" default>
       <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
@@ -557,7 +554,7 @@ Open the `/src/app/book/book.component.html` and replace the content as below:
 
 Now you can see the final result on your browser:
 
-![Book list final result](images/bookstore-book-list.png)
+![Book list final result](images/bookstore-angular-book-list.png)
 
 {{else if UI == "Blazor"}}
 
