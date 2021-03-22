@@ -2,9 +2,21 @@
 
 This module implements payment gateway integration of an application;
 
-* Supports PayU, 2Checkout, Stripe and Paypal payment gateways.
+* Supports [Stripe](https://stripe.com/), [PayPal](https://www.paypal.com/), [2Checkout](https://www.2checkout.com/), [PayU](https://corporate.payu.com/) and [Iyzico](https://www.iyzico.com/en) payment gateways.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Payment) for an overview of the module features.
+
+You can get payment from your customers using one or more payment gateways supported by the payment module. Payment module works in a very simple way. It creates a local payment request record and redirects customer to payment gateway (PayPal, Stripe etc...) for the payment. When the customer pays on the payment gateway, payment module handles the external payment gateway's response and validates the payment to see if it is really paid or not. If the payment is validated, payment module redirects customer to mail application who initiated the payment process at the beginning.
+
+Image below demonstrates the flow of a payment process;
+
+![payment-module-flow](../images/payment-module-flow.png)
+
+Each payment gateway implementation contains PrePayment and PostPayment pages. 
+
+PrePayment page asks users for extra information if requested by the external payment gateway. For example, 2Checkout doesn't require any extra information, so PrePayment page for 2Checkout redirects user to 2Checkout without asking any extra information. 
+
+PostPayment page is responsible for validation the response of the external payment gateway. When a user completes the payment, user is redirected to PostPayment page for that payment gateway and PostPayment page validates the status of the payment. If the payment is succeeded, status of the payment request is updated and user is redirected to main application.
 
 ## How to install
 
@@ -40,7 +52,9 @@ After adding the package reference, open the module class of the project (eg: `{
 
 ### Supported Gateway Packages
 
-In order to use Payment Gateway you want to use, you need to add related NuGet packages to your related project as explained in Manual Installation section above and add ```DependsOn``` to your related module. For example, if you don't want to use PayU, you don't have to use its NuGet packages. 
+In order to use a Payment Gateway, you need to add related NuGet packages to your related project as explained in Manual Installation section above and add ```DependsOn``` to your related module. For example, if you don't want to use PayU, you don't have to use its NuGet packages. 
+
+After adding packages of a payment gateway to your application, you also need to configure global payment module options and options for the payment modules you have added. See the Options section below.
 
 ## Packages
 
@@ -97,7 +111,7 @@ Configure<PaymentOptions>(options =>
 
 * ```CallbackUrl```: Final callback URL for internal payment gateway modules to return. User will be redirected to this URL on your website.
 * ```RootUrl```: Root URL of your website.
-* ```GatewaySelectionCheckoutButtonStyle```: Css style to add Checkout button on gateway selection page. This class can be used for tracking user activity via 3rd party tools like Google Tag Manager.
+* ```GatewaySelectionCheckoutButtonStyle```: CSS style to add Checkout button on gateway selection page. This class can be used for tracking user activity via 3rd party tools like Google Tag Manager.
 * ```PaymentGatewayWebConfigurationDictionary```:  Used to store web related payment gateway configuration.
   * ```Name```: Name of payment gateway.
   * ```PrePaymentUrl```: URL of the page before redirecting user to payment gateway for payment.
@@ -128,30 +142,48 @@ Configure<PaymentOptions>(options =>
 
 ```TwoCheckoutOptions``` is used to configure TwoCheckout payment gateway options.
 
-* Signature: Signature of Merchant's 2Checkout account.
-* CheckoutUrl: 2Checkout checkout URL (it must be set to https://secure.2checkout.com/order/checkout.php).
+* ```Signature```: Signature of Merchant's 2Checkout account.
+* ```CheckoutUrl```: 2Checkout checkout URL (it must be set to https://secure.2checkout.com/order/checkout.php).
 * ```LanguageCode```: Language of the order. This will be used for notification email that are sent to the client, if available.
 * ```CurrencyCode```: Currency code of order (USD, EUR, etc...).
 * ```Recommended```: Is payment gateway is recommended or not. This information is displayed on payment gateway selection page.
 * ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
 
-### StripeConsts
+### StripeOptions
 
-```StripeConsts``` is used to configure Stripe payment gateway options.
+```StripeConsts```: is used to configure Stripe payment gateway options.
 
-* ```PublishableKey``` Publishable Key for Stripe account.
-* ```SecretKey``` Secret Key for Stripe account.
-* ```PaymentMethodTypes```  A list of the types of payment methods (e.g., card) this Checkout session can accept. See https://stripe.com/docs/payments/checkout/payment-methods.
+* ```PublishableKey```: Publishable Key for Stripe account.
+* ```SecretKey```: Secret Key for Stripe account.
+* ```Currency```: Currency code of order (USD, EUR, etc..., see [Stripe docs](https://stripe.com/docs/currencies) for the full list). Its default value is USD.
+* ```Locale```: Language of the order. Its default value is 'auto'.
+* ```PaymentMethodTypes```:  A list of the types of payment methods (e.g., card) this Checkout session can accept. See https://stripe.com/docs/payments/checkout/payment-methods. Its default value is 'card'.
+* ```Recommended```: Is payment gateway is recommended or not. This information is displayed on payment gateway selection page.
+* ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
 
 ### PayPalOptions
 
 ```PayPalOptions``` is used to configure PayPal payment gateway options.
 
-* ```ClientId``` Client Id for Paypal Account.
-* ```Secret``` Secret fro PayPal account.
-* ```CurrencyCode``` Currency code of order (USD, EUR, etc...).
-* ```Environment``` Payment environment. ("Sandbox" or "Live", default value is "Sandbox")
-* ```Locale``` PayPal-supported language and locale to localize PayPal checkout pages. See https://developer.paypal.com/docs/api/reference/locale-codes/.
+* ```ClientId```: Client Id for the PayPal account.
+* ```Secret``` Secret for the PayPal account.
+* ```CurrencyCode```: Currency code of order (USD, EUR, etc...).
+* ```Environment```: Payment environment. ("Sandbox" or "Live", default value is "Sandbox")
+* ```Locale```: PayPal-supported language and locale to localize PayPal checkout pages. See https://developer.paypal.com/docs/api/reference/locale-codes/.
+
+### IyzicoOptions
+
+```IyzicoOptions``` is used to configure Iyzico payment gateway options.
+
+* ```BaseUrl```: Base API URL for the Iyzico (ex: https://sandbox-api.iyzipay.com). 
+* ```ApiKey``` Api key for the Iyzico account.
+* ```SecretKey ``` Secret for the Iyzico account.
+* ```Currency```: Currency code for the order (USD, EUR, GBP and TRY can be used).
+* ```Locale```: Language of the order.
+* ```InstallmentCount```: Installment count value. For single installment payments it should be 1 (valid values: 1, 2, 3, 6, 9, 12).
+* ```Recommended```: Is payment gateway is recommended or not. This information is displayed on payment gateway selection page.
+* ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
+* ```PrePaymentCheckoutButtonStyle```: CSS style to add Checkout button on Iyzico prepayment page. This class can be used for tracking user activity via 3rd party tools like Google Tag Manager.
 
 Instead of configuring options in your module class, you can configure it in your appsettings.json file like below;
 
@@ -187,6 +219,13 @@ Instead of configuring options in your module class, you can configure it in you
       "PublishableKey": "PUBLISHABLE_KEY",
       "SecretKey": "SECRET_KEY",
       "PaymentMethodTypes": ["alipay"]
+    },
+    "Iyzico": {
+      "ApiKey": "API_KEY",
+      "SecretKey": "SECRET_KEY",
+      "BaseUrl": "https://sandbox-api.iyzipay.com",
+      "Locale": "en",
+      "Currency": "USD"
     }
   }
 ```
@@ -256,7 +295,7 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 
 This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
 
-## Sample
+## Sample Usage
 
 In order to initiate a payment process, inject ```IPaymentRequestAppService```, create a payment request using it's ```CreateAsync``` method and redirect user to gateway selection page with the created payment request's Id. Here is a sample Razor Page code which starts a payment process on it's OnPost method.
 
@@ -292,4 +331,4 @@ public class IndexModel: PageModel
     }
 ```
 
-If the payment is successful, payment module will return to configured ```PaymentWebOptions.CallbackUrl```, the main application can take necessary actions for a successful payment (Activating a user account, triggering a shipment start process etc...).
+If the payment is successful, payment module will return to configured ```PaymentWebOptions.CallbackUrl```. The main application can take necessary actions for a successful payment (Activating a user account, triggering a shipment start process etc...).
