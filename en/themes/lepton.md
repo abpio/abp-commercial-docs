@@ -76,3 +76,7 @@ To download the source-code of the Lepton Theme use the following CLI command
 ```
 abp get-source Volo.LeptonTheme 
 ```
+
+## Lepton Theme Customization
+
+You can check [Customizing Lepton Theme](../ui/angular/customizing-lepton-theme.md) documentation for how to customize lepton theme in angular project.
