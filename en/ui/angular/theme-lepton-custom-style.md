@@ -87,7 +87,7 @@ Now, pass this component as `contentAfterRoutes` option to `ThemeLeptonModule`.
 @NgModule({
   imports: [
     // other imports are removed for sake of brevity
-
+    SupportLinkModule,
     ThemeLeptonModule.forRoot({
       contentAfterRoutes: [SupportLinkComponent],
     })
