@@ -234,12 +234,21 @@
       ]
     },
     {
-      "text": "Release Notes / Change Logs",
-      "path": "release-notes.md"
-    },
-    {
-      "text": "Road Map",
-      "path": "road-map.md"
+      "text": "Release Information",
+      "items": [
+        {
+          "text": "Release Notes (Change Logs)",
+          "path": "release-notes.md"
+        },
+        {
+          "text": "Road Map",
+          "path": "road-map.md"
+        },
+        {
+          "text": "Migration Guides",
+          "path": "migration-guides/index.md"
+        }
+      ]
     },
     {
       "text": "FAQ",
