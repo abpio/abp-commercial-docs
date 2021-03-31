@@ -79,4 +79,4 @@ abp get-source Volo.LeptonTheme
 
 ## Lepton Theme Customization
 
-You can check [Customizing Lepton Theme](../ui/angular/customizing-lepton-theme.md) documentation for how to customize lepton theme in angular project.
+Please check [Customizing Lepton Theme](../ui/angular/customizing-lepton-theme.md) document to see how you can customize the lepton theme in your angular project.
