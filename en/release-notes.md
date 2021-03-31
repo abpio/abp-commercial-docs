@@ -2,6 +2,21 @@
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
 
+## 4.3 (2021-03-31)
+
+> **This version is currently in preview. Planned stable release date is April 15, 2021. See the [blog post / announcement](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2021-03-31%20v4_3%20Commercial%20Preview/POST.md) for the details of this release.**
+
+* New module: **CMS Kit (pro)**
+* New module: **Forms**
+* **Blazor Server Side** support
+* **Extensibility** system for the Blazor UI
+* A lot of improvements done to ripen the **Microservice Startup Template**, including "new service" template, automatic database migrations, solution structure improvements, Tye, Prometheus, Grafana integrations, and more
+* Allow to use a **separate database schema** for tenants to not include host-related empty tables in tenant databases
+* Creating & **migrating tenant databases on the fly**.
+* **Enabling/disabling modules** per edition/tenant
+* **Email settings** page
+* **Required** navigation properties on Suite code generation
+
 ## 4.2 (2021-01-28)
 
 See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-4-2-Final-Has-Been-Released)** for the v4.2.
