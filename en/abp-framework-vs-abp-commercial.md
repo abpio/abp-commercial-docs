@@ -41,9 +41,11 @@ Startup Templates are pre-built and configured solution templates that you can e
 
 | Startup Template      | Open Source ABP Framework Project          | ABP Commercial                           |
 | --------------------- | ------------------------------------------ | ---------------------------------------- |
-| Application           | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
+| Application <sup>[1]</sup> | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
 | Module / Service      | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
 | Microservice Solution | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+
+<sup>[1]</sup> ABP Commercial application startup template has some additional features, like public website and separate tenant database schema support.
 
 >**Open source** startup templates use the **open source themes and modules** while **ABP Commercial** startup templates use the **commercial (pro) modules and themes**.
 
@@ -56,6 +58,7 @@ ABP Commercial has a lot of **additional modules** compared to the open source A
 | Identity                                                     | [Basic](https://docs.abp.io/en/abp/latest/Modules/Identity)  | [Pro](https://commercial.abp.io/modules/Volo.Identity.Pro) |
 | Account                                                      | [Basic](https://docs.abp.io/en/abp/latest/Modules/Account)   | [Pro](https://commercial.abp.io/modules/Volo.Account.Pro)  |
 | Multi-Tenancy                                                | [Basic](https://docs.abp.io/en/abp/latest/Modules/Tenant-Management) (only tenant management) | [Pro](https://commercial.abp.io/modules/Volo.Saas) (SaaS)  |
+| CMS Kit | [Basic](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit)   | [Pro](https://commercial.abp.io/modules/Volo.CmsKit.Pro)  |
 | [Blogging](https://docs.abp.io/en/abp/latest/Modules/Blogging) | <i class="fa fa-check text-success"></i>                     | <i class="fa fa-check text-success"></i>                   |
 | [Docs](https://docs.abp.io/en/abp/latest/Modules/Docs)       | <i class="fa fa-check text-success"></i>                     | <i class="fa fa-check text-success"></i>                   |
 | [Identity Server Integration](https://docs.abp.io/en/abp/latest/Modules/IdentityServer) | <i class="fa fa-check text-success"></i>                     | <i class="fa fa-check text-success"></i>                   |
@@ -66,6 +69,7 @@ ABP Commercial has a lot of **additional modules** compared to the open source A
 | [Text Template Management](https://commercial.abp.io/modules/Volo.TextTemplateManagement) | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
 | [Chat](https://commercial.abp.io/modules/Volo.Chat)          | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
 | [File Management](https://commercial.abp.io/modules/Volo.FileManagement) | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
+| [Forms](https://commercial.abp.io/modules/Volo.Forms)        | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
 | [Twilio SMS Integration](https://commercial.abp.io/modules/Volo.Abp.Sms.Twilio) | <i class="fa fa-minus text-secondary"></i>                   | <i class="fa fa-check text-success"></i>                   |
 
 Some modules have "Basic" (open source) and "Pro" (commercial) versions. The next sections show the differences between the basic and the pro versions.
@@ -110,8 +114,9 @@ Open source multi-tenancy module named as "Tenant Management" while the commerci
 | -------------------------------- | ------------------------------------------ | ---------------------------------------- |
 | Tenant Management                | <i class="fa fa-check text-success"></i>   | <i class="fa fa-check text-success"></i> |
 | Edition Management               | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+| Separate tenant databases <sup>[1]</sup> | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
 
-Subscription, payment and other features are on the road map for the SaaS module.
+<sup>[1]</sup> ABP Framework supports separate tenant databases in the framework level. However, only the SaaS module implements the UI, automatic database migrations and separate tenant database schema support.
 
 ## ABP CLI vs ABP Suite
 
