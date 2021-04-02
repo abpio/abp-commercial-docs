@@ -168,9 +168,7 @@ In Visual Studio go to menu **Debug -> Attach to Process** then select the servi
 
 ![tye-vs-attach-debugger](../../images/tye-vs-attach-debugger.png)
 
-You can debug your application normally.
-
-![image-20210402141429187](C:\Users\galip\AppData\Roaming\Typora\typora-user-images\image-20210402141429187.png)
+You can debug your application normally.![image-20210402141429187](../../images//tye-debugging-vs.png)
 
 If you want to attach a debugger to all of your services, you can use `*` instead of service name like:
 
