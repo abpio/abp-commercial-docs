@@ -46,7 +46,7 @@ This document explains how to start development with this solution template.
 The following tools are required in order to run the solution;
 
 * [Visual Studio 2019](https://visualstudio.microsoft.com/vs/community/) (v16.8+) or another suitable IDE.
-* [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (**Optional**, you can also use pre-configured sql-server-linux with updating connection strings. If you want to use localdb, you need to change the connection strings. If you want to use another RDBMS, you need to [switch the provider](https://docs.abp.io/en/abp/latest/Entity-Framework-Core-Other-DBMS)) 
+* [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (If you want to use localdb, you need to change the connection strings. If you want to use another RDBMS, you need to [switch the provider](https://docs.abp.io/en/abp/latest/Entity-Framework-Core-Other-DBMS)) 
 * [.NET 5.0+ SDK](https://dotnet.microsoft.com/download)
 * [NPM](https://nodejs.org/) v14+ (or [Yarn](https://classic.yarnpkg.com/en/docs/install) 1.20+).
 * [Powershell](https://docs.microsoft.com/en-us/powershell/) 5.0+
@@ -66,19 +66,19 @@ Use the [ABP Suite](../../abp-suite/index.md) to [create a new solution](../../a
 
 Now, you can open the solution in Visual Studio or your favorite IDE. You will see a solution structure similar to the figure below (solution and project names will be different based on your naming preference);
 
-<img src="../../images/microservice-template-solution-in-rider.png" alt="microservice-template-solution-in-visual-studio" style="zoom:150%;" />
+<img src="../../images/microservice-template-solution-in-rider.png" alt="microservice-template-solution-in-rider" style="zoom: 200%;" />
 
 *Figure: The solution structure (it will be a slightly different based on your UI preference).*
 
 ### Create the Databases (Optional)
 
-Each service has *DatabaseMigrationChecker* which uses asynchronous communication to queue itself if the service has a pending migration then migrates and seeds itself. For more information check [database migration checker docs*](TODO).
+Each service has *DatabaseMigrationChecker* which uses asynchronous communication to queue itself if the service has a pending migration then migrates and seeds itself. 
 
 But if you want to create the databases synchronous way, you can use the DbMigrator project which migrates and seeds the projects added in *DbMigrationService*. Run DbMigrator to create all the databases in one step:
 
 It creates four databases in the SQL Server:
 
-![microservice-template-databases](../../images/microservice-template-databases.png)
+<img src="../../images/microservice-template-databases.png" alt="microservice-template-databases" style="zoom:200%;" />
 
 ## Run the Solution on TYE
 
