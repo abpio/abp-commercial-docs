@@ -7,15 +7,16 @@
 - [Docker Desktop](https://www.docker.com/products/docker-desktop) v3.0+
 
 - #### **Developer Certificates** 
-  - **Windows Users:** Run the powershell script file `create-certificate.ps1` . This file will create a self-signed certificate named `localhost.pfx` with a predefined password using **dotnet dev-certs** command. 
+  - **Windows Users:** Run the powershell script file `create-certificate.ps1`. This file will create a self-signed certificate named `localhost.pfx` with a predefined password using **dotnet dev-certs** command. 
   - **Linux Users:** dotnet dev-certs may not be fully working on Linux so you may need to generate and trust your own certificate and put `localhost.pfx` file under **etc/dev-cert** folder inside solution directory.
 
-    **Generate the certificate:** Under *etc/dev-cert* folder, *localhost.conf* file is already provided
+    **Generate the certificate:** Run the commands below to create necessary *localhost.pfx* file for https under *etc/dev-cert* folder,
 
     ```bash
     # See https://stackoverflow.com/questions/55485511/how-to-run-dotnet-dev-certs-https-trust
     # for more details
   
+    cat << EOF > localhost.conf
     [req]
     default_bits       = 2048
     default_keyfile    = localhost.key
@@ -39,6 +40,8 @@
     [alt_names]
     DNS.1   = localhost
     DNS.2   = 127.0.0.1
+    
+    EOF
     
     # Generate certificate from config
     openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout localhost.key -out localhost.crt \
@@ -67,8 +70,9 @@
   docker run -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=myPassw0rd!' -p 1434:1433 -v sqlvolume:/var/opt/mssql -d mcr.microsoft.com/mssql/server:2019-latest
   ```
   
+
 To update the connection strings, you can either **update appsettings.json** files in each project with database connections **or** add environment variables to override the **appsettings**. 
-  
+
 - **Override the appsettings:** In tye.yaml file, add env variable to each service using connection strings. Your tye.yaml file should be updated as below:
   
     ```yaml
@@ -83,7 +87,7 @@ To update the connection strings, you can either **update appsettings.json** fil
         - ConnectionStrings__IdentityService=Server=localhost,1434;Database=MyProjectName_Identity;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true
       - ConnectionStrings__AdministrationService=Server=localhost,1434;Database=MyProjectName_Administration;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true
         - ConnectionStrings__SaasService=Server=localhost,1434;Database=MyProjectName_Saas;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true
-  
+    
     - name: administration-service
     project: services/administration/src/MyCompanyName.MyProjectName.AdministrationService.HttpApi.Host/MyCompanyName.MyProjectName.AdministrationService.HttpApi.Host.csproj
       bindings:
@@ -147,9 +151,7 @@ To update the connection strings, you can either **update appsettings.json** fil
 
 ## Running tye
 
-> Run `dotnet build` command if you are running the solution the first time  since tye will be running your projects locally.
->
-> For run options, you can simply use `tye run -h` command.
+> For all the run options, you can simply use `tye run -h` command.
 
 Use the command `tye run` under your main solution directory to run the solution.
 
@@ -171,7 +173,7 @@ You will see an awaiting notice for attaching to a process when you *View* the *
 
 ![tye-debugger-attach](../../images/tye-debugger-attach.png)
 
-> In this state, product service will not start until you attach a debugger
+> In this state, product service will not start until you attach a debugger.
 
 In Visual Studio go to menu **Debug -> Attach to Process** then select the service process you are debugging.
 
