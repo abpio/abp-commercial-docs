@@ -2,7 +2,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC","Blazor","NG"],
+    "UI": ["MVC","Blazor","BlazorServer","NG"],
     "DB": ["EF","Mongo"]
 }
 ````
@@ -129,7 +129,7 @@ Once you define the permissions, you can see them on the **permission management
 
 Go to the *Administration -> Identity Management -> Roles* page, select *Permissions* action for the admin role to open the permission management modal:
 
-{{if UI == "Blazor"}}
+{{if UI == "Blazor" || UI == "BlazorServer"}}
 
 ![bookstore-permissions-ui](images/bookstore-blazor-permissions-ui-2.png)
 
@@ -470,7 +470,7 @@ Open the `/src/app/book/book.component.html` file and replace the edit and delet
 * Added `*abpPermission="'BookStore.Books.Edit'"` that hides the edit action if the current user has no editing permission.
 * Added `*abpPermission="'BookStore.Books.Delete'"` that hides the delete action if the current user has no delete permission.
 
-{{else if UI == "Blazor"}}
+{{else if UI == "Blazor" || UI == "BlazorServer"}}
 
 ### Authorize the Razor Component
 
