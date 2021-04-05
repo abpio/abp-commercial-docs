@@ -31,7 +31,7 @@ This command starts the ABP Suite and opens in your default browser:
 
 ![suite-ui](/images/suite-entrance-2.png)
 
-Click to the **Create solution** button and fill the modal form:
+Click to the **Create a new solution** button and fill the modal form:
 
 ![suite-new-project-modal](/images/suite-new-project-modal.png)
 
@@ -77,7 +77,7 @@ The solution has a layered structure (based on the [Domain Driven Design](https:
 
 #### MongoDB Transactions
 
-The [startup template](startup-templates/application/index.md) **disables** transactions in the `.MongoDB` project by default. If your MongoDB server supports transactions, you can enable the it in the *YourProjectMongoDbModule* class:
+The [startup template](startup-templates/application/index.md) **disables** transactions in the `.MongoDB` project by default. If your MongoDB server supports transactions, you can enable it in the *YourProjectMongoDbModule* class's `ConfigureServices` method:
 
   ```csharp
   Configure<AbpUnitOfWorkDefaultOptions>(options =>
