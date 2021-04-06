@@ -29,28 +29,9 @@
   
 - **Mac Users:** You can either download **powershell** and use the `create-certificate.ps1` file to let dotnet dev-certs create the certificate or create the certificate manually using **openssl** as above.
 
-## Run Infrastructure
-
-Navigate to **etc/docker** folder under your microservice template solution. Run the powershell script file `up.ps1` which does the following:
-
-```yaml
-docker network create mycompanyname.myprojectname-network
-docker-compose -f docker-compose.infrastructure.yml -f docker-compose.infrastructure.override.yml up -d
-```
-
-This will run the following required infrastructure services externally:
-
-- Redis
-- RabbitMq
-- ElasticSearch
-- Kibana
-- MsSql-Server-Linux
-- Grafana
-- Prometheus
-
-![docker-infrastructure-running](../../images/docker-infrastructure-running.png)
-
 ## Running Tye
+
+> Make sure you are already [running the infrastructure](index.md#Run the Infrastructure).
 
 Use the command `tye run` under your main solution directory to run the solution.
 
