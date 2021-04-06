@@ -31,7 +31,7 @@
 
 ## Running Tye
 
-> Make sure you are already [running the infrastructure](index.md#Run the Infrastructure).
+> Make sure you are already [running the infrastructure](./index.md#Run the Infrastructure).
 
 Use the command `tye run` under your main solution directory to run the solution.
 
