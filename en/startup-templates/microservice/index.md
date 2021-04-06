@@ -69,21 +69,21 @@ Now, you can open the solution in Visual Studio or your favorite IDE. You will s
 
 *Figure: The solution structure (it will be a slightly different based on your UI preference).*
 
-## Run the Solution on TYE
-
-You can run and debug the whole solution on [dotnet/tye](https://github.com/dotnet/tye). Simply check [How to Run Microservice Template on Tye](./microservice-tye-guide.md).
-
-## Run the Solution on IDE
-
-The system consists of multiple applications should be running together.
-
-### Run the Infrastructure
+## Run the Infrastructure
 
 The **etc/docker** folder under the main solution contains a `up.ps1` file. Execute it to run the necessary infrastructure services:
 
 <img src="../../images/microservice-template-run-infrastructure.png" alt="microservice-template-run-infrastructure" style="zoom:150%;" />
 
 > First running may contain additional steps and take a long time since it will download the missing Docker images.
+
+## Run the Solution on TYE
+
+You can run and debug the microservice solution using [dotnet/tye](https://github.com/dotnet/tye). Simply check [Microservice Template Tye Integration](./microservice-tye-guide.md).
+
+## Run the Solution on IDE
+
+The system consists of multiple applications should be running together.
 
 ### Running the Authentication Server
 
