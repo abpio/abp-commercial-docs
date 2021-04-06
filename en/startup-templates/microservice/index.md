@@ -35,7 +35,7 @@ This section introduce the solution structure and briefly explains the solution 
   * **Kibana** is used to visualize the logs in the Elasticsearch database.
   * **Grafana** is used to compose observability dashboards.
   * **Prometheus** is used for event monitoring and alerting.
-  * **Sql-Server-Linux** is used for running the database in container for mainly linux/mac users. Default exposed port is 1434.
+  * **Sql-Server-Linux** is used for running the database in container. Default exposed port is 1434.
 
 ## Get Started
 
@@ -46,8 +46,7 @@ This document explains how to start development with this solution template.
 The following tools are required in order to run the solution;
 
 * [Visual Studio 2019](https://visualstudio.microsoft.com/vs/community/) (v16.8+) or another suitable IDE.
-* [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (If you want to use localdb, you need to change the connection strings. If you want to use another RDBMS, you need to [switch the provider](https://docs.abp.io/en/abp/latest/Entity-Framework-Core-Other-DBMS)) 
-* [.NET 5.0+ SDK](https://dotnet.microsoft.com/download)
+* [.NET 5.0+ SDK](https://dotnet.microsoft.com/download) (If you have Visual Studio 2019, this will be installed already)
 * [NPM](https://nodejs.org/) v14+ (or [Yarn](https://classic.yarnpkg.com/en/docs/install) 1.20+).
 * [Powershell](https://docs.microsoft.com/en-us/powershell/) 5.0+
 * [Docker Desktop](https://www.docker.com/products/docker-desktop) v3.0+
@@ -70,21 +69,11 @@ Now, you can open the solution in Visual Studio or your favorite IDE. You will s
 
 *Figure: The solution structure (it will be a slightly different based on your UI preference).*
 
-### Create the Databases (Optional)
-
-Each service has *DatabaseMigrationChecker* which uses asynchronous communication to queue itself if the service has a pending migration then migrates and seeds itself. 
-
-But if you want to create the databases synchronous way, you can use the DbMigrator project which migrates and seeds the projects added in *DbMigrationService*. Run DbMigrator to create all the databases in one step:
-
-It creates four databases in the SQL Server:
-
-<img src="../../images/microservice-template-databases.png" alt="microservice-template-databases" style="zoom:200%;" />
-
 ## Run the Solution on TYE
 
 You can run and debug the whole solution on [dotnet/tye](https://github.com/dotnet/tye). Simply check [How to Run Microservice Template on Tye](./microservice-tye-guide.md).
 
-## Run the Solution
+## Run the Solution on IDE
 
 The system consists of multiple applications should be running together.
 
