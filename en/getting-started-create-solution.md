@@ -33,7 +33,35 @@ This command starts the ABP Suite and opens in your default browser:
 
 Click to the **Create a new solution** button and fill the modal form:
 
-![suite-new-project-modal](/images/suite-new-project-modal.png)
+{{ if UI == "NG" && DB == "EF" }}
+
+![angular-efcore](/images/suite-create-new-solution-Angular-Ef.png)
+
+{{ else if UI == "NG" && DB == "Mongo" }}
+
+![angular-mongo](/images/suite-create-new-solution-Angular-mongodb.png)
+
+{{ else if UI == "MVC" && DB == "EF" }}
+
+![mvc-efcore](/images/suite-create-new-solution-MVC-Ef.png)
+
+{{ else if UI == "MVC" && DB == "Mongo" }}
+
+![mvc-mongodb](/images/suite-create-new-solution-MVC-mongodb.png)
+
+{{ else if UI == "Blazor" && DB == "EF" }}
+
+![blazor-efcore](/images/suite-create-new-solution-Blazor-Ef.png)
+
+{{ else if UI == "Blazor" && DB == "Mongo" }}
+
+![blazor-mongo](/images/suite-create-new-solution-Blazor-mongodb.png)
+
+{{ else }}
+
+![angular-efcore](/images/suite-create-new-solution-Angular-Ef.png)
+
+{{end}}
 
 Select the UI framework, Database provider and other options based on your preferences then click to the OK button.
 
@@ -64,6 +92,16 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Bl
 {{ end }}
 
 > You can use different level of namespaces; e.g. BookStore, Acme.BookStore or Acme.Retail.BookStore. 
+
+## Mobile Development
+
+When you create a new application, the solution includes `react-native` folder by default. This is a basic [React Native](https://reactnative.dev/) startup template to develop mobile applications integrated to your ABP based backends.
+
+If you don't plan to develop a mobile application with React Native, you can safely delete the `react-native` folder.
+
+> You can specifying the `-m none` option to the ABP CLI to not create the `react-native` folder in the beginning.
+
+See the [Getting Started with the React Native](getting-started-react-native.md) document to learn how to configure and run the React Native application.
 
 #### ABP CLI commands & options
 
