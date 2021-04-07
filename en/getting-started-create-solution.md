@@ -3,7 +3,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC", "Blazor", "NG"],
+    "UI": ["MVC", "Blazor", "BlazorServer", "NG"],
     "DB": ["EF", "Mongo"],
     "Tiered": ["Yes", "No"]
 }
@@ -14,8 +14,6 @@
 > This document assumes that you prefer to use **{{ UI_Value }}** as the UI framework and **{{ DB_Value }}** as the database provider. For other options, please change the preference on top of this document.
 
 ## Create a new project
-
-> This document assumes that you prefer to use **{{ UI_Value }}** as the UI framework and **{{ DB_Value }}** as the database provider. For other options, please change the preference on top of this document.
 
 There are two ways of creating a new project: ABP Suite and ABP CLI.
 
@@ -31,11 +29,11 @@ abp suite
 
 This command starts the ABP Suite and opens in your default browser:
 
-![suite-ui](/images/suite-entrance-2.png)
+![suite-ui](images/suite-entrance-2.png)
 
-Click to the **Create solution** button and fill the modal form:
+Click to the **Create a new solution** button and fill the modal form:
 
-![suite-new-project-modal](/images/suite-new-project-modal.png)
+![angular-efcore](images/suite-create-new-solution-Angular-Ef.png)
 
 Select the UI framework, Database provider and other options based on your preferences then click to the OK button.
 
@@ -46,41 +44,36 @@ Select the UI framework, Database provider and other options based on your prefe
 Use the `new` command of the ABP CLI to create a new project:
 
 ````shell
-abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Blazor"}} -u blazor{{end}}{{if DB == "Mongo"}} -d mongodb{{end}}{{if Tiered == "Yes" && UI != "NG"}} --tiered {{else if Tiered == "Yes" && UI == "NG"}}--separate-identity-server{{end}}
+abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Blazor"}} -u blazor{{else if UI == "BlazorServer"}} -u blazor-server{{end}}{{if DB == "Mongo"}} -d mongodb{{end}}{{if Tiered == "Yes"}}{{if UI == "MVC" || UI == "BlazorServer"}} --tiered {{else}} --separate-identity-server{{end}}{{end}}
 ````
 
 * `-t` argument specifies the [startup template](startup-templates/application/index.md) name. `app-pro` is the startup template that contains the essential [ABP Commercial Modules](https://commercial.abp.io/modules) pre-installed and configured for you.
 
-{{ if UI == "NG" }}
-
-* `-u` argument specifies the UI framework, `angular` in this case.
-
 {{ if Tiered == "Yes" }}
 
-{{ if UI == "MVC" }}
+{{ if UI == "MVC" || UI == "BlazorServer" }}
 
 * `--tiered` argument is used to create N-tiered solution where authentication server, UI and API layers are physically separated.
-  {{ else }}
+
+{{ else }}
+
 * `--separate-identity-server` argument is used to separate the identity server application from the API host application. If not specified, you will have a single endpoint on the server.
-  {{ end }}
 
 {{ end }}
-
-{{ end }}
-
-{{ if DB == "Mongo" }}
-
-* `-d` argument specifies the database provider, `mongodb` in this case.
-
-{{ end }}
-
-{{ if Tiered == "Yes" && UI != "NG" }}
-
-* `--tiered` argument is used to create N-tiered solution where authentication server, UI and API layers are physically separated.
 
 {{ end }}
 
 > You can use different level of namespaces; e.g. BookStore, Acme.BookStore or Acme.Retail.BookStore. 
+
+## Mobile Development
+
+When you create a new application, the solution includes `react-native` folder by default. This is a basic [React Native](https://reactnative.dev/) startup template to develop mobile applications integrated to your ABP based backends.
+
+If you don't plan to develop a mobile application with React Native, you can safely delete the `react-native` folder.
+
+> You can specifying the `-m none` option to the ABP CLI to not create the `react-native` folder in the beginning.
+
+See the [Getting Started with the React Native](getting-started-react-native.md) document to learn how to configure and run the React Native application.
 
 #### ABP CLI commands & options
 
@@ -94,7 +87,7 @@ The solution has a layered structure (based on the [Domain Driven Design](https:
 
 #### MongoDB Transactions
 
-The [startup template](startup-templates/application/index.md) **disables** transactions in the `.MongoDB` project by default. If your MongoDB server supports transactions, you can enable the it in the *YourProjectMongoDbModule* class:
+The [startup template](startup-templates/application/index.md) **disables** transactions in the `.MongoDB` project by default. If your MongoDB server supports transactions, you can enable it in the *YourProjectMongoDbModule* class's `ConfigureServices` method:
 
   ```csharp
   Configure<AbpUnitOfWorkDefaultOptions>(options =>

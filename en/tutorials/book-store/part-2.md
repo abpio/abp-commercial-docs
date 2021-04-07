@@ -3,7 +3,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC","Blazor","NG"],
+    "UI": ["MVC","Blazor","BlazorServer","NG"],
     "DB": ["EF","Mongo"]
 }
 ````
@@ -556,7 +556,7 @@ Now you can see the final result on your browser:
 
 ![Book list final result](images/bookstore-angular-book-list.png)
 
-{{else if UI == "Blazor"}}
+{{else if UI == "Blazor" || UI == "BlazorServer"}}
 
 ## Create a Books Page
 

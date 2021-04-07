@@ -33,6 +33,9 @@ This section introduce the solution structure and briefly explains the solution 
   * **RabbitMQ** is used a a distributed event/message bus.
   * **ElasticSearch** is used as a central point to write application logs.
   * **Kibana** is used to visualize the logs in the Elasticsearch database.
+  * **Grafana** is used to compose observability dashboards.
+  * **Prometheus** is used for event monitoring and alerting.
+  * **Sql-Server-Linux** is used for running the database in container. Default exposed port is 1434.
 
 ## Get Started
 
@@ -43,8 +46,7 @@ This document explains how to start development with this solution template.
 The following tools are required in order to run the solution;
 
 * [Visual Studio 2019](https://visualstudio.microsoft.com/vs/community/) (v16.8+) or another suitable IDE.
-* [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (If you want to use localdb, you need to change the connection strings. If you want to use another RDBMS, you need to [switch the provider](https://docs.abp.io/en/abp/latest/Entity-Framework-Core-Other-DBMS))
-* [.NET 5.0+ SDK](https://dotnet.microsoft.com/download)
+* [.NET 5.0+ SDK](https://dotnet.microsoft.com/download) (If you have Visual Studio 2019, this will be installed already)
 * [NPM](https://nodejs.org/) v14+ (or [Yarn](https://classic.yarnpkg.com/en/docs/install) 1.20+).
 * [Powershell](https://docs.microsoft.com/en-us/powershell/) 5.0+
 * [Docker Desktop](https://www.docker.com/products/docker-desktop) v3.0+
@@ -59,33 +61,27 @@ Use the [ABP Suite](../../abp-suite/index.md) to [create a new solution](../../a
 
 > Type `abp suite` in a command line terminal to start the ABP Suite.
 
-### Run the Infrastructure
-
-The root folder of the solution contains a `run-infrastructure.ps1` file. Execute it to run the necessary infrastructure services:
-
-![microservice-template-run-infrastructure](../../images/microservice-template-run-infrastructure.png)
-
-> First running may contain additional steps and take a long time since it will download the missing Docker images.
-
-### Create the Databases
-
-The root folder of the solution contains a `update-databases.ps1` file. Execute it to create all the databases in one step:
-
-![microservice-template-database-update](../../images/microservice-template-database-update.png)
-
-It creates four databases in the SQL Server:
-
-![microservice-template-databases](../../images/microservice-template-databases.png)
-
 ### Open the Solution
 
 Now, you can open the solution in Visual Studio or your favorite IDE. You will see a solution structure similar to the figure below (solution and project names will be different based on your naming preference);
 
-![microservice-template-solution-in-visual-studio](../../images/microservice-template-solution-in-visual-studio.png)
+<img src="../../images/microservice-template-solution-in-rider.png" alt="microservice-template-solution-in-rider" style="zoom: 200%;" />
 
 *Figure: The solution structure (it will be a slightly different based on your UI preference).*
 
-## Run the Solution
+## Run the Infrastructure
+
+The **etc/docker** folder under the main solution contains a `up.ps1` file. Execute it to run the necessary infrastructure services:
+
+<img src="../../images/microservice-template-run-infrastructure.png" alt="microservice-template-run-infrastructure" style="zoom:150%;" />
+
+> First running may contain additional steps and take a long time since it will download the missing Docker images.
+
+## Run the Solution on TYE
+
+You can run and debug the microservice solution using [dotnet/tye](https://github.com/dotnet/tye). Simply check [Microservice Template Tye Integration](./microservice-tye-integration).
+
+## Run the Solution on IDE
 
 The system consists of multiple applications should be running together.
 
@@ -113,7 +109,7 @@ Run the following applications in the given order (right click to each project, 
 * **AdministrationService**
 * **IdentityService**
 * **SaasService**
-* product-service/**HttpApi.Host**
+* **ProductService**
 
 > Notice: Visual Studio may stop a previously started service (we think it is kind of a bug of the VS). In this case, re-start the stopped application. Alternatively, you can run the project or projects in a command line terminal, using the `dotnet run` command.
 
@@ -162,20 +158,6 @@ This will begin the *Main Web Application*:
 Click to the *Login* link. It will redirect to the *Authentication Server*. Enter `admin` as the username and `1q2w3E*` as the password to login to the system. You will be redirected back to the web application.
 
 > If you have previously logged into the *Authentication Server* then you are automatically login to this application when you click to the Login link thanks to the **single sign on** system.
-
-#### Grant the Permissions
-
-When you first login the the application, you won't see much items on the main menu:
-
-![microservice-template-web-app](../../images/microservice-template-web-app.png)
-
-This is because not all the permissions have been granted for the admin role. Click to the **Actions** menu for the admin role and **grant all the permissions** as shown below:
-
-![microservice-template-permission-dialog](../../images/microservice-template-permission-dialog.png)
-
-Then you will be able to see all the menu items for the [modules](../../modules/index.md) pre-installed into the solution:
-
-![microservice-template-web-app-with-all-permissions](../../images/microservice-template-web-app-with-all-permissions.png)
 
 ### Running the Public Website
 
