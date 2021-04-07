@@ -18,6 +18,57 @@ AuthServer Dependencies
 
 ### Data Seed
 
+AuthServer needs initial data such as identityserver *clients*, *api resources*, api scopes etc.. to operate when the microservice stack starts running. To kick start the process, AuthService uses [Abp Data Seeding](https://docs.abp.io/en/abp/latest/Data-Seeding) to add the required initial data. This information can be found in **IdentityServerDataSeeder**. *IdentityServerDataSeedContributor* is responsible to run the data seeder. Both files are located under shared DbMigrator project. 
+
+It is a good practice to keep your *IdentityServerDataSeeder* **up to date** whenever you expand your microservice solution with new api resources and clients.
+
+**Api Resources** are typically http api endpoints that clients wants to access. All the microservices are added as Api Resources:
+
+```csharp
+private async Task CreateApiResourcesAsync()
+{
+    ...
+
+    await CreateApiResourceAsync("IdentityService", commonApiUserClaims);
+    await CreateApiResourceAsync("AdministrationService", commonApiUserClaims);
+    await CreateApiResourceAsync("SaasService", commonApiUserClaims);
+    await CreateApiResourceAsync("ProductService", commonApiUserClaims);
+}
+```
+
+These are the **name** of the resources.
+
+**Api Scopes** can be considered as one-to-many **parts** of **a resource** that represents what a client application is **allowed to** do. Since Abp uses [Permission Management](https://docs.abp.io/en/abp/latest/UI/Angular/Permission-Management), defining one scope for each api resource instead of *.read*, *.write* variants:
+
+```csharp
+private async Task CreateApiScopesAsync()
+{
+    await CreateApiScopeAsync("IdentityService");
+    await CreateApiScopeAsync("AdministrationService");
+    await CreateApiScopeAsync("SaasService");
+    await CreateApiScopeAsync("ProductService");
+}
+```
+
+**Clients** are the applications that want to reach api resources via allowed interactions (grant types) with the token server by representing a list (scopes) of  what they request to do.
+
+There are different clients seeded for AuthServer application;
+
+Swagger-Clients
+
+Each gateway (Internal, Web, PublicWeb) is added as **swagger-clients** with the pre-defined scope allowance:
+
+```csharp
+private async Task CreateSwaggerClientsAsync()
+{
+    await CreateSwaggerClientAsync("InternalGateway", new []{"IdentityService","AdministrationService","SaasService","ProductService"});
+    await CreateSwaggerClientAsync("WebGateway", new []{"IdentityService","AdministrationService","SaasService","ProductService"});
+    await CreateSwaggerClientAsync("PublicWebGateway", new []{"ProductService"});
+}
+```
+
+Gateways clients use `authorization_code` grant type and allowed scopes must be passed to `CreateSwaggerClientAsync` method. 
+
 
 
 ### Deployment Configurations
