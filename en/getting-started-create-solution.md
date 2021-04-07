@@ -29,11 +29,11 @@ abp suite
 
 This command starts the ABP Suite and opens in your default browser:
 
-![suite-ui](/images/suite-entrance-2.png)
+![suite-ui](images/suite-entrance-2.png)
 
 Click to the **Create a new solution** button and fill the modal form:
 
-![angular-efcore](/images/suite-create-new-solution-Angular-Ef.png)
+![angular-efcore](images/suite-create-new-solution-Angular-Ef.png)
 
 Select the UI framework, Database provider and other options based on your preferences then click to the OK button.
 
