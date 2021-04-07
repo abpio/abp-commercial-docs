@@ -209,16 +209,6 @@ Enter **admin** as the username and **1q2w3E*** as the password to login to the 
 
 The application is up and running. You can start developing your application based on this startup template.
 
-## Mobile Development
-
-When you create a new application, the solution includes `react-native` folder by default. This is a basic [React Native](https://reactnative.dev/) startup template to develop mobile applications integrated to your ABP based backends.
-
-If you don't plan to develop a mobile application with React Native, you can safely delete the `react-native` folder.
-
-> You can specifying the `-m none` option to the ABP CLI to not create the `react-native` folder in the beginning.
-
-See the [Getting Started with the React Native](getting-started-react-native.md) document to learn how to configure and run the React Native application.
-
 ## Next
 
 [Web Application development tutorial](tutorials/book-store/part-1.md)
