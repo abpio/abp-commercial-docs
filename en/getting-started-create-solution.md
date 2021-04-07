@@ -33,35 +33,7 @@ This command starts the ABP Suite and opens in your default browser:
 
 Click to the **Create a new solution** button and fill the modal form:
 
-{{ if UI == "NG" && DB == "EF" }}
-
 ![angular-efcore](/images/suite-create-new-solution-Angular-Ef.png)
-
-{{ else if UI == "NG" && DB == "Mongo" }}
-
-![angular-mongo](/images/suite-create-new-solution-Angular-mongodb.png)
-
-{{ else if UI == "MVC" && DB == "EF" }}
-
-![mvc-efcore](/images/suite-create-new-solution-MVC-Ef.png)
-
-{{ else if UI == "MVC" && DB == "Mongo" }}
-
-![mvc-mongodb](/images/suite-create-new-solution-MVC-mongodb.png)
-
-{{ else if UI == "Blazor" && DB == "EF" }}
-
-![blazor-efcore](/images/suite-create-new-solution-Blazor-Ef.png)
-
-{{ else if UI == "Blazor" && DB == "Mongo" }}
-
-![blazor-mongo](/images/suite-create-new-solution-Blazor-mongodb.png)
-
-{{ else }}
-
-![angular-efcore](/images/suite-create-new-solution-Angular-Ef.png)
-
-{{end}}
 
 Select the UI framework, Database provider and other options based on your preferences then click to the OK button.
 
