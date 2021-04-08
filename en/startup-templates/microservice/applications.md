@@ -8,13 +8,9 @@
 
 ### Authentication & Authorization
 
-AuthServer hosts the public account pages such as login, register, forgot password etc.
+Grant Types : Used grant types with images 
 
-Grant Types
-
-Configurations
-
-AuthServer Dependencies
+AuthServer Dependencies: Related modules such as account.public.web and account.pro.public.application?
 
 ### Data Seed
 
@@ -22,13 +18,14 @@ AuthServer needs initial data such as identityserver *clients*, *api resources*,
 
 It is a good practice to keep your *IdentityServerDataSeeder* **up to date** whenever you expand your microservice solution with new api resources and clients.
 
-**Api Resources** are typically http api endpoints that clients wants to access. All the microservices are added as Api Resources:
+#### Api Resources
+
+> Api Resources are typically http api endpoints that clients wants to access. All the microservices are added as Api Resources
 
 ```csharp
 private async Task CreateApiResourcesAsync()
 {
     ...
-
     await CreateApiResourceAsync("IdentityService", commonApiUserClaims);
     await CreateApiResourceAsync("AdministrationService", commonApiUserClaims);
     await CreateApiResourceAsync("SaasService", commonApiUserClaims);
@@ -38,7 +35,9 @@ private async Task CreateApiResourcesAsync()
 
 These are the **name** of the resources.
 
-**Api Scopes** can be considered as one-to-many **parts** of **a resource** that represents what a client application is **allowed to** do. Since Abp uses [Permission Management](https://docs.abp.io/en/abp/latest/UI/Angular/Permission-Management), defining one scope for each api resource instead of *.read*, *.write* variants:
+#### Api Scopes
+
+> Api Scopes can be considered as one-to-many **parts** of **a resource** that represents what a client application is **allowed to** do. They are mostly defined as *myApi.read*, *myApi.write* etc.. for authorization purposes. Abp uses [Permission Management](https://docs.abp.io/en/abp/latest/UI/Angular/Permission-Management) and delegates to authorization to permission management. Hence declaring one scope for each api resource
 
 ```csharp
 private async Task CreateApiScopesAsync()
@@ -50,26 +49,40 @@ private async Task CreateApiScopesAsync()
 }
 ```
 
-**Clients** are the applications that want to reach api resources via allowed interactions (grant types) with the token server by representing a list (scopes) of  what they request to do.
+#### Clients
+
+> Clients are the applications that want to reach *api resources* via allowed interactions (*grant types*) with the token server by representing a list (*scopes*) of  what they request to do.
 
 There are different clients seeded for AuthServer application;
 
-Swagger-Clients
+- **Swagger Clients:** These are the gateways added as clients using  `authorization_code` grant type. While *WebGateway* and *Internal Gateway* are allowed for all the scopes, *PublicWeb Gateway* is only allowed to `ProductService` scope default.
 
-Each gateway (Internal, Web, PublicWeb) is added as **swagger-clients** with the pre-defined scope allowance:
+- **Back-Office Clients:** 
 
-```csharp
-private async Task CreateSwaggerClientsAsync()
-{
-    await CreateSwaggerClientAsync("InternalGateway", new []{"IdentityService","AdministrationService","SaasService","ProductService"});
-    await CreateSwaggerClientAsync("WebGateway", new []{"IdentityService","AdministrationService","SaasService","ProductService"});
-    await CreateSwaggerClientAsync("PublicWebGateway", new []{"ProductService"});
-}
-```
+  - **Web** Client is the Razor/MVC application client using `hybrid` grant type. This client has all the scope allowance as default.
+  - **Angular** is the spa application client using `authorization_code` grant type. This client has all the scope allowance as default.
+  - **Blazor** Client is the Blazor WebAssembly application client using `authorization_code` grant type. This client has all the scope allowance as default.
+  - **Blazor Server** is the application client using `hybrid` grant type. This client has all the scope allowance as default.
 
-Gateways clients use `authorization_code` grant type and allowed scopes must be passed to `CreateSwaggerClientAsync` method. 
+- **Public/Landing Page Client:** Public Web application is a Razor/MVC application client using `hybrid` grant type. This client has `AdministrationService` and `ProductService` scope allowance as default.
 
+- **Service Clients**: These are the server-to-server interactions between services. This is a `client_credentials` grant type and there is no user or user information involved in this flow. 
 
+  As default, **AdministrationService** is declared as a client. AdministrationService requires list of user data from *IdentityService*. Since this endpoint is authorized with a permission, required permission is also granted on the client creation. Granted permission will be seen with ProviderName `C` under *AbpPermissionGrants* table in Administration database. That indicates this is a `client_credential` given permission.
+
+  ```csharp
+  //Administration Service Client
+  await CreateClientAsync(
+      name: "MyProjectName_AdministrationService",
+      scopes: commonScopes.Union(new[]
+      {
+          "IdentityService" // Allowed scope to make request
+      }),
+      grantTypes: new[] {"client_credentials"},
+      secret: "1q2w3e*".Sha256(),
+      permissions: new[] {IdentityPermissions.Users.Default}
+  );
+  ```
 
 ### Deployment Configurations
 
@@ -177,12 +190,6 @@ public override void OnApplicationInitialization(ApplicationInitializationContex
 
 If headers are not forwarded as expected, enable logging. Check [Microsoft Troubleshoot Guide](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer?view=aspnetcore-5.0#troubleshoot) fore more information.
 
-### Adding Tests
-
-AuthServer application has it's own solution under app folder. Create a **test** folder under auth-server directory.  Open **AuthServer** solution and add a new solution folder named **test**.
-
-Add the test projects required by your needs under this folder. Check [The Test Projects Docs](https://docs.abp.io/en/abp/latest/Testing) for more information.
-
 
 
 ## Web Application (Back-office)
@@ -195,3 +202,9 @@ Varieties (MVC,Angular,Blazor,Blazor.Server)
 ## Public Application
 
 
+
+## Adding Tests to Applications
+
+All the application has their respected solutions under app folder. Create a **test** folder where the *src* folder is located.  Open the application solution and add a new solution folder named **test**.
+
+Add the test projects required by your needs under this folder. Check [The Test Projects Docs](https://docs.abp.io/en/abp/latest/Testing) for more information.
