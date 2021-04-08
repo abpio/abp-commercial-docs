@@ -22,14 +22,6 @@ This module follows the [module development best practices guide](https://docs.a
 
 You can visit [Twilio SMS module package list page](https://abp.io/packages?moduleName=Volo.Abp.Sms.Twilio) to see list of packages related with this module.
 
-## User Interface
-
-There is no user interface for this module.
-
-## Data Seed
-
-This module doesn't seed any data.
-
 ## Configuration
 
 You can configure `Twilio SMS` module in several ways. It uses the [options pattern](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options) in ASP.NET Core.
@@ -77,42 +69,4 @@ Twilio allows you to create a free trial to send test SMS. Get your Twilio `Acco
 
 ## Sending SMS
 
-Sending SMS is pretty simple. Inject `ISmsSender` to your class (eg: `MyApplicationService`) and call `SendAsync()` method.
-
-```csharp
-public class MyAppService : IMyAppService, ITransientDependency
-{
-	private readonly ISmsSender _smsSender;
-
-	public MyAppService(ISmsSender smsSender)
-	{
-		_smsSender = smsSender;
-	}
-
-	public async Task SendSmsAsync(string toPhoneNumber, string message)
-	{
-		await _smsSender.SendAsync(new SmsMessage(toPhoneNumber, message));
-	}
-}
-
-public interface IMyAppService : IApplicationService
-{
-	Task SendSmsAsync(string toPhoneNumber, string message);
-}
-```
-
-## Internals
-
-### Application Layer
-
-#### Application Services
-
-This module doesn't have any application services.
-
-### Permissions
-
-This module doesn't have any permissions.
-
-## Distributed Events
-
-This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
+See [SMS Sending](https://docs.abp.io/en/abp/latest/SMS-Sending) document of the ABP Framework.
