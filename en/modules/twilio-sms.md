@@ -1,27 +1,20 @@
 # Twilio SMS Module
 
-[Twilio](https://www.twilio.com) is a cloud communication provider that makes it easy to send and receive SMS. ABP Twilio SMS module implements the SMS sending feature of `ISmsSender` interface with Twilio. 
+[Twilio](https://www.twilio.com) is a cloud communication provider that makes it easy to send and receive SMS. ABP Twilio SMS module implements the SMS sending feature of `ISmsSender` interface with Twilio.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Abp.Sms.Twilio) for an overview of the module features.
 
-## How to Install
+## Installation
 
-To install the Twilio SMS module, you need to add a package reference of `Volo.Abp.Sms.Twilio` in your project.  You can add this package to your application layer (eg: `Acme.BookStore.Application`).
+It is suggested to use the [ABP CLI](CLI.md) to install this package.
 
-**Acme.BookStore.Application.csproj**
+Open a command line window in the folder of the project (.csproj file) and type the following command:
 
-```json
-<PackageReference Include="Volo.Abp.Sms.Twilio" Version="x.x.x" />
+```bash
+abp add-package Volo.Abp.Sms.Twilio
 ```
 
-After you add the package reference, open the module class of the project (eg: `BookStoreApplicationModule`) and add the below code to the `DependsOn` attribute.
-
-```csharp
-[DependsOn(
-  //...
-  typeof(AbpTwilioSmsModule)
-)]
-```
+You can also check detailed installation guide [here](https://abp.io/package-detail/Volo.Abp.Sms.Twilio).
 
 ## Packages
 
@@ -43,24 +36,24 @@ You can configure `Twilio SMS` module in several ways. It uses the [options patt
 
 ### Configure by AbpTwilioSmsOptions
 
-`AbpTwilioSmsOptions` can be used to configure the module.  You can use the below code to configure it in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics) (eg: `BookStoreApplicationModule`).
+`AbpTwilioSmsOptions` can be used to configure the module. You can use the below code to configure it in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics) (eg: `BookStoreApplicationModule`).
 
-````csharp
+```csharp
 Configure<AbpTwilioSmsOptions>(options =>
 {
 	options.AccountSId = "***";
 	options.AuthToken = "***";
 	options.FromNumber = "***";
 });
-````
+```
 
 `AbpTwilioSmsOptions` properties:
 
-* `AccountSId` : This is a security key of Twilio. You can get your `AccountSId` from [Twilio Console](https://www.twilio.com/console.).
-* `AuthToken`:  This is a security key of Twilio. You can get your `AuthToken` from [Twilio Console](https://www.twilio.com/console.).
-* `FromNumber`:  This is the sender number of SMS. You can get your `FromNumber` from [Twilio Console](https://www.twilio.com/console.).
+- `AccountSId` : This is a security key of Twilio. You can get your `AccountSId` from [Twilio Console](https://www.twilio.com/console.).
+- `AuthToken`: This is a security key of Twilio. You can get your `AuthToken` from [Twilio Console](https://www.twilio.com/console.).
+- `FromNumber`: This is the sender number of SMS. You can get your `FromNumber` from [Twilio Console](https://www.twilio.com/console.).
 
-Twilio allows you to create a free trial to test the SMS provider. Create an account https://www.twilio.com/try-twilio and get your credentials to test it. 
+Twilio allows you to create a free trial to test the SMS provider. Create an account https://www.twilio.com/try-twilio and get your credentials to test it.
 
 ### Configure by appsettings.json
 
@@ -70,23 +63,21 @@ You can configure the module with the `appsettings.json` file of the final proje
 
 ```json
 {
-  "AbpTwilioSms": {
-    "AccountSId": "<Enter your AccountSId from Twilio>",
-    "AuthToken": "<Enter your AuthToken from Twilio>",
-    "FromNumber": "<Enter your from number from Twilio>"
-  }
+	"AbpTwilioSms": {
+		"AccountSId": "<Enter your AccountSId from Twilio>",
+		"AuthToken": "<Enter your AuthToken from Twilio>",
+		"FromNumber": "<Enter your from number from Twilio>"
+	}
 }
 ```
 
-
-
-Twilio allows you to create a free trial to send test SMS. Get your Twilio `AccountSId`, `AuthToken`, `FromNumberv` values from https://www.twilio.com/try-twilio.  Enter these values in your `appsettings.json` or configure it via `AbpTwilioSmsOptions`.
+Twilio allows you to create a free trial to send test SMS. Get your Twilio `AccountSId`, `AuthToken`, `FromNumberv` values from https://www.twilio.com/try-twilio. Enter these values in your `appsettings.json` or configure it via `AbpTwilioSmsOptions`.
 
 ![Twilio Configuration](../images/sms-twilio-configuration.png)
 
 ## Sending SMS
 
-Sending SMS is pretty simple. Inject `ISmsSender` to your class (eg: `MyApplicationService`) and call `SendAsync()` method. 
+Sending SMS is pretty simple. Inject `ISmsSender` to your class (eg: `MyApplicationService`) and call `SendAsync()` method.
 
 ```csharp
 public class MyAppService : IMyAppService, ITransientDependency
