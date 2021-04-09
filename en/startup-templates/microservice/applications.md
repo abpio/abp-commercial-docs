@@ -1,16 +1,16 @@
 # Microservice Startup Template Applications
 
-There are 3 different applications are presented in the microservice startup template
+There are 3 different applications are presented in the microservice startup template;
 
 - **Authentication Server** is located under *apps/auth-server* folder. This application is the single sign on and single sign out point of your application that also authenticates and authorizes your applications, gateways and microservices.
-- **Web (Back-office)** application has `Razor/MVC`, `Angular`, `Blazor (Web Assembly)` and `Blazor.Server` options. This is the main application
-- **Public Web (Landing page)**  application is located under apps/public-web folder.
+- **Web (Back-office)** application has `Razor/MVC`, `Angular`, `Blazor (Web Assembly)` and `Blazor.Server` options. This is the main application of your solution.
+- **Public Web (Landing page)**  application is located under apps/public-web folder. This is the front page application of your solution.
 
 All applications has their respected solutions created already and can be developed further when if required without opening the whole template solution. It is also possible to add test projects to applications. Create a **test** folder where the *src* folder is located.  Open the application solution and add a new solution folder named **test**.
 
 Add the test projects required by your needs under this folder. Check [The Test Projects Docs](https://docs.abp.io/en/abp/latest/Testing) for more information.
 
-![overall-applications](D:\Github\abp-commercial-docs\en\images\overall-applications.png)
+![overall-applications](../../images/overall-applications.png)
 
 ## Authentication Server
 
@@ -42,17 +42,17 @@ Since login functionality is centralized, external logins like *Azure*, *Google*
 
 ### Single Sign-Out
 
-All the applications are configured to use [Front-Channel Logout](https://openid.net/specs/openid-connect-frontchannel-1_0.html) and *Account Module* already implements the necessary functionality. Whenever you logout from your one of your application, you are automatically logged out of other signed in applications once you re-visit them.
+All the applications are configured to use [Front-Channel Logout](https://openid.net/specs/openid-connect-frontchannel-1_0.html) and *Account Module* already implements the necessary functionality. Whenever you logout from one of your application, you are automatically logged out of other signed in applications once you re-visit them.
 
 > Ex:
 >
-> If you are logged in to both Web and Public applications, if you log out from **Web application**; you will receive a *Signed Out* page noticing you that you have been signed out and redirected back. If you refresh the **Public application**, you will see that you are logged off from this application also. 
+> If you are logged in to both Web and Public applications, if you log out from **Web application**; you will receive a *Signed Out* page noticing you that you have been signed out and redirected back. If you refresh the **Public application**, you will see that you are logged off from this application too. 
 
 If you want to change this behaviour, update the related client data `FrontChannelLogoutSessionRequired = false` in the *IdentityServer Management* pages.
 
 ### Data Seed
 
-AuthServer needs initial data such as identityserver *clients*, *api resources*, api scopes etc and admin user to operate when the microservice stack starts running. To kick start the process, AuthService uses [Abp Data Seeding](https://docs.abp.io/en/abp/latest/Data-Seeding) to add the required initial data. This information can be found in **IdentityServerDataSeeder**. *IdentityServerDataSeedContributor* is responsible to run the data seeder. Both files are located under shared **DbMigrator** project. 
+AuthServer needs initial data such as identityserver *clients*, *api resources*, api scopes etc and admin user to operate when the microservice stack starts running. To kick-start the process, AuthService uses [Abp Data Seeding](https://docs.abp.io/en/abp/latest/Data-Seeding) to add the required initial data. This information can be found in **IdentityServerDataSeeder**. *IdentityServerDataSeedContributor* is responsible to run the data seeder. Both files are located under shared **DbMigrator** project. 
 
 It is a good practice to keep your *IdentityServerDataSeeder* **up to date** whenever you expand your microservice solution with new api resources and clients.
 
@@ -248,14 +248,14 @@ If headers are not forwarded as expected, enable logging. Check [Microsoft Troub
 
 This is the back-office (admin-side) application of the template. This application shows the module **UI** but does not host the module. **Modules are hosted by related microservices** and the back-office application just uses them **as remote services**. For more information, do check [Module Architecture Best Practices & Conventions Section C](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages).
 
-To achieve this functionality, **back-office** application needs to reference to `IdentityService`, `AdministrationService`, `SaasService` and sample `ProductService` microservices'  `.Web` and `Http.Client` layers to use them as remote services while microservices need to host the modules. 
+To achieve this functionality, **back-office** application needs to reference to `IdentityService`, `AdministrationService`, `SaasService` and sample `ProductService` microservices'  `.Web` and `HttpApi.Client` layers to use them as remote services while microservices need to host the modules. 
 
 Therefore;
 
 - **IdentityService** microservice **hosts** [IdentityServer Management](https://docs.abp.io/en/commercial/latest/modules/identity-server) and [Identity Management](https://docs.abp.io/en/commercial/latest/modules/identity) modules. `Identity.HttpApi.Client` project is referenced for remote service calls but since IdentityService microservice doesn't have a Web layer; module's `.Web` packages are referenced explicitly.
-- **AdministrationService** microservice hosts [Text-Template Management](https://docs.abp.io/en/commercial/latest/modules/text-template-management), [Language Management](https://docs.abp.io/en/commercial/latest/modules/language-management), [Audit Logging](https://docs.abp.io/en/commercial/latest/modules/audit-logging), [Lepton Theme Management](https://docs.abp.io/en/commercial/latest/themes/lepton) modules. `Administration.Http.Client` is referenced for remote service calls but since AdministrationService microservice doesn't have a Web layer; module's `.Web` packages are referenced explicitly.
-- **SaasService** microservice hosts [Saas Tenant and Host Management](https://docs.abp.io/en/commercial/latest/modules/saas) module.  `Saas.Http.Client` is referenced for remote service calls but since SaasService microservice doesn't have a Web layer; module's `.Web` packages are referenced explicitly.
-- **ProductService** microservice doesn't host any external module and has its own Web layer with modularly developed UI. Hence forth, `ProductService.Web` and `ProductService.Http.Client` are referenced together.
+- **AdministrationService** microservice hosts [Text-Template Management](https://docs.abp.io/en/commercial/latest/modules/text-template-management), [Language Management](https://docs.abp.io/en/commercial/latest/modules/language-management), [Audit Logging](https://docs.abp.io/en/commercial/latest/modules/audit-logging), [Lepton Theme Management](https://docs.abp.io/en/commercial/latest/themes/lepton) modules. `Administration.HttpApi.Client` is referenced for remote service calls but since AdministrationService microservice doesn't have a Web layer; module's `.Web` packages are referenced explicitly.
+- **SaasService** microservice hosts [Saas Tenant and Host Management](https://docs.abp.io/en/commercial/latest/modules/saas) module.  `Saas.HttpApi.Client` is referenced for remote service calls but since SaasService microservice doesn't have a Web layer; module's `.Web` packages are referenced explicitly.
+- **ProductService** microservice doesn't host any external module and has its own Web layer with modularly developed UI. Hence forth, `ProductService.Web` and `ProductService.HttpApi.Client` are referenced together.
 
 ### Remote Service Calls - Web Gateway
 
@@ -273,7 +273,7 @@ This configuration indicates the default base url of all the Http Api requests; 
 
 ### Application Templates
 
-There are 4 different back-office application types supported:
+There are 4 different back-office application templates supported:
 
 #### Razor/MVC
 
@@ -420,7 +420,7 @@ This is the landing page application of your microservice solution. This applica
 
 This application uses the account related functionality by hosting the Account Module Api but **forwarding** all the requests to **PublicWeb Gateway**. So that application can use the functionality of just the **Account Module** without depending on to whole IdentityService microservice. For more information, do check [Module Architecture Best Practices & Conventions Section E](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages).
 
-To achieve this functionality, Public Application needs to reference to **Account Module** `.HttpApi` and `Http.Client` layers to host the api but **proxy** the request to a remote service.
+To achieve this functionality, Public Application needs to reference to **Account Module** `.HttpApi` and `HttpApi.Client` layers to host the api but **proxy** the request to a remote service.
 
 ### Remote Service Calls - PublicWeb Gateway
 
