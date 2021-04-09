@@ -8,13 +8,21 @@
 
 ### Authentication & Authorization
 
-Grant Types : Used grant types with images 
+AuthServer is the single sign-on and single sign-off server of the microservice template. Authentication and authorization between applications is handled by AuthServer which is built upon OpenId certified [IdentityServer 4](https://identityserver4.readthedocs.io/en/latest/). 
 
-AuthServer Dependencies: Related modules such as account.public.web and account.pro.public.application?
+AuthServer references to [Account Module](https://docs.abp.io/en/commercial/latest/modules/account) that `Account.Pro.Public.Web` package serves the pages like login, sign-out, external login providers etc. and `Account.Pro.Public.Application` package hosts the implementations.
+
+Also, Account Module functionality is split between **microservices**;
+
+- *Identity* and *IdentityServer* related data is kept in **IdentityService microservice**
+- *Account management* and *profile management* related data is kept in **AdministrationService microservice** 
+- *Tenant* login related data is kept in **SaasService microservice**
+
+AuthServer makes directly database requests to these microservices to reach related data for operating successfully. Hence depends on `IdentityService EntityFrameworkCore`, `AdministrationService EntityFrameworkCore` and `SaasService EntityFrameworkCore` modules and also has the configuration of related connection strings in the *appsettings*.
 
 ### Data Seed
 
-AuthServer needs initial data such as identityserver *clients*, *api resources*, api scopes etc.. to operate when the microservice stack starts running. To kick start the process, AuthService uses [Abp Data Seeding](https://docs.abp.io/en/abp/latest/Data-Seeding) to add the required initial data. This information can be found in **IdentityServerDataSeeder**. *IdentityServerDataSeedContributor* is responsible to run the data seeder. Both files are located under shared DbMigrator project. 
+AuthServer needs initial data such as identityserver *clients*, *api resources*, api scopes etc and admin user to operate when the microservice stack starts running. To kick start the process, AuthService uses [Abp Data Seeding](https://docs.abp.io/en/abp/latest/Data-Seeding) to add the required initial data. This information can be found in **IdentityServerDataSeeder**. *IdentityServerDataSeedContributor* is responsible to run the data seeder. Both files are located under shared **DbMigrator** project. 
 
 It is a good practice to keep your *IdentityServerDataSeeder* **up to date** whenever you expand your microservice solution with new api resources and clients.
 
@@ -170,7 +178,7 @@ public override void OnApplicationInitialization(ApplicationInitializationContex
     var app = context.GetApplicationBuilder();
     var env = context.GetEnvironment();
     ...
-	if (!env.IsDevelopment())
+    if (!env.IsDevelopment())
     {
         app.UseErrorPage();
         app.UseHsts();
@@ -194,7 +202,7 @@ If headers are not forwarded as expected, enable logging. Check [Microsoft Troub
 
 ## Web Application (Back-office)
 
-Varieties (MVC,Angular,Blazor,Blazor.Server)
+Varieties (MVC,Angular,Blazor,Blazor.Server) hangi gateway'ler
 
 
 
