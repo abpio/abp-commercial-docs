@@ -41,6 +41,8 @@ This section introduce the solution structure and briefly explains the solution 
 
 This document explains how to start development with this solution template.
 
+If you want to add new microservice to your existing microservice solution, please refer to [Creating New Microservice Documentation](add-microservice.md).
+
 ### Pre-Requirements
 
 The following tools are required in order to run the solution;
