@@ -7,7 +7,7 @@
 You can create a new microservice for your microservice project by using the abp CLI with the following command:
 
 ```powershell
-dotnet new OrderService -t microservice-service-pro
+abp new OrderService -t microservice-service-pro
 ```
 
 You can see your newly created (order) microservice under your **microservices** directory of your project solution.
