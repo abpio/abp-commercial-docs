@@ -1,4 +1,4 @@
-# Creating New Microservice
+# Add new Microservices to the Solution
 
 > This documentation introduces guidance for creating a new microservice for your microservice startup template. Eventually, these steps will be automated in the future however learning these steps may provide insight to learn the relations between microservices.
 
@@ -7,7 +7,7 @@
 You can create a new microservice for your microservice project by using the abp CLI with the following command:
 
 ```powershell
-dotnet new OrderService -t microservice-service-pro
+abp new OrderService -t microservice-service-pro
 ```
 
 You can see your newly created (order) microservice under your **microservices** directory of your project solution.
@@ -15,6 +15,8 @@ You can see your newly created (order) microservice under your **microservices**
 Add **OrderService.HttpApi.Host.csproj** as an existing project to your main solution so that you can manage the host projects from one solution.
 
 <img src="../../images/microservice-template-add-to-solution.png" alt="image-20210228031214795" style="zoom:150%;" />
+
+> Dont' forget to `dotnet build` your newly created *order* service under *services/order* directory.
 
 You need to update several projects in order to integrate your new service into your composition. 
 
@@ -26,32 +28,13 @@ Administration microservice hosts the **permission management**. In order to mak
 typeof(OrderServiceApplicationContractsModule)
 ```
 
-### Updating DbMigrator
+So that your AdministrationServiceHttpApiHostModule should look like below:
 
-Since OrderService is using its own database, you should add it to DbMigrator aswell so that DbMigrator can handle OrderService migrations and data seeding. 
+![administration-service-module-added-orderservice](../../images/administration-service-module-added-orderservice.png)
 
-- **Update Project References:** Add **OrderService.Application.Contracts** and **OrderService.EntityFrameworkCore** project references to **DbMigrator** project then add the related dependencies to **DbMigratorModule** as below:
+### IdentityServer Configuration
 
-  ```csharp
-  typeof(OrderServiceApplicationContractsModule),
-  typeof(OrderServiceEntityFrameworkCoreModule)
-  ```
-
-- **Update DbMigrationService:** DbMigratorHostedService runs the MigrateAsync method which eventually runs the **MigrateAllDatabasesAsync** method. Add the new database migration with the others: 
-
-  ```csharp
-  await MigrateDatabaseAsync<OrderServiceDbContext>(cancellationToken);
-  ```
-
-- **Update appsetings.json:** Migration of OrderService will require predefined connection string name under OrderService.Domain.OrderServiceDbProperties. Add related connection string name to **appsettings.json** ConnectionStrings sections of DbMigrator as below:
-
-  ```json
-  "OrderService": "Server=localhost;Database=BookStore_OrderService;Trusted_Connection=True"
-  ```
-
-  ### Updating IdentityServer
-
-> This is an optional step since identityserver management can be done via UI. However it is a good practice to keep IdentityServerDataSeeder updated. 
+> You can also replicate the same functionality in this step by using identityserver management UI. However it is a good practice to keep IdentityServerDataSeeder updated. 
 
 To keep IdentityServerDataSeeder updated, you need to:
 
@@ -67,7 +50,7 @@ To keep IdentityServerDataSeeder updated, you need to:
   await CreateApiScopeAsync("OrderService");
   ```
 
-- **Update SwaggerClients**: Swagger clients are used for ***authorizing*** the microservice endpoints via *authorization code* flow for the swagger endpoints. You need to update the related swagger client creation scopes with adding the **OrderService** scope. You can select the gateways you want to grant for new service to be reached. Keep in mind, you need to add route configuration for each gateway. 
+- **Update SwaggerClients**: Swagger clients are used for ***authorizing*** the microservice endpoints via *authorization code* flow for the swagger endpoints. You need to update the related swagger client creation scopes with adding the **OrderService** scope. You can select the gateways you want to grant for new service to be reached. **Keep in mind**, you need to add route configuration for each gateway. 
 
 - **Update Clients**: Update Web and/or Public (angular or blazor if application is not mvc) client creations in **CreateClientsAsync** method. Add **OrderService** scope. If you want to call OrderService from an other service, add OrderService scope to caller service client aswell.
 
@@ -85,13 +68,17 @@ Update each related gateway ocelot configuration with the new service endpoint c
 
 For each gateway you want to expose new microservice endpoint, you need to:
 
-- **Add project reference and module dependency**: Add OrderService.HttpApi project reference to your gateway project dependency and add OrderServiceHttpApiModule to gateway module dependency like:
+1. **Add project reference and module dependency**: Add OrderService.HttpApi project reference to your gateway project dependency and add OrderServiceHttpApiModule to gateway module dependency like:
 
   ```csharp
   typeof(OrderServiceHttpApiModule)
   ```
 
-- **Update appsettings.json for ocelot configuration:** You need to add new Downstream and Upstream path templates for new microservice like:
+  Update the `SwaggerWithAuthConfigurationHelper.Configure` method, adding the **OrderService** api scope for swagger client authorization.
+
+  ![webgateway-service-module-added-orderservice](D:\Github\abp-commercial-docs\en\images\webgateway-service-module-added-orderservice.png)
+
+2. **Update appsettings.json for ocelot configuration:** You need to add new Downstream and Upstream path templates for new microservice like:
 
   ```json
   {
@@ -109,6 +96,34 @@ For each gateway you want to expose new microservice endpoint, you need to:
   ```
 
   > You can make different configurations for each method or endpoint for your microservice and add QoS configurations based on your business requirements. You can check [ocelot documentation](https://ocelot.readthedocs.io/en/latest/) for more.
+
+### Updating DbMigrator
+
+Since OrderService is using its own database, you should add it to `DbMigrator` aswell so that DbMigrator can handle OrderService migrations and data seeding. 
+
+1. **Update Project References:** Add **OrderService.Application.Contracts** and **OrderService.EntityFrameworkCore** project references to **DbMigrator** project then add the related dependencies to **DbMigratorModule** as below:
+
+   ```csharp
+   typeof(OrderServiceApplicationContractsModule),
+   typeof(OrderServiceEntityFrameworkCoreModule)
+   ```
+
+   ![dbmigrator-service-modules-added-orderservice](../../images/dbmigrator-service-modules-added-orderservice.png)
+
+2. **Update DbMigrationService:** DbMigratorHostedService runs the MigrateAsync method which eventually runs the **MigrateAllDatabasesAsync** method. Add the new database migration with the others: 
+
+   ```csharp
+   await MigrateDatabaseAsync<OrderServiceDbContext>(cancellationToken);
+   ```
+
+   ![migrate-all-after-orderservice](../../images/migrate-all-after-orderservice.png)
+
+3. **Update appsetings.json:** Migration of OrderService will require predefined connection string name under OrderService.Domain.OrderServiceDbProperties. Add related connection string name to **appsettings.json** ConnectionStrings sections of DbMigrator as below:
+
+   ```json
+   "OrderService": "Server=localhost;Database=BookStore_OrderService;Trusted_Connection=True"
+   ```
+
 
 ### Adding UI to Applications
 
