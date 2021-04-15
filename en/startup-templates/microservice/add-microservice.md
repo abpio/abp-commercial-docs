@@ -1,4 +1,4 @@
-# Creating New Microservice
+# Add new Microservices to the Solution
 
 > This documentation introduces guidance for creating a new microservice for your microservice startup template. Eventually, these steps will be automated in the future however learning these steps may provide insight to learn the relations between microservices.
 
