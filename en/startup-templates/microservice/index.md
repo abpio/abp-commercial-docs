@@ -176,3 +176,7 @@ Now, you can run the **PublicWeb** application:
 ![microservice-template-public-web-app](../../images/microservice-template-public-web-app.jpg)
 
 > This is an example application if you need to a public/landing page for your system. It supports login (with **single sign-on** support) via the *Authentication Server*.
+
+## Guides
+
+* [Add new microservices to solution](add-microservice.md)
