@@ -121,7 +121,7 @@ app.UseSwaggerUI(options =>
 });
 ```
 
-If you add a new microservice and want to use in your Web application; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](#identityServer configuration).
+> If you add a new microservice and want to use in your Web application; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](gateways.md#identityServer configuration).
 
 ## Public Web Gateway
 
@@ -187,7 +187,7 @@ app.UseSwaggerUI(options =>
 });
 ```
 
-If you add a new microservice and want to use in your PublicWeb application; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](#identityServer configuration).
+> If you add a new microservice and want to use in your PublicWeb application; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](#identityServer configuration).
 
 ## Internal Gateway
 
@@ -276,9 +276,9 @@ app.UseSwaggerUI(options =>
 });
 ```
 
-If you add a new microservice and want to use in your microservice inter-communication; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](#identityServer configuration).
+> If you add a new microservice and want to use in your microservice inter-communication; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](#identityServer configuration).
 
-### IdentityServer Configuration
+## IdentityServer Configuration
 
 As default, all gateways uses swagger authorization so that user can login to AuthServer and make requests to authorized api endpoints. This is done by predefining a *swagger client* in **IdentityServerDataSeeder** under `CreateSwaggerClientsAsync` method at DbMigrator project:
 
