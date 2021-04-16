@@ -303,6 +303,6 @@ The aggregator pattern is used to combine the results of the multiple requests f
 
 ### Circuit Breakers
 
-Circuit Breakers are used to improve the resilience and stability of the system with handling the detection of long response times or failures when calling remote services or resources. [Ocelot Quality of Service]([Quality of Service — Ocelot 1.0.0 documentation](https://ocelot.readthedocs.io/en/latest/features/qualityofservice.html)) is already implemented to be used in appsettings configurations. 
+Circuit Breakers are used to improve the resilience and stability of the system with handling the detection of long response times or failures when calling remote services or resources. [Ocelot Quality of Service](https://ocelot.readthedocs.io/en/latest/features/qualityofservice.html) is already implemented to be used in appsettings configurations. 
 
 Although since it is an inter-communication between microservices, [Abp Dynamic C# API Configuration](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients#retry-failure-logic-polly-integration) can also be used.
