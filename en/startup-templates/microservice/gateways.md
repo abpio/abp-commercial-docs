@@ -180,7 +180,7 @@ The automatically filled `client_id` and `client_secret` fields are set under **
 ```csharp
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Gateway API");
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Public Web Gateway API");
     var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
     options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
     options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
@@ -270,12 +270,12 @@ As default, Internal Gateway makes requests to all api scopes that are already a
 
 ![public-web-gateway-auth](../../images/internal-gateway-auth.PNG)
 
-The automatically filled `client_id` and `client_secret` fields are set under **PublicWebGatewayModule** `OnApplicationInitialization`:
+The automatically filled `client_id` and `client_secret` fields are set under **InternalGatewayModule** `OnApplicationInitialization`:
 
 ```csharp
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Gateway API");
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Internal Gateway API");
     var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
     options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
     options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
