@@ -230,12 +230,6 @@ As default, this gateway proxies each request to related microservice and redire
 
    to `localhost:44361` (ProductService) in appsettings configuration.
 
-- **AuthServer:** Depends on `AbpAccountPublicHttpApiModule` and re-routes
-
-  -  `/api/account/{everything}` (login page etc requests)
-
-  to `localhost:44322` (Authentication Server) in appsettings configuration.
-
 ### Authorization Configuration
 
 Internal Gateway has swagger with authorization configuration to make *authorization_code* interaction with AuthServer to be able to get authorized scopes:
