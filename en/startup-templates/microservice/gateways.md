@@ -107,7 +107,7 @@ As default, Web Gateway makes requests to all api scopes that are already allowe
 
  Web Gateway authorization screen can be seen below:
 
-![web-gateway-auth](../../images/web-gateway-auth.PNG)
+![web-gateway-auth](../../images/web-gateway-auth.png)
 
 The automatically filled `client_id` and `client_secret` fields are set under **WebGatewayModule** `OnApplicationInitialization`:
 
@@ -121,7 +121,7 @@ app.UseSwaggerUI(options =>
 });
 ```
 
-> If you add a new microservice and want to use in your Web application; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](#identityServer configuration).
+If you add a new microservice and want to use in your Web application; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](#identityServer configuration).
 
 ## Public Web Gateway
 
@@ -187,7 +187,7 @@ app.UseSwaggerUI(options =>
 });
 ```
 
-> If you add a new microservice and want to use in your PublicWeb application; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](#identityServer configuration).
+If you add a new microservice and want to use in your PublicWeb application; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](#identityServer configuration).
 
 ## Internal Gateway
 
@@ -262,7 +262,7 @@ As default, Internal Gateway makes requests to all api scopes that are already a
 
  Internal Gateway authorization screen can be seen below:
 
-![public-web-gateway-auth](../../images/internal-gateway-auth.PNG)
+> ![public-web-gateway-auth](../../images/internal-gateway-auth.png)
 
 The automatically filled `client_id` and `client_secret` fields are set under **InternalGatewayModule** `OnApplicationInitialization`:
 
@@ -276,7 +276,7 @@ app.UseSwaggerUI(options =>
 });
 ```
 
-> If you add a new microservice and want to use in your microservice inter-communication; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](#identityServer configuration).
+If you add a new microservice and want to use in your microservice inter-communication; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](#identityServer configuration).
 
 ### IdentityServer Configuration
 
