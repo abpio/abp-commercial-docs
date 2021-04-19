@@ -12,13 +12,13 @@ All gateways has their respected solutions created already and can be developed 
 
 Add the test projects required by your needs under this folder. Check [The Test Projects Docs](https://docs.abp.io/en/abp/latest/Testing) for more information.
 
-![overall-applications](../../images/overall-applications.png)
+![overall-applications](../../images/overall-gateways.gif)
 
 To compare microservice template to tiered application template: Gateway is an **API.Host** project that proxies all the requests to related microservices.  
 
 Gateways are depended to HttpApi layer of the microservices they are redirecting to.
 
-All gateways depends on **SharedHostingGatewayModule** which implements default **Ocelot** and **Swagger** with authorization configuration. For more, check [Shared Modules#HostingGateways](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients)
+All gateways depends on **SharedHostingGatewayModule** which implements default **Ocelot** and **Swagger** with authorization configuration. For more, check [Shared Modules#hosting gateways](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients)
 
 ## Backend for Frontend Pattern (BFF)
 
