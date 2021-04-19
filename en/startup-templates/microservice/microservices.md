@@ -1,6 +1,6 @@
 # Microservice Startup Template Microservices
 
-> Microservices are the functional self deployable pieces of your system that are created by following the [ABP Module Architecture Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture). 
+> Microservices are the functional self deployable pieces of your system. While Infrastructural microservices don't have UI, it is possible to develop modular UI in the .Web layer of the microservices along with exposing rest api endpoints.
 
 ![overall-applications](../../images/overall-microservices.gif)
 
@@ -22,7 +22,7 @@ All microservices;
 - Are capable of **on-the-fly migration**; have `DbMigrations` folder that contains `MigrationChecker` and `MigrationEventHandler`. This allows microservices migrate and seed their databases using distributed eventbus as an alternative usage to shared DbMigrator,
 - Use **Sql Server**, containing `.EntityFrameworkCore` layer. This layer contains related database contexts, database context factories and migrations along with related module db configurations
 
-> If you want to switch your database provider to **MongoDb** instead of EntityFrameworkCore for any of the microservice, you need to create `.MongoDb` project instead of `.EntityFrameworkCore`. Afterwards, add related modules MongoDb packages dependencies along with with similar configurations made in EntityFrameworkCore layer like db context replacement and such.
+> If you want to switch your database provider to **MongoDb** instead of EntityFrameworkCore for any of the microservice, you need to create `.MongoDb` project instead of `.EntityFrameworkCore`. Afterwards, add related modules MongoDb packages dependencies along with similar configurations made in EntityFrameworkCore layer like db context replacement and such. For more, check [MongoDB integration](https://docs.abp.io/en/abp/latest/Best-Practices/MongoDB-Integration).
 
 ## IdentityService
 
@@ -74,7 +74,7 @@ requests **IdentityService** scope.
 
 ### Database Configuration
 
-`IdentityServiceDbContext`, `IdentityServiceDbContextFactory`, `EfCoreEntityExtensionsMapping` and `Migrations` are located in **EntityFrameworkCore** project. **IdentityServiceDbContext** implements 
+**IdentityServiceDbContext** implements 
 
 - `IIdentityDbContext` 
 - `IIdentityServerDbContext` 
@@ -151,8 +151,8 @@ which are located under *appsettings*.
 
 IdentityService uses 
 
-- [Identity Pro Module](https://commercial.abp.io/modules/Volo.Identity.Pro) 
-- [IdentityServer Pro Module](https://commercial.abp.io/modules/Volo.Identityserver.Ui)
+- [Identity Pro Module]([ABP Framework - Open Source Web Application Framework](https://docs.abp.io/en/commercial/latest/modules/identity)) 
+- [IdentityServer Pro Module]([ABP Framework - Open Source Web Application Framework](https://docs.abp.io/en/commercial/latest/modules/identity-server))
 
 #### IdentityService.Domain.Shared
 
@@ -280,7 +280,7 @@ To make the *client_credential* requests, IdentityModel configuration is done un
 
 ### Database Configuration
 
-**AdministrationService.EntityFrameworkCore** project contains `AdministrationServiceDbContext`, `AdministrationServiceDbContextFactory`, `EfCoreEntityExtensionsMapping` and `Migrations`. **AdministrationServiceDbContext** implements
+**AdministrationServiceDbContext** implements
 
 - `IPermissionManagementDbContext`
 - `ISettingManagementDbContext`
@@ -513,7 +513,7 @@ requests **SaasService** scope. The definition of this api resource and scope is
 
 ### Database Configuration
 
-**SaasService.EntityFrameworkCore** project contains `SaasServiceDbContext`, `SaasServiceDbContextFactory`, `EfCoreEntityExtensionsMapping` and `Migrations`. **SaasServiceDbContext** implements
+**SaasServiceDbContext** implements
 
 - `ISaasDbContext`
 
