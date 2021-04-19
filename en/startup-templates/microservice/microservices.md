@@ -13,7 +13,7 @@ There are 4 different microservices are presented in the microservice startup te
 
 All microservices have their own solutions containing test projects under their respected folders. The infrastructural microservices are existing modules, combined together following [Module Development Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Index). Each of the microservice can also be developed further easily by following the modular development guideline.
 
-![module-layers-and-packages](../../images\module-layers-and-packages.jpg)
+![module-layers-and-packages](../../images/module-layers-and-packages.jpg)
 
 All microservices;
 
