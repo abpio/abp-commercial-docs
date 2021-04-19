@@ -2,9 +2,9 @@
 
 > This documentation introduces guidance for creating a new microservice for your microservice startup template. Eventually, these steps will be automated in the future however learning these steps may provide insight to learn the relations between microservices.
 
-## Adding Microservice to Solution
+## Creating new microservice
 
-You can create a new microservice for your microservice project by using the abp CLI with the following command:
+You can create a new microservice for your microservice solution by using the abp CLI with the following command:
 
 ```powershell
 abp new OrderService -t microservice-service-pro
@@ -20,7 +20,7 @@ Add **OrderService.HttpApi.Host.csproj** as an existing project to your main sol
 
 You need to update several projects in order to integrate your new service into your composition. 
 
-### Updating Administration Microservice
+## Updating Administration Microservice
 
 Administration microservice hosts the **permission management**. In order to make your microservice permissions available in permission management screen; you need to add **OrderService.Application.Contracts** project reference then add module dependency to **AdministrationServiceHttpApiHostModule** as below: 
 
@@ -32,7 +32,7 @@ So that your AdministrationServiceHttpApiHostModule should look like below:
 
 ![administration-service-module-added-orderservice](../../images/administration-service-module-added-orderservice.png)
 
-### IdentityServer Configuration
+## IdentityServer Configuration
 
 > You can also replicate the same functionality in this step by using identityserver management UI. However it is a good practice to keep IdentityServerDataSeeder updated. 
 
@@ -62,7 +62,7 @@ You can see updated **IdentityServerDataSeeder** image below that creates OrderS
 
 <img src="../../images/microservice-template-dbmigrator-identityserver-seeder-update.png" alt="microservice-template-dbmigrator-identityserver-seeder-update" style="zoom:60%;" />
 
-### Updating Gateways
+## Updating Gateways
 
 Update each related gateway ocelot configuration with the new service endpoint configuration. Above sample added OrderService to all three gateways; InternalGateway, WebGateway and PublicWebGateway.
 
@@ -74,9 +74,9 @@ For each gateway you want to expose new microservice endpoint, you need to:
   typeof(OrderServiceHttpApiModule)
   ```
 
-  Update the `SwaggerWithAuthConfigurationHelper.Configure` method, adding the **OrderService** api scope for swagger client authorization.
+  Update the *SwaggerWithAuthConfigurationHelper* `Configure` method, adding the **OrderService** api scope for swagger client authorization.
 
-  ![webgateway-service-module-added-orderservice](D:\Github\abp-commercial-docs\en\images\webgateway-service-module-added-orderservice.png)
+  ![webgateway-service-module-added-orderservice](../../images/webgateway-service-module-added-orderservice.png)
 
 2. **Update appsettings.json for ocelot configuration:** You need to add new Downstream and Upstream path templates for new microservice like:
 
@@ -97,7 +97,7 @@ For each gateway you want to expose new microservice endpoint, you need to:
 
   > You can make different configurations for each method or endpoint for your microservice and add QoS configurations based on your business requirements. You can check [ocelot documentation](https://ocelot.readthedocs.io/en/latest/) for more.
 
-### Updating DbMigrator
+## Updating DbMigrator
 
 Since OrderService is using its own database, you should add it to `DbMigrator` aswell so that DbMigrator can handle OrderService migrations and data seeding. 
 
@@ -124,12 +124,11 @@ Since OrderService is using its own database, you should add it to `DbMigrator` 
    "OrderService": "Server=localhost;Database=BookStore_OrderService;Trusted_Connection=True"
    ```
 
-
-### Adding UI to Applications
+## Adding UI to Applications
 
 You can develop UI for your application with two different ways:
 
-#### 1) Modular UI Development:
+### 1) Modular UI Development:
 
 Develop your application UI like any abp application template; add your pages under **OrderService.Web** project. This way, back-office application will be showing the UI without hosting the microservice application just by using as a remote service. You can check [Module Architecture Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages) **Section C** for more information. 
 
@@ -146,7 +145,7 @@ typeof(OrderServiceHttpApiClientModule)
 
 This approach may benefit you with having the integrity of backend and frontend in your microservice as a whole since you will be able to develop your microservice backend and frontend in the same microservice solution.
 
-#### 2) Monolith UI Development inside application:
+### 2) Monolith UI Development inside application:
 
 Develop your application UI inside application; add your pages under application layer of your solution and use microservice as a remote service. You can check [Module Architecture Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages) **Section D** for more information.  
 
@@ -162,7 +161,7 @@ typeof(OrderServiceHttpApiClientModule)
 
 This way you can separate the frontend and backend team and develop each of them in their respected solutions.
 
-#### Updating Tye configuration:
+## Updating Tye configuration:
 
 If you are planning to use [dotnet tye](https://github.com/dotnet/tye) for your solution, you can also update your tye.yaml configuration that is already provided after project creation. Add **OrderService.HttpApi.Host.csproj** path and port with self-sign development certification information as below:
 
