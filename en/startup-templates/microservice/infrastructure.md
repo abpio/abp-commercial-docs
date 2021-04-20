@@ -72,7 +72,7 @@ rabbitmq:
       - "5672:5672"  
 ```
 
-Default RabbitMQ-management port is **15672** and UI can be accwith default `guest` username/password.
+Default RabbitMQ-management port is **15672** and UI can be accessed with default `guest` username/password.
 
 ![overall-applications](../../images/rabbitmq-exchanges.png)
 
@@ -102,7 +102,7 @@ They all share the same **ExchangeName** and individual queues will be created a
 
 ## ElasticSearch & Kibana Integration
 
-[ElasticSearch](https://www.elastic.co/elasticsearch/) is used for [Serilog](https://serilog.net/) integration for logging. ElasticSearch docker-compose service configuration is as below
+[ElasticSearch](https://www.elastic.co/elasticsearch/) is used for [Serilog](https://serilog.net/) integration for logging and [Kibana](https://www.elastic.co/kibana) is used as the visualization tool that integrated to ElasticSearch. Docker-compose service configuration for these services is defined as below
 
 ```yaml
 elasticsearch:
@@ -118,17 +118,9 @@ elasticsearch:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - discovery.type=single-node
     ports:
-      - "9200:9200"  
-```
+      - "9200:9200"
 
-After running ElasticSearch in container, its endpoint should be exposed as below
-
-![overall-applications](../../images/elastic-search.png)
-
-[Kibana](https://www.elastic.co/kibana) is used as the visualization tool integrated to Elasticsearch and configured in docker-compose service as below
-
-```yaml
-  kibana:
+kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:7.10.2
     depends_on:
@@ -138,12 +130,55 @@ After running ElasticSearch in container, its endpoint should be exposed as belo
     environment:
       - ELASTICSEARCH_URL=http://host.docker.internal:9200
     ports: 
-      - "5601:5601"  
+      - "5601:5601"
 ```
+
+The ElasticSearch integration of Serilog configuration is done at **SerilogConfigurationHelper** located in *Shared.Hosting.AspNetCore* shared project. The *IndexFormat* is declared as `MyProjectName-log-{0:yyyy.MM}` under this configuration.
+
+After running ElasticSearch in container, its endpoint should be exposed as below
+
+![overall-applications](../../images/elastic-search.png)
+
+Use the *IndexFormat* explained above to create preferred UI visualization data.
 
 ![kibana](../../images/kibana.png)
 
-## Prometheus & Grafana Integration
+Configuration for each application and microservices is located under *ElasticSearch* section of appsettings
+
+```json
+"ElasticSearch": {
+  "Url": "http://localhost:9200"
+},
+```
+
+## Grafana & Prometheus Integration
+
+
+
+```yaml
+grafana:
+    container_name: grafana
+    image: grafana/grafana
+    volumes:
+      - ../grafana/storage:/var/lib/grafana
+    networks:
+      - mycompanyname.myprojectname-network
+    ports:
+      - "3000:3000"
+      
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    volumes:
+      - ../prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ../prometheus/storage:/prometheus
+    networks:
+      - mycompanyname.myprojectname-network
+    ports:
+      - "9090:9090"  
+```
+
+
 
 ## Database Migrator
 
@@ -187,4 +222,40 @@ private async Task MigrateAllDatabasesAsync(
 
 ## Shared Modules
 
-## Tye Integration
+Shared modules are as the name implies; modules and configurations that are used in other applications, services and/or microservices to prevent code duplication and centralize basic configurations. There are 5 shared modules in Abp Microservice Template solution.
+
+### Localization
+
+The *Shared.Localization* project contains configuration for [Virtual File System](https://docs.abp.io/en/abp/latest/Virtual-File-System) and **solution-wide** localization. 
+
+```csharp
+Configure<AbpVirtualFileSystemOptions>(options =>
+{
+    options.FileSets.AddEmbedded<MyProjectNameSharedLocalizationModule>();
+});
+
+Configure<AbpLocalizationOptions>(options =>
+{
+    options.Resources
+        .Add<MyProjectNameResource>("en")
+        .AddBaseTypes(
+            typeof(AbpValidationResource)
+        ).AddVirtualJson("/Localization/MyProjectName");
+
+    options.DefaultResourceType = typeof(MyProjectNameResource);
+});
+```
+
+The **SharedLocalizationModule** is depended by all applications, gateways and microservices.
+
+> Use provided localization files if you want your localization keys available in all applications, gateways and microservices.
+
+### Hosting
+
+### Hosting Microservices
+
+### Hosting Gateways
+
+### Hosting AspNetCore
+
+## 
