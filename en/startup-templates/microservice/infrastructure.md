@@ -153,7 +153,7 @@ Configuration for each application and microservices is located under *ElasticSe
 
 ## Grafana & Prometheus Integration
 
-
+[Grafana](https://grafana.com/) provides dashboards and data analysis from [Prometheus](https://prometheus.io/) metrics. Docker-compose service configuration for these services is defined as below
 
 ```yaml
 grafana:
@@ -178,7 +178,23 @@ grafana:
       - "9090:9090"  
 ```
 
+Prometheus scrape configuration, *prometheus.yml* file, is mounted and located under *etc/prometheus* folder.
 
+> Grafana storage directory is mounted from *etc/granfana/storage* folder and Prometheus storage directory is from *etc/prometheus/storage*. You can also use [docker volumes](https://docs.docker.com/storage/volumes/#use-a-volume-with-docker-compose) instead of mounting directories.
+
+Navigate to Prometheus targets to check endpoint targets
+
+![prometheus-targets](../../images/prometheus-targets.png)
+
+> If you are not running the solution on docker, you may have to change the prometheus *static_config* targets such as `-targets: ['auth-server']` to `-targets: ['host.docker.internal:44322']`
+
+Run Grafana and add Prometheus as *Data Source*![grafana-add-source](../../images/grafana-add-source.png)
+
+> For first time entry, default user name and password is **admin/admin**
+
+Add dashboard using prometheus data source
+
+![grafana-dashboard](../../images/grafana-dashboard.png)
 
 ## Database Migrator
 
