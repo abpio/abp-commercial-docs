@@ -2,7 +2,21 @@
   "items": [
     {
       "text": "Getting Started",
-      "path": "getting-started.md"
+      "path": "getting-started.md",
+      "items": [
+        {
+          "text": "1: Setup development environment",
+          "path": "getting-started-setup-environment.md"
+        },
+        {
+          "text": "2: Creating a new solution",
+          "path": "getting-started-create-solution.md"
+        },
+        {
+          "text": "3: Running the solution",
+          "path": "getting-started-running-solution.md"
+        }
+      ]
     },
     {
       "text": "Tutorials",
@@ -96,7 +110,17 @@
         },
         {
           "text": "Microservice Template",
-          "path": "startup-templates/microservice/index.md"
+          "path": "startup-templates/microservice/index.md",
+          "items": [
+            {
+              "text": "Creating new microservice",
+              "path": "startup-templates/microservice/add-microservice.md"
+            }, 
+            {
+              "text": "Tye Integration",
+              "path": "startup-templates/microservice/microservice-tye-integration.md"
+            }
+          ]
         },
         {
           "text": "Module Template",
@@ -109,6 +133,10 @@
             {
               "text": "Solution structure",
               "path": "startup-templates/module/solution-structure.md"
+            },
+            {
+              "text": "Creating a new ABP solution via ABP Suite",
+              "path": "abp-suite/create-module-solution.md"
             }
           ]
         }
@@ -138,6 +166,10 @@
         {
           "text": "Chat",
           "path": "modules/chat.md"
+        },
+        {
+          "text": "CMS Kit Pro",
+          "path": "modules/cms-kit.md"
         },
         {
           "text": "File Management",
@@ -246,7 +278,22 @@
         },
         {
           "text": "Migration Guides",
-          "path": "migration-guides/index.md"
+          "path": "migration-guides/index.md",
+          "items": [
+            {
+              "text": "Blazor",
+              "items": [
+                {
+                  "text": "3.2 to 3.3",
+                  "path": "migration-guides/blazor-ui-3_3.md"
+                }
+              ]
+            },
+            {
+              "text": "4.x to 4.3",
+              "path": "migration-guides/v4_3.md"
+            }
+          ]
         }
       ]
     },
@@ -260,6 +307,24 @@
         {
           "text": "ABP Framework vs ABP Commercial",
           "path": "abp-framework-vs-abp-commercial.md"
+        },
+        {
+          "text": "ABP Commercial vs ASP.NET Zero",
+          "path": "aspnet-zero-vs-abp-commercial.md"
+        },
+        {
+          "text": "How to?",
+          "path": "how-to/index.md",
+          "items": [
+            {
+              "text": "Implementing Passwordless Authentication",
+              "path": "how-to/implementing-passwordless-authentication.md"
+            }
+          ]
+        },
+        {
+          "text": "Why ABP.IO Platform?",
+          "path": "why-abp-io-platform.md"
         }
       ]
     }
