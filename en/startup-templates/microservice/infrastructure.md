@@ -2,7 +2,7 @@
 
 > Abp Microservice Startup Template contains shared modules that are used in applications, gateways and microservices. There are also external services run on containers where some of them are mandatory for microservice template to run such as Redis and RabbitMQ.
 
-![overall-applications](../../images/overall-solution.png)
+![overall-applications](../../images/overall-infrastructure.gif)
 
 Shared folder in microservice template solution contains **DbMigrator** project for centralized database migration and data seeding for microservices and shared modules used in applications, microservices and gateways. 
 
