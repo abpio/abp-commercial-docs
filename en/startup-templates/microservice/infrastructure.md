@@ -335,7 +335,46 @@ Log.Logger = new LoggerConfiguration()
 
 ### Hosting Gateways
 
-*Shared.Hosting.Gateways* project is a base **hosting dependency for gateways** such as [WebGateway](gateways.md#webGateway), [PublicWebGateway](gateways.md#public-web-gateway) and [InternalGateway](gateways.md#internal-gateway) and [ProductService](microservices.md#ProductService). 
+*Shared.Hosting.Gateways* project is a base **hosting dependency for gateways** such as [WebGateway](gateways.md#web-gateway), [PublicWebGateway](gateways.md#public-web-gateway) and [InternalGateway](gateways.md#internal-gateway).
+
+This module depends on 
+
+- `SharedHostingAspNetCoreModule` for serilog configuration
+- `AbpAspNetCoreMvcUiMultiTenancyModule` for tenantId redirection in the http headers
+- `AbpSwashbuckleModule` for swagger authorization using `AddAbpSwaggerGenWithOAuth` method
+
+ modules along with `Ocelot` and `Ocelot.Provider.Polly` libraries. 
+
+Ocelot service is configured to use Polly as default
+
+```csharp
+context.Services.AddOcelot(configuration)
+    .AddPolly();
+```
+
+All the gateways have swagger authentication enabled with the configuration located under `SwaggerWithAuthConfigurationHelper`
+
+```csharp
+public static void Configure(
+    ServiceConfigurationContext context,
+    string authority,
+    Dictionary<string, string> scopes,
+    string apiTitle,
+    string apiVersion = "v1",
+    string apiName = "v1"
+)
+{
+    context.Services.AddAbpSwaggerGenWithOAuth(
+        authority: authority,
+        scopes: scopes,
+        options =>
+        {
+            options.SwaggerDoc(apiName, new OpenApiInfo {Title = apiTitle, Version = apiVersion});
+            options.DocInclusionPredicate((docName, description) => true);
+            options.CustomSchemaIds(type => type.FullName);
+        });
+}
+```
 
 ### Hosting Microservices
 
