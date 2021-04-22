@@ -18,7 +18,7 @@ To compare microservice template to tiered application template: Gateway is an *
 
 Gateways are depended to HttpApi layer of the microservices they are redirecting to.
 
-All gateways depends on **SharedHostingGatewayModule** which implements default **Ocelot** and **Swagger** with authorization configuration. For more, check [Shared Modules#hosting gateways](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients)
+All gateways depends on **SharedHostingGatewayModule** which implements default **Ocelot** and **Swagger** with authorization configuration. For more, check [Shared Modules](infrastructure.md#hosting-gateways)
 
 ## Backend for Frontend Pattern (BFF)
 
