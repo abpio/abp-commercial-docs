@@ -31,6 +31,40 @@ which creates the external docker network for infrastructure services and runs t
 
 ![overall-applications](../../images/running-infrastructure.png)
 
+## Sql Server & Configuration
+
+[Sql Server Docker Image](https://hub.docker.com/_/microsoft-mssql-server) is the **default database** and a **required** service for the microservice solution template. It's main configuration is located in *docker-compose.infrastructure.yml* file under `sql-server-db` service name. Port and environment information is located in *docker-compose.infrastructure.override.yml* file. The combined docker-compose service configuration is as below
+
+```yaml
+sql-server-db:
+    container_name: sql-server-db
+    image: mcr.microsoft.com/mssql/server
+    volumes:
+      - sqldata:/var/opt/mssql
+    networks:
+      - mycompanyname.myprojectname-network
+    ports:
+      - "1434:1433"
+    environment:
+      SA_PASSWORD: "myPassw0rd"
+      ACCEPT_EULA: "Y"
+```
+
+All the microservices and AuthServer has connection strings configured based on containerized sql server database. All the connection strings used in microservice template solution are shown below
+
+```json
+"ConnectionStrings": {
+    "IdentityService": "Server=localhost,1434;Database=MyProjectName_Identity;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
+    "AdministrationService": "Server=localhost,1434;Database=MyProjectName_Administration;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
+    "SaasService": "Server=localhost,1434;Database=MyProjectName_Saas;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
+    "ProductService": "Server=localhost,1434;Database=MyProjectName_ProductService;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true"
+  },
+```
+
+> sql-server-db container exposes **1434** port instead of default 1433 in order to prevent conflicts if there is a local sql-server or sql-server-express is already installed.
+>
+> You can always use none-containerized installed sql-server-express database but you will need to update all the connection strings in the solution.
+
 ## Redis Integration & Configuration
 
 [Redis cache](https://docs.abp.io/en/abp/latest/Redis-Cache) is a **required** service for the microservice solution template. It is used for caching permissions and such.
@@ -198,46 +232,6 @@ Add dashboard using prometheus data source
 
 ![grafana-dashboard](../../images/grafana-dashboard.png)
 
-## Database Migrator
-
-> Infrastructure services must run before running Database Migrator since default connection string for microservices use sql-server running on container.
-
-**DbMigrator**, under shared folder in the microservice template solution, is a console application that runs the `MigrateAsync` method of *DbMigrationService*. This service migrates *Host* and *Tenant* databases and seeds data.
-
-Host migration migrates each microservices
-
-```csharp
-private async Task MigrateHostAsync(CancellationToken cancellationToken)
-{
-    _logger.LogInformation("Migrating Host side...");
-    await MigrateAllDatabasesAsync(null, cancellationToken);
-    await SeedDataAsync();
-}
-
-private async Task MigrateAllDatabasesAsync(
-    Guid? tenantId,
-    CancellationToken cancellationToken)
-{
-    using (var uow = _unitOfWorkManager.Begin(requiresNew: true, isTransactional: false))
-    {
-        if (tenantId == null)
-        {
-            /* SaaS schema should only be available in the host side */
-            await MigrateDatabaseAsync<SaasServiceDbContext>(cancellationToken);
-        }
-
-        await MigrateDatabaseAsync<AdministrationServiceDbContext>(cancellationToken);
-        await MigrateDatabaseAsync<IdentityServiceDbContext>(cancellationToken);
-        await MigrateDatabaseAsync<ProductServiceDbContext>(cancellationToken);
-
-        await uow.CompleteAsync(cancellationToken);
-    }
-
-    _logger.LogInformation(
-        $"All databases have been successfully migrated ({(tenantId.HasValue ? $"tenantId: {tenantId}" : "HOST")}).");
-}
-```
-
 ## Shared Modules
 
 Shared modules are as the name implies; modules and configurations that are used in other applications, services and/or microservices to prevent code duplication and centralize basic configurations. There are 5 shared modules in Abp Microservice Template solution.
@@ -270,9 +264,9 @@ The **SharedLocalizationModule** is depended by all applications, gateways and m
 
 ### Hosting
 
-*Shared.Hosting* project contains **database configurations** in SharedHostingModule service configuration which is used in all other hosting modules. 
+*Shared.Hosting* project contains **database configurations** in `SharedHostingModule` service configuration which is used in all other hosting modules. 
 
-Each module with database connection in abp has its own connection string so that it can be deployed to any database individually when needed. This is achieved by [Connection Strings Management](https://docs.abp.io/en/abp/latest/Connection-Strings). Since *infrastructural microservices* such as [AdministrationService](microservices.md#AdministrationService), [IdentityService](microservices.md#IdentityService) and [SaasService](microservices.md#SaasService) uses one or more modules to perform, each module database configuration must be added to related database explicitly so that the module can connect to it's database.
+Each module with database connection in abp has its own connection string so that it can be [migrated](https://docs.abp.io/en/abp/latest/Entity-Framework-Core-Migrations) to [multiple databases](https://docs.abp.io/en/abp/latest/Entity-Framework-Core-Migrations#using-multiple-databases) when needed. This is achieved by [Connection Strings Management](https://docs.abp.io/en/abp/latest/Connection-Strings). Since *infrastructural microservices* such as [AdministrationService](microservices.md#AdministrationService), [IdentityService](microservices.md#IdentityService) and [SaasService](microservices.md#SaasService) uses one or more modules to perform, each module database configuration must be added to related database explicitly so that the module can connect to it's database.
 
 Instead of adding all module connection strings in microservice connection string configuration explicitly; related connection strings are mapped into a single connection string. 
 
@@ -314,12 +308,196 @@ private void ConfigureDatabaseConnections()
 
 ### Hosting AspNetCore
 
+*Shared.Hosting.AspNetCore* project is a base **hosting dependency for applications** such as [AuthServer](applications.md#authentication-server), [Web](applications.md#web-application-back-office), [PublicWeb](applications.md#public-application-landing-page). This module depends on `SharedHostingModule` and contains base configuration for serilog in `SerilogConfigurationHelper` file
 
-
-### Hosting Microservices
-
-
+```csharp
+Log.Logger = new LoggerConfiguration()
+#if DEBUG
+                .MinimumLevel.Debug()
+#else
+                .MinimumLevel.Information()
+#endif
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
+                .Enrich.FromLogContext()
+                .Enrich.WithProperty("Application", $"{applicationName}")
+                .WriteTo.Async(c => c.File("Logs/logs.txt"))
+                .WriteTo.Elasticsearch(
+                    new ElasticsearchSinkOptions(new Uri(configuration["ElasticSearch:Url"]))
+                    {
+                        AutoRegisterTemplate = true,
+                        AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
+                        IndexFormat = "MyProjectName-log-{0:yyyy.MM}"
+                    })
+                .WriteTo.Async(c => c.Console())
+                .CreateLogger();
+```
 
 ### Hosting Gateways
 
-### 
+*Shared.Hosting.Gateways* project is a base **hosting dependency for gateways** such as [WebGateway](gateways.md#webGateway), [PublicWebGateway](gateways.md#public-web-gateway) and [InternalGateway](gateways.md#internal-gateway) and [ProductService](microservices.md#ProductService). 
+
+### Hosting Microservices
+
+*Shared.Hosting.Microservices* project is a base **hosting dependency for microservices** such as [AdministrationService](microservices.md##administrationservice), [IdentityService](microservices.md#identityservice) and [SaasService](microservices.md#saasservice) and [ProductService](microservices.md#productservice). This module depends on `SharedHostingModule` and contains
+
+- Module Configuration that has `AbpDistributedCacheOptions`, `AbpMultiTenancyCacheOptions` and `Redis` configurations,
+
+- `JwtBearerConfigurationHelper` has base JwtBearer authentication configuration,
+
+  ```csharp
+  public static void Configure(
+              ServiceConfigurationContext context,
+              string audience)
+          {
+              var configuration = context.Services.GetConfiguration();
+  
+              context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                  .AddJwtBearer(options =>
+                  {
+                      options.Authority = configuration["AuthServer:Authority"];
+                      options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
+                      options.Audience = audience;
+                  });
+          }
+  ```
+
+- `SwaggerConfigurationHelper` has base swagger configuration,
+
+  ```csharp
+  public static void Configure(
+      ServiceConfigurationContext context,
+      string apiTitle
+  )
+  {
+      context.Services.AddSwaggerGen(options =>
+      {
+          options.SwaggerDoc("v1", new OpenApiInfo {Title = apiTitle, Version = "v1"});
+          options.DocInclusionPredicate((docName, description) => true);
+          options.CustomSchemaIds(type => type.FullName);
+      });
+  }
+  ```
+
+- DbMigrations folder that contains `PendingMigrationsCheckerBase` and `DatabaseMigrationEventHandlerBase` which are used for [on-the-fly database migration]().
+
+## Database Migrator
+
+> Infrastructure services must run before running Database Migrator since default connection string for microservices use sql-server running on container.
+
+**DbMigrator** is located under the *shared* folder in the microservice template solution. It is used for running migrating and seeding the databases. `DbMigratorModule` depends on `SharedHostingModule` to use mapped connection string configurations. Since it will be migrating the databases of microservices; it also depends on each microservice's `EntityFrameworkCoreModule` and `ApplicationContractsModule` modules.
+
+DbMigratorService migrates the host first then tenants. 
+
+```csharp
+public async Task MigrateAsync(CancellationToken cancellationToken)
+{
+    await MigrateHostAsync(cancellationToken);
+    await MigrateTenantsAsync(cancellationToken);
+    _logger.LogInformation("Migration completed!");
+}
+```
+
+Unlike on-the-fly database migration where services migrates themselves using event bus, this migration happens in this console application.
+
+***Host migration*** migrates all the databases first then seeds the identity and identity-server data.
+
+```csharp
+private async Task MigrateAllDatabasesAsync(
+    Guid? tenantId,
+    CancellationToken cancellationToken)
+{
+    using (var uow = _unitOfWorkManager.Begin(requiresNew: true, isTransactional: false))
+    {
+        if (tenantId == null)
+        {
+            /* SaaS schema should only be available in the host side */
+            await MigrateDatabaseAsync<SaasServiceDbContext>(cancellationToken);
+        }
+
+        await MigrateDatabaseAsync<AdministrationServiceDbContext>(cancellationToken);
+        await MigrateDatabaseAsync<IdentityServiceDbContext>(cancellationToken);
+        await MigrateDatabaseAsync<ProductServiceDbContext>(cancellationToken);
+
+        await uow.CompleteAsync(cancellationToken);
+    }
+
+    _logger.LogInformation(
+        $"All databases have been successfully migrated ({(tenantId.HasValue ? $"tenantId: {tenantId}" : "HOST")}).");
+}
+
+private async Task SeedDataAsync()
+{
+    await _dataSeeder.SeedAsync(
+        new DataSeedContext(_currentTenant.Id)
+            .WithProperty(IdentityDataSeedContributor.AdminEmailPropertyName,
+                IdentityServiceDbProperties.DefaultAdminEmailAddress)
+            .WithProperty(IdentityDataSeedContributor.AdminPasswordPropertyName,
+                IdentityServiceDbProperties.DefaultAdminPassword)
+    );
+}
+```
+
+Since identity-server data is getting seeded via `IdentityServerDataSeedContributor`, required *IdentityServerClients* data for `IdentityServerSeeder` is located in appsettings
+
+```json
+"IdentityServerClients":{
+  "MyProjectName_Web": {
+    "RootUrl": "https://localhost:44321/"
+  },
+  "MyProjectName_Blazor": {
+    "RootUrl": "https://localhost:44307/"
+  },
+  "MyProjectName_BlazorServer": {
+    "RootUrl": "https://localhost:44314/"
+  },
+  "MyProjectName_PublicWeb": {
+    "RootUrl": "https://localhost:44335/"
+  },
+  "MyProjectName_Angular": {
+    "RootUrl": "http://localhost:4200"
+  },
+  "InternalGateway": {
+    "RootUrl": "https://localhost:44302"
+  },
+  "WebGateway": {
+    "RootUrl": "https://localhost:44325"
+  },
+  "PublicWebGateway": {
+    "RootUrl": "https://localhost:44353"
+  }
+},
+```
+
+> Keep on mind that `IdentityServerDataSeeder` also exists in *IdentityService.HttpApi.Host* project under DbMigrations. If you update the `IdentityServerDataSeeder` under this DbMigrator project; don't forget to update the other one located in IdentityService since you may want to run on-the-fly database migration.
+
+***Tenant migration*** migrates each tenant based on their connection string
+
+```csharp
+private async Task MigrateTenantsAsync(CancellationToken cancellationToken)
+{
+    _logger.LogInformation("Migrating tenants...");
+
+    var tenants =
+        await _tenantRepository.GetListAsync(includeDetails: true, cancellationToken: cancellationToken);
+    var migratedDatabaseSchemas = new HashSet<string>();
+    foreach (var tenant in tenants)
+    {
+        using (_currentTenant.Change(tenant.Id))
+        {
+            // Database schema migration
+            var connectionString = tenant.FindDefaultConnectionString();
+            if (!connectionString.IsNullOrWhiteSpace() && //tenant has a separate database
+                !migratedDatabaseSchemas.Contains(connectionString)) //the database was not migrated yet
+            {
+                _logger.LogInformation($"Migrating tenant database: {tenant.Name} ({tenant.Id})");
+                await MigrateAllDatabasesAsync(tenant.Id, cancellationToken);
+                migratedDatabaseSchemas.AddIfNotContains(connectionString);
+            }
+
+            //Seed data
+            _logger.LogInformation($"Seeding tenant data: {tenant.Name} ({tenant.Id})");
+            await SeedDataAsync();
+        }
+    }
+```
