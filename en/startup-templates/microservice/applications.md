@@ -10,7 +10,7 @@ All applications has their respected solutions created already and can be develo
 
 Add the test projects required by your needs under this folder. Check [The Test Projects Docs](https://docs.abp.io/en/abp/latest/Testing) for more information.
 
-![overall-applications](../../images/overall-apps.gif)
+![overall-applications](../../images/overall-applications.gif)
 
 ## Authentication Server
 
@@ -44,15 +44,13 @@ Since login functionality is centralized, external logins like *Azure*, *Google*
 
 All the applications are configured to use [Front-Channel Logout](https://openid.net/specs/openid-connect-frontchannel-1_0.html) and *Account Module* already implements the necessary functionality. Whenever you logout from one of your application, you are automatically logged out of other signed in applications once you re-visit them.
 
-> Ex:
->
 > If you are logged in to both Web and Public applications, if you log out from **Web application**; you will receive a *Signed Out* page noticing you that you have been signed out and redirected back. If you refresh the **Public application**, you will see that you are logged off from this application too. 
 
 If you want to change this behaviour, update the related client data `FrontChannelLogoutSessionRequired = false` in the *IdentityServer Management* pages.
 
 ### Data Seed
 
-AuthServer needs initial data such as identityserver *clients*, *api resources*, api scopes etc and admin user to operate when the microservice stack starts running. To kick-start the process, AuthService uses [Abp Data Seeding](https://docs.abp.io/en/abp/latest/Data-Seeding) to add the required initial data. This information can be found in **IdentityServerDataSeeder**. *IdentityServerDataSeedContributor* is responsible to run the data seeder. Both files are located under shared **DbMigrator** project. 
+AuthServer needs initial data such as identity-server *clients*, *api resources*, api scopes etc and admin user to operate when the microservice stack starts running. To kick-start the process, AuthService uses [Abp Data Seeding](https://docs.abp.io/en/abp/latest/Data-Seeding) to add the required initial data. This information can be found in **IdentityServerDataSeeder**. *IdentityServerDataSeedContributor* is responsible to run the data seeder. Both files are located under shared **DbMigrator** project. 
 
 It is a good practice to keep your *IdentityServerDataSeeder* **up to date** whenever you expand your microservice solution with new api resources and clients.
 
