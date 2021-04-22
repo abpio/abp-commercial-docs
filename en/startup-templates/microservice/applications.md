@@ -10,7 +10,7 @@ All applications has their respected solutions created already and can be develo
 
 Add the test projects required by your needs under this folder. Check [The Test Projects Docs](https://docs.abp.io/en/abp/latest/Testing) for more information.
 
-![overall-applications](../../images/overall-applications.png)
+![overall-applications](../../images/overall-apps.gif)
 
 ## Authentication Server
 
@@ -277,7 +277,16 @@ There are 4 different back-office application templates supported:
 
 #### Razor/MVC
 
-This is a server side application that you can use both Razor Pages and MVC Controllers. 
+This is a server side application that you can use both Razor Pages and MVC Controllers. This application has Prometheus configuration on application initialization
+
+```csharp
+app.UseHttpMetrics();
+...
+app.UseConfiguredEndpoints(endpoints =>
+{
+    endpoints.MapMetrics();
+});
+```
 
 ##### AuthServer Interaction
 
@@ -330,7 +339,16 @@ There is also related configuration about the `Authority`, `ClientId`, `ClientSe
 
 #### Blazor.Server
 
-This is the [Blazor Server](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-5.0#blazor-server) application that is built on top of [AspNet Core SignalR](https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-5.0). 
+This is the [Blazor Server](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-5.0#blazor-server) application that is built on top of [AspNet Core SignalR](https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-5.0) with Prometheus configuration on application initialization
+
+```csharp
+app.UseHttpMetrics();
+...
+app.UseConfiguredEndpoints(endpoints =>
+{
+    endpoints.MapMetrics();
+});
+```
 
 ##### AuthServer Interaction
 
@@ -416,7 +434,18 @@ There is also related configuration about the `Authority`, `ClientId`, `Response
 
 ## Public Application (Landing Page)
 
-This is the landing page application of your microservice solution. This application is **Razor/MVC** simply because of SEO reasons and has no other varieties by default. However it is possible to replace or create a new public application.
+This is the landing page application of your microservice solution with Prometheus configuration on application initialization
+
+```csharp
+app.UseHttpMetrics();
+...
+app.UseConfiguredEndpoints(endpoints =>
+{
+    endpoints.MapMetrics();
+});
+```
+
+ This application is **Razor/MVC** simply because of SEO reasons and has no other varieties by default. However it is possible to replace or create a new public application. 
 
 This application uses the account related functionality by hosting the Account Module Api but **forwarding** all the requests to **PublicWeb Gateway**. So that application can use the functionality of just the **Account Module** without depending on to whole IdentityService microservice. For more information, do check [Module Architecture Best Practices & Conventions Section E](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages).
 
