@@ -2,11 +2,13 @@
 
 > Abp Microservice Startup Template contains shared modules that are used in applications, gateways and microservices. There are also external services run on containers where some of them are mandatory for microservice template to run such as Redis and RabbitMQ.
 
-![overall-applications](../../images/microservice-template-main-diagram.png)
+![overall-applications](../../images/overall-solution.png)
 
 Shared folder in microservice template solution contains **DbMigrator** project for centralized database migration and data seeding for microservices and shared modules used in applications, microservices and gateways. 
 
-Infrastructure services are located under *etc/docker* folder using **docker-compose.infrastructure.yml** file to run on containers. Some of the services are **required** for microservice template to run properly and some of them are optional. Defined services in docker-compose are
+**Infrastructure services run on docker containers** as default and some of the services are **required** for microservice template to run properly while some of them are optional. [Docker compose](https://docs.docker.com/compose/) is used for running the infrastructure services. Two docker-compose.yml files are used for service configurations and they are located under *etc/docker* folder. While `docker-compose.infrastructure.yml` file contains `image`, `container_name`, `network` and `volume` data, `docker-compose.infrastructure.override.yml` file contains service `ports` and `environment` data. 
+
+Docker-compose file defines
 
 - Sql-Server (required as default)
 - Redis (required)
@@ -16,7 +18,7 @@ Infrastructure services are located under *etc/docker* folder using **docker-com
 - Grafana
 - Prometheus
 
-that runs on a predefined **external docker-network**. Use `up.ps1` powershell command located in the same *etc/docker* folder to run the external infrastructure images that will execute the commands
+services that run on a predefined **external docker-network**. Use `up.ps1` powershell command located in the same *etc/docker* folder to run the external infrastructure images that will execute the commands
 
 ```powershell
 docker network create mycompanyname.myprojectname-network
@@ -25,13 +27,13 @@ docker-compose -f docker-compose.infrastructure.yml -f docker-compose.infrastruc
 
 which creates the external docker network for infrastructure services and runs the docker-compose files in detached mode. To stop and remove the containers, use `down.ps1` powershell command. 
 
-> While **docker-compose.infrastructure.yml** file contains image, container name and volume related data; **docker-compose.infrastructure.override.yml** file contains port and environment data of the external services.
+> You can use a single docker file by merging **docker-compose.infrastructure.yml** and **docker-compose.infrastructure.override.yml** files as you desire.
 
 ![overall-applications](../../images/running-infrastructure.png)
 
 ## Redis Integration & Configuration
 
-[Redis cache](https://docs.abp.io/en/abp/latest/Redis-Cache) is a **required** service used in microservice solution template. It is used for caching permissions and such.
+[Redis cache](https://docs.abp.io/en/abp/latest/Redis-Cache) is a **required** service for the microservice solution template. It is used for caching permissions and such.
 
 Redis runs on container with the main configurations are located in *docker-compose.infrastructure.yml* and port information in *docker-compose.infrastructure.override.yml* file. Redis docker-compose service configuration is as below
 
@@ -268,10 +270,56 @@ The **SharedLocalizationModule** is depended by all applications, gateways and m
 
 ### Hosting
 
-### Hosting Microservices
+*Shared.Hosting* project contains **database configurations** in SharedHostingModule service configuration which is used in all other hosting modules. 
 
-### Hosting Gateways
+Each module with database connection in abp has its own connection string so that it can be deployed to any database individually when needed. This is achieved by [Connection Strings Management](https://docs.abp.io/en/abp/latest/Connection-Strings). Since *infrastructural microservices* such as [AdministrationService](microservices.md#AdministrationService), [IdentityService](microservices.md#IdentityService) and [SaasService](microservices.md#SaasService) uses one or more modules to perform, each module database configuration must be added to related database explicitly so that the module can connect to it's database.
+
+Instead of adding all module connection strings in microservice connection string configuration explicitly; related connection strings are mapped into a single connection string. 
+
+```csharp
+private void ConfigureDatabaseConnections()
+{
+    Configure<AbpDbConnectionOptions>(options =>
+    {
+        options.Databases.Configure("SaasService", database =>
+        {
+            database.MappedConnections.Add("Saas");
+            database.IsUsedByTenants = false;
+        });
+        
+        options.Databases.Configure("AdministrationService", database =>
+        {
+            database.MappedConnections.Add("AbpAuditLogging");
+            database.MappedConnections.Add("AbpPermissionManagement");
+            database.MappedConnections.Add("AbpSettingManagement");
+            database.MappedConnections.Add("AbpFeatureManagement");
+            database.MappedConnections.Add("AbpLanguageManagement");
+            database.MappedConnections.Add("TextTemplateManagement");
+            database.MappedConnections.Add("AbpBlobStoring");
+        });
+        
+        options.Databases.Configure("IdentityService", database =>
+        {
+            database.MappedConnections.Add("AbpIdentity");
+            database.MappedConnections.Add("AbpIdentityServer");
+        });
+
+        options.Databases.Configure("ProductService", database =>
+        {
+            database.MappedConnections.Add("ProductService");
+        });
+    });
+}
+```
 
 ### Hosting AspNetCore
 
-## 
+
+
+### Hosting Microservices
+
+
+
+### Hosting Gateways
+
+### 
