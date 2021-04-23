@@ -4,7 +4,7 @@ This document contains **brief release notes** for each release. Release notes o
 
 ## 4.3 (2021-04-23)
 
-See the detailed [blog post / announcement](https://blog.abp.io/abp/ABP-Commercial-4.3-RC-Has-Been-Published) for the v4.3.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Commercial-4.3-RC-Has-Been-Published)** for the v4.3.
 
 * New module: **CMS Kit (pro)**
 * New module: **Forms**
