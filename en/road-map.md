@@ -13,7 +13,7 @@ This document provides a road map, release schedule and planned features for the
 * Tenant impersonation for the SaaS module.
 * Allow to set multiple connection string for each tenant, to separate a tenant's database per module/microservice.
 * Improvements on the Forms, CMS Kit and other modules.
-* We are in progress of building a completely new UI Theme. We will announce it in the next weeks and release the initial version with this release.
+* We are in progress of building a completely new UI Theme. We will release the initial version with this release.
 
 **Planned release date**: End of Quarter 2, 2021.
 
@@ -23,7 +23,7 @@ We planned to focus on v5.0 after 4.4 release. However, we may release v4.5 if w
 
 ### v5.0
 
-v5.0 features will be more clear in the next months. We will consider to add new features from the *Backlog Items*.
+v5.0 will be based on .NET 6.0. The features will be more clear in the next months. See the *Backlog Items* section for potential features.
 
 **Planned release date**: End of Quarter 4, 2021.
 
