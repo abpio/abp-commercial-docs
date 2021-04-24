@@ -2,9 +2,9 @@
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
 
-## 4.3 (2021-03-31)
+## 4.3 (2021-04-23)
 
-> **This version is currently in preview. Planned stable release date is April 21, 2021. See the [blog post / announcement](https://blog.abp.io/abp/ABP-Commercial-4.3-RC-Has-Been-Published) for the details of this release.**
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-v4-3-Has-Been-Released)** for the v4.3.
 
 * New module: **CMS Kit (pro)**
 * New module: **Forms**

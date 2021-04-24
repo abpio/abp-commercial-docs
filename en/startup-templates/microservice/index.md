@@ -10,7 +10,7 @@ While we accept that every microservice solution will be different and every sys
 
 This section introduce the solution structure and briefly explains the solution components. The following diagram is an overview of the applications, gateways, services, databases and other components;
 
-![microservice-template-main-diagram](../../images/microservice-template-main-diagram.png)
+![microservice-template-main-diagram](../../images/microservice-template-main-diagram.jpg)
 
 *Figure: Overall Diagram of the Solution (not all associations are shown, for the sake of simplicity)*
 
@@ -79,7 +79,7 @@ The **etc/docker** folder under the main solution contains a `up.ps1` file. Exec
 
 ## Run the Solution on TYE
 
-You can run and debug the microservice solution using [dotnet/tye](https://github.com/dotnet/tye). Simply check [Microservice Template Tye Integration](./microservice-tye-integration).
+You can run and debug the microservice solution using [dotnet/tye](https://github.com/dotnet/tye). Simply check [Microservice Template Tye Integration](./microservice-tye-integration.md).
 
 ## Run the Solution on IDE
 

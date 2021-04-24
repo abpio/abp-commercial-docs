@@ -216,7 +216,13 @@
       "items": [
         {
           "text": "Lepton",
-          "path": "themes/lepton.md"
+          "path": "themes/lepton.md",
+		   "items": [
+			{
+			  "text": "Customize Lepton Theme",
+			  "path": "themes/customizing-lepton-theme.md"
+			}
+		  ]
         }
       ]
     },

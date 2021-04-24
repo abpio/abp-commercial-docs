@@ -10,7 +10,7 @@ All applications has their respected solutions created already and can be develo
 
 Add the test projects required by your needs under this folder. Check [The Test Projects Docs](https://docs.abp.io/en/abp/latest/Testing) for more information.
 
-![overall-applications](../../images/overall-applications.png)
+![overall-applications](../../images/overall-applications.gif)
 
 ## Authentication Server
 
@@ -44,15 +44,13 @@ Since login functionality is centralized, external logins like *Azure*, *Google*
 
 All the applications are configured to use [Front-Channel Logout](https://openid.net/specs/openid-connect-frontchannel-1_0.html) and *Account Module* already implements the necessary functionality. Whenever you logout from one of your application, you are automatically logged out of other signed in applications once you re-visit them.
 
-> Ex:
->
 > If you are logged in to both Web and Public applications, if you log out from **Web application**; you will receive a *Signed Out* page noticing you that you have been signed out and redirected back. If you refresh the **Public application**, you will see that you are logged off from this application too. 
 
 If you want to change this behaviour, update the related client data `FrontChannelLogoutSessionRequired = false` in the *IdentityServer Management* pages.
 
 ### Data Seed
 
-AuthServer needs initial data such as identityserver *clients*, *api resources*, api scopes etc and admin user to operate when the microservice stack starts running. To kick-start the process, AuthService uses [Abp Data Seeding](https://docs.abp.io/en/abp/latest/Data-Seeding) to add the required initial data. This information can be found in **IdentityServerDataSeeder**. *IdentityServerDataSeedContributor* is responsible to run the data seeder. Both files are located under shared **DbMigrator** project. 
+AuthServer needs initial data such as identity-server *clients*, *api resources*, api scopes etc and admin user to operate when the microservice stack starts running. To kick-start the process, AuthService uses [Abp Data Seeding](https://docs.abp.io/en/abp/latest/Data-Seeding) to add the required initial data. This information can be found in **IdentityServerDataSeeder**. *IdentityServerDataSeedContributor* is responsible to run the data seeder. Both files are located under shared **DbMigrator** project. 
 
 It is a good practice to keep your *IdentityServerDataSeeder* **up to date** whenever you expand your microservice solution with new api resources and clients.
 
@@ -277,7 +275,16 @@ There are 4 different back-office application templates supported:
 
 #### Razor/MVC
 
-This is a server side application that you can use both Razor Pages and MVC Controllers. 
+This is a server side application that you can use both Razor Pages and MVC Controllers. This application has Prometheus configuration on application initialization
+
+```csharp
+app.UseHttpMetrics();
+...
+app.UseConfiguredEndpoints(endpoints =>
+{
+    endpoints.MapMetrics();
+});
+```
 
 ##### AuthServer Interaction
 
@@ -330,7 +337,16 @@ There is also related configuration about the `Authority`, `ClientId`, `ClientSe
 
 #### Blazor.Server
 
-This is the [Blazor Server](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-5.0#blazor-server) application that is built on top of [AspNet Core SignalR](https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-5.0). 
+This is the [Blazor Server](https://docs.microsoft.com/en-us/aspnet/core/blazor/hosting-models?view=aspnetcore-5.0#blazor-server) application that is built on top of [AspNet Core SignalR](https://docs.microsoft.com/en-us/aspnet/core/signalr/introduction?view=aspnetcore-5.0) with Prometheus configuration on application initialization
+
+```csharp
+app.UseHttpMetrics();
+...
+app.UseConfiguredEndpoints(endpoints =>
+{
+    endpoints.MapMetrics();
+});
+```
 
 ##### AuthServer Interaction
 
@@ -416,7 +432,18 @@ There is also related configuration about the `Authority`, `ClientId`, `Response
 
 ## Public Application (Landing Page)
 
-This is the landing page application of your microservice solution. This application is **Razor/MVC** simply because of SEO reasons and has no other varieties by default. However it is possible to replace or create a new public application.
+This is the landing page application of your microservice solution with Prometheus configuration on application initialization
+
+```csharp
+app.UseHttpMetrics();
+...
+app.UseConfiguredEndpoints(endpoints =>
+{
+    endpoints.MapMetrics();
+});
+```
+
+ This application is **Razor/MVC** simply because of SEO reasons and has no other varieties by default. However it is possible to replace or create a new public application. 
 
 This application uses the account related functionality by hosting the Account Module Api but **forwarding** all the requests to **PublicWeb Gateway**. So that application can use the functionality of just the **Account Module** without depending on to whole IdentityService microservice. For more information, do check [Module Architecture Best Practices & Conventions Section E](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages).
 
