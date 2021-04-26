@@ -1,6 +1,6 @@
 # Microservice Startup Template: Infrastructure
 
-> Abp Microservice Startup Template contains shared modules that are used in applications, gateways and microservices. There are also external services run on containers where some of them are mandatory for microservice template to run such as Redis and RabbitMQ.
+ABP Microservice Startup Template contains shared projects that are used in applications, gateways and microservices. There are also external services run on containers where some of them are mandatory for microservice template to run such as Redis and RabbitMQ.
 
 ![overall-applications](../../images/overall-infrastructure.gif)
 
@@ -232,9 +232,9 @@ Add dashboard using prometheus data source
 
 ![grafana-dashboard](../../images/grafana-dashboard.png)
 
-## Shared Modules
+## Shared Projects
 
-Shared modules are as the name implies; modules and configurations that are used in other applications, services and/or microservices to prevent code duplication and centralize basic configurations. There are 5 shared modules in Abp Microservice Template solution.
+Shared projects are as the name implies; modules and configurations that are used in other applications, services and/or microservices to prevent code duplication and centralize basic configurations. There are 5 shared projects in ABP Microservice Template solution.
 
 ### Localization
 
