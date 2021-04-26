@@ -18,11 +18,11 @@ To compare microservice template to tiered application template: Gateway is an *
 
 Gateways are depended to HttpApi layer of the microservices they are redirecting to.
 
-All gateways depends on **SharedHostingGatewayModule** which implements default **Ocelot** and **Swagger** with authorization configuration. For more, check [Shared Modules](infrastructure.md#hosting-gateways)
+All gateways depends on **SharedHostingGatewayModule** which implements default **Ocelot** and **Swagger** with authorization configuration. For more, check [Shared Modules - Hosting Gateways](infrastructure.md#hosting-gateways).
 
 ## Backend for Frontend Pattern (BFF)
 
-While Api Gateway provides a **single point of entry** to system, Backend for Frontend pattern defines **each client with an individual API**. Abp Microservice template uses BFF pattern thus each application has its own web gateway.
+While Api Gateway provides a **single point of entry** to system, Backend for Frontend pattern defines **each client with an individual API**. Abp Microservice template uses BFF pattern. Thus each application has its own web gateway.
 
 ![gateway-bff](../../images/gateway-bff.png)
 
