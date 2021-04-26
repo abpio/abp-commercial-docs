@@ -1,4 +1,4 @@
-# Microservice Startup Template API Gateways
+# Microservice Startup Template: API Gateways
 
 > API Gateways are used as single entry point to the microservices. Abp microservice startup template uses [Ocelot .Net Api Gateway](https://github.com/ThreeMammals/Ocelot) library. Through this library, gateways have the functionality of *routing*; *rate limiting*, *retry policies* etc. For more, check out [Ocelot Documentations](https://ocelot.readthedocs.io/en/latest/).
 

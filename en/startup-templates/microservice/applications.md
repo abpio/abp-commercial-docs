@@ -1,4 +1,4 @@
-# Microservice Startup Template Applications
+# Microservice Startup Template: Applications
 
 There are 3 different applications are presented in the microservice startup template;
 

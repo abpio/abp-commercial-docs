@@ -1,4 +1,4 @@
-# Microservice Startup Template Microservices
+# Microservice Startup Template: Microservices
 
 There are four microservices are included in the microservice startup template;
 

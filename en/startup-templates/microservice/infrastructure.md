@@ -1,4 +1,4 @@
-# Microservice Startup Template Infrastructure
+# Microservice Startup Template: Infrastructure
 
 > Abp Microservice Startup Template contains shared modules that are used in applications, gateways and microservices. There are also external services run on containers where some of them are mandatory for microservice template to run such as Redis and RabbitMQ.
 
