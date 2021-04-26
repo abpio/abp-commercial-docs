@@ -1,36 +1,38 @@
 # Microservice Startup Template Microservices
 
-> Microservices are the functional self deployable pieces of your system. While Infrastructural microservices don't have UI, it is possible to develop modular UI in the .Web layer of the microservices along with exposing rest api endpoints.
-
-![overall-applications](../../images/overall-microservices.gif)
-
-There are 4 different microservices are presented in the microservice startup template;
+There are four microservices are included in the microservice startup template;
 
 - **IdentityService** is located under *services/identity* folder. This service is an **infrastructural microservice** and hosts `Identity ` and `IdentityServer` related functionality and data store.
 - **AdministrationService** is located under *services/administration* folder. This service is an **infrastructural microservice** and hosts administrative functionality such as `permission-management`, `setting-management`, `language-management`, `audit-logging` and such. 
 - **SaasService** is located under *services/saas* folder. This service is an **infrastructural microservice** and hosts multi-tenancy related functionality and data store.
-- **ProductService** is located under *services/product* folder. This is a **sample microservice** to examine and take reference for microservice development.
+- **ProductService** is located under *services/product* folder. This is a **sample microservice** to examine and take as a reference for your services.
 
-All microservices have their own solutions containing test projects under their respected folders. The infrastructural microservices are existing modules, combined together following [Module Development Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Index). Each of the microservice can also be developed further easily by following the modular development guideline.
+The infrastructural microservices typically use the [pre-built modules](../../modules/index.md).
 
-![module-layers-and-packages](../../images/module-layers-and-packages.jpg)
+The microservices are highlighted in the overall solution diagram below:
+
+![overall-applications](../../images/overall-microservices.gif)
 
 All microservices;
 
+* Have their own solutions (`.sln` files) including test projects under their respected folders. 
+
 - Depend on `SharedHostingMicroservicesModule` which contains configuration helpers for **JwtBearer** authorization, **Swagger** and **DbMigrations**,
-- Contains configurations for AuthServer, Redis, RabbitMQ, ElasticSearch in appsettings.json file,
-- Are capable of **on-the-fly migration**; have `DbMigrations` folder that contains `MigrationChecker` and `MigrationEventHandler`. This allows microservices migrate and seed their databases using distributed eventbus as an alternative usage to shared DbMigrator,
+- Contains configurations for AuthServer, Redis, RabbitMQ, ElasticSearch in *appsettings.json* file,
+- Are capable of **on-the-fly database migration**; have `DbMigrations` folder that contains `MigrationChecker` and `MigrationEventHandler`. This allows microservices migrate and seed their databases using distributed event bus as an alternative usage to shared DbMigrator,
 - Use **Sql Server**, containing `.EntityFrameworkCore` layer. This layer contains related database contexts, database context factories and migrations along with related module db configurations
 
 > If you want to switch your database provider to **MongoDb** instead of EntityFrameworkCore for any of the microservice, you need to create `.MongoDb` project instead of `.EntityFrameworkCore`. Afterwards, add related modules MongoDb packages dependencies along with similar configurations made in EntityFrameworkCore layer like db context replacement and such. For more, check [MongoDB integration](https://docs.abp.io/en/abp/latest/Best-Practices/MongoDB-Integration).
 
 ## IdentityService
 
-IdentityService is infrastructural microservice that provides modular solution by combining identity and identity-server management. All the related layers references respected layers of these modules.
+IdentityService is infrastructural microservice that provides modular solution by combining  the Identity and Identity-Server modules. All the related layers references respected layers of these modules.
 
 ### Identity-Server Authorization
 
 IdentityService is defined as api resource and api scope with the name **IdentityService** in `IdentityServerDataSeeder`.
+
+> REVIEW: We should mention about alternative dbmigrator usage or add a reference to the infrastructure document to make it clear.
 
 ```csharp
 private async Task CreateApiResourcesAsync()
@@ -62,6 +64,8 @@ private async Task CreateApiScopesAsync()
 }
 ```
 
+> REVIEW: The sentence below is not clear and complete.
+
 As default,
 
 - Web application (Mvc/Angular/Blazor) clients
@@ -79,7 +83,7 @@ requests **IdentityService** scope.
 - `IIdentityDbContext` 
 - `IIdentityServerDbContext` 
 
-in order to use these module db contexts as combined single db context. However DI container must also dynamically inject **IdentityServiceDbContext** whenever `IIdentityDbContext` or `IIdentityServerDbContext` is requested. The configuration under `ConfigureServices` provides the runtime database replacement
+in order to use these module db contexts as combined single db context. However DI container must also dynamically inject **IdentityServiceDbContext** whenever `IIdentityDbContext` or `IIdentityServerDbContext` is requested. The configuration under `ConfigureServices` provides the runtime database replacement:
 
 ```csharp
 context.Services.AddAbpDbContext<IdentityServiceDbContext>(options =>
@@ -90,7 +94,7 @@ context.Services.AddAbpDbContext<IdentityServiceDbContext>(options =>
 });
 ```
 
-There is also a SQL configuration for changing the migration table name to separate each service migration history table
+There is also a SQL configuration for changing the migration table name to separate each service migration history table:
 
 ```csharp
 Configure<AbpDbContextOptions>(options =>
@@ -148,6 +152,8 @@ IdentityService uses
 which are located under *appsettings*.
 
 ### Layers and Module Configuration
+
+> REVIEW: I believe these module dependency lists are unnecessary. Also, in the future, makes hard to keep the document up to date. I think we can remove all.
 
 IdentityService uses 
 
@@ -323,6 +329,8 @@ Configure<AbpDbContextOptions>(options =>
 
 ### Migration and Seeding
 
+> REVIEW: These sections are not clear and don't explain the concept well. It doesn't mention how and why these events are published and handled. I think we can create a separate *Database Migrations* document and explain all the system and alternatives (dbmigrator app) there. Otherwise, we will repeat it in every microservice as done in this document.
+
 **AdministrationService.HttpApi.Host** runs `AdministrationServiceDatabaseMigrationChecker` which checks pending migrations and migrates the AdministrationService database. This is an async database migration comparing to DbMigrator; allowing database migration on the fly. 
 
 `AdministrationServiceDatabaseMigrationEventHandler` seeds Permission definitions and permissions.
@@ -357,6 +365,8 @@ AdministrationService uses
 which are located under *appsettings*.
 
 ### Layers and Module Configuration
+
+> REVIEW: I believe these module dependency lists are unnecessary. Also, in the future, makes hard to keep the document up to date. I think we can remove all.
 
 AdministrationService uses
 
@@ -557,6 +567,8 @@ which are located under *appsettings*.
 
 ### Layers and Module Configuration
 
+> REVIEW: I believe these module dependency lists are unnecessary. Also, in the future, makes hard to keep the document up to date. I think we can remove all.
+
 SaasService uses 
 
 -  [Saas Module]([ABP Framework - Open Source Web Application Framework](https://docs.abp.io/en/commercial/latest/modules/saas))
@@ -697,7 +709,3 @@ ProductService uses
 - SaasService connection string
 
 which are located under *appsettings*.
-
-### Layers and Module Configuration
-
-ProductService uses [Module Startup Template Solution Structure](https://docs.abp.io/en/commercial/latest/startup-templates/module/solution-structure).
