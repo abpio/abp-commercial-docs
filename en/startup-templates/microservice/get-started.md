@@ -40,7 +40,7 @@ The **etc/docker** folder under the main solution contains a `up.ps1` file. Exec
 
 ## Run the Solution on TYE
 
-You can run and debug the microservice solution using [dotnet/tye](https://github.com/dotnet/tye). Simply check [Microservice Template Tye Integration](./microservice-tye-integration.md).
+You can run and debug the microservice solution using [dotnet/tye](https://github.com/dotnet/tye). See the [Microservice Template Tye Integration](./tye-integration.md) document.
 
 ## Run the Solution on IDE
 
