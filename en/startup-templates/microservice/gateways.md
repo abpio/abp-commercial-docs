@@ -40,7 +40,7 @@ Web Gateway is used to connect the **Web** (back-office) application to microser
 },
 ```
 
-> See [Remote Service Calls - Web Gateway](applications.md#remote-service-calls-web-gateway) for more.
+> See [Remote Service Calls - Web Gateway](applications.md#remote-service-calls---web-gateway) for more.
 
 ### Module Configuration and Routing
 
@@ -145,7 +145,7 @@ Public Web Gateway is used to connect the **Public  Web** (landing page) applica
 },
 ```
 
-> See [Remote Service Calls - PublicWeb Gateway](applications.md#remote-service-calls-publicweb-gateway) for more.
+> See [Remote Service Calls - PublicWeb Gateway](applications.md#remote-service-calls---publicweb-gateway) for more.
 
 ### Module Configuration and Routing
 
