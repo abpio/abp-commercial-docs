@@ -30,7 +30,17 @@ If you are planning to add your custom client (such as mobile application), it i
 
 ## Web Gateway
 
-Web Gateway is used to connect the **Web** (back-office) application to microservices. This is done by setting this gateway as default **RemoteService** in Web application appsettings. ([See here](applications.md#remote service calls - web gateway))
+Web Gateway is used to connect the **Web** (back-office) application to microservices. This is done by setting this gateway as default **RemoteService** in Web application appsettings as below
+
+```json
+"RemoteServices": {
+  "Default": {
+    "BaseUrl": "https://localhost:44325/"
+  }
+},
+```
+
+> See [Remote Service Calls - Web Gateway](applications.md#remote-service-calls-web-gateway) for more.
 
 ### Module Configuration and Routing
 
@@ -94,7 +104,7 @@ SwaggerWithAuthConfigurationHelper.Configure(
 );
 ```
 
-As default, Web Gateway makes requests to all api scopes that are already allowed when the `WebGateway_Swagger` client is being created in [IdentityServer configuration](#identityServer configuration). To be able to make the request, required information is found under **AuthServer** section in `appsettings.json`:
+As default, Web Gateway makes requests to all api scopes that are already allowed when the `WebGateway_Swagger` client is being created in [Identity-server configuration](gateways.md#identityserver-configuration). To be able to make the request, required information is found under **AuthServer** section in `appsettings.json`:
 
 ```json
 "AuthServer": {
@@ -121,11 +131,21 @@ app.UseSwaggerUI(options =>
 });
 ```
 
-> If you add a new microservice and want to use in your Web application; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](gateways.md#identityServer configuration).
+> If you add a new microservice and want to use in your Web application; you need to [update this gateway configuration](add-microservice.md#updating-gateways) and [IdentityServer configuration](gateways.md#identityserver-configuration).
 
 ## Public Web Gateway
 
-Public Web Gateway is used to connect the **Public  Web** (landing page) application to microservices. This is done by setting this gateway as default **RemoteService** in Public Web application appsettings. ([See here](applications.md#remote service calls - publicweb gateway))
+Public Web Gateway is used to connect the **Public  Web** (landing page) application to microservices. This is done by setting this gateway as default **RemoteService** in Public Web application appsettings as below
+
+```json
+"RemoteServices": {
+  "Default": {
+    "BaseUrl": "https://localhost:44353/"
+  }
+},
+```
+
+> See [Remote Service Calls - PublicWeb Gateway](applications.md#remote-service-calls-publicweb-gateway) for more.
 
 ### Module Configuration and Routing
 
@@ -160,7 +180,7 @@ SwaggerWithAuthConfigurationHelper.Configure(
 );
 ```
 
-As default, PublicWeb Gateway makes requests to only **ProductService** scope that is already allowed when the `PublicWebGateway_Swagger` client is being created in [IdentityServer configuration](#identityServer configuration). To be able to make the request, required information is found under **AuthServer** section in `appsettings.json`:
+As default, PublicWeb Gateway makes requests to only **ProductService** scope that is already allowed when the `PublicWebGateway_Swagger` client is being created in [IdentityServer configuration](gateways.md#identityserver-configuration). To be able to make the request, required information is found under **AuthServer** section in `appsettings.json`:
 
 ```json
 "AuthServer": {
@@ -187,7 +207,7 @@ app.UseSwaggerUI(options =>
 });
 ```
 
-> If you add a new microservice and want to use in your PublicWeb application; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](#identityServer configuration).
+> If you add a new microservice and want to use in your PublicWeb application; you need to [update this gateway configuration](add-microservice.md#updating-gateways) and [IdentityServer configuration](gateways.md#identityserver-configuration).
 
 ## Internal Gateway
 
@@ -249,7 +269,7 @@ SwaggerWithAuthConfigurationHelper.Configure(
 );
 ```
 
-As default, Internal Gateway makes requests to all api scopes that are already allowed when the `InternalGateway_Swagger` client is being created in [IdentityServer configuration](#identityServer configuration). To be able to make the request, required information is found under **AuthServer** section in `appsettings.json`:
+As default, Internal Gateway makes requests to all api scopes that are already allowed when the `InternalGateway_Swagger` client is being created in [IdentityServer configuration](gateways.md#identityserver-configuration). To be able to make the request, required information is found under **AuthServer** section in `appsettings.json`:
 
 ```json
 "AuthServer": {
@@ -276,7 +296,7 @@ app.UseSwaggerUI(options =>
 });
 ```
 
-> If you add a new microservice and want to use in your microservice inter-communication; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](#identityServer configuration).
+> If you add a new microservice and want to use in your microservice inter-communication; you need to [update this gateway configuration](add-microservice.md#updating-gateways) and [IdentityServer configuration](gateways.md#identityserver-configuration).
 
 ## IdentityServer Configuration
 
@@ -306,3 +326,7 @@ The aggregator pattern is used to combine the results of the multiple requests f
 Circuit Breakers are used to improve the resilience and stability of the system with handling the detection of long response times or failures when calling remote services or resources. [Ocelot Quality of Service](https://ocelot.readthedocs.io/en/latest/features/qualityofservice.html) is already implemented to be used in appsettings configurations. 
 
 Although since it is an inter-communication between microservices, [Abp Dynamic C# API Configuration](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients#retry-failure-logic-polly-integration) can also be used.
+
+## What's next?
+
+- [Infrastructure](infrastructure.md)
