@@ -102,6 +102,10 @@
               "path": "startup-templates/microservice/index.md"
             },
             {
+              "text": "Get Started",
+              "path": "startup-templates/microservice/get-started.md"
+            },
+            {
               "text": "Applications",
               "path": "startup-templates/microservice/applications.md"
             },
