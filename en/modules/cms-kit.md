@@ -61,7 +61,7 @@ It is recommeded to use the unified packages instead of adding both admin and pu
 
 ## Feature System
 
-CMS kit uses the [global feature](https://docs.abp.io/en/abp/latest/Global-Features) system for all implemented features. Startup templates come with all the CMS kit related features are enabled by default. If you want to use only some spesific features, you can disable the features using the global feature system.
+CMS kit uses the [global feature](https://docs.abp.io/en/abp/latest/Global-Features) system for all implemented features. Startup templates come with all the CMS kit related features are enabled by default. If you want to use only some specific features, you can disable the features using the global feature system.
 
 You can see how to disable newsletter and page features below. 
 
