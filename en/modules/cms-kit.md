@@ -36,13 +36,6 @@ GlobalFeatureManager.Instance.Modules.CmsKitPro(cmsKitPro =>
 });
 ```
 
-If your project is using `EntityFrameworkCore`, you need to add following configuration to `OnModelCreating` method at your `DbContext`.
-
-If your project is using `MongoDB`, you need to add following configuration to `CreateModel` method at your `DbContext`.
-
-```csharp
-builder.ConfigureCmsKitPro();
-```
 > If you are using EntityFrameworkCore, do not forget to add a new migration and update your database.
 
 ## Packages
