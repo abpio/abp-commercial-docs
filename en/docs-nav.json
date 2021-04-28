@@ -121,6 +121,10 @@
               "text": "Infrastructure",
               "path": "startup-templates/microservice/infrastructure.md"
             },
+			{
+              "text": "Database Migrations",
+              "path": "startup-templates/microservice/database-migrations.md"
+            },
             {
               "text": "Guides",
               "items": [

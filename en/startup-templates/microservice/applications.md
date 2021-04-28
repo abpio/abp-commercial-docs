@@ -1,14 +1,12 @@
-# Microservice Startup Template Applications
+# Microservice Startup Template: Applications
 
 There are 3 different applications are presented in the microservice startup template;
 
 - **Authentication Server** is located under *apps/auth-server* folder. This application is the single sign on and single sign out point of your application that also authenticates and authorizes your applications, gateways and microservices.
-- **Web (Back-office)** application has `Razor/MVC`, `Angular`, `Blazor (Web Assembly)` and `Blazor.Server` options. This is the main application of your solution.
-- **Public Web (Landing page)**  application is located under apps/public-web folder. This is the front page application of your solution.
+- **Web (Back-office)** application has Razor/MVC, Angular, Blazor WebAssembly and Blazor Server options. This is the main application of your solution and located under the *apps/web* folder.
+- **Public Web (Landing page)**  application is located under *apps/public-web* folder. This is the front page application of your solution.
 
-All applications has their respected solutions created already and can be developed further when if required without opening the whole template solution. It is also possible to add test projects to applications. Create a **test** folder where the *src* folder is located.  Open the application solution and add a new solution folder named **test**.
-
-Add the test projects required by your needs under this folder. Check [The Test Projects Docs](https://docs.abp.io/en/abp/latest/Testing) for more information.
+All applications has their respected solutions created already and can be developed further when if required without opening the whole solution. The solutions are highlighted in the overall diagram shown below:
 
 ![overall-applications](../../images/overall-applications.gif)
 
@@ -20,13 +18,13 @@ AuthServer is the single sign-on and single sign-out server of the microservice 
 
 AuthServer references to [Account Module](https://docs.abp.io/en/commercial/latest/modules/account) that `Account.Pro.Public.Web` package serves the pages like login, sign-out, external login providers etc. and `Account.Pro.Public.Application` package hosts the implementations.
 
-Also, Account Module functionality is split between **microservices**;
+Account Module functionality is split between **microservices**;
 
 - *Identity* and *IdentityServer* related data is kept in **IdentityService microservice**
 - *Account management* and *profile management* related data is kept in **AdministrationService microservice** 
 - *Tenant* login related data is kept in **SaasService microservice**
 
-AuthServer makes directly database requests to these microservices to reach related data for operating successfully. Hence depends on `IdentityService EntityFrameworkCore`, `AdministrationService EntityFrameworkCore` and `SaasService EntityFrameworkCore` modules and also has the configuration of related connection strings in the *appsettings*.
+AuthServer makes directly database requests to these microservices to reach related data for operating successfully. Hence depends on `IdentityService EntityFrameworkCore`, `AdministrationService EntityFrameworkCore` and `SaasService EntityFrameworkCore` modules and also has the configuration of related connection strings in the *appsettings.json* file.
 
 ### Authentication & Authorization
 
@@ -38,7 +36,7 @@ IdentityServer4 is an implementation of *OpenId Connect* and *Oauth2.0* protocol
 
 When logging in to an application, user will be automatically redirected to AuthServer. If the user has already been logged in to one of the applications and try to login to other application, signing in will be immediately granted without prompting the login page.
 
-Since login functionality is centralized, external logins like *Azure*, *Google*, *Twitter*, *Facebook* etc must be implemented in **AuthServerModule** aswell. 
+Since login functionality is centralized, external logins like *Azure*, *Google*, *Twitter*, *Facebook* etc must be implemented in **AuthServerModule** as well. 
 
 ### Single Sign-Out
 
@@ -46,13 +44,14 @@ All the applications are configured to use [Front-Channel Logout](https://openid
 
 > If you are logged in to both Web and Public applications, if you log out from **Web application**; you will receive a *Signed Out* page noticing you that you have been signed out and redirected back. If you refresh the **Public application**, you will see that you are logged off from this application too. 
 
-If you want to change this behaviour, update the related client data `FrontChannelLogoutSessionRequired = false` in the *IdentityServer Management* pages.
+If you want to change this behavior, update the related client data `FrontChannelLogoutSessionRequired = false` in the *IdentityServer Management* pages.
 
 ### Data Seed
 
-AuthServer needs initial data such as identity-server *clients*, *api resources*, api scopes etc and admin user to operate when the microservice stack starts running. To kick-start the process, AuthService uses [Abp Data Seeding](https://docs.abp.io/en/abp/latest/Data-Seeding) to add the required initial data. This information can be found in **IdentityServerDataSeeder**. *IdentityServerDataSeedContributor* is responsible to run the data seeder. Both files are located under shared **DbMigrator** project. 
+AuthServer needs initial identity server and admin user data to operate. See [IdentityService Data Seeding](database-migrations.md#identity-service-data-seeding).
 
-It is a good practice to keep your *IdentityServerDataSeeder* **up to date** whenever you expand your microservice solution with new api resources and clients.
+> It is a good practice to keep your *IdentityServerDataSeeder* **up to date** whenever you expand your microservice solution with new api resources and clients.
+>
 
 #### Api Resources
 
@@ -142,7 +141,7 @@ This configuration must be done if **Angular** or **Blazor** (web assembly) is u
 
 #### Signing Certificate
 
-AuthServer application uses [developer signing certificates option]([abp/AbpIdentityServerBuilderOptions.cs at dev · abpframework/abp (github.com)](https://github.com/abpframework/abp/blob/dev/modules/identityserver/src/Volo.Abp.IdentityServer.Domain/Volo/Abp/IdentityServer/AbpIdentityServerBuilderOptions.cs#L29)) for default development environment. Using developer signing certificates may cause *IDX10501: Signature validation failed* error. 
+AuthServer application uses [developer signing certificates option](https://github.com/abpframework/abp/blob/dev/modules/identityserver/src/Volo.Abp.IdentityServer.Domain/Volo/Abp/IdentityServer/AbpIdentityServerBuilderOptions.cs#L29) for default development environment. Using developer signing certificates may cause *IDX10501: Signature validation failed* error. 
 
 To change the signing credential for staging/production, update your application module with IIdentityServerBuilder pre-configuration.
 
@@ -214,7 +213,7 @@ public override void OnApplicationInitialization(ApplicationInitializationContex
 
 #### Running AuthServer on Kubernates Pods
 
-You may not be able to set certificates in pods and have to use http inside pods. In this case, use midware for redirection to https
+You may not be able to set certificates in pods and have to use http inside pods. In this case, use middleware for redirection to https:
 
 ```csharp
 public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -246,7 +245,7 @@ If headers are not forwarded as expected, enable logging. Check [Microsoft Troub
 
 This is the back-office (admin-side) application of the template. This application shows the module **UI** but does not host the module. **Modules are hosted by related microservices** and the back-office application just uses them **as remote services**. For more information, do check [Module Architecture Best Practices & Conventions Section C](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages).
 
-To achieve this functionality, **back-office** application needs to reference to `IdentityService`, `AdministrationService`, `SaasService` and sample `ProductService` microservices'  `.Web` and `HttpApi.Client` layers to use them as remote services while microservices need to host the modules. 
+To achieve this functionality, **back-office** application needs to reference to `IdentityService`, `AdministrationService`, `SaasService` and sample `ProductService` microservices  `.Web` and `HttpApi.Client` layers to use them as remote services while microservices need to host the modules. 
 
 Therefore;
 
@@ -275,48 +274,23 @@ There are 4 different back-office application templates supported:
 
 #### Razor/MVC
 
-This is a server side application that you can use both Razor Pages and MVC Controllers. This application has Prometheus configuration on application initialization
-
-```csharp
-app.UseHttpMetrics();
-...
-app.UseConfiguredEndpoints(endpoints =>
-{
-    endpoints.MapMetrics();
-});
-```
-
-##### AuthServer Interaction
-
-This application uses [hybrid flow](https://docs.identityserver.io/en/release/topics/grant_types.html?#hybrid). This client is being seeded in *IdentityServerDataSeeder* with **MyProjectName_Web** client name with all the available scopes.
+This is a server side application that you can use both Razor Pages and MVC Controllers. As a recommended flow for server side clients, this application uses [hybrid flow](https://docs.identityserver.io/en/release/topics/grant_types.html?#hybrid). This client is being seeded in *IdentityServerDataSeeder* with **MyProjectName_Web** client name with all the available scopes.
 
 In the **WebModule** authorization is configured as below to be able to make request to all the api resources and some basic identity resources:
 
 ```csharp
 context.Services.AddAuthentication(options =>
     {
-        options.DefaultScheme = "Cookies";
-        options.DefaultChallengeScheme = "oidc";
+        ...
     })
     .AddCookie("Cookies", options =>
     {
-        options.ExpireTimeSpan = TimeSpan.FromDays(365);
+        ...
     })
     .AddAbpOpenIdConnect("oidc", options =>
     {
-        options.Authority = configuration["AuthServer:Authority"];
-        options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);;
-        options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
+        ...
 
-        options.ClientId = configuration["AuthServer:ClientId"];
-        options.ClientSecret = configuration["AuthServer:ClientSecret"];
-
-        options.SaveTokens = true;
-        options.GetClaimsFromUserInfoEndpoint = true;
-
-        options.Scope.Add("role");
-        options.Scope.Add("email");
-        options.Scope.Add("phone");
         options.Scope.Add("IdentityService");
         options.Scope.Add("AdministrationService");
         options.Scope.Add("SaasService");
@@ -352,7 +326,7 @@ app.UseConfiguredEndpoints(endpoints =>
 
 This application uses [hybrid flow](https://docs.identityserver.io/en/release/topics/grant_types.html?#hybrid). This client is being seeded in *IdentityServerDataSeeder* with **MyProjectName_BlazorServer** client name with all the available scopes.
 
-Since it shares the same flow with Razor/MVC application; same configurations applies to this application type aswell.
+Since it shares the same flow with Razor/MVC application; same configurations applies to this application type as well.
 
 #### Angular
 
@@ -407,11 +381,7 @@ private static void ConfigureAuthentication(WebAssemblyHostBuilder builder)
 {
     builder.Services.AddOidcAuthentication(options =>
     {
-      builder.Configuration.Bind("AuthServer", options.ProviderOptions);
-      options.UserOptions.RoleClaim = JwtClaimTypes.Role;
-      options.ProviderOptions.DefaultScopes.Add("role");
-      options.ProviderOptions.DefaultScopes.Add("email");
-      options.ProviderOptions.DefaultScopes.Add("phone");
+      ...
       options.ProviderOptions.DefaultScopes.Add("IdentityService");
       options.ProviderOptions.DefaultScopes.Add("AdministrationService");
       options.ProviderOptions.DefaultScopes.Add("SaasService");
@@ -432,18 +402,7 @@ There is also related configuration about the `Authority`, `ClientId`, `Response
 
 ## Public Application (Landing Page)
 
-This is the landing page application of your microservice solution with Prometheus configuration on application initialization
-
-```csharp
-app.UseHttpMetrics();
-...
-app.UseConfiguredEndpoints(endpoints =>
-{
-    endpoints.MapMetrics();
-});
-```
-
- This application is **Razor/MVC** simply because of SEO reasons and has no other varieties by default. However it is possible to replace or create a new public application. 
+This is the landing page application of your microservice solution. This application is **Razor/MVC** simply because of SEO reasons and has no other varieties by default. However it is possible to replace or create a new public application. 
 
 This application uses the account related functionality by hosting the Account Module Api but **forwarding** all the requests to **PublicWeb Gateway**. So that application can use the functionality of just the **Account Module** without depending on to whole IdentityService microservice. For more information, do check [Module Architecture Best Practices & Conventions Section E](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages).
 
@@ -465,35 +424,22 @@ This configuration indicates the default base url of all the Http Api requests; 
 
 ### AuthServer Interaction
 
-This application uses [hybrid flow](https://docs.identityserver.io/en/release/topics/grant_types.html?#hybrid). This client is being seeded in *IdentityServerDataSeeder* with **MyProjectName_Web** client name with all the available scopes.
+Public application uses [hybrid flow](https://docs.identityserver.io/en/release/topics/grant_types.html?#hybrid) and it is being seeded in *IdentityServerDataSeeder* with **MyProjectName_Web** client name with all the available scopes.
 
-In the **PublicWebModule** authorization is configured as below to be able to make request to **AdministrationService** and **ProductService** api resources and some basic identity resources since only these two scopes were allowed in *IdentityServerDataSeeder*:
+In the **PublicWebModule** authorization is configured as below to be able to make request to **AdministrationService** and **ProductService** api resources and some basic identity resources since only these two scopes were allowed in *IdentityServerDataSeeder*
 
 ```csharp
 context.Services.AddAuthentication(options =>
     {
-        options.DefaultScheme = "Cookies";
-        options.DefaultChallengeScheme = "oidc";
+        ...
     })
     .AddCookie("Cookies", options =>
     {
-        options.ExpireTimeSpan = TimeSpan.FromDays(365);
+		...
     })
     .AddAbpOpenIdConnect("oidc", options =>
     {
-        options.Authority = configuration["AuthServer:Authority"];
-        options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
-        options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
-
-        options.ClientId = configuration["AuthServer:ClientId"];
-        options.ClientSecret = configuration["AuthServer:ClientSecret"];
-
-        options.SaveTokens = true;
-        options.GetClaimsFromUserInfoEndpoint = true;
-
-        options.Scope.Add("role");
-        options.Scope.Add("email");
-        options.Scope.Add("phone");
+        ...
         options.Scope.Add("AdministrationService");
         options.Scope.Add("ProductService");
     });
@@ -521,35 +467,39 @@ If a new **Api Resource** and **Scope** is added to microservice stack;
 
 It is possible to develop UI for the applications with two different ways:
 
-- ### Modular UI Development
+### Modular UI Development
 
-  Develop the application UI like any abp application template; add UI pages under **microservice's .Web** project. This way, back-office application will be showing the UI without hosting the microservice application just by using as a remote service. For more information, do check [Module Architecture Best Practices & Conventions Section C](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages).
+Develop the application UI like any abp application template; add UI pages under **microservice's .Web** project. This way, back-office application will be showing the UI without hosting the microservice application just by using as a remote service. For more information, do check [Module Architecture Best Practices & Conventions Section C](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages).
 
-  **Add microservice UI to back-office application (Web application):**
+**Add microservice UI to back-office application (Web application):**
 
-  Add **HttpApi.Client** and **.Web** projects as references to Web project and add new dependencies to **WebModule**. Already provided sample is as below:
+Add **HttpApi.Client** and **.Web** projects as references to Web project and add new dependencies to **WebModule**. Already provided sample is as below:
 
-  ```csharp
-  typeof(ProductServiceWebModule),
-  typeof(ProductServiceHttpApiClientModule)
-  ```
+```csharp
+typeof(ProductServiceWebModule),
+typeof(ProductServiceHttpApiClientModule)
+```
 
-  > ProductService.Web module is designed this way. Examine ProductService.Web project for sample implementation.
+> ProductService.Web module is designed this way. Examine ProductService.Web project for sample implementation.
 
-  This approach may benefit with having the integrity of backend and frontend in a microservice as a whole since it is possible to develop microservice backend and frontend in the same microservice solution.
+This approach may benefit with having the integrity of backend and frontend in a microservice as a whole since it is possible to develop microservice backend and frontend in the same microservice solution.
 
-- ### Monolith UI Development inside application
+### Monolith UI Development inside application
 
-  Develop the application UI inside the application. Add UI pages under **application's .Web** project. This will allow using microservice as a remote service. You can check [Module Architecture Best Practices & Conventions Section D](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages) for more information.
+Develop the application UI inside the application. Add UI pages under **application's .Web** project. This will allow using microservice as a remote service. You can check [Module Architecture Best Practices & Conventions Section D](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages) for more information.
 
-  **Add microservice UI to public-web application (PublicWeb application):**
+**Add microservice UI to public-web application (PublicWeb application):**
 
-  Add **HttpApi.Client** reference to **PublicWeb** project and add new dependency to **PublicWebModule** as below:
+Add **HttpApi.Client** reference to **PublicWeb** project and add new dependency to **PublicWebModule** as below:
 
-  ```csharp
-  typeof(ProductServiceHttpApiClientModule)
-  ```
+```csharp
+typeof(ProductServiceHttpApiClientModule)
+```
 
-  > ProductService.PublicWeb module is designed this way. Examine ProductService.PublicWeb project for sample implementation.
+> ProductService.PublicWeb module is designed this way. Examine ProductService.PublicWeb project for sample implementation.
 
-  This way it is possible to separate the frontend and backend teams and develop each of them in their respected solutions.
+This way it is possible to separate the frontend and backend teams and develop each of them in their respected solutions.
+
+## Next
+
+- [Microservice Startup Template: Microservices](microservices.md)

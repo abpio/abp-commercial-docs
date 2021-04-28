@@ -1,4 +1,4 @@
-# Microservice Template Tye Integration
+# Microservice Template: Tye Integration
 
 > This documentation introduces guidance for running your microservice template on [dotnet/tye](https://github.com/dotnet/tye). We suggest using tye for your development environment. You can check [tye getting started page](https://github.com/dotnet/tye/blob/main/docs/getting_started.md) for installation. Running angular application on tye is not supported yet however you can still run all the other stack on tye and run the angular application as it is.
 
