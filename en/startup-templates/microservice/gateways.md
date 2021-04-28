@@ -290,3 +290,7 @@ private async Task CreateSwaggerClientsAsync()
 ```
 
 Internal Gateway and Web Gateway has allowance for all the api scopes and Public WebGateway has only  allowance for `ProductService`.
+
+## Next
+
+- [Microservice Startup Template: Infrastructure](infrastructure.md)

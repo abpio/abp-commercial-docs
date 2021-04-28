@@ -26,26 +26,16 @@ All microservices;
 
 ## IdentityService
 
-IdentityService is infrastructural microservice that provides modular solution by combining  the Identity and Identity-Server modules. All the related layers references respected layers of these modules.
+IdentityService is an infrastructural microservice that provides modular solution by combining  the Identity and Identity-Server modules. All the related layers references respected layers of these modules.
 
 ### Identity-Server Authorization
 
 IdentityService is defined as api resource and api scope with the name **IdentityService** in `IdentityServerDataSeeder`.
 
-> REVIEW: We should mention about alternative dbmigrator usage or add a reference to the infrastructure document to make it clear.
-
 ```csharp
 private async Task CreateApiResourcesAsync()
 {
-    var commonApiUserClaims = new[]
-    {
-        "email",
-        "email_verified",
-        "name",
-        "phone_number",
-        "phone_number_verified",
-        "role"
-    };
+    ...
 
     await CreateApiResourceAsync("IdentityService", commonApiUserClaims);
     await CreateApiResourceAsync("AdministrationService", commonApiUserClaims);
@@ -64,17 +54,57 @@ private async Task CreateApiScopesAsync()
 }
 ```
 
-> REVIEW: The sentence below is not clear and complete.
+See [IdentityService Data Seeding](database-migrations.md#identity-service-data-seeding) for seeding options.
 
-As default,
+In order make make authorized requests to IdentityService by applications/microservices, **IdentityService** scope must have been granted for that client.
 
-- Web application (Mvc/Angular/Blazor) clients
+Web application (Mvc/Angular/Blazor) clients are allowed to request **IdentityService** scope when created:
 
-- Web Gateway Swagger client
-- Internal Gateway Swagger client
-- AdministrationService client
+```csharp
+private async Task CreateClientsAsync()
+{
+    ...        
+    scopes: commonScopes.Union(new[]
+    {
+    	"IdentityService",
+    	"AdministrationService",
+		"SaasService",
+    	"ProductService"
+    }),
+    ...
+}
+```
 
-requests **IdentityService** scope.
+Web Gateway Swagger and Internal Gateway Swagger clients are allowed to request **IdentityService** scope when created:
+
+```csharp
+private async Task CreateSwaggerClientsAsync()
+{
+    await CreateSwaggerClientAsync("InternalGateway", new []{ "IdentityService", "AdministrationService", "SaasService", "ProductService"});
+    await CreateSwaggerClientAsync("WebGateway", new []{ "IdentityService", "AdministrationService", "SaasService", "ProductService"};
+	...
+}
+```
+
+AdministrationService client is allowed to request **IdentityService** scope when created:
+
+```csharp
+private async Task CreateClientsAsync()
+{
+    ...
+    //Administration Service Client
+    await CreateClientAsync(
+        name: "MyProjectName_AdministrationService",
+        scopes: commonScopes.Union(new[]
+        {
+            "IdentityService"
+        }),
+        grantTypes: new[] {"client_credentials"},
+        secret: "1q2w3e*".Sha256(),
+        permissions: new[] {IdentityPermissions.Users.Default}
+    );
+}
+```
 
 ### Database Configuration
 
@@ -109,160 +139,13 @@ Configure<AbpDbContextOptions>(options =>
 });
 ```
 
-### Migration and Seeding
-
-**IdentityService.HttpApi.Host** runs `IdentityServiceDatabaseMigrationChecker` which checks pending migrations and migrates the IdentityService database. This is an async database migration comparing to DbMigrator; allowing database migration on the fly. 
-
-`IdentityServiceDatabaseMigrationEventHandler` seeds IdentityServer data, Identity data (admin user) and default languages.
-
-```csharp
-public IdentityServiceDatabaseMigrationEventHandler(
-    ICurrentTenant currentTenant,
-    IUnitOfWorkManager unitOfWorkManager,
-    ITenantStore tenantStore,
-    IIdentityDataSeeder identityDataSeeder,
-    IdentityServerDataSeeder identityServerDataSeeder,
-    LanguageManagementDataSeeder languageManagementDataSeeder,
-    ITenantRepository tenantRepository,
-    IDistributedEventBus distributedEventBus
-) : base(
-    currentTenant,
-    unitOfWorkManager,
-    tenantStore,
-    tenantRepository,
-    distributedEventBus,
-    IdentityServiceDbProperties.ConnectionStringName)
-{
-    _identityDataSeeder = identityDataSeeder;
-    _identityServerDataSeeder = identityServerDataSeeder;
-    _languageManagementDataSeeder = languageManagementDataSeeder;
-}
-```
-
-Since **IdentityService.HttpApi.Host** seeds IdentityServer data, required IdentityServerClient data is set in appsettings `IdentityServerClients` section among with required db connection strings.
-
-> IdentityService has **IdentityServerDataSeeder**, same with the one already existing in shared **DbMigrator** project. When you update the IdentityServerDataSeeder, don't forget to **update both files** that one exists in *IdentityService DbMigrations* folder and other in shared *DbMigrator* project.
-
-IdentityService uses
-
-- IdentityService connection string
-- AdministrationService connection string
-- SaasService connection string
-
-which are located under *appsettings*.
-
-### Layers and Module Configuration
-
-> REVIEW: I believe these module dependency lists are unnecessary. Also, in the future, makes hard to keep the document up to date. I think we can remove all.
-
-IdentityService uses 
-
-- [Identity Pro Module]([ABP Framework - Open Source Web Application Framework](https://docs.abp.io/en/commercial/latest/modules/identity)) 
-- [IdentityServer Pro Module]([ABP Framework - Open Source Web Application Framework](https://docs.abp.io/en/commercial/latest/modules/identity-server))
-
-#### IdentityService.Domain.Shared
-
-Contains [Module Entity Extension](https://docs.abp.io/en/abp/latest/Module-Entity-Extensions) configuration and IdentityService related localization data. Depends on
-
-- `AbpIdentityProDomainSharedModule` 
-- `AbpIdentityServerDomainSharedModule`
-
-modules.
-
-#### IdentityService.Domain
-
-Contains IdentityService Db properties such as `ConnectionStringName`and seeded `DefaultAdminPassword`. Depends on
-
-- `AbpIdentityProDomainModule` 
-- `AbpIdentityServerDomainModule`
-- `IdentityServiceDomainSharedModule`
-
-modules.
-
-#### IdentityService.EntityFrameworkCore
-
-Contains EntityFrameworkCore related information such `IdentityServiceDbContext`, `IdentityServiceDbContextFactory`, `EfCoreEntityExtensionsMapping` and `Migrations`. Depends on
-
-- `AbpIdentityProEntityFrameworkCoreModule` 
-- `AbpIdentityServerEntityFrameworkCoreModule`
-- `AbpEntityFrameworkCoreSqlServerModule`
-- `IdentityServiceDomainModule`
-
-modules.
-
-> If you are planning to use MongoDb instead of EntityFrameworkCore for your IdentityService, you need to replace this module with MongoDB equivalent.
-
-#### IdentityService.Application.Contracts
-
-Contains IdentityService application constants such as`RemoteServiceName`. Depends on
-
-- `AbpIdentityApplicationContractsModule` 
-- `AbpIdentityServerApplicationContractsModule`
-- `AbpAccountAdminApplicationContractsModule`
-- `IdentityServiceDomainSharedModule`
-
-modules.
-
-#### IdentityService.Application
-
-Contains IdentityService automapper configuration. Depends on
-
-- `AbpIdentityApplicationModule` 
-- `AbpIdentityServerApplicationModule`
-- `AbpAccountAdminApplicationModule`
-- `IdentityServiceDomainModule`
-- `IdentityServiceApplicationContractsModule`
-
-modules.
-
-#### IdentityService.HttpApi
-
-Contains IdentityService http api configuration. Depends on
-
-- `AbpIdentityHttpApiModule` 
-- `AbpIdentityServerHttpApiModule`
-- `AbpAccountAdminHttpApiModule`
-- `IdentityServiceApplicationContractsModule`
-
-modules.
-
-#### IdentityService.HttpApi.Client
-
-Contains IdentityService http api client proxy configuration. Depends on
-
-- `AbpIdentityHttpApiClientModule` 
-- `AbpIdentityServerHttpApiClientModule`
-- `AbpAccountAdminHttpApiClientModule`
-- `IdentityServiceApplicationContractsModule`
-
-modules.
-
-#### IdentityService.HttpApi.Host
-
-IdentityService http api host project. Depends on 
-
-- `IdentityServiceEntityFrameworkCoreModule` 
-- `IdentityServiceApplicationModule`
-- `IdentityServiceHttpApiModule`
-- `SharedHostingMicroservicesModule`
-
-modules. 
-
 ## AdministrationService
 
-AdministrationService is an infrastructural microservice that hosts permission-management, feature-management, setting-management, audit-logging, language-management, text-template-management, lepton theme-management modules, functioning as combination of these modules. All the related layers references respected layers of these modules. 
+AdministrationService is an infrastructural microservice that hosts [Permission Management Module](https://docs.abp.io/en/abp/latest/Modules/Permission-Management), [Feature Management Module](https://docs.abp.io/en/abp/latest/Modules/Feature-Management), [Setting Management Module](https://docs.abp.io/en/abp/latest/Modules/Setting-Management), [Audit Logging](https://docs.abp.io/en/commercial/latest/modules/audit-logging), [Language Management Module](https://docs.abp.io/en/commercial/latest/modules/language-management), [Text Template Management Module](https://docs.abp.io/en/commercial/latest/modules/text-template-management), [Lepton Theme Module](https://docs.abp.io/en/commercial/latest/themes/lepton) and functioning as combination of these modules. All the related layers references respected layers of these modules. 
 
 ### Identity-Server Authorization
 
-As default,
-
-- Web application (Mvc/Angular/Blazor) clients
-- Public Web application client
-
-- Web Gateway Swagger client
-- Internal Gateway Swagger client
-
-requests **AdministrationService** scope. The definition of this api resource and scope is done in `IdentityServerDataSeeder`.
+As default; Web application (Mvc/Angular/Blazor), Public Web application, Web Gateway Swagger and Internal Gateway Swagger clients are granted to make requests to **AdministrationService** scope. The definition of this api resource and scope is done in `IdentityServerDataSeeder`.
 
 AdministrationService has [synched interservice-communication](TODO) with **IdentityService** and should be able to make synched http requests to IdentityService order to function properly. This is done by adding this service as a client using `client_credentials` grant type with name *MyProjectName_AdministrationService* requesting *IdentityService* with `IdentityPermissions.Users.Default` permission. This is used for administration service requesting the user list in administration pages.
 
@@ -327,199 +210,15 @@ Configure<AbpDbContextOptions>(options =>
 });
 ```
 
-### Migration and Seeding
-
-> REVIEW: These sections are not clear and don't explain the concept well. It doesn't mention how and why these events are published and handled. I think we can create a separate *Database Migrations* document and explain all the system and alternatives (dbmigrator app) there. Otherwise, we will repeat it in every microservice as done in this document.
-
-**AdministrationService.HttpApi.Host** runs `AdministrationServiceDatabaseMigrationChecker` which checks pending migrations and migrates the AdministrationService database. This is an async database migration comparing to DbMigrator; allowing database migration on the fly. 
-
-`AdministrationServiceDatabaseMigrationEventHandler` seeds Permission definitions and permissions.
-
-```csharp
-public AdministrationServiceDatabaseMigrationEventHandler(
-    ICurrentTenant currentTenant,
-    IUnitOfWorkManager unitOfWorkManager,
-    ITenantStore tenantStore,
-    IPermissionDefinitionManager permissionDefinitionManager,
-    IPermissionDataSeeder permissionDataSeeder,
-    ITenantRepository tenantRepository,
-    IDistributedEventBus distributedEventBus
-) : base(
-    currentTenant,
-    unitOfWorkManager,
-    tenantStore,
-    tenantRepository,
-    distributedEventBus,
-    AdministrationServiceDbProperties.ConnectionStringName)
-{
-    _permissionDefinitionManager = permissionDefinitionManager;
-    _permissionDataSeeder = permissionDataSeeder;
-}
-```
-
-AdministrationService uses
-
-- AdministrationService connection string
-- SaasService connection string
-
-which are located under *appsettings*.
-
-### Layers and Module Configuration
-
-> REVIEW: I believe these module dependency lists are unnecessary. Also, in the future, makes hard to keep the document up to date. I think we can remove all.
-
-AdministrationService uses
-
-- [Permission Management Module](https://docs.abp.io/en/abp/latest/Modules/Permission-Management)
-- [Feature Management Module](https://docs.abp.io/en/abp/latest/Modules/Feature-Management)
-- [Setting Management Module](https://docs.abp.io/en/abp/latest/Modules/Setting-Management)
-- [Audit Logging](https://docs.abp.io/en/commercial/latest/modules/audit-logging)
-- [Language Management Module](https://docs.abp.io/en/commercial/latest/modules/language-management)
-- [Text Template Management Module](https://docs.abp.io/en/commercial/latest/modules/text-template-management)
-- [Lepton Theme Module](https://docs.abp.io/en/commercial/latest/themes/lepton)
-
-#### AdministrationService.Domain.Shared
-
-Contains [Module Entity Extension](https://docs.abp.io/en/abp/latest/Module-Entity-Extensions) configuration and AdministrationService related localization data. Depends on
-
-- `AbpPermissionManagementDomainSharedModule` 
-- `AbpFeatureManagementDomainSharedModule`
-- `AbpSettingManagementDomainSharedModule`
-- `AbpAuditLoggingDomainSharedModule`
-- `LeptonThemeManagementDomainSharedModule`
-- `LanguageManagementDomainSharedModule`
-- `TextTemplateManagementDomainSharedModule`
-
-modules.
-
-#### AdministrationService.Domain
-
-Contains AdministrationService Db properties such as `ConnectionStringName`. Depends on
-
-- `AbpPermissionManagementDomainModule` 
-- `AbpFeatureManagementDomainModule`
-- `AbpSettingManagementDomainModule`
-- `AbpAuditLoggingDomainModule`
-- `LeptonThemeManagementDomainModule`
-- `LanguageManagementDomainModule`
-- `TextTemplateManagementDomainModule`
-- `AbpPermissionManagementDomainIdentityServerModule`
-- `AbpPermissionManagementDomainIdentityModule`
-- `AdministrationServiceDomainSharedModule`
-
-modules.
-
-#### AdministrationService.EntityFrameworkCore
-
-Contains EntityFrameworkCore related information such `AdministrationDbContext`, `AdministrationDbContextFactory`, `EfCoreEntityExtensionsMapping` and `Migrations`. Depends on
-
-- `AbpEntityFrameworkCoreSqlServerModule`
-- `AbpPermissionManagementEntityFrameworkCoreModule` 
-- `AbpFeatureManagementEntityFrameworkCoreModule`
-- `AbpSettingManagementEntityFrameworkCoreModule`
-- `AbpAuditLoggingEntityFrameworkCoreModule`
-- `BlobStoringDatabaseEntityFrameworkCoreModule`
-- `LanguageManagementEntityFrameworkCoreModule`
-- `TextTemplateManagementEntityFrameworkCoreModule`
-- `AdministrationServiceDomainModule`
-
-modules.
-
-> If you are planning to use MongoDb instead of EntityFrameworkCore for your AdministrationService, you need to replace this module with MongoDB equivalent.
-
-#### AdministrationService.Application.Contracts
-
-Contains AdministrationService application constants such as`RemoteServiceName`. Depends on
-
-- `AbpPermissionManagementApplicationContractsModule`
-- `AbpFeatureManagementApplicationContractsModule` 
-- `AbpSettingManagementApplicationContractsModule`
-- `AbpAuditLoggingApplicationContractsModule`
-- `LeptonThemeManagementApplicationContractsModule`
-- `LanguageManagementApplicationContractsModule`
-- `TextTemplateManagementApplicationContractsModule`
-- `AdministrationServiceDomainSharedModule`
-
-modules.
-
-#### AdministrationService.Application
-
-Contains AdministrationService automapper configuration. Depends on
-
-- `AbpPermissionManagementApplicationModule`
-- `AbpFeatureManagementApplicationModule` 
-- `AbpSettingManagementApplicationModule`
-- `AbpAuditLoggingApplicationModule`
-- `LeptonThemeManagementApplicationModule`
-- `LanguageManagementApplicationModule`
-- `TextTemplateManagementApplicationModule`
-- `AdministrationServiceDomainModule`
-- `AdministrationServiceApplicationContractsModule`
-
-modules.
-
-#### AdministrationService.HttpApi
-
-Contains AdministrationService http api configuration. Depends on
-
-- `AbpPermissionManagementHttpApiModule`
-- `AbpFeatureManagementHttpApiModule`
-- `AbpSettingManagementHttpApiModule`
-- `AbpAuditLoggingHttpApiModule`
-- `LeptonThemeManagementHttpApiModule`
-- `LanguageManagementHttpApiModule`
-- `TextTemplateManagementHttpApiModule`
-- `AdministrationServiceApplicationContractsModule`
-
-modules.
-
-#### AdministrationService.HttpApi.Client
-
-Contains AdministrationService http api client proxy configuration. Depends on
-
-- `AbpPermissionManagementHttpApiClientModule`
-- `AbpFeatureManagementHttpApiClientModule`
-- `AbpSettingManagementHttpApiClientModule`
-- `AbpAuditLoggingHttpApiClientModule`
-- `LeptonThemeManagementHttpApiClientModule`
-- `LanguageManagementHttpApiClientModule`
-- `TextTemplateManagementHttpApiClientModule`
-- `AdministrationServiceApplicationContractsModule`
-
-modules.
-
-#### AdministrationService.HttpApi.Host
-
-AdministrationService http api host project. Depends on 
-
-- `MyProjectNameSharedHostingMicroservicesModule`
-- `AbpHttpClientIdentityModelWebModule` to make client credential requests
-- `AbpAspNetCoreMvcUiMultiTenancyModule` for multi-tenancy UI
-- `AbpIdentityHttpApiClientModule` to make request to IdentityService
-- `AbpAccountAdminApplicationContractsModule` for account permissions
-- `AbpAccountPublicApplicationContractsModule` for account permissions
-- `ProductServiceApplicationContractsModule` for ProductService permissions
-- `SaasServiceApplicationContractsModule` SaasService permissions
-- `IdentityServiceApplicationContractsModule` IdentityService permissions
-- `AdministrationServiceApplicationModule`
-- `AdministrationServiceEntityFrameworkCoreModule`
-- `AdministrationServiceHttpApiModule`
-
-modules. 
-
 ## SaasService
 
 SaasService is an infrastructural microservice that for multi-tenancy functionality and data store.
 
 ### Identity-Server Authorization
 
-As default, 
+In order make make authorized requests to SaasService by applications/microservices, **SaasService scope** must have been granted for that client.
 
-- Web application (Mvc/Angular/Blazor) clients
-- WebGateway Swagger client
-- InternalGateway client
-
-requests **SaasService** scope. The definition of this api resource and scope is done in `IdentityServerDataSeeder`.
+As default; Web applications (Mvc/Angular/Blazor), Web Gateway Swagger and Internal Gateway Swagger clients are granted to make requests to **SaasService** scope. The definition of this api resource and scope is done in `IdentityServerDataSeeder`.
 
 ### Database Configuration
 
@@ -552,109 +251,6 @@ Configure<AbpDbContextOptions>(options =>
 });
 ```
 
-### Migration and Seeding
-
-**SaasService.HttpApi.Host** runs `SaasServiceDatabaseMigrationChecker` which checks pending migrations and migrates the SaasService database. This is an async database migration comparing to DbMigrator; allowing database migration on the fly. 
-
-As default, `SaasServiceDatabaseMigrationEventHandler` doesn't seed any data. 
-
-SaasService uses
-
-- SaasService connection string
-- AdministrationService connection string
-
-which are located under *appsettings*.
-
-### Layers and Module Configuration
-
-> REVIEW: I believe these module dependency lists are unnecessary. Also, in the future, makes hard to keep the document up to date. I think we can remove all.
-
-SaasService uses 
-
--  [Saas Module]([ABP Framework - Open Source Web Application Framework](https://docs.abp.io/en/commercial/latest/modules/saas))
-
-#### SaasService.Domain.Shared
-
-Contains [Module Entity Extension](https://docs.abp.io/en/abp/latest/Module-Entity-Extensions) configuration and SaasService related localization data. Depends on
-
-- `SaasDomainSharedModule` 
-
-module.
-
-#### SaasService.Domain
-
-Contains SaasService Db properties such as `ConnectionStringName`and seeded `DefaultAdminPassword`. Depends on
-
-- `SaasDomainSharedModule` 
-- `SaasServiceDomainSharedModule`
-
-module.
-
-#### SaasService.EntityFrameworkCore
-
-Contains EntityFrameworkCore related information such `SaasServiceDbContext`, `SaasServiceDbContextFactory`, `EfCoreEntityExtensionsMapping` and `Migrations`. Depends on
-
-- `AbpEntityFrameworkCoreSqlServerModule` 
-- `SaasEntityFrameworkCoreModule`
-- `SaasServiceDomainModule`
-
-modules.
-
-> If you are planning to use MongoDb instead of EntityFrameworkCore for your SaasService, you need to replace this module with MongoDB equivalent.
-
-#### SaasService.Application.Contracts
-
-Contains SaasService application constants such as`RemoteServiceName`. Depends on
-
-- `SaasTenantApplicationContractsModule` 
-- `SaasHostApplicationContractsModule`
-- `SaasServiceDomainSharedModule`
-
-modules.
-
-#### SaasService.Application
-
-Contains SaasService automapper configuration. Depends on
-
-- `SaasTenantApplicationModule` 
-- `SaasHostApplicationModule`
-- `SaasServiceDomainModule`
-- `SaasServiceApplicationContractsModule`
-
-modules.
-
-#### SaasService.HttpApi
-
-Contains SaasService http api configuration. Depends on
-
-- `SaasHostHttpApiModule` 
-- `SaasTenantHttpApiModule`
-- `SaasServiceApplicationContractsModule`
-
-modules.
-
-#### SaasService.HttpApi.Client
-
-Contains SaasService http api client proxy configuration. Depends on
-
-- `SaasTenantHttpApiClientModule` 
-- `SaasHostHttpApiClientModule`
-- `SaasServiceApplicationContractsModule`
-- `IdentityServiceApplicationContractsModule`
-
-modules.
-
-#### IdentityService.HttpApi.Host
-
-SaasService http api host project. Depends on 
-
-- `MyProjectNameSharedHostingMicroservicesModule` 
-- `SaasServiceEntityFrameworkCoreModule`
-- `SaasServiceApplicationModule`
-- `SaasServiceHttpApiModule`
-
-modules. 
-
 ## ProductService
 
 ProductService is a sample microservice for examination, created with using [Module Development Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Index). Since Microservice template solution is created with modularity in mind, it is pretty straight forward to integrate modules as microservices into the solution.
@@ -663,19 +259,11 @@ ProductService [solution structure](https://docs.abp.io/en/commercial/latest/sta
 
 ### Identity-Server Authorization
 
-As default, 
-
-- Web application (Mvc/Angular/Blazor) clients
-- Public Web application client
-- Web Gateway Swagger client
-- Internal Gateway Swagger client
-- Public Web Gateway Swagger client
-
-requests **ProductService** scope. The definition of this api resource and scope is done in `IdentityServerDataSeeder`.
+As default, Web applications (Mvc/Angular/Blazor), Public Web application and all the Gateway Swagger clients are granted to make requests to **ProductService** scope. The definition of this api resource and scope is done in `IdentityServerDataSeeder`.
 
 ### Database Configuration
 
-**ProductService.EntityFrameworkCore** project contains `ProductServiceDbContext`, `ProductServiceDbContextFactory`, `EfCoreEntityExtensionsMapping`,  `Migrations`, EfCore configuration and ProductRepository implementation. **SaasServiceDbContext** implements
+**ProductService.EntityFrameworkCore** project contains `ProductServiceDbContext`, `ProductServiceDbContextFactory`, `EfCoreEntityExtensionsMapping`,  `Migrations`, EfCore configuration and ProductRepository implementation. **ProductServiceDbContext** implements
 
 - `IProductServiceDbContext`
 
@@ -696,16 +284,6 @@ Configure<AbpDbContextOptions>(options =>
 });
 ```
 
-### Migration and Seeding
+## Next
 
-**ProductService.HttpApi.Host** runs `ProductServiceDatabaseMigrationChecker` which checks pending migrations and migrates the ProductService database. This is an async database migration comparing to DbMigrator; allowing database migration on the fly. 
-
-As default, `ProductServiceDatabaseMigrationEventHandler` doesn't seed any data. 
-
-ProductService uses
-
-- ProductService connection string
-- AdministrationService connection string
-- SaasService connection string
-
-which are located under *appsettings*.
+- [Microservice Startup Template: Gateways](gateways.md)
