@@ -429,7 +429,7 @@ public static void Configure(
   }
   ```
 
-- DbMigrations folder that contains `PendingMigrationsCheckerBase` and `DatabaseMigrationEventHandlerBase` which are used for [Auto Migration](database-migrations.md#auto-migration-(on-the-fly-migration)).
+- DbMigrations folder that contains `PendingMigrationsCheckerBase` and `DatabaseMigrationEventHandlerBase` which are used for [Auto Migration](database-migrations.md#auto-migration-on-the-fly-migration).
 
 ## Next
 

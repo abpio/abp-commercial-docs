@@ -424,7 +424,7 @@ This configuration indicates the default base url of all the Http Api requests; 
 
 ### AuthServer Interaction
 
-Public application uses [hybrid flow and it is being seeded in *IdentityServerDataSeeder* with **MyProjectName_Web** client name with all the available scopes.
+Public application uses [hybrid flow](https://docs.identityserver.io/en/release/topics/grant_types.html?#hybrid) and it is being seeded in *IdentityServerDataSeeder* with **MyProjectName_Web** client name with all the available scopes.
 
 In the **PublicWebModule** authorization is configured as below to be able to make request to **AdministrationService** and **ProductService** api resources and some basic identity resources since only these two scopes were allowed in *IdentityServerDataSeeder*
 

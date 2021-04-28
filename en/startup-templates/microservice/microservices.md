@@ -54,7 +54,7 @@ private async Task CreateApiScopesAsync()
 }
 ```
 
-See [IdentityService Data Seeding](database-migrations.md#identity-service-data-seeding) for seeding options.
+See [IdentityService Data Seeding](database-migrations.md#identityservice-data-seeding) for seeding options.
 
 In order make make authorized requests to IdentityService by applications/microservices, **IdentityService** scope must have been granted for that client.
 
@@ -66,10 +66,10 @@ private async Task CreateClientsAsync()
     ...        
     scopes: commonScopes.Union(new[]
     {
-    	"IdentityService",
-    	"AdministrationService",
-		"SaasService",
-    	"ProductService"
+        "IdentityService",
+        "AdministrationService",
+        "SaasService",
+        "ProductService"
     }),
     ...
 }
