@@ -30,7 +30,7 @@ You can also see the `CmsKitProSettingNames.Contact` type for available settings
 
 ### MVC UI
 The contact management system provides a contact form widget to create contact forms on public websites easily.
-You can simply place the widget to the page like below. 
+You can simply place the widget on a page like below. 
 
 ```csharp
 @await Component.InvokeAsync(typeof(ContactViewComponent))

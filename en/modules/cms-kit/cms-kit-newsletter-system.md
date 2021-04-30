@@ -110,7 +110,7 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 ### MVC UI
 
 The newsletter subscription system provides a newsletter subscription widget to allow users to subscribe to a newsletter. 
-You can simply place the widget to the like below. 
+You can simply place the widget on a page like below. 
 
 ```csharp
 @await Component.InvokeAsync(
@@ -123,6 +123,6 @@ new
 })
 ```
 
-When you're adding the newsletter component, you can specify `source` parameter to see where users subscribe to newsletters.
+When you're adding the newsletter component, you can the specify `source` parameter to see where users subscribe to newsletters.
 
 For more information about widgets see [widgets](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Widgets) documentation.

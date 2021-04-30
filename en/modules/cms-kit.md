@@ -17,6 +17,10 @@ See [the module description page](https://commercial.abp.io/modules/Volo.CmsKit.
 
 CMS Kit Pro is pre-installed in [the startup templates](../startup-templates/application/index.md) if you create the solution with public website option. So, no need to manually install it. 
 
+```bash
+abp new Acme --with-public-website
+```
+
 If you want to add the CMS kit to your solution manually, the ABP CLI allows adding a module to a solution using `add-module` command. CMS kit module can be added using the command below;
 
 ```bash
