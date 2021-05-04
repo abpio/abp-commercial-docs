@@ -28,7 +28,7 @@ If you are planning to add your custom client (such as mobile application), it i
 
 ## Web Gateway
 
-Web Gateway is used to connect the **Web** (back-office) application to microservices. This is done by setting this gateway as default **RemoteService** in Web application appsettings. ([See here](applications.md#remote service calls - web gateway))
+Web Gateway is used to connect the **Web** (back-office) application to microservices. This is done by setting this gateway as default [RemoteService](applications.md#remote-service-calls-web-gateway) in Web application appsettings.
 
 ### Module Configuration and Routing
 
@@ -92,7 +92,7 @@ SwaggerWithAuthConfigurationHelper.Configure(
 );
 ```
 
-As default, Web Gateway makes requests to all api scopes that are already allowed when the `WebGateway_Swagger` client is being created in [IdentityServer configuration](#identityServer configuration). To be able to make the request, required information is found under **AuthServer** section in `appsettings.json`:
+As default, Web Gateway makes requests to all api scopes that are already allowed when the `WebGateway_Swagger` client is being created in [IdentityServer configuration](gateways.md#identityserver-configuration). To be able to make the request, required information is found under **AuthServer** section in `appsettings.json`:
 
 ```json
 "AuthServer": {
@@ -119,11 +119,11 @@ app.UseSwaggerUI(options =>
 });
 ```
 
-> If you add a new microservice and want to use in your Web application; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](gateways.md#identityServer configuration).
+> If you add a new microservice and want to use in your Web application; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](gateways.md#identityserver-configuration).
 
 ## Public Web Gateway
 
-Public Web Gateway is used to connect the **Public  Web** (landing page) application to microservices. This is done by setting this gateway as default **RemoteService** in Public Web application appsettings. ([See here](applications.md#remote service calls - publicweb gateway))
+Public Web Gateway is used to connect the **Public  Web** (landing page) application to microservices. This is done by setting this gateway as default **RemoteService** in Public Web application appsettings. ([See here](applications.md#remote-service-calls-publicweb-gateway))
 
 ### Module Configuration and Routing
 
@@ -185,7 +185,7 @@ app.UseSwaggerUI(options =>
 });
 ```
 
-> If you add a new microservice and want to use in your PublicWeb application; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](#identityServer configuration).
+> If you add a new microservice and want to use in your PublicWeb application; you need to [update this gateway configuration](add-microservice.md#updating-gateways) and [IdentityServer configuration](gateways.md#identityserver-configuration).
 
 ## Internal Gateway
 
@@ -247,7 +247,7 @@ SwaggerWithAuthConfigurationHelper.Configure(
 );
 ```
 
-As default, Internal Gateway makes requests to all api scopes that are already allowed when the `InternalGateway_Swagger` client is being created in [IdentityServer configuration](#identityServer configuration). To be able to make the request, required information is found under **AuthServer** section in `appsettings.json`:
+As default, Internal Gateway makes requests to all api scopes that are already allowed when the `InternalGateway_Swagger` client is being created in [IdentityServer configuration](gateways.md#identityserver-configuration). To be able to make the request, required information is found under **AuthServer** section in `appsettings.json`:
 
 ```json
 "AuthServer": {
@@ -274,7 +274,7 @@ app.UseSwaggerUI(options =>
 });
 ```
 
-> If you add a new microservice and want to use in your microservice inter-communication; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](#identityServer configuration).
+> If you add a new microservice and want to use in your microservice inter-communication; you need to [update this gateway configuration](add-microservice.md#updating-gateways) and [IdentityServer configuration](gateways.md#identityserver-configuration).
 
 ## IdentityServer Configuration
 
