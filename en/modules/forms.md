@@ -1,19 +1,19 @@
-# Forms module
+# Forms Module
 
-This module allows you to create questionnaires  to gather information. The forms module can store responses as they come in and you can export the data to a CSV file. You can share your form with others. You can request authentication or allow anonymous reply. It is similar to the Google Form application. Usage area is quite wide, you can create surveys, manage event registrations, collect email addresses for a newsletter, create a quiz, and even receive an order request.
+This module allows you to create questionnaires  to gather information. The forms module can store responses as they come in and you can export the data to a CSV file. You can share your form with others with your form unique link. You can request authentication or allow anonymous reply. It is similar to the Google Form application. Usage area is quite wide, you can create surveys, manage event registrations, collect email addresses for a newsletter, create a quiz, and even receive an order request.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Forms) for an overview of the module features.
 
 ## How to install
 
-Form module doesn't come pre-installed. You need to install it. There are 2 ways of installing it:
+The form module doesn't come pre-installed. You need to install it manually. There are 2 ways of installing it:
 
 * **Via ABP CLI:** Open a command line window in your solution folder (in the folder where the `* .sln` file is located) and type the following command:
 
   ```bash
   abp add-module Volo.Forms
   ```
-* **Via ABP Suite:** Open ABP Suite and select your project. Then go to modules page from the top menu. Find **Forms** card and click add as project (with source-code) or add as package (without source-code).
+* **Via ABP Suite:** Open ABP Suite and select your project. Then go to the modules page from the top menu. Find **Forms** card and click add as project (with source-code) or add as package (without source-code).
 
 
 ## Packages
@@ -28,10 +28,10 @@ You can visit the [forms module package list page](https://abp.io/packages?modul
 
 SaaS module adds the following item to the root main menu.
 
-* **Forms**: Managing the forms page.
+* **Forms**: Add a new form, manage your form questions, delete your form.
 
 
-`FormsMenus`  class has the constant for the menu item name.
+The `FormsMenus`  class has the constant variable for the menu item name.
 
 ### Pages
 
@@ -64,11 +64,11 @@ This module follows the [Entity Best Practices & Conventions](https://docs.abp.i
 
 - ##### QuestionBase
 
-  - This entity is dependent to form entity.  It stores questions.
+  - It stores questions of the form. This entity is dependent to form entity by `FormId`.
 
 - ##### FormResponse
 
-  - Each form submit is a new response record.
+  - Each form submit is a new form response record. The form response has answer records.
 
 #### Repositories
 
@@ -87,7 +87,7 @@ This module follows the [Domain Services Best Practices & Conventions]( https://
 
 ##### QuestionManager
 
-`QuestionManager` is used to manage questions of a form.
+`QuestionManager` is used to manage the questions of your form.
 
 ### Application layer
 
@@ -116,12 +116,14 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 ##### Tables / Collections
 
 - **FrmForms**: Form list.
-- **FrmQuestions**: Questions of forms.
-- **FrmAnswers**: Answers to the forms.
+- **FrmQuestions**: Questions of the forms.
+- **FrmAnswers**: Answers of the form response.
 - **FrmChoices**: Choices of questions.
-- **FrmFormResponses**: Each form submit is a response.
+- **FrmFormResponses**: A new form response is being created each time user submits the form.
 
-![Entities](../images/forms-entity-relationship.png)
+
+
+##### Entity Relationships![Entities](../images/forms-entity-relationship.png)
 
 ### Permissions
 
