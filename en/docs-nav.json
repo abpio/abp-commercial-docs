@@ -214,6 +214,10 @@
         {
           "text": "Payment",
           "path": "modules/payment.md"
+        },
+        {
+          "text": "CMS Kit",
+          "path": "modules/cms-kit.md"
         }
       ]
     },
