@@ -1,13 +1,13 @@
 # CMS Kit Pro Module
 
-This module provides CMS(Content Management System) capabilities for your application.
+This module extends the [open-source](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit) CMS Kit module and adds additional CMS(Content Management System) capabilities for your application.
 
 * Provides a **page** management system to manage dynamic pages.
 * Provides a **blog** system to create blogs and publish posts.
-* Provides a **tag** system to tag any kind of resources, like blog posts.
-* Provides a **comment** system to add comments feature to any kind of resource, like blog posts.
-* Provides a **reaction** system to add reactions feature to any kind of resource, like blog posts or comments.
-* Provides a **rating** system to add ratings feature to any kind of resource.
+* Provides a [**tag**](https://docs.abp.io/en/abp/latest/Modules/cms-kit/Tag-Management) system to tag any kind of resources, like blog posts.
+* Provides a [**comment**](https://docs.abp.io/en/abp/latest/Modules/cms-kit/Comment-System) system to add comments feature to any kind of resource, like blog posts.
+* Provides a [**reaction**](https://docs.abp.io/en/abp/latest/Modules/cms-kit/Reaction-System) system to add reactions feature to any kind of resource, like blog posts or comments.
+* Provides a [**rating**](https://docs.abp.io/en/abp/latest/Modules/cms-kit/Rating-System) system to add ratings feature to any kind of resource.
 * Provides a [**newsletter**](cms-kit/cms-kit-newsletter-system.md) system to allow users to subscribe to newsletters.
 * Provides a [**contact form**](cms-kit/cms-kit-contact-management.md) system to allow users to write message to you.
 
