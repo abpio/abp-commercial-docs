@@ -37,7 +37,6 @@ Here, a list of major items in the backlog we are considering to work on in the 
 * Account module: Authority delegation, Google authenticator integration.
 * Dynamic dashboard system.
 * Real-time notification system.
-* New application modules like user guiding, email sending and more...
 * New themes & theme styles (including public/corporate web site themes).
 * More module extension points.
 * More code generation / developer assistance features for the [ABP Suite](https://commercial.abp.io/tools/suite).
