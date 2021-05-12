@@ -17,13 +17,9 @@ This document provides a road map, release schedule and planned features for the
 
 **Planned release date**: End of Quarter 2, 2021.
 
-### v4.5
-
-We planned to focus on v5.0 after 4.4 release. However, we may release v4.5 if we see it necessary.
-
 ### v5.0
 
-v5.0 will be based on .NET 6.0. The features will be more clear in the next months. See the *Backlog Items* section for potential features.
+We planned to focus on the ABP Framework v5.0 after the 4.4 release. v5.0 will be based on .NET 6.0. The features will be more clear in the next months. See the *Backlog Items* section for potential features.
 
 **Planned release date**: End of Quarter 4, 2021.
 
