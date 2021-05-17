@@ -90,6 +90,12 @@ You can visit [Chat module package list page](https://abp.io/packages?moduleName
 
 ## User interface
 
+#### Manage chat feature
+
+Chat module defines the chat feature, you need to enable the chat feature to use chat.
+
+![chat-feature](../images/chat-feature.png)
+
 #### Chat page
 
 This is the page that users send messages to each other.
