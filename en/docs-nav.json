@@ -110,15 +110,47 @@
         },
         {
           "text": "Microservice Template",
-          "path": "startup-templates/microservice/index.md",
           "items": [
             {
-              "text": "Creating new microservice",
-              "path": "startup-templates/microservice/add-microservice.md"
-            }, 
+              "text": "Overall",
+              "path": "startup-templates/microservice/index.md"
+            },
+            {
+              "text": "Get Started",
+              "path": "startup-templates/microservice/get-started.md"
+            },
+            {
+              "text": "Applications",
+              "path": "startup-templates/microservice/applications.md"
+            },
+            {
+              "text": "Services",
+              "path": "startup-templates/microservice/microservices.md"
+            },
+            {
+              "text": "Gateways",
+              "path": "startup-templates/microservice/gateways.md"
+            },
+            {
+              "text": "Infrastructure",
+              "path": "startup-templates/microservice/infrastructure.md"
+            },
+            {
+              "text": "Database Migrations",
+              "path": "startup-templates/microservice/database-migrations.md"
+            },
             {
               "text": "Tye Integration",
               "path": "startup-templates/microservice/microservice-tye-integration.md"
+            },
+            {
+              "text": "Guides",
+              "items": [
+                {
+                  "text": "Adding a new Microservice",
+                  "path": "startup-templates/microservice/add-microservice.md"
+                }
+              ]
             }
           ]
         },
@@ -208,6 +240,10 @@
         {
           "text": "Payment",
           "path": "modules/payment.md"
+        },
+        {
+          "text": "CMS Kit",
+          "path": "modules/cms-kit.md"
         }
       ]
     },
@@ -217,12 +253,26 @@
         {
           "text": "Lepton",
           "path": "themes/lepton.md",
-		   "items": [
-			{
-			  "text": "Customize Lepton Theme",
-			  "path": "themes/customizing-lepton-theme.md"
-			}
-		  ]
+          "items": [
+            {
+              "text": "Customize Lepton Theme",
+              "path": "themes/customizing-lepton-theme.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Angular UI",
+      "items": [
+        {
+          "text": "Components",
+          "items": [
+            {
+              "text": "Lookup Components",
+              "path": "ui/angular/lookup-components.md"
+            }
+          ]
         }
       ]
     },
