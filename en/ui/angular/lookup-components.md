@@ -83,7 +83,6 @@ Here is how it is used in the template.
   cid="author-country-id"
   formControlName="countryId"
   displayNameProp="name"
-  [editingData]="selected?.country"
   [getFn]="service.getCountryLookup"
 ></abp-lookup-select>
 ```
