@@ -121,7 +121,7 @@
               "text": "Infrastructure",
               "path": "startup-templates/microservice/infrastructure.md"
             },
-			{
+            {
               "text": "Database Migrations",
               "path": "startup-templates/microservice/database-migrations.md"
             },
@@ -227,12 +227,26 @@
         {
           "text": "Lepton",
           "path": "themes/lepton.md",
-		   "items": [
-			{
-			  "text": "Customize Lepton Theme",
-			  "path": "themes/customizing-lepton-theme.md"
-			}
-		  ]
+          "items": [
+            {
+              "text": "Customize Lepton Theme",
+              "path": "themes/customizing-lepton-theme.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Angular UI",
+      "items": [
+        {
+          "text": "Components",
+          "items": [
+            {
+              "text": "Lookup Components",
+              "path": "ui/angular/lookup-components.md"
+            }
+          ]
         }
       ]
     },
