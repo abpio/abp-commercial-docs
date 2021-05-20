@@ -69,6 +69,7 @@ The available properties are as follows:
 - **lookupIdProp:** The property of the entity to use as the unique key in options. Should macth the lookup HTTP request interface. _(default: id)_
 - **maxResultCount:** The maximum number of options to display. _(default: 10)_
 - **getFn:** A function to get the related entity records with HTTP requests. Because of lexical this, _it must be a an arrow function_.
+- **disabled:** This property lets you disable/enable a lookup component. _(default: false)_.
 
 ## Lookup Select Component
 
@@ -94,3 +95,4 @@ The available properties are as follows:
 - **lookupNameProp:** The property of the entity to use as a display name in options. Should macth the lookup HTTP request interface. _(default: displayName)_
 - **lookupIdProp:** The property of the entity to use as the unique key in options. Should macth the lookup HTTP request interface. _(default: id)_
 - **getFn:** A function to get the related entity records with HTTP requests. Because of lexical this, _it must be a an arrow function_.
+- **disabled:** This property lets you disable/enable a lookup component. _(default: false)_.
