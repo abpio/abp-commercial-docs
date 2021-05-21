@@ -1,25 +1,46 @@
 # Newsletter System
 
-CMS kit provides a **newsletter** system to allow users to subscribe to newsletters. This section describes the details of the newsletter system. 
+CMS kit provides a **newsletter** system to allow users to subscribe to newsletters. Here a screenshot of the newsletter subscription widget:
 
-## Feature
+![cmskit-module-newsletter-widget](../../images/cmskit-module-newsletter-widget.png)
 
-CMS kit uses the [global feature](https://docs.abp.io/en/abp/latest/Global-Features) system for all implemented features. Startup templates come with all the CMS kit related features are enabled by default. If you want to enable the newsletter system feature individually, open the `GlobalFeatureConfigurator` class in the `Domain.Shared` project and place the following code to the `Configure ` method.
+## User Interface
+
+### Menu Items
+
+**Newsletters**: Opens the newsletter subscription management page.
+
+### Pages
+
+#### Newsletters
+
+You can then view the subscribers and export the list as CSV file, in the admin side of your solution.
+
+![newsletter-page](../../images/cmskit-module-newsletter-page.png)
+
+## The Newsletter Subscription Widget
+
+The newsletter subscription system provides a newsletter subscription [widget](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Widgets) to allow users to subscribe to a newsletter. 
+You can simply place the widget on a page like below: 
 
 ```csharp
-GlobalFeatureManager.Instance.Modules.CmsKitPro(cmsKitPro =>
-{
-    cmsKitPro.Newsletter.Enable();
-});
+@await Component.InvokeAsync(
+  typeof(NewsletterViewComponent),
+  new
+  {
+      preference = "TechNewsletter",
+      source = "Footer",
+      requestAdditionalPreferencesLater = false
+  })
 ```
 
-# Options
+When you're adding the newsletter component, you can the specify `source` parameter to see where users subscribe to newsletters. See the options to understand the preferences.
 
-## NewsletterOptions
+## Options
 
-Before using the newsletter system, you need to define the preferences. You can use the `NewsletterOptions` type to define preferences. 
+Before using the newsletter system, you need to define the preferences. You can use the `NewsletterOptions` type to define preferences. `NewsletterOptions` can be configured in the domain layer, in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics).
 
-`NewsletterOptions` can be configured in the domain layer, in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics). Example:
+**Example:**
 
 ```csharp
 options.AddPreference("TechNewsletter",
@@ -32,12 +53,12 @@ options.AddPreference("TechNewsletter",
 
 `NewsletterOptions` properties:
 
-- `Preferences`: List of defined newsletter preferences(`NewsletterPreferenceDefinition`) in the newsletter system.
+- `Preferences`: List of defined newsletter preferences (`NewsletterPreferenceDefinition`) in the newsletter system.
 - `WidgetViewPath`: Default view path for all newsletter preferences.
 
 `NewsletterPreferenceDefinition` properties:
 
-- `Preference`: Name of the preference. We will use this field while displaying the newsletter component on the public websites.
+- `Preference`: Name of the preference. We will use this field while displaying the newsletter component on the UI.
 - `PrivacyPolicyConfirmation`: Privacy policy confirmation text shown in the newsletter subscription widget.
 - `AdditionalPreferences`: Additional preference list that will show up after a user subscribes to the newsletter.
 - `WidgetPath`: If you want to use a different newsletter widget instead of the default widget, you can specify the newsletter widget path using this field.
@@ -98,31 +119,10 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 ##### Tables
 
 - CmsNewsletterRecords
-- CmsNewsletterPreferences
-  - CmsNewsletterRecords
+  - CmsNewsletterPreferences
 
 #### MongoDB
 
 ##### Collections
 
 - **CmsNewsletterRecords**
-
-### MVC UI
-
-The newsletter subscription system provides a newsletter subscription widget to allow users to subscribe to a newsletter. 
-You can simply place the widget on a page like below. 
-
-```csharp
-@await Component.InvokeAsync(
-typeof(NewsletterViewComponent),
-new
-{
-    preference = "Preference",
-    source = "PublicWebSite_Footer",
-    requestAdditionalPreferencesLater = false
-})
-```
-
-When you're adding the newsletter component, you can the specify `source` parameter to see where users subscribe to newsletters.
-
-For more information about widgets see [widgets](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Widgets) documentation.
