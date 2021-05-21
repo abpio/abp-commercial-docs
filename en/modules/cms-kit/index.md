@@ -55,13 +55,5 @@ Alternatively, you can enable features individually, like `cmsKit.Comments.Enabl
 
 > If you are using Entity Framework Core, do not forget to add a new migration and update your database.
 
-### Contact Management
 
-CMS Kit provides an infrastructure to create contact forms on your websites and easily manage contact options. You can use the available contact form component on your pages like below. 
-
-![contact-form](../images/cmskit-module-contact-form.png)
-
-When a user sends a message through the contact form, the system automatically sends the form content to the configured email address. You can change the email address on the setting page.
-
-![contact settings](../images/cmskit-module-contact-settings.png)
 
