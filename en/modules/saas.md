@@ -1,11 +1,11 @@
 # SaaS module
 
-This module implements the User and Role system of an application;
+This module is used to manage your tenants and editions in multi-tenant applications;
 
 * Manage **tenants** and **editions** in the system. A tenant is allowed to have one **edition**.
 * Set **features** of tenants.
 * Set **connection string** of tenants.
-* Set **features** of editions.
+* Set **features** of editions and tenants.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Saas) for an overview of the module features.
 
