@@ -141,7 +141,7 @@
             },
             {
               "text": "Tye Integration",
-              "path": "startup-templates/microservice/microservice-tye-integration.md"
+              "path": "startup-templates/microservice/tye-integration.md"
             },
             {
               "text": "Guides",
