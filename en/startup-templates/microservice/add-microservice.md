@@ -2,83 +2,144 @@
 
 > This documentation introduces guidance for creating a new microservice for your microservice startup template. Eventually, these steps will be automated in the future however learning these steps may provide insight to learn the relations between microservices.
 
-## Creating new microservice
+## Creating new service
 
-You can create a new microservice for your microservice solution by using the abp CLI with the following command:
+You can create a new service (sub microservice) into your microservice solution by using the ABP CLI. Use the following command to create a new service:
 
 ```powershell
 abp new OrderService -t microservice-service-pro
 ```
 
-You can see your newly created (order) microservice under your **microservices** directory of your project solution.
+The new service is created in the **services** folder of your solution.
 
-Add **OrderService.HttpApi.Host.csproj** as an existing project to your main solution so that you can manage the host projects from one solution.
+## Add the new service to the solution
 
-<img src="../../images/microservice-template-add-to-solution.png" alt="image-20210228031214795" style="zoom:150%;" />
+Add **Acme.BookStore.OrderService.HttpApi.Host.csproj** as an existing project to your main solution so that you can manage the host projects from single solution.
 
-> Dont' forget to `dotnet build` your newly created *order* service under *services/order* directory.
+![Add to main solution](../../images/microservice-template-add-to-solution.png)
 
-You need to update several projects in order to integrate your new service into your composition. 
+> Do not forget to run `dotnet build` in the `\services\order` directory.
+
+You need to update other dependent projects in order to integrate your new service into your composition.  Follow the next steps to integrate your new service.
 
 ## Updating Administration Microservice
 
-Administration microservice hosts the **permission management**. In order to make your microservice permissions available in permission management screen; you need to add **OrderService.Application.Contracts** project reference then add module dependency to **AdministrationServiceHttpApiHostModule** as below: 
+Administration microservice hosts the **permission management**. In order to show your microservice permissions on the permission management page, you need to add the project reference of **Acme.BookStore.OrderService.Application.Contracts** project and then add module dependency to **AdministrationServiceHttpApiHostModule**.
 
-```csharp
-typeof(OrderServiceApplicationContractsModule)
-```
+* **Add csproj reference**
 
-So that your AdministrationServiceHttpApiHostModule should look like below:
+  Open **Acme.BookStore.AdministrationService.HttpApi.Host.csproj** and add the following project reference
 
-![administration-service-module-added-orderservice](../../images/administration-service-module-added-orderservice.png)
+  ```json
+  <ProjectReference Include="..\..\..\order\src\Acme.BookStore.OrderService.Application.Contracts\Acme.BookStore.OrderService.Application.Contracts.csproj" />
+  ```
+
+* **Add DependsOn attribute**
+
+  Open **AdministrationServiceHttpApiHostModule.cs** class and add the following module dependency
+  
+  ```csharp
+  typeof(OrderServiceApplicationContractsModule)
+  ```
+  
+  ![Add order service module dependency into the Administration Service](../../images/administration-service-module-added-orderservice.png)
 
 ## IdentityServer Configuration
 
-> You can also replicate the same functionality in this step by using identityserver management UI. However it is a good practice to keep IdentityServerDataSeeder updated. 
+> You can also do the same functionality explained in this step by using IdentityServer Management UI. However it is a good practice to keep `IdentityServerDataSeeder` updated. 
 
-To keep IdentityServerDataSeeder updated, you need to:
+To keep `IdentityServerDataSeeder` updated, you need to do the following steps in the **IdentityServerDataSeeder.cs** class. Note that there are 2 **IdentityServerDataSeeder.cs** classes in the solution:
 
-- **Create ApiResource**: OrderService itself is a new api resource, you should add it by updating **CreateApiResourcesAsync** method with:
+1. `Acme.BookStore.DbMigrator\IdentityServerDataSeeder.cs`
+``Acme.BookStore.IdentityService.HttpApi.Host\DbMigrations\IdentityServerDataSeeder.cs`. 
+
+If you will use the DbMigrator application you need to do the same steps in both classes.
+
+- **Create ApiResource**: 
+
+  `OrderService` itself is a new API resource, you should add it to the API resources. Open `IdentityServerDataSeeder.cs` and add the below line in 
 
   ```csharp
   await CreateApiResourceAsync("OrderService", commonApiUserClaims);
   ```
 
-- **Create ApiScope**: To make OrderService a reachable scope for other services, you should add it as a new scope by updating **CreateApiScopesAsync** method with: 
+
+- **Create ApiScope**: 
+
+  To make OrderService a reachable scope for other services, you should add it as a new scope by updating **CreateApiScopesAsync** method with: 
 
   ```csharp
-  await CreateApiScopeAsync("OrderService");
+await CreateApiScopeAsync("OrderService");
   ```
 
-- **Update SwaggerClients**: Swagger clients are used for ***authorizing*** the microservice endpoints via *authorization code* flow for the swagger endpoints. You need to update the related swagger client creation scopes with adding the **OrderService** scope. You can select the gateways you want to grant for new service to be reached. **Keep in mind**, you need to add route configuration for each gateway. 
 
-- **Update Clients**: Update Web and/or Public (angular or blazor if application is not mvc) client creations in **CreateClientsAsync** method. Add **OrderService** scope. If you want to call OrderService from an other service, add OrderService scope to caller service client aswell.
+- **Add Swagger Client Scopes**: 
 
-- **Create New Client:** If you want OrderService to be able call other services, you need to add OrderService as a client under **CreateClientsAsync** aswell. Then, update appsettings.json of the OrderService with **IdentityClients** section with the ClientId and granted scopes you have defined in **CreateClientAsync** method for client credential flow. Also, check microservice intercommunication docs for more information (**TODO**).
+  Swagger clients are used to **authorize** the microservice endpoints via *authorization code* flow for the swagger endpoints. You need to update the related swagger client scopes by adding the **OrderService** scope. You can select the gateways you want to grant for new service to be reached. **Keep in mind** that you need to add route configuration for each gateway. 
 
+- **Update Clients**: 
+
+  Update Web and/or Public (angular or blazor if application is not mvc) client creations in **CreateClientsAsync** method. Add **OrderService** scope. If you want to call **OrderService** from an other service, add **OrderService** scope to caller service client as well.
+
+- **Create New Client:** 
+
+  If you want **OrderService** to be able call the other services, you need to add the **OrderService** as a client under **CreateClientsAsync** as well. Then, update appsettings.json of the OrderService with **IdentityClients** section with the ClientId and granted scopes you have defined in **CreateClientAsync** method for client credential flow. Also, check microservice intercommunication docs for more information (**TODO**).
+  
   > AdministrationService microservice has configuration for making sync calls to IdentityService which can be examined if you are planning sync communication for your new microservice.  
 
-You can see updated **IdentityServerDataSeeder** image below that creates OrderService ApiResource and ApiScope which also granted scopes to all swagger clients.
 
-<img src="../../images/microservice-template-dbmigrator-identityserver-seeder-update.png" alt="microservice-template-dbmigrator-identityserver-seeder-update" style="zoom:60%;" />
+
+You can see updated **IdentityServerDataSeeder** below that creates OrderService ApiResource and ApiScope which also granted scopes to all swagger clients.
+
+> Hint: You can search for "*Product*" keyword in this class to find the places where you will add the OrderService.
+
+
+
+![IdentityServerDataSeeder changes](../../images/microservice-template-dbmigrator-identityserver-seeder-update.png)
+
+
 
 ## Updating Gateways
 
-Update each related gateway ocelot configuration with the new service endpoint configuration. Above sample added OrderService to all three gateways; InternalGateway, WebGateway and PublicWebGateway.
+If you need to expose the new service endpoints, you need to configure all the 3 gateways:  
 
-For each gateway you want to expose new microservice endpoint, you need to:
+- **InternalGateway** 
+- **WebGateway** 
+- **PublicWebGateway**
 
-1. **Add project reference and module dependency**: Add OrderService.HttpApi project reference to your gateway project dependency and add OrderServiceHttpApiModule to gateway module dependency like:
+Do the following steps for the 3 gateways:
 
-  ```csharp
-  typeof(OrderServiceHttpApiModule)
-  ```
+1. **Add project reference and module dependency**: 
 
-  Update the *SwaggerWithAuthConfigurationHelper* `Configure` method, adding the **OrderService** api scope for swagger client authorization.
+   Add **OrderService.HttpApi** project reference to your gateway project dependency and add **OrderServiceHttpApiModule** to gateway module dependency like:
 
-  ![webgateway-service-module-added-orderservice](../../images/webgateway-service-module-added-orderservice.png)
+   * **Add csproj reference**
+   
+     ```json
+     <ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.HttpApi\Acme.BookStore.OrderService.HttpApi.csproj" />
+     ```
+   
+   * **Add DependsOn attribute**
+   
+     ```csharp
+     typeof(OrderServiceHttpApiModule)
+     ```
+   
+        ![Add service to gateways](../../images/webgateway-service-module-added-orderservice.png)
+   
+     
+   
+     Add the **OrderService** scope to the Swagger UI. To do this add `{"OrderService", "Order Service API"}` into the scopes dictionary in ` SwaggerWithAuthConfigurationHelper.Configure()` method. Do this step for the 3 gateways. 
+   
+     
+   
+     ![Add to Swagger scopes](../../images/add-microservice-swagger-add-scope.png)
 
-2. **Update appsettings.json for ocelot configuration:** You need to add new Downstream and Upstream path templates for new microservice like:
+
+
+2. **Update appsettings.json for ocelot configuration:** 
+
+   You need to add new Downstream and Upstream path templates for the new service as shown below:
 
   ```json
   {
@@ -95,22 +156,43 @@ For each gateway you want to expose new microservice endpoint, you need to:
   }
   ```
 
-  > You can make different configurations for each method or endpoint for your microservice and add QoS configurations based on your business requirements. You can check [ocelot documentation](https://ocelot.readthedocs.io/en/latest/) for more.
+  > You can make different configurations for each method or endpoint for your service and add QoS configurations based on your business requirements. You can check [ocelot documentation](https://ocelot.readthedocs.io/en/latest/) for more.
+
+The above 2 steps are explained for **InternalGateway**, you need to repeat these steps for **WebGateway** and **PublicWebGateway**.
+
+
 
 ## Updating DbMigrator
 
-Since OrderService is using its own database, you should add it to `DbMigrator` aswell so that DbMigrator can handle OrderService migrations and data seeding. 
+Since **OrderService** is using its own database, you should add it to the `DbMigrator` project as well to handle the new service migrations and data seeding. 
 
-1. **Update Project References:** Add **OrderService.Application.Contracts** and **OrderService.EntityFrameworkCore** project references to **DbMigrator** project then add the related dependencies to **DbMigratorModule** as below:
+1. **Add OrderService Dependencies:** 
 
-   ```csharp
-   typeof(OrderServiceApplicationContractsModule),
-   typeof(OrderServiceEntityFrameworkCoreModule)
+   Add **Acme.BookStore.OrderService.Application.Contracts** and **Acme.BookStore.OrderService.EntityFrameworkCore** project references to the **DbMigrator** project. And add the below `DependsOn` types to the **DbMigratorModule** as below:
+
+   * **Add csproj references:**
+
+   ```json
+   <ProjectReference Include="..\..\services\order\src\Acme.BookStore.OrderService.Application.Contracts\Acme.BookStore.OrderService.Application.Contracts.csproj"/>
+   
+   <ProjectReference Include="..\..\services\order\src\Acme.BookStore.OrderService.EntityFrameworkCore\Acme.BookStore.OrderService.EntityFrameworkCore.csproj"/>
    ```
+   
+* **Add DependsOn attributes**
+   
+     ```csharp
+     typeof(OrderServiceApplicationContractsModule),
+     typeof(OrderServiceEntityFrameworkCoreModule)
+     ```
+
 
    ![dbmigrator-service-modules-added-orderservice](../../images/dbmigrator-service-modules-added-orderservice.png)
 
-2. **Update DbMigrationService:** DbMigratorHostedService runs the MigrateAsync method which eventually runs the **MigrateAllDatabasesAsync** method. Add the new database migration with the others: 
+   
+
+2. **Update DbMigrationService:** 
+
+   **DbMigratorHostedService** runs the [MigrateAsync()]() method which eventually runs the **MigrateAllDatabasesAsync** method. Add the new database migration with the others: 
 
    ```csharp
    await MigrateDatabaseAsync<OrderServiceDbContext>(cancellationToken);
@@ -118,56 +200,110 @@ Since OrderService is using its own database, you should add it to `DbMigrator` 
 
    ![migrate-all-after-orderservice](../../images/migrate-all-after-orderservice.png)
 
-3. **Update appsetings.json:** Migration of OrderService will require predefined connection string name under OrderService.Domain.OrderServiceDbProperties. Add related connection string name to **appsettings.json** ConnectionStrings sections of DbMigrator as below:
 
-   ```json
-   "OrderService": "Server=localhost;Database=BookStore_OrderService;Trusted_Connection=True"
-   ```
+
+3. **Add connection string:** 
+
+   DbMigrator gets connection string from configuration (`appsettings.json`). Each service has its own connection string. Add the OrderService connection string to the `appsettings.json` of the DbMigrator project. This name is defined in `OrderServiceDbProperties.ConnectionStringName`.
+   
+   ````json
+   "OrderService": "Server=localhost,1434;Database=BookStore_OrderService;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true"
+   ````
+   
+   ![Add connection string to DbMigrator](../../images/add-microservice-appsettings-conn-string.png)
+
+
 
 ## Adding UI to Applications
 
-You can develop UI for your application with two different ways:
+You can develop UI for your application in two different ways:
 
-### 1) Modular UI Development:
+### 1-) Modular UI Development:
 
-Develop your application UI like any abp application template; add your pages under **OrderService.Web** project. This way, back-office application will be showing the UI without hosting the microservice application just by using as a remote service. You can check [Module Architecture Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages) **Section C** for more information. 
+Develop your application UI like any ABP application template; add your pages under **OrderService.Web** project. This way, the back-office application will show the UI without hosting the microservice application just by using as a remote service. You can check [Module Architecture Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages) **Section C** for more information. 
 
-**To add your microservice UI to your back-office application (Web application):**
+**Add your service UI to the back-office application (Web/Blazor application):**
 
-Add **HttpApi.Client** and **Web** projects as references to Web project and add new dependencies to **WebModule** as below:
+Add **HttpApi.Client** and **Web** (or **Blazor**) projects as references to Web project and add new dependencies to **WebModule** as below:
 
-```csharp
-typeof(OrderServiceWebModule),
-typeof(OrderServiceHttpApiClientModule)
-```
+* **Add csproj references (Acme.BookStore.Web.csproj /Acme.BookStore.Blazor.csproj)**
+  
+  * **MVC:** If your microservice project is MVC add the references to the `Acme.BookStore.Web.csproj`: 
+  
+    ```json
+    <ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.HttpApi.Client\Acme.BookStore.OrderService.HttpApi.Client.csproj" />
+    
+    <ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.Web\Acme.BookStore.OrderService.Web.csproj" />
+    ```
+  
+    
+  
+  * **Blazor**: If your project is Blazor then add the references to the `Acme.BookStore.Blazor.csproj`
+  
+    ```json
+    <ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.HttpApi.Client\Acme.BookStore.OrderService.HttpApi.Client.csproj" />
+      
+    <ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.Blazor\Acme.BookStore.OrderService.Blazor.csproj" />
+    ```
+  
+    
 
-> ProductService.Web module is designed this way. You can examine ProductService.Web project for sample implementation.
 
-This approach may benefit you with having the integrity of backend and frontend in your microservice as a whole since you will be able to develop your microservice backend and frontend in the same microservice solution.
+* **Add DependsOn attributes**
 
-### 2) Monolith UI Development inside application:
+	* **MVC**:
+  
+    ```csharp
+    typeof(OrderServiceWebModule),
+    typeof(OrderServiceHttpApiClientModule)
+    ```
+  
+  * **Blazor**:
+  
+    ```csharp
+    typeof(OrderServiceBlazorModule),
+    typeof(OrderServiceHttpApiClientModule)
+    ```
 
-Develop your application UI inside application; add your pages under application layer of your solution and use microservice as a remote service. You can check [Module Architecture Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages) **Section D** for more information.  
+> ProductService.Web module is designed this way. You can examine ProductService.Web project for the sample implementation.
+
+This approach can benefit you to have backend and frontend integrity in your microservice as a whole, as you can develop the backend and frontend of your microservice in the same microservice solution.
+
+![Add to startup project reference](../../images/add-microservice-web-csproj.png)
+
+
+
+### 2-) Monolith UI Development inside application:
+
+Develop your application UI inside the application; add your pages under application layer of your solution and use microservice as a remote service. You can check [Module Architecture Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages) **Section D** for more information.  In this approach, you can separate the front-end and back-end team and develop each in their reputable solution.
 
 **To add your microservice UI to your application (PublicWeb application in this case):**
 
 Add **HttpApi.Client** reference to **PublicWeb** project and add new dependency to **PublicWebModule** as below:
 
+* **Add csproj reference**
+
+```json
+<ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.HttpApi.Client\Acme.BookStore.OrderService.HttpApi.Client.csproj" />
+```
+
+* **Add DependsOn attribute**
+
 ```csharp
 typeof(OrderServiceHttpApiClientModule)
 ```
+![Add to public web](../../images/add-microservice-publicweb.png)
 
-> ProductService.PublicWeb module is designed this way. You can examine ProductService.PublicWeb project for sample implementation.
 
-This way you can separate the frontend and backend team and develop each of them in their respected solutions.
+> You can check out the sample project ProductService.PublicWeb module to understand this implementation.
 
 ## Updating Tye configuration:
 
-If you are planning to use [dotnet tye](https://github.com/dotnet/tye) for your solution, you can also update your tye.yaml configuration that is already provided after project creation. Add **OrderService.HttpApi.Host.csproj** path and port with self-sign development certification information as below:
+If you are planning to use [Tye](https://github.com/dotnet/tye) to develop and deploy microservices, you need to update your `tye.yaml` configuration which exists in the root directory of your solution. Add **OrderService.HttpApi.Host.csproj** path and port with self-sign development certification information as below:
 
 ```yaml
 - name: order-service
-  project: microservices/order/src/Acme.BookStore.OrderService.HttpApi.Host/Acme.BookStore.OrderService.HttpApi.Host.csproj
+  project: services/order/src/Acme.BookStore.OrderService.HttpApi.Host/Acme.BookStore.OrderService.HttpApi.Host.csproj
   bindings:
     - protocol: https
       port: 44371
@@ -175,3 +311,35 @@ If you are planning to use [dotnet tye](https://github.com/dotnet/tye) for your 
     - Kestrel__Certificates__Default__Path=../../../../dev-cert/localhost.pfx
     - Kestrel__Certificates__Default__Password=e8202f07-66e5-4619-be07-72ba76fde97f
 ```
+
+**Important**: The port `44371` is not same for all services. You can learn your service port from `\services\order\src\Acme.BookStore.OrderService.HttpApi.Host\Properties\launchSettings.json`
+
+![Tye config](../../images/add-microservice-tye-config.png)
+
+## Running the Solution
+
+We have added a new service to the microservice solution. Let's run the solution. 
+
+**1- Start the infrastructure:**  Run the following Powershell script to start the infrastructures:
+
+```bash
+etc\docker\up.ps1
+```
+
+**2- Create dev certificates:** This is a one time operation. You need to create dotnet HTTPS certificates with the following Powershell command:
+
+```bash
+\etc\dev-cert\create-certificate.ps1
+```
+
+**3- Run tye**: Run the following command in the root directory of your solution where `tye.yaml` exists. The `watch` parameter allows to build projects when the source code changes.
+
+```bash
+tye run --watch
+```
+
+Open your browser and navigate to your startup project:
+
+* **Blazor**: https://localhost:44314/
+* **MVC**: https://localhost:44321/
+* **Angular**: http://localhost:4200/
