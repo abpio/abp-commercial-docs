@@ -26,23 +26,25 @@ You need to update other dependent projects in order to integrate your new servi
 
 Administration microservice hosts the **permission management**. In order to show your microservice permissions on the permission management page, you need to add the project reference of **Acme.BookStore.OrderService.Application.Contracts** project and then add module dependency to **AdministrationServiceHttpApiHostModule**.
 
-* **Add csproj reference**
+* **Add csproj reference**:
 
   Open **Acme.BookStore.AdministrationService.HttpApi.Host.csproj** and add the following project reference
 
-  ```json
-  <ProjectReference Include="..\..\..\order\src\Acme.BookStore.OrderService.Application.Contracts\Acme.BookStore.OrderService.Application.Contracts.csproj" />
-  ```
+```json
+<ProjectReference Include="..\..\..\order\src\Acme.BookStore.OrderService.Application.Contracts\Acme.BookStore.OrderService.Application.Contracts.csproj" />
+```
 
-* **Add DependsOn attribute**
+* **Add DependsOn attribute**:
 
   Open **AdministrationServiceHttpApiHostModule.cs** class and add the following module dependency
   
-  ```csharp
-  typeof(OrderServiceApplicationContractsModule)
-  ```
-  
+```csharp
+typeof(OrderServiceApplicationContractsModule)
+```
+
   ![Add order service module dependency into the Administration Service](../../images/administration-service-module-added-orderservice.png)
+
+
 
 ## IdentityServer Configuration
 
@@ -51,7 +53,7 @@ Administration microservice hosts the **permission management**. In order to sho
 To keep `IdentityServerDataSeeder` updated, you need to do the following steps in the **IdentityServerDataSeeder.cs** class. Note that there are 2 **IdentityServerDataSeeder.cs** classes in the solution:
 
 1. `Acme.BookStore.DbMigrator\IdentityServerDataSeeder.cs`
-``Acme.BookStore.IdentityService.HttpApi.Host\DbMigrations\IdentityServerDataSeeder.cs`. 
+2. `Acme.BookStore.IdentityService.HttpApi.Host\DbMigrations\IdentityServerDataSeeder.cs`. 
 
 If you will use the DbMigrator application you need to do the same steps in both classes.
 
@@ -59,18 +61,18 @@ If you will use the DbMigrator application you need to do the same steps in both
 
   `OrderService` itself is a new API resource, you should add it to the API resources. Open `IdentityServerDataSeeder.cs` and add the below line in 
 
-  ```csharp
-  await CreateApiResourceAsync("OrderService", commonApiUserClaims);
-  ```
+```csharp
+await CreateApiResourceAsync("OrderService", commonApiUserClaims);
+```
 
 
 - **Create ApiScope**: 
 
   To make OrderService a reachable scope for other services, you should add it as a new scope by updating **CreateApiScopesAsync** method with: 
 
-  ```csharp
+```csharp
 await CreateApiScopeAsync("OrderService");
-  ```
+```
 
 
 - **Add Swagger Client Scopes**: 
@@ -89,11 +91,11 @@ await CreateApiScopeAsync("OrderService");
 
 
 
-You can see updated **IdentityServerDataSeeder** below that creates OrderService ApiResource and ApiScope which also granted scopes to all swagger clients.
-
 > Hint: You can search for "*Product*" keyword in this class to find the places where you will add the OrderService.
 
 
+
+Below you can see a screenshot of the final **IdentityServerDataSeeder.cs** , creating `OrderService ` `ApiResource` and `ApiScope` granting scopes to all Swagger clients.
 
 ![IdentityServerDataSeeder changes](../../images/microservice-template-dbmigrator-identityserver-seeder-update.png)
 
@@ -107,41 +109,42 @@ If you need to expose the new service endpoints, you need to configure all the 3
 - **WebGateway** 
 - **PublicWebGateway**
 
-Do the following steps for the 3 gateways:
+You need to repeat the following steps for the 3 gateways:
 
 1. **Add project reference and module dependency**: 
 
    Add **OrderService.HttpApi** project reference to your gateway project dependency and add **OrderServiceHttpApiModule** to gateway module dependency like:
+* **Add csproj reference**
 
-   * **Add csproj reference**
-   
-     ```json
-     <ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.HttpApi\Acme.BookStore.OrderService.HttpApi.csproj" />
-     ```
-   
+```json
+<ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.HttpApi\Acme.BookStore.OrderService.HttpApi.csproj" />
+```
+
    * **Add DependsOn attribute**
-   
-     ```csharp
-     typeof(OrderServiceHttpApiModule)
-     ```
-   
-        ![Add service to gateways](../../images/webgateway-service-module-added-orderservice.png)
-   
-     
-   
-     Add the **OrderService** scope to the Swagger UI. To do this add `{"OrderService", "Order Service API"}` into the scopes dictionary in ` SwaggerWithAuthConfigurationHelper.Configure()` method. Do this step for the 3 gateways. 
-   
-     
-   
-     ![Add to Swagger scopes](../../images/add-microservice-swagger-add-scope.png)
+
+```csharp
+typeof(OrderServiceHttpApiModule)
+```
+
+![Add service to gateways](../../images/webgateway-service-module-added-orderservice.png)
+
+
+​     
+
+Add the **OrderService** scope to the Swagger UI. To do this add `{"OrderService", "Order Service API"}` into the scopes dictionary in ` SwaggerWithAuthConfigurationHelper.Configure()` method. Do this step for the 3 gateways.
+
+
+ ![Add to Swagger scopes](../../images/add-microservice-swagger-add-scope.png)
 
 
 
 2. **Update appsettings.json for Ocelot configuration:** 
 
-   You need to add new Downstream and Upstream path templates for the new service as shown below:
+   You need to add new Downstream and Upstream path templates for the new service as shown below. 
+   
+   **Important**: The port `44371` is not same for all services. You can get your service port from `\services\order\src\Acme.BookStore.OrderService.HttpApi.Host\Properties\launchSettings.json`
 
-  ```json
+```json
   {
     "DownstreamPathTemplate": "/api/order-service/{everything}",
     "DownstreamScheme": "https",
@@ -154,11 +157,13 @@ Do the following steps for the 3 gateways:
     "UpstreamPathTemplate": "/api/order-service/{everything}",
     "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
   }
-  ```
+```
 
   > You can make different configurations for each method or endpoint for your service and add QoS configurations based on your business requirements. You can check [ocelot documentation](https://ocelot.readthedocs.io/en/latest/) for more.
 
-The above 2 steps are explained for **InternalGateway**, you need to repeat these steps for **WebGateway** and **PublicWebGateway**.
+
+
+The 2 steps above are explained for **InternalGateway**, you need to repeat these steps for **WebGateway** and **PublicWebGateway**.
 
 
 
@@ -170,20 +175,19 @@ Since **OrderService** is using its own database, you should add it to the `DbMi
 
    Add **Acme.BookStore.OrderService.Application.Contracts** and **Acme.BookStore.OrderService.EntityFrameworkCore** project references to the **DbMigrator** project. And add the below `DependsOn` types to the **DbMigratorModule** as below:
 
-   * **Add csproj references:**
+* **Add csproj references:**
 
-   ```json
-   <ProjectReference Include="..\..\services\order\src\Acme.BookStore.OrderService.Application.Contracts\Acme.BookStore.OrderService.Application.Contracts.csproj"/>
+```json
+<ProjectReference Include="..\..\services\order\src\Acme.BookStore.OrderService.Application.Contracts\Acme.BookStore.OrderService.Application.Contracts.csproj"/>
    
-   <ProjectReference Include="..\..\services\order\src\Acme.BookStore.OrderService.EntityFrameworkCore\Acme.BookStore.OrderService.EntityFrameworkCore.csproj"/>
-   ```
-   
+<ProjectReference Include="..\..\services\order\src\Acme.BookStore.OrderService.EntityFrameworkCore\Acme.BookStore.OrderService.EntityFrameworkCore.csproj"/>
+```
+
 * **Add DependsOn attributes**
-   
-     ```csharp
-     typeof(OrderServiceApplicationContractsModule),
-     typeof(OrderServiceEntityFrameworkCoreModule)
-     ```
+```csharp
+typeof(OrderServiceApplicationContractsModule),
+typeof(OrderServiceEntityFrameworkCoreModule)
+```
 
 
    ![dbmigrator-service-modules-added-orderservice](../../images/dbmigrator-service-modules-added-orderservice.png)
@@ -194,9 +198,9 @@ Since **OrderService** is using its own database, you should add it to the `DbMi
 
    **DbMigratorHostedService** runs the [MigrateAsync()]() method which eventually runs the **MigrateAllDatabasesAsync** method. Add the new database migration with the others: 
 
-   ```csharp
-   await MigrateDatabaseAsync<OrderServiceDbContext>(cancellationToken);
-   ```
+```csharp
+await MigrateDatabaseAsync<OrderServiceDbContext>(cancellationToken);
+```
 
    ![migrate-all-after-orderservice](../../images/migrate-all-after-orderservice.png)
 
@@ -206,10 +210,10 @@ Since **OrderService** is using its own database, you should add it to the `DbMi
 
    DbMigrator gets connection string from configuration (`appsettings.json`). Each service has its own connection string. Add the OrderService connection string to the `appsettings.json` of the DbMigrator project. This name is defined in `OrderServiceDbProperties.ConnectionStringName`.
    
-   ````json
-   "OrderService": "Server=localhost,1434;Database=BookStore_OrderService;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true"
-   ````
-   
+````json
+"OrderService": "Server=localhost,1434;Database=BookStore_OrderService;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true"
+````
+
    ![Add connection string to DbMigrator](../../images/add-microservice-appsettings-conn-string.png)
 
 
@@ -226,46 +230,46 @@ Develop your application UI like any ABP application template; add your pages un
 
 Add **HttpApi.Client** and **Web** (or **Blazor**) projects as references to Web project and add new dependencies to **WebModule** as below:
 
-* **Add csproj references (Acme.BookStore.Web.csproj /Acme.BookStore.Blazor.csproj)**
-  
-  * **MVC:** If your microservice project is MVC add the references to the `Acme.BookStore.Web.csproj`: 
-  
-    ```json
-    <ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.HttpApi.Client\Acme.BookStore.OrderService.HttpApi.Client.csproj" />
+* **Add csproj references**:
+
+**MVC:** If your microservice project is MVC add the references to the `Acme.BookStore.Web.csproj`, if it's Blazor add the references to the `Acme.BookStore.Blazor.csproj`.
+
+```json
+<ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.HttpApi.Client\Acme.BookStore.OrderService.HttpApi.Client.csproj" />
     
-    <ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.Web\Acme.BookStore.OrderService.Web.csproj" />
-    ```
-  
-    
-  
-  * **Blazor**: If your project is Blazor then add the references to the `Acme.BookStore.Blazor.csproj`
-  
-    ```json
-    <ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.HttpApi.Client\Acme.BookStore.OrderService.HttpApi.Client.csproj" />
+<ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.Web\Acme.BookStore.OrderService.Web.csproj" />
+```
+
+ **Blazor**: If your project is Blazor then add the references to the `Acme.BookStore.Blazor.csproj`
+
+```json
+<ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.HttpApi.Client\Acme.BookStore.OrderService.HttpApi.Client.csproj" />
       
-    <ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.Blazor\Acme.BookStore.OrderService.Blazor.csproj" />
-    ```
-  
-    
+<ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.Blazor\Acme.BookStore.OrderService.Blazor.csproj" />
+```
+
+​    
 
 
-* **Add DependsOn attributes**
+* **Add DependsOn attributes**:
 
-	* **MVC**:
-  
-    ```csharp
-    typeof(OrderServiceWebModule),
-    typeof(OrderServiceHttpApiClientModule)
-    ```
-  
-  * **Blazor**:
-  
-    ```csharp
-    typeof(OrderServiceBlazorModule),
-    typeof(OrderServiceHttpApiClientModule)
-    ```
+**MVC**:
+
+```csharp
+typeof(OrderServiceWebModule),
+typeof(OrderServiceHttpApiClientModule)
+```
+
+**Blazor**:
+
+```csharp
+typeof(OrderServiceBlazorModule),
+typeof(OrderServiceHttpApiClientModule)
+```
 
 > ProductService.Web module is designed this way. You can examine ProductService.Web project for the sample implementation.
+
+
 
 This approach can benefit you to have backend and frontend integrity in your microservice as a whole, as you can develop the backend and frontend of your microservice in the same microservice solution.
 
@@ -281,13 +285,13 @@ Develop your application UI inside the application; add your pages under applica
 
 Add **HttpApi.Client** reference to **PublicWeb** project and add new dependency to **PublicWebModule** as below:
 
-* **Add csproj reference**
+* **Add csproj reference**:
 
 ```json
 <ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.HttpApi.Client\Acme.BookStore.OrderService.HttpApi.Client.csproj" />
 ```
 
-* **Add DependsOn attribute**
+* **Add DependsOn attribute:**
 
 ```csharp
 typeof(OrderServiceHttpApiClientModule)
@@ -296,6 +300,10 @@ typeof(OrderServiceHttpApiClientModule)
 
 
 > You can check out the sample project ProductService.PublicWeb module to understand this implementation.
+
+
+
+
 
 ## Updating Tye configuration:
 
@@ -312,9 +320,15 @@ If you are planning to use [Tye](https://github.com/dotnet/tye) to develop and d
     - Kestrel__Certificates__Default__Password=e8202f07-66e5-4619-be07-72ba76fde97f
 ```
 
-**Important**: The port `44371` is not same for all services. You can learn your service port from `\services\order\src\Acme.BookStore.OrderService.HttpApi.Host\Properties\launchSettings.json`
+**Important**: The port `44371` is not same for all services. You can get your service port from `\services\order\src\Acme.BookStore.OrderService.HttpApi.Host\Properties\launchSettings.json`
+
+
 
 ![Tye config](../../images/add-microservice-tye-config.png)
+
+
+
+
 
 ## Running the Solution
 
