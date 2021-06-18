@@ -267,6 +267,20 @@ typeof(OrderServiceBlazorModule),
 typeof(OrderServiceHttpApiClientModule)
 ```
 
+
+
+**Add to OpenID Connect Scopes:**
+
+You need to add the new service scope in your startup project. 
+
+**MVC**: Open **BookStoreWebModule.cs** and add the below scope in `AddAbpOpenIdConnect()` method.
+
+**Blazor**: Open **BookStoreBlazorModule.cs** and add the below scope in `AddAbpOpenIdConnect()` method.
+
+```csharp
+options.Scope.Add("OrderService");
+```
+
 > ProductService.Web module is designed this way. You can examine ProductService.Web project for the sample implementation.
 
 
