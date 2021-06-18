@@ -208,6 +208,10 @@
           "path": "modules/file-management.md"
         },
         {
+          "text": "Forms",
+          "path": "modules/forms.md"
+        },
+        {
           "text": "Identity",
           "path": "modules/identity.md",
           "items": [
@@ -226,6 +230,10 @@
           "path": "modules/language-management.md"
         },
         {
+          "text": "Payment",
+          "path": "modules/payment.md"
+        },
+        {
           "text": "SaaS",
           "path": "modules/saas.md"
         },
@@ -236,14 +244,6 @@
         {
           "text": "Twilio SMS",
           "path": "modules/twilio-sms.md"
-        },
-        {
-          "text": "Payment",
-          "path": "modules/payment.md"
-        },
-        {
-          "text": "Forms",
-          "path": "modules/forms.md"
         }
       ]
     },
