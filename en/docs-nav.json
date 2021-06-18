@@ -240,6 +240,10 @@
         {
           "text": "Payment",
           "path": "modules/payment.md"
+        },
+        {
+          "text": "Forms",
+          "path": "modules/forms.md"
         }
       ]
     },
