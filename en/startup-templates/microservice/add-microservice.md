@@ -137,7 +137,7 @@ Do the following steps for the 3 gateways:
 
 
 
-2. **Update appsettings.json for ocelot configuration:** 
+2. **Update appsettings.json for Ocelot configuration:** 
 
    You need to add new Downstream and Upstream path templates for the new service as shown below:
 
