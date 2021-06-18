@@ -183,7 +183,7 @@ Since **OrderService** is using its own database, you should add it to the `DbMi
 <ProjectReference Include="..\..\services\order\src\Acme.BookStore.OrderService.EntityFrameworkCore\Acme.BookStore.OrderService.EntityFrameworkCore.csproj"/>
 ```
 
-* **Add DependsOn attributes**
+* **Add DependsOn attributes**:
 ```csharp
 typeof(OrderServiceApplicationContractsModule),
 typeof(OrderServiceEntityFrameworkCoreModule)
@@ -226,9 +226,9 @@ You can develop UI for your application in two different ways:
 
 Develop your application UI like any ABP application template; add your pages under **OrderService.Web** project. This way, the back-office application will show the UI without hosting the microservice application just by using as a remote service. You can check [Module Architecture Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages) **Section C** for more information. 
 
-**Add your service UI to the back-office application (Web/Blazor application):**
+**Add your service UI to the back-office application:**
 
-Add **HttpApi.Client** and **Web** (or **Blazor**) projects as references to Web project and add new dependencies to **WebModule** as below:
+Add **HttpApi.Client** and **Web** (or **Blazor**) projects as references to the Web project and add new dependencies to **WebModule** as below:
 
 * **Add csproj references**:
 
