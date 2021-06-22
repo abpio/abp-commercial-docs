@@ -366,8 +366,9 @@ etc\docker\up.ps1
 tye run --watch
 ```
 
-Open your browser and navigate to your startup project:
+Open your browser and navigate to your startup URL:
 
-* **Blazor**: https://localhost:44314/
-* **MVC**: https://localhost:44321/
-* **Angular**: http://localhost:4200/
+* **Blazor Server**: ![https://localhost:44314](https://localhost:44314/)
+* **Blazor Web Assembly**: ![https://localhost:44307](https://localhost:44307/)
+* **MVC**: ![https://localhost:44321](https://localhost:44321/)
+* **Angular**: ![http://localhost:4200](http://localhost:4200/)
