@@ -2,7 +2,7 @@
 
 > Running Sql-Server infrastructural service is required since default connection strings for microservices use Sql-Server running on container.
 
-There are **two ways** to migrate databases and seed data for microservices. Either one of them or both of them can be used as long as data seeders are synched.
+There are **two ways** to migrate databases and seed data for microservices. Either one of them or both of them can be used as long as data seeders are synced.
 
 ## Auto Migration (On-the-fly Migration)
 
