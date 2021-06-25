@@ -10,15 +10,21 @@ You can create a new service (sub microservice) into your microservice solution 
 abp new OrderService -t microservice-service-pro
 ```
 
-The new service is created in the **services** folder of your solution.
+The new service is created in the **services** folder of your solution. Build the new service with the following command. Run this command in the `\services\order` directory:
+
+```bash
+dotnet build
+```
 
 ## Add the new service to the solution
 
-Add **Acme.BookStore.OrderService.HttpApi.Host.csproj** as an existing project to your main solution so that you can manage the host projects from single solution.
+Add **Acme.BookStore.OrderService.HttpApi.Host.csproj** as an existing project to your main solution under the `services` folder. This will help you manage the host projects from single solution. While you can add it by Visual Studio, you can also run the following dotnet CLI command to add the Host project.
+
+```bash
+dotnet sln add services/order/src/Acme.BookStore.OrderService.HttpApi.Host/Acme.BookStore.OrderService.HttpApi.Host.csproj --solution-folder services
+```
 
 ![Add to main solution](../../images/microservice-template-add-to-solution.png)
-
-> Do not forget to run `dotnet build` in the `\services\order` directory.
 
 You need to update other dependent projects in order to integrate your new service into your composition.  Follow the next steps to integrate your new service.
 
@@ -142,7 +148,6 @@ Add the **OrderService** scope to the Swagger UI. To do this add `{"OrderService
 
    You need to add new Downstream and Upstream path templates for the new service as shown below. 
    
-   **Important**: The port `44371` is not same for all services. You can get your service port from `\services\order\src\Acme.BookStore.OrderService.HttpApi.Host\Properties\launchSettings.json`
 
 ```json
   {
@@ -151,13 +156,17 @@ Add the **OrderService** scope to the Swagger UI. To do this add `{"OrderService
     "DownstreamHostAndPorts": [
       {
         "Host": "localhost",
-        "Port": 44371
+        "Port": 44371 ***** do not forget to replace this port with yours *****
       }
     ],
     "UpstreamPathTemplate": "/api/order-service/{everything}",
     "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
   }
 ```
+
+**Important**: The port `44371` is not same for all services. You can get your service port from `\services\order\src\Acme.BookStore.OrderService.HttpApi.Host\Properties\launchSettings.json`
+
+
 
   > You can make different configurations for each method or endpoint for your service and add QoS configurations based on your business requirements. You can check [ocelot documentation](https://ocelot.readthedocs.io/en/latest/) for more.
 
@@ -328,9 +337,9 @@ If you are planning to use [Tye](https://github.com/dotnet/tye) to develop and d
   project: services/order/src/Acme.BookStore.OrderService.HttpApi.Host/Acme.BookStore.OrderService.HttpApi.Host.csproj
   bindings:
     - protocol: https
-      port: 44371
+      port: 44371 ***** do not forget to replace this port with yours *****
   env:
-    - Kestrel__Certificates__Default__Path=../../../../dev-cert/localhost.pfx
+    - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
     - Kestrel__Certificates__Default__Password=e8202f07-66e5-4619-be07-72ba76fde97f
 ```
 
