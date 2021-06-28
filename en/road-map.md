@@ -6,20 +6,9 @@ This document provides a road map, release schedule and planned features for the
 
 ## Next Versions
 
-### v4.4
-
-* Guide / use case documents for the [microservice solution](startup-templates/microservice/index.md).
-* Subscription system & payment integration for the [SaaS module](modules/saas.md).
-* Tenant impersonation for the SaaS module.
-* Allow to set multiple connection string for each tenant, to separate a tenant's database per module/microservice.
-* Improvements on the Forms, CMS Kit and other modules.
-* We are in progress of building a completely new UI Theme. We will release the initial version with this release.
-
-**Planned release date**: End of Quarter 2, 2021.
-
 ### v5.0
 
-We planned to focus on the ABP Framework v5.0 after the 4.4 release. v5.0 will be based on .NET 6.0. The features will be more clear in the next months. See the *Backlog Items* section for potential features.
+v5.0 will be based on .NET 6.0. The features will be more clear in the next months. See the *Backlog Items* section for potential features.
 
 **Planned release date**: End of Quarter 4, 2021.
 
@@ -31,6 +20,7 @@ Here, a list of major items in the backlog we are considering to work on in the 
 
 * Integration to an open source Workflow library.
 * Account module: Authority delegation, Google authenticator integration.
+* Tenant impersonation for the SaaS module.
 * Dynamic dashboard system.
 * Real-time notification system.
 * New themes & theme styles (including public/corporate web site themes).
