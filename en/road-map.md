@@ -18,7 +18,6 @@ The *Next Versions* section above shows the main focus of the planned versions. 
 
 Here, a list of major items in the backlog we are considering to work on in the next versions.
 
-* Integration to an open source Workflow library.
 * Account module: Authority delegation, Google authenticator integration.
 * Tenant impersonation for the SaaS module.
 * Dynamic dashboard system.

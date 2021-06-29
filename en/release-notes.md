@@ -11,7 +11,6 @@ See the detailed **[blog post / announcement](https://blog.abp.io)** for the v4.
 * **Subscription** system & **payment** integration for the [SaaS module](modules/saas.md).
 * SaaS module: Allow to make a **tenant active/passive** and **limit user count**.
 * [ABP Suite](abp-suite/index.md) **code generation** for the [microservice solution](startup-templates/microservice/index.md).
-* ABP Suite code generation from **existing database tables**.
 * Allow to set **multiple connection strings** for each tenant, to separate a tenant's database per module/microservice.
 * Angular UI: **Two-factor** authentication for resource owner password flow.
 * **New localizations**: Hindi, Italian, Arabic, Finnish, French.
