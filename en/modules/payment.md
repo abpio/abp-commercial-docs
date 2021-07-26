@@ -155,6 +155,7 @@ Configure<PaymentOptions>(options =>
 
 * ```PublishableKey```: Publishable Key for Stripe account.
 * ```SecretKey```: Secret Key for Stripe account.
+* `WebhookSecret`: Used for handle webhooks. You can get if from [Stripe Dashboard](https://dashboard.stripe.com/webhooks). If you don't use subscription & recurring payment it's not necessary.
 * ```Currency```: Currency code of order (USD, EUR, etc..., see [Stripe docs](https://stripe.com/docs/currencies) for the full list). Its default value is USD.
 * ```Locale```: Language of the order. Its default value is 'auto'.
 * ```PaymentMethodTypes```:  A list of the types of payment methods (e.g., card) this Checkout session can accept. See https://stripe.com/docs/payments/checkout/payment-methods. Its default value is 'card'.
