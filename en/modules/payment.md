@@ -393,5 +393,70 @@ This module also implements recurring payments;
 
 You can start a subscription and get recurring payment fro myour customers using payment gateways supported by this module. It works different from one-time payment. Payment module works with events over webhooks of selected gateway. It creates a local payment request record like one-time payment, but it tracks that payment request in every period that customer pays and publishes events for cancels, updates and continues.
 
-### 
+![payment-module-flow](../images/payment-module-subscription-flow.png)
+
+### Enabling WebHooks
+
+Configuring Web Hooks is highly important for subscriptions otherwise your application won't be able to get subscription changes, such as canceled or updated states. Each gateway has its own configuration:
+
+#### Stripe
+
+1. Go to [WebHooks on Stripe Dashboard](https://dashboard.stripe.com/webhooks)
+2. Create a new webhook via using **Add endpoint** button.
+   - **Endpoint URL**:  `yourdomain.com/payment/stripe/webhook`
+   - **Events to send**: 
+     - `customer.subscription.created`
+     - `customer.subscription.deleted`
+     - `customer.subscription.updated`
+     - `checkout.session.completed` (optional) _If you don't set this, payment will be proceed with callback._
+
+### Configuring Plans
+
+Before starting a recurring payment, **Plan** and **GatewayPlan** must be configured properly. 
+
+1. Go your payment gateway dashboard and create product & pricing.
+2. Create a **Plan** entity in application.
+3. Go 'Manage Gateway Plans' section and create a new **GatewayPlan** for gateway and paste price or product id as `ExternalId`
+
+### Creating a Recurring Payment
+
+Creating a recurring payment almost same as creating a payment. Setting `PaymentType` property as **Recurring** and passing `PlanId` are enough to start a recurring payment request. If given Plan has multiple GatewayPlan, user will be able to choose gateway to pay.
+
+```csharp
+public class SubscriptionModel : PageModel
+{
+    private IPaymentRequestAppService PaymentRequestAppService { get; }
+
+    public SubscriptionModel(IPaymentRequestAppService paymentRequestAppService)
+    {
+        PaymentRequestAppService = paymentRequestAppService;
+    }
+
+    public virtual async Task<IActionResult> OnPost()
+    {
+        var paymentRequest = await PaymentRequestAppService.CreateAsync(
+            new PaymentRequestCreateDto()
+            {
+                Products =
+                {
+                    new PaymentRequestProductCreateDto
+                    {
+                        PaymentType = PaymentType.Subscription,
+                        Name = "Enterprise Plan,
+                        Code = "EP",
+                        Count = 1,
+                        // Place below your created PlanId.
+                        PlanId = DemoAppData.Plan_2_Id, 
+                    }
+                }
+            });
+
+        return LocalRedirectPreserveMethod("/Payment/GatewaySelection?paymentRequestId=" + paymentRequest.Id);
+    }
+}
+```
+
+> To track that subscription is continuing or canceled, you should keep the SubscriptionId, all events contain it. 
+
+
 
