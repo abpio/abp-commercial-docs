@@ -391,7 +391,7 @@ This module also implements recurring payments;
 
 * Supports only [Stripe](https://stripe.com/) for now.
 
-You can start a subscription and get recurring payment fro myour customers using payment gateways supported by this module. It works different from one-time payment. Payment module works with events over webhooks of selected gateway. It creates a local payment request record like one-time payment, but it tracks that payment request in every period that customer pays and publishes events for cancels, updates and continues.
+You can start a subscription and get recurring payment from your customers using payment gateways supported by this module. It works different from one-time payment. Payment module works with events over webhooks of selected gateway. It creates a local payment request record like one-time payment, but it tracks that payment request in every period that customer pays and publishes events for cancels, updates and continues.
 
 ![payment-module-flow](../images/payment-module-subscription-flow.png)
 
