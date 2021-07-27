@@ -443,7 +443,7 @@ public class SubscriptionModel : PageModel
                     new PaymentRequestProductCreateDto
                     {
                         PaymentType = PaymentType.Subscription,
-                        Name = "Enterprise Plan,
+                        Name = "Enterprise Plan",
                         Code = "EP",
                         Count = 1,
                         // Place below your created PlanId.
