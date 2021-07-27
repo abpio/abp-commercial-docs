@@ -409,6 +409,7 @@ Configuring Web Hooks is highly important for subscriptions otherwise your appli
      - `customer.subscription.deleted`
      - `customer.subscription.updated`
      - `checkout.session.completed` (optional) _If you don't set this, payment will be proceed with callback._
+3. Stripe will create a webhook secret key. Copy that and configure it as `WebhookSecret` under [StripeOptions](#stripeoptions).
 
 ### Configuring Plans
 
@@ -416,7 +417,7 @@ Before starting a recurring payment, **Plan** and **GatewayPlan** must be config
 
 1. Go your payment gateway dashboard and create product & pricing.
 2. Create a **Plan** entity in application.
-3. Go 'Manage Gateway Plans' section and create a new **GatewayPlan** for gateway and paste price or product id as `ExternalId`
+3. Go 'Manage Gateway Plans' section and create a new **GatewayPlan** for gateway and paste price or product id as `ExternalId`.
 
 ### Creating a Recurring Payment
 
