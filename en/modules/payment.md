@@ -250,6 +250,18 @@ A payment request represents a request for a payment in the application.
   * `Gateway` : Name of payment gateway used for this payment request.
   * ```FailReason```: Reason for failed payment requests.
 
+##### Plan
+
+A plan is used for subscription payments. Contains PlanGateway list to configure each gateway.
+
+- `Plan` (aggregate root): Represents a plan for recurring payments.
+  - `PlanGateways` (collection): List of gateway plans.
+  - `Name` : An optional name of plan.
+- `GatewayPlan` (entity): Represents a gateway configuration for a plan.
+  - `PlanId`: Represents a plan belong to.
+  - `Gateway`: Represents a gateway belong to. It has to be unique.
+  - `ExternalId`: Stores a unique configuration of gateway for subscrtiption, such as priceId, planId, subscriptionId or productId etc.
+
 #### Repositories
 
 This module follows the [Repository Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Repositories) guide.
@@ -285,16 +297,55 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 * **PayPaymentRequests**
   * **AbpRoleClaims**
     * PayPaymentRequestProducts
+* **PayPlans**
+* **PayGatewayPlans**
 
 #### MongoDB
 
 ##### Collections
 
 * **PayPaymentRequests**
+* **PayPlans**
 
 ## Distributed Events
 
-This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
+- `Volo.Payment.PaymentRequestCompleted` (**PaymentRequestCompletedEto**): Published when a payment completed. 
+  - `Id`: Represents PaymentRequest entity Id.
+  - `Gateway`: Represents the gateway which payment was done with.
+  - `Currency`: Represents the currency of payment.
+  - `Products` (collection): Represents which products are included in PaymentRequest.
+
+- `Volo.Payment.SubscriptionCanceled` (**SubscriptionCanceledEto**): Published when a subscription stopped or canceled.
+
+  - `PaymentRequestId`: Represents PaymentRequest entity Id.
+  - `State`: Represents state of PaymentRequest, such as `Waiting`, `Completed` or `Failed`.
+  - `Currency`: Represents the currency of payment.
+  - `Gateway`: Represents the gateway which payment was done with.
+  - `FailReason`: Represents a fail reason which is provided by gateway.
+  - `ExternalSubscriptionId`: Represents subscription Id of Gateway.
+  - `PeriodEndDate`: Represents end date of subscription. _Subscriptions may canceled but lasts until end of last period._
+
+- `Volo.Payment.SubscriptionCreated` (**SubscriptionCreatedEto**): Published when a subscription created.
+
+  - `PaymentRequestId`: Represents PaymentRequest entity Id.
+  - `State`: Represents state of PaymentRequest, such as `Waiting`, `Completed` or `Failed`.
+  - `Currency`: Represents the currency of payment.
+  - `Gateway`: Represents the gateway which payment was done with.
+  - `ExternalSubscriptionId`: Represents subscription Id of Gateway.
+  - `PeriodEndDate`: Represents end date of subscription. _Subscriptions may canceled but lasts until end of last period._
+
+- `Volo.Payment.RecurringPaymentUpdated` (**SubscriptionUpdatedEto**): Published when a subscription updated in application or in payment gateway dashboard. If subscription updated from gateway dashboard, this event will be published right after webhook delivery.
+
+  - `PaymentRequestId`: Represents PaymentRequest entity Id.
+  - `State`: Represents state of PaymentRequest, such as `Waiting`, `Completed` or `Failed`.
+  - `Currency`: Represents the currency of payment.
+  - `Gateway`: Represents the gateway which payment was done with.
+  - `ExternalSubscriptionId`: Represents subscription Id of Gateway.
+  - `PeriodEndDate`: Represents end date of subscription. _Subscriptions may canceled but lasts until end of last period._
+
+  
+
+Couldn't find what you need? See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
 
 ## Sample Usage
 
@@ -333,3 +384,14 @@ public class IndexModel: PageModel
 ```
 
 If the payment is successful, payment module will return to configured ```PaymentWebOptions.CallbackUrl```. The main application can take necessary actions for a successful payment (Activating a user account, triggering a shipment start process etc...).
+
+## Subscriptions
+
+This module also implements recurring payments;
+
+* Supports only [Stripe](https://stripe.com/) for now.
+
+You can start a subscription and get recurring payment fro myour customers using payment gateways supported by this module. It works different from one-time payment. Payment module works with events over webhooks of selected gateway. It creates a local payment request record like one-time payment, but it tracks that payment request in every period that customer pays and publishes events for cancels, updates and continues.
+
+### 
+
