@@ -1,22 +1,10 @@
 # Payment module
 
-This module implements payment gateway integration of an application;
+Payment module implements payment gateway integration of an application. It provides one time payment and recurring payment options. 
 
 * Supports [Stripe](https://stripe.com/), [PayPal](https://www.paypal.com/), [2Checkout](https://www.2checkout.com/), [PayU](https://corporate.payu.com/) and [Iyzico](https://www.iyzico.com/en) payment gateways.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Payment) for an overview of the module features.
-
-You can get payment from your customers using one or more payment gateways supported by the payment module. Payment module works in a very simple way. It creates a local payment request record and redirects customer to payment gateway (PayPal, Stripe etc...) for the payment. When the customer pays on the payment gateway, payment module handles the external payment gateway's response and validates the payment to see if it is really paid or not. If the payment is validated, payment module redirects customer to mail application who initiated the payment process at the beginning.
-
-Image below demonstrates the flow of a payment process;
-
-![payment-module-flow](../images/payment-module-flow.png)
-
-Each payment gateway implementation contains PrePayment and PostPayment pages. 
-
-PrePayment page asks users for extra information if requested by the external payment gateway. For example, 2Checkout doesn't require any extra information, so PrePayment page for 2Checkout redirects user to 2Checkout without asking any extra information. 
-
-PostPayment page is responsible for validation the response of the external payment gateway. When a user completes the payment, user is redirected to PostPayment page for that payment gateway and PostPayment page validates the status of the payment. If the payment is succeeded, status of the payment request is updated and user is redirected to main application.
 
 ## How to install
 
@@ -155,6 +143,7 @@ Configure<PaymentOptions>(options =>
 
 * ```PublishableKey```: Publishable Key for Stripe account.
 * ```SecretKey```: Secret Key for Stripe account.
+* `WebhookSecret`: Used for handling webhooks. You can get if from [Stripe Dashboard](https://dashboard.stripe.com/webhooks). If you don't use subscription & recurring payment it's not necessary.
 * ```Currency```: Currency code of order (USD, EUR, etc..., see [Stripe docs](https://stripe.com/docs/currencies) for the full list). Its default value is USD.
 * ```Locale```: Language of the order. Its default value is 'auto'.
 * ```PaymentMethodTypes```:  A list of the types of payment methods (e.g., card) this Checkout session can accept. See https://stripe.com/docs/payments/checkout/payment-methods. Its default value is 'card'.
@@ -249,6 +238,18 @@ A payment request represents a request for a payment in the application.
   * `Gateway` : Name of payment gateway used for this payment request.
   * ```FailReason```: Reason for failed payment requests.
 
+##### Plan
+
+A plan is used for subscription payments. Contains PlanGateway list to configure each gateway.
+
+- `Plan` (aggregate root): Represents a plan for recurring payments.
+  - `PlanGateways` (collection): List of gateway plans.
+  - `Name` : An optional name of plan.
+- `GatewayPlan` (entity): Represents a gateway configuration for a plan.
+  - `PlanId`: Represents a plan belong to.
+  - `Gateway`: Represents a gateway belong to. It has to be unique.
+  - `ExternalId`: Stores a unique configuration of gateway for subscrtiption, such as priceId, planId, subscriptionId or productId etc.
+
 #### Repositories
 
 This module follows the [Repository Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Repositories) guide.
@@ -284,18 +285,78 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 * **PayPaymentRequests**
   * **AbpRoleClaims**
     * PayPaymentRequestProducts
+* **PayPlans**
+* **PayGatewayPlans**
 
 #### MongoDB
 
 ##### Collections
 
 * **PayPaymentRequests**
+* **PayPlans**
 
 ## Distributed Events
 
-This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
+- `Volo.Payment.PaymentRequestCompleted` (**PaymentRequestCompletedEto**): Published when a payment is completed. 
+  
+  - `Id`: Represents PaymentRequest entity Id.
+  - `Gateway`: Represents the gateway which payment was done with.
+  - `Currency`: Represents the currency of payment.
+  - `Products` (collection): Represents which products are included in PaymentRequest.
+  
+- `Volo.Payment.SubscriptionCanceled` (**SubscriptionCanceledEto**): Published when a subscription is stopped or canceled.
 
-## Sample Usage
+  - `PaymentRequestId`: Represents PaymentRequest entity Id.
+  - `State`: Represents state of PaymentRequest, such as `Waiting`, `Completed` or `Failed`.
+  - `Currency`: Represents the currency of payment.
+  - `Gateway`: Represents the gateway which payment was done with.
+  - `FailReason`: Represents a fail reason which is provided by gateway.
+  - `ExternalSubscriptionId`: Represents subscription Id of Gateway.
+  - `PeriodEndDate`: Represents end date of subscription. _Subscriptions may canceled but lasts until end of last period._
+
+- `Volo.Payment.SubscriptionCreated` (**SubscriptionCreatedEto**): Published when a subscription is created.
+
+  - `PaymentRequestId`: Represents PaymentRequest entity Id.
+  - `State`: Represents state of PaymentRequest, such as `Waiting`, `Completed` or `Failed`.
+  - `Currency`: Represents the currency of payment.
+  - `Gateway`: Represents the gateway which payment was done with.
+  - `ExternalSubscriptionId`: Represents subscription Id of Gateway.
+  - `PeriodEndDate`: Represents end date of subscription. _Subscriptions may canceled but lasts until end of last period._
+
+- `Volo.Payment.RecurringPaymentUpdated` (**SubscriptionUpdatedEto**): Published when a subscription is updated in application or in payment gateway dashboard. If subscription is updated from gateway dashboard, this event will be published right after webhook delivery.
+
+  - `PaymentRequestId`: Represents PaymentRequest entity Id.
+  - `State`: Represents state of PaymentRequest, such as `Waiting`, `Completed` or `Failed`.
+  - `Currency`: Represents the currency of payment.
+  - `Gateway`: Represents the gateway which payment was done with.
+  - `ExternalSubscriptionId`: Represents subscription Id of Gateway.
+  - `PeriodEndDate`: Represents end date of subscription. _Subscriptions may canceled but lasts until end of last period._
+
+  
+
+Couldn't find what you need? See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
+
+## One-Time Payments
+
+This module implements one-time payments;
+
+* Supports [Stripe](https://stripe.com/), [PayPal](https://www.paypal.com/), [2Checkout](https://www.2checkout.com/), [PayU](https://corporate.payu.com/) and [Iyzico](https://www.iyzico.com/en) payment gateways.
+
+You can get one-time payments from your customers using one or more payment gateways supported by the payment module. Payment module works in a very simple way for one-time payments. It creates a local payment request record and redirects customer to payment gateway (PayPal, Stripe etc...) for processing the payment. When the customer pays on the payment gateway, payment module handles the external payment gateway's response and validates the payment to see if it is really paid or not. If the payment is validated, payment module redirects customer to main application which initiated the payment process at the beginning.
+
+Image below demonstrates the flow of a payment process;
+
+![payment-module-flow](../images/payment-module-flow.png)
+
+Each payment gateway implementation contains PrePayment and PostPayment pages. 
+
+PrePayment page asks users for extra information if requested by the external payment gateway. For example, 2Checkout doesn't require any extra information, so PrePayment page for 2Checkout redirects user to 2Checkout without asking any extra information. 
+
+PostPayment page is responsible for validation of the response of the external payment gateway. When a user completes the payment, user is redirected to PostPayment page for that payment gateway and PostPayment page validates the status of the payment. If the payment is succeeded, status of the payment request is updated and user is redirected to main application.
+
+Note: It is main application's responsibility to handle if a payment request is used more than one time. For example if PostPayment page generates a URL like https://mywebsite.com/PaymentSucceed?PaymentRequestId={PaymentRequestId}, this URL can be visited more than onec manually by end users. If you already delivered your product for a given PaymentRequestId, you shouldn't deliver it when this URL is visited second time.
+
+### Creating One-Time Payment
 
 In order to initiate a payment process, inject ```IPaymentRequestAppService```, create a payment request using it's ```CreateAsync``` method and redirect user to gateway selection page with the created payment request's Id. Here is a sample Razor Page code which starts a payment process on it's OnPost method.
 
@@ -332,3 +393,77 @@ public class IndexModel: PageModel
 ```
 
 If the payment is successful, payment module will return to configured ```PaymentWebOptions.CallbackUrl```. The main application can take necessary actions for a successful payment (Activating a user account, triggering a shipment start process etc...).
+
+## Subscriptions
+
+This module also implements recurring payments;
+
+* Supports only [Stripe](https://stripe.com/) for now.
+
+You can start a subscription and get recurring payment from your customers using payment gateways supported by this module. It works different from one-time payment. Payment module works with events over webhooks of selected gateway. It creates a local payment request record like one-time payment, but it tracks that payment request in every period that customer pays and publishes events for cancels, updates and continues.
+
+![payment-module-flow](../images/payment-module-subscription-flow.png)
+
+### Enabling WebHooks
+
+Configuring Web Hooks is highly important for subscriptions otherwise your application won't be able to get subscription changes, such as canceled or updated states. Each gateway has its own configuration:
+
+#### Stripe
+
+1. Go to [WebHooks on Stripe Dashboard](https://dashboard.stripe.com/webhooks)
+2. Create a new webhook via using **Add endpoint** button.
+   - **Endpoint URL**:  `yourdomain.com/payment/stripe/webhook`
+   - **Events to send**: 
+     - `customer.subscription.created`
+     - `customer.subscription.deleted`
+     - `customer.subscription.updated`
+     - `checkout.session.completed` (optional) _If you don't set this, payment will be proceed with callback._
+3. Stripe will create a webhook secret key. Copy that and configure it as `WebhookSecret` under [StripeOptions](#stripeoptions).
+
+### Configuring Plans
+
+Before starting a recurring payment, **Plan** and **GatewayPlan** must be configured properly. 
+
+1. Go to your payment gateway (Stripe) dashboard and create product & pricing.
+2. Create a **Plan** entity in your application.
+3. Go to 'Manage Gateway Plans' section and create a new **GatewayPlan** for gateway and paste price or product id as `ExternalId`.
+
+### Creating a Recurring Payment
+
+Creating a recurring payment almost same as creating a payment. Setting `PaymentType` property as **Recurring** and passing `PlanId` are enough to start a recurring payment request. If given Plan has multiple GatewayPlan, user will be able to choose gateway to pay.
+
+```csharp
+public class SubscriptionModel : PageModel
+{
+    private IPaymentRequestAppService PaymentRequestAppService { get; }
+
+    public SubscriptionModel(IPaymentRequestAppService paymentRequestAppService)
+    {
+        PaymentRequestAppService = paymentRequestAppService;
+    }
+
+    public virtual async Task<IActionResult> OnPost()
+    {
+        var paymentRequest = await PaymentRequestAppService.CreateAsync(
+            new PaymentRequestCreateDto()
+            {
+                Products =
+                {
+                    new PaymentRequestProductCreateDto
+                    {
+                        PaymentType = PaymentType.Subscription,
+                        Name = "Enterprise Plan",
+                        Code = "EP",
+                        Count = 1,
+                        // Place below your created PlanId.
+                        PlanId = DemoAppData.Plan_2_Id, 
+                    }
+                }
+            });
+
+        return LocalRedirectPreserveMethod("/Payment/GatewaySelection?paymentRequestId=" + paymentRequest.Id);
+    }
+}
+```
+
+> To track that subscription is continuing or canceled, you should keep the SubscriptionId, all events contain it. 
