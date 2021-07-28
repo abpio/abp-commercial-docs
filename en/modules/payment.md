@@ -304,7 +304,7 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
   - `Currency`: Represents the currency of payment.
   - `Products` (collection): Represents which products are included in PaymentRequest.
   
-- `Volo.Payment.SubscriptionCanceled` (**SubscriptionCanceledEto**): Published when a subscription stopped or canceled.
+- `Volo.Payment.SubscriptionCanceled` (**SubscriptionCanceledEto**): Published when a subscription is stopped or canceled.
 
   - `PaymentRequestId`: Represents PaymentRequest entity Id.
   - `State`: Represents state of PaymentRequest, such as `Waiting`, `Completed` or `Failed`.
@@ -314,7 +314,7 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
   - `ExternalSubscriptionId`: Represents subscription Id of Gateway.
   - `PeriodEndDate`: Represents end date of subscription. _Subscriptions may canceled but lasts until end of last period._
 
-- `Volo.Payment.SubscriptionCreated` (**SubscriptionCreatedEto**): Published when a subscription created.
+- `Volo.Payment.SubscriptionCreated` (**SubscriptionCreatedEto**): Published when a subscription is created.
 
   - `PaymentRequestId`: Represents PaymentRequest entity Id.
   - `State`: Represents state of PaymentRequest, such as `Waiting`, `Completed` or `Failed`.
@@ -323,7 +323,7 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
   - `ExternalSubscriptionId`: Represents subscription Id of Gateway.
   - `PeriodEndDate`: Represents end date of subscription. _Subscriptions may canceled but lasts until end of last period._
 
-- `Volo.Payment.RecurringPaymentUpdated` (**SubscriptionUpdatedEto**): Published when a subscription updated in application or in payment gateway dashboard. If subscription updated from gateway dashboard, this event will be published right after webhook delivery.
+- `Volo.Payment.RecurringPaymentUpdated` (**SubscriptionUpdatedEto**): Published when a subscription is updated in application or in payment gateway dashboard. If subscription is updated from gateway dashboard, this event will be published right after webhook delivery.
 
   - `PaymentRequestId`: Represents PaymentRequest entity Id.
   - `State`: Represents state of PaymentRequest, such as `Waiting`, `Completed` or `Failed`.
@@ -424,7 +424,7 @@ Configuring Web Hooks is highly important for subscriptions otherwise your appli
 
 Before starting a recurring payment, **Plan** and **GatewayPlan** must be configured properly. 
 
-1. Go your payment gateway (Stripe) dashboard and create product & pricing.
+1. Go to your payment gateway (Stripe) dashboard and create product & pricing.
 2. Create a **Plan** entity in your application.
 3. Go to 'Manage Gateway Plans' section and create a new **GatewayPlan** for gateway and paste price or product id as `ExternalId`.
 
