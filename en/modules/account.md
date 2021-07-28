@@ -148,16 +148,18 @@ See the `AccountPermissions` class members for all permissions defined for this 
 
 #### Installation
 
-In order to configure the application to use the `AccountModule`, you first need to import `AccountConfigModule` from `@volo/abp.ng.account/config` to root module. `AccountConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+In order to configure the application to use the `AccountPublicModule` and the `AccountAdminModule`, you first need to import `AccountPublicConfigModule` from `@volo/abp.ng.account/public/config` and `AccountAdminConfigModule` from `@volo/abp.ng.account/adming/config` to root module. Config modules has a static `forRoot` method which you should call for a proper configuration.
 
 ```js
 // app.module.ts
-import { AccountConfigModule } from '@volo/abp.ng.account/config';
+import { AccountAdminConfigModule } from '@volo/abp.ng.account/admin/config';
+import { AccountPublicConfigModule } from '@volo/abp.ng.account/public/config';
 
 @NgModule({
   imports: [
     // other imports
-    AccountConfigModule.forRoot(),
+    AccountPublicConfigModule.forRoot(),
+    AccountAdminConfigModule.forRoot(),
     // other imports
   ],
   // ...
@@ -165,7 +167,7 @@ import { AccountConfigModule } from '@volo/abp.ng.account/config';
 export class AppModule {}
 ```
 
-The `AccountModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.account`.
+The `AccountPublicModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.account/public`.
 
 ```js
 // app-routing.module.ts
@@ -174,7 +176,7 @@ const routes: Routes = [
   {
     path: 'account',
     loadChildren: () =>
-      import('@volo/abp.ng.account').then(m => m.AccountModule.forLazy(/* options here */)),
+      import('@volo/abp.ng.account/public').then(m => m.AccountPublicModule.forLazy(/* options here */)),
   },
 ];
 
@@ -182,24 +184,35 @@ const routes: Routes = [
 export class AppRoutingModule {}
 ```
 
-> If you have generated your project via the startup template, you do not have to do anything, because it already has both `AccountConfigModule` and `AccountModule`.
+> If you have generated your project via the startup template, you do not have to do anything, because it already has the modules.
 
 <h4 id="h-account-module-options">Options</h4>
 
 You can modify the look and behavior of the module pages by passing the following options to `AccountModule.forLazy` static method:
 
-- **redirectUrl:** Default redirect URL after logging in.
+- **redirectUrl**: Default redirect URL after logging in.
+- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Entity-Action-Extensions) for details.
+- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Page-Toolbar-Extensions) for details.
+- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Data-Table-Column-Extensions) for details.
 
-#### Services
+#### Services / Models
 
-The `@volo/abp.ng.account` package exports the following services which cover HTTP requests to counterpart APIs:
+Account module services and models are generated via `generate-proxy` command of the [ABP CLI](https://docs.abp.io/en/abp/latest/CLI). If you need the module's proxies, you can run the following commands in the Angular project directory.
 
-- **AccountService:** Covers several methods that performing HTTP calls for `Login`, `Register`, `Change Password`, `Forgot Password`, and `Manage Profile` pages.
+The command below generates `AccountPublicModule` proxies:
 
+```bash
+abp generate-proxy --module account
+```
 
-#### AccountModule Replaceable Components
+The command below generates `AccountPublicModule` proxies:
+```bash
+abp generate-proxy --module accountAdmin
+```
 
-`eAccountComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.account`.
+#### Replaceable Components
+
+`eAccountComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.account/public`.
 
 Please check [Component Replacement document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement) for details.
 
