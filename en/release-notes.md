@@ -2,6 +2,20 @@
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
 
+## 4.4 (2021-06-29)
+
+> **This version is currently in preview. The planned release date is July 13, 2021.**
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Platform-4-4-RC-Has-Been-Released)** for the v4.4.
+
+* **Subscription** system & **payment** integration for the [SaaS module](modules/saas.md).
+* SaaS module: Allow to make a **tenant active/passive** and **limit user count**.
+* [ABP Suite](abp-suite/index.md) **code generation** for the [microservice solution](startup-templates/microservice/index.md).
+* Allow to set **multiple connection strings** for each tenant, to separate a tenant's database per module/microservice.
+* Angular UI: **Two-factor** authentication for resource owner password flow.
+* **New localizations**: Hindi, Italian, Arabic, Finnish, French.
+* A lot of small improvements and fixes for the current modules, themes and the tooling.
+
 ## 4.3 (2021-04-23)
 
 See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-v4-3-Has-Been-Released)** for the v4.3.
@@ -157,3 +171,7 @@ See the detailed **blog post / announcement** for the v2.7 release:  https://blo
 * ABP Suite: Make **menu item active** on navigation menu when selected.
 * ABP Suite: Improve **enum usage** while creating new entities.
 * Bug fixes in the [Lepton Theme](https://commercial.abp.io/themes), [ABP Suite](https://commercial.abp.io/tools/suite) and  other modules.
+
+## See Also
+
+* [Road map](road-map.md)

@@ -65,18 +65,6 @@ This is the integration project for the `EF Core`. It defines the `DbContext` an
 
 > This project is available only if you are using EF Core as the database provider. If you select another database provider, its name will be different.
 
-### *.EntityFrameworkCore.DbMigrations project
-
-Contains EF Core database migrations for the solution. It has a separated `DbContext` dedicated to manage migrations.
-
-ABP is a modular framework and with an ideal design. Each module has its own `DbContext` class. This is where the migration `DbContext` comes in and unifies all `DbContext` configurations into a single model to maintain a single database schema. For advanced scenarios, you can have multiple databases (each contains a single or a few module tables) and multiple migration `DbContexts`  (each maintains a different database schema).
-
-Notice that the migration `DbContext` is only used for database migrations and *not used on runtime*.
-
-* Depends on the `*.EntityFrameworkCore` project since it re-uses the configuration defined for the `DbContext` of the application.
-
-> This project is available only if you are using `EF Core` as the database provider.
-
 ### *.DbMigrator project
 
 This is a console application which simplifies to execute database migrations on development and production environments. When you run this application, it;
@@ -93,7 +81,7 @@ While creating database and applying migrations seem only necessary for relation
 
 **Dependencies:**
 
-* Depends on the `*.EntityFrameworkCore.DbMigrations` project (for EF Core) since it needs to access to the migrations.
+* Depends on the `*.EntityFrameworkCore` project (for EF Core) since it needs to access to the migrations.
 * Depends on the `*.Application.Contracts` project to be able to access permission definitions, because initial data seeder grants all permissions for the admin role by default.
 
 ### *.HttpApi project
@@ -128,7 +116,7 @@ This project has a `appsettings.json` file which contains the connection string 
 
 * Depends on the `*.HttpApi` since the UI layer needs to use APIs and application service interfaces of the solution.
 
-> If you check the source code of the `*.Web.csproj` file, you will see the references to the `*.Application` and the `*.EntityFrameworkCore.DbMigrations` projects. These references are actually not needed while coding your UI layer, because UI layer doesn't depend on the `EF Core` or the Application layer's implementation. This startup template is pre-configured for the tiered deployment, where API layer is hosted in a separate server apart from the UI layer.
+> If you check the source code of the `*.Web.csproj` file, you will see the references to the `*.Application` and the `*.EntityFrameworkCore` projects. These references are actually not needed while coding your UI layer, because UI layer doesn't depend on the `EF Core` or the Application layer's implementation. This startup template is pre-configured for the tiered deployment, where API layer is hosted in a separate server apart from the UI layer.
 >
 > However, if you don't choose the `--tiered` option when you create a solution, these references will be in the `*.Web` project to be able to host the Web, API and application layers in a single application endpoint. This gives you the ability to use the domain entities & repositories in your presentation layer. However, this is considered as a bad practice according to the DDD rules.
 >
