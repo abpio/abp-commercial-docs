@@ -230,11 +230,13 @@ const routes: Routes = [
 export class AppRoutingModule {}
 ```
 
-#### Services
+#### Services / Models
 
-The `@volo/abp.ng.chat` package exports the following services which cover HTTP requests to counterpart APIs:
+Chat module services and models are generated via `generate-proxy` command of the [ABP CLI](https://docs.abp.io/en/abp/latest/CLI). If you need the module's proxies, you can run the following command in the Angular project directory:
 
-**ConversationService** and **ContactService:** covers several methods that performing HTTP calls for `Chat` page.
+```bash
+abp generate-proxy --module chat
+```
 
 #### Remote Endpoint URL
 

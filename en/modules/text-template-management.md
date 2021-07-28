@@ -192,20 +192,22 @@ export class AppRoutingModule {}
 
 You can modify the look and behavior of the module pages by passing the following options to `TextTemplateManagementModule.forLazy` static method:
 
-- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/entity-action-extensions) for details.
-- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/page-toolbar-extensions) for details.
-- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/commercial/latest/ui/angular/data-table-column-extensions) for details.
+- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Entity-Action-Extensions) for details.
+- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Page-Toolbar-Extensions) for details.
+- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Data-Table-Column-Extensions) for details.
 
 
-#### Services
+#### Services / Models
 
-The `@volo/abp.ng.text-template-management` package exports the following services which cover HTTP requests to counterpart APIs:
+Text Template Management module services and models are generated via `generate-proxy` command of the [ABP CLI](https://docs.abp.io/en/abp/latest/CLI). If you need the module's proxies, you can run the following command in the Angular project directory:
 
-- **TemplateDefinitionService:** Covers several methods that performing HTTP calls for `Text templates` page.
-- **TemplateContentService:** Covers several methods that performing HTTP calls for `Create update template content` page.
+```bash
+abp generate-proxy --module textTemplateManagement
+```
 
 
-#### TextTemplateManagementModule Replaceable Components
+
+#### Replaceable Components
 
 `eTextTemplateManagementComponents` enum provides all replaceable component keys. It is available for import from `@volo/abp.ng.text-template-management`.
 
