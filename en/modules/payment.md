@@ -1,22 +1,10 @@
 # Payment module
 
-This module implements payment gateway integration of an application;
+Payment module implements payment gateway integration of an application. It provides one time payment and recurring payment options. 
 
 * Supports [Stripe](https://stripe.com/), [PayPal](https://www.paypal.com/), [2Checkout](https://www.2checkout.com/), [PayU](https://corporate.payu.com/) and [Iyzico](https://www.iyzico.com/en) payment gateways.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Payment) for an overview of the module features.
-
-You can get payment from your customers using one or more payment gateways supported by the payment module. Payment module works in a very simple way. It creates a local payment request record and redirects customer to payment gateway (PayPal, Stripe etc...) for the payment. When the customer pays on the payment gateway, payment module handles the external payment gateway's response and validates the payment to see if it is really paid or not. If the payment is validated, payment module redirects customer to mail application who initiated the payment process at the beginning.
-
-Image below demonstrates the flow of a payment process;
-
-![payment-module-flow](../images/payment-module-flow.png)
-
-Each payment gateway implementation contains PrePayment and PostPayment pages. 
-
-PrePayment page asks users for extra information if requested by the external payment gateway. For example, 2Checkout doesn't require any extra information, so PrePayment page for 2Checkout redirects user to 2Checkout without asking any extra information. 
-
-PostPayment page is responsible for validation the response of the external payment gateway. When a user completes the payment, user is redirected to PostPayment page for that payment gateway and PostPayment page validates the status of the payment. If the payment is succeeded, status of the payment request is updated and user is redirected to main application.
 
 ## How to install
 
@@ -155,7 +143,7 @@ Configure<PaymentOptions>(options =>
 
 * ```PublishableKey```: Publishable Key for Stripe account.
 * ```SecretKey```: Secret Key for Stripe account.
-* `WebhookSecret`: Used for handle webhooks. You can get if from [Stripe Dashboard](https://dashboard.stripe.com/webhooks). If you don't use subscription & recurring payment it's not necessary.
+* `WebhookSecret`: Used for handling webhooks. You can get if from [Stripe Dashboard](https://dashboard.stripe.com/webhooks). If you don't use subscription & recurring payment it's not necessary.
 * ```Currency```: Currency code of order (USD, EUR, etc..., see [Stripe docs](https://stripe.com/docs/currencies) for the full list). Its default value is USD.
 * ```Locale```: Language of the order. Its default value is 'auto'.
 * ```PaymentMethodTypes```:  A list of the types of payment methods (e.g., card) this Checkout session can accept. See https://stripe.com/docs/payments/checkout/payment-methods. Its default value is 'card'.
@@ -309,12 +297,13 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 
 ## Distributed Events
 
-- `Volo.Payment.PaymentRequestCompleted` (**PaymentRequestCompletedEto**): Published when a payment completed. 
+- `Volo.Payment.PaymentRequestCompleted` (**PaymentRequestCompletedEto**): Published when a payment is completed. 
+  
   - `Id`: Represents PaymentRequest entity Id.
   - `Gateway`: Represents the gateway which payment was done with.
   - `Currency`: Represents the currency of payment.
   - `Products` (collection): Represents which products are included in PaymentRequest.
-
+  
 - `Volo.Payment.SubscriptionCanceled` (**SubscriptionCanceledEto**): Published when a subscription stopped or canceled.
 
   - `PaymentRequestId`: Represents PaymentRequest entity Id.
@@ -347,7 +336,27 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 
 Couldn't find what you need? See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
 
-## Sample Usage
+## One-Time Payments
+
+This module implements one-time payments;
+
+* Supports [Stripe](https://stripe.com/), [PayPal](https://www.paypal.com/), [2Checkout](https://www.2checkout.com/), [PayU](https://corporate.payu.com/) and [Iyzico](https://www.iyzico.com/en) payment gateways.
+
+You can get one-time payments from your customers using one or more payment gateways supported by the payment module. Payment module works in a very simple way for one-time payments. It creates a local payment request record and redirects customer to payment gateway (PayPal, Stripe etc...) for processing the payment. When the customer pays on the payment gateway, payment module handles the external payment gateway's response and validates the payment to see if it is really paid or not. If the payment is validated, payment module redirects customer to main application which initiated the payment process at the beginning.
+
+Image below demonstrates the flow of a payment process;
+
+![payment-module-flow](../images/payment-module-flow.png)
+
+Each payment gateway implementation contains PrePayment and PostPayment pages. 
+
+PrePayment page asks users for extra information if requested by the external payment gateway. For example, 2Checkout doesn't require any extra information, so PrePayment page for 2Checkout redirects user to 2Checkout without asking any extra information. 
+
+PostPayment page is responsible for validation of the response of the external payment gateway. When a user completes the payment, user is redirected to PostPayment page for that payment gateway and PostPayment page validates the status of the payment. If the payment is succeeded, status of the payment request is updated and user is redirected to main application.
+
+Note: It is main application's responsibility to handle if a payment request is used more than one time. For example if PostPayment page generates a URL like https://mywebsite.com/PaymentSucceed?PaymentRequestId={PaymentRequestId}, this URL can be visited more than onec manually by end users. If you already delivered your product for a given PaymentRequestId, you shouldn't deliver it when this URL is visited second time.
+
+### Creating One-Time Payment
 
 In order to initiate a payment process, inject ```IPaymentRequestAppService```, create a payment request using it's ```CreateAsync``` method and redirect user to gateway selection page with the created payment request's Id. Here is a sample Razor Page code which starts a payment process on it's OnPost method.
 
@@ -415,9 +424,9 @@ Configuring Web Hooks is highly important for subscriptions otherwise your appli
 
 Before starting a recurring payment, **Plan** and **GatewayPlan** must be configured properly. 
 
-1. Go your payment gateway dashboard and create product & pricing.
-2. Create a **Plan** entity in application.
-3. Go 'Manage Gateway Plans' section and create a new **GatewayPlan** for gateway and paste price or product id as `ExternalId`.
+1. Go your payment gateway (Stripe) dashboard and create product & pricing.
+2. Create a **Plan** entity in your application.
+3. Go to 'Manage Gateway Plans' section and create a new **GatewayPlan** for gateway and paste price or product id as `ExternalId`.
 
 ### Creating a Recurring Payment
 
@@ -458,6 +467,3 @@ public class SubscriptionModel : PageModel
 ```
 
 > To track that subscription is continuing or canceled, you should keep the SubscriptionId, all events contain it. 
-
-
-
