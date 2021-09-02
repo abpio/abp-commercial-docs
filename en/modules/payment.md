@@ -233,7 +233,7 @@ A payment request represents a request for a payment in the application.
 
 * `PaymentRequest` (aggregate root): Represents a payment request in the system.
   * `Products` (collection): List of products for payment request.
-  * `State` : State of payment request (can be Waiting, Completed or Failed).
+  * `State` : State of payment request (can be Waiting, Completed, Failed or Refunded).
   * `Currency` : Currency code of payment request (USD, EUR, etc...).
   * `Gateway` : Name of payment gateway used for this payment request.
   * ```FailReason```: Reason for failed payment requests.
@@ -307,7 +307,7 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 - `Volo.Payment.SubscriptionCanceled` (**SubscriptionCanceledEto**): Published when a subscription is stopped or canceled.
 
   - `PaymentRequestId`: Represents PaymentRequest entity Id.
-  - `State`: Represents state of PaymentRequest, such as `Waiting`, `Completed` or `Failed`.
+  - `State`: Represents state of PaymentRequest, such as `Waiting`, `Completed`, `Failed` or `Refunded`.
   - `Currency`: Represents the currency of payment.
   - `Gateway`: Represents the gateway which payment was done with.
   - `FailReason`: Represents a fail reason which is provided by gateway.
@@ -317,7 +317,7 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 - `Volo.Payment.SubscriptionCreated` (**SubscriptionCreatedEto**): Published when a subscription is created.
 
   - `PaymentRequestId`: Represents PaymentRequest entity Id.
-  - `State`: Represents state of PaymentRequest, such as `Waiting`, `Completed` or `Failed`.
+  - `State`: Represents state of PaymentRequest, such as `Waiting`, `Completed`, `Failed` or `Refunded`.
   - `Currency`: Represents the currency of payment.
   - `Gateway`: Represents the gateway which payment was done with.
   - `ExternalSubscriptionId`: Represents subscription Id of Gateway.
@@ -326,7 +326,7 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 - `Volo.Payment.RecurringPaymentUpdated` (**SubscriptionUpdatedEto**): Published when a subscription is updated in application or in payment gateway dashboard. If subscription is updated from gateway dashboard, this event will be published right after webhook delivery.
 
   - `PaymentRequestId`: Represents PaymentRequest entity Id.
-  - `State`: Represents state of PaymentRequest, such as `Waiting`, `Completed` or `Failed`.
+  - `State`: Represents state of PaymentRequest, such as `Waiting`, `Completed`, `Failed` or `Refunded`.
   - `Currency`: Represents the currency of payment.
   - `Gateway`: Represents the gateway which payment was done with.
   - `ExternalSubscriptionId`: Represents subscription Id of Gateway.
