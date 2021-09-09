@@ -182,5 +182,5 @@ When the database is seeded **BookStore_OrderService** database should be seeded
 
 ## Next
 
-- [Asynchronous Communication](asynchronous-inter-service communication.md)
+- [Asynchronous Communication](asynchronous-interservice-communication.md)
 

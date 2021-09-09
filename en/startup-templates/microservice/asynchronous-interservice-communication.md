@@ -14,5 +14,5 @@ TODO
 
 ## Next
 
-- [Synchronous Communication](synchronous-inter-service communication.md)
+- [Synchronous Communication](synchronous-interservice-communication.md)
 
