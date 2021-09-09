@@ -75,14 +75,14 @@ OrderService.HttpApi.Host appsettings should look like:
 
 ## Configuring Auto-Discovery Endpoint
 
-To automate requesting access token and adding it as *bearer* to request header; use **Volo.Abp.Http.Client.IdentityModel.Web** nuget package in  **OrderService.HttpApi.Host** project.
+To automate requesting access token and adding it as *bearer* to request header; use **Volo.Abp.Http.Client.IdentityModel** nuget package in  **OrderService.HttpApi.Host** project.
 
 - **Add package reference**:
 
   Open **Acme.BookStore.OrderService.HttpApi.Host.csproj** and add the following package reference
 
   ```json
-  <PackageReference Include="Volo.Abp.Http.Client.IdentityModel.Web" Version="4.4.2" />
+  <PackageReference Include="Volo.Abp.Http.Client.IdentityModel" Version="4.4.2" />
   ```
 
 - **Add DependsOn attribute**:
