@@ -101,7 +101,7 @@ Update **OrderService.HttpApi.Host** appsettings with **IdentityClients** sectio
   "IdentityClients": {
     "Default": {
       "GrantType": "client_credentials", 
-      "ClientId": "OrderService",
+      "ClientId": "BookStore_OrderService",
       "ClientSecret": "1q2w3e*",
       "Authority": "https://localhost:44322", 
       "Scope": "ProductService"
