@@ -1,16 +1,19 @@
 # Communications Between Microservices
 
-There are two basic messaging patterns for communication between microservices:
+There are two basic messaging patterns for communication between two microservices:
 
 ## Synchronous Communication
 
-A microservice calls an other microservice exposed API by using a protocol like HTTP or RPC. Caller waits for response from receiver.
+In this pattern, a service calls an API that another service exposes,  using a protocol such as HTTP or gRPC. This option is a synchronous  messaging pattern because the caller waits for a response from the  receiver.
 
 ## Asynchronous Communication
 
-A microservice sends messages without waiting for response and one or more microservices process the message. This is done by using a message broker or event bus.
+In this pattern, a service sends message without waiting for a response, and one or more services process the message asynchronously. This is done by using a message broker or event bus.
+
+Further information check out https://docs.microsoft.com/en-us/azure/architecture/microservices/design/interservice-communication
 
 ## Next
 
-- [Synchronous Communication](synched-communication.md)
+- [Synchronous Communication](synchronous-communication.md)
 - [Asynchronous Communication](asynched-communication.md)
+

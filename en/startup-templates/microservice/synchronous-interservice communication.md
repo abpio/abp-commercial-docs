@@ -1,8 +1,10 @@
 # Synchronous Communication between Microservices
 
-> This documentation introduces guidance for synchronous communication between microservices. 
+> This documentation introduces guidance for inter-service communication between two microservices using synchronous HTTP communication.
 
-Sample demonstrates how to call *ProductService* from *OrderService*. If you don't know how the OrderService is created, please refer to [Add New Microservice guide](add-microservice.md).
+The below sample demonstrates how to make a request to **ProductService** from **OrderService**. See [Add New Microservice Guide](add-microservice.md) to understand how to add a new microservice project (*OrderService*) to your solution.
+
+
 
 ## Client Credentials Flow
 
@@ -10,9 +12,11 @@ Sample demonstrates how to call *ProductService* from *OrderService*. If you don
 
 The [Client Credentials flow](https://docs.identityserver.io/en/latest/quickstarts/1_client_credentials.html) is a server to server flow and **there is no user authentication** involved in the process. Instead of user, client ID (service itself) as subject is authenticated with a predefined secret. Resulting access token contains client information instead of user information.
 
+
+
 ## Updating OrderService Application Contracts
 
-To make ProductService application services available for OrderService application layer, you need to add the project reference of **Acme.BookStore.ProductService.Application.Contracts** project and then add module dependency to **OrderServiceApplicationContractsModule**.
+In order to make ProductService application services available for OrderService application, you need to add the project reference of **ProductService.Application.Contracts** to **OrderService.Application.Contracts** and then add the module dependency attribute to the  **OrderServiceApplicationContractsModule **class. Here's the steps:
 
 * **Add csproj reference**:
 
@@ -32,13 +36,15 @@ typeof(ProductServiceApplicationContractsModule)
 
   ![Add order service module dependency into the Administration Service](../../images/orderservice-module-added-productservice.png)
 
-Now you can use Product related services in your OrderService application layer:
+Now you can call Product Application Services from the OrderService application :
 
 ![Add order service module dependency into the Administration Service](../../images/orderservice-using-product-services.png)
 
-> Remember to build OrderService.Application project with `dotnet build` command if you are having problems with finding necessary namespace.
+> Build the **OrderService.Application** project with `dotnet build` command if you are having problems with resolving the new namespaces.
 
-Since there is no implementation of *IProductAppService* and *IProductPublicAppService* exist in OrderService.Application layer, you need to configure it to make http calls for implementations. To achieve it, you need to add the project reference of **Acme.BookStore.ProductService.HttpApi.Client** project and then add module dependency to **OrderServiceApplicationModule**.
+
+
+Since there is no implementation of `IProductAppService` and `IProductPublicAppService` in **OrderService.Application**, you need to configure it to make remote HTTP calls. To achieve it, you need to add the project reference of **Acme.BookStore.ProductService.HttpApi.Client** project to **Acme.BookStore.OrderService.Application** and then add the module dependency to **OrderServiceApplicationModule**. Here's the steps:
 
 - **Add csproj reference**:
 
@@ -58,7 +64,7 @@ Since there is no implementation of *IProductAppService* and *IProductPublicAppS
 
 ![Add order service module dependency into the Administration Service](../../images/orderservice-app-module-added-product-client.png)
 
-Update **OrderService.HttpApi.Host** appsettings with **RemoteService** section to configure http calls will be made to **internal gateway** so that it can be located and redirected to product service http api end point.
+Open the **appsettings.json**  file in the **OrderService.HttpApi.Host** project and update **RemoteServices** section to route HTTP requests to the **internal gateway**. Then these requests will be redirected to the Product Service.
 
 ```json
 "RemoteServices": {
@@ -66,20 +72,22 @@ Update **OrderService.HttpApi.Host** appsettings with **RemoteService** section 
     "BaseUrl": "https://localhost:44302/",
     "UseCurrentAccessToken": "false"
   }
-},
+}
 ```
 
-OrderService.HttpApi.Host appsettings should look like:
+**appsettings.json** of **OrderService.HttpApi.Host** project should look like below:
 
 ![Add order service module dependency into the Administration Service](../../images/orderservice-httpapihost-appsettings-added-remoteservice.png)
 
+
+
 ## Configuring Auto-Discovery Endpoint
 
-To automate requesting access token and adding it as *bearer* to request header; use **Volo.Abp.Http.Client.IdentityModel** nuget package in  **OrderService.HttpApi.Host** project.
+To automate requesting access token and adding it as `bearer` to the request headers; add [Volo.Abp.Http.Client.IdentityModel](https://www.nuget.org/packages/Volo.Abp.Http.Client.IdentityModel/) NuGet package to the **OrderService.HttpApi.Host** project.
 
 - **Add package reference**:
 
-  Open **Acme.BookStore.OrderService.HttpApi.Host.csproj** and add the following package reference
+  Open **Acme.BookStore.OrderService.HttpApi.Host.csproj** and add the following line (update the version attribute according to your project!)
 
   ```json
   <PackageReference Include="Volo.Abp.Http.Client.IdentityModel" Version="4.4.2" />
@@ -95,7 +103,7 @@ To automate requesting access token and adding it as *bearer* to request header;
 
 ![Add order service module dependency into the Administration Service](../../images/orderservice-app-module-added-product-client.png)
 
-Update **OrderService.HttpApi.Host** appsettings with **IdentityClients** section to configure Client Credential access token requst with client secret to AuthServer end point
+Update **IdentityClients** section in **appsettings.json** file of the **OrderService.HttpApi.Host** to configure Client Credential access token request with client secret to the **AuthServer** end point.
 
 ```json
   "IdentityClients": {
@@ -106,16 +114,18 @@ Update **OrderService.HttpApi.Host** appsettings with **IdentityClients** sectio
       "Authority": "https://localhost:44322", 
       "Scope": "ProductService"
     }
-  },
+  }
 ```
 
-**OrderService.HttpApi.Host** appsettings should look like:
+**OrderService.HttpApi.Host** appsettings should look like below:
 
 ![Add order service module dependency into the Administration Service](../../images/orderservice-httpapihost-appsettings.png)
 
+
+
 ## IdentityServer Configuration
 
-> You can also do the same functionality explained in this step by using IdentityServer Management UI. However it is a good practice to keep `IdentityServerDataSeeder` updated. 
+> You can also do the same functionality explained in this step by using IdentityServer Management UI. However it is a good practice to keep `IdentityServerDataSeeder` up to date. 
 
 To keep `IdentityServerDataSeeder` updated, you need to do the following steps in the **IdentityServerDataSeeder.cs** class. Note that there are 2 **IdentityServerDataSeeder.cs** classes in the solution:
 
@@ -125,7 +135,7 @@ To keep `IdentityServerDataSeeder` updated, you need to do the following steps i
 
 - **Add ProductService.Application.Contracts Reference for Permissions:**
 
-  > If you will use the DbMigrator application you can skip this step since DbMigrator project already has this reference.
+  > If you will use the DbMigrator application, you can skip this step since DbMigrator project already has this reference.
 
   For `Acme.BookStore.IdentityService.HttpApi.Host\DbMigrations\IdentityServerDataSeeder.cs` add **ProductService.Application.Contracts** project reference as below:
 
@@ -152,22 +162,25 @@ To keep `IdentityServerDataSeeder` updated, you need to do the following steps i
 
   > **OrderService.HttpApi.Host** appsettings **IdentityClients** section data **must match** with the client creation data.
 
-  **ProductAppService** has permission authorization and will return unauthorized exception (`401`) when a request has been made. To overcome this issue, add the required permissions of the service you are making to.
+  
 
-  Sample has ma
+  **ProductAppService** has permission authorization and will return `401` unauthorized exception  when a request has been made. To overcome this issue, add the required permissions of the service you are making to.
 
   ![Add order service module dependency into the Administration Service](../../images/productappservice-authorization.png)
 
-Since OrderService will only use **GetList** method of the ProductAppService, we are adding `ProductServicePermissions.Products.Default` permission for this client. 
+Since OrderService will only use **GetList** method of the **ProductAppService**, we are adding `ProductServicePermissions.Products.Default` permission for this client. 
 
 Below you can see a screenshot of the final **IdentityServerDataSeeder.cs**, creating `OrderService ` client:
 
 ![IdentityServerDataSeeder changes](../../images/identityserver-orderservice-client-creation.png)
 
-When the database is seeded BookStore_OrderService should be seeded with granted permissions:
+
+
+When the database is seeded **BookStore_OrderService** database should be seeded with the granted permissions:
 
 ![IdentityServerDataSeeder changes](../../images/added-orderservice-client-db-query.png)
 
 ## Next
 
-- [Asynchronous Communication](asynched-communication.md)
+- [Asynchronous Communication](asynchronous-inter-service communication.md)
+
