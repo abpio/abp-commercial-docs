@@ -12,7 +12,7 @@ The [Client Credentials flow](https://docs.identityserver.io/en/latest/quickstar
 
 ## Updating OrderService Application Contracts
 
-In order to make ProductService application services available for OrderService application, you need to add the project reference of **ProductService.Application.Contracts** to **OrderService.Application.Contracts** and then add the module dependency attribute to the \*\*OrderServiceApplicationContractsModule \*\*class. Here are the steps:
+In order to make ProductService application services available for OrderService application, you need to add the project reference of **ProductService.Application.Contracts** to **OrderService.Application.Contracts** and then add the module dependency attribute to the **OrderServiceApplicationContractsModule** class. Here are the steps:
 
 **Add csproj reference**:
 
@@ -161,7 +161,7 @@ Below you can see a screenshot of the final **IdentityServerDataSeeder.cs**, cre
 
 ![IdentityServerDataSeeder changes](../../images/identityserver-orderservice-client-creation.png)
 
-When the database is seeded **BookStore\_OrderService** database should be seeded with the granted permissions:
+When the databases are seeded, **BookStore_Identity.IdentityServerClients** database should have a new client and **BookStore_Administration.AbpPermissionGrants** should be seeded with ProviderName **C**:
 
 ![IdentityServerDataSeeder changes](../../images/added-orderservice-client-db-query.png)
 

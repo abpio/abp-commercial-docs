@@ -16,4 +16,3 @@ Further information check out https://docs.microsoft.com/en-us/azure/architectur
 
 - [Synchronous Communication](synchronous-interservice-communication.md)
 - [Asynchronous Communication](asynchronous-interservice-communication.md)
-
