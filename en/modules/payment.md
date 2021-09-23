@@ -295,6 +295,68 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 * **PayPaymentRequests**
 * **PayPlans**
 
+## Entity Extensions
+
+[Module entity extension](https://docs.abp.io/en/abp/latest/Module-Entity-Extensions) system is a **high-level** extension system that allows you to **define new properties** for existing entities of the dependent modules. It automatically **adds properties to the entity**, **database**, **HTTP API and user interface** in a single point.
+
+To extend entities of the payment module, open your `YourProjectNameModuleExtensionConfigurator` class inside of your `DomainShared` project and change the `ConfigureExtraProperties` method like shown below.
+
+```csharp
+public static void ConfigureExtraProperties()
+{
+    OneTimeRunner.Run(() =>
+    {
+        ObjectExtensionManager.Instance.Modules()
+            .ConfigurePayment(payment =>
+            {
+                payment.ConfigurePlan(plan => // extend the Plan entity
+                {
+                    plan.AddOrUpdateProperty<string>( //property type: string
+                      "PlanDescription", //property name
+                      property => {
+                        //validation rules
+                        property.Attributes.Add(new RequiredAttribute()); //adds required attribute to the defined property
+
+                        //...other configurations for this property
+                      }
+                    );
+                });
+              
+              payment.ConfigureGatewayPlan(gatewayPlan => // extend the GatewayPlan entity
+                {
+                    gatewayPlan.AddOrUpdateProperty<string>( //property type: string
+                      "GatewayPlanDescription", //property name
+                      property => {
+                        //validation rules
+                        property.Attributes.Add(new RequiredAttribute()); //adds required attribute to the defined property
+                        property.Attributes.Add(
+                          new StringLengthAttribute(MyConsts.MaximumDescriptionLength) {
+                            MinimumLength = MyConsts.MinimumDescriptionLength
+                          }
+                        );
+
+                        //...other configurations for this property
+                      }
+                    );
+                });     
+            });
+    });
+}
+```
+
+* `ConfigurePayment(...)` method is used to configure the entities of the payment module.
+
+* `payment.ConfigurePlan(...)` is used to configure the **Plan** entity of the payment module. You can add or update your extra properties of the
+**Plan** entity. 
+
+* `payment.ConfigureGatewayPlan(...)` is used to configure the **GatewayPlan** entity of the payment module. You can add or update your extra properties of the **GatewayPlan** entity. 
+
+* You can also set some validation rules for the property that you defined. In the above sample, `RequiredAttribute` and `StringLengthAttribute` were added for the property named **"GatewayPlanDescription"**. 
+
+* When you define the new property, it will automatically add to **Entity**, **HTTP API** and **UI** for you. 
+  * Once you define a property, it appears in the create and update forms of the related entity. 
+  * New properties also appear in the datatable of the related page.
+
 ## Distributed Events
 
 - `Volo.Payment.PaymentRequestCompleted` (**PaymentRequestCompletedEto**): Published when a payment is completed. 
