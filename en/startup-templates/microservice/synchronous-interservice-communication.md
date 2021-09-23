@@ -18,7 +18,7 @@ In order to make ProductService application services available for OrderService 
 
 Open **Acme.BookStore.OrderService.Application.Contracts.csproj** and add the following project reference
 
-```json
+```xml
 <ProjectReference Include="..\..\..\product\src\Acme.BookStore.ProductService.Application.Contracts\Acme.BookStore.ProductService.Application.Contracts.csproj" />
 ```
 
@@ -44,7 +44,7 @@ Since there is no implementation of `IProductAppService` and `IProductPublicAppS
 
 Open **Acme.BookStore.OrderService.Application.csproj** and add the following project reference
 
-```json
+```xml
 <ProjectReference Include="..\..\..\product\src\Acme.BookStore.ProductService.HttpApi.Client\Acme.BookStore.ProductService.HttpApi.Client.csproj" />
 ```
 
@@ -81,7 +81,7 @@ To automate requesting access token and adding it as `bearer` to the request hea
 
 Open **Acme.BookStore.OrderService.HttpApi.Host.csproj** and add the following line (update the version attribute according to your project!)
 
-```json
+```xml
 <PackageReference Include="Volo.Abp.Http.Client.IdentityModel" Version="4.4.2" />
 ```
 
@@ -128,7 +128,7 @@ To keep `IdentityServerDataSeeder` updated, you need to do the following steps i
 
 For `Acme.BookStore.IdentityService.HttpApi.Host\DbMigrations\IdentityServerDataSeeder.cs` add **ProductService.Application.Contracts** project reference as below:
 
-```json
+```xml
 <ProjectReference Include="..\..\..\product\src\Acme.BookStore.ProductService.Application.Contracts\Acme.BookStore.ProductService.Application.Contracts.csproj" />
 ```
 
