@@ -44,7 +44,7 @@ You can run and debug the microservice solution using [dotnet/tye](https://githu
 
 ## Run the Solution on IDE
 
-The system consists of multiple applications should be running together.
+The system consists of multiple applications should be running together. Use the command `dotnet build /graphBuild` under the main solution directory to build the whole solution with dependent projects.
 
 ### Running the Authentication Server
 
