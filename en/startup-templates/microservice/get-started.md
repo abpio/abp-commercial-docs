@@ -44,7 +44,7 @@ You can run and debug the microservice solution using [dotnet/tye](https://githu
 
 ## Run the Solution on IDE
 
-The system consists of multiple applications should be running together.
+The architecture consists of multiple applications and these should be running together. There are some differences between when projects build in Visual Studio vs. when you invoke `dotnet build` directly. The `graphBuild` parameter of `dotnet build` CLI, enables the static graph build feature. You should use the command `dotnet build /graphBuild` in the root solution directory in order to build the complete solution with all dependent projects. Further information about `graphBuild` check out [Visual Studio Builds vs Msbuild](https://docs.microsoft.com/en-us/visualstudio/msbuild/build-process-overview?view=vs-2019#visual-studio-builds-vs-msbuildexe-builds)  and [Static Graph](https://github.com/dotnet/msbuild/blob/main/documentation/specs/static-graph.md).
 
 ### Running the Authentication Server
 
