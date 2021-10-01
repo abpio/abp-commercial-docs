@@ -25,7 +25,9 @@ Saas module implements via using Payment module a subscription logic to make abl
 
 ### Configuring
 
-Firstly, Payment module must be configured properly. You can follow [subscriptions](https://docs.abp.io/en/commercial/latest/modules/payment#subscriptions) section of [Payment Module Documentation](https://docs.abp.io/en/commercial/latest/modules/payment#subscriptions). After completing [enabling webhooks](https://docs.abp.io/en/commercial/latest/modules/payment#enabling-webhooks) and [configuring plans](https://docs.abp.io/en/commercial/latest/modules/payment#configuring-plans) sections, you're ready to create a tenant 
+Firstly, Payment module must be configured properly. You can follow [subscriptions](https://docs.abp.io/en/commercial/latest/modules/payment#subscriptions) section of [Payment Module Documentation](https://docs.abp.io/en/commercial/latest/modules/payment#subscriptions). After completing [enabling webhooks](https://docs.abp.io/en/commercial/latest/modules/payment#enabling-webhooks) and [configuring plans](https://docs.abp.io/en/commercial/latest/modules/payment#configuring-plans) sections, Edition - Tenant relation should be set. To do that operation;
+
+- Go ...
 
 ## User interface
 
