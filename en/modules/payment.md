@@ -430,7 +430,7 @@ Before starting a recurring payment, **Plan** and **GatewayPlan** must be config
 
 ### Creating a Tenant-Edition Subscription
 
-Follow [saas](saas.md) d
+Follow [saas](saas.md) documentation.
 
 ### Creating a Recurring Payment
 
