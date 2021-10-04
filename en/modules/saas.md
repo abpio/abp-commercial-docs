@@ -25,9 +25,38 @@ Saas module implements via using Payment module a subscription logic to make abl
 
 ### Configuring
 
-Firstly, Payment module must be configured properly. You can follow [subscriptions](https://docs.abp.io/en/commercial/latest/modules/payment#subscriptions) section of [Payment Module Documentation](https://docs.abp.io/en/commercial/latest/modules/payment#subscriptions). After completing [enabling webhooks](https://docs.abp.io/en/commercial/latest/modules/payment#enabling-webhooks) and [configuring plans](https://docs.abp.io/en/commercial/latest/modules/payment#configuring-plans) sections, Edition - Tenant relation should be set. To do that operation;
+Firstly, Payment module must be configured properly. You can follow [subscriptions](payment#subscriptions) section of [Payment Module Documentation](payment#subscriptions). After completing [enabling webhooks](https://docs.abp.io/en/commercial/latest/modules/payment#enabling-webhooks) and [configuring plans](https://docs.abp.io/en/commercial/latest/modules/payment#configuring-plans) sections, Edition - Tenant relation should be set. To do that operation;
 
-- Go ...
+- Go to `Saas > Editions` page at your Web Application menu.
+
+- Create or Edit an existing Edition. **Plan** dropdown must be visible if you've done earlier steps correctly. Pick a Plan for Edition.
+
+- Inject `ISubscriptionAppService` to create a subscription for a edition:
+
+  ```csharp
+   public class IndexModel : PageModel
+   {
+          protected ISubscriptionAppService SubscriptionAppService { get; }
+          
+          protected ICurrentTenant CurrentTenant { get; }
+  
+          public IndexModel(
+              ISubscriptionAppService subscriptionAppService,
+              ICurrentTenant currentTenant)
+          {
+              SubscriptionAppService = subscriptionAppService;
+              CurrentTenant = currentTenant;
+          }
+  
+          public async Task<IActionResult> OnPostAsync(Guid editionId)
+          {
+              var paymentRequest = await SubscriptionAppService.CreateSubscriptionAsync(editionId, CurrentTenant.GetId());
+  
+              return LocalRedirectPreserveMethod("/Payment/GatewaySelection?paymentRequestId=" + paymentRequest.Id);
+          }
+      }
+
+_The tenant edition relation will be updated according to subscription status. Make sure Payment Gateway Web Hooks are configured properly._
 
 ## User interface
 
