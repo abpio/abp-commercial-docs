@@ -428,6 +428,10 @@ Before starting a recurring payment, **Plan** and **GatewayPlan** must be config
 2. Create a **Plan** entity in your application.
 3. Go to 'Manage Gateway Plans' section and create a new **GatewayPlan** for gateway and paste price or product id as `ExternalId`.
 
+### Creating a Tenant-Edition Subscription
+
+Follow [saas](saas.md#tenant-edition-subscription) documentation.
+
 ### Creating a Recurring Payment
 
 Creating a recurring payment almost same as creating a payment. Setting `PaymentType` property as **Recurring** and passing `PlanId` are enough to start a recurring payment request. If given Plan has multiple GatewayPlan, user will be able to choose gateway to pay.
