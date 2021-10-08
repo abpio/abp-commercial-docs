@@ -2,11 +2,9 @@
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
 
-## 4.4 (2021-06-29)
+## 4.4 (2021-08-02)
 
-> **This version is currently in preview. The planned release date is July 13, 2021.**
-
-See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-Platform-4-4-RC-Has-Been-Released)** for the v4.4.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-4.4-Final-Has-Been-Released!)** for the v4.4.
 
 * **Subscription** system & **payment** integration for the [SaaS module](modules/saas.md).
 * SaaS module: Allow to make a **tenant active/passive** and **limit user count**.
