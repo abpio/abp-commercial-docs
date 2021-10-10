@@ -2,6 +2,10 @@
 
 The Microservice Startup Template is a generic solution to start a new microservice solution. While we accept that every microservice solution will be different and every system has its own design requirements and trade-offs, we believe such a startup solution is a useful starting point for most solutions.
 
+## Creating a New Microservice Solution
+
+Read the [creating a new microservice solution document](create-new-microservice.md) to understand how to create your new microservice solution.
+
 ## Overall Diagram
 
 This section introduces the solution structure and briefly explains the solution components. The following diagram is an overview of the applications, gateways, services, databases, and other components;
