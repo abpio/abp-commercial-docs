@@ -99,11 +99,11 @@
           "path": "startup-templates/application/index.md",
           "items": [
             {
-              "text": "Creating solution",
+              "text": "Creating Solution",
               "path": "startup-templates/application/create-solution.md"
             },
             {
-              "text": "Solution structure",
+              "text": "Solution Structure",
               "path": "startup-templates/application/solution-structure.md"
             }
           ]
@@ -111,6 +111,10 @@
         {
           "text": "Microservice Template",
           "items": [
+		    {
+              "text": "Creating Microservice Solution",
+              "path": "startup-templates/microservice/create-new-microservice.md"
+            },
             {
               "text": "Overall",
               "path": "startup-templates/microservice/index.md"
@@ -163,15 +167,15 @@
           "path": "startup-templates/module/index.md",
           "items": [
             {
-              "text": "Creating a new solution",
+              "text": "Creating a New Module Solution",
               "path": "startup-templates/module/creating-a-new-solution.md"
             },
             {
-              "text": "Solution structure",
+              "text": "Solution Structure",
               "path": "startup-templates/module/solution-structure.md"
             },
             {
-              "text": "Creating a new ABP solution via ABP Suite",
+              "text": "Creating a New ABP solution via ABP Suite",
               "path": "abp-suite/create-module-solution.md"
             }
           ]
@@ -226,7 +230,7 @@
           ]
         },
         {
-          "text": "IdentityServer",
+          "text": "Identity Server",
           "path": "modules/identity-server.md"
         },
         {
@@ -259,7 +263,7 @@
           "path": "themes/lepton.md",
           "items": [
             {
-              "text": "Customize Lepton Theme",
+              "text": "Customizing Lepton Theme",
               "path": "themes/customizing-lepton-theme.md"
             }
           ]
@@ -288,15 +292,15 @@
           "path": "abp-suite/index.md"
         },
         {
-          "text": "How to install",
+          "text": "How to Install",
           "path": "abp-suite/how-to-install.md"
         },
         {
-          "text": "How to start",
+          "text": "How to Start",
           "path": "abp-suite/how-to-start.md"
         },
         {
-          "text": "Adding existing ABP solution",
+          "text": "Adding Existing ABP Solution",
           "path": "abp-suite/add-solution.md"
         },
         {
@@ -304,15 +308,15 @@
           "path": "abp-suite/create-solution.md"
         },
         {
-          "text": "Generating CRUD page",
+          "text": "Generating CRUD Page",
           "path": "abp-suite/generating-crud-page.md"
         },
         {
-          "text": "Accessing source code of modules",
+          "text": "Accessing Source Code of Modules",
           "path": "abp-suite/source-code.md"
         },
         {
-          "text": "Updating packages",
+          "text": "Updating Packages",
           "path": "abp-suite/updating-packages.md"
         },
         {
@@ -320,7 +324,7 @@
           "path": "abp-suite/configuration.md"
         },
         {
-          "text": "Editing templates",
+          "text": "Editing Templates",
           "path": "abp-suite/editing-templates.md"
         }
       ]
