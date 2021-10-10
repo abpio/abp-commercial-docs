@@ -5,15 +5,15 @@
       "path": "getting-started.md",
       "items": [
         {
-          "text": "1: Setup development environment",
+          "text": "1: Setup Development Environment",
           "path": "getting-started-setup-environment.md"
         },
         {
-          "text": "2: Creating a new solution",
+          "text": "2: Creating a New Solution",
           "path": "getting-started-create-solution.md"
         },
         {
-          "text": "3: Running the solution",
+          "text": "3: Running the Solution",
           "path": "getting-started-running-solution.md"
         }
       ]
@@ -112,7 +112,7 @@
           "text": "Microservice Template",
           "items": [
 		    {
-              "text": "Creating Microservice Solution",
+              "text": "Creating a New Microservice Solution",
               "path": "startup-templates/microservice/create-new-microservice.md"
             },
             {
