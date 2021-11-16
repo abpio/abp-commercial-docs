@@ -1,4 +1,4 @@
-# Release Notes / Change Logs
+# Release Notes / Change Logs / Version History
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
 
