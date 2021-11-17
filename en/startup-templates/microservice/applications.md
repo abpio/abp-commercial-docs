@@ -89,7 +89,7 @@ private async Task CreateApiScopesAsync()
 
 There are different clients seeded for AuthServer application;
 
-- **Swagger Clients:** These are the gateways added as clients using  `authorization_code` grant type. While *WebGateway* and *Internal Gateway* are allowed for all the scopes, *PublicWeb Gateway* is only allowed to `ProductService` scope default.
+- **Swagger Clients:** These are the gateways added as clients using  `authorization_code` grant type. While *WebGateway* is allowed for all the scopes, *PublicWeb Gateway* is only allowed to `ProductService` scope default.
 
 - **Back-Office Clients:** 
 
