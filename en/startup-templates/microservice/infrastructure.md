@@ -2,7 +2,7 @@
 
 ABP Microservice Startup Template contains shared projects that are used in applications, gateways and microservices. There are also external services run on containers where some of them are mandatory for microservice template to run such as Redis and RabbitMQ.
 
-![overall-applications](../../images/overall-infrastructure.gif)
+![overall-applications](../../images/overall-infrastructure.jpg)
 
 Shared folder in microservice template solution contains **DbMigrator** project for centralized database migration and data seeding for microservices and shared modules used in applications, microservices and gateways. 
 
@@ -346,7 +346,7 @@ Log.Logger = new LoggerConfiguration()
 
 ### Hosting Gateways
 
-*Shared.Hosting.Gateways* project is a base **hosting dependency for gateways** such as [WebGateway](gateways.md#web-gateway), [PublicWebGateway](gateways.md#public-web-gateway) and [InternalGateway](gateways.md#internal-gateway).
+*Shared.Hosting.Gateways* project is a base **hosting dependency for gateways** such as [WebGateway](gateways.md#web-gateway) and [PublicWebGateway](gateways.md#public-web-gateway).
 
 This module depends on 
 
