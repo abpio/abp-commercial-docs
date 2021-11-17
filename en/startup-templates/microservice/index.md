@@ -18,10 +18,9 @@ This section introduces the solution structure and briefly explains the solution
 * There are two **web applications** in the solution (you can add more yourself);
   * The **Web Application** is the main UI of the system. It uses the *Authentication Server* to make users login to the application. Then it uses the *Web Gateway* to access  the HTTP APIs. You mostly develop your UI here. Based on your preference, it can be an **MVC (Razor Pages)**, **Angular** or **Blazor** application.
   * The **Public Website** is a second web application that can be used to develop your landing page for the application. If you don't need it, you can remove it. It uses the *Authentication Server* to make users login to the application. Then it uses the *Public Web Gateway* to access the HTTP APIs.
-* There are three **API gateways** in the solution (you can add more if you need);
+* There are two **API gateways** in the solution (you can add more if you need);
   * The **Web Gateway** is a BFF (Backend for Frontend) that provides the necessary HTTP APIs to the *Web Application*.
   * The **Public Web Gateway** is a BFF (Backend for Frontend) that provides the necessary HTTP APIs to the *Public Web Application*.
-  * **Internal Gateway** is used for the communication of microservices internally. We found it useful to access other microservices over an API Gateway. Details and alternatives will be discussed.
 * There are **four microservices** coming with the solution (you can split existing ones and add new ones);
   * **Identity Microservice** is used to manage users, roles, clients, resources... in the system.
   * **SaaS Microservice** is used to manage tenants and editions for a multi-tenant system. If your system is not multi-tenant, you can remove this service and its database from the solution.
