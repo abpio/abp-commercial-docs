@@ -196,6 +196,10 @@
             {
               "text": "LDAP Login",
               "path": "modules/account/ldap.md"
+            },
+            {
+              "text": "Tenant&User impersonation",
+              "path": "modules/account/impersonation.md"
             }
           ]
         },
