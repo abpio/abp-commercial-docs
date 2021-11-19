@@ -43,6 +43,9 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 
 #### IdentityServer
 
+1. Depends `AbpAccountPublicWebImpersonationModule(Volo.Abp.Account.Pro.Public.Web.Impersonation)` and `SaasHostApplicationContractsModule` on your `IdentityServerModule`
+2. Configure the `AbpAccountOptions`, then add `JwtBearer` authentication and `UseJwtTokenMiddleware` to the ASP.NET Core pipeline
+
 ```cs
 public override void ConfigureServices(ServiceConfigurationContext context)
 {
@@ -55,14 +58,72 @@ public override void ConfigureServices(ServiceConfigurationContext context)
         //For impersonation in Identity module
         options.ImpersonationUserPermission = IdentityPermissions.Users.Impersonation;
     });
+
+    context.Services.AddAuthentication()
+        .AddJwtBearer(options =>
+        {
+            options.Authority = configuration["AuthServer:Authority"];
+            options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
+            options.Audience = "MyProjectName";
+        });
+}
+
+public override void OnApplicationInitialization(ApplicationInitializationContext context)
+{
+    var app = context.GetApplicationBuilder();
+    app.UseAuthentication();
+
+    //Add this line after `UseAuthentication`
+    app.UseJwtTokenMiddleware();
 }
 ```
-
 #### HttpApi.Host
 
 Don't need to do anything.
 
 #### Web
+
+1. Depends `AbpAccountPublicWebImpersonationModule(Volo.Abp.Account.Pro.Public.Web.Impersonation)` on your `WebModule`
+
+2. Chnage the base class of `AccountController` to `AbpAccountImpersonationChallengeAccountController`
+```cs
+public class AccountController : AbpAccountImpersonationChallengeAccountController
+{
+
+}
+```
+
+3. Add `ImpersonationViewComponent` to `\Components\Toolbar\Impersonation` folder
+
+```cs
+public class ImpersonationViewComponent : AbpViewComponent
+{
+    public virtual IViewComponentResult Invoke()
+    {
+        return View("~/Components/Toolbar/Impersonation/Default.cshtml");
+    }
+}
+```
+```cs
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Volo.Abp.Account.Localization
+@inject IHtmlLocalizer<AccountResource> L
+<form method="post" data-ajaxForm="false" action="~/Account/BackToImpersonator">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn"><i class="fa fa-undo"></i> @L["BackToImpersonator"]</button>
+</form>
+```
+
+4. Add `ImpersonationViewComponent` to `ToolbarContributor`.
+
+```cs
+if (context.ServiceProvider.GetRequiredService<ICurrentUser>().FindImpersonatorUserId() != null)
+{
+    context.Toolbar.Items.Add(new ToolbarItem(typeof(ImpersonationViewComponent), order: -1));
+}
+```
+
+5. Configure `AbpSaasHostWebOptions` and `AbpIdentityWebOptions`
 
 ```cs
 public override void ConfigureServices(ServiceConfigurationContext context)
@@ -84,6 +145,10 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 ```
 
 ### Blazor Server
+
+1. Depends `AbpAccountPublicWebImpersonationModule(Volo.Abp.Account.Pro.Public.Web.Impersonation)` and `AbpAccountPublicBlazorServerModule(Volo.Abp.Account.Pro.Public.Blazor.Server)` on your `BlazorModule`
+
+2. Configure `SaasHostBlazorOptions` and `AbpAccountOptions`
 
 ```cs
 public override void ConfigureServices(ServiceConfigurationContext context)
@@ -118,6 +183,9 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 
 #### Identity Server
 
+1. Depends `AbpAccountPublicWebImpersonationModule(Volo.Abp.Account.Pro.Public.Web.Impersonation)` and `SaasHostApplicationContractsModule` on your `IdentityServerModule`
+2. Configure the `AbpAccountOptions`, then add `JwtBearer` authentication and `UseJwtTokenMiddleware` to the ASP.NET Core pipeline
+
 ```cs
 public override void ConfigureServices(ServiceConfigurationContext context)
 {
@@ -130,6 +198,23 @@ public override void ConfigureServices(ServiceConfigurationContext context)
         //For impersonation in Identity module
         options.ImpersonationUserPermission = IdentityPermissions.Users.Impersonation;
     });
+
+    context.Services.AddAuthentication()
+        .AddJwtBearer(options =>
+        {
+            options.Authority = configuration["AuthServer:Authority"];
+            options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
+            options.Audience = "MyProjectName";
+        });
+}
+
+public override void OnApplicationInitialization(ApplicationInitializationContext context)
+{
+    var app = context.GetApplicationBuilder();
+    app.UseAuthentication();
+
+    //Add this line after `UseAuthentication`
+    app.UseJwtTokenMiddleware();
 }
 ```
 
@@ -138,6 +223,18 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 Don't need to do anything.
 
 #### Blazor
+
+1. Depends `AbpAccountPublicWebImpersonationModule(Volo.Abp.Account.Pro.Public.Web.Impersonation)` and `AbpAccountPublicBlazorServerModule(Volo.Abp.Account.Pro.Public.Blazor.Server)` on your `BlazorModule`
+
+2. Chnage the base class of `AccountController` to `AbpAccountImpersonationChallengeAccountController`
+```cs
+public class AccountController : AbpAccountImpersonationChallengeAccountController
+{
+
+}
+```
+
+3. Configure `SaasHostBlazorOptions` and `AbpAccountOptions`
 
 ```cs
 public override void ConfigureServices(ServiceConfigurationContext context)
@@ -155,6 +252,30 @@ public override void ConfigureServices(ServiceConfigurationContext context)
     });
 }
 ```
+
+### Angular
+
+Add `Impersonation` to Angular grant types.
+
+```cs
+//Console Test / Angular Client
+var consoleAndAngularClientId = configurationSection["MyProjectName_App:ClientId"];
+if (!consoleAndAngularClientId.IsNullOrWhiteSpace())
+{
+    var webClientRootUrl = configurationSection["MyProjectName_App:RootUrl"]?.TrimEnd('/');
+
+    await CreateClientAsync(
+        name: consoleAndAngularClientId,
+        scopes: commonScopes,
+        grantTypes: new[] { "password", "client_credentials", "authorization_code", "LinkLogin", "Impersonation" },
+        secret: (configurationSection["MyProjectName_App:ClientSecret"] ?? "1q2w3e*").Sha256(),
+        requireClientSecret: false,
+        redirectUri: webClientRootUrl,
+        postLogoutRedirectUri: webClientRootUrl,
+        corsOrigins: new[] { webClientRootUrl.RemovePostFix("/") }
+    );
+}
+``
 
 ### Blazor WASM
 
