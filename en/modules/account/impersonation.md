@@ -275,7 +275,7 @@ if (!consoleAndAngularClientId.IsNullOrWhiteSpace())
         corsOrigins: new[] { webClientRootUrl.RemovePostFix("/") }
     );
 }
-``
+```
 
 ### Blazor WASM
 
