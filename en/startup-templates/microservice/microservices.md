@@ -66,6 +66,7 @@ private async Task CreateClientsAsync()
     ...        
     scopes: commonScopes.Union(new[]
     {
+        "AuthServer",
         "IdentityService",
         "AdministrationService",
         "SaasService",
@@ -80,8 +81,8 @@ Web Gateway Swagger and Internal Gateway Swagger clients are allowed to request 
 ```csharp
 private async Task CreateSwaggerClientsAsync()
 {
-    await CreateSwaggerClientAsync("InternalGateway", new []{ "IdentityService", "AdministrationService", "SaasService", "ProductService"});
-    await CreateSwaggerClientAsync("WebGateway", new []{ "IdentityService", "AdministrationService", "SaasService", "ProductService"};
+    await CreateSwaggerClientAsync("WebGateway", new []{"AuthServer","IdentityService","AdministrationService","SaasService","ProductService"});
+    await CreateSwaggerClientAsync("PublicWebGateway", new []{"ProductService"});
 	...
 }
 ```
@@ -163,7 +164,7 @@ await CreateClientAsync(
 );
 ```
 
-To make the *client_credential* requests, IdentityModel configuration is done under `IdentityClients` section of appsettings along with `RemoteServices` configuration which points to **Internal Gateway** to locate IdentityService endpoint. This is done by using [Dynamic C# API Client Proxies](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients).
+To make the *client_credential* requests, IdentityModel configuration is done under `IdentityClients` section of appsettings along with `RemoteServices` configuration which points to **AbpIdentity** to locate IdentityService endpoint. This is done by using [Static C# Client Proxies](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2021-11-18 v5_0_Preview/POST.md#static-generated-client-proxies-for-c-and-javascript).
 
 > If you need to make requests from AdministrationService to other microservices, you need to add their scope to client creation with required permission as in IdentityService user list request.
 

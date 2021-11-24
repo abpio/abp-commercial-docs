@@ -62,7 +62,6 @@ If you want to test it, enter `admin` as the username and `1q2w3E*` as the passw
 
 Run the following applications in the given order (right click to each project, *Set as Startup Project* and hit Ctrl+F5) to make the services running;
 
-* **InternalGateway**
 * **AdministrationService**
 * **IdentityService**
 * **SaasService**
