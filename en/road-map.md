@@ -14,6 +14,7 @@ Here, a list of major items in the backlog we are considering to work on in the 
 
 * New features and improvements on the LeptonX theme.
 * Pre-built system for GDPR.
+* Prepare more deployment guides for different platforms.
 * Account module: Authority delegation, Google authenticator integration.
 * Dynamic dashboard system.
 * Real-time notification system.
