@@ -56,7 +56,7 @@ File Management module's MVC user interface depends on following npm packages. a
   }
 ```
 
-> After adding packages, you need to run `yarn` and `abp install-libs` cli commands in the directory of your `Web` project.
+> After adding packages, you need to run `abp install-libs` command in the folder of your `Web` project.
 
 #### Angular UI
 

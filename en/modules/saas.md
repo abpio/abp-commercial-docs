@@ -19,6 +19,51 @@ This module follows the [module development best practices guide](https://docs.a
 
 You can visit [SaaS module package list page](https://abp.io/packages?moduleName=Volo.Saas) to see list of packages related with this module.
 
+## Tenant-Edition Subscription
+
+SaaS module implements subscribing to Editions for Tenants using Payment module. To enable it, project must contain `Volo.Saas` and `Volo.Payment` modules and these modules must be configured as shown below.
+
+### Configuration
+
+Firstly, Payment module must be configured properly. You can follow [subscriptions](payment#subscriptions) section of [Payment Module Documentation](payment#subscriptions). After [enabling webhooks](payment#enabling-webhooks) and [configuring plans](payment#configuring-plans) sections, Edition - Tenant relation should be set. To do that;
+
+- Go to `Saas > Editions` page at your Web Application menu.
+
+- Create or Edit an existing Edition. **Plan** dropdown must be visible if you've done earlier steps correctly. Pick a Plan for Edition.
+
+### Usage
+
+SaaS module doesn't contain a public facing list page for listing editions for new customers/tenants to subscribe.  First, you need to create such a page in your application. Then, when a new customer/tenant selects one of those Editions, you can create a subscription and redirect user to payment module as shown below. 
+
+- Inject `ISubscriptionAppService` to create a subscription for a edition:
+
+  ```csharp
+   public class IndexModel : PageModel
+   {
+          protected ISubscriptionAppService SubscriptionAppService { get; }
+          
+          protected ICurrentTenant CurrentTenant { get; }
+  
+          public IndexModel(
+              ISubscriptionAppService subscriptionAppService,
+              ICurrentTenant currentTenant)
+          {
+              SubscriptionAppService = subscriptionAppService;
+              CurrentTenant = currentTenant;
+          }
+  
+          public async Task<IActionResult> OnPostAsync(Guid editionId)
+          {
+              var paymentRequest = await SubscriptionAppService.CreateSubscriptionAsync(editionId, CurrentTenant.GetId());
+  
+              return LocalRedirectPreserveMethod("/Payment/GatewaySelection?paymentRequestId=" + paymentRequest.Id);
+          }
+      }
+
+When the payment is completed successfully, the tenant and edition relation will be updated according to subscription status. Make sure Payment Gateway Web Hooks are configured properly.
+
+After all, payment module will redirect user to the callbackUrl if configured in [payment configuration](payment#paymentweboptions) with a paymentRequestId parameter. In this page, you can check the status of the payment request and show a success message to the user when the payment status is confirmed. Since the payment confirmation is asynchronous, you need to check the payment status repeatedly until it is confirmed.
+
 ## User interface
 
 ### Menu items
@@ -120,6 +165,7 @@ This module follows the [Domain Services Best Practices & Conventions]( https://
 
 * `TenantAppService` (implements `ITenantAppService`): Implements the use cases of the tenant management UI.
 * `EditionAppService` (implement `IEditionAppService`): Implements the use cases of the edition management UI.
+* `SubscriptionAppService` (implement`ISubscriptionAppService`): Implements the use cases of Tenant-Edition subscription. 
 
 ### Database providers
 

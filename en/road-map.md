@@ -14,8 +14,6 @@ v5.0 will be based on .NET 6.0. The features will be more clear in the next mont
 
 ## Backlog Items
 
-The *Next Versions* section above shows the main focus of the planned versions. However, in each release we are adding new features to ABP Commercial.
-
 Here, a list of major items in the backlog we are considering to work on in the next versions.
 
 * Account module: Authority delegation, Google authenticator integration.
