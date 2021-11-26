@@ -6,7 +6,7 @@ This document explains how to start development with this solution template.
 
 The following tools are required in order to run the solution;
 
-* [Visual Studio 2019](https://visualstudio.microsoft.com/vs/community/) (v16.8+) or another suitable IDE.
+* [Visual Studio 2019](https://visualstudio.microsoft.com/vs/community/) (v16.8+) or another suitable IDE. (After ABP 5.x you need Visual Studio 2022 for .NET6 support) 
 * [.NET 5.0+ SDK](https://dotnet.microsoft.com/download) (If you have Visual Studio 2019, this will be installed already)
 * [NPM](https://nodejs.org/) v14+ (or [Yarn](https://classic.yarnpkg.com/en/docs/install) 1.20+).
 * [Powershell](https://docs.microsoft.com/en-us/powershell/) 5.0+
