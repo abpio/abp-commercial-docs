@@ -540,21 +540,6 @@ public abstract class PendingMigrationsCheckerBase<TDbContext> : ITransientDepen
 
 MongoDB connection strings are different than SQL Server connection strings. So, check all appsettings.json files in your solution and replace the connection strings inside them.
 
-### Transaction
-
-If your MongoDB server does not support transactions you need to disable transactions:
-
-Open `BookStoreSharedHostingModule` class:
-
-```csharp
-Configure<AbpUnitOfWorkDefaultOptions>(options =>
-{
-    options.TransactionBehavior = UnitOfWorkTransactionBehavior.Disabled;
-});
-```
-
-Replace `UnitOfWorkManager.Begin(requiresNew: true, isTransactional: true)` with `UnitOfWorkManager.Begin(requiresNew: true, isTransactional: false)`.
-
 ### Run the project
 
 Now we are basically done, you can run the application according to the [documentation](../startup-templates/microservice/get-started.md).
