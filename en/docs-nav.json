@@ -74,6 +74,10 @@
         {
           "text": "Customizing the Modules",
           "path": "guides/customizing-modules.md"
+        },
+        {
+          "text": "Change Microservice project to use MongoDB Provider",
+          "path": "guides/microservice-mongodb.md"
         }
       ]
     },
