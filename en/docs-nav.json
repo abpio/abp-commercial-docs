@@ -74,11 +74,7 @@
         {
           "text": "Customizing the Modules",
           "path": "guides/customizing-modules.md"
-        },
-        {
-          "text": "Change Microservice project to use MongoDB Provider",
-          "path": "guides/microservice-mongodb.md"
-        }
+        }        
       ]
     },
     {
@@ -158,10 +154,14 @@
                   "text": "Adding a new Microservice",
                   "path": "startup-templates/microservice/add-microservice.md"
                 },
-		   {
+		{
                   "text": "Communication Between Microservices",
                   "path": "startup-templates/microservice/interservice-communication.md"
-                }
+                },
+	        {
+		  "text": "Change Microservice project to use MongoDB Provider",
+		  "path": "guides/microservice-mongodb.md"
+		}
               ]
             }
           ]
