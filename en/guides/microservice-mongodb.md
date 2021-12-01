@@ -4,7 +4,7 @@ This guide explains how to change Microservice project to use MongoDB as the dat
 
 ## Create a new Microservice project
 
-Use the ABP Suite to create a new Microservice project, in this guide we use version 4.4.4.
+Use the ABP Suite to create a new Microservice project, in this guide we use version 4.4.4 and `BookStore` as project name.
 
 You will get the solution as shown below:
 
