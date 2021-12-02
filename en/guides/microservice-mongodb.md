@@ -8,7 +8,7 @@ Use the ABP Suite to create a new Microservice project, in this guide we use ver
 
 You will get the solution as shown below:
 
-![microservce-mongodb-project](/en/images/microservice-mongodb.png)
+![microservce-mongodb-project](../images/microservice-mongodb.png)
 
 ### Replace EF Core references with MongoDB
 
