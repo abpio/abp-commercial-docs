@@ -42,7 +42,7 @@ Here we use `BookStore.ProductService` project as an example:
     }
     ```
 
-* Update `IdentityServiceDbContext` class to the following:
+* Update `ProductServiceDbContext` class to the following:
 
     ```csharp
     [ConnectionStringName(ProductServiceDbProperties.ConnectionStringName)]
@@ -52,7 +52,7 @@ Here we use `BookStore.ProductService` project as an example:
     }
     ```
 
-* Update `IdentityServiceEntityFrameworkCoreModule` class to the following:
+* Update `ProductServiceEntityFrameworkCoreModule` class to the following:
 
     ```csharp
     [DependsOn(
