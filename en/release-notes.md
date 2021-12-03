@@ -2,6 +2,24 @@
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
 
+## 5.0 (2021-11-16)
+
+> **This version is in preview stage. The planned stable release date is 2021-12-14.**
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-IO-Platform-5.0-RC-1-Has-Been-Released)** for the v5.0.
+
+* Upgraded to **.NET 6.0**.
+* Upgraded to **Bootstrap 5.1**.
+* **User impersonation** (passwordless login with another user's account).
+* **Tenant impersonation** (passwordless login as a tenant).
+* Added **Helm charts** to the microservice startup template to deploy to **Kubernetes**.
+* Added host and tenant **dashboards** to the microservice startup template.
+* **Generate entities** and CRUD pages from **database tables** with ABP Suite.
+* Pre-configured **social logins** for the microservice startup template.
+* Switched to **static C# and JavaScript proxies** for all the modules.
+* **Removed NGXS** and states from the Angular UI.
+* Many improvements on existing modules and ABP Suite.
+
 ## 4.4 (2021-08-02)
 
 See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-4.4-Final-Has-Been-Released!)** for the v4.4.
