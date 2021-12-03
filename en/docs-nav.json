@@ -278,6 +278,15 @@
       "text": "Angular UI",
       "items": [
         {
+          "text": "Customization",
+          "items": [
+            {
+              "text": "Manage Profile Page Tabs",
+              "path": "ui/angular/manage-profile-page-tabs.md"
+            }
+          ]
+        },
+        {
           "text": "Components",
           "items": [
             {
