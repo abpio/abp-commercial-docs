@@ -74,7 +74,11 @@
         {
           "text": "Customizing the Modules",
           "path": "guides/customizing-modules.md"
-        }        
+        },
+        {
+          "text": "IdentityServer Deployment",
+          "path": "guides/identityserver-deployment.md"
+        }
       ]
     },
     {
