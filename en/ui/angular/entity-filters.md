@@ -46,12 +46,12 @@ As shown in the screenshot, `abp-advanced-entity-filters` usually contain two pa
           <div class="row">
             <div class="col-6 col-sm-auto d-grid">
               <button type="button" class="btn btn-outline-primary" (click)="clearFilters()">
-                <span>{{ 'AbpUi::Clear' | abpLocalization }}</span>
+                <span>{%{{{ 'AbpUi::Clear' | abpLocalization }}}%}</span>
               </button>
             </div>
             <div class="col-6 col-sm-auto d-grid">
               <button type="button" class="btn btn-primary" (click)="list.get()">
-                <span>{{ 'AbpUi::Refresh' | abpLocalization }}</span>
+                <span>{%{{{ 'AbpUi::Refresh' | abpLocalization }}}%}</span>
               </button>
             </div>
           </div>
