@@ -1,12 +1,14 @@
 # Tenant impersonation & User impersonation
 
+User impersonation allows you to temporarily sign in as a different user in your tenant's users. This article introduces how to enable impersonation in ABP Framework. Impersonation is enabled by defautl in ABP v5.0 and above.
+
 ## Introduction
 
-We may want to login as a user and perform operations on behalf of that user, without knowing the user's password. 
+In some cases, users need to sign in as another user and perform operations on behalf of the target user without sharing the target user's password. 
 
 ## How to enable impersonation feature?
 
-> Impersonation is enabled by default in startup project templates of v5.0 and above.
+If you your ABP version is lower than 5.0, you can implement the impersonation feature by following the steps below.
 
 ### MVC
 
@@ -79,7 +81,7 @@ public override void OnApplicationInitialization(ApplicationInitializationContex
 ```
 #### HttpApi.Host
 
-Don't need to do anything.
+No need to do anything here.
 
 #### Web
 
@@ -220,7 +222,7 @@ public override void OnApplicationInitialization(ApplicationInitializationContex
 
 #### HttpApi.Host
 
-Don't need to do anything.
+No need to do anything here.
 
 #### Blazor
 
@@ -255,7 +257,7 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 
 ### Angular
 
-Add `Impersonation` to Angular grant types.
+Add `Impersonation` to the Angular grant types.
 
 ```cs
 //Console Test / Angular Client
