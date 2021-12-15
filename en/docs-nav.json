@@ -115,7 +115,7 @@
         {
           "text": "Microservice Template",
           "items": [
-		    {
+            {
               "text": "Creating a New Microservice Solution",
               "path": "startup-templates/microservice/create-new-microservice.md"
             },
@@ -158,14 +158,14 @@
                   "text": "Adding a new Microservice",
                   "path": "startup-templates/microservice/add-microservice.md"
                 },
-		{
+                {
                   "text": "Communication Between Microservices",
                   "path": "startup-templates/microservice/interservice-communication.md"
                 },
-	        {
-		  "text": "Change Microservice project to use MongoDB Provider",
-		  "path": "guides/microservice-mongodb.md"
-		}
+                {
+                  "text": "Change Microservice project to use MongoDB Provider",
+                  "path": "guides/microservice-mongodb.md"
+                }
               ]
             }
           ]
@@ -204,6 +204,10 @@
             {
               "text": "LDAP Login",
               "path": "modules/account/ldap.md"
+            },
+            {
+              "text": "Tenant&User impersonation",
+              "path": "modules/account/impersonation.md"
             }
           ]
         },
@@ -296,6 +300,10 @@
             {
               "text": "Lookup Components",
               "path": "ui/angular/lookup-components.md"
+            },
+            {
+              "text": "Entity Filters",
+              "path": "ui/angular/entity-filters.md"
             }
           ]
         }
