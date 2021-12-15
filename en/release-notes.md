@@ -4,8 +4,6 @@ This document contains **brief release notes** for each release. Release notes o
 
 ## 5.0 (2021-11-16)
 
-> **This version is in preview stage. The planned stable release date is 2021-12-14.**
-
 See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-IO-Platform-5.0-RC-1-Has-Been-Released)** for the v5.0.
 
 * Upgraded to **.NET 6.0**.
