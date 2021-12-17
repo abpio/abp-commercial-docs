@@ -2,8 +2,8 @@
 
 The Lepton Theme is a professional theme for the ABP Commercial.
 
-* Built on the [Bootstrap 4](https://getbootstrap.com) library.
-* 100% compatible with  [Bootstrap 4](https://getbootstrap.com) HTML structure and CSS classes
+* Built on the [Bootstrap 5](https://getbootstrap.com) library.
+* 100% compatible with  [Bootstrap 5](https://getbootstrap.com) HTML structure and CSS classes
 * Responsive & mobile-compatible.
 * Provides different style like Material, Dark, Light.
 * Provides styles for [Datatables](https://datatables.net).
