@@ -24,33 +24,35 @@ The default `OpenLdapManager` service uses `$"cn={userName},{BaseDc}"` to normal
 
 > The value of `BaseDc` is the setting of the `Base domain component`.
 
-If your **username** has a prefix or a specific format, you can override the `NormalizeUserName` method of `OpenLdapManager` to handle it. You can also customize the `GetUserFilter` and `GetUserEmail` methods at the same time.
+If your **username** has a prefix or a specific format, you can override the `NormalizeUserNameAsync` method of `OpenLdapManager` to handle it. You can also customize the `GetUserFilterAsync` and `GetUserEmailAsync` methods at the same time.
 
 ```cs
 [Dependency(ReplaceServices = true)]
 [ExposeServices(typeof(OpenLdapManager), typeof(ILdapManager), typeof(LdapManager))]
 public class VoloOpenLdapManager : OpenLdapManager
 {
-    public VoloOpenLdapManager(IOptions<AbpLdapOptions> ldapSettingsOptions)
-        : base(ldapSettingsOptions)
+    public VoloOpenLdapManager(ILdapSettingProvider ldapSettingProvider)
+        : base(ldapSettingProvider)
     {
+
     }
 
-    protected override string NormalizeUserName(string userName)
+    protected override async Task<string> NormalizeUserNameAsync(string userName)
     {
-        return $"Volo\\{userName}";
+        // or "userName@domain 
+        // await LdapSettingProvider.GetDomainAsync()
+        return Task.FromResult($"Volo\\{userName}");
     }
 
-    protected override string GetUserFilter(string userName)
+    protected override Task<string> GetUserFilterAsync(string userName)
     {
         // Default is $"cn={userName},{LdapOptions.BaseDc}"
-        return $"(&(objectClass=user)(sAMAccountName={userName}))";
+        return return Task.FromResult($"(&(objectClass=user)(sAMAccountName={userName}))");
     }
 
-    protected override string GetUserEmail(LdapEntry ldapEntry)
+    protected override Task<string> GetUserEmailAsync(LdapEntry ldapEntry)
     {
-        // You can use another attribute to get user email.
-        return ldapEntry.ToDirectoryEntry().GetAttribute("mail")?.GetValue<string>();
+        return Task.FromResult(ldapEntry.ToDirectoryEntry().GetAttribute("mail")?.GetValue<string>());
     }
 }
 ```
@@ -66,7 +68,7 @@ public class VoloLdapExternalLoginProvider : LdapExternalLoginProvider
         IdentityUserManager userManager,
         IIdentityUserRepository identityUserRepository,
         OpenLdapManager ldapManager,
-        IOptions<AbpLdapOptions> ldapOptions,
+        ILdapSettingProvider ldapSettingProvider,
         IFeatureChecker featureChecker,
         ISettingProvider settingProvider,
         IOptions<IdentityOptions> identityOptions)
@@ -75,7 +77,7 @@ public class VoloLdapExternalLoginProvider : LdapExternalLoginProvider
             userManager,
             identityUserRepository,
             ldapManager,
-            ldapOptions,
+            ldapSettingProvider,
             featureChecker,
             settingProvider,
             identityOptions)
@@ -83,10 +85,12 @@ public class VoloLdapExternalLoginProvider : LdapExternalLoginProvider
 
     }
 
-    protected override string NormalizeUserName(string userName)
+    protected override async Task<string> NormalizeUserNameAsync(string userName)
     {
         // Default is $"uid={userName}, {BaseDc}"
-        return $"Volo\\{userName}";
+        // or "userName@domain 
+        // await LdapSettingProvider.GetDomainAsync()
+        return Task.FromResult($"Volo\\{userName}");
     }
 }
 ```
