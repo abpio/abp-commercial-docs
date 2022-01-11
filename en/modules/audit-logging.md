@@ -9,7 +9,7 @@ This module implements the Audit Logging system of an application;
 * View all changes of an entity. 
 * This module also defines reusable "Average Execution Duration Per Day" and "Error Rate" widgets.
 
-See [the module description page](https://commercial.abp.io/modules/Volo.Identity.Pro) for an overview of the module features.
+See [the module description page](https://commercial.abp.io/modules/Volo.AuditLogging.Ui) for an overview of the module features.
 
 ## How to install
 
