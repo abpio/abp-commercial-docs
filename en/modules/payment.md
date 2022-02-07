@@ -436,6 +436,7 @@ public class IndexModel: PageModel
         {
             var paymentRequest = await _paymentRequestAppService.CreateAsync(new PaymentRequestCreateDto()
             {
+                Currency= "USD",
                 Products = new List<PaymentRequestProductCreateDto>()
                 {
                     new PaymentRequestProductCreateDto
