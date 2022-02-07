@@ -257,12 +257,15 @@ This module follows the [Repository Best Practices & Conventions](https://docs.a
 Following custom repositories are defined for this module:
 
 * `IPaymentRequestRepository`
+* `IPlanRepository`
 
 ### Application layer
 
 #### Application services
 
 * `PaymentRequestAppService` (implements `IPaymentRequestAppService`): Used to create payment requests and access payment request details.
+* `GatewayAppService` (implements `IGatewayAppService`): Used to provide payment gateway list to UI.
+* `PlanAppService` (implements `IPlanAppService`): Used to manage Subscription Plans.
 
 ### Database providers
 
@@ -395,8 +398,7 @@ public static void ConfigureExtraProperties()
   - `PeriodEndDate`: Represents end date of subscription. _Subscriptions may canceled but lasts until end of last period._
 
   
-
-Couldn't find what you need? See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
+> Couldn't find what you need? Check out the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
 
 ## One-Time Payments
 
@@ -424,35 +426,35 @@ In order to initiate a payment process, inject ```IPaymentRequestAppService```, 
 
 ```c#
 public class IndexModel: PageModel
+{
+    private readonly IPaymentRequestAppService _paymentRequestAppService;
+
+    public IndexModel(IPaymentRequestAppService paymentRequestAppService)
     {
-        private readonly IPaymentRequestAppService _paymentRequestAppService;
-
-        public IndexModel(IPaymentRequestAppService paymentRequestAppService)
-        {
-            _paymentRequestAppService = paymentRequestAppService;
-        }
-
-        public virtual async Task<IActionResult> OnPost()
-        {
-            var paymentRequest = await _paymentRequestAppService.CreateAsync(new PaymentRequestCreateDto()
-            {
-                Currency= "USD",
-                Products = new List<PaymentRequestProductCreateDto>()
-                {
-                    new PaymentRequestProductCreateDto
-                    {
-                        Code = "Product_01",
-                        Name = "LEGO Super Mario",
-                        Count = 2,
-                        UnitPrice = 60,
-                        TotalPrice = 200
-                    }
-                }
-            });
-
-            return LocalRedirectPreserveMethod("/Payment/GatewaySelection?paymentRequestId=" + paymentRequest.Id);
-        }
+        _paymentRequestAppService = paymentRequestAppService;
     }
+
+    public virtual async Task<IActionResult> OnPost()
+    {
+        var paymentRequest = await _paymentRequestAppService.CreateAsync(new PaymentRequestCreateDto()
+        {
+            Currency= "USD",
+            Products = new List<PaymentRequestProductCreateDto>()
+            {
+                new PaymentRequestProductCreateDto
+                {
+                    Code = "Product_01",
+                    Name = "LEGO Super Mario",
+                    Count = 2,
+                    UnitPrice = 60,
+                    TotalPrice = 200
+                }
+            }
+        });
+        
+        return LocalRedirectPreserveMethod("/Payment/GatewaySelection?paymentRequestId=" + paymentRequest.Id);
+    }
+}
 ```
 
 If the payment is successful, payment module will return to configured ```PaymentWebOptions.CallbackUrl```. The main application can take necessary actions for a successful payment (Activating a user account, triggering a shipment start process etc...).
@@ -475,7 +477,7 @@ Configuring Web Hooks is highly important for subscriptions otherwise your appli
 
 1. Go to [WebHooks on Stripe Dashboard](https://dashboard.stripe.com/webhooks)
 2. Create a new webhook via using **Add endpoint** button.
-   - **Endpoint URL**:  `yourdomain.com/payment/stripe/webhook`
+   - **Endpoint URL**:  `yourdomain.com/api/payment/stripe/webhook`
    - **Events to send**: 
      - `customer.subscription.created`
      - `customer.subscription.deleted`
@@ -522,7 +524,7 @@ public class SubscriptionModel : PageModel
                         Name = "Enterprise Plan",
                         Code = "EP",
                         Count = 1,
-                        // Place below your created PlanId.
+                        // Place your created PlanId below.
                         PlanId = DemoAppData.Plan_2_Id, 
                     }
                 }
