@@ -5,6 +5,10 @@ LeptonX Lite has implementation for ABP Framework Razor Pages.
 
 - Add **Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite** package to your **Web** application.
 
+```bash
+dotnet add package Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite
+```
+
 - Make sure old theme is removed and LeptonX is added in your Module class.
 
 ```diff
