@@ -58,7 +58,7 @@ As default, this gateway proxies each request from back-office application to re
 
    to `localhost:44381` (SaasService).
 
-- **Product Service:** Uses dynamic proxy, depends on `ProductServiceHttpApiModule` and re-routes
+- **Product Service:** Uses static proxy and re-routes
 
   - `/api/product-service/{everything}`
 
@@ -156,7 +156,7 @@ As default, this gateway proxies each request landing page application to relate
 
   to `localhost:44367` (AdministrationService).
 
-- **Product Service:** Depends on `ProductServiceHttpApiModule` and re-routes
+- **Product Service:** Uses static proxy and re-routes
 
   - `/api/product-service/{everything}`
 
