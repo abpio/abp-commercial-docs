@@ -45,21 +45,65 @@ LeptonX theme is implemented and ready to use with ABP Commercial. No custom imp
 ```
 {{end}}
 
+---
+
 ## Customization
 
 ### Themes
-TODO
+You can set default theme or add or remove themes via using **LeptonXThemeOptions**.
 
-*adding new themes and removing existing ones*
+- `DefaultStyle`: Defines deffault fallback theme. Default value is **Dim**
+    ```csharp
+    Configure<LeptonXThemeOptions>(options =>
+    {
+        options.DefaultStyle = LeptonXStyleNames.Dark;
+    });
+    ```
 
-### Toolbars
-TODO
+- `Styles`: Defines selectable themes from UI.
 
-*adding new items or removing existing ones from general settings & mobile menu*
+    ![lepton-x-selectable-themes](images/selectable-themes.png)
 
-### LeptonXThemeMvcOptions
-TODO
+    ```csharp
+    Configure<LeptonXThemeOptions>(options =>
+    {
+        // Removing existing themes
+        options.Styles.Remove(LeptonXStyleNames.Light);
 
-*changing layout*
-*configuring mobile menu item selector*
+        // Adding a new theme
+        options.Styles.Add("red", 
+            new LeptonXThemeStyle(
+            LocalizableString.Create<YourResource>("Theme:Red"),
+            "bi bi-circle-fill"));
+    });
+
+    ```
+
+    > `red.css` and `bootstrap-red.css` have to be added under **wwwroot/side-menu/css/** folder for switching to your custom theme properly when selected.
+
+
+### LeptonXThemeBlazorOptions
+Layout options of Blazor UI can be manageable via using **LeptonXThemeMvcOptions**.
+
+- `Layout`: Layout of main application. Default value is `LeptonXMvcLayouts.SideMenu`
+
+    ```csharp
+    Configure<LeptonXThemeBlazorOptions>(options =>
+    {
+        options.Layout = LeptonXBlazorLayouts.SideMenu;
+        // Or your custom implemented layout:
+        options.Layout = typeof(MyCustomLayoutComponent);
+    });
+    ```
+
+- `MobileMenuSelector`: Defines items to be displayed at mobile menu. Default value is first 2 items from main menu items.
+
+    ![leptonx-mobile-menu-preview](images/mobile-menu-preview.png)
+
+    ```csharp
+    Configure<LeptonXThemeBlazorOptions>(options =>
+    {
+        options.MobileMenuSelector = items => items.Where(x => x.MenuItem.Name == "Home" || x.MenuItem.Name == "Dashboard");
+    });
+    ```
 
