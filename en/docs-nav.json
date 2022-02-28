@@ -339,7 +339,7 @@
 
         {
           "text": "Generating Entities from an existing Database Table to Create a CRUD Page",
-          "path": "abp-suite/generating-entities-from-an-existing-database-table"
+          "path": "abp-suite/generating-entities-from-an-existing-database-table.md"
         },
         
         {
