@@ -236,7 +236,7 @@ When you click **Save and generate** button it'll create all the related objects
 ### What to Check If Angular UI Cannot Be Generated
 
 There are some adjustments you may need to make before generating CRUD pages for your legacy ABP app using the latest version of the suite. 
- 
+
 - Check if your environment variables have `rootNamespace` defined as explained [here](https://docs.abp.io/en/abp/latest/UI/Angular/Service-Proxies#angular-project-configuration).
 
 - Check if your [workspace configuration](https://angular.io/guide/workspace-config) satisfies one of the following. Examples assume your solution namespace is `BookStore`, `Acme.BookStore`, or `Acme.Retail.BookStore`.
@@ -247,4 +247,4 @@ There are some adjustments you may need to make before generating CRUD pages for
 
 ## What's next?
 
-[Accessing source code of modules](source-code.md)
+[Generating Entities from an existing Database Table to Create a CRUD Page](generating-entities-from-an-existing-database-table.md)

@@ -336,6 +336,12 @@
           "text": "Generating CRUD Page",
           "path": "abp-suite/generating-crud-page.md"
         },
+
+        {
+          "text": "Generating Entities from an existing Database Table to Create a CRUD Page",
+          "path": "abp-suite/generating-entities-from-an-existing-database-table"
+        },
+        
         {
           "text": "Accessing Source Code of Modules",
           "path": "abp-suite/source-code.md"
