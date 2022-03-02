@@ -337,6 +337,10 @@
           "path": "abp-suite/generating-crud-page.md"
         },
         {
+          "text": "Creating Many-To-Many Relationship",
+          "path": "abp-suite/creating-many-to-many-relationship.md"
+        },
+        {
           "text": "Accessing Source Code of Modules",
           "path": "abp-suite/source-code.md"
         },

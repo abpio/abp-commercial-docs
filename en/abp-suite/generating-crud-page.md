@@ -147,7 +147,7 @@ After it finishes, run the web project and go to **Authors** page. Click **New A
 
 ![navigation-property-authors-page](../images/navigation-property-authors-page.png)
 
-#### 1- Create the "Book" entity
+#### 2- Create the "Book" entity
 
 `Book` is the principal (parent) entity. It will hold a reference to the `Author` entity in `AuthorId` property. Let's create the `Book` entity in the ABP Suite. Click **-New entity-** in the **Entity** dropdown on the top of the page and write **"Book"** in the **Name** field. The rest will be automatically filled. Then click **Properties** tab and add 2 properties:
 
@@ -157,7 +157,6 @@ After it finishes, run the web project and go to **Authors** page. Click **New A
 Click the **Navigation properties** tab. Then click **Add navigation property** button. In the opening window, click **Select dependent entity** textbox. A file browser will pop up. Find the `Author.cs` that we previously created in step 1.  `Author.cs`  is located in `src\Acme.BookStore.Domain\Authors` directory. After you select the file, almost all fields will be automatically filled, except **Display Property**. Select `NameSurname` from the **Properties** dropdown. It will write it to the **Display Property** textbox. Revise the other fields for the last check and click **OK** button. A new navigation property is added. Click **Save and generate** button and wait for the ABP Suite to create the Books page with the navigation property.
 
 > Notice that almost all fields are automatically filled by convention. If you don't rename the `DTO` names, `DbSet` names in the `DbContext`, navigation property names or namespaces, this tool will automatically set all required fields. On the other hand, these textboxes are not readonly, so that you can change them according to your requirements.
->
 
 
 ![navigation-property-book-entity](../images/navigation-property-book-entity.png)
@@ -236,7 +235,7 @@ When you click **Save and generate** button it'll create all the related objects
 ### What to Check If Angular UI Cannot Be Generated
 
 There are some adjustments you may need to make before generating CRUD pages for your legacy ABP app using the latest version of the suite. 
- 
+
 - Check if your environment variables have `rootNamespace` defined as explained [here](https://docs.abp.io/en/abp/latest/UI/Angular/Service-Proxies#angular-project-configuration).
 
 - Check if your [workspace configuration](https://angular.io/guide/workspace-config) satisfies one of the following. Examples assume your solution namespace is `BookStore`, `Acme.BookStore`, or `Acme.Retail.BookStore`.
