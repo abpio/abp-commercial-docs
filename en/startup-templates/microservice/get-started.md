@@ -79,11 +79,11 @@ The main *Web Application* can be an MVC (Razor Pages), Angular or Blazor applic
 
 #### Run the Web Gateway
 
-When you run the **WebGateway** application, it opens a Swagger UI to explore the HTTP APIs provided by this API Gateway:
+When you run the **WebGateway** application, it opens a Swagger UI to explore the HTTP APIs re-routed by this API Gateway:
 
 ![microservice-template-web-gateway-swagger-ui](../../images/microservice-template-web-gateway-swagger-ui.png)
 
-> API Gateways in this solution truly shows the APIs they expose. That's normally not possible with using Swagger and Ocelot. However, we have developed a solution to make this possible by using a proper layering and code sharing. Details will be covered later.
+> API Gateways in this solution shows re-routed microservices in select definition section which is located at the upper right side of the swagger ui.
 
 #### Run the *MVC (Razor Pages)* Web Application
 
@@ -121,7 +121,7 @@ The *Public Web Site* application uses the *Public Web Gateway*, so we need to r
 
 #### Run the Public Web Gateway
 
-When you run the **PublicWebGateway** application, it opens a Swagger UI to explore the HTTP APIs provided by this API Gateway:
+When you run the **PublicWebGateway** application, it opens a Swagger UI to explore the HTTP APIs re-routed by this API Gateway:
 
 ![microservice-template-web-gateway-swagger-ui](../../images/microservice-template-public-web-gateway-swagger-ui.png)
 

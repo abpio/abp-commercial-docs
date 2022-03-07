@@ -319,30 +319,77 @@ private void ConfigureDatabaseConnections()
 
 ### Hosting AspNetCore
 
-*Shared.Hosting.AspNetCore* project is a base **hosting dependency for applications** such as [AuthServer](applications.md#authentication-server), [Web](applications.md#web-application-back-office), [PublicWeb](applications.md#public-application-landing-page). This module depends on `SharedHostingModule` and contains base configuration for serilog in `SerilogConfigurationHelper` file
+*Shared.Hosting.AspNetCore* project is a base **hosting dependency for applications** such as [AuthServer](applications.md#authentication-server), [Web](applications.md#web-application-back-office), [PublicWeb](applications.md#public-application-landing-page). This module depends on
 
-```csharp
-Log.Logger = new LoggerConfiguration()
-#if DEBUG
-                .MinimumLevel.Debug()
-#else
-                .MinimumLevel.Information()
-#endif
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
-                .Enrich.FromLogContext()
-                .Enrich.WithProperty("Application", $"{applicationName}")
-                .WriteTo.Async(c => c.File("Logs/logs.txt"))
-                .WriteTo.Elasticsearch(
-                    new ElasticsearchSinkOptions(new Uri(configuration["ElasticSearch:Url"]))
-                    {
-                        AutoRegisterTemplate = true,
-                        AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
-                        IndexFormat = "MyProjectName-log-{0:yyyy.MM}"
-                    })
-                .WriteTo.Async(c => c.Console())
-                .CreateLogger();
-```
+- `SharedHostingModule` 
+- `AbpAspNetCoreSerilogModule`
+- `AbpSwashbuckleModule`
+
+modules and contains contains:
+
+- Base configuration for serilog in `SerilogConfigurationHelper`
+
+  ```csharp
+  Log.Logger = new LoggerConfiguration()
+  #if DEBUG
+                  .MinimumLevel.Debug()
+  #else
+                  .MinimumLevel.Information()
+  #endif
+                  .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                  .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
+                  .Enrich.FromLogContext()
+                  .Enrich.WithProperty("Application", $"{applicationName}")
+                  .WriteTo.Async(c => c.File("Logs/logs.txt"))
+                  .WriteTo.Elasticsearch(
+                      new ElasticsearchSinkOptions(new Uri(configuration["ElasticSearch:Url"]))
+                      {
+                          AutoRegisterTemplate = true,
+                          AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
+                          IndexFormat = "MyProjectName-log-{0:yyyy.MM}"
+                      })
+                  .WriteTo.Async(c => c.Console())
+                  .CreateLogger();
+  ```
+
+- Swagger configuration in `SwaggerConfigurationHelper`
+
+  ```csharp
+  public static void Configure(
+          ServiceConfigurationContext context,
+          string apiTitle
+      )
+      {
+          context.Services.AddAbpSwaggerGen(options =>
+          {
+              options.SwaggerDoc("v1", new OpenApiInfo { Title = apiTitle, Version = "v1" });
+              options.DocInclusionPredicate((docName, description) => true);
+              options.CustomSchemaIds(type => type.FullName);
+          });
+      }
+      
+      public static void ConfigureWithAuth(
+          ServiceConfigurationContext context,
+          string authority,
+          Dictionary<string, string> scopes,
+          string apiTitle,
+          string apiVersion = "v1",
+          string apiName = "v1"
+      )
+      {
+          context.Services.AddAbpSwaggerGenWithOAuth(
+              authority: authority,
+              scopes: scopes,
+              options =>
+              {
+                  options.SwaggerDoc(apiName, new OpenApiInfo { Title = apiTitle, Version = apiVersion });
+                  options.DocInclusionPredicate((docName, description) => true);
+                  options.CustomSchemaIds(type => type.FullName);
+              });
+      }
+  ```
+
+  
 
 ### Hosting Gateways
 
@@ -352,7 +399,6 @@ This module depends on
 
 - `SharedHostingAspNetCoreModule` for serilog configuration
 - `AbpAspNetCoreMvcUiMultiTenancyModule` for tenantId redirection in the http headers
-- `AbpSwashbuckleModule` for swagger authorization using `AddAbpSwaggerGenWithOAuth` method
 
  modules along with `Ocelot` and `Ocelot.Provider.Polly` libraries. 
 
@@ -363,35 +409,13 @@ context.Services.AddOcelot(configuration)
     .AddPolly();
 ```
 
-All the gateways have swagger authentication enabled with the configuration located under `SwaggerWithAuthConfigurationHelper`
-
-```csharp
-public static void Configure(
-    ServiceConfigurationContext context,
-    string authority,
-    Dictionary<string, string> scopes,
-    string apiTitle,
-    string apiVersion = "v1",
-    string apiName = "v1"
-)
-{
-    context.Services.AddAbpSwaggerGenWithOAuth(
-        authority: authority,
-        scopes: scopes,
-        options =>
-        {
-            options.SwaggerDoc(apiName, new OpenApiInfo {Title = apiTitle, Version = apiVersion});
-            options.DocInclusionPredicate((docName, description) => true);
-            options.CustomSchemaIds(type => type.FullName);
-        });
-}
-```
+This module also contains `GatewayHostBuilderExtensions` to add ocelot.json configuration along with appsettings.json.
 
 ### Hosting Microservices
 
 *Shared.Hosting.Microservices* project is a base **hosting dependency for microservices** such as [AdministrationService](microservices.md#administrationservice), [IdentityService](microservices.md#identityservice) and [SaasService](microservices.md#saasservice) and [ProductService](microservices.md#productservice). This module depends on `SharedHostingModule` and contains
 
-- Module Configuration that has `AbpDistributedCacheOptions`, `AbpMultiTenancyCacheOptions` and `Redis` configurations,
+- Module configuration that has `AbpDistributedCacheOptions`, `AbpMultiTenancyCacheOptions` and `Redis` configurations,
 
 - `JwtBearerConfigurationHelper` has base JwtBearer authentication configuration,
 
@@ -412,24 +436,12 @@ public static void Configure(
           }
   ```
 
-- `SwaggerConfigurationHelper` has base swagger configuration,
-
-  ```csharp
-  public static void Configure(
-      ServiceConfigurationContext context,
-      string apiTitle
-  )
-  {
-      context.Services.AddSwaggerGen(options =>
-      {
-          options.SwaggerDoc("v1", new OpenApiInfo {Title = apiTitle, Version = "v1"});
-          options.DocInclusionPredicate((docName, description) => true);
-          options.CustomSchemaIds(type => type.FullName);
-      });
-  }
-  ```
-
 - DbMigrations folder that contains `PendingMigrationsCheckerBase` and `DatabaseMigrationEventHandlerBase` which are used for [Auto Migration](database-migrations.md#auto-migration-on-the-fly-migration).
+
+This module also depends on **EntityFrameworkCore** layers of: 
+
+- **SaasService** for making tenant migrations available for all `DatabaseMigrationEventHandlers` used for auto migration
+- **AdministrationService** for making language seeding available for all `DatabaseMigrationEventHandlers` used for auto migration
 
 ## Next
 
