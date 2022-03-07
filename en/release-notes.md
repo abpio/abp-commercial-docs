@@ -2,7 +2,16 @@
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
 
-## 5.0 (2021-11-16)
+## 5.1 (2022-01-12)
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-v5-1-Has-Been-Released)** for the v5.1 release.
+
+* Upgraded to **Angular 13**.
+* Changed the application startup solution to use the new ASP.NET Core **minimal hosting model**.
+* New **URL Forwarding** feature for the CKS Kit Pro module.
+* Improvements and fixes for the features shipped with the 5.0 release.
+
+## 5.0 (2021-12-14)
 
 See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-IO-Platform-5.0-RC-1-Has-Been-Released)** for the v5.0.
 

@@ -119,6 +119,55 @@ context.Services.AddAuthentication()
 * `AddFacebook()` is the standard method that you can set hard-coded configuration.
 * `WithDynamicOptions<FacebookOptions>` is provided by the Account Module that makes possible to configure the provided properties on the UI.
 
+### IPostConfigureAccountExternalProviderOptions
+
+Some external logins may be initialized based on dynamic properties. You can implement an `IPostConfigureAccountExternalProviderOptions` to initialize again after dynamic properties are initialized.
+
+Example `OpenIdConnect`:
+
+````csharp
+public class OpenIdConnectPostConfigureAccountExternalProviderOptions : IPostConfigureAccountExternalProviderOptions<OpenIdConnectOptions>
+{
+    private readonly IEnumerable<IPostConfigureOptions<OpenIdConnectOptions>> _postConfigureOptions;
+    public OpenIdConnectPostConfigureAccountExternalProviderOptions(IEnumerable<IPostConfigureOptions<OpenIdConnectOptions>> postConfigureOptions)
+    {
+        _postConfigureOptions = postConfigureOptions;
+    }
+    public Task PostConfigureAsync(string name, OpenIdConnectOptions options)
+    {
+        foreach (var configureOption in _postConfigureOptions)
+        {
+            configureOption.PostConfigure(name, options);
+        }
+        return Task.CompletedTask;
+    }
+}
+````
+
+````csharp
+context.Services.AddAuthentication()
+	.AddOpenIdConnect("AzureOpenId", "Azure AD", options =>
+	{
+		options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
+		options.RequireHttpsMetadata = false;
+		options.SaveTokens = true;
+		options.GetClaimsFromUserInfoEndpoint = true;
+		options.Scope.Add("email");
+		options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "sub");
+		options.CallbackPath = configuration["AzureAd:CallbackPath"];
+	})
+	.WithDynamicOptions<OpenIdConnectOptions, OpenIdConnectHandler>(
+		"AzureOpenId",
+		options =>
+		{
+			options.WithProperty(x => x.Authority);
+			options.WithProperty(x => x.ClientId);
+			options.WithProperty(x => x.ClientSecret, isSecret: true);
+		}
+	);
+context.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureAccountExternalProviderOptions<OpenIdConnectOptions>, OpenIdConnectPostConfigureAccountExternalProviderOptions>());
+````
+
 #### For Tiered / Separate IdentityServer Solutions
 
 If your `.IdentityServer` is separated from the `.Host` project, then the `.Host` project should also be configured.

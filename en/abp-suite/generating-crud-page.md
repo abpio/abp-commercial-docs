@@ -246,4 +246,4 @@ There are some adjustments you may need to make before generating CRUD pages for
 
 ## What's next?
 
-[Accessing source code of modules](source-code.md)
+[Generating Entities from an existing Database Table to Create a CRUD Page](generating-entities-from-an-existing-database-table.md)
