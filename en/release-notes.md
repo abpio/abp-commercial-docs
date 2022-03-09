@@ -4,11 +4,11 @@ This document contains **brief release notes** for each release. Release notes o
 
 ## 5.2 (2022-03-08)
 
-See the detailed blog post / announcement (TODO: link) for the v5.2 release.
+See the detailed [blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-5-2-RC-Has-Been-Published) for the v5.2 release.
 
 * Code generation with **many to many relation** support for the [ABP Suite](abp-suite/index.md).
-* The new single-layer, simpler startup solution template.
-* Migrated to Blazorise 1.0 for the Blazor UI.
+* The new **single-layer**, simpler startup solution template.
+* Migrated to **Blazorise 1.0** for the Blazor UI.
 * Improvements on the microservice startup solution, pre-built application modules and other existing features.
 
 ## 5.1 (2022-01-12)
