@@ -12,6 +12,8 @@ The following features are provided by the open source CMS Kit module:
 - [**Comment**](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit/Comments) system to add comments feature to any kind of resource, like blog post or a product review page.
 - [**Reaction**](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit/Reactions) system to add reactions (smileys) feature to any kind of resource, like a blog post or a comment.
 - [**Rating**](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit/Ratings) system to add rating feature to any kind of resource.
+- [**Menu**](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit/Menus) system to manage public menus dynamically.
+- [**Global resources**](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit/Global-Resources) system to add global styles and scripts dynamically.
 
 And the following features are provided by the CMS Kit pro version:
 
