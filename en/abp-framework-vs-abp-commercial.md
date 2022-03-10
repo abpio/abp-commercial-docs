@@ -102,6 +102,7 @@ Identity module's domain layer is the same. But the application, HTTP API and UI
 | Two Factor Authentication        | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
 | Account Linking                  | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
 | LDAP / Active Directory Login    | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+| User and Tenant Impersonation    | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
 | Email / Phone Verification       | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
 | User Profile Picture             | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
 | Captcha on Login/Register Forms  | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
