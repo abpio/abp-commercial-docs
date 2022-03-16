@@ -3,6 +3,12 @@
 To run the initial microservice template properly, **AdministrationService** hosts required management modules such as permission-management, setting-management, audit-logging etc. However, you may need to extract one or more management system into an isolated microservice as hosted alone.
 This guide explains how to extract `Audit-Logging Management` from Administration service into a different microservice called **LoggingService**.
 
+If we decided to run Auditing Management as an isolated microservice, then we need to decide how to other microservices and applications can interact with it. There are few ways to write auditing data in a distributed systems:
+
+1. Each microservice can **directly** write audit logs to LoggingService database. 
+2. Each microservice can **publish event** to write logs and LoggingService can handle this. 
+3. Each microservice can make **http request** to LoggingService to write audit logs. This is the **least performant** way to write audit logging since it will create an *overly chatty* environment for your microservices and also make each of your microservice tightly coupled to HttpApi.Client layer of the LoggingService. This approach will not be handled in this guide.
+
 ## Adding New Logging Microservice
 
   Create a new microservice called LoggingService to host audit-logging management using the cli command `abp new LoggingService -t microservice-service-pro`.
@@ -139,8 +145,7 @@ You should have added LoggingService ocelot reRoute to web gateway at adding  ne
 In **AdministrationServiceDbContext**, remove `IAuditLoggingDbContext` implementation and AuditLog configuration and add to **LoggingServiceDbContext**. Your updated LoggingServiceDbContext.cs should look like:
 ```csharp
 [ConnectionStringName(LoggingServiceDbProperties.ConnectionStringName)]
-public class LoggingServiceDbContext : AbpDbContext<LoggingServiceDbContext>,
-    IAuditLoggingDbContext
+public class LoggingServiceDbContext : AbpDbContext<LoggingServiceDbContext>, IAuditLoggingDbContext
 {
     public DbSet<AuditLog> AuditLogs { get; set; }
 
@@ -163,7 +168,16 @@ Under **LoggingService.EntityFrameworkCore** folder, create an initial migration
 
 > **Optional:** Create a new migration to remove the Auditing tables since we moved them to a different microservice database. To do that, use dotnet ef cli: `dotnet ef migrations add "Removed-Audit-Logging"` under AdministrationService.EntityFrameworkCore project.
 
-## Updating Shared Hosting Module
+## First Approach: Writing Directly to LoggingService Database
+
+This approach will let each microservice write audit logs directly to LoggingService database. 
+
+As an advantage, this will be a synchronous and immidiate way for writing the audit logs. 
+
+As a disadvantage; it will make all the microservices dependent on EfCore layer of LoggingService.
+
+### Updating Shared Hosting Module
+
 You need to configure AbpAuditingLogging database connecting string to LoggingService in order to use LoggingService connection string instead of separating the connection strings.
 Remove `database.MappedConnections.Add("AbpAuditLogging");` from AdministrationService database configuration and add LoggingService database configuration as below:
 ```csharp
@@ -173,9 +187,13 @@ options.Databases.Configure("LoggingService", database =>
 });
 ```
 
-## Updating Shared Hosting Microservice Module
-To make Audit logging repository implementation available for all microservices; Add `<ProjectReference Include="..\..\services\logging\src\Acme.BookStore.LoggingService.EntityFrameworkCore\Acme.BookStore.LoggingService.EntityFrameworkCore.csproj" />` project reference to **Hosting.Microservices.csproj** and add `typeof(LoggingServiceEntityFrameworkCoreModule)` module dependency to **HostingMicroservicesModule**
-## Testing Product Entity Changes
+### Updating Shared Hosting Microservice Module
+
+In order to make all the microservices use LoggingService that contains audit logging repository implementation, we need to **reference** to EfCore layer of LoggingService in all the microservices. Easiest way to achieving that is to add the reference to shared hosting microservice module.
+
+Add `<ProjectReference Include="..\..\services\logging\src\Acme.BookStore.LoggingService.EntityFrameworkCore\Acme.BookStore.LoggingService.EntityFrameworkCore.csproj" />` project reference to **Hosting.Microservices.csproj** and add `typeof(LoggingServiceEntityFrameworkCoreModule)` module dependency to **HostingMicroservicesModule**.
+
+### Testing Product Entity Changes
 Update ProductServiceDomainModule to track all entity changes as below:
 ```csharp
 Configure<AbpAuditingOptions>(options =>
@@ -198,3 +216,103 @@ Under admin application, navigate to Products page and add/update products:
 
 Navigate to Administration -> Audit Logs to check the audit logs:
 ![product-logs](../../images/product-logs.png)
+
+## Second Approach: Publishing Events to Write Audit Logs
+
+This approach will allow each microservice to publish an event to write an audit log to distributed event bus which shall be handled by the LoggingService. 
+
+It has the advantage of being loosely coupled so there is no project dependencies.
+
+As a disadvantage, it will be slower compared to direct database writing and it will depend on message broker. Also, there should be extra mapping steps to serialize the auditing object. `AuditLogInfo` object needs to be **mapped to an *Eto* when publishing the event** and that *Eto* should be **mapped back to entity when handling** the event.
+
+### Creating a New AuditingStore to Publish AuditLog Creation
+
+We need to implement IAuditingStore in all microservices that should publish an event. To do that, create a new class named `EventBasedAuditingStore` that replaces current implementation of *IAuditingStore*, **under shared Hosting.Microservices project** since it will be used by all the microservices:
+
+```csharp
+[Dependency(ReplaceServices = true)]
+[ExposeServices(typeof(IAuditingStore))]
+public class EventBasedAuditingStore : IAuditingStore, ITransientDependency
+{
+    private readonly IDistributedEventBus _distributedEventBus;
+    private readonly ILogger<EventBasedAuditingStore> _logger;
+
+    public EventBasedAuditingStore(IDistributedEventBus distributedEventBus, ILogger<EventBasedAuditingStore> logger)
+    {
+        _distributedEventBus = distributedEventBus;
+        _logger = logger;
+    }
+
+    [UnitOfWork]
+    public async Task SaveAsync(AuditLogInfo auditInfo)
+    {
+        _logger.LogInformation("Publishing audit log creation...");
+        CreateAuditInfoEto creationAuditInfoEto = MapAuditInfoToEto(auditInfo);
+        await _distributedEventBus.PublishAsync(creationAuditInfoEto);
+    }
+}
+```
+
+You can create `CreateAuditInfoEto` and a method to map `AuditLogInfo` into this object.
+
+From now on, your auditing logs will be published to distributed event bus that you can monitor using rabbitMq:
+
+![event-based-audit-rabbitmq](../../images/event-based-audit-rabbitmq.png)
+
+### Creating the Audit Creation Handler
+
+Published events will be handled in LoggingService since this service is responsible for writing the auditing logs. Create a handler named `AuditCreationHandler` under **LoggingService.HttpApi.Host** since this layer references to Hosting.Microservices where the `CreateAuditInfoEto` namespace is located:
+
+```csharp
+public class AuditCreationHandler : IDistributedEventHandler<CreateAuditInfoEto>, ITransientDependency
+{
+    private readonly IAuditLogRepository _auditLogRepository;
+    private readonly IAuditLogInfoToAuditLogConverter _converter;
+    private readonly ILogger<AuditCreationHandler> _logger;
+
+    public AuditCreationHandler(IAuditLogRepository auditLogRepository, IAuditLogInfoToAuditLogConverter converter,
+        ILogger<AuditCreationHandler> logger)
+    {
+        _converter = converter;
+        _logger = logger;
+        _auditLogRepository = auditLogRepository;
+    }
+
+    [UnitOfWork]
+    public async Task HandleEventAsync(CreateAuditInfoEto eventData)
+    {
+        try
+        {
+            _logger.LogInformation("Handling Audit Creation...");
+            AuditLogInfo auditLogInfo = MapCreationAuditInfoEtoToEntity(eventData);
+            await _auditLogRepository.InsertAsync(await _converter.ConvertAsync(auditLogInfo));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning("Could not save the audit log object ...");
+            _logger.LogException(ex, LogLevel.Error);
+        }
+    }
+}
+```
+
+This handler will inject IAuditingLogRepository and use *IAuditLogInfoToAuditLogConverter* to map `AuditLogInfo` to `AuditLog`. Before doing so, you need to write a mapper to map CreateAuditInfoEto to AuditLogInfo object.
+
+### Testing Product Entity Changes
+
+Update ProductServiceDomainModule to track all entity changes as below:
+
+```csharp
+Configure<AbpAuditingOptions>(options =>
+{
+	options.EntityHistorySelectors.AddAllEntities();
+});
+```
+
+Add/update/delete new product:
+
+![event-based-products](../../images/event-based-auditing-products.png)
+
+Then you can check Audit Logs under Administration -> Audit Logs
+
+![event-based-audit-logs](../../images/event-based-audit-logs.png)
