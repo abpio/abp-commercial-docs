@@ -1,7 +1,9 @@
-# Using Audit Logging as Microservice
+# Using a Management Module as a Microservice
 
 To run the initial microservice template properly, **AdministrationService** hosts required management modules such as permission-management, setting-management, audit-logging etc. However, you may need to extract one or more management system into an isolated microservice as hosted alone.
-This guide explains how to extract `Audit-Logging Management` from Administration service into a different microservice called **LoggingService**.
+This guide explains how to extract `Audit-Logging Management` as a sample management module from Administration service into a different microservice called **LoggingService**.
+
+> Note: You can extract any module as a microservice using this guide. If you want to extract any other management service, you can find detailed configurations about the module in it's documentation.
 
 If we decided to run Auditing Management as an isolated microservice, then we need to decide how to other microservices and applications can interact with it. There are few ways to write auditing data in a distributed systems:
 
