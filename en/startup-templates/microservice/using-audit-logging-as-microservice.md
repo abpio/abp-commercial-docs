@@ -1,4 +1,4 @@
-# Using a Module as Microservice
+# Using Audit Logging as Microservice
 
 To run the initial microservice template properly, **AdministrationService** hosts required management modules such as permission-management, setting-management, audit-logging etc. However, you may need to extract one or more management system into an isolated microservice as hosted alone.
 This guide explains how to extract `Audit-Logging Management` from Administration service into a different microservice called **LoggingService**.
@@ -11,7 +11,7 @@ If we decided to run Auditing Management as an isolated microservice, then we ne
 
 ## Adding New Logging Microservice
 
-  Create a new microservice called LoggingService to host audit-logging management using the cli command `abp new LoggingService -t microservice-service-pro`.
+Create a new microservice called LoggingService to host audit-logging management using the cli command `abp new LoggingService -t microservice-service-pro`.
 Follow the guide: [Adding a new Microservice](add-microservice.md).
 
 At the end, you should have a `logging` folder under services that contains LoggingService solution directory.
@@ -316,3 +316,8 @@ Add/update/delete new product:
 Then you can check Audit Logs under Administration -> Audit Logs
 
 ![event-based-audit-logs](../../images/event-based-audit-logs.png)
+
+
+## Next
+
+- [Communications Between Microservices](interservice-communication.md)
