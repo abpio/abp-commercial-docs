@@ -261,7 +261,7 @@ public class EventBasedAuditingStore : IAuditingStore, ITransientDependency
 }
 ```
 
-You can publish `AuditLogInfo` object directly since it is serializable as long as you remove the `EntityEntry` objects under EntityChanges collection.
+You can publish `AuditLogInfo` object directly since it is serializable as long as you remove the **EntityEntry** objects under the `EntityChanges` collection.
 
 From now on, your auditing logs will be published to the distributed event bus that you can monitor using rabbitMq:
 
@@ -269,7 +269,7 @@ From now on, your auditing logs will be published to the distributed event bus t
 
 ### Creating the Audit Creation Handler
 
-Published events will be handled in LoggingService since this service is responsible for writing the auditing logs. Create a handler named `AuditCreationHandler` under **LoggingService.HttpApi.Host** since this layer references to Hosting.Microservices where the `CreateAuditInfoEto` namespace is located:
+Published events will be handled in LoggingService since this service is responsible for writing the auditing logs. Create a handler named `AuditCreationHandler` under **LoggingService.HttpApi.Host**:
 
 ```csharp
 public class AuditCreationHandler : IDistributedEventHandler<AuditLogInfo>, ITransientDependency
@@ -303,7 +303,7 @@ public class AuditCreationHandler : IDistributedEventHandler<AuditLogInfo>, ITra
 }
 ```
 
-This handler will inject IAuditingLogRepository and use *IAuditLogInfoToAuditLogConverter* to map `AuditLogInfo` to `AuditLog`. Before doing so, you need to write a mapper to map CreateAuditInfoEto to the AuditLogInfo object.
+This handler will inject IAuditingLogRepository and use *IAuditLogInfoToAuditLogConverter* to map `AuditLogInfo` to `AuditLog`.
 
 ### Testing Product Entity Changes
 
