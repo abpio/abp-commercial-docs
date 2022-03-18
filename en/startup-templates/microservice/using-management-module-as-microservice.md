@@ -249,13 +249,19 @@ public class EventBasedAuditingStore : IAuditingStore, ITransientDependency
     public async Task SaveAsync(AuditLogInfo auditInfo)
     {
         _logger.LogInformation("Publishing audit log creation...");
-        CreateAuditInfoEto creationAuditInfoEto = MapAuditInfoToEto(auditInfo);
-        await _distributedEventBus.PublishAsync(creationAuditInfoEto);
+
+        // EntityEntry will break serialization so we remove it
+        for (var i = 0; i < auditInfo.EntityChanges.Count; i++)
+        {
+            auditInfo.EntityChanges[i].EntityEntry = null;
+        }
+        
+        await _distributedEventBus.PublishAsync(auditInfo);
     }
 }
 ```
 
-You can create `CreateAuditInfoEto` and a method to map `AuditLogInfo` into this object.
+You can publish `AuditLogInfo` object directly since it is serializable as long as you remove the `EntityEntry` objects under EntityChanges collection.
 
 From now on, your auditing logs will be published to the distributed event bus that you can monitor using rabbitMq:
 
@@ -266,7 +272,7 @@ From now on, your auditing logs will be published to the distributed event bus t
 Published events will be handled in LoggingService since this service is responsible for writing the auditing logs. Create a handler named `AuditCreationHandler` under **LoggingService.HttpApi.Host** since this layer references to Hosting.Microservices where the `CreateAuditInfoEto` namespace is located:
 
 ```csharp
-public class AuditCreationHandler : IDistributedEventHandler<CreateAuditInfoEto>, ITransientDependency
+public class AuditCreationHandler : IDistributedEventHandler<AuditLogInfo>, ITransientDependency
 {
     private readonly IAuditLogRepository _auditLogRepository;
     private readonly IAuditLogInfoToAuditLogConverter _converter;
@@ -281,13 +287,12 @@ public class AuditCreationHandler : IDistributedEventHandler<CreateAuditInfoEto>
     }
 
     [UnitOfWork]
-    public async Task HandleEventAsync(CreateAuditInfoEto eventData)
+    public async Task HandleEventAsync(AuditLogInfo eventData)
     {
         try
         {
             _logger.LogInformation("Handling Audit Creation...");
-            AuditLogInfo auditLogInfo = MapCreationAuditInfoEtoToEntity(eventData);
-            await _auditLogRepository.InsertAsync(await _converter.ConvertAsync(auditLogInfo));
+            await _auditLogRepository.InsertAsync(await _converter.ConvertAsync(eventData));
         }
         catch (Exception ex)
         {
