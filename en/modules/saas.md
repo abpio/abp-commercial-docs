@@ -42,7 +42,7 @@ Firstly, Payment module must be configured properly:
   });
   ```
 
- - Follow the [subscriptions](payment#subscriptions) section of [Payment Module Documentation](payment#subscriptions). After [enabling webhooks](payment#enabling-webhooks) and [configuring plans](payment#configuring-plans) sections.
+ - Follow the [subscriptions](payment#subscriptions) section of [Payment Module Documentation](payment#subscriptions). Complete [enabling webhooks](payment#enabling-webhooks) and [configuring plans](payment#configuring-plans) sections.
 
 - Run the application and go to `Saas > Editions` page at your Web Application menu.
 
