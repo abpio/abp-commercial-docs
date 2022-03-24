@@ -1,4 +1,4 @@
-# Using a Management Module as a Microservice
+# Extracting a Module as a Microservice
 
 To run the initial microservice template properly, **AdministrationService** hosts required management modules such as permission-management, setting-management, audit-logging etc. However, you may need to extract one or more management system into an isolated microservice as hosted alone.
 This guide explains how to extract `Audit-Logging Management` as a sample management module from the Administration service into a different microservice called **LoggingService**.

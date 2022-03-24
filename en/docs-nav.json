@@ -159,8 +159,8 @@
                   "path": "startup-templates/microservice/add-microservice.md"
                 },
 				{
-                  "text": "Using a Management Module as a Microservice",
-                  "path": "startup-templates/microservice/using-management-module-as-microservice.md"
+                  "text": "Extracting a Module as a Microservice",
+                  "path": "startup-templates/microservice/extracting-module-as-microservice.md"
                 },
                 {
                   "text": "Communication Between Microservices",
