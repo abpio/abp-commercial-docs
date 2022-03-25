@@ -2,16 +2,6 @@
 
 If you have an existing database table, you can generate the entities using ABP Suite and create a CRUD page based on those entities, let's get started.
 
-# Launch ABP Suite
-
-To start ABP Suite, type the following command in the command line:
-
-```
-abp suite
-```
-
-This will launch ABP Suite onto your browser.
-
 # Create/open your project
 
 ![abpsuite](../images/abpsuite.png)
