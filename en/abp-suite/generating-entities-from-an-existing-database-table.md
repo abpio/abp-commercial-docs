@@ -1,16 +1,6 @@
-# Generating Entities from an existing Database Table to Create a CRUD Page
+# Generating CRUD Pages From an Existing Database Table
 
 If you have an existing database table, you can generate the entities using ABP Suite and create a CRUD page based on those entities, let's get started.
-
-# Launch ABP Suite
-
-To start ABP Suite, type the following command in the command line:
-
-```
-abp suite
-```
-
-This will launch ABP Suite onto your browser.
 
 # Create/open your project
 
@@ -23,21 +13,16 @@ Either create a new project or open an existing project that's based on an app o
 After opening the project in ABP Suite, scroll down to the bottom and click the **Load Entity From Database** button:![abpsuite2](../images/abpsuite2.png)
 
 
-
 This will open the window seen below, choose the data source of your database and add the connection string of your project:![abpsuite3](../images/abpsuite3.png)
-
 
 
 Click the lightning icon to test the connection, and then connect to the database by clicking **connect**, and this should extend the window as the following window:![abpsuite4](../images/abpsuite4.png)
 
 
-
 Uncheck the Id property since it automatically gets generated, it'll cause an error if we generate it twice, then click **OK**:![abpsuite5](../images/abpsuite5.png)
 
 
-
 After that, make sure the primary key type is selected, then click **Save and generate**:![abpsuite6](../images/abpsuite6.png)
-
 
 
 The following GIF is a summary of the previous steps: ![SUTIE_GIF](../images/SUTIE_GIF.gif)
@@ -45,7 +30,6 @@ The following GIF is a summary of the previous steps: ![SUTIE_GIF](../images/SUT
 # Run the Project!
 
 After that, run the project and watch the magic! An easy CRUD app using the entities from an existing database table!![SUITE_GIF_2](../images/SUITE_GIF_2.gif)
-
 
 
 ## What's next?
