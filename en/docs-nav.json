@@ -333,15 +333,15 @@
           "path": "abp-suite/create-solution.md"
         },
         {
-          "text": "Generating CRUD Page",
-          "path": "abp-suite/generating-crud-page.md"
-        },
-
-        {
-          "text": "Generating Entities from an existing Database Table to Create a CRUD Page",
-          "path": "abp-suite/generating-entities-from-an-existing-database-table.md"
-        },
-        
+           "text":"Generating CRUD Page",
+           "path":"abp-suite/generating-crud-page.md",
+           "items":[
+              {
+                 "text":"Generating from an Existing Database",
+                 "path":"abp-suite/generating-entities-from-an-existing-database-table.md"
+              }
+           ]
+        },      
         {
           "text": "Creating Many-To-Many Relationship",
           "path": "abp-suite/creating-many-to-many-relationship.md"
