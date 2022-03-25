@@ -1,4 +1,4 @@
-# Generating Entities from an existing Database Table to Create a CRUD Page
+# Generating CRUD Pages From an Existing Database Table
 
 If you have an existing database table, you can generate the entities using ABP Suite and create a CRUD page based on those entities, let's get started.
 
