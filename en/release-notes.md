@@ -2,9 +2,9 @@
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
 
-## 5.2 (2022-03-08)
+## 5.2 (2022-04-05)
 
-See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-5-2-RC-Has-Been-Published)** for the v5.2 release.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-IO-Platform-5-2-Final-Has-Been-Released)** for the v5.2 release.
 
 * Code generation with **many to many relation** support for the [ABP Suite](abp-suite/index.md).
 * The new **single-layer**, simpler startup solution template.
