@@ -244,6 +244,21 @@ There are some adjustments you may need to make before generating CRUD pages for
   - Project key is in kebab case. E.g. `book-store`.
   - Project is defined as `defaultProject`.
 
+## Command Line
+
+You can generate CRUD pages via [ABP CLI](https://docs.abp.io/en/abp/latest/CLI), without using ABP Suite's user interface. You need to add the entity's configuration file as parameter to command.
+
+Example:
+
+`abp suite generate --entity D:\Book.json --solution D:\MyProjects\Acme.Bookstore.sln` 
+
+##### Parameters
+
+* `--entity` or `-e`: Path of the configuration file for the entity.
+* `--solution` or `-s`: Path of the target project file (***.sln**).
+
+> Configuration file for an entity, holds all the information in **json** format to generate an entity. When you generate an entity on suite, you can find the configuration file of that entity in `.suite\entities` folder of the solution. You can use that file directly to re-generate the entity via **Abp CLI**. These files are not connected to the solution, thus you can copy from one solution to another to create same entities in different solutions.
+
 ## What's next?
 
 [Generating CRUD Pages From an Existing Database Table](generating-entities-from-an-existing-database-table.md)
