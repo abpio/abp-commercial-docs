@@ -244,20 +244,26 @@ There are some adjustments you may need to make before generating CRUD pages for
   - Project key is in kebab case. E.g. `book-store`.
   - Project is defined as `defaultProject`.
 
-## Command Line
+## Generating CRUD Pages via Command Line
 
-You can generate CRUD pages via [ABP CLI](https://docs.abp.io/en/abp/latest/CLI), without using ABP Suite's user interface. You need to add the entity's configuration file as parameter to the command.
+You can generate CRUD pages via [ABP CLI](https://docs.abp.io/en/abp/latest/CLI), without opening ABP Suite's user interface. 
+To do this, you need to pass your entity JSON file and your solution path to the ABP CLI.
 
 Example:
 
-`abp suite generate --entity D:\Book.json --solution D:\MyProjects\Acme.Bookstore.sln` 
+```
+abp suite generate --entity D:\Projects\BookStore\.suite\entities\Book.json --solution D:\Projects\BookStore\Acme.Bookstore.sln
+```
+
+In this example, `Book.json` was previously created via ABP Suite.
+
 
 ##### Parameters
 
-* `--entity` or `-e`: Path of the configuration file for the entity.
-* `--solution` or `-s`: Path of the target project file (***.sln**).
+* `--entity` or `-e`: Path of the entity's JSON file.
+* `--solution` or `-s`: Path of the target solution file (***.sln**).
 
-> Configuration file for an entity, holds all the information in **json** format to generate an entity. When you generate an entity on suite, you can find the configuration file of that entity in `.suite\entities` folder of the solution. You can use that file directly to re-generate the entity via **Abp CLI**. These files are not connected to the solution, thus you can copy from one solution to another to create same entities in different solutions.
+> Entity JSON file is the metadata for an entity. It has all the information to generate a CRUD page for an entity. When you generate an entity on ABP Suite, you can find the entity JSON file of that entity in `.suite\entities` folder of the solution. You can use that file directly to re-generate the entity via **Abp CLI**. When you copy an entity from a solution to another which has different namespace, then you may need to update your entity JSON. The reason for that, the navigation properties are saved with their namespaces, therefore you need to update the namespaces of navigation properties.
 
 ## What's next?
 
