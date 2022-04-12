@@ -75,6 +75,15 @@ Configure<AbpAccountOptions>(options =>
 
 * `WindowsAuthenticationSchemeName` (default: Windows): Name of the Windows authentication scheme.
 
+## Local login
+
+The user can't log in through the local account, also can't use the local account-related features such as `register` and `find password` etc if this setting is disabled.
+
+If you use `Social / External Logins`, It is automatically called for authentication when logging in.
+
+![account-pro-module-local-login-setting](../images/account-pro-module-local-login-setting.png)
+
+
 ## Social / External Logins
 
 Account module implements social/external login system. All you need to do is to install & configure the provider you want to use.
