@@ -246,7 +246,7 @@ There are some adjustments you may need to make before generating CRUD pages for
 
 ## Command Line
 
-You can generate CRUD pages via [ABP CLI](https://docs.abp.io/en/abp/latest/CLI), without using ABP Suite's user interface. You need to add the entity's configuration file as parameter to command.
+You can generate CRUD pages via [ABP CLI](https://docs.abp.io/en/abp/latest/CLI), without using ABP Suite's user interface. You need to add the entity's configuration file as parameter to the command.
 
 Example:
 
