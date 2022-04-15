@@ -123,9 +123,11 @@ We will have a `Book` entity and an `Author` entity. Let each book has an author
 
 - `Book` entity (1) is associated to `Author` entity (N).
 
-### Step by step creating a navigation property
+### Step by step creating a navigation property (with 1-to-many relationship)
 
 Let's see how to create a navigation property for a **Book Store** project.  We will create an `Author` entity and a `Book` entity. The `Book` entity will hold a foreign key to the `Author` entity which will store the primary key of the `Author` entity.
+
+> To create many-to-many relationship, check out [Creating Many-To-Many Relationship](creating-many-to-many-relationship.md)
 
 #### 1- Create the "Author" entity
 
@@ -198,7 +200,6 @@ In the below image, you will see the mappings of navigation property fields with
 The below image is the final page created by the ABP Suite. The **new book** dialog has **Author** dropdown which lists all authors. After saving the book, the author column will show the `NameSurname` field (display property) of the author entity.
 
 ![navigation-property-books-page](../images/navigation-property-books-page.png)
-
 
 
 ### Saving an entity
