@@ -343,9 +343,13 @@
               {
                  "text":"Generating from an Existing Database",
                  "path":"abp-suite/generating-entities-from-an-existing-database-table.md"
-              }
+              },
+			  {
+				 "text": "Creating Many-To-Many Relationship",
+				 "path": "abp-suite/creating-many-to-many-relationship.md"
+			  }	
            ]
-        },         
+        },      	
         {
           "text": "Accessing Source Code of Modules",
           "path": "abp-suite/source-code.md"
