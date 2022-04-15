@@ -55,3 +55,7 @@ Click the **Navigations** tab. Then click the **Add navigation collection** butt
 The below image is the final page created by ABP Suite. The **new book** dialog has a **Categories** tab which lists all categories of the book and allows add/remove categories.
 
 ![navigation-collection-books-page](../images/navigation-collection-books-page.png)
+
+## What's next?
+
+[Accessing source code of modules](source-code.md)
