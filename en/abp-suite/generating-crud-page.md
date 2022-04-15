@@ -246,5 +246,5 @@ There are some adjustments you may need to make before generating CRUD pages for
 
 ## What's next?
 
-* [Generating CRUD Pages From an Existing Database Table](generating-entities-from-an-existing-database-table.md)
 * [Creating Many-To-Many Relationship](creating-many-to-many-relationship.md)
+* [Generating CRUD Pages From an Existing Database Table](generating-entities-from-an-existing-database-table.md)
