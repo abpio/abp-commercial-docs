@@ -158,7 +158,7 @@
                   "text": "Adding a new Microservice",
                   "path": "startup-templates/microservice/add-microservice.md"
                 },
-				{
+                {
                   "text": "Extracting a Module as a Microservice",
                   "path": "startup-templates/microservice/extracting-module-as-microservice.md"
                 },
@@ -337,19 +337,19 @@
           "path": "abp-suite/create-solution.md"
         },
         {
-           "text":"Generating CRUD Page",
-           "path":"abp-suite/generating-crud-page.md",
-           "items":[
-              {
-                 "text":"Generating from an Existing Database",
-                 "path":"abp-suite/generating-entities-from-an-existing-database-table.md"
-              },
-			  {
-				 "text": "Creating Many-To-Many Relationship",
-				 "path": "abp-suite/creating-many-to-many-relationship.md"
-			  }	
-           ]
-        },      	
+          "text": "Generating CRUD Page",
+          "path": "abp-suite/generating-crud-page.md",
+          "items": [
+            {
+              "text": "Creating Many-To-Many Relationship",
+              "path": "abp-suite/creating-many-to-many-relationship.md"
+            },
+            {
+              "text": "Generating from an Existing Database",
+              "path": "abp-suite/generating-entities-from-an-existing-database-table.md"
+            }
+          ]
+        },
         {
           "text": "Accessing Source Code of Modules",
           "path": "abp-suite/source-code.md"
