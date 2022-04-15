@@ -1,37 +1,436 @@
-# Generating CRUD Pages From an Existing Database Table
-
-If you have an existing database table, you can generate the entities using ABP Suite and create a CRUD page based on those entities, let's get started.
-
-# Create/open your project
-
-![abpsuite](../images/abpsuite.png)
-
-Either create a new project or open an existing project that's based on an app or module template.
-
-# Generate the Entities
-
-After opening the project in ABP Suite, scroll down to the bottom and click the **Load Entity From Database** button:![abpsuite2](../images/abpsuite2.png)
-
-
-This will open the window seen below, choose the data source of your database and add the connection string of your project:![abpsuite3](../images/abpsuite3.png)
-
-
-Click the lightning icon to test the connection, and then connect to the database by clicking **connect**, and this should extend the window as the following window:![abpsuite4](../images/abpsuite4.png)
-
-
-Uncheck the Id property since it automatically gets generated, it'll cause an error if we generate it twice, then click **OK**:![abpsuite5](../images/abpsuite5.png)
-
-
-After that, make sure the primary key type is selected, then click **Save and generate**:![abpsuite6](../images/abpsuite6.png)
-
-
-The following GIF is a summary of the previous steps: ![SUTIE_GIF](../images/SUTIE_GIF.gif)
-
-# Run the Project!
-
-After that, run the project and watch the magic! An easy CRUD app using the entities from an existing database table!![SUITE_GIF_2](../images/SUITE_GIF_2.gif)
-
-
-## What's next?
-
-[Accessing source code of modules](source-code.md)
+{
+  "items": [
+    {
+      "text": "Getting Started",
+      "path": "getting-started.md",
+      "items": [
+        {
+          "text": "1: Setup Development Environment",
+          "path": "getting-started-setup-environment.md"
+        },
+        {
+          "text": "2: Creating a New Solution",
+          "path": "getting-started-create-solution.md"
+        },
+        {
+          "text": "3: Running the Solution",
+          "path": "getting-started-running-solution.md"
+        }
+      ]
+    },
+    {
+      "text": "Tutorials",
+      "items": [
+        {
+          "text": "Web Application Development",
+          "items": [
+            {
+              "text": "1: Creating the Server Side",
+              "path": "tutorials/book-store/part-1.md"
+            },
+            {
+              "text": "2: The Book List Page",
+              "path": "tutorials/book-store/part-2.md"
+            },
+            {
+              "text": "3: Creating, Updating and Deleting Books",
+              "path": "tutorials/book-store/part-3.md"
+            },
+            {
+              "text": "4: Integration Tests",
+              "path": "tutorials/book-store/part-4.md"
+            },
+            {
+              "text": "5: Authorization",
+              "path": "tutorials/book-store/part-5.md"
+            },
+            {
+              "text": "6: Authors: Domain layer",
+              "path": "tutorials/book-store/part-6.md"
+            },
+            {
+              "text": "7: Authors: Database Integration",
+              "path": "tutorials/book-store/part-7.md"
+            },
+            {
+              "text": "8: Authors: Application Layer",
+              "path": "tutorials/book-store/part-8.md"
+            },
+            {
+              "text": "9: Authors: User Interface",
+              "path": "tutorials/book-store/part-9.md"
+            },
+            {
+              "text": "10: Book to Author Relation",
+              "path": "tutorials/book-store/part-10.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Guides",
+      "items": [
+        {
+          "text": "Customizing the Modules",
+          "path": "guides/customizing-modules.md"
+        },
+        {
+          "text": "IdentityServer Deployment",
+          "path": "guides/identityserver-deployment.md"
+        }
+      ]
+    },
+    {
+      "text": "Samples",
+      "items": [
+        {
+          "text": "All Samples",
+          "path": "samples/index.md"
+        },
+        {
+          "text": "Easy CRM",
+          "path": "samples/easy-crm.md"
+        }
+      ]
+    },
+    {
+      "text": "Startup Templates",
+      "path": "startup-templates/index.md",
+      "items": [
+        {
+          "text": "Application Template",
+          "path": "startup-templates/application/index.md",
+          "items": [
+            {
+              "text": "Creating Solution",
+              "path": "startup-templates/application/create-solution.md"
+            },
+            {
+              "text": "Solution Structure",
+              "path": "startup-templates/application/solution-structure.md"
+            }
+          ]
+        },
+        {
+          "text": "Microservice Template",
+          "items": [
+            {
+              "text": "Creating a New Microservice Solution",
+              "path": "startup-templates/microservice/create-new-microservice.md"
+            },
+            {
+              "text": "Overall",
+              "path": "startup-templates/microservice/index.md"
+            },
+            {
+              "text": "Get Started",
+              "path": "startup-templates/microservice/get-started.md"
+            },
+            {
+              "text": "Applications",
+              "path": "startup-templates/microservice/applications.md"
+            },
+            {
+              "text": "Services",
+              "path": "startup-templates/microservice/microservices.md"
+            },
+            {
+              "text": "Gateways",
+              "path": "startup-templates/microservice/gateways.md"
+            },
+            {
+              "text": "Infrastructure",
+              "path": "startup-templates/microservice/infrastructure.md"
+            },
+            {
+              "text": "Database Migrations",
+              "path": "startup-templates/microservice/database-migrations.md"
+            },
+            {
+              "text": "Tye Integration",
+              "path": "startup-templates/microservice/tye-integration.md"
+            },
+            {
+              "text": "Guides",
+              "items": [
+                {
+                  "text": "Adding a new Microservice",
+                  "path": "startup-templates/microservice/add-microservice.md"
+                },
+                {
+                  "text": "Extracting a Module as a Microservice",
+                  "path": "startup-templates/microservice/extracting-module-as-microservice.md"
+                },
+                {
+                  "text": "Communication Between Microservices",
+                  "path": "startup-templates/microservice/interservice-communication.md"
+                },
+                {
+                  "text": "Change Microservice project to use MongoDB Provider",
+                  "path": "guides/microservice-mongodb.md"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "text": "Module Template",
+          "path": "startup-templates/module/index.md",
+          "items": [
+            {
+              "text": "Creating a New Module Solution",
+              "path": "startup-templates/module/creating-a-new-solution.md"
+            },
+            {
+              "text": "Solution Structure",
+              "path": "startup-templates/module/solution-structure.md"
+            },
+            {
+              "text": "Creating a New ABP solution via ABP Suite",
+              "path": "abp-suite/create-module-solution.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Application Modules",
+      "items": [
+        {
+          "text": "Overall",
+          "path": "modules/index.md"
+        },
+        {
+          "text": "Account",
+          "path": "modules/account.md",
+          "items": [
+            {
+              "text": "LDAP Login",
+              "path": "modules/account/ldap.md"
+            },
+            {
+              "text": "Tenant&User impersonation",
+              "path": "modules/account/impersonation.md"
+            }
+          ]
+        },
+        {
+          "text": "Audit Logging",
+          "path": "modules/audit-logging.md"
+        },
+        {
+          "text": "Chat",
+          "path": "modules/chat.md"
+        },
+        {
+          "text": "CMS Kit Pro",
+          "path": "modules/cms-kit/index.md"
+        },
+        {
+          "text": "File Management",
+          "path": "modules/file-management.md"
+        },
+        {
+          "text": "Forms",
+          "path": "modules/forms.md"
+        },
+        {
+          "text": "Identity",
+          "path": "modules/identity.md",
+          "items": [
+            {
+              "text": "Two Factor Authentication",
+              "path": "modules/identity/two-factor-authentication.md"
+            }
+          ]
+        },
+        {
+          "text": "Identity Server",
+          "path": "modules/identity-server.md"
+        },
+        {
+          "text": "Language Management",
+          "path": "modules/language-management.md"
+        },
+        {
+          "text": "Payment",
+          "path": "modules/payment.md"
+        },
+        {
+          "text": "SaaS",
+          "path": "modules/saas.md"
+        },
+        {
+          "text": "Text Template Management",
+          "path": "modules/text-template-management.md"
+        },
+        {
+          "text": "Twilio SMS",
+          "path": "modules/twilio-sms.md"
+        }
+      ]
+    },
+    {
+      "text": "UI Themes",
+      "items": [
+        {
+          "text": "Lepton",
+          "path": "themes/lepton.md",
+          "items": [
+            {
+              "text": "Customizing Lepton Theme",
+              "path": "themes/customizing-lepton-theme.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Angular UI",
+      "items": [
+        {
+          "text": "Customization",
+          "items": [
+            {
+              "text": "Manage Profile Page Tabs",
+              "path": "ui/angular/manage-profile-page-tabs.md"
+            }
+          ]
+        },
+        {
+          "text": "Components",
+          "items": [
+            {
+              "text": "Lookup Components",
+              "path": "ui/angular/lookup-components.md"
+            },
+            {
+              "text": "Entity Filters",
+              "path": "ui/angular/entity-filters.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "ABP Suite",
+      "items": [
+        {
+          "text": "Overall",
+          "path": "abp-suite/index.md"
+        },
+        {
+          "text": "How to Install",
+          "path": "abp-suite/how-to-install.md"
+        },
+        {
+          "text": "How to Start",
+          "path": "abp-suite/how-to-start.md"
+        },
+        {
+          "text": "Adding Existing ABP Solution",
+          "path": "abp-suite/add-solution.md"
+        },
+        {
+          "text": "Creating new ABP solution",
+          "path": "abp-suite/create-solution.md"
+        },
+        {
+          "text": "Generating CRUD Page",
+          "path": "abp-suite/generating-crud-page.md",
+          "items": [
+            {
+              "text": "Creating Many-To-Many Relationship",
+              "path": "abp-suite/creating-many-to-many-relationship.md",
+              
+            },
+            {
+              "text": "Generating from an Existing Database",
+              "path": "abp-suite/generating-entities-from-an-existing-database-table.md"
+            }
+          ]
+        },
+        {
+          "text": "Accessing Source Code of Modules",
+          "path": "abp-suite/source-code.md"
+        },
+        {
+          "text": "Updating Packages",
+          "path": "abp-suite/updating-packages.md"
+        },
+        {
+          "text": "Configuration",
+          "path": "abp-suite/configuration.md"
+        },
+        {
+          "text": "Editing Templates",
+          "path": "abp-suite/editing-templates.md"
+        }
+      ]
+    },
+    {
+      "text": "Release Information",
+      "items": [
+        {
+          "text": "Release Notes (Change Logs)",
+          "path": "release-notes.md"
+        },
+        {
+          "text": "Road Map",
+          "path": "road-map.md"
+        },
+        {
+          "text": "Migration Guides",
+          "path": "migration-guides/index.md",
+          "items": [
+            {
+              "text": "Blazor",
+              "items": [
+                {
+                  "text": "3.2 to 3.3",
+                  "path": "migration-guides/blazor-ui-3_3.md"
+                }
+              ]
+            },
+            {
+              "text": "4.x to 4.3",
+              "path": "migration-guides/v4_3.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "FAQ",
+      "path": "faq.md"
+    },
+    {
+      "text": "Others",
+      "items": [
+        {
+          "text": "ABP Framework vs ABP Commercial",
+          "path": "abp-framework-vs-abp-commercial.md"
+        },
+        {
+          "text": "ABP Commercial vs ASP.NET Zero",
+          "path": "aspnet-zero-vs-abp-commercial.md"
+        },
+        {
+          "text": "How to?",
+          "path": "how-to/index.md",
+          "items": [
+            {
+              "text": "Implementing Passwordless Authentication",
+              "path": "how-to/implementing-passwordless-authentication.md"
+            }
+          ]
+        },
+        {
+          "text": "Why ABP.IO Platform?",
+          "path": "why-abp-io-platform.md"
+        }
+      ]
+    }
+  ]
+}
