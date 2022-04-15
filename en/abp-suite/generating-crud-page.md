@@ -113,9 +113,8 @@ A **navigation property** is a type of property on an entity that allows for nav
 
 Navigation properties provide a way to navigate an association between two entity types. Every object can have a navigation property for every relationship in which it participates. 
 
-When you create a navigation property with ABP Suite, you will have a dropdown or look up table to pick a record from the dependent record list. ABP Suite allows you to create a navigation property for only **1-to-many (1:N)** relationships.
+When you create a navigation property with ABP Suite, you will have a dropdown or look up table to pick a record from the dependent record list. ABP Suite allows you to create a navigation property for **1-to-many (1:N)** and **many-to-many (N:N)** relationships.
 
-> Currently there's no support for many-to-1 (N:1) or many-to-many (N:N) relationships!
 
 In this scenario there are multiple records from one entity associated with a single record from another entity. This means you have a principal (parent) entity and many dependent (child) entities. 
 
@@ -246,4 +245,5 @@ There are some adjustments you may need to make before generating CRUD pages for
 
 ## What's next?
 
-[Generating CRUD Pages From an Existing Database Table](generating-entities-from-an-existing-database-table.md)
+* [Generating CRUD Pages From an Existing Database Table](generating-entities-from-an-existing-database-table.md)
+* [Creating Many-To-Many Relationship](creating-many-to-many-relationship.md)
