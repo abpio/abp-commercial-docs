@@ -1,34 +1,16 @@
-To add `LeptonX` into your existing projects, 
+To add `LeptonX` into your existing projects, follow the steps below. 
 
-* Firstly, install `@volosoft/abp.ng.theme.lepton-x`
-
-`npm install @volosoft/abp.ng.theme.lepton-x@preview` or 
+* Firstly, install `@volosoft/abp.ng.theme.lepton-x` using the command below.
 
 `yarn add @volosoft/abp.ng.theme.lepton-x@preview`
 
 * Then, edit `angular.json` as follows:
-
-Remove the following config from the `styles` array since LeptonX provides bootstrap as embedded in its CSS.
-
-```JSON
-{
-  "input": "node_modules/bootstrap/dist/css/bootstrap.min.css",
-  "inject": true,
-  "bundleName": "bootstrap-ltr.min"
-},
-```
 
 Add the following ones into the `styles` array
 
 ```JSON
 "node_modules/bootstrap-icons/font/bootstrap-icons.css",
 ```
-
-Three of them are related to the theming and will be loaded during runtime. That's why they are not injected into the `head` as a style. Hence, the `"inject": false`
-
-The fourth one depends on which layout you want to use. For now, there is only `sidemenu-layout` available. In the future, there will be many layouts to choose from. 
-
-The last one is `bootstrap-icons` which are being used throughout the components. 
 
 * At last, remove `ThemeLeptonModule` from `app.module.ts` and `shared.module.ts`, and import the following modules in `app.module.ts`
 
@@ -50,7 +32,7 @@ import { SideMenuLayoutModule } from '@volosoft/abp.ng.theme.lepton-x/layouts';
 export class AppModule {}
 ```
 
-Note: If you employ [Resource Owner Password Flow](https://docs.abp.io/en/abp/latest/UI/Angular/Authorization#resource-owner-password-flow) for authorization, you should import the following module as well:
+Note: If you are using [Resource Owner Password Flow](https://docs.abp.io/en/abp/latest/UI/Angular/Authorization#resource-owner-password-flow) for authorization, you should import the following module as well to `app.module.ts`:
 
 ```js
 import { AccountLayoutModule } from '@volosoft/abp.ng.theme.lepton-x/account';
