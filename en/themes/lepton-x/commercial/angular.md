@@ -8,20 +8,27 @@ To add `LeptonX` into your existing projects,
 
 * Then, edit `angular.json` as follows:
 
-You can remove the `flag-icon` css since `LeptonX` no longer uses flags to demonstrate the languages. 
+Remove the following config from the `styles` array since LeptonX provides bootstrap as embedded in its CSS.
+
 ```JSON
 {
-  "input": "node_modules/flag-icon-css/css/flag-icon.min.css",
+  "input": "node_modules/bootstrap/dist/css/bootstrap.min.css",
   "inject": true,
-  "bundleName": "flag-icon.min"
+  "bundleName": "bootstrap-ltr.min"
 },
 ```
 
-Add the `bootstrap-icons` into the `styles` array
+Add the following ones into the `styles` array
 
 ```JSON
 "node_modules/bootstrap-icons/font/bootstrap-icons.css",
 ```
+
+Three of them are related to the theming and will be loaded during runtime. That's why they are not injected into the `head` as a style. Hence, the `"inject": false`
+
+The fourth one depends on which layout you want to use. For now, there is only `sidemenu-layout` available. In the future, there will be many layouts to choose from. 
+
+The last one is `bootstrap-icons` which are being used throughout the components. 
 
 * At last, remove `ThemeLeptonModule` from `app.module.ts` and `shared.module.ts`, and import the following modules in `app.module.ts`
 
@@ -90,3 +97,4 @@ export class AppModule {}
   }
 }
 ```
+If everything is ok, you can remove the `@volo/abp.ng.theme.lepton` in package.json
