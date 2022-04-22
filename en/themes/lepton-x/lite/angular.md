@@ -21,7 +21,7 @@ Add the following style
 "node_modules/bootstrap-icons/font/bootstrap-icons.css",
 ```
 
-* Finally, remove `ThemeBasicModule` from `app.module.ts` and `shared.module.ts`, and import the related modules in `app.module.ts`
+* Finally, remove `ThemeBasicModule` from `app.module.ts`, and import the related modules in `app.module.ts`
 
 ```js
 import { ThemeLeptonXModule } from '@abp/ng.theme.lepton-x';
