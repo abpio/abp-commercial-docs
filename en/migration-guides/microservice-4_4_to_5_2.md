@@ -63,7 +63,7 @@ AuthServer is now hosting Account Http.Api module. Since account-related managem
 
 - Added **CORS configuration** to service modules and to appsettings.json for Web and Public-Web gateways.
 - Added external provider configuration to IdentityService Http.Api.Host module.
-- ProductService.Http.Api.Client is now using static proxying. Infrastructural services does not configuration because all the modules they are hosting are already using static proxying. 
+- ProductService.Http.Api.Client is now using static proxying. Infrastructural services do not use this configuration because all the modules they are hosting are already using static proxying. It is also strongly suggested to use static proxying for newly added microservices to the solution.
 
 ## See Also
 
