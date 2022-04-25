@@ -1,3 +1,5 @@
+# Client Side
+
 To add `LeptonX` into your existing projects, follow the steps below. 
 
 * Firstly, install `@volosoft/abp.ng.theme.lepton-x` using the command below.
@@ -80,3 +82,9 @@ export class AppModule {}
 }
 ```
 If everything is ok, you can remove the `@volo/abp.ng.theme.lepton` in package.json
+
+# Server Side
+
+# Server Side
+
+In order to migrate to LeptonX on your server side projects (Host and/or IdentityServer projects), please follow [Server Side Migration](mvc.md) document.
