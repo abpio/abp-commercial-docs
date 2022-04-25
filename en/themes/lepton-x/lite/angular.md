@@ -1,3 +1,5 @@
+# Client Side
+
 To add `LeptonX-lite` into your project,
 
 * Install `@abp/ng.theme.lepton-x`
@@ -67,3 +69,7 @@ To change the logos and brand color of the `LeptonX`, simply add the following C
 - `--lpx-logo` is used to place the logo in the menu.
 - `--lpx-logo-icon` is a square icon used when the menu is collapsed. 
 - `--lpx-brand` is a color used throughout the application, especially on active elements. 
+
+# Server Side
+
+In order to migrate to LeptonX on your server side projects (Host and/or IdentityServer projects), please follow [Server Side Migration](mvc.md) document.
