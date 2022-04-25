@@ -1,4 +1,4 @@
-# LeptonX Lite MVC UI
+# LeptonX Lite Blazor UI
 
 ````json
 //[doc-params]
@@ -12,7 +12,7 @@ LeptonX Lite has implementation for ABP Framework Blazor WebAssembly & Blazor Se
 ## Installation
 
 {{if UI == "Blazor"}}
-- Complete [MVC Razor Pages Installation](mvc.md#installation) for the **HttpApi.Host** application first. _If the solution is tiered/micro-service, complete MVC steps for all MVC applications such as **HttpApi.Host** and if indetity server is separaed, install to the **IdentityServer**_
+- Complete [MVC Razor Pages Installation](mvc.md#installation) for the **HttpApi.Host** application first. _If the solution is tiered/micro-service, complete MVC steps for all MVC applications such as **HttpApi.Host** and if identity server is separated, install to the **IdentityServer**_.
 
 - Add **Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXTheme** package to your **Blazor wasm** application.
   ```bash
@@ -42,7 +42,7 @@ builder.RootComponents.Add<App>("#ApplicationContainer");
 
 {{if UI == "BlazorServer"}}
 
-- Complete [MVC Razor Pages Installation](mvc.md#installation) first. _If the solution is tiered/micro-service, complete MVC steps for all MVC applications such as **HttpApi.Host** and **IdentityServer**_
+- Complete [MVC Razor Pages Installation](mvc.md#installation) first. _If the solution is tiered/micro-service, complete MVC steps for all MVC applications such as **HttpApi.Host** and **IdentityServer**_.
 
 - Add **Volo.Abp.AspNetCore.Components.Server.LeptonXLiteTheme** package to your **Blazor server** application.
   ```bash
