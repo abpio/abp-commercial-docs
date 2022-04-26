@@ -1,8 +1,8 @@
-# Microservice Template Version 4.4 to 5.2 Migration Guide
+# Microservice Template Version 4.x to 5.2 Migration Guide
 
 This document is a guide for upgrading Microservice template version 4.4 to version 5.2. Please read them all since there are some important breaking changes. 
 
- It is strongly suggested to follow [General Startup Template Changes Guide](https://github.com/abpframework/abp/blob/dev/docs/en/Migration-Guides/Upgrading-Startup-Template.md) and generate an up-to-date microservice template for comparison. Compare your code-base for each application, gateways, microservices, and the shared projects that you are using.
+ It is strongly suggested to follow [General Startup Template Changes Guide](https://docs.abp.io/en/abp/5.2/Migration-Guides/Upgrading-Startup-Template) and generate an up-to-date microservice template for comparison. Compare your code-base for each application, gateways, microservices, and the shared projects that you are using.
 
 ## .NET 6.0
 
@@ -11,7 +11,7 @@ ABP 5.0 runs on .NET 6.0. So, please upgrade your microservice template solution
 ## General Enhancements
 
 - Added Docker support. Each application, gateway, and microservices have 2 different docker files. **Dockerfile** for building CI/CD friendly, multi-stage, cached image building in containers. **Dockerfile.local** for building fast, SDK required image building. 
-- Added Powershell scripts under the *build* folder to build docker images easily. Use either **build-images.ps1** to build CI/CD friendly multi-stage docker images or **build-images-locally.ps1**  to build docker images locally.
+- Added Powershell scripts under the *build* folder to build docker images easily. Use either **build-images.ps1** to build CI/CD friendly multi-stage docker images or **build-images-locally.ps1** to build docker images locally.
 - Added **Kubernetes** and **Helm** support. Under *etc/k8s* folder, now you can find helm charts for your template. While you can deploy your whole application as a single helm chart with **YourProjectName**, you can also deploy each application individually. Each helm chart has **values.yaml** file needs to be filled if you want to deploy individually. YourProjectName helm chart **values.yaml** overrides the individual values if you deploy as a single unit. We have also added **deploy-staging.ps1** Powershell script to deploy YourProjectName with a namespace that you can use and modify.
 - **Replaced dynamic proxying** with the static proxying in gateways. The main reason for this decision is to free gateways from microservice dependencies. When the gateways are no longer dependent on any microservice layer, you can switch gateway from ocelot to any other gateway you desire. 
 - **Removed Internal Gateway**. We decided that adding an extra gateway between microservices is unnecessary and microservices can communicate with each other without a gateway redirection. This will also reduce the complication of inter-microservice communication and deployments.
@@ -64,9 +64,3 @@ AuthServer is now hosting Account Http.Api module. Since account-related managem
 - Added **CORS configuration** to service modules and to appsettings.json for Web and Public-Web gateways.
 - Added external provider configuration to IdentityService Http.Api.Host module.
 - ProductService.Http.Api.Client is now using static proxying. Infrastructural services do not use this configuration because all the modules they are hosting are already using static proxying. It is also strongly suggested to use static proxying for newly added microservices to the solution.
-
-## See Also
-
-* [Angular UI 4.x to 5.0 Migration Guide](https://github.com/abpframework/abp/blob/dev/docs/en/Migration-Guides/Abp-5_0-Angular.md)
-* [ASP.NET Core MVC / Razor Pages UI 4.x to 5.0 Migration Guide](https://github.com/abpframework/abp/blob/dev/docs/en/Migration-Guides/Abp-5-0-MVC.md)
-* [Blazor UI 4.x to 5.0 Migration Guide](https://github.com/abpframework/abp/blob/dev/docs/en/Migration-Guides/Abp-5-0-Blazor.md)
