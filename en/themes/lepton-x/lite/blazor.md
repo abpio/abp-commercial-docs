@@ -67,7 +67,7 @@ builder.RootComponents.Add<App>("#ApplicationContainer");
     {
         bundle.AddFiles("/blazor-global-styles.css");
         //You can remove the following line if you don't use Blazor CSS isolation for components
-        bundle.AddFiles("/NewAppBlzsvr.Blazor.styles.css");
+        bundle.AddFiles("/MyProjectName.Blazor.styles.css");
     });
   ```
 
