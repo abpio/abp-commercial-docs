@@ -280,33 +280,8 @@
           "text": "LeptonX",
           "items": [
             {
-              "text": "Lite",
+              "text": "Migrating from Lepton Theme",
               "items": [
-                {
-                  "text": "Common",
-                  "path": "themes/lepton-x/lite/common.md"
-                },
-                {
-                  "text": "MVC",
-                  "path": "themes/lepton-x/lite/mvc.md"
-                },
-                {
-                  "text": "Angular",
-                  "path": "themes/lepton-x/lite/angular.md"
-                },
-                {
-                  "text": "Blazor",
-                  "path": "themes/lepton-x/lite/blazor.md"
-                }
-              ]
-            },
-            {
-              "text": "Commercial",
-              "items": [
-                {
-                  "text": "Common",
-                  "path": "themes/lepton-x/Commercial/common.md"
-                },
                 {
                   "text": "MVC",
                   "path": "themes/lepton-x/Commercial/mvc.md"
