@@ -244,6 +244,27 @@ There are some adjustments you may need to make before generating CRUD pages for
   - Project key is in kebab case. E.g. `book-store`.
   - Project is defined as `defaultProject`.
 
+## Generating CRUD Pages via Command Line
+
+You can generate CRUD pages via [ABP CLI](https://docs.abp.io/en/abp/latest/CLI), without opening ABP Suite's user interface. 
+To do this, you need to pass your entity JSON file and your solution path to the ABP CLI.
+
+Example:
+
+```
+abp suite generate --entity D:\Projects\BookStore\.suite\entities\Book.json --solution D:\Projects\BookStore\Acme.Bookstore.sln
+```
+
+In this example, `Book.json` was previously created via ABP Suite.
+
+
+##### Parameters
+
+* `--entity` or `-e`: Path of the entity's JSON file.
+* `--solution` or `-s`: Path of the target solution file (***.sln**).
+
+> Entity JSON file is the metadata for an entity. It has all the information to generate a CRUD page for an entity. When you generate an entity on ABP Suite, you can find the entity JSON file of that entity in `.suite\entities` folder of the solution. You can use that file directly to re-generate the entity via **Abp CLI**. When you copy an entity from a solution to another which has different namespace, then you may need to update your entity JSON. The reason for that, the navigation properties are saved with their namespaces, therefore you need to update the namespaces of navigation properties.
+
 ## What's next?
 
 * [Creating Many-To-Many Relationship](creating-many-to-many-relationship.md)
