@@ -95,7 +95,7 @@ Right click to the `.DbMigrator` project and select **Set as StartUp Project**
 
 {{ if UI == "MVC" || UI == "BlazorServer" }}
 
-> Warning: When you first create an ABP solution, the client-side packages are being restored by ABP CLI and Suite. But if you fetch the source-code that's commited by another team member, your `libs` folder will be empty. Before starting the application, run abp install-libs command in your Web directory to restore the client-side libraries. This will populate the libs folder.
+> Warning: When you create an ABP solution, the client-side packages are being restored by ABP CLI and Suite. But if you fetch the source-code that's commited by another team member, your `libs` folder will be empty. Before starting the application, run `abp install-libs` command in your Web directory to restore the client-side libraries. This will populate the libs folder.
 
 {{ if Tiered == "Yes" }}
 
