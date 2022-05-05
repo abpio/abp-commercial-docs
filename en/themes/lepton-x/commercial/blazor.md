@@ -32,7 +32,7 @@ LeptonX theme is implemented and ready to use with ABP Commercial. No custom imp
 
 - Complete [MVC Installation steps](mvc.md#installation) first.
 
-- Add **Volo.Abp.AspNetCore.Components.Server.LeptonXTheme** package to your **Blazor wasm** application.
+- Add **Volo.Abp.AspNetCore.Components.Server.LeptonXTheme** package to your **Blazor** application.
 
 - Remove old theme from **DependsOn** attribute in your module class and add **AbpAspNetCoreComponentsServerLeptonXThemeModule** type to **DependsOn** attribute.
 
