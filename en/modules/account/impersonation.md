@@ -112,7 +112,9 @@ public class ImpersonationViewComponent : AbpViewComponent
 @inject IHtmlLocalizer<AccountResource> L
 <form method="post" data-ajaxForm="false" action="~/Account/BackToImpersonator">
     @Html.AntiForgeryToken()
-    <button type="submit" class="btn"><i class="fa fa-undo"></i> @L["BackToImpersonator"]</button>
+    <button type="submit" class="btn text-danger" data-bs-toggle="tooltip" data-bs-placement="left" title="@L["BackToImpersonator"]">
+        <i class="fa fa-undo"></i>
+    </button>
 </form>
 ```
 

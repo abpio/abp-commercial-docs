@@ -113,9 +113,8 @@ A **navigation property** is a type of property on an entity that allows for nav
 
 Navigation properties provide a way to navigate an association between two entity types. Every object can have a navigation property for every relationship in which it participates. 
 
-When you create a navigation property with ABP Suite, you will have a dropdown or look up table to pick a record from the dependent record list. ABP Suite allows you to create a navigation property for only **1-to-many (1:N)** relationships.
+When you create a navigation property with ABP Suite, you will have a dropdown or look up table to pick a record from the dependent record list. ABP Suite allows you to create a navigation property for **1-to-many (1:N)** and **many-to-many (N:N)** relationships.
 
-> Currently there's no support for many-to-1 (N:1) or many-to-many (N:N) relationships!
 
 In this scenario there are multiple records from one entity associated with a single record from another entity. This means you have a principal (parent) entity and many dependent (child) entities. 
 
@@ -124,9 +123,11 @@ We will have a `Book` entity and an `Author` entity. Let each book has an author
 
 - `Book` entity (1) is associated to `Author` entity (N).
 
-### Step by step creating a navigation property
+### Step by step creating a navigation property (with 1-to-many relationship)
 
 Let's see how to create a navigation property for a **Book Store** project.  We will create an `Author` entity and a `Book` entity. The `Book` entity will hold a foreign key to the `Author` entity which will store the primary key of the `Author` entity.
+
+> To create many-to-many relationship, check out [Creating Many-To-Many Relationship](creating-many-to-many-relationship.md)
 
 #### 1- Create the "Author" entity
 
@@ -201,7 +202,6 @@ The below image is the final page created by the ABP Suite. The **new book** dia
 ![navigation-property-books-page](../images/navigation-property-books-page.png)
 
 
-
 ### Saving an entity
 
 There are 2 options to save an entity. 
@@ -267,4 +267,5 @@ In this example, `Book.json` was previously created via ABP Suite.
 
 ## What's next?
 
-[Generating CRUD Pages From an Existing Database Table](generating-entities-from-an-existing-database-table.md)
+* [Creating Many-To-Many Relationship](creating-many-to-many-relationship.md)
+* [Generating CRUD Pages From an Existing Database Table](generating-entities-from-an-existing-database-table.md)

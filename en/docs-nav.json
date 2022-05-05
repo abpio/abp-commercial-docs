@@ -159,6 +159,10 @@
                   "path": "startup-templates/microservice/add-microservice.md"
                 },
                 {
+                  "text": "Extracting a Module as a Microservice",
+                  "path": "startup-templates/microservice/extracting-module-as-microservice.md"
+                },
+                {
                   "text": "Communication Between Microservices",
                   "path": "startup-templates/microservice/interservice-communication.md"
                 },
@@ -333,18 +337,18 @@
           "path": "abp-suite/create-solution.md"
         },
         {
-           "text":"Generating CRUD Page",
-           "path":"abp-suite/generating-crud-page.md",
-           "items":[
-              {
-                 "text":"Generating from an Existing Database",
-                 "path":"abp-suite/generating-entities-from-an-existing-database-table.md"
-              }
-           ]
-        },      
-        {
-          "text": "Creating Many-To-Many Relationship",
-          "path": "abp-suite/creating-many-to-many-relationship.md"
+          "text": "Generating CRUD Page",
+          "path": "abp-suite/generating-crud-page.md",
+          "items": [
+            {
+              "text": "Creating Many-To-Many Relationship",
+              "path": "abp-suite/creating-many-to-many-relationship.md"
+            },
+            {
+              "text": "Generating from an Existing Database",
+              "path": "abp-suite/generating-entities-from-an-existing-database-table.md"
+            }
+          ]
         },
         {
           "text": "Accessing Source Code of Modules",
@@ -377,22 +381,7 @@
         },
         {
           "text": "Migration Guides",
-          "path": "migration-guides/index.md",
-          "items": [
-            {
-              "text": "Blazor",
-              "items": [
-                {
-                  "text": "3.2 to 3.3",
-                  "path": "migration-guides/blazor-ui-3_3.md"
-                }
-              ]
-            },
-            {
-              "text": "4.x to 4.3",
-              "path": "migration-guides/v4_3.md"
-            }
-          ]
+          "path": "migration-guides/index.md"
         }
       ]
     },
