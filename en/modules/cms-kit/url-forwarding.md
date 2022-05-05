@@ -1,6 +1,23 @@
 # URL Forwarding System
 
-CMS kit provides a **URL forwarding** system to create URLs that redirect to other pages or external websites. 
+CMS kit provides a **URL forwarding** system to create URLs that redirect to other pages or external websites.
+
+## Enabling
+
+In addition to enabling [Url Shorting global feature](index.md), you need to add `UrlSortingMiddleware` to your final application.
+
+```csharp
+using Volo.CmsKit.Pro.Public.Web.Middlewares;
+.
+.
+        public override void OnApplicationInitialization(ApplicationInitializationContext context)
+        {
+            var app = context.GetApplicationBuilder();
+
+            app.UseMiddleware<UrlSortingMiddleware>();
+            .
+            .
+```
 
 ## User Interface
 
