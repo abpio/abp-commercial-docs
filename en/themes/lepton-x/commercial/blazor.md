@@ -25,6 +25,22 @@ LeptonX theme is implemented and ready to use with ABP Commercial. No custom imp
 )]
 ```
 
+- Change startup `App` component with the LeptonX one.
+  - Add following using declaration and remove your old theme using declaration.
+    ```csharp
+    using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components;
+    ```
+
+  - Make sure `App` component in following block is `Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.App`
+    ```csharp
+        // Make sure the 'App' comes from 'Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components' namespace.
+        builder.RootComponents.Add<App>("#ApplicationContainer");
+    ```
+    - If you can't remove or not sure which one is the old theme's using statements, you can use full name of that class:
+        ```csharp
+        builder.RootComponents.Add<Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.App>("#ApplicationContainer");
+        ```
+
 {{end}}
 
 
@@ -32,7 +48,7 @@ LeptonX theme is implemented and ready to use with ABP Commercial. No custom imp
 
 - Complete [MVC Installation steps](mvc.md#installation) first.
 
-- Add **Volo.Abp.AspNetCore.Components.Server.LeptonXTheme** package to your **Blazor** application.
+- Add **Volo.Abp.AspNetCore.Components.Server.LeptonXTheme** package to your **Blazor wasm** application.
 
 - Remove old theme from **DependsOn** attribute in your module class and add **AbpAspNetCoreComponentsServerLeptonXThemeModule** type to **DependsOn** attribute.
 
