@@ -60,6 +60,7 @@ AuthServer needs initial identity server and admin user data to operate. See [Id
 private async Task CreateApiResourcesAsync()
 {
     ...
+    await CreateApiResourceAsync("AccountService", commonApiUserClaims);
     await CreateApiResourceAsync("IdentityService", commonApiUserClaims);
     await CreateApiResourceAsync("AdministrationService", commonApiUserClaims);
     await CreateApiResourceAsync("SaasService", commonApiUserClaims);
@@ -76,6 +77,7 @@ These are the **name** of the resources.
 ```csharp
 private async Task CreateApiScopesAsync()
 {
+    await CreateApiScopeAsync("AccountService");
     await CreateApiScopeAsync("IdentityService");
     await CreateApiScopeAsync("AdministrationService");
     await CreateApiScopeAsync("SaasService");
@@ -89,7 +91,7 @@ private async Task CreateApiScopesAsync()
 
 There are different clients seeded for AuthServer application;
 
-- **Swagger Clients:** These are the gateways added as clients using  `authorization_code` grant type. While *WebGateway* is allowed for all the scopes, *PublicWeb Gateway* is only allowed to `ProductService` scope default.
+- **Swagger Clients:** There is a single swagger client named `WebGateway_Swagger` that uses `authorization_code` grant type. This swagger client is allowed for all the scopes as default and used in both gateways and all microservices for swagger authorization.
 
 - **Back-Office Clients:** 
 
@@ -98,7 +100,7 @@ There are different clients seeded for AuthServer application;
   - **Blazor** Client is the Blazor WebAssembly application client using `authorization_code` grant type. This client has all the scope allowance as default.
   - **Blazor Server** is the application client using `hybrid` grant type. This client has all the scope allowance as default.
 
-- **Public/Landing Page Client:** Public Web application is a Razor/MVC application client using `hybrid` grant type. This client has `AdministrationService` and `ProductService` scope allowance as default.
+- **Public/Landing Page Client:** Public Web application is a Razor/MVC application client using `hybrid` grant type. This client has `AccountService`,  `AdministrationService` and `ProductService` scope allowance as default.
 
 - **Service Clients**: These are the server-to-server interactions between services. This is a `client_credentials` grant type and there is no user or user information involved in this flow. 
 
@@ -118,127 +120,9 @@ There are different clients seeded for AuthServer application;
   );
   ```
 
-### Deployment Configurations
+### Deployment
 
-> Since AuthServer is an application based on IdentityServer4; all the deployment requirements are also valid for AuthServer application.
-
-#### Cors Origins
-
-Cors origins configuration for **Gateway** authorizations and **Angular/Blazor** (web assembly) must be updated for deployment. This can be found under **App** configuration in *appsettings.json* 
-
-```json
-"CorsOrigins": "https://*.MyProjectName.com,http://localhost:4200,https://localhost:44307,https://localhost:44302,https://localhost:44325,https://localhost:44353",
-```
-
-#### Redirect Allowed Urls
-
-This configuration must be done if **Angular** or **Blazor** (web assembly) is used as back-office web application. It is found under **App** configuration in appsettings.json
-
-```json
-"RedirectAllowedUrls": "http://localhost:4200,https://localhost:44307"
-```
-
-#### Signing Certificate
-
-AuthServer application uses [developer signing certificates option](https://github.com/abpframework/abp/blob/dev/modules/identityserver/src/Volo.Abp.IdentityServer.Domain/Volo/Abp/IdentityServer/AbpIdentityServerBuilderOptions.cs#L29) for default development environment. Using developer signing certificates may cause *IDX10501: Signature validation failed* error. 
-
-To change the signing credential for staging/production, update your application module with IIdentityServerBuilder pre-configuration.
-
-```csharp
-public override void PreConfigureServices(ServiceConfigurationContext context)
-{
-	PreConfigure<IIdentityServerBuilder>(builder =>
-	{
-    	builder.AddSigningCredential(...);	
-	});
-}
-```
-
-#### Running AuthServer on HTTPS
-
-AuthServer must be publicly reachable and available over https. [Microsoft recommendation for enforcing https](https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-5.0&tabs=visual-studio#require-https) is using **Https** and **Hsts** together for https redirection;
-
-```csharp
-public override void OnApplicationInitialization(ApplicationInitializationContext context)
-{
-    var app = context.GetApplicationBuilder();
-    var env = context.GetEnvironment();
-    ...
-    if (!env.IsDevelopment())
-    {
-        app.UseErrorPage();
-        app.UseHsts();
-    }
-    
-    app.UseHttpsRedirection();    
-    app.UseCors(DefaultCorsPolicyName);
-    ...
-}
-```
-
-#### Running AuthServer Behind Load Balancer
-
-
-Configure *Forewarded Headers* when running AuthServer behind Load Balancers;
-
-```csharp
- public override void ConfigureServices(ServiceConfigurationContext context)
- {
-     var hostingEnvironment = context.Services.GetHostingEnvironment();
-     var configuration = context.Services.GetConfiguration();
-     ...
-     context.Services.Configure<ForwardedHeadersOptions>(options =>
-     {
-         options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-     });
- }
-public override void OnApplicationInitialization(ApplicationInitializationContext context)
-{
-    var app = context.GetApplicationBuilder();
-    var env = context.GetEnvironment();
-    ...
-    if (!env.IsDevelopment())
-    {
-        app.UseErrorPage();          
-	    app.UseForwardedHeaders();
-        app.UseHsts();
-    }
-    
-    app.UseHttpsRedirection();    
-    app.UseCors(DefaultCorsPolicyName);
-    ...
-}
-```
-
-#### Running AuthServer on Kubernates Pods
-
-You may not be able to set certificates in pods and have to use http inside pods. In this case, use middleware for redirection to https:
-
-```csharp
-public override void OnApplicationInitialization(ApplicationInitializationContext context)
-{
-    var app = context.GetApplicationBuilder();
-    var env = context.GetEnvironment();
-    ...
-    if (!env.IsDevelopment())
-    {
-        app.UseErrorPage();
-        app.UseHsts();
-    }
-    
-    app.Use((httpContext, next) =>
-    {
-        httpContext.Request.Scheme = "https";
-        return next();
-    });
-    
-    app.UseHttpsRedirection();    
-    app.UseCors(DefaultCorsPolicyName);
-    ...
-}
-```
-
-If headers are not forwarded as expected, enable logging. Check [Microsoft Troubleshoot Guide](https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/proxy-load-balancer?view=aspnetcore-5.0#troubleshoot) fore more information.
+Check [IdentityServer deployment guide](../../guides/identityserver-deployment).
 
 ## Web Application (Back-office)
 

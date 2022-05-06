@@ -6,7 +6,7 @@ This document provides a road map, release schedule and planned features for the
 
 ## The Next Version
 
-The next version will be 5.1 and released in February, 2022. We are constantly improving existing modules and tools and introducing new features. See the *Backlog Items* section for a list of major features considered for the next versions.
+The next feature version will be 5.3 and released in May, 2022. We are constantly improving existing modules and tools and introducing new features. See the *Backlog Items* section for a list of major features considered for the next versions.
 
 ## Backlog Items
 

@@ -113,9 +113,8 @@ A **navigation property** is a type of property on an entity that allows for nav
 
 Navigation properties provide a way to navigate an association between two entity types. Every object can have a navigation property for every relationship in which it participates. 
 
-When you create a navigation property with ABP Suite, you will have a dropdown or look up table to pick a record from the dependent record list. ABP Suite allows you to create a navigation property for only **1-to-many (1:N)** relationships.
+When you create a navigation property with ABP Suite, you will have a dropdown or look up table to pick a record from the dependent record list. ABP Suite allows you to create a navigation property for **1-to-many (1:N)** and **many-to-many (N:N)** relationships.
 
-> Currently there's no support for many-to-1 (N:1) or many-to-many (N:N) relationships!
 
 In this scenario there are multiple records from one entity associated with a single record from another entity. This means you have a principal (parent) entity and many dependent (child) entities. 
 
@@ -124,9 +123,11 @@ We will have a `Book` entity and an `Author` entity. Let each book has an author
 
 - `Book` entity (1) is associated to `Author` entity (N).
 
-### Step by step creating a navigation property
+### Step by step creating a navigation property (with 1-to-many relationship)
 
 Let's see how to create a navigation property for a **Book Store** project.  We will create an `Author` entity and a `Book` entity. The `Book` entity will hold a foreign key to the `Author` entity which will store the primary key of the `Author` entity.
+
+> To create many-to-many relationship, check out [Creating Many-To-Many Relationship](creating-many-to-many-relationship.md)
 
 #### 1- Create the "Author" entity
 
@@ -147,7 +148,7 @@ After it finishes, run the web project and go to **Authors** page. Click **New A
 
 ![navigation-property-authors-page](../images/navigation-property-authors-page.png)
 
-#### 1- Create the "Book" entity
+#### 2- Create the "Book" entity
 
 `Book` is the principal (parent) entity. It will hold a reference to the `Author` entity in `AuthorId` property. Let's create the `Book` entity in the ABP Suite. Click **-New entity-** in the **Entity** dropdown on the top of the page and write **"Book"** in the **Name** field. The rest will be automatically filled. Then click **Properties** tab and add 2 properties:
 
@@ -157,7 +158,6 @@ After it finishes, run the web project and go to **Authors** page. Click **New A
 Click the **Navigation properties** tab. Then click **Add navigation property** button. In the opening window, click **Select dependent entity** textbox. A file browser will pop up. Find the `Author.cs` that we previously created in step 1.  `Author.cs`  is located in `src\Acme.BookStore.Domain\Authors` directory. After you select the file, almost all fields will be automatically filled, except **Display Property**. Select `NameSurname` from the **Properties** dropdown. It will write it to the **Display Property** textbox. Revise the other fields for the last check and click **OK** button. A new navigation property is added. Click **Save and generate** button and wait for the ABP Suite to create the Books page with the navigation property.
 
 > Notice that almost all fields are automatically filled by convention. If you don't rename the `DTO` names, `DbSet` names in the `DbContext`, navigation property names or namespaces, this tool will automatically set all required fields. On the other hand, these textboxes are not readonly, so that you can change them according to your requirements.
->
 
 
 ![navigation-property-book-entity](../images/navigation-property-book-entity.png)
@@ -202,7 +202,6 @@ The below image is the final page created by the ABP Suite. The **new book** dia
 ![navigation-property-books-page](../images/navigation-property-books-page.png)
 
 
-
 ### Saving an entity
 
 There are 2 options to save an entity. 
@@ -236,7 +235,7 @@ When you click **Save and generate** button it'll create all the related objects
 ### What to Check If Angular UI Cannot Be Generated
 
 There are some adjustments you may need to make before generating CRUD pages for your legacy ABP app using the latest version of the suite. 
- 
+
 - Check if your environment variables have `rootNamespace` defined as explained [here](https://docs.abp.io/en/abp/latest/UI/Angular/Service-Proxies#angular-project-configuration).
 
 - Check if your [workspace configuration](https://angular.io/guide/workspace-config) satisfies one of the following. Examples assume your solution namespace is `BookStore`, `Acme.BookStore`, or `Acme.Retail.BookStore`.
@@ -245,6 +244,28 @@ There are some adjustments you may need to make before generating CRUD pages for
   - Project key is in kebab case. E.g. `book-store`.
   - Project is defined as `defaultProject`.
 
+## Generating CRUD Pages via Command Line
+
+You can generate CRUD pages via [ABP CLI](https://docs.abp.io/en/abp/latest/CLI), without opening ABP Suite's user interface. 
+To do this, you need to pass your entity JSON file and your solution path to the ABP CLI.
+
+Example:
+
+```
+abp suite generate --entity D:\Projects\BookStore\.suite\entities\Book.json --solution D:\Projects\BookStore\Acme.Bookstore.sln
+```
+
+In this example, `Book.json` was previously created via ABP Suite.
+
+
+##### Parameters
+
+* `--entity` or `-e`: Path of the entity's JSON file.
+* `--solution` or `-s`: Path of the target solution file (***.sln**).
+
+> Entity JSON file is the metadata for an entity. It has all the information to generate a CRUD page for an entity. When you generate an entity on ABP Suite, you can find the entity JSON file of that entity in `.suite\entities` folder of the solution. You can use that file directly to re-generate the entity via **Abp CLI**. When you copy an entity from a solution to another which has different namespace, then you may need to update your entity JSON. The reason for that, the navigation properties are saved with their namespaces, therefore you need to update the namespaces of navigation properties.
+
 ## What's next?
 
-[Accessing source code of modules](source-code.md)
+* [Creating Many-To-Many Relationship](creating-many-to-many-relationship.md)
+* [Generating CRUD Pages From an Existing Database Table](generating-entities-from-an-existing-database-table.md)

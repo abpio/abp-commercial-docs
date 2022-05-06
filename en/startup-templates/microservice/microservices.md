@@ -37,6 +37,7 @@ private async Task CreateApiResourcesAsync()
 {
     ...
 
+    await CreateApiResourceAsync("AccountService", commonApiUserClaims);
     await CreateApiResourceAsync("IdentityService", commonApiUserClaims);
     await CreateApiResourceAsync("AdministrationService", commonApiUserClaims);
     await CreateApiResourceAsync("SaasService", commonApiUserClaims);
@@ -47,6 +48,7 @@ private async Task CreateApiResourcesAsync()
 ```csharp
 private async Task CreateApiScopesAsync()
 {
+    await CreateApiScopeAsync("AccountService");
     await CreateApiScopeAsync("IdentityService");
     await CreateApiScopeAsync("AdministrationService");
     await CreateApiScopeAsync("SaasService");
@@ -66,7 +68,7 @@ private async Task CreateClientsAsync()
     ...        
     scopes: commonScopes.Union(new[]
     {
-        "AuthServer",
+        "AccountService",
         "IdentityService",
         "AdministrationService",
         "SaasService",
@@ -76,14 +78,13 @@ private async Task CreateClientsAsync()
 }
 ```
 
-Web Gateway Swagger and Internal Gateway Swagger clients are allowed to request **IdentityService** scope when created:
+Web Gateway Swagger clients is allowed for all the scopes and each gateway and microservice uses this client for swagger authorization:
 
 ```csharp
-private async Task CreateSwaggerClientsAsync()
+private async Task CreateWebGatewaySwaggerClientsAsync()
 {
-    await CreateSwaggerClientAsync("WebGateway", new []{"AuthServer","IdentityService","AdministrationService","SaasService","ProductService"});
-    await CreateSwaggerClientAsync("PublicWebGateway", new []{"ProductService"});
-	...
+    await CreateSwaggerClientAsync("WebGateway",
+    	new[] { "AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService" });
 }
 ```
 

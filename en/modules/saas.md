@@ -25,9 +25,26 @@ SaaS module implements subscribing to Editions for Tenants using Payment module.
 
 ### Configuration
 
-Firstly, Payment module must be configured properly. You can follow [subscriptions](payment#subscriptions) section of [Payment Module Documentation](payment#subscriptions). After [enabling webhooks](payment#enabling-webhooks) and [configuring plans](payment#configuring-plans) sections, Edition - Tenant relation should be set. To do that;
+Firstly, Payment module must be configured properly:
 
-- Go to `Saas > Editions` page at your Web Application menu.
+- Install `Volo.Payment` module.
+  ```bash
+  abp add-module Volo.Payment
+  ```
+  _Or you can install via using ABP Suite._
+
+- Configure Saas module to use Payment.
+  
+  ```csharp
+  Configure<AbpSaasPaymentOptions>(options =>
+  {
+      options.IsPaymentSupported = true;
+  });
+  ```
+
+ - Follow the [subscriptions](payment#subscriptions) section of [Payment Module Documentation](payment#subscriptions). Complete [enabling webhooks](payment#enabling-webhooks) and [configuring plans](payment#configuring-plans) sections.
+
+- Run the application and go to `Saas > Editions` page at your Web Application menu.
 
 - Create or Edit an existing Edition. **Plan** dropdown must be visible if you've done earlier steps correctly. Pick a Plan for Edition.
 

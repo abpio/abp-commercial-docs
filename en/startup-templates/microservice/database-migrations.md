@@ -176,36 +176,238 @@ IdentityService uses three different mapped [database configurations](infrastruc
 
 IdentityService seeding is **required** for AuthServer since it seeds the admin user/password (identity data) and initial identity server data (clients, api resources, scopes).
 
-Both Auto Migration Data Seeding and DbMigrator Data Seeding uses `IdentityServerSeeder` and required *IdentityServerClients* used in the seeder is located in *appsettings.json* file
+### IdentityServer Data Seeding
+
+Both Auto Migration Data Seeding and DbMigrator Data Seeding uses `IdentityServerDataSeeder`. The seeder uses *IdentityServer* section in *appsettings.json* file to seed client and resource cors and redirectUri data.
 
 ```json
-"IdentityServerClients":{
-  "MyProjectName_Web": {
-    "RootUrl": "https://localhost:44321/"
-  },
-  "MyProjectName_Blazor": {
-    "RootUrl": "https://localhost:44307/"
-  },
-  "MyProjectName_BlazorServer": {
-    "RootUrl": "https://localhost:44314/"
-  },
-  "MyProjectName_PublicWeb": {
-    "RootUrl": "https://localhost:44335/"
-  },
-  "MyProjectName_Angular": {
-    "RootUrl": "http://localhost:4200"
-  },
-  "InternalGateway": {
-    "RootUrl": "https://localhost:44302"
-  },
-  "WebGateway": {
-    "RootUrl": "https://localhost:44325"
-  },
-  "PublicWebGateway": {
-    "RootUrl": "https://localhost:44353"
+"IdentityServer": {
+    "Clients": {
+      "MyProjectName_Web": {
+        "RootUrl": "https://localhost:44321/"
+      },
+      "MyProjectName_Blazor": {
+        "RootUrl": "https://localhost:44307/"
+      },
+      "MyProjectName_BlazorServer": {
+        "RootUrl": "https://localhost:44314/"
+      },
+      "MyProjectName_PublicWeb": {
+        "RootUrl": "https://localhost:44335/"
+      },
+      "MyProjectName_Angular": {
+        "RootUrl": "http://localhost:4200"
+      },
+      "WebGateway": {
+        "RootUrl": "https://localhost:44325"
+      },
+      "PublicWebGateway": {
+        "RootUrl": "https://localhost:44353"
+      }
+    },
+    "Resources": {
+      "AccountService": {
+        "RootUrl": "https://localhost:44322"
+      },
+      "IdentityService": {
+        "RootUrl": "https://localhost:44388"
+      },
+      "AdministrationService": {
+        "RootUrl": "https://localhost:44367"
+      },
+      "SaasService": {
+        "RootUrl": "https://localhost:44381"
+      },
+      "ProductService": {
+        "RootUrl": "https://localhost:44361"
+      }
+    }
   }
-},
 ```
+
+#### Creating Api Resources
+
+After creating identity resources, api resources are created.
+
+```csharp
+private async Task CreateApiResourcesAsync()
+{
+    var commonApiUserClaims = new[] { "email", "email_verified", "name", "phone_number", "phone_number_verified", "role" };
+
+    await CreateApiResourceAsync("AccountService", commonApiUserClaims);
+    await CreateApiResourceAsync("IdentityService", commonApiUserClaims);
+    await CreateApiResourceAsync("AdministrationService", commonApiUserClaims);
+    await CreateApiResourceAsync("SaasService", commonApiUserClaims);
+    await CreateApiResourceAsync("ProductService", commonApiUserClaims);
+}
+```
+
+#### Creating Api Scopes
+
+Each api resource is defined as a scope.
+
+```csharp
+private async Task CreateApiScopesAsync()
+{
+    await CreateApiScopeAsync("AccountService");
+    await CreateApiScopeAsync("IdentityService");
+    await CreateApiScopeAsync("AdministrationService");
+    await CreateApiScopeAsync("SaasService");
+    await CreateApiScopeAsync("ProductService");
+}
+```
+
+#### Creating Web Gateway Swagger Client
+
+Web Gateway Swagger client is the only swagger client used for all swagger authorization in between microservices and gateways. 
+
+```csharp
+private async Task CreateWebGatewaySwaggerClientsAsync()
+{
+    await CreateSwaggerClientAsync("WebGateway", new[] { "AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService" });
+}
+
+private async Task CreateSwaggerClientAsync(string name, string[] scopes = null)
+{
+    var commonScopes = new[] { "email", "openid", "profile", "role", "phone", "address" };
+    scopes ??= new[] { name };
+
+    // Swagger Client
+    var swaggerClientId = $"{name}_Swagger";
+    if (!swaggerClientId.IsNullOrWhiteSpace())
+    {
+        var webGatewaySwaggerRootUrl = _configuration[$"IdentityServer:Clients:{name}:RootUrl"].TrimEnd('/');
+        var publicWebGatewayRootUrl = _configuration[$"IdentityServer:Clients:PublicWebGateway:RootUrl"].TrimEnd('/');
+        var accountServiceRootUrl = _configuration[$"IdentityServer:Resources:AccountService:RootUrl"].TrimEnd('/');
+        var identityServiceRootUrl = _configuration[$"IdentityServer:Resources:IdentityService:RootUrl"].TrimEnd('/');
+        var administrationServiceRootUrl = _configuration[$"IdentityServer:Resources:AdministrationService:RootUrl"].TrimEnd('/');
+        var saasServiceRootUrl = _configuration[$"IdentityServer:Resources:SaasService:RootUrl"].TrimEnd('/');
+        var productServiceRootUrl = _configuration[$"IdentityServer:Resources:ProductService:RootUrl"].TrimEnd('/');
+
+        await CreateClientAsync(
+            name: swaggerClientId,
+            scopes: commonScopes.Union(scopes),
+            grantTypes: new[] { "authorization_code" },
+            secret: "1q2w3e*".Sha256(),
+            requireClientSecret: false,
+            redirectUris: new List<string> {
+                $"{webGatewaySwaggerRootUrl}/swagger/oauth2-redirect.html", // WebGateway redirect uri
+                $"{publicWebGatewayRootUrl}/swagger/oauth2-redirect.html", // PublicWebGateway redirect uri
+                $"{accountServiceRootUrl}/swagger/oauth2-redirect.html", // AccountService redirect uri
+                $"{identityServiceRootUrl}/swagger/oauth2-redirect.html", // IdentityService redirect uri
+                $"{administrationServiceRootUrl}/swagger/oauth2-redirect.html", // AdministrationService redirect uri
+                $"{saasServiceRootUrl}/swagger/oauth2-redirect.html", // SaasService redirect uri
+                $"{productServiceRootUrl}/swagger/oauth2-redirect.html", // ProductService redirect uri
+            },
+            corsOrigins: new[] {
+                webGatewaySwaggerRootUrl.RemovePostFix("/"),
+                publicWebGatewayRootUrl.RemovePostFix("/"),
+                accountServiceRootUrl.RemovePostFix("/"),
+                identityServiceRootUrl.RemovePostFix("/"),
+                administrationServiceRootUrl.RemovePostFix("/"),
+                saasServiceRootUrl.RemovePostFix("/"),
+                productServiceRootUrl.RemovePostFix("/")
+            }
+        );
+    }
+}
+```
+
+#### Creating Clients
+
+While public-web and administration service clients are distinct, all the other back-office clients are created by default. Administration service is used to make request to identity service to get user permission data. See [administration service](microservices#identity-server-authorization-1) for more.
+
+```csharp
+private async Task CreateClientsAsync()
+{
+    var commonScopes = new[] { "email", "openid", "profile", "role", "phone", "address" };
+
+    //Web Client
+    var webClientRootUrl = _configuration["IdentityServer:Clients:MyProjectName_Web:RootUrl"].EnsureEndsWith('/');
+    await CreateClientAsync(
+        name: "MyProjectName_Web",
+        scopes: commonScopes.Union(new[] {
+            "AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"
+        }),
+        grantTypes: new[] { "hybrid" },
+        secret: "1q2w3e*".Sha256(),
+        redirectUris: new List<string> { $"{webClientRootUrl}signin-oidc" },
+        postLogoutRedirectUri: $"{webClientRootUrl}signout-callback-oidc",
+        frontChannelLogoutUri: $"{webClientRootUrl}Account/FrontChannelLogout",
+        corsOrigins: new[] { webClientRootUrl.RemovePostFix("/") }
+    );
+
+    //Blazor Client
+    var blazorClientRootUrl = _configuration["IdentityServer:Clients:MyProjectName_Blazor:RootUrl"].EnsureEndsWith('/');
+    await CreateClientAsync(
+        name: "MyProjectName_Blazor",
+        scopes: commonScopes.Union(new[] {
+            "AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"
+        }),
+        grantTypes: new[] { "authorization_code" },
+        secret: "1q2w3e*".Sha256(),
+        requireClientSecret: false,
+        redirectUris: new List<string> { $"{blazorClientRootUrl}authentication/login-callback" },
+        postLogoutRedirectUri: $"{blazorClientRootUrl}authentication/logout-callback",
+        corsOrigins: new[] { blazorClientRootUrl.RemovePostFix("/") }
+    );
+
+    //Blazor Server Client
+    var blazorServerClientRootUrl = _configuration["IdentityServer:Clients:MyProjectName_BlazorServer:RootUrl"].EnsureEndsWith('/');
+    await CreateClientAsync(
+        name: "MyProjectName_BlazorServer",
+        scopes: commonScopes.Union(new[] {
+            "AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"
+        }),
+        grantTypes: new[] { "hybrid" },
+        secret: "1q2w3e*".Sha256(),
+        redirectUris: new List<string> { $"{blazorServerClientRootUrl}signin-oidc" },
+        postLogoutRedirectUri: $"{blazorServerClientRootUrl}signout-callback-oidc",
+        frontChannelLogoutUri: $"{blazorServerClientRootUrl}Account/FrontChannelLogout",
+        corsOrigins: new[] { blazorServerClientRootUrl.RemovePostFix("/") }
+    );
+
+    //Public Web Client
+    var publicWebClientRootUrl = _configuration["IdentityServer:Clients:MyProjectName_PublicWeb:RootUrl"]
+        .EnsureEndsWith('/');
+    await CreateClientAsync(
+        name: "MyProjectName_PublicWeb",
+        scopes: commonScopes.Union(new[] { "AccountService", "AdministrationService", "ProductService" }),
+        grantTypes: new[] { "hybrid" },
+        secret: "1q2w3e*".Sha256(),
+        redirectUris: new List<string> { $"{publicWebClientRootUrl}signin-oidc" },
+        postLogoutRedirectUri: $"{publicWebClientRootUrl}signout-callback-oidc",
+        frontChannelLogoutUri: $"{publicWebClientRootUrl}Account/FrontChannelLogout",
+        corsOrigins: new[] { publicWebClientRootUrl.RemovePostFix("/") }
+    );
+
+    //Angular Client
+    var angularClientRootUrl = _configuration["IdentityServer:Clients:MyProjectName_Angular:RootUrl"].TrimEnd('/');
+    await CreateClientAsync(
+        name: "MyProjectName_Angular",
+        scopes: commonScopes.Union(new[] {
+            "AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"
+        }),
+        grantTypes: new[] { "authorization_code", "LinkLogin", "Impersonation" },
+        secret: "1q2w3e*".Sha256(),
+        requireClientSecret: false,
+        redirectUris: new List<string> { $"{angularClientRootUrl}" },
+        postLogoutRedirectUri: $"{angularClientRootUrl}",
+        corsOrigins: new[] { angularClientRootUrl }
+    );
+
+    //Administration Service Client
+    await CreateClientAsync(
+        name: "MyProjectName_AdministrationService",
+        scopes: commonScopes.Union(new[] { "IdentityService" }),
+        grantTypes: new[] { "client_credentials" },
+        secret: "1q2w3e*".Sha256(),
+        permissions: new[] { IdentityPermissions.Users.Default }
+    );
+}
+```
+
+> If you have created an angular back-office application in your microservice template, you are free to delete blazor server, blazor and web clients.
 
 ### Auto Migration Data Seeding
 
