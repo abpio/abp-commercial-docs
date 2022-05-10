@@ -6,6 +6,8 @@ This document contains **brief release notes** for each release. Release notes o
 
 > This version is currently in preview.
 
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-5.3-RC-Has-Been-Published)** for the v5.3 release.
+
 * New module: **GDPR** (currently, allows to download/delete user's personal data).
 * **Polling** feature for the [CMS Kit module](modules/cms-kit/index.md).
 * OAuth as **external login provider** for the [Identity module](modules/identity.md).
