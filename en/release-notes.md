@@ -2,6 +2,19 @@
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
 
+## 5.3 (2022-05-05)
+
+> This version is currently in preview.
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-5.3-RC-Has-Been-Published)** for the v5.3 release.
+
+* New module: **GDPR** (currently, allows to download/delete user's personal data).
+* **Polling** feature for the [CMS Kit module](modules/cms-kit/index.md).
+* OAuth as **external login provider** for the [Identity module](modules/identity.md).
+* **ABP Suite**: Support for the no-layers startup template, concurrency stamp support on code generation, downloading Suite logs, using ABP CLI to trigger code generation.
+* **Docker-compose** configuration for the no-layers startup template.
+* **PWA** support for Blazor WASM and Angular UI.
+
 ## 5.2 (2022-04-05)
 
 See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-IO-Platform-5-2-Final-Has-Been-Released)** for the v5.2 release.

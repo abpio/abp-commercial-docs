@@ -288,15 +288,15 @@
               "items": [
                 {
                   "text": "MVC",
-                  "path": "themes/lepton-x/Commercial/mvc.md"
+                  "path": "themes/lepton-x/commercial/mvc.md"
                 },
                 {
                   "text": "Angular",
-                  "path": "themes/lepton-x/Commercial/angular.md"
+                  "path": "themes/lepton-x/commercial/angular.md"
                 },
                 {
                   "text": "Blazor",
-                  "path": "themes/lepton-x/Commercial/blazor.md"
+                  "path": "themes/lepton-x/commercial/blazor.md"
                 }
               ]
             },
