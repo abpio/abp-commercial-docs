@@ -6,7 +6,7 @@ The Identity PRO module has built-in `OAuthExternalLoginProvider` service. It im
 
 ## How to enable OAuth external login?
 
-Youu need to enable the OAuth login feature and configure related settings.
+You need to enable the OAuth login feature and configure related settings.
 
 ![enable-oauth-feature](../../images/enable-oauth-feature.png)
 
