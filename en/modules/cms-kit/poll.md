@@ -22,8 +22,7 @@ You can list, create, update and delete on the admin side of your solution.
 
 ## The Poll Widget
 
-The poll system provides a poll [widget](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Widgets) users to vote and show the result.
-You can simply place the widget on a page like below: 
+The poll system provides a poll [widget](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Widgets) for users to vote and show the result. You can place the widget on a page like the below:
 
 ```csharp
 @await Component.InvokeAsync(
