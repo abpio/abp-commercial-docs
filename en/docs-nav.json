@@ -202,10 +202,6 @@
           "path": "modules/account.md",
           "items": [
             {
-              "text": "LDAP Login",
-              "path": "modules/account/ldap.md"
-            },
-            {
               "text": "Tenant&User impersonation",
               "path": "modules/account/impersonation.md"
             }
@@ -238,6 +234,18 @@
             {
               "text": "Two Factor Authentication",
               "path": "modules/identity/two-factor-authentication.md"
+            },
+            {
+              "text": "LDAP Login",
+              "path": "modules/identity/ldap.md"
+            },
+            {
+              "text": "OAuth Login",
+              "path": "modules/identity/oauth-login.md"
+            },
+            {
+              "text": "Import External Users",
+              "path": "modules/identity/import-external-users.md"
             }
           ]
         },
