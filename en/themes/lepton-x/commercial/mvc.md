@@ -3,37 +3,37 @@ LeptonX theme is implemented and ready to use with ABP Commercial. No custom imp
 
 ## Installation
 
-### With CLI
+- Install package to your **Web** project with the following CLI command:
 
-- Install package to your **Web** project with CLI.
 ```bash
-abp add-package Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX
+dotnet add package Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX --prerelease
 ```
 
-- Remove old theme from **DependsOn** attribute in your module class.
+- Remove `Volo.Abp.AspNetCore.Mvc.UI.Theme.Lepton` and `Volo.Abp.LeptonTheme.Management.Web` references from the project since it's not necessary after switching to LeptonX.
+
+- Make sure the old theme is removed and LeptonX is added in your Module class.
 
 ```diff
 [DependsOn(
         // ...
+        // Remove those two
 -        typeof(LeptonThemeManagementWebModule),
 -        typeof(AbpAspNetCoreMvcUiLeptonThemeModule)
 )]
 ```
 
-### Manual
+- Replace `LeptonThemeBundles` with `LeptonXThemeBundles` in AbpBundlingOptions.
 
-- Install **Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX** nuget package manually to your **Web** project.
-
-- Remove old theme from **DependsOn** attribute in your module class and add **AbpAspNetCoreMvcUiLeptonXThemeModule** type to **DependsOn** attribute.
-
-```diff
-[DependsOn(
-        // ...
--        typeof(LeptonThemeManagementWebModule),
--        typeof(AbpAspNetCoreMvcUiLeptonThemeModule),
-+        typeof(AbpAspNetCoreMvcUiLeptonXThemeModule)
-)]
+```csharp
+    options.StyleBundles.Configure(
+            LeptonXThemeBundles.Styles.Global, // 👈 Here
+            bundle =>
+            {
+                bundle.AddFiles("/global-styles.css");
+            }
+        );
 ```
+
 
 ---
 

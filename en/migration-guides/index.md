@@ -4,6 +4,7 @@ The following documents explain how to migrate your existing ABP Commercial appl
 
 > The following guides are only for the ABP Commercial. Please also see the [ABP Framework migration guides](https://docs.abp.io/en/abp/latest/Migration-Guides/Index) while upgrading your solution.
 
+* [5.2 to 5.3](v5_3.md)
 * [5.x to 5.2](v5_2.md)
 * [4.x to 5.2 (microservice solution)](microservice-4_x_to_5_2.md)
 * [4.x to 4.3](v4_3.md)
