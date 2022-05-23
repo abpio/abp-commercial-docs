@@ -1,8 +1,8 @@
 # CMS Kit Pro Module
 
-This module extends the [open-source CMS Kit module](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit/Index) and adds additional CMS (Content Management System) capabilities for your application.
+This module extends the [open-source CMS Kit module](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit/Index) and adds additional CMS (Content Management System) capabilities to your application.
 
-> **This module currently available only for the MVC / Razor Pages UI**. While there is no official Blazor package, it can also work in a Blazor Server UI since a Blazor Server UI is actually a hybrid application that runs in an ASP.NET Core MVC / Razor Pages application.
+> **This module is currently only available for MVC / Razor Pages UIs**. While there is no an official Blazor package, it can also work in a Blazor Server UI since a Blazor Server UI is actually a hybrid application that runs in an ASP.NET Core MVC / Razor Pages application.
 
 The following features are provided by the open source CMS Kit module:
 
@@ -18,17 +18,17 @@ The following features are provided by the open source CMS Kit module:
 And the following features are provided by the CMS Kit pro version:
 
 * [**Newsletter**](newsletter.md) system to allow users to subscribe to newsletters.
-* [**Contact form**](contact-form.md) system to allow users to write message to you.
+* [**Contact form**](contact-form.md) system to allow users to write messages to you.
 * [**URL forwarding**](url-forwarding.md) system to create URLs that redirect to other pages or external websites.
 * [**Poll**](poll.md) system to create quick polls for users
 
-Click to a feature to understand and learn how to use it. See [the module description page](https://commercial.abp.io/modules/Volo.CmsKit.Pro) for an overview of the module features.
+Click on a feature to understand and learn how to use it. See [the module description page](https://commercial.abp.io/modules/Volo.CmsKit.Pro) for an overview of the module features.
 
 ## How to Install
 
 ### New Solutions
 
-CMS Kit Pro is pre-installed in [the startup templates](../../startup-templates/application/index.md) if you create the solution with **public website** option. If you are using ABP CLI, you should specify the the `--with-public-website` option as shown below:
+CMS Kit Pro is pre-installed in [the startup templates](../../startup-templates/application/index.md) if you create the solution with the **public website** option. If you are using ABP CLI, you should specify the the `--with-public-website` option as shown below:
 
 ```bash
 abp new Acme.BookStore --with-public-website
