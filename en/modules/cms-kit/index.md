@@ -20,7 +20,7 @@ And the following features are provided by the CMS Kit pro version:
 * [**Newsletter**](newsletter.md) system to allow users to subscribe to newsletters.
 * [**Contact form**](contact-form.md) system to allow users to write message to you.
 * [**URL forwarding**](url-forwarding.md) system to create URLs that redirect to other pages or external websites.
-* [**Poll**](poll.md) system to create polls on any resource, like a blog post or a page.
+* [**Poll**](poll.md) system to create quick polls for users
 
 Click to a feature to understand and learn how to use it. See [the module description page](https://commercial.abp.io/modules/Volo.CmsKit.Pro) for an overview of the module features.
 

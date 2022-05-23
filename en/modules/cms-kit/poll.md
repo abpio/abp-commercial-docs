@@ -29,7 +29,7 @@ The poll system provides a poll [widget](https://docs.abp.io/en/abp/latest/UI/As
     typeof(PollViewComponent),
     new
     {
-        widgetName = "poll"
+        widgetName = "my-poll-1"
     })
 ```
 
@@ -48,7 +48,7 @@ Configure<CmsKitPollingOptions>(options =>
 
 `CmsKitPollingOptions` properties:
 
-- `WidgetNames`: List of defined widgets in the poll system.
+- `WidgetNames`: List of defined widgets in the poll system. `options.AddWidget` method was a shortcut to add a new widget to this list.
 
 # Internals
 
