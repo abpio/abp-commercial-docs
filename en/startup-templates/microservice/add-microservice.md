@@ -326,7 +326,7 @@ typeof(OrderServiceHttpApiClientModule)
 
 ### Updating Angular application:
 
-If you are using angular application, you need to add the new scope to the **oAuthConfig** in `envrionment.ts`:
+If you are using the Angular application, you need to add the new scope to the **oAuthConfig** in `envrionment.ts`:
 
 ![angular-add-scope](../../images/angular-add-scope.png)
 
