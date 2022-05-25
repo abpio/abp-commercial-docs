@@ -324,9 +324,11 @@ typeof(OrderServiceHttpApiClientModule)
 
 > You can check out the sample project ProductService.PublicWeb module to understand this implementation.
 
+### Updating Angular application:
 
+If you are using the Angular application, you need to add the new scope to the **oAuthConfig** in `envrionment.ts`:
 
-
+![angular-add-scope](../../images/angular-add-scope.png)
 
 ## Updating Tye configuration:
 
