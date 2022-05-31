@@ -79,7 +79,8 @@ To create a new entity, make sure the *-New entity-* is selected in the **Entity
 
 * **Create user interface:** Creates pages, modals, components, `JavaScript`, `CSS ` files and adds the new page to the main menu.  If you don't have a requirement to manage the entity via user interface, you can uncheck this option.
 
-  ​	
+*  **Concurrency check:** Implements the `IHasConcurrencyStamp` interface of the entity. If the base class is `AggregateRoot`, concurrency control is enabled by default. For more details see [Concurrency Check](https://docs.abp.io/en/abp/latest/Concurrency-Check) document.
+
 
 ![Entity info](../images/suite-entity-create-info.png)
 
