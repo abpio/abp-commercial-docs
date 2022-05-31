@@ -6,7 +6,7 @@ See [the module description page](https://commercial.abp.io/modules/Volo.Gdpr) f
 
 ## How to install
 
-The form module doesn't come pre-installed. You need to install it manually. There are 2 ways of installing it:
+The Gdpr module comes pre-installed. If you need to install it manually, There are 2 ways of installing it:
 
 * **Via ABP CLI:** Open a command line window in your solution folder (in the folder where the `* .sln` file is located) and type the following command:
 
@@ -20,7 +20,7 @@ The form module doesn't come pre-installed. You need to install it manually. The
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-You can visit the [forms module package list page](https://abp.io/packages?moduleName=Volo.Gdpr) to see list of packages related with this module.
+You can visit the [Gdpr module package list page](https://abp.io/packages?moduleName=Volo.Gdpr) to see list of packages related with this module.
 
 ## User interface
 
@@ -41,7 +41,7 @@ The `GdprMenus`  class has the constant variable for the menu item name.
 
 #### Personal Data
 
-Personal Data page is used to manage the personal data requests. You can view the past requests, current status of the latest request, create a new request, download a data or delete all your personal data from the application.
+Personal Data page is used to manage the personal data requests. You can view the past requests, current status of the latest request, create a new request, download data or delete all your personal data from the application.
 
 ![gdpr](../images/gdpr-personal-data-page.png)
 
