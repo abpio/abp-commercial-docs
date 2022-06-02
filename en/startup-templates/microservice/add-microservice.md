@@ -28,7 +28,7 @@ dotnet sln add services/order/src/Acme.BookStore.OrderService.HttpApi.Host/Acme.
 
 You need to update other dependent projects in order to integrate your new service into your composition.  Follow the next steps to integrate your new service.
 
-## Convert dynamic C# API Client proxy to static.
+## Convert Dynamic C# API Client Proxies to Static.
 
 The new service uses [Dynamic C# API Client Proxies](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients) by default. It is recommended that you convert to use [Static C# API Client Proxie](https://docs.abp.io/en/abp/latest/API/Static-CSharp-API-Clients) for performance benefits.
 
