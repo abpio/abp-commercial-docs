@@ -52,7 +52,7 @@ You can visit [Payment module package list page](https://abp.io/packages?moduleN
 
 ## User interface
 
-### Pages
+### Public Pages
 
 #### Payment gateway selection
 
@@ -65,6 +65,20 @@ This page allows selecting a payment gateway. If there is one payment gateway co
 This page is used to send Name, Surname and Email Address of user to PayU.
 
 ![payment-payu-prepayment-page](../images/payment-payu-prepayment-page.png)
+
+### Admin Pages
+
+#### Payment plans page
+Payment plans for subscriptions can be managed on this page. You can connect external subscriptions for each gateway to a plan.
+
+![payment plans](../images/payment-plans.png)
+
+![payment plans gateway plans](../images/payment-plans-gateway-plans.png)
+
+#### Payment request list
+This page provides all the payment request operations in application readonly.
+
+![payment request list](../images/payment-request-list.png)
 
 ## Options
 
