@@ -113,6 +113,20 @@
           ]
         },
         {
+          "text": "Application (Single Layer) Template",
+          "path": "startup-template/application-single-layer/index.md",
+          "items": [
+            {
+              "text": "Creating Solution",
+              "path": "startup-template/application-single-layer/create-solution.md"
+            },
+            {
+              "text": "Solution Structure",
+              "path": "startup-template/application-single-layer/solution-structure.md"
+            }
+          ]
+        },
+        {
           "text": "Microservice Template",
           "items": [
             {
