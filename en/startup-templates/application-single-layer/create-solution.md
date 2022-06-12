@@ -1,6 +1,6 @@
 # Creating a New Solution
 
-You can use the [ABP CLI](https://docs.abp.io/en/abp/latest/CLI) to create a new project using this startup template or alternatively, you can directly create this startup template via [Suite](../../abp-suite/index.md). 
+You can use the [ABP CLI](https://docs.abp.io/en/abp/latest/CLI) to create a new project using this startup template. Or alternatively, you can directly create this startup template via [Suite](../../abp-suite/index.md). 
 
 ## Creating a New Solution via ABP CLI
 
@@ -28,7 +28,7 @@ This template provides multiple UI frameworks:
 * `angular`: Angular UI
 * `none`: Without UI (for HTTP API development)
 
-> This template doesn't have Blazor WebAssembly UI, because it requires 3 projects at least (server-side, UI and shared library between these two projects). We are recommending using the layered [application startup template](../application/index.md) for Blazor WebAssembly projects.
+> This template doesn't have Blazor WebAssembly UI, because it requires at least 3 projects (server-side, UI and shared library between these two projects). We are recommending using the layered [application startup template](../application/index.md) for Blazor WebAssembly projects.
 
 Use the `-u` (or `--ui`) option to specify the UI framework while creating the solution:
 
