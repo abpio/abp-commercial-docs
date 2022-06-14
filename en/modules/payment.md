@@ -76,7 +76,7 @@ Payment plans for subscriptions can be managed on this page. You can connect ext
 ![payment plans gateway plans](../images/payment-plans-gateway-plans.png)
 
 #### Payment request list
-This page provides all the payment request operations in application readonly.
+This page lists all the payment request operations in application.
 
 ![payment request list](../images/payment-request-list.png)
 
