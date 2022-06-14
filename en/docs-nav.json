@@ -113,6 +113,20 @@
           ]
         },
         {
+          "text": "Application (Single Layer) Template",
+          "path": "startup-template/application-single-layer/index.md",
+          "items": [
+            {
+              "text": "Creating Solution",
+              "path": "startup-template/application-single-layer/create-solution.md"
+            },
+            {
+              "text": "Solution Structure",
+              "path": "startup-template/application-single-layer/solution-structure.md"
+            }
+          ]
+        },
+        {
           "text": "Microservice Template",
           "items": [
             {
@@ -202,10 +216,6 @@
           "path": "modules/account.md",
           "items": [
             {
-              "text": "LDAP Login",
-              "path": "modules/account/ldap.md"
-            },
-            {
               "text": "Tenant&User impersonation",
               "path": "modules/account/impersonation.md"
             }
@@ -238,6 +248,18 @@
             {
               "text": "Two Factor Authentication",
               "path": "modules/identity/two-factor-authentication.md"
+            },
+            {
+              "text": "LDAP Login",
+              "path": "modules/identity/ldap.md"
+            },
+            {
+              "text": "OAuth Login",
+              "path": "modules/identity/oauth-login.md"
+            },
+            {
+              "text": "Import External Users",
+              "path": "modules/identity/import-external-users.md"
             }
           ]
         },

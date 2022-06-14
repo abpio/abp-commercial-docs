@@ -10,7 +10,7 @@ This is a sample solution developed on top of ABP Commercial.
 
 ## Demo
 
-Visit [easycrm.samples.commercial.abp.io](http://easycrm.samples.commercial.abp.io/) to see this sample application in action. The online demo is with the ASP.NET Core MVC / Razor Pages UI, while the sample project is available with the Angular UI and Blazor too, when you download its source code.
+Visit [easycrm.abp.io](http://easycrm.abp.io/) to see this sample application in action. The online demo is with the ASP.NET Core MVC / Razor Pages UI, while the sample project is available with the Angular UI and Blazor too, when you download its source code.
 
 ## How To Run?
 
