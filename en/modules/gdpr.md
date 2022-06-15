@@ -23,9 +23,9 @@ abp add-module Volo.Gdpr
 
 ## Packages
 
-This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
+This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and the relations between them.
 
-You can visit the [Gdpr module package list page](https://abp.io/packages?moduleName=Volo.Abp.Gdpr) to see list of packages related with this module.
+You can visit the [Gdpr module package list page](https://abp.io/packages?moduleName=Volo.Abp.Gdpr) to see a list of packages related to this module.
 
 ## User interface
 
@@ -43,7 +43,7 @@ The `GdprMenus` class has the constant variable for the menu item name.
 
 #### Personal Data
 
-Personal Data page is used to manage personal data requests. You can view the past requests, current status of the latest request, create a new request, download data or delete all your personal data and account from the application. 
+The "Personal Data" page is used to manage personal data requests. You can view the past requests, current status of the latest request, create a new request, download data or delete all your personal data and account from the application. 
 
 ![gdpr](../images/gdpr-personal-data-page.png)
 
@@ -53,7 +53,9 @@ To see the other features of the GDPR module, visit [the module description page
 
 ### AbpGdprOptions
 
-`AbpGdprOptions` can be configured in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics). Example:
+`AbpGdprOptions` can be configured in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics). 
+
+Example:
 
 ```csharp
 Configure<AbpGdprOptions>(options =>
@@ -82,7 +84,7 @@ The main aggregate root of the GDPR requests. This aggregate root stores general
 * `GdprRequest` (aggregate root): Represents a GDPR request made by users.
   * `UserId`: Id of the user who made the request.
   * `ReadyTime`: Indicates the end time for the data preparation process.  `MinutesForDataPreparation` property of the `AbpGdprOptions` sums with the creation time of the request and this property is calculated.
-  * `Info` (collection): Contains the collected personal data of the user.
+  * `Info` (collection): This collection contains the collected personal data of the user.
 
 #### Entities
 
@@ -144,7 +146,7 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 
 #### Installation
 
-In order to configure the application to use the `GdprModule`, you first need to import `GdprConfigModule` from `@volo/abp.ng.gdpr/config` to root module. `GdprConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+In order to configure the application to use the `GdprModule`, you first need to import `GdprConfigModule` from `@volo/abp.ng.gdpr/config` to the root module. `GdprConfigModule` has a static `forRoot` method which you should call for a proper configuration.
 
 ```js
 // app.module.ts
