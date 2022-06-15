@@ -2,9 +2,7 @@
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
 
-## 5.3 (2022-05-05)
-
-> This version is currently in preview.
+## 5.3 (2022-06-14)
 
 See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-5.3-RC-Has-Been-Published)** for the v5.3 release.
 
