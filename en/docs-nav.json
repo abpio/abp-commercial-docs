@@ -242,6 +242,10 @@
           "path": "modules/forms.md"
         },
         {
+          "text": "GDPR",
+          "path": "modules/gdpr.md"
+        },
+        {
           "text": "Identity",
           "path": "modules/identity.md",
           "items": [

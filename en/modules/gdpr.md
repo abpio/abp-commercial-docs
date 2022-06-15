@@ -1,51 +1,71 @@
 # GDPR Module
 
-This module allows user to download their personal data collected by the application. The Gdpr module requests the information from the other modules that references `Volo.Abp.Gdpr.Abstractions` package and merges the response data into a Json file. 
+This module allows users to download and delete their personal data collected by the application. 
+
+> The GDPR module requests the information from the other modules that reference the `Volo.Abp.Gdpr.Abstractions` package and merges the response data into a single JSON file and the personal data can be downloaded later by the user. Also, the user can delete her/his personal data and account permanently.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Gdpr) for an overview of the module features.
 
 ## How to install
 
-The Gdpr module comes pre-installed. If you need to install it manually, There are 2 ways of installing it:
+The GDPR module is pre-installed in the [Application](../startup-templates/application/index.md) and [Application (Single Layer) templates](../startup-templates/application-single-layer/index.md). So, no need to manually install it. 
 
-* **Via ABP CLI:** Open a command line window in your solution folder (in the folder where the `* .sln` file is located) and type the following command:
+If you need to install it manually, there are 2 ways of installing it:
 
-  ```bash
-  abp add-module Volo.Gdpr
-  ```
-* **Via ABP Suite:** Open ABP Suite and select your project. Then go to the modules page from the top menu. Find **Gdpr** card and click add as project (with source-code) or add as package (without source-code).
+* **Via ABP CLI:** Open a command-line terminal in your solution folder (in the folder where the `*.sln` file is located) and type the following command:
+
+```bash
+abp add-module Volo.Gdpr
+```
+
+* **Via ABP Suite:** [Run the ABP Suite](../abp-suite/how-to-start.md), select your project, go to the **modules** page from the top menu and find the **GDPR** card and click **add as project (with source-code)** or **add as package (without source-code)** button to add the module into your project.
 
 
 ## Packages
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
 
-You can visit the [Gdpr module package list page](https://abp.io/packages?moduleName=Volo.Gdpr) to see list of packages related with this module.
+You can visit the [Gdpr module package list page](https://abp.io/packages?moduleName=Volo.Abp.Gdpr) to see list of packages related with this module.
 
 ## User interface
 
 ### Menu items
 
-Gdpr module adds the following item to the user main menu.
+GDPR module adds the following item to the "User" profile menu.
 
-* **Personal Data**: List personal data, request personal data, download personal data, delete personal data.
+* **Personal Data**: Personal data management page. You can request your personal data, list all personal data requests, download and/or delete personal data, and delete the account permanently.
 
 ![gdpr-menu](../images/gdpr-personal-data-menu.png)
 
-
-
-
-The `GdprMenus`  class has the constant variable for the menu item name.
+The `GdprMenus` class has the constant variable for the menu item name.
 
 ### Pages
 
 #### Personal Data
 
-Personal Data page is used to manage the personal data requests. You can view the past requests, current status of the latest request, create a new request, download data or delete all your personal data from the application.
+Personal Data page is used to manage personal data requests. You can view the past requests, current status of the latest request, create a new request, download data or delete all your personal data and account from the application. 
 
 ![gdpr](../images/gdpr-personal-data-page.png)
 
-To see the other features of the Gdpr module, visit [the module description page](https://commercial.abp.io/modules/Volo.Gdpr).
+To see the other features of the GDPR module, visit [the module description page](https://commercial.abp.io/modules/Volo.Gdpr).
+
+## Options
+
+### AbpGdprOptions
+
+`AbpGdprOptions` can be configured in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics). Example:
+
+```csharp
+Configure<AbpGdprOptions>(options =>
+{
+    //Set options here...
+});
+```
+
+`AbpGdprOptions` properties:
+
+* `RequestTimeInterval` (default: 1 day): It uses to indicate the allowed request time interval. You can configure this property if you want to increase or decrease personal data request interval. By default, users can request their personal data once a day.
+* `MinutesForDataPreparation` (default: 60 minutes): Since the GDPR module is designed to support distributed scenarios, a matter of time should be passed to collect and prepare personal data. You can configure this property if you want to increase or decrease data preparation time by the size of your application.
 
 ## Internals
 
@@ -53,14 +73,27 @@ To see the other features of the Gdpr module, visit [the module description page
 
 #### Aggregates
 
-- ##### GdprRequest
+This module follows the [Entity Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Entities) guide.
 
-  - The main aggregate root of the Gdpr requests. This aggregates stores general information about the request and a list of `GdprInfo`s collected from other modules.
+##### GdprRequest
+
+The main aggregate root of the GDPR requests. This aggregate root stores general information about the request and a list of `GdprInfo`s (personal data) collected from other modules.
+
+* `GdprRequest` (aggregate root): Represents a GDPR request made by users.
+  * `UserId`: Id of the user who made the request.
+  * `ReadyTime`: Indicates the end time for the data preparation process.  `MinutesForDataPreparation` property of the `AbpGdprOptions` sums with the creation time of the request and this property is calculated.
+  * `Info` (collection): Contains the collected personal data of the user.
+
 #### Entities
 
-- ##### GdprInfo
+##### GdprInfo
 
-  - Stores the collected data from a provider.
+This entity uses to store the collected data from a module/provider.
+
+* `GdprInfo` (entity): Represents the personal data of a user.
+  * `RequestId`: Id of the GDPR request.
+  * `Data`: Uses to store personal data.
+  * `Provider`: Indicates the module where the personal data is collected.
 
 #### Repositories
 
@@ -72,15 +105,15 @@ Following custom repositories are defined for this module:
 
 #### Event Handlers
 
-- ##### GdprUserDataEventHandler
+##### GdprUserDataEventHandler
 
-  - Triggered by the personal data providers in the application. Saves the collected data to database.
+Triggered by the personal data providers in the application. Saves the collected data to the database.
 
 ### Application layer
 
 #### Application services
 
-- `GdprRequestAppService` 
+* `GdprRequestAppService` (implements `IGdprRequestAppService`): Implements the use cases of the personal data page.
 
 ### Database providers
 
@@ -88,7 +121,7 @@ Following custom repositories are defined for this module:
 
 ##### Table / collection prefix & schema
 
-All tables/collections use the `Abp` prefix by default. Set static properties on the `GdprDbProperties` class if you need to change the table prefix or set a schema name (if supported by your database provider).
+Set static properties on the `GdprDbProperties` class if you need to change the table prefix or set a schema name (if supported by your database provider).
 
 ##### Connection string
 
@@ -100,24 +133,72 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 
 ##### Tables / Collections
 
-- **AbpGdprRequests**: Gdpr Requests.
-- **AbpGdprInfos**: Gdpr data.
+- **AbpGdprRequests**
+- **AbpGdprInfos**
 
 ##### Entity Relationships
+
 ![Entities](../images/gdpr-entity-relationship.png)
 
 ### Angular UI
 
-We are working on Angular UI for this module.
+#### Installation
 
-### Blazor UI
+In order to configure the application to use the `GdprModule`, you first need to import `GdprConfigModule` from `@volo/abp.ng.gdpr/config` to root module. `GdprConfigModule` has a static `forRoot` method which you should call for a proper configuration.
 
-We are working on Blazor UI for this module.
+```js
+// app.module.ts
+import { GdprConfigModule } from '@volo/abp.ng.gdpr/config';
+
+@NgModule({
+  imports: [
+    // other imports
+    GdprConfigModule.forRoot(),
+    // other imports
+  ],
+  // ...
+})
+export class AppModule {}
+```
+
+The `GdprModule` should be imported and lazy-loaded in your routing module. It has a static `forLazy` method for configuration. Available options are listed below. It is available for import from `@volo/abp.ng.gdpr`.
+
+```js
+// app-routing.module.ts
+const routes: Routes = [
+  // other route definitions
+  {
+    path: 'gdpr',
+    loadChildren: () =>
+      import('@volo/abp.ng.gdpr').then(m => m.GdprModule.forLazy(/* options here */)),
+  },
+];
+
+@NgModule(/* AppRoutingModule metadata */)
+export class AppRoutingModule {}
+```
+
+> If you have generated your project via the startup template, you do not have to do anything, because it already has both `GdprConfigModule` and `GdprModule`.
+
+<h4 id="h-gdpr-module-options">Options</h4>
+
+You can modify the look and behavior of the module pages by passing the following options to `GdprModule.forLazy` static method:
+
+- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Entity-Action-Extensions) for details.
+- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Page-Toolbar-Extensions) for details.
+- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Data-Table-Column-Extensions) for details.
+- **createFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Dynamic-Form-Extensions) for details.
+- **editFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Dynamic-Form-Extensions) for details.
+
 
 ## Distributed Events
 
-The Gdpr module collects the data asynchronous to work compatible with microservice solutions. An event is published when a user requests their information. 
+The GDPR module collects the data asynchronous to work compatible with microservice solutions. An event is published when a user requests their information. 
 
 #### GdprUserDataRequestedEto
 
-This [Event Transfer Object](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus#event-transfer-object) is published to trigger all personal data collectors to begin preparing their data.
+This [Event Transfer Object](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus#event-transfer-object) is published to trigger all personal data collectors to begin preparing their data. If you want to collect personal data for your module, you need to subscribe to this ETO class and published the `GdprUserDataPreparedEto` event with your collected data.
+
+#### GdprUserDataPreparedEto
+
+This [Event Transfer Object](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus#event-transfer-object) is used to save the collected personal data into a single JSON file by module.
