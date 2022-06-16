@@ -18,7 +18,7 @@ If you need to install it manually, there are 2 ways of installing it:
 abp add-module Volo.Gdpr
 ```
 
-* **Via ABP Suite:** [Run the ABP Suite](../abp-suite/how-to-start.md), select your project, go to the **modules** page from the top menu and find the **GDPR** card and click **add as project (with source-code)** or **add as package (without source-code)** button to add the module into your project.
+* **Via ABP Suite:** [Run ABP Suite](../abp-suite/how-to-start.md), select your project, go to the **modules** page from the top menu and find the **GDPR** card and click the **add as project (with source-code)** or **add as package (without source-code)** button to add the module into your project.
 
 
 ## Packages
@@ -31,7 +31,7 @@ You can visit the [Gdpr module package list page](https://abp.io/packages?module
 
 ### Menu items
 
-GDPR module adds the following item to the "User" profile menu.
+The GDPR module adds the following item to the "User" profile menu.
 
 * **Personal Data**: Personal data management page. You can request your personal data, list all personal data requests, download and/or delete personal data, and delete the account permanently.
 
@@ -66,8 +66,8 @@ Configure<AbpGdprOptions>(options =>
 
 `AbpGdprOptions` properties:
 
-* `RequestTimeInterval` (default: 1 day): It uses to indicate the allowed request time interval. You can configure this property if you want to increase or decrease personal data request interval. By default, users can request their personal data once a day.
-* `MinutesForDataPreparation` (default: 60 minutes): Since the GDPR module is designed to support distributed scenarios, a matter of time should be passed to collect and prepare personal data. You can configure this property if you want to increase or decrease data preparation time by the size of your application.
+* `RequestTimeInterval` (default: 1 day): It uses to indicate the allowed request time interval. You can configure this property if you want to increase or decrease the personal data request interval. By default, users can request their personal data once a day.
+* `MinutesForDataPreparation` (default: 60 minutes): Since the GDPR module is designed to support distributed scenarios, it should take a while to collect and prepare personal data. You can configure this property if you want to increase or decrease data preparation time by the size of your application.
 
 ## Internals
 
@@ -83,14 +83,14 @@ The main aggregate root of the GDPR requests. This aggregate root stores general
 
 * `GdprRequest` (aggregate root): Represents a GDPR request made by users.
   * `UserId`: Id of the user who made the request.
-  * `ReadyTime`: Indicates the end time for the data preparation process.  `MinutesForDataPreparation` property of the `AbpGdprOptions` sums with the creation time of the request and this property is calculated.
+  * `ReadyTime`: Indicates the end time for the data preparation process. The `MinutesForDataPreparation` property of the `AbpGdprOptions` sums with the creation time of the request and this property is calculated.
   * `Info` (collection): This collection contains the collected personal data of the user.
 
 #### Entities
 
 ##### GdprInfo
 
-This entity uses to store the collected data from a module/provider.
+This entity is used to store the collected data from a module/provider.
 
 * `GdprInfo` (entity): Represents the personal data of a user.
   * `RequestId`: Id of the GDPR request.
@@ -101,7 +101,7 @@ This entity uses to store the collected data from a module/provider.
 
 This module follows the [Repository Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Repositories) guide.
 
-Following custom repositories are defined for this module:
+The following custom repositories are defined for this module:
 
 * `IGdprRequestRepository`
 
@@ -184,22 +184,22 @@ export class AppRoutingModule {}
 
 <h4 id="h-gdpr-module-options">Options</h4>
 
-You can modify the look and behavior of the module pages by passing the following options to `GdprModule.forLazy` static method:
+You can modify the look and behavior of the module pages by passing the following options to the `GdprModule.forLazy` static method:
 
-- **entityActionContributors:** Changes grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Entity-Action-Extensions) for details.
-- **toolbarActionContributors:** Changes page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Page-Toolbar-Extensions) for details.
-- **entityPropContributors:** Changes table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Data-Table-Column-Extensions) for details.
-- **createFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Dynamic-Form-Extensions) for details.
-- **editFormPropContributors:** Changes create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Dynamic-Form-Extensions) for details.
+- **entityActionContributors:** Changes the grid actions. Please check [Entity Action Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Entity-Action-Extensions) for details.
+- **toolbarActionContributors:** Changes the page toolbar. Please check [Page Toolbar Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Page-Toolbar-Extensions) for details.
+- **entityPropContributors:** Changes the table columns. Please check [Data Table Column Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Data-Table-Column-Extensions) for details.
+- **createFormPropContributors:** Changes the create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Dynamic-Form-Extensions) for details.
+- **editFormPropContributors:** Changes the create form fields. Please check [Dynamic Form Extensions for Angular](https://docs.abp.io/en/abp/latest/UI/Angular/Dynamic-Form-Extensions) for details.
 
 
 ## Distributed Events
 
-The GDPR module collects the data asynchronous to work compatible with microservice solutions. An event is published when a user requests their information. 
+The GDPR module collects the data asynchronous to work that is compatible with microservice solutions. An event is published when a user requests their information. 
 
 #### GdprUserDataRequestedEto
 
-This [Event Transfer Object](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus#event-transfer-object) is published to trigger all personal data collectors to begin preparing their data. If you want to collect personal data for your module, you need to subscribe to this ETO class and published the `GdprUserDataPreparedEto` event with your collected data.
+This [Event Transfer Object](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus#event-transfer-object) is published to trigger all personal data collectors to begin preparing their data. If you want to collect personal data for your module, you need to subscribe to this ETO class and publish the `GdprUserDataPreparedEto` event with your collected data.
 
 #### GdprUserDataPreparedEto
 
