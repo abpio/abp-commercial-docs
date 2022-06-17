@@ -4,7 +4,7 @@ This document contains **brief release notes** for each release. Release notes o
 
 ## 5.3 (2022-06-14)
 
-See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-5.3-RC-Has-Been-Published)** for the v5.3 release.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-5.3-Final-Has-Been-Released)** for the v5.3 release.
 
 * New module: **GDPR** (currently, allows to download/delete user's personal data).
 * **Polling** feature for the [CMS Kit module](modules/cms-kit/index.md).
