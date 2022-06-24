@@ -179,6 +179,10 @@
                 {
                   "text": "Change Microservice project to use MongoDB Provider",
                   "path": "guides/microservice-mongodb.md"
+                },
+                {
+                  "text": "Extracting a Module as a Microservice",
+                  "path": "guides/extracting-module-as-microservice.md"
                 }
               ]
             }
