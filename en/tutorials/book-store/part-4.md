@@ -64,7 +64,7 @@ If you had created a data seed contributor as described in the [first part](part
 
 ## Testing the BookAppService
 
-Create a test class named `BookAppService_Tests` in the `Acme.BookStore.Application.Tests` project:
+Create a test class named `BookAppService_Tests` in the `Books` folder of the `Acme.BookStore.Application.Tests` project:
 
 ````csharp
 using System;
