@@ -17,14 +17,14 @@ Add the following ones into the `styles` array
 * At last, remove `ThemeLeptonModule` from `app.module.ts` and `shared.module.ts`, and import the following modules in `app.module.ts`
 
 ```js
-import { ThemeLeptonXModule } from '@volosoft/abp.ng.theme.lepton-x';
+import { HttpErrorComponent, ThemeLeptonXModule } from '@volosoft/abp.ng.theme.lepton-x';
 import { SideMenuLayoutModule } from '@volosoft/abp.ng.theme.lepton-x/layouts';
 
 @NgModule({
   // ...
   imports: [
     // ...
-    // ThemeLeptonModule.forRoot(),
+    // ThemeLeptonModule.forRoot(), -> remove this line.
     ThemeLeptonXModule.forRoot(),
     SideMenuLayoutModule.forRoot(), // depends on which layout you choose
     // ...
