@@ -230,10 +230,12 @@ public async Task<PagedResultDto<AuthorDto>> GetListAsync(GetAuthorListDto input
         input.Filter
     );
 
-    var totalCount = input.Filter == null
-        ? await _authorRepository.CountAsync()
-        : await _authorRepository.CountAsync(
-            author => author.Name.Contains(input.Filter));
+    var totalCount = await AsyncExecuter.CountAsync(
+        (await _authorRepository.GetQueryableAsync()).WhereIf(
+            !input.Filter.IsNullOrWhiteSpace(),
+            author => author.Name.Contains(input.Filter)
+        )
+    );
 
     return new PagedResultDto<AuthorDto>(
         totalCount,
