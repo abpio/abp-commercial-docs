@@ -88,7 +88,7 @@ builder.Entity<Book>(b =>
 
 The startup solution is configured to use [Entity Framework Core Code First Migrations](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/). Since we've changed the database mapping configuration, we should create a new migration and apply changes to the database.
 
-Open a command-line terminal in the directory of the `Acme.BookStore.EntityFrameworkCore.DbMigrations` project and type the following command:
+Open a command-line terminal in the directory of the `Acme.BookStore.EntityFrameworkCore` project and type the following command:
 
 ````bash
 dotnet ef migrations add Added_AuthorId_To_Book
