@@ -290,6 +290,7 @@
         },
         {
           "text": "LeptonX",
+          "path": "themes/leptonx.md",
           "items": [
             {
               "text": "Migrating from Lepton Theme",
