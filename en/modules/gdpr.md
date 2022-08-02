@@ -20,7 +20,6 @@ abp add-module Volo.Gdpr
 
 * **Via ABP Suite:** [Run ABP Suite](../abp-suite/how-to-start.md), select your project, go to the **modules** page from the top menu and find the **GDPR** card and click the **add as project (with source-code)** or **add as package (without source-code)** button to add the module into your project.
 
-
 ## Packages
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and the relations between them.
@@ -68,6 +67,27 @@ Configure<AbpGdprOptions>(options =>
 
 * `RequestTimeInterval` (default: 1 day): It uses to indicate the allowed request time interval. You can configure this property if you want to increase or decrease the personal data request interval. By default, users can request their personal data once a day.
 * `MinutesForDataPreparation` (default: 60 minutes): Since the GDPR module is designed to support distributed scenarios, it should take a while to collect and prepare personal data. You can configure this property if you want to increase or decrease data preparation time by the size of your application.
+
+### AbpCookieConsentOptions
+
+`AbpCookieConsentOptions` is used to configure the options of the [**Cookie Consent**](#cookie-consent) and can be configured in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics).
+
+Example:
+
+```csharp
+Configure<AbpCookieConsentOptions>(options => 
+{
+    IsEnabled = true;
+    CookiePolicyUrl = "/CookiePolicy";
+    PrivacyPolicyUrl = "/PrivacyPolicy";
+});
+```
+
+`AbpCookieConsentOptions` properties:
+
+* `IsEnabled` (default: false): This flag enables or disables the **Cookie Consent** feature.
+* `CookiePolicyUrl`: It defines the cookie policy page URL. When it's set, "Cookie Policy" page URL is automatically added to the cookie consent statement. Thus, users can check the cookie policy before accepting the cookie consent. You can set it as a local address like `/CookiePolicy` or full URL like `https://example.com/cookie-policy`.
+* `PrivacyPolicyUrl`: It defines the privacy policy page URL. When it's set, the "Privacy Policy" page URL is automatically added to the cookie consent statement. Thus, users can check the privacy policy before accepting the cookie consent. You can set it as a local address like `/PrivacyPolicy` or full URL like `https://example.com/privacy-policy`.
 
 ## Internals
 
@@ -197,10 +217,36 @@ You can modify the look and behavior of the module pages by passing the followin
 
 The GDPR module collects the data asynchronous to work that is compatible with microservice solutions. An event is published when a user requests their information. 
 
-#### GdprUserDataRequestedEto
+### GdprUserDataRequestedEto
 
 This [Event Transfer Object](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus#event-transfer-object) is published to trigger all personal data collectors to begin preparing their data. If you want to collect personal data for your module, you need to subscribe to this ETO class and publish the `GdprUserDataPreparedEto` event with your collected data.
 
-#### GdprUserDataPreparedEto
+### GdprUserDataPreparedEto
 
 This [Event Transfer Object](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus#event-transfer-object) is used to save the collected personal data into a single JSON file by module.
+
+
+## Cookie Consent
+
+![](../images/cookie-consent.png)
+
+Cookie Consent can be used to inform the users of the application, before saving any specific data about the users. 
+
+This feature is enabled by default for the [Application](../startup-templates/application/index.md) and [Application Single Layer](../startup-templates/application-single-layer/index.md) Startup Templates.
+
+> You can easily enable/disable to show the Cookie Consent by configuring the `AbpCookieConsentOptions`, which explained above.
+
+### Configuring the Cookie Consent
+
+You can add Cookie Consent to your application by configuring the `AddAbpCookieConsent` in your module class as below:
+
+```csharp
+context.Services.AddAbpCookieConsent(options =>
+{
+    options.IsEnabled = true;
+    options.CookiePolicyUrl = "/CookiePolicy";
+    options.PrivacyPolicyUrl = "/PrivacyPolicy";
+});
+```
+
+After configuring the `AddAbpCookieConsent` and setting it enabled, a cookie consent text will be prepared according to the options and a cookie consent banner will be seen at the bottom of the page. Thus, the users of the application will be informed about the Cookie Policy and Privacy Policy of the company/application.
