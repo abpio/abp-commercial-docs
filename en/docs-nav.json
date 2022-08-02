@@ -78,6 +78,10 @@
         {
           "text": "IdentityServer Deployment",
           "path": "guides/identityserver-deployment.md"
+        },
+        {
+          "text": "Migrating to OpenIdDict",
+          "path": "migration-guides/openIddict-step-by-step.md"
         }
       ]
     },
