@@ -68,7 +68,7 @@ LeptonX theme is implemented and ready to use with ABP Commercial. No custom imp
 - Update AbpBundlingOptions
   ```diff
   options.StyleBundles.Configure(
-  - BlazorBasicThemeBundles.Styles.Global,
+  - BlazorLeptonThemeBundles.Styles.Global,
   + BlazorLeptonXThemeBundles.Styles.Global,
     bundle =>
     {

@@ -88,7 +88,7 @@ builder.Entity<Book>(b =>
 
 The startup solution is configured to use [Entity Framework Core Code First Migrations](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/). Since we've changed the database mapping configuration, we should create a new migration and apply changes to the database.
 
-Open a command-line terminal in the directory of the `Acme.BookStore.EntityFrameworkCore.DbMigrations` project and type the following command:
+Open a command-line terminal in the directory of the `Acme.BookStore.EntityFrameworkCore` project and type the following command:
 
 ````bash
 dotnet ef migrations add Added_AuthorId_To_Book
@@ -372,7 +372,7 @@ namespace Acme.BookStore.Books
 
             //Prepare a query to join books and authors
             var query = from book in queryable
-                join author in _authorRepository on book.AuthorId equals author.Id
+                join author in await _authorRepository.GetQueryableAsync() on book.AuthorId equals author.Id
                 where book.Id == id
                 select new { book, author };
 
@@ -396,7 +396,7 @@ namespace Acme.BookStore.Books
 
             //Prepare a query to join books and authors
             var query = from book in queryable
-                join author in _authorRepository on book.AuthorId equals author.Id
+                join author in await _authorRepository.GetQueryableAsync() on book.AuthorId equals author.Id
                 select new {book, author};
 
             query = query

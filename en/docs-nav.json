@@ -117,6 +117,20 @@
           ]
         },
         {
+          "text": "Application (Single Layer) Template",
+          "path": "startup-templates/application-single-layer/index.md",
+          "items": [
+            {
+              "text": "Creating Solution",
+              "path": "startup-templates/application-single-layer/create-solution.md"
+            },
+            {
+              "text": "Solution Structure",
+              "path": "startup-templates/application-single-layer/solution-structure.md"
+            }
+          ]
+        },
+        {
           "text": "Microservice Template",
           "items": [
             {
@@ -169,6 +183,10 @@
                 {
                   "text": "Change Microservice project to use MongoDB Provider",
                   "path": "guides/microservice-mongodb.md"
+                },
+                {
+                  "text": "Extracting a Module as a Microservice",
+                  "path": "guides/extracting-module-as-microservice.md"
                 }
               ]
             }
@@ -230,6 +248,10 @@
         {
           "text": "Forms",
           "path": "modules/forms.md"
+        },
+        {
+          "text": "GDPR",
+          "path": "modules/gdpr.md"
         },
         {
           "text": "Identity",
