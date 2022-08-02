@@ -85,9 +85,9 @@ Configure<AbpCookieConsentOptions>(options =>
 
 `AbpCookieConsentOptions` properties:
 
-* `IsEnabled` (default: false): It uses to enable/disable to show **Cookie Consent** on the layout.
-* `CookiePolicyUrl`: It defines the cookie policy page url and when it's configured, the "Cookie Policy" page url is added to the cookie consent. Thus, users can examine the cookie policy before accepting the cookie consent.
-* `PrivacyPolicyUrl`: It defines the privacy policy page url and when it's configured, the "Privacy Policy" page url is added to the cookie consent. Thus, users can examine the privacy policy before accepting the cookie consent.
+* `IsEnabled` (default: false): This flag enables or disables the **Cookie Consent** feature.
+* `CookiePolicyUrl`: It defines the cookie policy page URL. When it's set, "Cookie Policy" page URL is automatically added to the cookie consent statement. Thus, users can check the cookie policy before accepting the cookie consent. You can set it as a local address like `/CookiePolicy` or full URL like `https://example.com/cookie-policy`.
+* `PrivacyPolicyUrl`: It defines the privacy policy page URL. When it's set, the "Privacy Policy" page URL is automatically added to the cookie consent statement. Thus, users can check the privacy policy before accepting the cookie consent. You can set it as a local address like `/PrivacyPolicy` or full URL like `https://example.com/privacy-policy`.
 
 ## Internals
 
