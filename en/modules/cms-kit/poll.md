@@ -42,7 +42,7 @@ Before using the poll system, you need to define the widgets. You can use the `C
 ```csharp
 Configure<CmsKitPollingOptions>(options =>
     {
-        options.AddWidget("poll");
+        options.AddWidget("my-poll-1");
     });
 ```
 

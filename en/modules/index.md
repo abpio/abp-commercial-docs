@@ -10,6 +10,7 @@ ABP Commercial provides **production ready, enterprise level** application modul
 * **[CMS Kit](cms-kit/index.md)**: A set of reusable CMS (Content Management System) building blocks.
 * **[File Management](file-management.md)**: Upload, download and organize files in a hierarchical folder structure.
 * **[Forms](forms.md)**: Create forms and surveys.
+* **[GDPR](gdpr.md)**: Personal data management.
 * **[Identity](identity.md)**: User, role, claims and permission management.
 * **[Identity Server](identity-server.md)**: Managing the identity server objects like clients, API resources, identity resources, secrets, application URLs, claims and more.
 * **[Language management](language-management.md)**: Add or remove languages and localize the application UI on the fly.

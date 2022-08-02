@@ -323,8 +323,6 @@ namespace Acme.BookStore
     {
         public BookStoreApplicationAutoMapperProfile()
         {
-            CreateMap<AppUser, AppUserDto>().Ignore(x => x.ExtraProperties);
-            
             CreateMap<Book, BookDto>();
         }
     }
