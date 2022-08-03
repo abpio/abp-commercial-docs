@@ -333,10 +333,10 @@ for creating the host builder.
 
 ### UI Layer
 
-- [Angular UI Migration](OpenIddict-Angular.md)
-- [MVC/Razor UI Migration](OpenIddict-Mvc.md)
-- [Blazor-Server UI Migration](OpenIddict-Blazor-Server.md)
-- [Blazor-Wasm UI Migration](OpenIddict-Blazor.md)
+- [Angular UI Migration](openIddict-angular.md)
+- [MVC/Razor UI Migration](openIddict-mvc.md)
+- [Blazor-Server UI Migration](openIddict-blazor-server.md)
+- [Blazor-Wasm UI Migration](openIddict-blazor.md)
 
 ## Source code of samples and module
 
