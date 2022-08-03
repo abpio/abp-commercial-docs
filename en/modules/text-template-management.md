@@ -12,7 +12,7 @@ Text Template Management module is pre-installed in [the startup templates](../S
 
 ### Existing Solutions
 
-If you want to add the **Text Template Management** module to your existing solution, you can use the ABP CLI add-module command:
+If you want to add the **Text Template Management** module to your existing solution, you can use the ABP CLI `add-module` command:
 
 ```bash
 abp add-module Volo.TextTemplateManagement
