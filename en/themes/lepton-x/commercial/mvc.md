@@ -16,13 +16,16 @@ dotnet add package Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX --prerelease
 ```diff
 [DependsOn(
         // ...
-        // Remove those two
--        typeof(LeptonThemeManagementWebModule),
--        typeof(AbpAspNetCoreMvcUiLeptonThemeModule)
+        // remove the following lines
+-       typeof(LeptonThemeManagementWebModule),
+-       typeof(AbpAspNetCoreMvcUiLeptonThemeModule),
+
+        // add the line below
++       typeof(AbpAspNetCoreMvcUiLeptonXThemeModule),
 )]
 ```
 
-- Replace `LeptonThemeBundles` with `LeptonXThemeBundles` in AbpBundlingOptions.
+- Replace `LeptonThemeBundles` with `LeptonXThemeBundles` in **AbpBundlingOptions**.
 
 ```csharp
     options.StyleBundles.Configure(
@@ -42,7 +45,7 @@ dotnet add package Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX --prerelease
 ### Themes
 You can set default theme or add or remove themes via using **LeptonXThemeOptions**.
 
-- `DefaultStyle`: Defines deffault fallback theme. Default value is **Dim**
+- `DefaultStyle`: Defines deffault fallback theme. Default value is **Dim**.
   
 ```csharp
 Configure<LeptonXThemeOptions>(options =>
