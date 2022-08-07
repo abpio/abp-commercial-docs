@@ -10,6 +10,14 @@ See [the module description page](https://commercial.abp.io/modules/Volo.TextTem
 
 Text Template Management module is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
 
+### Existing Solutions
+
+If you want to add the **Text Template Management** module to your existing solution, you can use the ABP CLI `add-module` command:
+
+```bash
+abp add-module Volo.TextTemplateManagement
+```
+
 ## Packages
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.

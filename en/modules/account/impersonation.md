@@ -43,10 +43,10 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 
 ### MVC Tiered
 
-#### IdentityServer
+#### AuthServer
 
-1. Depends `AbpAccountPublicWebImpersonationModule(Volo.Abp.Account.Pro.Public.Web.Impersonation)` and `SaasHostApplicationContractsModule` on your `IdentityServerModule`
-2. Configure the `AbpAccountOptions`, then add `JwtBearer` authentication and `UseJwtTokenMiddleware` to the ASP.NET Core pipeline
+1. Depends `AbpAccountPublicWebImpersonationModule(Volo.Abp.Account.Pro.Public.Web.Impersonation)` and `SaasHostApplicationContractsModule` on your `AuthServerModule`
+2. Configure the `AbpAccountOptions`.
 
 ```cs
 public override void ConfigureServices(ServiceConfigurationContext context)
@@ -60,23 +60,6 @@ public override void ConfigureServices(ServiceConfigurationContext context)
         //For impersonation in Identity module
         options.ImpersonationUserPermission = IdentityPermissions.Users.Impersonation;
     });
-
-    context.Services.AddAuthentication()
-        .AddJwtBearer(options =>
-        {
-            options.Authority = configuration["AuthServer:Authority"];
-            options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
-            options.Audience = "MyProjectName";
-        });
-}
-
-public override void OnApplicationInitialization(ApplicationInitializationContext context)
-{
-    var app = context.GetApplicationBuilder();
-    app.UseAuthentication();
-
-    //Add this line after `UseAuthentication`
-    app.UseJwtTokenMiddleware();
 }
 ```
 #### HttpApi.Host
@@ -86,8 +69,8 @@ No need to do anything here.
 #### Web
 
 1. Depends `AbpAccountPublicWebImpersonationModule(Volo.Abp.Account.Pro.Public.Web.Impersonation)` on your `WebModule`
-
 2. Chnage the base class of `AccountController` to `AbpAccountImpersonationChallengeAccountController`
+
 ```cs
 public class AccountController : AbpAccountImpersonationChallengeAccountController
 {
@@ -151,7 +134,6 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 ### Blazor Server
 
 1. Depends `AbpAccountPublicWebImpersonationModule(Volo.Abp.Account.Pro.Public.Web.Impersonation)` and `AbpAccountPublicBlazorServerModule(Volo.Abp.Account.Pro.Public.Blazor.Server)` on your `BlazorModule`
-
 2. Configure `SaasHostBlazorOptions` and `AbpAccountOptions`
 
 ```cs
@@ -185,10 +167,10 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 
 ### Blazor Server Tiered
 
-#### Identity Server
+#### AuthServer
 
-1. Depends `AbpAccountPublicWebImpersonationModule(Volo.Abp.Account.Pro.Public.Web.Impersonation)` and `SaasHostApplicationContractsModule` on your `IdentityServerModule`
-2. Configure the `AbpAccountOptions`, then add `JwtBearer` authentication and `UseJwtTokenMiddleware` to the ASP.NET Core pipeline
+1. Depends `AbpAccountPublicWebImpersonationModule(Volo.Abp.Account.Pro.Public.Web.Impersonation)` and `SaasHostApplicationContractsModule` on your `AuthServerModule`
+2. Configure the `AbpAccountOptions`.
 
 ```cs
 public override void ConfigureServices(ServiceConfigurationContext context)
@@ -202,23 +184,6 @@ public override void ConfigureServices(ServiceConfigurationContext context)
         //For impersonation in Identity module
         options.ImpersonationUserPermission = IdentityPermissions.Users.Impersonation;
     });
-
-    context.Services.AddAuthentication()
-        .AddJwtBearer(options =>
-        {
-            options.Authority = configuration["AuthServer:Authority"];
-            options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
-            options.Audience = "MyProjectName";
-        });
-}
-
-public override void OnApplicationInitialization(ApplicationInitializationContext context)
-{
-    var app = context.GetApplicationBuilder();
-    app.UseAuthentication();
-
-    //Add this line after `UseAuthentication`
-    app.UseJwtTokenMiddleware();
 }
 ```
 
@@ -266,17 +231,27 @@ Add `Impersonation` to the Angular grant types.
 var consoleAndAngularClientId = configurationSection["MyProjectName_App:ClientId"];
 if (!consoleAndAngularClientId.IsNullOrWhiteSpace())
 {
-    var webClientRootUrl = configurationSection["MyProjectName_App:RootUrl"]?.TrimEnd('/');
-
-    await CreateClientAsync(
+    var consoleAndAngularClientRootUrl = configurationSection["MyProjectName_App:RootUrl"]?.TrimEnd('/');
+    await CreateApplicationAsync(
         name: consoleAndAngularClientId,
+        type: OpenIddictConstants.ClientTypes.Public,
+        consentType: OpenIddictConstants.ConsentTypes.Implicit,
+        displayName: "Console Test / Angular Application",
+        secret: null,
+        grantTypes: new List<string>
+        {
+            OpenIddictConstants.GrantTypes.AuthorizationCode,
+            OpenIddictConstants.GrantTypes.Password,
+            OpenIddictConstants.GrantTypes.ClientCredentials,
+            OpenIddictConstants.GrantTypes.RefreshToken,
+            "LinkLogin",
+            "Impersonation"
+        },
         scopes: commonScopes,
-        grantTypes: new[] { "password", "client_credentials", "authorization_code", "LinkLogin", "Impersonation" },
-        secret: (configurationSection["MyProjectName_App:ClientSecret"] ?? "1q2w3e*").Sha256(),
-        requireClientSecret: false,
-        redirectUri: webClientRootUrl,
-        postLogoutRedirectUri: webClientRootUrl,
-        corsOrigins: new[] { webClientRootUrl.RemovePostFix("/") }
+        redirectUri: consoleAndAngularClientRootUrl,
+        postLogoutRedirectUri: consoleAndAngularClientRootUrl,
+        clientUri: consoleAndAngularClientRootUrl,
+        logoUri: "/images/clients/angular.svg"
     );
 }
 ```
