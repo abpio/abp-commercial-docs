@@ -67,13 +67,19 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Bl
 
 ## Mobile Development
 
-When you create a new application, the solution includes `react-native` folder by default. This is a basic [React Native](https://reactnative.dev/) startup template to develop mobile applications integrated to your ABP based backends.
+### React natvie
 
-If you don't plan to develop a mobile application with React Native, you can safely delete the `react-native` folder.
-
-> You can specifying the `-m none` option to the ABP CLI to not create the `react-native` folder in the beginning.
+You can specifying the `-m react-native` option to create a new application with React Native. This is a basic [React Native](https://reactnative.dev/) startup template to develop mobile applications integrated to your ABP based backends.
 
 See the [Getting Started with the React Native](getting-started-react-native.md) document to learn how to configure and run the React Native application.
+
+### MAUI
+
+You can specifying the `-m maui` option to create a new application with MAUI. This is a basic [MAUI](https://docs.microsoft.com/en-us/dotnet/maui/what-is-maui) startup template to develop mobile applications integrated to your ABP based backends.
+
+See the [Getting Started with the MAUI](getting-started-maui.md) document to learn how to configure and run the MAUI application.
+
+> You can specifying the `-m none` option to the ABP CLI to not create the mobile project in the beginning.
 
 #### ABP CLI commands & options
 
