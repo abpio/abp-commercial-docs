@@ -18,12 +18,24 @@ Open the `appsettings.json` in the `MAUI` project:
 
 {{ end }}
 
-### Configure Port Forward
+### Android
 
-The emulator or a physical phone **cannot connect to the backend** on `localhost`. To fix this problem, we need to configure port forward.
+The emulator or a physical phone **cannot connect to the backend** on `localhost`. To fix this problem, we need to configure port mapping.
 
-#### Android
+Open a command line terminal and run the [`adb reverse`](https://developer.android.com/studio/command-line/adb#forwardports) command to mapping the backend application port to a emulator. For example:
 
-Open a command line terminal and run the [`adb forward`](https://developer.android.com/studio/command-line/adb#forwardports) command to forwards backend application port on a emulator. For exampe:
+`adb reverse tcp:44305: tcp:44305`
 
-`adb forward tcp:44305: tcp:44305`
+> You should run the command after starting the emulator
+
+## Run the Mobile Application
+
+![Maui Home Page](images/maui-home-page.png)
+
+When you click Login to the application button, it will redirects to the auth server login page and enter **admin** as the username and **1q2w3E*** as the password to login to the application:
+
+![Maui User Page](images/maui-user-page.png)
+
+The user page show you how to use CSharp client proxy to request backend API.
+
+The application is up and running. You can continue to develop your application based on this startup template.
