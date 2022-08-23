@@ -280,6 +280,10 @@
           "path": "modules/identity-server.md"
         },
         {
+          "text": "OpenIddict",
+          "path": "modules/openiddict.md"
+        },
+        {
           "text": "Language Management",
           "path": "modules/language-management.md"
         },
