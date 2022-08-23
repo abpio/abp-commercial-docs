@@ -2,7 +2,7 @@
 
 This module extends the [open-source CMS Kit module](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit/Index) and adds additional CMS (Content Management System) capabilities to your application.
 
-> **This module is currently only available for MVC / Razor Pages UIs**. While there is no an official Blazor package, it can also work in a Blazor Server UI since a Blazor Server UI is actually a hybrid application that runs in an ASP.NET Core MVC / Razor Pages application.
+> **This module is currently available for MVC / Razor Pages and Blazor UIs**.
 
 The following features are provided by the open source CMS Kit module:
 

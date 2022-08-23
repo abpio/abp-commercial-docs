@@ -187,6 +187,10 @@
                 {
                   "text": "Extracting a Module as a Microservice",
                   "path": "guides/extracting-module-as-microservice.md"
+                },
+                {
+                  "text": "Migrating to OpenIdDict",
+                  "path": "migration-guides/openIddict-microservice.md"
                 }
               ]
             }
@@ -422,6 +426,10 @@
         {
           "text": "Editing Templates",
           "path": "abp-suite/editing-templates.md"
+        },
+        {
+          "text": "How to uninstall",
+          "path": "abp-suite/how-to-uninstall.md"
         }
       ]
     },
