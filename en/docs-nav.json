@@ -426,6 +426,10 @@
         {
           "text": "Editing Templates",
           "path": "abp-suite/editing-templates.md"
+        },
+        {
+          "text": "How to uninstall",
+          "path": "abp-suite/how-to-uninstall.md"
         }
       ]
     },
