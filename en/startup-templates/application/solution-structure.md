@@ -6,7 +6,7 @@ You will get a slightly different solution structure, based on the options you h
 
 If you don't specify any additional option, you will have a solution in the **aspnet-core** folder like the below:
 
-![BookStore Solution Explorer](../../images/solution-structure-solution-explorer.png)
+![BookStore Solution Explorer](../../images/solution-structure-solution-explorer-rider.png)
 
 Projects are located in **aspnet-core/src** and **aspnet-core/test** folders. While the **aspnet-core/src** folder contains the actual application, **aspnet-core/test** folder contains unit tests and test base projects. The below diagram shows the layers & project dependencies of the application:
 
@@ -168,22 +168,22 @@ Hence, the final solution enables a 4-tiered deployment.
 
 The tiered solution structure is shown below:
 
-![bookstore-visual-studio-solution-v3](../../images/bookstore-visual-studio-solution-tiered.png)
+![bookstore-visual-studio-solution-v3](../../images/bookstore-rider-solution-tiered.png)
 
 There are 2 new projects as different from the default structure:
 
-*  `*.IdentityServer` 
+*  `*.AuthServer` 
 * `*.HttpApi.Host`
 
-### *.IdentityServer project
+### *.AuthServer project
 
-This project is used as an authentication server for other projects. `.Web` project uses `OpenId Connect Authentication` to get identity and access token for the current user from the `IdentityServer`. Then uses the access token to call the HTTP API server. The HTTP API server uses bearer token authentication to obtain claims from the token to authorize the current user.
+This project is used as an authentication server for other projects. `.Web` project uses `OpenId Connect Authentication` to get identity and access token for the current user from the `AuthServer`. Then uses the access token to call the HTTP API server. The HTTP API server uses bearer token authentication to obtain claims from the token to authorize the current user.
 
-![tiered-solution-applications](../../images/tiered-solution-applications.png)
+![tiered-solution-applications](../../images/tiered-solution-applications-authserver.png)
 
-ABP uses the open source [Identity Server 4](https://identityserver.io/) framework for the authentication between applications. Further information, check out [Identity Server 4 documentation](http://docs.identityserver.io) for the ` Identity Server 4` and `OpenID Connect protocol`.
+ABP uses the open source [OpenIddict.Pro Module](../../modules/openiddict.md) based on the [OpenIddict](https://github.com/openiddict/openiddict-core) library for the authentication between applications. For further information about openiddict-core, check out [OpenIddict-core documentation](https://documentation.openiddict.com/) for the `OpenIddict` and `OpenID Connect protocol`.
 
-`*.IdentityServer` project has its own `appsettings.json`  which contains database connection string and other configurations.
+`*.AuthServer` project has its own `appsettings.json`  which contains database connection string and other configurations.
 
 ### *.HttpApi.Host project
 
@@ -203,7 +203,7 @@ This project contains its own `appsettings.json` file, but this time it does not
 
 You must run the application with the below order:
 
-1. Run the `*.IdentityServer` since other applications depends on it.
+1. Run the `*.AuthServer` since other applications depends on it.
 
 2. Then run the `*.HttpApi.Host` since it is used by the `*.Web` application.
 
