@@ -38,9 +38,9 @@ Applications page is used to manage OpenIddict applications. An `application` re
 
 ![openiddict-applications-page](../images/openiddict-application-page.png)
 
-You can create new clients or edit existing clients in this page:
+You can create new application or edit existing applications in this page:
 
-![identity-server-edit-client-modal](../images/identity-server-edit-client-modal-2.png)
+![openiddict-edit-application-modal](../images/openiddict-edit-application-modal.png)
 
 #### API Scope Management
 
