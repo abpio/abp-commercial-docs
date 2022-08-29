@@ -1,17 +1,16 @@
 # OpenIddict Module
 
-This module provides integration and management functionality for Identity Server;
+This module provides integration and management functionality for the OpenIddict library;
 
 * Built on the [OpenIddict-core](https://github.com/openiddict/openiddict-core) library.
-* Manage **Application** and **API resources** in the system. 
+* Manage **Application** and **API scopes** in the system. 
 * Set **permissions** for clients.
-* Manage **API resources**
 
-See [the module description page](https://commercial.abp.io/modules/Volo.openiddict.Ui) for an overview of the module features.
+See [the module description page](https://commercial.abp.io/modules/Volo.OpenIddict) for an overview of the module features.
 
 ## How to Install
 
-OpenIddict is pre-installed in [the startup templates](../Startup-Templates/Index) from version 6.0.0-rc1. So, no need to manually install it.
+OpenIddict is pre-installed in [the startup templates](../Startup-Templates/Index) from version 6.0.0-rc1. So, no need to manually install it. You can also migrate your existing application by following the [Migrating to OpenIddict Step by Step Guide](../migration-guides/openIddict-step-by-step).
 
 ## Packages
 
@@ -23,10 +22,10 @@ You can visit [Identity module package list page](https://abp.io/packages?module
 
 ### Menu Items
 
-Identity Server module adds the following items to the "Main" menu, under the "Administration" menu item:
+The OpenIddict module adds the following items to the "Main" menu, under the "Administration" menu item:
 
 * **Applications**: Application management page.
-* **Scopes**: API resource management page.
+* **Scopes**: Scope management page.
 
 `OpenIddictProMenus` class has the constants for the menu item names.
 
