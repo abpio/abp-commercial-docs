@@ -254,7 +254,7 @@ This project is renamed to **AuthServer** after v6.0.0-rc1. You can also refacto
   
   with
   
-  ```
+ ```csharp
   app.UseAbpOpenIddictValidation();
   ```
 
