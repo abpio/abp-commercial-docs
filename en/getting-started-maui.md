@@ -20,19 +20,23 @@ Open the `appsettings.json` in the `MAUI` project:
 
 ### Android
 
-The emulator or a physical phone **cannot connect to the backend** on `localhost`. To fix this problem, we need to configure port mapping.
+If you get the following error when connecting to the emulator or a physical phone, you need to set up port mapping.
+
+```
+Cannot connect to the backend on localhost. 
+```
 
 Open a command line terminal and run the `adb reverse` command to expose a port on your Android device to a port on your computer. For example:
 
 `adb reverse tcp:44305: tcp:44305`
 
-> You should run the command after starting the emulator
+> You should run the command after starting the emulator.
 
 ### iOS
 
 The iOS simulator uses the host machine network. Therefore, applications running in the simulator can connect to web services running on your local machine via the machines IP address or via the localhost hostname. For example, given a local secure web service that exposes a GET operation via the /api/todoitems/ relative URI, an application running on the iOS simulator can consume the operation by sending a GET request to https://localhost:<port>/api/todoitems/.
 
-> If simulator is used from windows with a remote connection, follow the [Microsoft documentation](https://docs.microsoft.com/en-us/xamarin/cross-platform/deploy-test/connect-to-local-web-services#specify-the-local-machine-address) to setup a proper configuration.
+> If the simulator is used from Windows with a remote connection, follow the [Microsoft's documentation](https://docs.microsoft.com/en-us/xamarin/cross-platform/deploy-test/connect-to-local-web-services#specify-the-local-machine-address) to setup a proper configuration.
 
 
 ## Run the Mobile Application
