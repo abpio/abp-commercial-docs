@@ -79,7 +79,7 @@ You can specify the `-m maui` option to create a new application with MAUI. This
 
 See the [Getting Started with the MAUI](getting-started-maui.md) document to learn how to configure and run the MAUI application.
 
-> You can specify the `-m none` option to the ABP CLI to not create the mobile project in the beginning.
+> If you don't need a mobile project in your solution, you can provide the `-m none` option to the ABP CLI.
 
 #### ABP CLI commands & options
 
