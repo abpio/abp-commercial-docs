@@ -28,6 +28,13 @@ Open a command line terminal and run the [`adb reverse`](https://developer.andro
 
 > You should run the command after starting the emulator
 
+### iOS
+
+The iOS simulator uses the host machine network. Therefore, applications running in the simulator can connect to web services running on your local machine via the machines IP address or via the localhost hostname. For example, given a local secure web service that exposes a GET operation via the /api/todoitems/ relative URI, an application running on the iOS simulator can consume the operation by sending a GET request to https://localhost:<port>/api/todoitems/.
+
+> If simulator is used from windows with a remote connection, follow the [Microsoft documentation](https://docs.microsoft.com/en-us/xamarin/cross-platform/deploy-test/connect-to-local-web-services#specify-the-local-machine-address) to setup a proper configuration.
+
+
 ## Run the Mobile Application
 
 ![Maui Home Page](./images/maui-home-page.png)
