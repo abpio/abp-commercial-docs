@@ -401,9 +401,9 @@ See the [Testing Overview](https://reactjs.org/docs/testing.html) document.
 
 ## MAUI
 
-The soluation includes the [MAUI](https://docs.microsoft.com/en-us/dotnet/maui/what-is-maui) project if you specify the `-m maui` opiont to create a new application.
+The solution includes the [MAUI](https://docs.microsoft.com/en-us/dotnet/maui/what-is-maui) project if you specify the `-m maui` option to create a new application.
 
-The server-side is similar to the solution described above. *.HttpApi.Host project serves the API, so the MAUI application consumes it.
+The server-side is similar to the solution described above. ***.HttpApi.Host** project serves the API, so the MAUI application consumes it.
 
 MAUI application folder structure is like below:
 
@@ -421,13 +421,13 @@ MAUI used the [MAUI Shell](https://docs.microsoft.com/en-us/dotnet/maui/fundamen
 
 ### Storage
 
-We created an `IStorage` interface and `DefaultStorage` as the default implementation, witch uses [preferences](https://docs.microsoft.com/en-us/dotnet/maui/platform-integration/storage/preferences).
+We created an `IStorage` interface and `DefaultStorage` as the default implementation, which uses [preferences](https://docs.microsoft.com/en-us/dotnet/maui/platform-integration/storage/preferences).
 
-You can replace with [secure storage](https://docs.microsoft.com/en-us/dotnet/maui/platform-integration/storage/secure-storage) if you needed.
+You can replace the [secure storage](https://docs.microsoft.com/en-us/dotnet/maui/platform-integration/storage/secure-storage), if you need.
 
 ### APIs
 
-MAUI work with [ABP CSharp API client proxies system](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients).
+MAUI work with [ABP Dynamic CSharp API Client Proxies System](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients).
 
 ## Social / External Logins
 

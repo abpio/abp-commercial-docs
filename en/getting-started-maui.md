@@ -30,12 +30,12 @@ Open a command line terminal and run the [`adb reverse`](https://developer.andro
 
 ## Run the Mobile Application
 
-![Maui Home Page](images/maui-home-page.png)
+![Maui Home Page](./images/maui-home-page.png)
 
-When you click Login to the application button, it will redirects to the auth server login page and enter **admin** as the username and **1q2w3E*** as the password to login to the application:
+When you click the *Login to the application button*, it will redirects you to the auth server login page and enter **admin** as the username and **1q2w3E*** as the password to login to the application:
 
-![Maui User Page](images/maui-user-page.png)
+![Maui User Page](./images/maui-user-page.png)
 
-The user page show you how to use CSharp client proxy to request backend API.
+The user page shows you how to use CSharp client proxy to request backend API.
 
 The application is up and running. You can continue to develop your application based on this startup template.

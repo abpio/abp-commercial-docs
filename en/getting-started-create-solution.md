@@ -67,7 +67,7 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Bl
 
 ## Mobile Development
 
-### React natvie
+### React Native
 
 You can specifying the `-m react-native` option to create a new application with React Native. This is a basic [React Native](https://reactnative.dev/) startup template to develop mobile applications integrated to your ABP based backends.
 
