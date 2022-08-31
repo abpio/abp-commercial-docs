@@ -177,7 +177,7 @@ There are 2 new projects as different from the default structure:
 
 ### *.AuthServer project
 
-This project is used as an authentication server for other projects. `.Web` project uses `OpenId Connect Authentication` to get identity and access token for the current user from the `AuthServer`. Then uses the access token to call the HTTP API server. The HTTP API server uses bearer token authentication to obtain claims from the token to authorize the current user.
+This project is used as an authentication server for other projects. The `.Web` project uses `OpenId Connect Authentication` to get identity and access token for the current user from the `AuthServer`. Then uses the access token to call the HTTP API server. The HTTP API server uses bearer token authentication to obtain claims from the token to authorize the current user.
 
 ![tiered-solution-applications](../../images/tiered-solution-applications-authserver.png)
 
