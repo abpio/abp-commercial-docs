@@ -39,7 +39,8 @@ The iOS simulator uses the host machine network. Therefore, applications running
 
 ![Maui Home Page](./images/maui-home-page.png)
 
-When you click the *Login to the application button*, it will redirects you to the auth server login page and enter **admin** as the username and **1q2w3E*** as the password to login to the application:
+When you click the *Login to the application* button, it redirects you to the login page. 
+Enter **admin** as the username and **1q2w3E*** as the password to login to the application.
 
 ![Maui User Page](./images/maui-user-page.png)
 
