@@ -22,7 +22,7 @@ Open the `appsettings.json` in the `MAUI` project:
 
 The emulator or a physical phone **cannot connect to the backend** on `localhost`. To fix this problem, we need to configure port mapping.
 
-Open a command line terminal and run the [`adb reverse`](https://developer.android.com/studio/command-line/adb#forwardports) command to mapping the backend application port to a emulator. For example:
+Open a command line terminal and run the [`adb reverse`](https://developer.android.com/studio/command-line/adb#forwardports) command to set up the port forwarding, which forwards requests on a specific host port to a different port on a device. For example:
 
 `adb reverse tcp:44305: tcp:44305`
 
