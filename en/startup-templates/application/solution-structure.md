@@ -399,6 +399,36 @@ See the [Testing Overview](https://reactjs.org/docs/testing.html) document.
 * [Formik](https://github.com/jaredpalmer/formik) is used to build forms.
 * [Yup](https://github.com/jquense/yup) is used for form validations.
 
+## MAUI
+
+The solution includes the [MAUI](https://docs.microsoft.com/en-us/dotnet/maui/what-is-maui) project if you specify the `-m maui` option to create a new application.
+
+The server-side is similar to the solution described above. ***.HttpApi.Host** project serves the API, so the MAUI application consumes it.
+
+MAUI application folder structure is like below:
+
+![maui-structure](../../images/maui-structure.png)
+
+* `appsetting.json` file has configuration of the application.
+* `Extensions` folder has a translate extenstion.
+* `Localzation` folder has a `LocalizationResourceManager`.
+* `Oidc` folder has a login service used for login to application.
+* `Storage` folder has a simple data storage service.
+
+### Navigation
+
+MAUI used the [MAUI Shell](https://docs.microsoft.com/en-us/dotnet/maui/fundamentals/shell/) for navigation.
+
+### Storage
+
+We created an `IStorage` interface and `DefaultStorage` as the default implementation, which uses [preferences](https://docs.microsoft.com/en-us/dotnet/maui/platform-integration/storage/preferences).
+
+You can replace the [secure storage](https://docs.microsoft.com/en-us/dotnet/maui/platform-integration/storage/secure-storage), if you need.
+
+### APIs
+
+MAUI work with [ABP Dynamic CSharp API Client Proxies System](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients).
+
 ## Social / External Logins
 
 The application startup template comes with **Twitter**, **Google** and **Microsoft** logins pre-installed. If you want to configure an additional social/external provider, please see the *Social / External Logins* section of the [Account Module document](../../modules/account.md).
