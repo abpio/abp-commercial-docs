@@ -6,7 +6,7 @@ You will get a slightly different solution structure, based on the options you h
 
 If you don't specify any additional option, you will have a solution in the **aspnet-core** folder like the below:
 
-![BookStore Solution Explorer](../../images/solution-structure-solution-explorer.png)
+![BookStore Solution Explorer](../../images/solution-structure-solution-explorer-rider.png)
 
 Projects are located in **aspnet-core/src** and **aspnet-core/test** folders. While the **aspnet-core/src** folder contains the actual application, **aspnet-core/test** folder contains unit tests and test base projects. The below diagram shows the layers & project dependencies of the application:
 
@@ -168,22 +168,22 @@ Hence, the final solution enables a 4-tiered deployment.
 
 The tiered solution structure is shown below:
 
-![bookstore-visual-studio-solution-v3](../../images/bookstore-visual-studio-solution-tiered.png)
+![bookstore-visual-studio-solution-v3](../../images/bookstore-rider-solution-tiered.png)
 
 There are 2 new projects as different from the default structure:
 
-*  `*.IdentityServer` 
+*  `*.AuthServer` 
 * `*.HttpApi.Host`
 
-### *.IdentityServer project
+### *.AuthServer project
 
-This project is used as an authentication server for other projects. `.Web` project uses `OpenId Connect Authentication` to get identity and access token for the current user from the `IdentityServer`. Then uses the access token to call the HTTP API server. The HTTP API server uses bearer token authentication to obtain claims from the token to authorize the current user.
+This project is used as an authentication server for other projects. The `.Web` project uses `OpenId Connect Authentication` to get identity and access token for the current user from the `AuthServer`. Then uses the access token to call the HTTP API server. The HTTP API server uses bearer token authentication to obtain claims from the token to authorize the current user.
 
-![tiered-solution-applications](../../images/tiered-solution-applications.png)
+![tiered-solution-applications](../../images/tiered-solution-applications-authserver.png)
 
-ABP uses the open source [Identity Server 4](https://identityserver.io/) framework for the authentication between applications. Further information, check out [Identity Server 4 documentation](http://docs.identityserver.io) for the ` Identity Server 4` and `OpenID Connect protocol`.
+ABP uses the open source [OpenIddict.Pro Module](../../modules/openiddict.md) based on the [OpenIddict](https://github.com/openiddict/openiddict-core) library for the authentication between applications. For further information about openiddict-core, check out [OpenIddict-core documentation](https://documentation.openiddict.com/) for the `OpenIddict` and `OpenID Connect protocol`.
 
-`*.IdentityServer` project has its own `appsettings.json`  which contains database connection string and other configurations.
+`*.AuthServer` project has its own `appsettings.json`  which contains database connection string and other configurations.
 
 ### *.HttpApi.Host project
 
@@ -203,7 +203,7 @@ This project contains its own `appsettings.json` file, but this time it does not
 
 You must run the application with the below order:
 
-1. Run the `*.IdentityServer` since other applications depends on it.
+1. Run the `*.AuthServer` since other applications depends on it.
 
 2. Then run the `*.HttpApi.Host` since it is used by the `*.Web` application.
 
@@ -219,7 +219,7 @@ If you choose `Angular` as the UI framework (using the `-u angular` option), the
 * `aspnet-core` folder contains the ASP.NET Core solution, the server-side code.
 * `react-native` folder contains the React Native UI application, the client-side code for mobile.
 
-The server-side is similar to the solution described above. `*.HttpApi.Host` project serves the API, so the `Angular` application consumes it.
+The server-side is similar to the solution described above. The `*.HttpApi.Host` project serves the HTTP API, and the `Angular` application consumes it.
 
 Angular application folder structure looks like below:
 
@@ -320,7 +320,7 @@ See the [testing document](https://angular.io/guide/testing).
 
 The solution includes the [React Native](https://reactnative.dev/) application in the `react-native` folder as default.
 
-The server-side is similar to the solution described above. `*.HttpApi.Host` project serves the API, so the React Native application consumes it.
+The server-side is similar to the solution described above. The `*.HttpApi.Host` project serves the HTTP API, and the React Native application consumes it.
 
 The React Native application was generated with [Expo](https://expo.io/). Expo is a set of tools built around React Native to help you quickly start an app and has many useful features.
 
@@ -398,6 +398,36 @@ See the [Testing Overview](https://reactjs.org/docs/testing.html) document.
 * [expo-font](https://docs.expo.io/versions/latest/sdk/font/) library allows loading fonts easily.
 * [Formik](https://github.com/jaredpalmer/formik) is used to build forms.
 * [Yup](https://github.com/jquense/yup) is used for form validations.
+
+## MAUI
+
+The solution includes the [MAUI](https://docs.microsoft.com/en-us/dotnet/maui/what-is-maui) project if you specify the `-m maui` option to create a new application.
+
+The server-side is similar to the solution described above. The ***.HttpApi.Host** project serves the HTTP API, and the MAUI application consumes it.
+
+MAUI application folder structure is like below:
+
+![maui-structure](../../images/maui-structure.png)
+
+* `appsetting.json` file contains the configuration of the application.
+* `Extensions` folder contains `TranslateExtension.cs` which is the `IMarkupExtension` implementation.
+* `Localization` folder contains the `LocalizationResourceManager.cs`.
+* `Oidc` folder contains `LoginService.cs` that is used for the application login.
+* `Storage` folder contains data storage service.
+
+### Navigation
+
+MAUI used the [MAUI Shell](https://docs.microsoft.com/en-us/dotnet/maui/fundamentals/shell/) for navigation.
+
+### Storage
+
+We created an `IStorage` interface and `DefaultStorage` as the default implementation, which uses [preferences](https://docs.microsoft.com/en-us/dotnet/maui/platform-integration/storage/preferences).
+
+You can replace the [secure storage](https://docs.microsoft.com/en-us/dotnet/maui/platform-integration/storage/secure-storage), if you need.
+
+### APIs
+
+MAUI work with [ABP Dynamic CSharp API Client Proxies System](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients).
 
 ## Social / External Logins
 
