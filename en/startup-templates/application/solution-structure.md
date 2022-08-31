@@ -219,7 +219,7 @@ If you choose `Angular` as the UI framework (using the `-u angular` option), the
 * `aspnet-core` folder contains the ASP.NET Core solution, the server-side code.
 * `react-native` folder contains the React Native UI application, the client-side code for mobile.
 
-The server-side is similar to the solution described above. `*.HttpApi.Host` project serves the API, so the `Angular` application consumes it.
+The server-side is similar to the solution described above. The `*.HttpApi.Host` project serves the HTTP API, and the `Angular` application consumes it.
 
 Angular application folder structure looks like below:
 
@@ -320,7 +320,7 @@ See the [testing document](https://angular.io/guide/testing).
 
 The solution includes the [React Native](https://reactnative.dev/) application in the `react-native` folder as default.
 
-The server-side is similar to the solution described above. `*.HttpApi.Host` project serves the API, so the React Native application consumes it.
+The server-side is similar to the solution described above. The `*.HttpApi.Host` project serves the HTTP API, and the React Native application consumes it.
 
 The React Native application was generated with [Expo](https://expo.io/). Expo is a set of tools built around React Native to help you quickly start an app and has many useful features.
 
@@ -403,17 +403,17 @@ See the [Testing Overview](https://reactjs.org/docs/testing.html) document.
 
 The solution includes the [MAUI](https://docs.microsoft.com/en-us/dotnet/maui/what-is-maui) project if you specify the `-m maui` option to create a new application.
 
-The server-side is similar to the solution described above. ***.HttpApi.Host** project serves the API, so the MAUI application consumes it.
+The server-side is similar to the solution described above. The ***.HttpApi.Host** project serves the HTTP API, and the MAUI application consumes it.
 
 MAUI application folder structure is like below:
 
 ![maui-structure](../../images/maui-structure.png)
 
-* `appsetting.json` file has configuration of the application.
-* `Extensions` folder has a translate extenstion.
-* `Localzation` folder has a `LocalizationResourceManager`.
-* `Oidc` folder has a login service used for login to application.
-* `Storage` folder has a simple data storage service.
+* `appsetting.json` file contains the configuration of the application.
+* `Extensions` folder contains `TranslateExtension.cs` which is the `IMarkupExtension` implementation.
+* `Localization` folder contains the `LocalizationResourceManager.cs`.
+* `Oidc` folder contains `LoginService.cs` that is used for the application login.
+* `Storage` folder contains data storage service.
 
 ### Navigation
 
