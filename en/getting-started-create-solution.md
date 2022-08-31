@@ -31,13 +31,13 @@ This command starts the ABP Suite and opens in your default browser:
 
 ![suite-ui](images/suite-entrance-2.png)
 
-Click to the **Create a new solution** button and fill the modal form:
+Click the **Create a new solution** button and fill the modal form:
 
 ![angular-efcore](images/suite-create-new-solution-Angular-Ef.png)
 
-Select the UI framework, Database provider and other options based on your preferences then click to the OK button.
+Select the UI framework, Database provider, and other options based on your preferences, then click on the OK button.
 
-> You can use different level of namespaces; e.g. BookStore, Acme.BookStore or Acme.Retail.BookStore. 
+> You can use a different level of namespaces, e.g: BookStore, Acme.BookStore or Acme.Retail.BookStore. 
 
 ### Using the ABP CLI to create a new project
 
@@ -53,29 +53,29 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Bl
 
 {{ if UI == "MVC" || UI == "BlazorServer" }}
 
-* `--tiered` argument is used to create N-tiered solution where authentication server, UI and API layers are physically separated.
+* `--tiered` argument is used to create n-tiered solution where the authentication server, UI and API layers are physically separated.
 
 {{ else }}
 
-* `--separate-identity-server` argument is used to separate the identity server application from the API host application. If not specified, you will have a single endpoint on the server.
+* `--separate-identity-server` argument separates the identity server application from the API host application. If not specified, you will have a single endpoint on the server.
 
 {{ end }}
 
 {{ end }}
 
-> You can use different level of namespaces; e.g. BookStore, Acme.BookStore or Acme.Retail.BookStore. 
+> You can use a different level of namespaces; e.g: BookStore, Acme.BookStore or Acme.Retail.BookStore. 
 
 ## Mobile Development
 
 ### React Native
 
-You can specify the `-m react-native` option to create a new application with React Native. This is a basic [React Native](https://reactnative.dev/) startup template to develop mobile applications integrated to your ABP based backends.
+You can specify the `-m react-native` option to create a new application with React Native. This is a basic [React Native](https://reactnative.dev/) startup template to develop mobile applications integrated to your ABP-based backends.
 
 See the [Getting Started with the React Native](getting-started-react-native.md) document to learn how to configure and run the React Native application.
 
 ### MAUI
 
-You can specify the `-m maui` option to create a new application with MAUI. This is a basic [MAUI](https://docs.microsoft.com/en-us/dotnet/maui/what-is-maui) startup template to develop mobile applications integrated to your ABP based backends.
+You can specify the `-m maui` option to create a new application with MAUI. This is a basic [MAUI](https://docs.microsoft.com/en-us/dotnet/maui/what-is-maui) startup template to develop mobile applications integrated into your ABP based backends.
 
 See the [Getting Started with the MAUI](getting-started-maui.md) document to learn how to configure and run the MAUI application.
 
