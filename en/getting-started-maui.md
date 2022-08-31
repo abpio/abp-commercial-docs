@@ -4,7 +4,7 @@ ABP Commercial platform provides a basic [MAUI](https://docs.microsoft.com/en-us
 
 ## Run the Server Application
 
-Run the backend application as described in the [getting started document](getting-started.md).
+Run the backend application described in the [getting started document](getting-started.md).
 
 Open the `appsettings.json` in the `MAUI` project:
 
