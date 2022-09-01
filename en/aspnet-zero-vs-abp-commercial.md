@@ -179,6 +179,11 @@
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
+                <td>OpenIddict integration</td>
+                <td><i class="fa fa-check text-success"></i></td>
+                <td><i class="fa fa-check text-false"></i></td>
+            </tr>
+            <tr>
                 <td>Identity Server Management UI</td>
                 <td><i class="fa fa-check text-success"></i></td>
                 <td><i class="fa fa-minus text-secondary"></i></td>
@@ -233,7 +238,7 @@
             </tr>
             <tr>
                 <td>Tenant &amp; user Impersonation</td>
-                <td><i class="fa fa-minus text-secondary"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
@@ -333,7 +338,7 @@
             </tr>
             <tr>
                 <td>UI Theme</td>
-                <td><a href="http://leptontheme.com/" target="_blank">Lepton</a></td>
+                <td><a href="http://x.leptontheme.com/" target="_blank">Lepton-X</a>, <a href="http://leptontheme.com/" target="_blank">Lepton</a></td>
                 <td><a href="https://keenthemes.com/metronic/" target="_blank">Metronic</a></td>
             </tr>
             <tr>
