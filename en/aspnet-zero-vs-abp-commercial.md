@@ -181,7 +181,7 @@
             <tr>
                 <td>OpenIddict integration</td>
                 <td><i class="fa fa-check text-success"></i></td>
-                <td><i class="fa fa-check text-false"></i></td>
+                <td><i class="fa fa-minus text-false"></i></td>
             </tr>
             <tr>
                 <td>Identity Server Management UI</td>
