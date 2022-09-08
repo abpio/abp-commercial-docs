@@ -185,7 +185,7 @@ You can override layouts by following the steps below:
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MySideMenuLayout.razor.cs`, in your blazor application as shown below: see below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MySideMenuLayout.razor.cs`, in your blazor application as shown below:
 
 ```csharp	
 
@@ -203,7 +203,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 }
 ```	
 
-> Don't forget to remove same attributes from the razor page!
+> Don't forget to remove repeated attributes from the razor page!
 
 ---
 
@@ -230,7 +230,7 @@ Commonly used components in all layouts.
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyBreadcrumbs.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyBreadcrumbs.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.Common;
 using Volo.Abp.DependencyInjection;
@@ -263,7 +263,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyContentToolbar.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyContentToolbar.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.Common;
 using Volo.Abp.DependencyInjection;
@@ -296,7 +296,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyGeneralSettings.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyGeneralSettings.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.Common;
 using Volo.Abp.DependencyInjection;
@@ -329,7 +329,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyMobileGeneralSettings.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMobileGeneralSettings.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.Common;
 using Volo.Abp.DependencyInjection;
@@ -368,7 +368,7 @@ Components used in the side menu layout.
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyMainMenu.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainMenu.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.Navigation;
 using Volo.Abp.DependencyInjection;
@@ -399,7 +399,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyMainMenuItem.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainMenuItem.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.Navigation;
 using Volo.Abp.DependencyInjection;
@@ -432,7 +432,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyMobileNavbar.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMobileNavbar.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.Navigation;
 using Volo.Abp.DependencyInjection;
@@ -465,7 +465,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyMainHeader.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainHeader.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.MainHeader;
 using Volo.Abp.DependencyInjection;
@@ -498,7 +498,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyMainHeaderBranding.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainHeaderBranding.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.MainHeader;
 using Volo.Abp.DependencyInjection;
@@ -531,7 +531,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyMainHeaderToolbar.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainHeaderToolbar.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.MainHeader;
 using Volo.Abp.DependencyInjection;
@@ -570,7 +570,7 @@ Components used in the top menu layout.
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyMainMenu.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainMenu.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.Navigation;
 using Volo.Abp.DependencyInjection;
@@ -601,7 +601,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyMainMenuItem.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainMenuItem.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.Navigation;
 using Volo.Abp.DependencyInjection;
@@ -634,7 +634,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyMobileNavbar.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMobileNavbar.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.Navigation;
 using Volo.Abp.DependencyInjection;
@@ -667,7 +667,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyMainHeader.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainHeader.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.MainHeader;
 using Volo.Abp.DependencyInjection;
@@ -700,7 +700,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyMainHeaderBranding.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainHeaderBranding.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.MainHeader;
 using Volo.Abp.DependencyInjection;
@@ -733,7 +733,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 @Name
 ``` 
 
-* If you prefer to use code-behind file for the C# code of your component, create a razor component, like `MyMainHeaderToolbar.razor.cs`, in your blazor application as shown below:
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainHeaderToolbar.razor.cs`, in your blazor application as shown below:
 ```csharp	
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.MainHeader;
 using Volo.Abp.DependencyInjection;
