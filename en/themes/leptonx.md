@@ -1,14 +1,11 @@
 # LeptonX Theme Module
 
-> This document is in draft version and will be updated soon.
+LeptonX Theme is the new look of the ABP Commercial UI.
+The theme comes as default for the new ABP PRO projects.
+It is a professional and modern theme for the ABP Commercial.
 
-
-
-The LeptonX Theme is a professional and modern theme for the ABP Commercial.
-
-* You can check out the live demo at https://x.leptontheme.com/
-* You can report your Leptonx related issues to https://github.com/volosoft/lepton-theme
-
+* Check out the live demo to see it in action. https://x.leptontheme.com/
+* You can report your LeptonX related issues at https://github.com/volosoft/lepton-theme
 
 
 ## How to Install
