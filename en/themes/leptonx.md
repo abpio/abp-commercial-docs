@@ -10,6 +10,5 @@ It is a professional and modern theme for the ABP Commercial.
 
 ## How to Install
 
-LeptonX Theme module is pre-installed in [the startup templates](../startup-templates/application/create-solution.md). So, no need to manually install it.
-
-But if you are migrating from Lepton Theme you can check out https://github.com/volosoft/lepton-theme#commercial
+LeptonX Theme module is pre-installed in [the startup templates](../startup-templates/application/create-solution.md), you do not need to manually install it.
+If you are migrating from old Lepton Theme, see https://github.com/volosoft/lepton-theme#commercial.
