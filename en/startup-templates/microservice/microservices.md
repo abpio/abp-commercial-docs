@@ -2,12 +2,12 @@
 
 There are four microservices are included in the microservice startup template;
 
-- **IdentityService** is located under *services/identity* folder. This service is an **infrastructural microservice** and hosts `Identity ` and `IdentityServer` related functionality and data store.
-- **AdministrationService** is located under *services/administration* folder. This service is an **infrastructural microservice** and hosts administrative functionality such as `permission-management`, `setting-management`, `language-management`, `audit-logging` and such. 
-- **SaasService** is located under *services/saas* folder. This service is an **infrastructural microservice** and hosts multi-tenancy related functionality and data store.
-- **ProductService** is located under *services/product* folder. This is a **sample microservice** to examine and take as a reference for your services.
+- **IdentityService** is located under the *services/identity* folder. This service is an **infrastructural microservice** and hosts `Identity ` and `OpenIddict` related functionality and data store.
+- **AdministrationService** is located under the *services/administration* folder. This service is an **infrastructural microservice** and hosts administrative functionality such as `permission-management`, `setting-management`, `language-management`, `audit-logging` and such. 
+- **SaasService** is located under the *services/saas* folder. This service is an **infrastructural microservice** and hosts multi-tenancy related functionality and data store.
+- **ProductService** is located the under *services/product* folder. This is a **sample microservice** to examine and take as a reference for your services.
 
-The infrastructural microservices typically use the [pre-built modules](../../modules/index.md).
+The infrastructural microservices typically use [pre-built modules](../../modules/index.md).
 
 The microservices are highlighted in the overall solution diagram below:
 
@@ -20,45 +20,32 @@ All microservices;
 - Depend on `SharedHostingMicroservicesModule` which contains configuration helpers for **JwtBearer** authorization, **Swagger** and **DbMigrations**,
 - Contains configurations for AuthServer, Redis, RabbitMQ, ElasticSearch in *appsettings.json* file,
 - Are capable of **on-the-fly database migration**; have `DbMigrations` folder that contains `MigrationChecker` and `MigrationEventHandler`. This allows microservices migrate and seed their databases using distributed event bus as an alternative usage to shared DbMigrator,
-- Use **Sql Server**, containing `.EntityFrameworkCore` layer. This layer contains related database contexts, database context factories and migrations along with related module db configurations
+- Use **Sql Server**, containing `.EntityFrameworkCore` layer. This layer contains related database contexts, database context factories and migrations along with related module DB configurations
 
-> If you want to switch your database provider to **MongoDb** instead of EntityFrameworkCore for any of the microservice, you need to create `.MongoDb` project instead of `.EntityFrameworkCore`. Afterwards, add related modules MongoDb packages dependencies along with similar configurations made in EntityFrameworkCore layer like db context replacement and such. For more, check [MongoDB integration](https://docs.abp.io/en/abp/latest/Best-Practices/MongoDB-Integration).
+> If you want to switch your database provider to **MongoDb** instead of EntityFrameworkCore for any of the microservice, you need to create `.MongoDb` project instead of `.EntityFrameworkCore`. Afterwards, add related modules MongoDb packages dependencies along with similar configurations made in EntityFrameworkCore layer like DB context replacement and such. For more, check [MongoDB integration](https://docs.abp.io/en/abp/latest/Best-Practices/MongoDB-Integration).
 
 ## IdentityService
 
-IdentityService is an infrastructural microservice that provides modular solution by combining  the Identity and Identity-Server modules. All the related layers references respected layers of these modules.
+IdentityService is an infrastructural microservice that provides a modular solution by combining the Identity and OpenIddict modules. All the related layers reference the respective layers of these modules.
 
-### Identity-Server Authorization
+### AuthServer Authorization
 
-IdentityService is defined as api resource and api scope with the name **IdentityService** in `IdentityServerDataSeeder`.
-
-```csharp
-private async Task CreateApiResourcesAsync()
-{
-    ...
-
-    await CreateApiResourceAsync("AccountService", commonApiUserClaims);
-    await CreateApiResourceAsync("IdentityService", commonApiUserClaims);
-    await CreateApiResourceAsync("AdministrationService", commonApiUserClaims);
-    await CreateApiResourceAsync("SaasService", commonApiUserClaims);
-    await CreateApiResourceAsync("ProductService", commonApiUserClaims);
-}
-```
+IdentityService is defined as an API scope with the name **IdentityService** in `OpenIddictDataSeeder`.
 
 ```csharp
 private async Task CreateApiScopesAsync()
 {
-    await CreateApiScopeAsync("AccountService");
-    await CreateApiScopeAsync("IdentityService");
-    await CreateApiScopeAsync("AdministrationService");
-    await CreateApiScopeAsync("SaasService");
-    await CreateApiScopeAsync("ProductService");
+    await CreateScopesAsync("AccountService");
+    await CreateScopesAsync("IdentityService");
+    await CreateScopesAsync("AdministrationService");
+    await CreateScopesAsync("SaasService");
+    await CreateScopesAsync("ProductService");
 }
 ```
 
 See [IdentityService Data Seeding](database-migrations.md#identityservice-data-seeding) for seeding options.
 
-In order make make authorized requests to IdentityService by applications/microservices, **IdentityService** scope must have been granted for that client.
+In order to make authorized requests to IdentityService by applications/microservices, **IdentityService** scope must have been granted for that client.
 
 Web application (Mvc/Angular/Blazor) clients are allowed to request **IdentityService** scope when created:
 
@@ -78,7 +65,7 @@ private async Task CreateClientsAsync()
 }
 ```
 
-Web Gateway Swagger clients is allowed for all the scopes and each gateway and microservice uses this client for swagger authorization:
+Web Gateway Swagger application is allowed for all the scopes and each gateway and microservice uses this client for swagger authorization:
 
 ```csharp
 private async Task CreateWebGatewaySwaggerClientsAsync()
@@ -91,19 +78,22 @@ private async Task CreateWebGatewaySwaggerClientsAsync()
 AdministrationService client is allowed to request **IdentityService** scope when created:
 
 ```csharp
-private async Task CreateClientsAsync()
+private async Task CreateApplicationAsync()
 {
     ...
     //Administration Service Client
     await CreateClientAsync(
         name: "MyProjectName_AdministrationService",
-        scopes: commonScopes.Union(new[]
+        type: OpenIddictConstants.ClientTypes.Confidential,
+        consentType: OpenIddictConstants.ConsentTypes.Implicit,
+        displayName: "Administration Service Client",
+        secret: "1q2w3e*",
+        grantTypes: new List<string>
         {
-            "IdentityService"
-        }),
-        grantTypes: new[] {"client_credentials"},
-        secret: "1q2w3e*".Sha256(),
-        permissions: new[] {IdentityPermissions.Users.Default}
+            OpenIddictConstants.GrantTypes.ClientCredentials
+        },
+        scopes: commonScopes.Union(new[] { "IdentityService" }).ToList(),
+        permissions: new List<string> { IdentityPermissions.Users.Default }
     );
 }
 ```
@@ -113,15 +103,15 @@ private async Task CreateClientsAsync()
 **IdentityServiceDbContext** implements 
 
 - `IIdentityDbContext` 
-- `IIdentityServerDbContext` 
+- `IOpenIddictDbContext` 
 
-in order to use these module db contexts as combined single db context. However DI container must also dynamically inject **IdentityServiceDbContext** whenever `IIdentityDbContext` or `IIdentityServerDbContext` is requested. The configuration under `ConfigureServices` provides the runtime database replacement:
+in order to use these module DB contexts as combined single DB context. However, DI container must also dynamically inject **IdentityServiceDbContext** whenever `IIdentityDbContext` or `IOpenIddictDbContext` is requested. The configuration under `ConfigureServices` provides the runtime database replacement:
 
 ```csharp
 context.Services.AddAbpDbContext<IdentityServiceDbContext>(options =>
 {
     options.ReplaceDbContext<IIdentityDbContext>();
-    options.ReplaceDbContext<IIdentityServerDbContext>();
+    options.ReplaceDbContext<IOpenIddictDbContext>();
     ...
 });
 ```
@@ -143,31 +133,34 @@ Configure<AbpDbContextOptions>(options =>
 
 ## AdministrationService
 
-AdministrationService is an infrastructural microservice that hosts [Permission Management Module](https://docs.abp.io/en/abp/latest/Modules/Permission-Management), [Feature Management Module](https://docs.abp.io/en/abp/latest/Modules/Feature-Management), [Setting Management Module](https://docs.abp.io/en/abp/latest/Modules/Setting-Management), [Audit Logging](https://docs.abp.io/en/commercial/latest/modules/audit-logging), [Language Management Module](https://docs.abp.io/en/commercial/latest/modules/language-management), [Text Template Management Module](https://docs.abp.io/en/commercial/latest/modules/text-template-management), [Lepton Theme Module](https://docs.abp.io/en/commercial/latest/themes/lepton) and functioning as combination of these modules. All the related layers references respected layers of these modules. 
+AdministrationService is an infrastructural microservice that hosts [Permission Management Module](https://docs.abp.io/en/abp/latest/Modules/Permission-Management), [Feature Management Module](https://docs.abp.io/en/abp/latest/Modules/Feature-Management), [Setting Management Module](https://docs.abp.io/en/abp/latest/Modules/Setting-Management), [Audit Logging](https://docs.abp.io/en/commercial/latest/modules/audit-logging), [Language Management Module](https://docs.abp.io/en/commercial/latest/modules/language-management), [Text Template Management Module](https://docs.abp.io/en/commercial/latest/modules/text-template-management), [Lepton Theme Module](https://docs.abp.io/en/commercial/latest/themes/lepton) and functions as a combination of these modules. All the related layers reference the respected layers of these modules. 
 
-### Identity-Server Authorization
+### AuthServer Authorization
 
-As default; Web application (Mvc/Angular/Blazor), Public Web application, Web Gateway Swagger and Internal Gateway Swagger clients are granted to make requests to **AdministrationService** scope. The definition of this api resource and scope is done in `IdentityServerDataSeeder`.
+By default; Web application (Mvc/Angular/Blazor), Public Web application, and Web Gateway Swagger applications are granted to make requests to **AdministrationService** scope. The definition of this API scope is done in `OpenIddictDataSeeder`.
 
-AdministrationService has [synched interservice-communication](TODO) with **IdentityService** and should be able to make synched http requests to IdentityService order to function properly. This is done by adding this service as a client using `client_credentials` grant type with name *MyProjectName_AdministrationService* requesting *IdentityService* with `IdentityPermissions.Users.Default` permission. This is used for administration service requesting the user list in administration pages.
+AdministrationService has [synched interservice-communication](TODO) with **IdentityService** and should be able to make synched HTTP requests to IdentityService in order to function properly. This is done by adding this service as a client using `client_credentials` grant type with the name *MyProjectName_AdministrationService* requesting *IdentityService* with `IdentityPermissions.Users.Default` permission. This is used for administration service requesting the user list in administration pages.
 
 ```csharp
 //Administration Service Client
-await CreateClientAsync(
+await CreateApplicationAsync(
     name: "MyProjectName_AdministrationService",
-    scopes: commonScopes.Union(new[]
+    type: OpenIddictConstants.ClientTypes.Confidential,
+    consentType: OpenIddictConstants.ConsentTypes.Implicit,
+    displayName: "Administration Service Client",
+    secret: "1q2w3e*",
+    grantTypes: new List<string>
     {
-        "IdentityService"
-    }),
-    grantTypes: new[] {"client_credentials"},
-    secret: "1q2w3e*".Sha256(),
-    permissions: new[] {IdentityPermissions.Users.Default}
+        OpenIddictConstants.GrantTypes.ClientCredentials
+    },
+    scopes: commonScopes.Union(new[] { "IdentityService" }).ToList(),
+    permissions: new List<string> { IdentityPermissions.Users.Default }
 );
 ```
 
-To make the *client_credential* requests, IdentityModel configuration is done under `IdentityClients` section of appsettings along with `RemoteServices` configuration which points to **AbpIdentity** to locate IdentityService endpoint. This is done by using [Static C# Client Proxies](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2021-11-18 v5_0_Preview/POST.md#static-generated-client-proxies-for-c-and-javascript).
+To make the *client_credential* requests, IdentityModel configuration is done under the `IdentityClients` section of appsettings along with `RemoteServices` configuration which points to **AbpIdentity** to locate the IdentityService endpoint. This is done by using [Static C# Client Proxies](https://github.com/abpframework/abp/blob/dev/docs/en/Blog-Posts/2021-11-18 v5_0_Preview/POST.md#static-generated-client-proxies-for-c-and-javascript).
 
-> If you need to make requests from AdministrationService to other microservices, you need to add their scope to client creation with required permission as in IdentityService user list request.
+> If you need to make requests from AdministrationService to other microservices, you need to add their scope to client creation with the required permission as in the IdentityService user list request.
 
 ### Database Configuration
 
@@ -181,7 +174,7 @@ To make the *client_credential* requests, IdentityModel configuration is done un
 - `ITextTemplateManagementDbContext`
 - `IBlobStoringDbContext`
 
-in order to use these module db contexts as combined single db context. DI container dynamically injects **AdministrationServiceDbContext** whenever one of the used modules dbcontext is requested. The configuration under `ConfigureServices` provides the runtime database replacement
+in order to use these module DB contexts as combined single DB context. DI container dynamically injects **AdministrationServiceDbContext** whenever one of the used modules dbcontext is requested. The configuration under `ConfigureServices` provides the runtime database replacement
 
 ```csharp
 context.Services.AddAbpDbContext<AdministrationServiceDbContext>(options =>
@@ -216,11 +209,11 @@ Configure<AbpDbContextOptions>(options =>
 
 SaasService is an infrastructural microservice that for multi-tenancy functionality and data store.
 
-### Identity-Server Authorization
+### AuthServer Authorization
 
-In order make make authorized requests to SaasService by applications/microservices, **SaasService scope** must have been granted for that client.
+In order to make authorized requests to SaasService by applications/microservices, **SaasService scope** must have been granted for that client.
 
-As default; Web applications (Mvc/Angular/Blazor), Web Gateway Swagger and Internal Gateway Swagger clients are granted to make requests to **SaasService** scope. The definition of this api resource and scope is done in `IdentityServerDataSeeder`.
+By default; Web applications (Mvc/Angular/Blazor) and Web Gateway Swagger applications are granted to make requests to **SaasService** scope. The definition of this API scope is done in `OpenIddictDataSeeder`.
 
 ### Database Configuration
 
@@ -228,7 +221,7 @@ As default; Web applications (Mvc/Angular/Blazor), Web Gateway Swagger and Inter
 
 - `ISaasDbContext`
 
-in order to use this module db context. DI container dynamically injects **SaasServiceDbContext** whenever the Saas module db context is requested. The configuration under `ConfigureServices` provides the runtime database replacement
+in order to use this module DB context. DI container dynamically injects **SaasServiceDbContext** whenever the Saas module DB context is requested. The configuration under `ConfigureServices` provides the runtime database replacement
 
 ```csharp
 context.Services.AddAbpDbContext<SaasServiceDbContext>(options =>
@@ -255,13 +248,13 @@ Configure<AbpDbContextOptions>(options =>
 
 ## ProductService
 
-ProductService is a sample microservice for examination, created with using [Module Development Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Index). Since Microservice template solution is created with modularity in mind, it is pretty straight forward to integrate modules as microservices into the solution.
+ProductService is a sample microservice for examination, created with using [Module Development Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Index). Since the Microservice template solution is created with modularity in mind, it is pretty straightforward to integrate modules as microservices into the solution.
 
-ProductService [solution structure](https://docs.abp.io/en/commercial/latest/startup-templates/module/solution-structure) contains *.Web* layer as **library** instead of traditional running project which provides modular UI development. When you develop the UI of your application inside the module, it will be rendered in your host application.
+ProductService [solution structure](https://docs.abp.io/en/commercial/latest/startup-templates/module/solution-structure) contains *.Web* layer as a **library** instead of a traditional running project which provides modular UI development. When you develop the UI of your application inside the module, it will be rendered in your host application.
 
-### Identity-Server Authorization
+### AuthServer Authorization
 
-As default, Web applications (Mvc/Angular/Blazor), Public Web application and all the Gateway Swagger clients are granted to make requests to **ProductService** scope. The definition of this api resource and scope is done in `IdentityServerDataSeeder`.
+By default, Web applications (Mvc/Angular/Blazor), Public Web applications, and Web Gateway Swagger applications are granted to make requests to **ProductService** scope. The definition of this API scope is done in `OpenIddictDataSeeder`.
 
 ### Database Configuration
 
@@ -269,7 +262,7 @@ As default, Web applications (Mvc/Angular/Blazor), Public Web application and al
 
 - `IProductServiceDbContext`
 
-which contains ProductService specific `DbSets`. Moreover, there is no need for runtime db context replacement hence there is no configuration related with it.
+which contains ProductService specific `DbSets`. Moreover, there is no need for runtime DB context replacement hence there is no configuration related to it.
 
 There is a SQL configuration for changing the migration table name to separate each service migration history table
 
