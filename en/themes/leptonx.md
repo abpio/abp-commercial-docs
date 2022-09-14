@@ -48,7 +48,7 @@ This module follows the [module development best practices guide](https://docs.a
 
 ## User Interface
 
-Lepton Theme module doesn't provide any UI pages. It just changes the existing UI pages of an application. Here are some sample pages:
+LeptonX Theme module doesn't provide any UI pages. It just changes the existing UI pages of an application. Here are some sample pages:
 
 #### Login page
 
@@ -64,7 +64,7 @@ This module doesn't define any pages.
 
 #### Identity Module Settings UI
 
-Lepton Theme module adds a new tab to the Settings page to customize the behavior on runtime.
+LeptonX Theme module adds a new tab to the Settings page to customize the behavior on runtime.
 
 ![lepton-theme-module-settings-page](../images/lepton-x-theme-module-settings-page.png)
 
@@ -80,7 +80,7 @@ LeptonX Module doesn't define any permissions.
 
 ### Source code
 
-To download the source-code of the Lepton Theme use the following CLI command
+To download the source-code of the LeptonX Theme use the following CLI command
 
 ```
 abp get-source Volo.Abp.LeptonXTheme.Pro	
@@ -92,6 +92,6 @@ If you want to download the source code of the preview version, you can use the 
 abp get-source Volo.Abp.LeptonXTheme.Pro --preview
 ```
 
-## Lepton Theme Customization
+## LeptonX Theme Customization
 
 Customization documents are being prepared.
