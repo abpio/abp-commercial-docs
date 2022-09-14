@@ -90,14 +90,13 @@ SwaggerConfigurationHelper.ConfigureWithAuth(
 );
 ```
 
-As default, Web Gateway makes requests to all api scopes that are already allowed when the `WebGateway_Swagger` client is being created in [IdentityServer configuration](microservices#identity-server-authorization). To be able to make the request, required information is found under **AuthServer** section in `appsettings.json`:
+By default, Web Gateway makes requests to all API scopes that are already allowed when the `WebGateway_Swagger` client is being created in [AuthServer configuration](microservices#authserver-authorization). To be able to make the request, the required information is found under **AuthServer** section in `appsettings.json`:
 
 ```json
 "AuthServer": {
   "Authority": "https://localhost:44322",
   "RequireHttpsMetadata": "true",
-  "SwaggerClientId": "WebGateway_Swagger",
-  "SwaggerClientSecret": "1q2w3e*"
+  "SwaggerClientId": "WebGateway_Swagger"
 },
 ```
 
@@ -132,7 +131,7 @@ app.UseSwaggerUI(options =>
 
 ![web-gateway-definitions](../../images/web-gateway-definitions.png)
 
-> If you add a new microservice and want to use in your Web application; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [IdentityServer configuration](gateways.md#identityserver-configuration).
+> If you add a new microservice and want to use it in your Web application; you need to [update this gateway configuration](add-microservice.md#updating gateways) and [AuthServer configuration](gateways.md#authserver-configuration).
 
 ## Public Web Gateway
 
@@ -140,7 +139,7 @@ Public Web Gateway is used to connect the **Public  Web** (landing page) applica
 
 ### Module Configuration and Routing
 
-As default, this gateway proxies each request landing page application to related microservice and redirects the account related requests to AuthServer. Ocelot re-route configuration can be found in `ocelot.json` file. This configuration is added by using **AddOcelotJson** extension method in `Program.cs`. The re-routing configuration is as below:
+By default, this gateway proxy each request landing page application to a related microservice and redirects the account related requests to AuthServer. Ocelot re-route configuration can be found in `ocelot.json` file. This configuration is added by using **AddOcelotJson** extension method in `Program.cs`. The re-routing configuration is as below:
 
 
 - **Account Service:** Uses static proxy and re-routes
@@ -180,14 +179,13 @@ SwaggerConfigurationHelper.ConfigureWithAuth(
 );
 ```
 
-As default, PublicWeb Gateway makes requests to only **ProductService** scope that is already allowed when the `PublicWebGateway_Swagger` client is being created in [IdentityServer configuration](microservices#identity-server-authorization). To be able to make the request, required information is found under **AuthServer** section in `appsettings.json`:
+By default, PublicWeb Gateway makes requests to only **ProductService** scope that is already allowed when the `PublicWebGateway_Swagger` client is being created in [AuthServer configuration](microservices#authserver-authorization). To be able to make the request, the required information is found under **AuthServer** section in `appsettings.json`:
 
 ```json
 "AuthServer": {
   "Authority": "https://localhost:44322",
   "RequireHttpsMetadata": "true",
-  "SwaggerClientId": "WebGateway_Swagger",
-  "SwaggerClientSecret": "1q2w3e*"
+  "SwaggerClientId": "WebGateway_Swagger"
 },
 ```
 
@@ -218,11 +216,11 @@ app.UseSwaggerUI(options =>
 });
 ```
 
- This will allow each re-routed microservice to be selected from definition and authorized individually by using the same `WebGateway_Swagger` client.
+ This will allow each re-routed microservice to be selected from the definition and authorized individually by using the same `WebGateway_Swagger` client.
 
 ![public-web-gateway-definitions](../../images/public-web-gateway-definitions.png)
 
-> If you add a new microservice and want to use in your PublicWeb application; you need to [update this gateway configuration](add-microservice.md#updating-gateways) and [IdentityServer configuration](gateways.md#identityserver-configuration).
+> If you add a new microservice and want to use it in your PublicWeb application; you need to [update this gateway configuration](add-microservice.md#updating-gateways) and [AuthServer configuration](gateways.md#authserver-configuration).
 
 ## Next
 
