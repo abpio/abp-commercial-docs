@@ -176,13 +176,13 @@ IdentityService uses three different mapped [database configurations](infrastruc
 
 IdentityService seeding is **required** for AuthServer since it seeds the admin user/password (identity data) and initial identity server data (clients, api resources, scopes).
 
-### IdentityServer Data Seeding
+### OpenIddict Data Seeding
 
-Both Auto Migration Data Seeding and DbMigrator Data Seeding uses `IdentityServerDataSeeder`. The seeder uses *IdentityServer* section in *appsettings.json* file to seed client and resource cors and redirectUri data.
+Both Auto Migration Data Seeding and DbMigrator Data Seeding use `OpenIddictDataSeeder`. The seeder uses *OpenIddict* section in *appsettings.json* file to seed client and resource cors and redirectUri data.
 
 ```json
-"IdentityServer": {
-    "Clients": {
+"OpenIddict": {
+    "Applications": {
       "MyProjectName_Web": {
         "RootUrl": "https://localhost:44321/"
       },
@@ -225,35 +225,18 @@ Both Auto Migration Data Seeding and DbMigrator Data Seeding uses `IdentityServe
   }
 ```
 
-#### Creating Api Resources
+#### Creating API Scopes
 
-After creating identity resources, api resources are created.
-
-```csharp
-private async Task CreateApiResourcesAsync()
-{
-    var commonApiUserClaims = new[] { "email", "email_verified", "name", "phone_number", "phone_number_verified", "role" };
-
-    await CreateApiResourceAsync("AccountService", commonApiUserClaims);
-    await CreateApiResourceAsync("IdentityService", commonApiUserClaims);
-    await CreateApiResourceAsync("AdministrationService", commonApiUserClaims);
-    await CreateApiResourceAsync("SaasService", commonApiUserClaims);
-    await CreateApiResourceAsync("ProductService", commonApiUserClaims);
-}
-```
-
-#### Creating Api Scopes
-
-Each api resource is defined as a scope.
+Each scope is defined individually.
 
 ```csharp
 private async Task CreateApiScopesAsync()
 {
-    await CreateApiScopeAsync("AccountService");
-    await CreateApiScopeAsync("IdentityService");
-    await CreateApiScopeAsync("AdministrationService");
-    await CreateApiScopeAsync("SaasService");
-    await CreateApiScopeAsync("ProductService");
+    await CreateScopesAsync("AccountService");
+    await CreateScopesAsync("IdentityService");
+    await CreateScopesAsync("AdministrationService");
+    await CreateScopesAsync("SaasService");
+    await CreateScopesAsync("ProductService");
 }
 ```
 
@@ -269,27 +252,38 @@ private async Task CreateWebGatewaySwaggerClientsAsync()
 
 private async Task CreateSwaggerClientAsync(string name, string[] scopes = null)
 {
-    var commonScopes = new[] { "email", "openid", "profile", "role", "phone", "address" };
-    scopes ??= new[] { name };
+    var commonScopes = new List<string>
+    {
+        OpenIddictConstants.Permissions.Scopes.Address,
+        OpenIddictConstants.Permissions.Scopes.Email,
+        OpenIddictConstants.Permissions.Scopes.Phone,
+        OpenIddictConstants.Permissions.Scopes.Profile,
+        OpenIddictConstants.Permissions.Scopes.Roles
+    };
 
     // Swagger Client
     var swaggerClientId = $"{name}_Swagger";
     if (!swaggerClientId.IsNullOrWhiteSpace())
     {
-        var webGatewaySwaggerRootUrl = _configuration[$"IdentityServer:Clients:{name}:RootUrl"].TrimEnd('/');
-        var publicWebGatewayRootUrl = _configuration[$"IdentityServer:Clients:PublicWebGateway:RootUrl"].TrimEnd('/');
-        var accountServiceRootUrl = _configuration[$"IdentityServer:Resources:AccountService:RootUrl"].TrimEnd('/');
-        var identityServiceRootUrl = _configuration[$"IdentityServer:Resources:IdentityService:RootUrl"].TrimEnd('/');
-        var administrationServiceRootUrl = _configuration[$"IdentityServer:Resources:AdministrationService:RootUrl"].TrimEnd('/');
-        var saasServiceRootUrl = _configuration[$"IdentityServer:Resources:SaasService:RootUrl"].TrimEnd('/');
-        var productServiceRootUrl = _configuration[$"IdentityServer:Resources:ProductService:RootUrl"].TrimEnd('/');
+        var webGatewaySwaggerRootUrl = _configuration[$"OpenIddict:Applications:{name}:RootUrl"].TrimEnd('/');
+        var publicWebGatewayRootUrl = _configuration[$"OpenIddict:Applications:PublicWebGateway:RootUrl"].TrimEnd('/');
+        var accountServiceRootUrl = _configuration[$"OpenIddict:Resources:AccountService:RootUrl"].TrimEnd('/');
+        var identityServiceRootUrl = _configuration[$"OpenIddict:Resources:IdentityService:RootUrl"].TrimEnd('/');
+        var administrationServiceRootUrl = _configuration[$"OpenIddict:Resources:AdministrationService:RootUrl"].TrimEnd('/');
+        var saasServiceRootUrl = _configuration[$"OpenIddict:Resources:SaasService:RootUrl"].TrimEnd('/');
+        var productServiceRootUrl = _configuration[$"OpenIddict:Resources:ProductService:RootUrl"].TrimEnd('/');
 
         await CreateClientAsync(
             name: swaggerClientId,
-            scopes: commonScopes.Union(scopes),
-            grantTypes: new[] { "authorization_code" },
-            secret: "1q2w3e*".Sha256(),
-            requireClientSecret: false,
+            type:  OpenIddictConstants.ClientTypes.Public,
+            consentType: OpenIddictConstants.ConsentTypes.Implicit,
+            displayName: "Swagger Client",
+            secret: null,
+            grantTypes: new List<string>
+            {
+                OpenIddictConstants.GrantTypes.AuthorizationCode,
+            },
+            scopes: commonScopes.Union(scopes).ToList(),
             redirectUris: new List<string> {
                 $"{webGatewaySwaggerRootUrl}/swagger/oauth2-redirect.html", // WebGateway redirect uri
                 $"{publicWebGatewayRootUrl}/swagger/oauth2-redirect.html", // PublicWebGateway redirect uri
@@ -298,111 +292,133 @@ private async Task CreateSwaggerClientAsync(string name, string[] scopes = null)
                 $"{administrationServiceRootUrl}/swagger/oauth2-redirect.html", // AdministrationService redirect uri
                 $"{saasServiceRootUrl}/swagger/oauth2-redirect.html", // SaasService redirect uri
                 $"{productServiceRootUrl}/swagger/oauth2-redirect.html", // ProductService redirect uri
-            },
-            corsOrigins: new[] {
-                webGatewaySwaggerRootUrl.RemovePostFix("/"),
-                publicWebGatewayRootUrl.RemovePostFix("/"),
-                accountServiceRootUrl.RemovePostFix("/"),
-                identityServiceRootUrl.RemovePostFix("/"),
-                administrationServiceRootUrl.RemovePostFix("/"),
-                saasServiceRootUrl.RemovePostFix("/"),
-                productServiceRootUrl.RemovePostFix("/")
             }
         );
     }
 }
 ```
 
-#### Creating Clients
+#### Creating Applications
 
 While public-web and administration service clients are distinct, all the other back-office clients are created by default. Administration service is used to make request to identity service to get user permission data. See [administration service](microservices#identity-server-authorization-1) for more.
 
 ```csharp
 private async Task CreateClientsAsync()
 {
-    var commonScopes = new[] { "email", "openid", "profile", "role", "phone", "address" };
+    var commonScopes = new List<string>
+    {
+        OpenIddictConstants.Permissions.Scopes.Address,
+        OpenIddictConstants.Permissions.Scopes.Email,
+        OpenIddictConstants.Permissions.Scopes.Phone,
+        OpenIddictConstants.Permissions.Scopes.Profile,
+        OpenIddictConstants.Permissions.Scopes.Roles
+    };
 
     //Web Client
-    var webClientRootUrl = _configuration["IdentityServer:Clients:MyProjectName_Web:RootUrl"].EnsureEndsWith('/');
-    await CreateClientAsync(
-        name: "MyProjectName_Web",
-        scopes: commonScopes.Union(new[] {
-            "AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"
-        }),
-        grantTypes: new[] { "hybrid" },
-        secret: "1q2w3e*".Sha256(),
-        redirectUris: new List<string> { $"{webClientRootUrl}signin-oidc" },
-        postLogoutRedirectUri: $"{webClientRootUrl}signout-callback-oidc",
-        frontChannelLogoutUri: $"{webClientRootUrl}Account/FrontChannelLogout",
-        corsOrigins: new[] { webClientRootUrl.RemovePostFix("/") }
-    );
+        var webClientRootUrl = _configuration["OpenIddict:Applications:MyProjectName_Web:RootUrl"].EnsureEndsWith('/');
+        await CreateApplicationAsync(
+            name: "MyProjectName_Web",
+            type: OpenIddictConstants.ClientTypes.Confidential,
+            consentType: OpenIddictConstants.ConsentTypes.Implicit,
+            displayName: "Web Client",
+            secret: "1q2w3e*",
+            grantTypes: new List<string> //Hybrid flow
+            {
+                OpenIddictConstants.GrantTypes.AuthorizationCode,
+                OpenIddictConstants.GrantTypes.Implicit
+            },
+            scopes: commonScopes.Union(new[] {"AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"}).ToList(),
+            redirectUris: new List<string> { $"{webClientRootUrl}signin-oidc" },
+            postLogoutRedirectUris: new List<string>() { $"{webClientRootUrl}signout-callback-oidc" }
+        );
 
     //Blazor Client
-    var blazorClientRootUrl = _configuration["IdentityServer:Clients:MyProjectName_Blazor:RootUrl"].EnsureEndsWith('/');
-    await CreateClientAsync(
+    var blazorClientRootUrl = _configuration["OpenIddict:Applications:MyProjectName_Blazor:RootUrl"].EnsureEndsWith('/');
+    await CreateApplicationAsync(
         name: "MyProjectName_Blazor",
-        scopes: commonScopes.Union(new[] {
-            "AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"
-        }),
-        grantTypes: new[] { "authorization_code" },
-        secret: "1q2w3e*".Sha256(),
-        requireClientSecret: false,
+        type: OpenIddictConstants.ClientTypes.Public,
+        consentType: OpenIddictConstants.ConsentTypes.Implicit,
+        displayName: "Blazor Client",
+        secret: null,
+        grantTypes: new List<string>
+        {
+            OpenIddictConstants.GrantTypes.AuthorizationCode
+        },
+        scopes: commonScopes.Union(new[] {"AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"}).ToList(),
         redirectUris: new List<string> { $"{blazorClientRootUrl}authentication/login-callback" },
-        postLogoutRedirectUri: $"{blazorClientRootUrl}authentication/logout-callback",
-        corsOrigins: new[] { blazorClientRootUrl.RemovePostFix("/") }
+        postLogoutRedirectUris: new List<string> { $"{blazorClientRootUrl}authentication/logout-callback" }
     );
 
     //Blazor Server Client
-    var blazorServerClientRootUrl = _configuration["IdentityServer:Clients:MyProjectName_BlazorServer:RootUrl"].EnsureEndsWith('/');
-    await CreateClientAsync(
+    var blazorServerClientRootUrl = _configuration["OpenIddict:Applications:MyProjectName_BlazorServer:RootUrl"].EnsureEndsWith('/');
+    await CreateApplicationAsync(
         name: "MyProjectName_BlazorServer",
-        scopes: commonScopes.Union(new[] {
-            "AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"
-        }),
-        grantTypes: new[] { "hybrid" },
-        secret: "1q2w3e*".Sha256(),
+        type: OpenIddictConstants.ClientTypes.Confidential,
+        consentType: OpenIddictConstants.ConsentTypes.Implicit,
+        displayName: "Blazor Server Client",
+        secret: "1q2w3e*",
+        grantTypes: new List<string> //Hybrid flow
+        {
+            OpenIddictConstants.GrantTypes.AuthorizationCode,
+            OpenIddictConstants.GrantTypes.Implicit
+        },
+        scopes: commonScopes.Union(new[] {"AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService" }).ToList(),
         redirectUris: new List<string> { $"{blazorServerClientRootUrl}signin-oidc" },
-        postLogoutRedirectUri: $"{blazorServerClientRootUrl}signout-callback-oidc",
-        frontChannelLogoutUri: $"{blazorServerClientRootUrl}Account/FrontChannelLogout",
-        corsOrigins: new[] { blazorServerClientRootUrl.RemovePostFix("/") }
+        postLogoutRedirectUris: new List<string> { $"{blazorServerClientRootUrl}signout-callback-oidc" }
     );
 
     //Public Web Client
-    var publicWebClientRootUrl = _configuration["IdentityServer:Clients:MyProjectName_PublicWeb:RootUrl"]
-        .EnsureEndsWith('/');
-    await CreateClientAsync(
+    var publicWebClientRootUrl = _configuration["OpenIddict:Applications:MyProjectName_PublicWeb:RootUrl"].EnsureEndsWith('/');
+    await CreateApplicationAsync(
         name: "MyProjectName_PublicWeb",
-        scopes: commonScopes.Union(new[] { "AccountService", "AdministrationService", "ProductService" }),
-        grantTypes: new[] { "hybrid" },
-        secret: "1q2w3e*".Sha256(),
+        type: OpenIddictConstants.ClientTypes.Confidential,
+        consentType: OpenIddictConstants.ConsentTypes.Implicit,
+        displayName: "Public Web Client",
+        secret: "1q2w3e*",
+        grantTypes: new List<string> //Hybrid flow
+        {
+            OpenIddictConstants.GrantTypes.AuthorizationCode,
+            OpenIddictConstants.GrantTypes.Implicit
+        },
+        scopes: commonScopes.Union(new[] { "AccountService", "AdministrationService", "ProductService" }).ToList(),
         redirectUris: new List<string> { $"{publicWebClientRootUrl}signin-oidc" },
-        postLogoutRedirectUri: $"{publicWebClientRootUrl}signout-callback-oidc",
-        frontChannelLogoutUri: $"{publicWebClientRootUrl}Account/FrontChannelLogout",
-        corsOrigins: new[] { publicWebClientRootUrl.RemovePostFix("/") }
+        postLogoutRedirectUris: new List<string> { $"{publicWebClientRootUrl}signout-callback-oidc" }
     );
 
     //Angular Client
-    var angularClientRootUrl = _configuration["IdentityServer:Clients:MyProjectName_Angular:RootUrl"].TrimEnd('/');
-    await CreateClientAsync(
+    var angularClientRootUrl = _configuration["OpenIddict:Applications:MyProjectName_Angular:RootUrl"].TrimEnd('/');
+    await CreateApplicationAsync(
         name: "MyProjectName_Angular",
-        scopes: commonScopes.Union(new[] {
-            "AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"
-        }),
-        grantTypes: new[] { "authorization_code", "LinkLogin", "Impersonation" },
-        secret: "1q2w3e*".Sha256(),
-        requireClientSecret: false,
+        type: OpenIddictConstants.ClientTypes.Public,
+        consentType: OpenIddictConstants.ConsentTypes.Implicit,
+        displayName: "Angular Client",
+        secret: null,
+        grantTypes: new List<string>
+        {
+            OpenIddictConstants.GrantTypes.AuthorizationCode,
+            OpenIddictConstants.GrantTypes.RefreshToken,
+            OpenIddictConstants.GrantTypes.Password,
+            "LinkLogin",
+            "Impersonation"
+        },
+        scopes: commonScopes.Union(new[] {"AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService" }).ToList(),
         redirectUris: new List<string> { $"{angularClientRootUrl}" },
-        postLogoutRedirectUri: $"{angularClientRootUrl}",
-        corsOrigins: new[] { angularClientRootUrl }
+        postLogoutRedirectUris: new List<string> { $"{angularClientRootUrl}" }
     );
 
     //Administration Service Client
-    await CreateClientAsync(
+    await CreateApplicationAsync(
         name: "MyProjectName_AdministrationService",
-        scopes: commonScopes.Union(new[] { "IdentityService" }),
-        grantTypes: new[] { "client_credentials" },
-        secret: "1q2w3e*".Sha256(),
-        permissions: new[] { IdentityPermissions.Users.Default }
+        type: OpenIddictConstants.ClientTypes.Confidential,
+        consentType: OpenIddictConstants.ConsentTypes.Implicit,
+        displayName: "Administration Service Client",
+        secret: "1q2w3e*",
+        grantTypes: new List<string>
+        {
+            OpenIddictConstants.GrantTypes.ClientCredentials
+        },
+        scopes: commonScopes.Union(new[] { "IdentityService" }).ToList(),
+        permissions: new List<string> { IdentityPermissions.Users.Default }
     );
 }
 ```
@@ -411,29 +427,9 @@ private async Task CreateClientsAsync()
 
 ### Auto Migration Data Seeding
 
-`IdentityServiceDatabaseMigrationEventHandler` is used for seeding *language management*, *identity server* and *identity* data.
+`IdentityServiceDatabaseMigrationEventHandler` is used for seeding *language management* and *identity* data.
 
-```csharp
-private async Task SeedDataAsync(Guid? tenantId, string adminEmail, string adminPassword)
-{
-    using (CurrentTenant.Change(tenantId))
-    {
-        if (tenantId == null)
-        {
-            await _languageManagementDataSeeder.SeedAsync();
-            await _identityServerDataSeeder.SeedAsync();
-        }
-
-        await _identityDataSeeder.SeedAsync(
-            adminEmail,
-            adminPassword,
-            tenantId
-        );
-    }
-}
-```
-
-Data seeding occurs when **database is migrated**:
+Data seeding occurs when the **database is migrated**:
 
 ```csharp
 public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
