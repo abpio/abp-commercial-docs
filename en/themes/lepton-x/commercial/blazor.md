@@ -57,13 +57,13 @@ LeptonX theme is implemented and ready to use with ABP Commercial. No custom imp
   ```
 - Remove old theme from **DependsOn** attribute in your module class and add **AbpAspNetCoreComponentsServerLeptonXThemeModule** type to **DependsOn** attribute.
 
-```diff
-[DependsOn(
--    typeof(LeptonThemeManagementBlazorModule),
--    typeof(AbpAspNetCoreComponentsServerLeptonThemeModule),
-+    typeof(AbpAspNetCoreComponentsServerLeptonXThemeModule)
-)]
-```
+    ```diff
+    [DependsOn(
+    -    typeof(LeptonThemeManagementBlazorModule),
+    -    typeof(AbpAspNetCoreComponentsServerLeptonThemeModule),
+    +    typeof(AbpAspNetCoreComponentsServerLeptonXThemeModule)
+    )]
+    ```
 
 - Update AbpBundlingOptions
   ```diff
@@ -130,8 +130,9 @@ You can set default theme or add or remove themes via using **LeptonXThemeOption
 
     ```
 
-    > `red.css` and `bootstrap-red.css` have to be added under **wwwroot/side-menu/css/** folder for switching to your custom theme properly when selected.
+    > `red.css` and `bootstrap-red.css` have to be added under `wwwroot/_content/Volo.Abp.AspNetCore.Components.Web.LeptonXTheme/side-menu/css/` folder for switching to your custom theme properly when selected.
 
+    ![leptonx-red](https://user-images.githubusercontent.com/23705418/188801370-5aa646cf-72fd-4365-aa49-aab1152b5b86.gif)
 
 ### LeptonXThemeBlazorOptions
 Layout options of Blazor UI can be manageable via using **LeptonXThemeMvcOptions**.

@@ -80,7 +80,7 @@
           "path": "guides/identityserver-deployment.md"
         },
         {
-          "text": "Migrating to OpenIdDict",
+          "text": "Migrating to OpenIddict",
           "path": "migration-guides/openIddict-step-by-step.md"
         }
       ]
@@ -282,6 +282,10 @@
         {
           "text": "Identity Server",
           "path": "modules/identity-server.md"
+        },
+        {
+          "text": "OpenIddict",
+          "path": "modules/openiddict.md"
         },
         {
           "text": "Language Management",
