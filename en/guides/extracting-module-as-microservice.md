@@ -214,10 +214,10 @@ Update the ConnectionStrings under Product.HttpApi.Host appsettings by adding Lo
 ```
 
 Under the admin application, navigate to the Products page and add/update products: 
-![new-products](../../images/new-products.png)
+![new-products](../images/new-products.png)
 
 Navigate to Administration -> Audit Logs to check the audit logs:
-![product-logs](../../images/product-logs.png)
+![product-logs](../images/product-logs.png)
 
 ## Second Approach: Publishing Events to Write Audit Logs
 
@@ -265,7 +265,7 @@ You can publish `AuditLogInfo` object directly since it is serializable as long 
 
 From now on, your auditing logs will be published to the distributed event bus that you can monitor using rabbitMq:
 
-![event-based-audit-rabbitmq](../../images/event-based-audit-rabbitmq.png)
+![event-based-audit-rabbitmq](../images/event-based-audit-rabbitmq.png)
 
 ### Creating the Audit Creation Handler
 
@@ -318,11 +318,11 @@ Configure<AbpAuditingOptions>(options =>
 
 Add/update/delete new product:
 
-![event-based-products](../../images/event-based-auditing-products.png)
+![event-based-products](../images/event-based-auditing-products.png)
 
 Then you can check Audit Logs under Administration -> Audit Logs
 
-![event-based-audit-logs](../../images/event-based-audit-logs.png)
+![event-based-audit-logs](../images/event-based-audit-logs.png)
 
 
 ## Next
