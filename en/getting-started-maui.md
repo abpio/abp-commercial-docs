@@ -38,6 +38,9 @@ The iOS simulator uses the host machine network. Therefore, applications running
 
 > If the simulator is used from Windows with a remote connection, follow the [Microsoft's documentation](https://docs.microsoft.com/en-us/xamarin/cross-platform/deploy-test/connect-to-local-web-services#specify-the-local-machine-address) to setup a proper configuration.
 
+#### Got could not find any available provisioning profiles for on ios error!
+
+You need some extra steps, please check the [Microsoft document](https://learn.microsoft.com/en-us/xamarin/ios/get-started/installation/device-provisioning/)
 
 ## Run the Mobile Application
 
