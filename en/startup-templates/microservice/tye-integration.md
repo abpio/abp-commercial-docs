@@ -11,7 +11,7 @@
   ```bash
   # See https://stackoverflow.com/questions/55485511/how-to-run-dotnet-dev-certs-https-trust
   # for more details
-
+  
   # Generate certificate from config
   openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout localhost.key -out localhost.crt \
     -config localhost.conf
@@ -82,3 +82,7 @@ tye run --watch
 ### Stop
 
 To stop tye, simply use the command `Ctrl+C` on the console tye is running. Keep in mind that, **close the tye dashboard** before stopping tye since tye may sometime fail to stop processes successfully.
+
+## Next
+
+- [Guides: Adding New Microservice](add-microservice.md)

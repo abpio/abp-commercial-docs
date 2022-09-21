@@ -706,4 +706,4 @@ Generic [IDataSeeder](https://docs.abp.io/en/abp/latest/Data-Seeding#idataseeder
 
 ## Next
 
-- [Tye Integration](tye-integration.md)
+- [Microservice Startup Template: Tye Integration](tye-integration.md)
