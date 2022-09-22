@@ -306,7 +306,7 @@ private void ConfigureDatabaseConnections()
         options.Databases.Configure("IdentityService", database =>
         {
             database.MappedConnections.Add("AbpIdentity");
-            database.MappedConnections.Add("AbpIdentityServer");
+            database.MappedConnections.Add("OpenIddict");
         });
 
         options.Databases.Configure("ProductService", database =>
