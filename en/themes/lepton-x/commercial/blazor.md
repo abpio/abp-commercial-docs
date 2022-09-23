@@ -57,13 +57,13 @@ LeptonX theme is implemented and ready to use with ABP Commercial. No custom imp
   ```
 - Remove old theme from **DependsOn** attribute in your module class and add **AbpAspNetCoreComponentsServerLeptonXThemeModule** type to **DependsOn** attribute.
 
-```diff
-[DependsOn(
--    typeof(LeptonThemeManagementBlazorModule),
--    typeof(AbpAspNetCoreComponentsServerLeptonThemeModule),
-+    typeof(AbpAspNetCoreComponentsServerLeptonXThemeModule)
-)]
-```
+    ```diff
+    [DependsOn(
+    -    typeof(LeptonThemeManagementBlazorModule),
+    -    typeof(AbpAspNetCoreComponentsServerLeptonThemeModule),
+    +    typeof(AbpAspNetCoreComponentsServerLeptonXThemeModule)
+    )]
+    ```
 
 - Update AbpBundlingOptions
   ```diff
@@ -130,8 +130,9 @@ You can set default theme or add or remove themes via using **LeptonXThemeOption
 
     ```
 
-    > `red.css` and `bootstrap-red.css` have to be added under **wwwroot/side-menu/css/** folder for switching to your custom theme properly when selected.
+    > `red.css` and `bootstrap-red.css` have to be added under `wwwroot/_content/Volo.Abp.AspNetCore.Components.Web.LeptonXTheme/side-menu/css/` folder for switching to your custom theme properly when selected.
 
+    ![leptonx-red](https://user-images.githubusercontent.com/23705418/188801370-5aa646cf-72fd-4365-aa49-aab1152b5b86.gif)
 
 ### LeptonXThemeBlazorOptions
 Layout options of Blazor UI can be manageable via using **LeptonXThemeMvcOptions**.
@@ -158,3 +159,593 @@ Layout options of Blazor UI can be manageable via using **LeptonXThemeMvcOptions
     });
     ```
 
+## Layouts
+
+**LeptonX** offers two **ready-made layouts** for your web application. One of them is **placed** with the **menu items** on the **top** and the other with the **menu items** on the **sides**.
+
+### Top Menu Layout
+
+![Top menu layout](images/leptonx-top-menu-layout.png)
+
+### Side Menu Layout
+
+![Side menu layout](images/leptonx-side-menu-layout.png)
+
+You can override layouts by following the steps below:
+
+* Create a razor page, like `MySideMenuLayout.razor`, in your blazor application as shown below:
+
+```html
+@using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout;
+@using Volo.Abp.DependencyInjection
+
+@inherits SideMenuLayout
+@attribute [ExposeServices(typeof(SideMenuLayout))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MySideMenuLayout.razor.cs`, in your blazor application as shown below:
+
+```csharp	
+
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout;
+using Volo.Abp.DependencyInjection;
+
+[ExposeServices(typeof(SideMenuLayout))]
+[Dependency(ReplaceServices = true)
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    public partial class MySideMenuLayout
+    {
+        public string Name = "My Top Layout";
+    }
+}
+```	
+
+> Don't forget to remove repeated attributes from the razor page!
+
+---
+
+
+
+## Common Components
+
+Commonly used components in all layouts.
+
+### Breadcrumb
+
+![Breadcrumb](images/leptonx-breadcrumb.png)
+
+* Create a razor page, like `MyBreadcrumbs.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.Common;
+@using Volo.Abp.DependencyInjection
+
+@inherits Breadcrumbs
+@attribute [ExposeServices(typeof(Breadcrumbs))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyBreadcrumbs.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.Common;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(Breadcrumbs))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyBreadcrumbsComponent
+    {
+        public string Name = "My Breadcrumbs";
+    }
+}
+```	
+
+### Content Toolbar
+
+![Content toolbar](images/leptonx-blazor-content-toolbar.png)
+
+* Create a razor page, like `MyContentToolbar.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.Common;
+@using Volo.Abp.DependencyInjection
+
+@inherits ContentToolbar
+@attribute [ExposeServices(typeof(ContentToolbar))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyContentToolbar.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.Common;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(ContentToolbar))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyContentToolbarComponent
+    {
+        public string Name = "My Content Toolbar";
+    }
+}
+```	
+
+### General Settings
+
+![General settings](images/leptonx-general-settings.png)
+
+* Create a razor page, like `MyGeneralSettings.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.Common;
+@using Volo.Abp.DependencyInjection
+
+@inherits GeneralSettings
+@attribute [ExposeServices(typeof(GeneralSettings))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyGeneralSettings.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.Common;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(GeneralSettings))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyGeneralSettings
+    {
+        public string Name = "My General Settings";
+    }
+}
+```	
+
+### Mobile General Settings
+
+![Mobile general settings](images/leptonx-mobile-general-settings.png)
+
+* Create a razor page, like `MyMobileGeneralSettings.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.Common;
+@using Volo.Abp.DependencyInjection
+
+@inherits MobileGeneralSettings
+@attribute [ExposeServices(typeof(MobileGeneralSettings))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMobileGeneralSettings.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.Common;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(MobileGeneralSettings))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyMobileGeneralSettings
+    {
+        public string Name = "My Mobile General Settings";
+    }
+}
+```	
+
+---
+
+## Side Menu Components
+
+Components used in the side menu layout.
+
+### Main Menu
+
+![Sidebar Main menu](images/leptonx-blazor-sidemenu-main-menu.png)
+
+* Create a razor page, like `MyMainMenu.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.Navigation;
+@using Volo.Abp.DependencyInjection
+
+@inherits MainMenu
+@attribute [ExposeServices(typeof(MainMenu))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainMenu.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.Navigation;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(MainMenu))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyMainMenuComponent
+    {
+        public string Name = "My Main Menu";
+    }
+}
+```	
+
+### Main Menu Item
+
+* Create a razor page, like `MyMainMenuItem.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.Navigation;
+@using Volo.Abp.DependencyInjection
+
+@inherits MainMenuItem
+@attribute [ExposeServices(typeof(MainMenuItem))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainMenuItem.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.Navigation;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(MainMenu))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyMainMenuItemComponent
+    {
+        public string Name = "My Main Menu Item";
+    }
+}
+```	
+
+### Mobile Navbar
+
+![Mobile navbar](images/leptonx-sidemenu-mobile-navbar.png)
+
+* Create a razor page, like `MyMobileNavbar.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.Navigation;
+@using Volo.Abp.DependencyInjection
+
+@inherits MobileNavbar
+@attribute [ExposeServices(typeof(MobileNavbar))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMobileNavbar.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.Navigation;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(MobileNavbar))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyMobileNavbar
+    {
+        public string Name = "My Mobile Navbar";
+    }
+}
+```	
+
+### Main Header
+
+![Main Header](images/leptonx-blazor-sidemenu-main-header.png)
+
+* Create a razor page, like `MyMainHeader.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.MainHeader
+@using Volo.Abp.DependencyInjection
+
+@inherits MainHeader
+@attribute [ExposeServices(typeof(MainHeader))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainHeader.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.MainHeader;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(MainHeader))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyMainHeader
+    {
+        public string Name = "My Main Header";
+    }
+}
+```	
+
+### Main Header Branding
+
+![Main Header Branding](images/leptonx-blazor-side-menu-main-header-branding.png)
+
+* Create a razor page, like `MyMainHeaderBranding.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.MainHeader
+@using Volo.Abp.DependencyInjection
+
+@inherits MainHeaderBranding
+@attribute [ExposeServices(typeof(MainHeaderBranding))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainHeaderBranding.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.MainHeader;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(MainHeaderBranding))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyMainHeaderBranding
+    {
+        public string Name = "My Main Header Branding";
+    }
+}
+```	
+
+### Main Header Toolbar
+
+![Main Header Toolbar](images/leptonx-blazor-sidemenu-main-toolbar.png)
+
+* Create a razor page, like `MyMainHeaderToolbar.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.MainHeader
+@using Volo.Abp.DependencyInjection
+
+@inherits MainHeaderToolbar
+@attribute [ExposeServices(typeof(MainHeaderToolbar))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainHeaderToolbar.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.SideMenu.MainHeader;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(MainHeaderToolbar))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyMainHeaderToolbar
+    {
+        public string Name = "My Main Header Toolbar";
+    }
+}
+```	
+
+---
+
+## Top Menu Components
+
+Components used in the top menu layout.
+
+### Main Menu
+
+![Sidebar Main menu](images/leptonx-blazor-topmenu-main-menu.png)
+
+* Create a razor page, like `MyMainMenu.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.Navigation;
+@using Volo.Abp.DependencyInjection
+
+@inherits MainMenu
+@attribute [ExposeServices(typeof(MainMenu))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainMenu.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.Navigation;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(MainMenu))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyMainMenuComponent
+    {
+        public string Name = "My Main Menu";
+    }
+}
+```	
+
+### Main Menu Item
+
+* Create a razor page, like `MyMainMenuItem.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.Navigation;
+@using Volo.Abp.DependencyInjection
+
+@inherits MainMenuItem
+@attribute [ExposeServices(typeof(MainMenuItem))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainMenuItem.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.Navigation;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(MainMenu))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyMainMenuItemComponent
+    {
+        public string Name = "My Main Menu Item";
+    }
+}
+```	
+
+### Mobile Navbar
+
+![Mobile navbar](images/leptonx-sidemenu-mobile-navbar.png)
+
+* Create a razor page, like `MyMobileNavbar.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.Navigation;
+@using Volo.Abp.DependencyInjection
+
+@inherits MobileNavbar
+@attribute [ExposeServices(typeof(MobileNavbar))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMobileNavbar.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.Navigation;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(MobileNavbar))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyMobileNavbar
+    {
+        public string Name = "My Mobile Navbar";
+    }
+}
+```	
+
+### Main Header
+
+![Main Header](images/leptonx-blazor-topmenu-main-header.png)
+
+* Create a razor page, like `MyMainHeader.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.MainHeader
+@using Volo.Abp.DependencyInjection
+
+@inherits MainHeader
+@attribute [ExposeServices(typeof(MainHeader))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainHeader.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.MainHeader;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(MainHeader))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyMainHeader
+    {
+        public string Name = "My Main Header";
+    }
+}
+```	
+
+### Main Header Branding
+
+![Main Header Branding](images/leptonx-blazor-topmenu-main-header-branding.png)
+
+* Create a razor page, like `MyMainHeaderBranding.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.MainHeader
+@using Volo.Abp.DependencyInjection
+
+@inherits MainHeaderBranding
+@attribute [ExposeServices(typeof(MainHeaderBranding))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainHeaderBranding.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.MainHeader;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(MainHeaderBranding))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyMainHeaderBranding
+    {
+        public string Name = "My Main Header Branding";
+    }
+}
+```	
+
+### Main Header Toolbar
+
+![Main Header Toolbar](images/leptonx-blazor-topmenu-main-header-toolbar.png)
+
+* Create a razor page, like `MyMainHeaderToolbar.razor`, in your blazor application as shown below:
+
+```html
+@Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.MainHeader
+@using Volo.Abp.DependencyInjection
+
+@inherits MainHeaderToolbar
+@attribute [ExposeServices(typeof(MainHeaderToolbar))]
+@attribute [Dependency(ReplaceServices = true)]
+
+@Name
+``` 
+
+* If you prefer to use a code-behind file for the C# code of your component, create a razor component, like `MyMainHeaderToolbar.razor.cs`, in your blazor application as shown below:
+```csharp	
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout.TopMenu.MainHeader;
+using Volo.Abp.DependencyInjection;
+
+namespace LeptonXLite.DemoApp.Blazor.MyComponents
+{
+    [ExposeServices(typeof(MainHeaderToolbar))]
+    [Dependency(ReplaceServices = true)]
+    public partial class MyMainHeaderToolbar
+    {
+        public string Name = "My Main Header Toolbar";
+    }
+}
+```	
