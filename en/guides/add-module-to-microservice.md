@@ -10,6 +10,8 @@ After adding a new service to your microservice template by following the [add n
 abp add-module CmsKit
 ```
 
+> To complete the CmsKit module steps please have a look [here](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit/Index)
+
 After completing the module documentation steps you can build your solution and continue with this documentation.
 
 ```bash
@@ -40,10 +42,10 @@ public class ProductServiceHttpApiClientModule : AbpModule
 If the proxy is configured as `AddStaticHttpClientProxies`, you can start creating the static proxies in `ProductService.HttpApi.Client` by using the following command line:
 
 ```powershell
-abp generate-proxy -t csharp --module cms-kit-public -u http://localhost:44361/
+abp generate-proxy --type csharp --module cms-kit --url https://localhost:44335
 ```
 
-> Note: This port is used by `ProductService`. You can check your port from `launchSetting.json`
+> Note: This port is used by `Public-Web`. You can check your port from `launchSetting.json`
 
 > If you have generated a new microservice with the ABP CLI by following the [add new microservice guide](https://docs.abp.io/en/commercial/latest/startup-templates/microservice/add-microservice.md), it should already have been configured to use the static proxy.
 
@@ -91,7 +93,13 @@ public class ProductServiceDbContext : AbpDbContext<ProductServiceDbContext>
 
 ## Implementing ICmsKitDbContext
 
-After running adding module command, you should see your migration files under the `Migrations` in the `EntityFrameworkCore` project. If it's empty please make sure whether to implement `IModuleDbContext` or not. Once implemented, the compiler should warn you to import your entities here. Now, you're ready to create your migration properly. If you create your migrations properly, just you need to run the project. ABP Framework will handle it automatically.
+After running adding module command, you should see your migration files under the `Migrations` in the `EntityFrameworkCore` project. If it's empty please make sure whether to implement `IModuleDbContext` or not. Once implemented, the compiler should warn you to import your entities here. Now, you're ready to create your migration properly by using the following command line:
+
+```powershell
+dotnet ef migrations add "InitialCmsKit"
+```
+
+If you create your migrations properly, just you need to run the project. ABP Framework will handle it automatically.
 
 ```csharp
 [ConnectionStringName(ProductServiceDbProperties.ConnectionStringName)]
@@ -107,28 +115,31 @@ public class ProductServiceDbContext : AbpDbContext<ProductServiceDbContext>, IC
 Now you should configure `AbpDbContextOptions` in the `ProductServiceEntityFrameworkCoreModule` under the `EntityFrameworkCore` project. Already you should see the configuration for your service in `ConfigureServices` for your project, but also need to configure it for the new module projects.
 
 ```csharp
-public override void ConfigureServices(ServiceConfigurationContext context)
+ProductServiceEntityFrameworkCoreModule
 {
-    //The other congiurations
-    Configure<AbpDbContextOptions>(options =>
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        //It comes via microservice template
-        options.Configure<ProductServiceDbContext>(c =>
+        //The other congiurations
+        Configure<AbpDbContextOptions>(options =>
         {
-            c.UseSqlServer(b =>
+            //It comes via microservice template
+            options.Configure<ProductServiceDbContext>(c =>
             {
-                b.MigrationsHistoryTable("__ProductService_Migrations");
+                c.UseSqlServer(b =>
+                {
+                    b.MigrationsHistoryTable("__ProductService_Migrations");
+                });
+            });
+            //Need to add this configuration for CmsKiti implementation
+            options.Configure<CmsKitDbContext>(c =>
+            {
+                c.UseSqlServer(b =>
+                {
+                    b.MigrationsHistoryTable("__ProductService_Migrations");
+                });
             });
         });
-        //Need to add this configuration for CmsKiti implementation
-        options.Configure<CmsKitDbContext>(c =>
-        {
-            c.UseSqlServer(b =>
-            {
-                b.MigrationsHistoryTable("__ProductService_Migrations");
-            });
-        });
-    });
+    }
 }
 ```
 
@@ -136,7 +147,13 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 
 If you would like to use the defined component in the module on your web page, you should add its related page on NuGet. After adding your package you should add the dependency to `YourModulePublicWebModule` as the following code
 
+```powershell
+abp add-package Volo.CmsKit.Web
+```
+
 ```csharp
+using Volo.CmsKit.Public.Web;
+
 [DependsOn(typeof(CmsKitPublicWebModule))]
 public class PublicWebModule : AbpModule
 {
@@ -152,11 +169,6 @@ Now you can use the components on your page. For example it's added into `Index.
     new {entityType = "quote", entityId = @product.Id})
 ```
 
-Now you should see the comment component, but probably you will see the following error once trying to submit. Because still you need some configurations regarding user synchronization.
-
-![comment-component](../images/comment-component.png)
-![user-error](../images/user-error.png)
-
 ## Configured External User
 
 To submit some components you need to log in to the system. Already you logged in to the system but your module database can be empty hence you need to check `IdentityService` for this user. 
@@ -166,7 +178,7 @@ Firstly you should add service client to `IdentityServerDataSeeder` under the `I
 ```csharp
 //The other configurations
 await CreateClientAsync(
-    name: "ProductService",
+    name: "SolutiontName_ProductService",
     scopes: commonScopes.Union(new[]
     {
         "IdentityService"
@@ -187,7 +199,7 @@ Then change your `appsetting.json` by adding the following code under the `Produ
 "IdentityClients": {
     "Default": {
     "GrantType": "client_credentials",
-    "ClientId": "ProductService",
+    "ClientId": "SolutiontName_ProductService",
     "ClientSecret": "1q2w3e*",
     "Authority": "https://localhost:44322", **AuthServer Port**
     "Scope": "IdentityService"
