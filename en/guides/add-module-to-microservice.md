@@ -10,7 +10,7 @@ After adding a new service to your microservice template by following the [add n
 abp add-module CmsKit
 ```
 
-> To complete the CmsKit module steps please have a look [here](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit/Index)
+> To complete the CmsKit module steps, please have a look [here](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit/Index).
 
 After completing the module documentation steps you can build your solution and continue with this documentation.
 
@@ -20,7 +20,7 @@ dotnet build
 
 ## Using the static proxy
 
-ABP Framework supports [dynamic](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Dynamic-JavaScript-Proxies) and [static](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Static-JavaScript-Proxies) proxies. Both have advantages and disadvantages.  By default, the dynamic proxy is used but It is suggested to use the static proxy in the microservice template to remove the coupling between services. The static proxy should be configured manually in the `HttpApiClientModule` of the microservice you have installed your module to as below:
+ABP Framework supports [dynamic](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Dynamic-JavaScript-Proxies) and [static](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Static-JavaScript-Proxies) proxies. Both have advantages and disadvantages. By default, the static proxy is being used in the microservice template to remove the coupling between services. The static proxy should be configured manually in the `HttpApiClientModule` of the microservice you have installed your module to as below:
 
 ```csharp
 public class ProductServiceHttpApiClientModule : AbpModule
@@ -207,11 +207,13 @@ Then change your `appsetting.json` by adding the following code under the `Produ
 }
 ```
 
-Now add the Nuget package by using the following code and implement it to the module. Also, add the configuration for `CmsKitCommentOptions`
+Now add the Nuget package by using the following code and implement it to the module. 
 
-> dotnet add package Volo.Abp.Identity.Pro.HttpApi.Client 
+`dotnet add package Volo.Abp.Identity.Pro.HttpApi.Client `
 
-> dotnet add package Volo.Abp.Http.Client.IdentityModel.Web
+`dotnet add package Volo.Abp.Http.Client.IdentityModel.Web`
+
+Also, add the configuration for `CmsKitCommentOptions`
 
 
 ```csharp
