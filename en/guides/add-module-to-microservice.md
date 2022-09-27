@@ -20,7 +20,7 @@ dotnet build
 
 ## Using the static proxy
 
-ABP Framework supports [dynamic](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Dynamic-JavaScript-Proxies) and [static](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Static-JavaScript-Proxies) proxies. Both have advantages and disadvantages. By default, the static proxy is being used in the microservice template to remove the coupling between services. The static proxy should be configured manually in the `HttpApiClientModule` of the microservice you have installed your module to as below:
+ABP Framework supports [dynamic](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Dynamic-JavaScript-Proxies) and [static](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Static-JavaScript-Proxies) proxies. Both have advantages and disadvantages. By default, the static proxy is used in the microservice template to remove the coupling between services. The static proxy should be configured manually in the `HttpApiClientModule` of the microservice you have installed your module on as below:
 
 ```csharp
 public class ProductServiceHttpApiClientModule : AbpModule
@@ -45,9 +45,9 @@ If the proxy is configured as `AddStaticHttpClientProxies`, you can start creati
 abp generate-proxy --type csharp --module cms-kit --url https://localhost:44335
 ```
 
-> Note: This port is used by `Public-Web`. You can check your port from `launchSetting.json`. Public Web calls to Public Web Gateway so it has called the related services and has generated proxy files. [For more](https://docs.abp.io/en/commercial/latest/startup-templates/microservice/gateways#public-web-gateway) 
+> Note: This port is used by `Public-Web`. You can check your port from `launchSetting.json`. The Public Web calls to the Public Web Gateway so it has called the related services and has generated proxy files. [For more](https://docs.abp.io/en/commercial/latest/startup-templates/microservice/gateways#public-web-gateway) 
 
-> If you have generated a new microservice with the ABP CLI by following the [add new microservice guide](https://docs.abp.io/en/commercial/latest/startup-templates/microservice/add-microservice.md), it should already have been configured to use the static proxy.
+> If you have generated a new microservice with the ABP CLI by following the [add new microservice guide](https://docs.abp.io/en/commercial/latest/startup-templates/microservice/add-microservice.md), it should already be configured to use the static proxy.
 
 ## Configure Gateways
 The microservice template project has two gateway projects.
@@ -55,7 +55,7 @@ The microservice template project has two gateway projects.
 - **WebGateway** 
 - **PublicWebGateway**
 
-The first one is for the admin side and the other one is for the public side. If you would like to use your module on both sides, you should configure `ocelot.json ` in both projects. There is an example one below and you need to configure it according to your requirements.
+The first one is for the admin side and the other one is for the public side. If you would like to use your module on both sides, you should configure `ocelot.json ` in both projects. There is one example below and you need to configure it according to your requirements.
 
 ```json
 {
@@ -77,7 +77,7 @@ The first one is for the admin side and the other one is for the public side. If
 
 ## Build Errors Typo
 
-After completing adding your module, you should see some changes on the different pages to the inject dependencies. In `ProductServiceDbContext` the overridden method `OnModelCreating` may be a typo because of the parameter name. For example, for CmsKit comes with `builder` parameter name but in this class, the parameter name is `modelBuilder`. It's enough to change it with the correct one.
+After adding your module completely, you should see some changes on the different pages to the injected dependencies. In `ProductServiceDbContext` the overridden method `OnModelCreating` may be a typo because of the parameter name. For example, the CmsKit comes with the `builder` parameter name but in this class, the parameter name is `modelBuilder`. It's enough to change it with the correct one.
 
 ```csharp
 [ConnectionStringName(ProductServiceDbProperties.ConnectionStringName)]
@@ -93,13 +93,13 @@ public class ProductServiceDbContext : AbpDbContext<ProductServiceDbContext>
 
 ## Implementing ICmsKitDbContext
 
-After running adding module command, you should see your migration files under the `Migrations` in the `EntityFrameworkCore` project. If it's empty please make sure whether to implement `IModuleDbContext` or not. Once implemented, the compiler should warn you to import your entities here. Now, you're ready to create your migration properly by using the following command line:
+After running the add module command, you should see your migration files under the `Migrations` in the `EntityFrameworkCore` project. If it's empty please make sure whether to implement `IModuleDbContext` or not. Once implemented, the compiler should warn you to import your entities here. Now, you're ready to create your migration properly by using the following command line:
 
 ```powershell
 dotnet ef migrations add "InitialCmsKit"
 ```
 
-If you create your migrations properly, just you need to run the project. ABP Framework will handle it automatically.
+If you create your migrations properly, you just need to run the project. ABP Framework will handle it automatically.
 
 ```csharp
 [ConnectionStringName(ProductServiceDbProperties.ConnectionStringName)]
@@ -112,7 +112,7 @@ public class ProductServiceDbContext : AbpDbContext<ProductServiceDbContext>, IC
 }
 ```
 
-Now you should configure `AbpDbContextOptions` in the `ProductServiceEntityFrameworkCoreModule` under the `EntityFrameworkCore` project. Already you should see the configuration for your service in `ConfigureServices` for your project, but also need to configure it for the new module projects.
+Now you should configure `AbpDbContextOptions` in the `ProductServiceEntityFrameworkCoreModule` under the `EntityFrameworkCore` project.  You should already see the configuration for your service in the `ConfigureServices` method of your project, but you also need to configure it for the new module projects.
 
 ```csharp
 ProductServiceEntityFrameworkCoreModule
@@ -122,7 +122,7 @@ ProductServiceEntityFrameworkCoreModule
         //The other congiurations
         Configure<AbpDbContextOptions>(options =>
         {
-            //It comes via microservice template
+            //It comes via the microservice template
             options.Configure<ProductServiceDbContext>(c =>
             {
                 c.UseSqlServer(b =>
@@ -130,7 +130,7 @@ ProductServiceEntityFrameworkCoreModule
                     b.MigrationsHistoryTable("__ProductService_Migrations");
                 });
             });
-            //Need to add this configuration for CmsKiti implementation
+            //Need to add this configuration for the CmsKit implementation
             options.Configure<CmsKitDbContext>(c =>
             {
                 c.UseSqlServer(b =>
@@ -145,7 +145,7 @@ ProductServiceEntityFrameworkCoreModule
 
 ## Using Component
 
-If you would like to use the defined component in the module on your web page, you should add its related page on NuGet. After adding your package you should add the dependency to `YourModulePublicWebModule` as the following code
+If you would like to use the defined component in the module on your web page, you should add its related page on NuGet. After adding your package you should add the dependency to `YourModulePublicWebModule` as the following code:
 
 ```powershell
 abp add-package Volo.CmsKit.Web
@@ -161,7 +161,7 @@ public class PublicWebModule : AbpModule
 }
 ```
 
-Now you can use the components on your page. For example it's added into `Index.cshtml` under the `PublicWeb\Pages\Products`
+Now you can use the components on your page. For example it's added into `Index.cshtml` under `PublicWeb\Pages\Products`
 ```csharp
 @using @using Volo.CmsKit.Public.Web.Pages.CmsKit.Shared.Components.Commenting
 
@@ -171,9 +171,9 @@ Now you can use the components on your page. For example it's added into `Index.
 
 ## Configured External User
 
-To submit some components you need to log in to the system. Already you logged in to the system but your module database can be empty hence you need to check `IdentityService` for this user. 
+To submit some components you need to log in to the system. You're already logged in to the system but your module database can be empty, hence you need to check `IdentityService` for this user. 
 
-Firstly you should add service client to `IdentityServerDataSeeder` under the `IdentityService.HttpApi.Host`
+Firstly you should add the service client to `IdentityServerDataSeeder` under the `IdentityService.HttpApi.Host`
 
 ```csharp
 //The other configurations
@@ -189,7 +189,7 @@ await CreateClientAsync(
 );
 ```
 
-Then change your `appsetting.json` by adding the following code under the `ProductService.HttpApi.Host`
+Then change your `appsetting.json` by adding the following code under `ProductService.HttpApi.Host`
 ```json
 "RemoteServices": {
     "AbpIdentity": {
@@ -234,7 +234,7 @@ public class ProductServiceHttpApiHostModule : AbpModule
 }
 ```
 
-Finally, you need to map `CmsKit` to `ProductService` in `SharedHostingModule` under the `Shared.Hosting`
+Finally, you need to map `CmsKit` to `ProductService` in `SharedHostingModule` under `Shared.Hosting`
 ```csharp
 public override void ConfigureServices(ServiceConfigurationContext context)
 {
@@ -249,9 +249,9 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 }
 ```
 
-> Note: If you meet the same problem after doing these steps, please remove your volume on Docker and repeat the same steps to `IdentityService` to get the changes. 
+> Note: If you meet the same problem after doing these steps, please remove your volume on Docker and repeat the same steps on `IdentityService` to get the changes. 
 
-If you applied all steps correctly, you should see the below output after clicking the `Send` button.
+If you applied all the steps correctly, you should see the below output after clicking the `Send` button.
 
 ![first-comment](../images/first-comment.png)
 
