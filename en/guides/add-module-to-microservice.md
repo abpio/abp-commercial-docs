@@ -45,7 +45,7 @@ If the proxy is configured as `AddStaticHttpClientProxies`, you can start creati
 abp generate-proxy --type csharp --module cms-kit --url https://localhost:44335
 ```
 
-> Note: This port is used by `Public-Web`. You can check your port from `launchSetting.json`
+> Note: This port is used by `Public-Web`. You can check your port from `launchSetting.json`. Public Web calls to Public Web Gateway so it has called the related services and has generated proxy files. [For more](https://docs.abp.io/en/commercial/latest/startup-templates/microservice/gateways#public-web-gateway) 
 
 > If you have generated a new microservice with the ABP CLI by following the [add new microservice guide](https://docs.abp.io/en/commercial/latest/startup-templates/microservice/add-microservice.md), it should already have been configured to use the static proxy.
 
