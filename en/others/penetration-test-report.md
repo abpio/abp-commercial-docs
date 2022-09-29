@@ -189,7 +189,11 @@ X-Correlation-Id: 2c103514abd44a17b1ec792b6a5c1dc3
 **Description:** There are 248 URLs reported to be vulnerable against missing Anti-clickjacking header. The above 2 URLs are written to be examples. In this topic, the tools reports that the response does not include either `Content-Security-Policy` with 'frame-ancestors' directive or `X-Frame-Options` to protect against ClickJacking attacks.
 
 **Solution:** This vulnerability is same as "Content Security Policy (CSP) Header Not Set" and with the following issue, this is also being fixed.
-https://github.com/abpframework/abp/issues/14173. On the other hand `X-Frame-Options`  header is being added in the following middleware in ABP Framework core module: https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.AspNetCore/Volo/Abp/AspNetCore/Security/AbpSecurityHeadersMiddleware.cs#L20
+https://github.com/abpframework/abp/issues/14173. On the other hand `X-Frame-Options`  header is already being added in the following middleware in ABP Framework core module: https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.AspNetCore/Volo/Abp/AspNetCore/Security/AbpSecurityHeadersMiddleware.cs#L20.
+
+In the below screenshot it is seen that the header is being added. The reason that the OWASP ZAP tool reported this vulnerability is that, the project was running in Debug mode and the security headers are being added only in the Release mode.
+
+![image-20220929162325285](../images/pen-test-anti-clickjacking-header.png)
 
 Besides, there is a tracking issue for this vulnerability: https://github.com/abpframework/abp/issues/14175
 
