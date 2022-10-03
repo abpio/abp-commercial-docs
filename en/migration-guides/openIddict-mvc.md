@@ -57,6 +57,23 @@
 
   > Note: v6.0.0-rc.1 seems to be using `AddJwtBearer` for authorization. This is fixed in the next versions. If you are using v6.0.0-rc.1, it is safe to delete the jwt authentication and configure the authentication as shown above.
 
+  - In the **MyApplicationWebModule.cs** add `PreConfigureServices` like below with your application name as the audience:
+
+  ```csharp
+  public override void PreConfigureServices(ServiceConfigurationContext context)
+  {
+      PreConfigure<OpenIddictBuilder>(builder =>
+      {
+          builder.AddValidation(options =>
+          {
+              options.AddAudiences("MyApplication"); // Replace with your application name
+              options.UseLocalServer();
+              options.UseAspNetCore();
+          });
+      });
+  }
+  ```
+
 - In **MyApplicationWebModule.cs** `OnApplicationInitialization` method **remove IdentityServer and JwtToken midwares**:
 
   ```csharp
