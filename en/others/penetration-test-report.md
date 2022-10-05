@@ -405,7 +405,20 @@ Ensure that your web server, application server, load balancer, etc. is configur
 
 The `X-Powered-By` header is automatically being added by IIS or IIS Express. If you are running your application on IIS or IIS Express, you can simply remove this header by adding the below code into your `web.config` file. As ABP Commercial and open-source application templates do not include `web.config` file, you need to do this in your web project. For further information, see the following issue https://github.com/abpframework/abp/issues/14216.
 
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <system.webServer> 
+    <httpProtocol>
+      <customHeaders>
+        <remove name="x-powered-by" />
+      </customHeaders>
+    </httpProtocol>
+  </system.webServer>
+</configuration>
+```
 ![X-Powered-By Header](../images/pen-test-xpoweredby-header.png)
+
 
 ### Timestamp Disclosure - Unix [Risk: Low] — False Positive 
 
