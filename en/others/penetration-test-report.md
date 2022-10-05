@@ -306,7 +306,7 @@ If you want to set you can do it in [AbpRequestCultureCookieHelper](https://gith
 The related issue for this alert is https://github.com/abpframework/abp/issues/14214.
 
 
-### Cookie with SameSite Attribute None [Risk: Low] — Positive 
+### Cookie with SameSite Attribute None [Risk: Low] — Positive (No need a fix)
 
 * *[GET] — https://localhost:44378 (and there are several URLs)*
 
@@ -316,9 +316,9 @@ A cookie has been set with its `SameSite ` attribute set to `none`, which means 
 
 **Solution:** 
 
-Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` for all cookies. This vulnerability will be fixed with the following issue https://github.com/abpframework/abp/issues/14215.
+Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` for all cookies. You can see the Amazon.com `SameSite` attribute policy. This vulnerability will be fixed with the following issue https://github.com/abpframework/abp/issues/14215.
 
-
+![Amazon.com SameSite attribute policy ](../images/pen-test-samesite-attribute.png)
 
 ### Cookie without `SameSite` Attribute [Risk: Low] — Positive 
 
