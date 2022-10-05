@@ -464,8 +464,8 @@ https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.AspNetCore/V
 
 But in some URLs the penetration tools reported that the response has no  `X-Content-Type-Options` header. This situation will be checked and revised with the following issue https://github.com/abpframework/abp/issues/14217.
 
-> The other vulnerabilities are *Informational* alerts.  There is no need to take any action for *Information* level findings as they are not exploitable.
+The other vulnerabilities are *Informational* alerts.  There is no need to take any action for *Information* level findings as they are not exploitable.
 
 ---
 
-You can report any suspected security vulnerabilities related to the ABP Framework to info@abp.io.
+> You can report any suspected security vulnerabilities related to the ABP Framework to info@abp.io.
