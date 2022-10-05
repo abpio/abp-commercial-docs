@@ -259,7 +259,7 @@ The reported pages contain an error/warning message that may disclose sensitive 
 
 This vulnerability was reported as a positive alert because the application ran on `Development` mode. ABP Framework throws exceptions for developers in the `Development` environment. We set the environment to `Production` and re-run the test, then the server sent a 500-Internal Error. Therefore this alert is false-positive. Further information can be found at the following issue https://github.com/abpframework/abp/issues/14177.
 
-### Cookie No `HttpOnly`  [Risk: Low] — Positive 
+### Cookie No `HttpOnly`  [Risk: Low] — Positive (No need a fix)
 
 * *[GET] — https://localhost:44378*
 
@@ -269,7 +269,8 @@ A cookie has been set without the secure flag, which means that the cookie can b
 
 **Solution:** 
 
-All the pages that are setting `XSRF-TOKEN` in the HTTP response are reported as -No `HttpOnly` Flag- alert. This is a positive alert and will be fixed with the following issue https://github.com/abpframework/abp/issues/14214.
+All the pages that are setting `XSRF-TOKEN` in the HTTP response are reported as "No `HttpOnly` Flag" alert. This is a positive alert but there is no need a fix at the moment. The reason is `XSRF-TOKEN` is being used in the ABP Angular frontend. And it is being retrieved from the cookies via JavaScript, therefore cannot set as `HttpOnly`. If you are using MVC or Blazor Server you can set this cookie as `HttpOnly` in [AbpAntiForgeryOptions](https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.AspNetCore.Mvc/Volo/Abp/AspNetCore/Mvc/AntiForgery/AbpAntiForgeryOptions.cs#L56) class.
+and further information can be found at https://github.com/abpframework/abp/issues/14214.
 
 
 
