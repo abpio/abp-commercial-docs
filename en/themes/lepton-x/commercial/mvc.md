@@ -3,10 +3,12 @@ LeptonX theme is implemented and ready to use with ABP Commercial. No custom imp
 
 ## Installation
 
-- Install package to your **Web** project with CLI.
+- Install package to your **Web** project with the following CLI command:
+
 ```bash
-abp add-package Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX --prerelease
+dotnet add package Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX --prerelease
 ```
+
 - Remove `Volo.Abp.AspNetCore.Mvc.UI.Theme.Lepton` and `Volo.Abp.LeptonTheme.Management.Web` references from the project since it's not necessary after switching to LeptonX.
 
 - Make sure the old theme is removed and LeptonX is added in your Module class.
