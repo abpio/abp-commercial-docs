@@ -267,14 +267,13 @@ This vulnerability was reported as a positive alert because the application ran 
 
 A cookie has been set without the secure flag, which means that the cookie can be accessed via unencrypted connections.
 
-**Solution:** 
+**Explanation:** 
 
-All the pages that are setting `XSRF-TOKEN` in the HTTP response are reported as "No `HttpOnly` Flag" alert. This is a positive alert but there is no need a fix at the moment. The reason is `XSRF-TOKEN` is being used in the ABP Angular frontend. And it is being retrieved from the cookies via JavaScript, therefore cannot set as `HttpOnly`. If you are using MVC or Blazor Server you can set this cookie as `HttpOnly` in [AbpAntiForgeryOptions](https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.AspNetCore.Mvc/Volo/Abp/AspNetCore/Mvc/AntiForgery/AbpAntiForgeryOptions.cs#L56) class.
-and further information can be found at https://github.com/abpframework/abp/issues/14214.
-
+The following alert also includes this issue. To understand this alert, you can take a look at the next alert: _Cookie Without Secure Flag [Risk: Low]_
 
 
-### Cookie Without Secure Flag [Risk: Low] — Positive 
+
+### Cookie Without Secure Flag [Risk: Low] — Positive (No need a fix)
 
 * *[GET] — https://localhost:44378 (and there are several URLs)*
 
@@ -284,10 +283,27 @@ and further information can be found at https://github.com/abpframework/abp/issu
 * `.AspNetCore.Culture` (ASP.NET Core culture cookie)
 * `idsrv.session` (Identity Server 4 cookie)
 
-**Solution:** 
+**Explanation:** 
 
-All the pages that are setting `XSRF-TOKEN` , `.AspNetCore.Culture` and `idsrv.session` in the HTTP response are reported as "No `HttpOnly` Flag" vulnerability. This is a positive alert. `idsrv.session` cookie is being used in IDS4 and after ABP 6.x the support for IDS will be dropped therefore this cookie will not be used anymore. This vulnerability will be fixed with the following issue https://github.com/abpframework/abp/issues/14214.
+All the pages that are setting `XSRF-TOKEN` , `.AspNetCore.Culture` and `idsrv.session` in the HTTP response are reported as "No `HttpOnly` Flag" vulnerability. This is a positive alert. `idsrv.session` cookie is being used in IDS4 and after ABP 6.x the support for IDS will be dropped therefore this cookie will not be used anymore. Also, there is an issue related to the `idsrv.session` cookie cannot be set as `HttpOnly`; you can see the related thread at its own repository https://github.com/IdentityServer/IdentityServer4/issues/3873. 
 
+On the other hand, the cookies `.AspNetCore.Culture` and `XSRF-TOKEN` are being retrieved via JavaScript in ABP Angular, MVC and Blazor WASM projects. Therefore cannot be set as `HttpOnly`. You can check out the following modules that retrieve these cookies via JavaScript:
+
+* https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.Swashbuckle/wwwroot/swagger/ui/abp.swagger.js#L28
+* https://github.com/abpframework/abp/blob/dev/modules/cms-kit/src/Volo.CmsKit.Admin.Web/Pages/CmsKit/Pages/update.js#L54
+* https://github.com/abpframework/abp/blob/dev/modules/cms-kit/src/Volo.CmsKit.Admin.Web/Pages/CmsKit/Pages/create.js#L84
+* https://github.com/abpframework/abp/blob/392beb897bb2d7214db8facba7a2022be7aa837c/modules/cms-kit/src/Volo.CmsKit.Admin.Web/Pages/CmsKit/BlogPosts/update.js#L91
+* https://github.com/abpframework/abp/blob/dev/modules/cms-kit/src/Volo.CmsKit.Admin.Web/Pages/CmsKit/BlogPosts/create.js#L127
+* https://github.com/abpframework/abp/blob/dev/modules/docs/app/VoloDocs.Web/wwwroot/libs/abp/jquery/abp.jquery.js#L261
+* https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.AspNetCore.Components.Web/Volo/Abp/AspNetCore/Components/Web/AbpBlazorClientHttpMessageHandler.cs#L94
+
+**Setting `XSRF-TOKEN` cookie as `HttpOnly`:**
+If you want to set  you can do it in [AbpAntiForgeryOptions](https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.AspNetCore.Mvc/Volo/Abp/AspNetCore/Mvc/AntiForgery/AbpAntiForgeryOptions.cs#L56) class.
+
+**Setting `.AspNetCore.Culture` cookie as `HttpOnly`:**
+If you want to set you can do it in [AbpRequestCultureCookieHelper](https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.AspNetCore/Microsoft/AspNetCore/RequestLocalization/AbpRequestCultureCookieHelper.cs#L16) class. Set the option `HttpOnly = true`.
+
+The related issue for this alert is https://github.com/abpframework/abp/issues/14214.
 
 
 ### Cookie with SameSite Attribute None [Risk: Low] — Positive 
