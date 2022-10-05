@@ -233,7 +233,7 @@ The identified library jQuery, version 3.3.1 is vulnerable.
 
 The ABP templates uses jQuery v3.6.0 and it is configured at https://github.com/abpframework/abp/blob/dev/npm/packs/jquery/package.json#L14. Even it's configured to use the not vulnerable version, the templates uses the v3.3.1. This issue is being tracked at https://github.com/abpframework/abp/issues/14176.
 
-### Application Error Disclosure [Risk: Low] — Positive (Fixed)
+### Application Error Disclosure [Risk: Low] — False Positive (Fixed)
 
 - *[POST] — https://localhost:44378/Account/ImpersonateTenant*
 - *[POST] — https://localhost:44378/Account/ImpersonateUser*  
@@ -255,9 +255,9 @@ The ABP templates uses jQuery v3.6.0 and it is configured at https://github.com/
 
 The reported pages contain an error/warning message that may disclose sensitive information like the location of the file that produced the unhandled exception. This information can be used to launch further attacks against the web application. The alert could be a false positive if the error message is found inside a documentation page.
 
-**Solution:** 
+**Explanation:** 
 
-This vulnerability has been fixed with the following issue https://github.com/abpframework/abp/issues/14177.
+This vulnerability was reported as a positive alert because the application ran on `Development` mode. ABP Framework throws exceptions for developers in the `Development` environment. We set the environment to `Production` and re-run the test, then the server sent a 500-Internal Error. Therefore this alert is false-positive. Further information can be found at the following issue https://github.com/abpframework/abp/issues/14177.
 
 ### Cookie No `HttpOnly`  [Risk: Low] — Positive 
 
