@@ -388,10 +388,10 @@ The following 2 responses are the responses of https://localhost:44378/api/langu
 
 
 
-### Server Leaks Information via "X-Powered-By" Header [Risk: Low] — Positive 
+### Server Leaks Information via "X-Powered-By" Header [Risk: Low] — Positive (Fix on your project)
 
-* *[GET] —* https://localhost:44378/Account/Login?ReturnUrl=%2FLanguageManagement%2FTexts 
-* *[POST] —* https://localhost:44378/LanguageManagement/Texts 
+* *[GET] — https://localhost:44378/Account/Login*
+* *[POST] — https://localhost:44378/LanguageManagement/Texts*
 
 **Description:**  
 
@@ -403,7 +403,7 @@ Ensure that your web server, application server, load balancer, etc. is configur
 
 **Explanation:** 
 
-The `X-Powered-By` header is provided by ASP.NET Core and it will be removed from these URLs with the following issue https://github.com/abpframework/abp/issues/14216.
+The `X-Powered-By` header is automatically being added by IIS or IIS Express. If you are running your application on IIS or IIS Express, you can simply remove this header by adding the below code into your `web.config` file. As ABP Commercial and open-source application templates do not include `web.config` file, you need to do this in your web project. For further information, see the following issue https://github.com/abpframework/abp/issues/14216.
 
 ![X-Powered-By Header](../images/pen-test-xpoweredby-header.png)
 
