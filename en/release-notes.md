@@ -2,11 +2,9 @@
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
 
-## 6.0 (2022-07-26)
+## 6.0 (2022-10-05)
 
-> This version is currently in preview. The planned stable release date is September 06, 2022.
-
-See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-6.0-RC-Has-Been-Published)** for the v6.0 release.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-6.0-Final-Has-Been-Released)** for the v6.0 release.
 
 * New **OpenIddict** integration module (replacing the IdentityServer integration module).
 * The **[LeptonX theme](https://x.leptontheme.com/)** is the default theme now, allowing to use the [old Lepton](https://leptontheme.com/) theme too.
