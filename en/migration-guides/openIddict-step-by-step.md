@@ -15,11 +15,11 @@ Use the `abp update` command to update your existing application. See the [Upgra
 
 - In **MyApplication.Domain.Shared.csproj** replace the **project reference**:
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.Domain.Shared" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.IdentityServer.Domain.Shared" Version="6.0.*" />
   ```
   with   
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.Domain.Shared" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.OpenIddict.Domain.Shared" Version="6.0.*" />
   ```
 
 - In **MyApplicationDomainSharedModule.cs** replace the usings and **module dependencies:**
@@ -40,15 +40,15 @@ Use the `abp update` command to update your existing application. See the [Upgra
 - In **MyApplication.Domain.csproj** replace the **project references**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.Domain" Version="6.0.0-rc.5" />
-  <PackageReference Include="Volo.Abp.PermissionManagement.Domain.IdentityServer" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.IdentityServer.Domain" Version="6.0.*" />
+  <PackageReference Include="Volo.Abp.PermissionManagement.Domain.IdentityServer" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.Domain" Version="6.0.0-rc.5" />
-  <PackageReference Include="Volo.Abp.PermissionManagement.Domain.OpenIddict" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.OpenIddict.Domain" Version="6.0.*" />
+  <PackageReference Include="Volo.Abp.PermissionManagement.Domain.OpenIddict" Version="6.0.*" />
   ```
 
 - In **MyApplicationDomainModule.cs** replace the usings and **module dependencies**:
@@ -85,13 +85,13 @@ If you are using MongoDB, skip this step and check the *MongoDB* layer section.
 - In **MyApplication.EntityFrameworkCore.csproj** replace the **project reference**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.EntityFrameworkCore" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.IdentityServer.EntityFrameworkCore" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.EntityFrameworkCore" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.OpenIddict.EntityFrameworkCore" Version="6.0.*" />
   ```
 
 - In **MyApplicationEntityFrameworkCoreModule.cs** replace the usings and **module dependencies**:
@@ -149,13 +149,13 @@ If you are using EntityFrameworkCore, skip this step and check the *EntityFramew
 - In **MyApplication.MongoDB.csproj** replace the **project reference**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.MongoDB" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.IdentityServer.MongoDB" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.MongoDB" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.OpenIddict.MongoDB" Version="6.0.*" />
   ```
 
 - In **MyApplicationMongoDbModule.cs** replace the usings and **module dependencies**:
@@ -218,13 +218,13 @@ for creating the host builder.
 - In **MyApplication.Application.Contracts.csproj** replace the **project reference**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.Application.Contracts" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.IdentityServer.Application.Contracts" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.Pro.Application.Contracts" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.OpenIddict.Pro.Application.Contracts" Version="6.0.*" />
   ```
 
 - In **MyApplicationApplicationContractsModule.cs** replace the usings and **module dependencies**:
@@ -248,13 +248,13 @@ for creating the host builder.
 - In **MyApplication.Application.csproj** replace the **project reference**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.Application" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.IdentityServer.Application" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.Pro.Application" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.OpenIddict.Pro.Application" Version="6.0.*" />
   ```
 
 - In **MyApplicationApplicationModule.cs** replace the usings and **module dependencies**:
@@ -278,13 +278,13 @@ for creating the host builder.
 - In **MyApplication.HttpApi.csproj** replace the **project reference**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.HttpApi" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.IdentityServer.HttpApi" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.Pro.HttpApi" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.OpenIddict.Pro.HttpApi" Version="6.0.*" />
   ```
 
 - In **MyApplicationHttpApiModule.cs** replace the usings and **module dependencies**:
@@ -308,13 +308,13 @@ for creating the host builder.
 - In **MyApplication.HttpApi.Client.csproj** replace the **project reference**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.HttpApi.Client" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.IdentityServer.HttpApi.Client" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.Pro.HttpApi.Client" Version="6.0.0-rc.5" />
+  <PackageReference Include="Volo.Abp.OpenIddict.Pro.HttpApi.Client" Version="6.0.*" />
   ```
 
 - In **MyApplicationHttpApiModule.cs** replace the usings and **module dependencies**:
