@@ -356,6 +356,10 @@ for creating the host builder.
   ```
 
   from `PreConfigureServices`.
+  
+### Migration
+Add a new migration that reflects the underlying changes via 
+dotnet ef migrations add AbpOpenIddictMigration
 
 ### UI Layer
 
