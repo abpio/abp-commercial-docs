@@ -14,6 +14,7 @@ The following features are provided by the open source CMS Kit module:
 - [**Rating**](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit/Ratings) system to add rating feature to any kind of resource.
 - [**Menu**](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit/Menus) system to manage public menus dynamically.
 - [**Global resources**](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit/Global-Resources) system to add global styles and scripts dynamically.
+- [**Dynamic widget**](https://docs.abp.io/en/abp/latest/Modules/Cms-Kit/Dynamic-Widget) system to create dynamic widgets for page and blog posts.
 
 And the following features are provided by the CMS Kit pro version:
 
