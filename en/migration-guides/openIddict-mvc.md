@@ -5,15 +5,15 @@
 - In **MyApplication.Web.csproj** replace **project references**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.Account.Pro.Public.Web.IdentityServer" Version="6.0.0-rc.1" />
-  <PackageReference Include="Volo.Abp.IdentityServer.Web" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.Account.Pro.Public.Web.IdentityServer" Version="6.0.*" />
+  <PackageReference Include="Volo.Abp.IdentityServer.Web" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.Account.Pro.Public.Web.OpenIddict" Version="6.0.0-rc.1" />
-  <PackageReference Include="Volo.Abp.OpenIddict.Pro.Web" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.Account.Pro.Public.Web.OpenIddict" Version="6.0.*" />
+  <PackageReference Include="Volo.Abp.OpenIddict.Pro.Web" Version="6.0.*" />
   ```
 
 - In **MyApplicationWebModule.cs** replace usings and **module dependencies**:
@@ -57,6 +57,23 @@
 
   > Note: v6.0.0-rc.1 seems to be using `AddJwtBearer` for authorization. This is fixed in the next versions. If you are using v6.0.0-rc.1, it is safe to delete the jwt authentication and configure the authentication as shown above.
 
+  - In the **MyApplicationWebModule.cs** add `PreConfigureServices` like below with your application name as the audience:
+
+  ```csharp
+  public override void PreConfigureServices(ServiceConfigurationContext context)
+  {
+      PreConfigure<OpenIddictBuilder>(builder =>
+      {
+          builder.AddValidation(options =>
+          {
+              options.AddAudiences("MyApplication"); // Replace with your application name
+              options.UseLocalServer();
+              options.UseAspNetCore();
+          });
+      });
+  }
+  ```
+
 - In **MyApplicationWebModule.cs** `OnApplicationInitialization` method **remove IdentityServer and JwtToken midwares**:
 
   ```csharp
@@ -68,13 +85,13 @@
 - In **MyApplication.Web.csproj** replace **project references**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.Web" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.IdentityServer.Web" Version="6.0.*" />
   ```
   
   with   
   
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.Pro.Web" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.OpenIddict.Pro.Web" Version="6.0.*" />
   ```
   
 - In **MyApplicationWebModule.cs** replace usings and **module dependencies**:
@@ -143,13 +160,13 @@ This project is renamed to **AuthServer** after v6.0.0-rc1. You can also refacto
 - In **MyApplication.IdentityServer.csproj** replace **project references**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.Account.Pro.Public.Web.IdentityServer" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.Account.Pro.Public.Web.IdentityServer" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.Account.Pro.Public.Web.OpenIddict" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.Account.Pro.Public.Web.OpenIddict" Version="6.0.*" />
   ```
 
 - In **MyApplicationIdentityServerModule.cs** replace usings and **module dependencies**:

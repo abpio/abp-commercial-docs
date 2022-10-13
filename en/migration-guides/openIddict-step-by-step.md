@@ -3,26 +3,26 @@
 This guide provides layer-by-layer guidance for migrating your existing application to OpenIddict. Since OpenIddict is only available with ABP v6.0, you will need to update your existing application in order to apply OpenIddict changes.
 
 ## History
-We are not removing Identity Server packages and we will continue to release new versions of IdentityServer-related NuGet/NPM packages. That means you won't have an issue while upgrading to v6.0 when the stable version releases. We will continue to fix bugs in our packages for a while. ABP 7.0 will be based on .NET 7. If Identity Server continues to work with .NET 7, we will also continue to ship NuGet packages for our IDS integration.
+We are not removing the Identity Server packages and we will continue to release new versions of IdentityServer-related NuGet/NPM packages. That means you won't have an issue while upgrading to v6.0 when the stable version is released. We will continue to fix bugs in our packages for a while. ABP 7.0 will be based on .NET 7. If Identity Server continues to work with .NET 7, we will also continue to ship NuGet packages for our IDS integration.
 
 On the other hand, Identity Server ends support for the open-source Identity Server at the end of 2022. The Identity Server team has decided to move to Duende IDS and ABP will not be migrated to the commercial Duende IDS. You can see the Duende Identity Server announcement from [this link](https://blog.duendesoftware.com/posts/20220111_fair_trade). 
 
 ## OpenIddict Migration Steps
 
-Use the `abp update` command to update your existing application. See [Upgrading docs](../Upgrading.md) for more info. Apply required migrations by following the [Migration Guides](Index.md) based on your application version.
+Use the `abp update` command to update your existing application. See the [Upgrading docs](../Upgrading.md) for more info. Apply the required migrations by following the [Migration Guides](Index.md) based on your application version.
 
 ### Domain.Shared Layer
 
-- In **MyApplication.Domain.Shared.csproj** replace **project reference**:
+- In **MyApplication.Domain.Shared.csproj** replace the **project reference**:
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.Domain.Shared" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.IdentityServer.Domain.Shared" Version="6.0.*" />
   ```
   with   
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.Domain.Shared" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.OpenIddict.Domain.Shared" Version="6.0.*" />
   ```
 
-- In **MyApplicationDomainSharedModule.cs** replace usings and **module dependencies:**
+- In **MyApplicationDomainSharedModule.cs** replace the usings and **module dependencies:**
 
   ```csharp
   using Volo.Abp.IdentityServer;
@@ -37,21 +37,21 @@ Use the `abp update` command to update your existing application. See [Upgrading
 
 ### Domain Layer
 
-- In **MyApplication.Domain.csproj** replace **project references**:
+- In **MyApplication.Domain.csproj** replace the **project references**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.Domain" Version="6.0.0-rc.1" />
-  <PackageReference Include="Volo.Abp.PermissionManagement.Domain.IdentityServer" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.IdentityServer.Domain" Version="6.0.*" />
+  <PackageReference Include="Volo.Abp.PermissionManagement.Domain.IdentityServer" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.Domain" Version="6.0.0-rc.1" />
-  <PackageReference Include="Volo.Abp.PermissionManagement.Domain.OpenIddict" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.OpenIddict.Domain" Version="6.0.*" />
+  <PackageReference Include="Volo.Abp.PermissionManagement.Domain.OpenIddict" Version="6.0.*" />
   ```
 
-- In **MyApplicationDomainModule.cs** replace usings and **module dependencies**:
+- In **MyApplicationDomainModule.cs** replace the usings and **module dependencies**:
 
   ```csharp
   using Volo.Abp.IdentityServer;
@@ -74,7 +74,7 @@ Use the `abp update` command to update your existing application. See [Upgrading
 #### OpenIddictDataSeedContributor
 
 - Create a folder named *OpenIddict* under the Domain project and copy the [OpenIddictDataSeedContributor.cs](https://github.com/abpframework/abp-samples/blob/master/Ids2OpenId/src/Ids2OpenId.Domain/OpenIddict/OpenIddictDataSeedContributor.cs) under this folder. **Rename** all the `Ids2OpenId` with your project name.
-- Delete *IdentityServer* folder that contains `IdentityServerDataSeedContributor.cs` which is no longer needed.
+- Delete the *IdentityServer* folder that contains `IdentityServerDataSeedContributor.cs` which is no longer needed.
 
 You can also create a project with the same name and copy the `OpenIddict` folder of the new project into your project.
 
@@ -82,19 +82,19 @@ You can also create a project with the same name and copy the `OpenIddict` folde
 
 If you are using MongoDB, skip this step and check the *MongoDB* layer section.
 
-- In **MyApplication.EntityFrameworkCore.csproj** replace **project reference**:
+- In **MyApplication.EntityFrameworkCore.csproj** replace the **project reference**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.EntityFrameworkCore" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.IdentityServer.EntityFrameworkCore" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.EntityFrameworkCore" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.OpenIddict.EntityFrameworkCore" Version="6.0.*" />
   ```
 
-- In **MyApplicationEntityFrameworkCoreModule.cs** replace usings and **module dependencies**:
+- In **MyApplicationEntityFrameworkCoreModule.cs** replace the usings and **module dependencies**:
 
   ```csharp
   using Volo.Abp.IdentityServer.EntityFrameworkCore;
@@ -110,7 +110,7 @@ If you are using MongoDB, skip this step and check the *MongoDB* layer section.
   typeof(AbpOpenIddictEntityFrameworkCoreModule),
   ```
 
-- In **MyApplicationDbContext.cs** replace usings and **fluent api configurations**:
+- In **MyApplicationDbContext.cs** replace the usings and **fluent api configurations**:
 
   ```csharp
   using Volo.Abp.IdentityServer.EntityFrameworkCore;
@@ -146,19 +146,19 @@ If you are using MongoDB, skip this step and check the *MongoDB* layer section.
 
 If you are using EntityFrameworkCore, skip this step and check the *EntityFrameworkCore* layer section.
 
-- In **MyApplication.MongoDB.csproj** replace **project reference**:
+- In **MyApplication.MongoDB.csproj** replace the **project reference**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.MongoDB" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.IdentityServer.MongoDB" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.MongoDB" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.OpenIddict.MongoDB" Version="6.0.*" />
   ```
 
-- In **MyApplicationMongoDbModule.cs** replace usings and **module dependencies**:
+- In **MyApplicationMongoDbModule.cs** replace the usings and **module dependencies**:
 
   ```csharp
   using Volo.Abp.IdentityServer.MongoDB;
@@ -176,7 +176,7 @@ If you are using EntityFrameworkCore, skip this step and check the *EntityFramew
 
 ### DbMigrator Project
 
-- In **MyApplication.DbMigrator.csproj** **add project reference**:
+- In **MyApplication.DbMigrator.csproj** **add the project reference**:
 
   ```csharp
   <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
@@ -184,7 +184,7 @@ If you are using EntityFrameworkCore, skip this step and check the *EntityFramew
 
 for creating the host builder.
 
-- In `appsettings.json` **replace IdentityServer section with OpenIddict:**
+- In `appsettings.json` **replace the IdentityServer section with OpenIddict:**
 
   ```json
   "OpenIddict": {
@@ -215,19 +215,19 @@ for creating the host builder.
 
 ### Application Contracts Layer
 
-- In **MyApplication.Application.Contracts.csproj** replace **project reference**:
+- In **MyApplication.Application.Contracts.csproj** replace the **project reference**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.Application.Contracts" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.IdentityServer.Application.Contracts" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.Pro.Application.Contracts" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.OpenIddict.Pro.Application.Contracts" Version="6.0.*" />
   ```
 
-- In **MyApplicationApplicationContractsModule.cs** replace usings and **module dependencies**:
+- In **MyApplicationApplicationContractsModule.cs** replace the usings and **module dependencies**:
 
   ```csharp
   using Volo.Abp.IdentityServer;
@@ -245,19 +245,19 @@ for creating the host builder.
 
 ### Application Layer
 
-- In **MyApplication.Application.csproj** replace **project reference**:
+- In **MyApplication.Application.csproj** replace the **project reference**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.Application" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.IdentityServer.Application" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.Pro.Application" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.OpenIddict.Pro.Application" Version="6.0.*" />
   ```
 
-- In **MyApplicationApplicationModule.cs** replace usings and **module dependencies**:
+- In **MyApplicationApplicationModule.cs** replace the usings and **module dependencies**:
 
   ```csharp
   using Volo.Abp.IdentityServer;
@@ -275,19 +275,19 @@ for creating the host builder.
 
 ### HttpApi Layer
 
-- In **MyApplication.HttpApi.csproj** replace **project reference**:
+- In **MyApplication.HttpApi.csproj** replace the **project reference**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.HttpApi" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.IdentityServer.HttpApi" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.Pro.HttpApi" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.OpenIddict.Pro.HttpApi" Version="6.0.*" />
   ```
 
-- In **MyApplicationHttpApiModule.cs** replace usings and **module dependencies**:
+- In **MyApplicationHttpApiModule.cs** replace the usings and **module dependencies**:
 
   ```csharp
   using Volo.Abp.IdentityServer;
@@ -305,19 +305,19 @@ for creating the host builder.
 
 ### HttpApi.Client Layer
 
-- In **MyApplication.HttpApi.Client.csproj** replace **project reference**:
+- In **MyApplication.HttpApi.Client.csproj** replace the **project reference**:
 
   ```csharp
-  <PackageReference Include="Volo.Abp.IdentityServer.HttpApi.Client" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.IdentityServer.HttpApi.Client" Version="6.0.*" />
   ```
 
   with   
 
   ```csharp
-  <PackageReference Include="Volo.Abp.OpenIddict.Pro.HttpApi.Client" Version="6.0.0-rc.1" />
+  <PackageReference Include="Volo.Abp.OpenIddict.Pro.HttpApi.Client" Version="6.0.*" />
   ```
 
-- In **MyApplicationHttpApiModule.cs** replace usings and **module dependencies**:
+- In **MyApplicationHttpApiModule.cs** replace the usings and **module dependencies**:
 
   ```csharp
   using Volo.Abp.IdentityServer;
@@ -356,6 +356,10 @@ for creating the host builder.
   ```
 
   from `PreConfigureServices`.
+  
+### Migration
+Add a new migration that reflects the underlying changes via 
+dotnet ef migrations add AbpOpenIddictMigration
 
 ### UI Layer
 
@@ -364,7 +368,7 @@ for creating the host builder.
 - [Blazor-Server UI Migration](openIddict-blazor-server.md)
 - [Blazor-Wasm UI Migration](openIddict-blazor.md)
 
-## Source code of samples and module
+## Source code of the samples and module
 
 * [Open source tiered & separate auth server application migrate Identity Server to OpenIddct](https://github.com/abpframework/abp-samples/tree/master/Ids2OpenId)
 * [Commercial tiered & separate auth server application migrate Identity Server to OpenIddct](https://abp.io/Account/Login?returnUrl=/api/download/samples/Ids2OpenId)

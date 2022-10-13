@@ -1,63 +1,94 @@
 # Microservice Startup Template: Database Migrations
 
-> Running Sql-Server infrastructural service is required since default connection strings for microservices use Sql-Server running on container.
+> Running SQL-Server infrastructural service is required since default connection strings for microservices use SQL-Server running on container.
 
 There are **two ways** to migrate databases and seed data for microservices. Either one of them or both of them can be used as long as data seeders are synced.
 
 ## Auto Migration (On-the-fly Migration)
 
-> RabbitMq infrastructural service is also required for auto migration along with Sql-Server.
+> RabbitMq infrastructural service is required for auto migration along with SQL-Server.
 
-The aspect of auto migration is, *each microservice migrating its own database and seeding its own data*. To achieve this, each microservice checks pending migration and handles it on its own. 
+The aspect of auto migration is, that *each microservice migrates its own database and seeds its own data*. To achieve this, each microservice checks pending migration and handles it on its own. To achieve that, microservices acquire a distributed lock and apply the database migration to prevent multiple replicas to try migrating the already migrated database.
 
-Microservices has **DbMigrations** folder that contains *DatabaseMigrationChecker* and *DatabaseMigrationEventHandler* specific to that microservice. Since this behavior is shared across all the microservices, it has been defined as `PendingMigrationsCheckerBase` and `DatabaseMigrationEventHandlerBase` under shared **Hosting Microservices** project *DbMigrations* folder.
+Microservices have a **DbMigrations** folder that contains *DatabaseMigrationChecker* and *DatabaseMigrationEventHandler* specific to that microservice. Since this behavior is shared across all the microservices, it has been defined as `PendingEfCoreMigrationsChecker`.
 
-Microservices runs the *DatabaseMigrationChecker* at `OnPostApplicationInitialization` method.  If any pending migration exists, new `ApplyDatabaseMigrationsEto` event is published to [DistributedEventBus](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus) to queue migration. 
+Each microservice extends the `PendingEfCoreMigrationsChecker` and runs the *DatabaseMigrationChecker* at `OnPostApplicationInitialization` method.  
+
+Each migration *tries* to lock and apply database migrations under `PendingEfCoreMigrationsChecker` base class:
 
 ```csharp
-public virtual async Task CheckAsync()
+public virtual async Task CheckAndApplyDatabaseMigrationsAsync()
 {
-    ...
-    
-    var pendingMigrations = await ServiceProvider
-        .GetRequiredService<TDbContext>()
-        .Database
-        .GetPendingMigrationsAsync();
-
-    if (pendingMigrations.Any())
-    {
-        await DistributedEventBus.PublishAsync(
-            new ApplyDatabaseMigrationsEto
-            {
-                DatabaseName = DatabaseName
-            }
-        );
-    }
-    
-    ...
+    await TryAsync(LockAndApplyDatabaseMigrationsAsync);
 }
 ```
 
-Each migration handles its own database migration under `HandleEventAsync(ApplyDatabaseMigrationsEto eventData)` method of *DatabaseMigrationEventHandler*.
+The retry mechanism is implemented under the `TryAsync` method if the database is not reachable or not ready yet. By default, it has 3 retry counts and this can be modified under the `PendingMigrationsCheckerBase`. The [distributed lock](https://docs.abp.io/en/abp/latest/Distributed-Locking) is used to prevent multiple concurrent applications (replicas) are trying to migrate the same database.
+
+Under the `LockAndApplyDatabaseMigrationsAsync` method, when the distributed lock is acquired; the database is migrated based on pending migrations:
+
+```csharp
+public async Task LockAndApplyDatabaseMigrationsAsync()
+{
+   await using (var handle = await DistributedLock.TryAcquireAsync("Migration_" + DatabaseName))
+   {
+       if (handle is null)
+       {
+           return;
+       }
+
+       using (CurrentTenant.Change(null))
+       {
+           // Create database tables if needed
+           using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: false))
+           {
+               var dbContext = await ServiceProvider
+                   .GetRequiredService<IDbContextProvider<TDbContext>>()
+                   .GetDbContextAsync();
+
+               var pendingMigrations = await dbContext
+                   .Database
+                   .GetPendingMigrationsAsync();
+
+               if (pendingMigrations.Any())
+               {
+                   await dbContext.Database.MigrateAsync();
+               }
+
+               await uow.CompleteAsync();
+           }
+       }
+   }
+}
+```
+
+On-the-fly migration is achieved by using the distributed event system by handling the `ApplyDatabaseMigrationsEto` distributed event in the `DatabaseMigrationEventHandler`.
 
 ```csharp
 public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
 {
-    ...
-        
-    var schemaMigrated = await MigrateDatabaseSchemaAsync(eventData.TenantId);
-
-    if (eventData.TenantId == null && schemaMigrated)
+    if (eventData.DatabaseName != DatabaseName)
     {
-        /* Migrate tenant databases after host migration */
-        await QueueTenantMigrationsAsync();
+        return;
     }
 
-    ...
+    try
+    {
+        var schemaMigrated = await MigrateDatabaseSchemaAsync(eventData.TenantId);
+
+        if (eventData.TenantId == null && schemaMigrated)
+        {
+            await QueueTenantMigrationsAsync();
+        }
+    }
+    catch (Exception ex)
+    {
+        await HandleErrorOnApplyDatabaseMigrationAsync(eventData, ex);
+    }
 }
 ```
 
-**Tenant Migrations** are also handled after host database migrations by queueing a new `ApplyDatabaseMigrationsEto` event passing *TenantId* argument.
+After the host database migrations by queueing a new `ApplyDatabaseMigrationsEto` event passing *TenantId* argument.
 
 ```csharp
 protected virtual async Task QueueTenantMigrationsAsync()
@@ -92,11 +123,11 @@ protected virtual async Task<bool> MigrateDatabaseSchemaAsync(Guid? tenantId)
 }
 ```
 
-With this feature; newly created tenant with a specified connection string will have it's new database automatically created with all the tables and the initial seed data if available. Tenant management UI also has manually trigger for database creation & migration in case any problem occurs with automatic migration.
+With this feature; the newly created tenant with a specified connection string will have its new database automatically created with all the tables and the initial seed data if available. Tenant management UI also has a manual trigger for database creation & migration in case any problem occurs with automatic migration.
 
 ![apply-database-migrations](../../images/apply-database-migrations.png)
 
-> If you don't want to use Auto Migration for any microservice, delete the `OnPostApplicationInitialization` method of the *HttpApiHost* module and microservice specific *DatabaseMigrationChecker* file along with related *DataSeeder*.
+> If you don't want to use Auto Migration for any microservice, delete the `OnPostApplicationInitialization` method of the *HttpApiHost* module and microservice-specific *DatabaseMigrationChecker* file along with related *DataSeeder*.
 
 ## Database Migrator
 
@@ -104,7 +135,7 @@ With this feature; newly created tenant with a specified connection string will 
 
 **DbMigrator** is a console application and used for database migrations and seeding data. It is located under the *shared* folder in the microservice template solution. `DbMigratorModule` depends on `SharedHostingModule` to use [mapped database configurations](infrastructure.md#hosting). Since it will be migrating the databases of microservices; it also depends on each microservice's `EntityFrameworkCoreModule` and `ApplicationContractsModule` modules.
 
-DbMigratorService migrates the host first then tenants. 
+DbMigratorService first migrates the host then the tenants. 
 
 ```csharp
 public async Task MigrateAsync(CancellationToken cancellationToken)
@@ -168,21 +199,21 @@ private async Task MigrateTenantsAsync(CancellationToken cancellationToken)
 }
 ```
 
-> If you decide to use **both DbMigrator and Auto Migration** approaches, you need to keep duplicate dataseeder files; one under your microservice DbMigrations folder for auto migration and other under shared DbMigrator project. You need to keep both of your data seeder files synchonized.
+> If you decide to use **both DbMigrator and Auto Migration** approaches, you need to keep duplicate dataseeder files; one under your microservice DbMigrations folder for auto migration and the other under the shared DbMigrator project. You need to keep both of your data seeder files synchronized.
 
 ## IdentityService Data Seeding
 
 IdentityService uses three different mapped [database configurations](infrastructure.md#hosting); *IdentityService*, *AdministrationService* and *SaasService* which are located under *appsettings.json* file. 
 
-IdentityService seeding is **required** for AuthServer since it seeds the admin user/password (identity data) and initial identity server data (clients, api resources, scopes).
+IdentityService seeding is **required** for AuthServer since it seeds the admin user/password (identity data) and initial identity server data (clients, API resources, scopes).
 
-### IdentityServer Data Seeding
+### OpenIddict Data Seeding
 
-Both Auto Migration Data Seeding and DbMigrator Data Seeding uses `IdentityServerDataSeeder`. The seeder uses *IdentityServer* section in *appsettings.json* file to seed client and resource cors and redirectUri data.
+Both Auto Migration Data Seeding and DbMigrator Data Seeding use `OpenIddictDataSeeder`. The seeder uses *OpenIddict* section in *appsettings.json* file to seed client and resource cors and redirectUri data.
 
 ```json
-"IdentityServer": {
-    "Clients": {
+"OpenIddict": {
+    "Applications": {
       "MyProjectName_Web": {
         "RootUrl": "https://localhost:44321/"
       },
@@ -225,35 +256,18 @@ Both Auto Migration Data Seeding and DbMigrator Data Seeding uses `IdentityServe
   }
 ```
 
-#### Creating Api Resources
+#### Creating API Scopes
 
-After creating identity resources, api resources are created.
-
-```csharp
-private async Task CreateApiResourcesAsync()
-{
-    var commonApiUserClaims = new[] { "email", "email_verified", "name", "phone_number", "phone_number_verified", "role" };
-
-    await CreateApiResourceAsync("AccountService", commonApiUserClaims);
-    await CreateApiResourceAsync("IdentityService", commonApiUserClaims);
-    await CreateApiResourceAsync("AdministrationService", commonApiUserClaims);
-    await CreateApiResourceAsync("SaasService", commonApiUserClaims);
-    await CreateApiResourceAsync("ProductService", commonApiUserClaims);
-}
-```
-
-#### Creating Api Scopes
-
-Each api resource is defined as a scope.
+Each scope is defined individually.
 
 ```csharp
 private async Task CreateApiScopesAsync()
 {
-    await CreateApiScopeAsync("AccountService");
-    await CreateApiScopeAsync("IdentityService");
-    await CreateApiScopeAsync("AdministrationService");
-    await CreateApiScopeAsync("SaasService");
-    await CreateApiScopeAsync("ProductService");
+    await CreateScopesAsync("AccountService");
+    await CreateScopesAsync("IdentityService");
+    await CreateScopesAsync("AdministrationService");
+    await CreateScopesAsync("SaasService");
+    await CreateScopesAsync("ProductService");
 }
 ```
 
@@ -269,27 +283,38 @@ private async Task CreateWebGatewaySwaggerClientsAsync()
 
 private async Task CreateSwaggerClientAsync(string name, string[] scopes = null)
 {
-    var commonScopes = new[] { "email", "openid", "profile", "role", "phone", "address" };
-    scopes ??= new[] { name };
+    var commonScopes = new List<string>
+    {
+        OpenIddictConstants.Permissions.Scopes.Address,
+        OpenIddictConstants.Permissions.Scopes.Email,
+        OpenIddictConstants.Permissions.Scopes.Phone,
+        OpenIddictConstants.Permissions.Scopes.Profile,
+        OpenIddictConstants.Permissions.Scopes.Roles
+    };
 
     // Swagger Client
     var swaggerClientId = $"{name}_Swagger";
     if (!swaggerClientId.IsNullOrWhiteSpace())
     {
-        var webGatewaySwaggerRootUrl = _configuration[$"IdentityServer:Clients:{name}:RootUrl"].TrimEnd('/');
-        var publicWebGatewayRootUrl = _configuration[$"IdentityServer:Clients:PublicWebGateway:RootUrl"].TrimEnd('/');
-        var accountServiceRootUrl = _configuration[$"IdentityServer:Resources:AccountService:RootUrl"].TrimEnd('/');
-        var identityServiceRootUrl = _configuration[$"IdentityServer:Resources:IdentityService:RootUrl"].TrimEnd('/');
-        var administrationServiceRootUrl = _configuration[$"IdentityServer:Resources:AdministrationService:RootUrl"].TrimEnd('/');
-        var saasServiceRootUrl = _configuration[$"IdentityServer:Resources:SaasService:RootUrl"].TrimEnd('/');
-        var productServiceRootUrl = _configuration[$"IdentityServer:Resources:ProductService:RootUrl"].TrimEnd('/');
+        var webGatewaySwaggerRootUrl = _configuration[$"OpenIddict:Applications:{name}:RootUrl"].TrimEnd('/');
+        var publicWebGatewayRootUrl = _configuration[$"OpenIddict:Applications:PublicWebGateway:RootUrl"].TrimEnd('/');
+        var accountServiceRootUrl = _configuration[$"OpenIddict:Resources:AccountService:RootUrl"].TrimEnd('/');
+        var identityServiceRootUrl = _configuration[$"OpenIddict:Resources:IdentityService:RootUrl"].TrimEnd('/');
+        var administrationServiceRootUrl = _configuration[$"OpenIddict:Resources:AdministrationService:RootUrl"].TrimEnd('/');
+        var saasServiceRootUrl = _configuration[$"OpenIddict:Resources:SaasService:RootUrl"].TrimEnd('/');
+        var productServiceRootUrl = _configuration[$"OpenIddict:Resources:ProductService:RootUrl"].TrimEnd('/');
 
         await CreateClientAsync(
             name: swaggerClientId,
-            scopes: commonScopes.Union(scopes),
-            grantTypes: new[] { "authorization_code" },
-            secret: "1q2w3e*".Sha256(),
-            requireClientSecret: false,
+            type:  OpenIddictConstants.ClientTypes.Public,
+            consentType: OpenIddictConstants.ConsentTypes.Implicit,
+            displayName: "Swagger Client",
+            secret: null,
+            grantTypes: new List<string>
+            {
+                OpenIddictConstants.GrantTypes.AuthorizationCode,
+            },
+            scopes: commonScopes.Union(scopes).ToList(),
             redirectUris: new List<string> {
                 $"{webGatewaySwaggerRootUrl}/swagger/oauth2-redirect.html", // WebGateway redirect uri
                 $"{publicWebGatewayRootUrl}/swagger/oauth2-redirect.html", // PublicWebGateway redirect uri
@@ -298,111 +323,133 @@ private async Task CreateSwaggerClientAsync(string name, string[] scopes = null)
                 $"{administrationServiceRootUrl}/swagger/oauth2-redirect.html", // AdministrationService redirect uri
                 $"{saasServiceRootUrl}/swagger/oauth2-redirect.html", // SaasService redirect uri
                 $"{productServiceRootUrl}/swagger/oauth2-redirect.html", // ProductService redirect uri
-            },
-            corsOrigins: new[] {
-                webGatewaySwaggerRootUrl.RemovePostFix("/"),
-                publicWebGatewayRootUrl.RemovePostFix("/"),
-                accountServiceRootUrl.RemovePostFix("/"),
-                identityServiceRootUrl.RemovePostFix("/"),
-                administrationServiceRootUrl.RemovePostFix("/"),
-                saasServiceRootUrl.RemovePostFix("/"),
-                productServiceRootUrl.RemovePostFix("/")
             }
         );
     }
 }
 ```
 
-#### Creating Clients
+#### Creating Applications
 
-While public-web and administration service clients are distinct, all the other back-office clients are created by default. Administration service is used to make request to identity service to get user permission data. See [administration service](microservices#identity-server-authorization-1) for more.
+While public-web and administration service clients are distinct, all the other back-office clients are created by default. Administration service is used to make requests to identity service to get user permission data. See [administration service](microservices#identity-server-authorization-1) for more.
 
 ```csharp
 private async Task CreateClientsAsync()
 {
-    var commonScopes = new[] { "email", "openid", "profile", "role", "phone", "address" };
+    var commonScopes = new List<string>
+    {
+        OpenIddictConstants.Permissions.Scopes.Address,
+        OpenIddictConstants.Permissions.Scopes.Email,
+        OpenIddictConstants.Permissions.Scopes.Phone,
+        OpenIddictConstants.Permissions.Scopes.Profile,
+        OpenIddictConstants.Permissions.Scopes.Roles
+    };
 
     //Web Client
-    var webClientRootUrl = _configuration["IdentityServer:Clients:MyProjectName_Web:RootUrl"].EnsureEndsWith('/');
-    await CreateClientAsync(
-        name: "MyProjectName_Web",
-        scopes: commonScopes.Union(new[] {
-            "AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"
-        }),
-        grantTypes: new[] { "hybrid" },
-        secret: "1q2w3e*".Sha256(),
-        redirectUris: new List<string> { $"{webClientRootUrl}signin-oidc" },
-        postLogoutRedirectUri: $"{webClientRootUrl}signout-callback-oidc",
-        frontChannelLogoutUri: $"{webClientRootUrl}Account/FrontChannelLogout",
-        corsOrigins: new[] { webClientRootUrl.RemovePostFix("/") }
-    );
+        var webClientRootUrl = _configuration["OpenIddict:Applications:MyProjectName_Web:RootUrl"].EnsureEndsWith('/');
+        await CreateApplicationAsync(
+            name: "MyProjectName_Web",
+            type: OpenIddictConstants.ClientTypes.Confidential,
+            consentType: OpenIddictConstants.ConsentTypes.Implicit,
+            displayName: "Web Client",
+            secret: "1q2w3e*",
+            grantTypes: new List<string> //Hybrid flow
+            {
+                OpenIddictConstants.GrantTypes.AuthorizationCode,
+                OpenIddictConstants.GrantTypes.Implicit
+            },
+            scopes: commonScopes.Union(new[] {"AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"}).ToList(),
+            redirectUris: new List<string> { $"{webClientRootUrl}signin-oidc" },
+            postLogoutRedirectUris: new List<string>() { $"{webClientRootUrl}signout-callback-oidc" }
+        );
 
     //Blazor Client
-    var blazorClientRootUrl = _configuration["IdentityServer:Clients:MyProjectName_Blazor:RootUrl"].EnsureEndsWith('/');
-    await CreateClientAsync(
+    var blazorClientRootUrl = _configuration["OpenIddict:Applications:MyProjectName_Blazor:RootUrl"].EnsureEndsWith('/');
+    await CreateApplicationAsync(
         name: "MyProjectName_Blazor",
-        scopes: commonScopes.Union(new[] {
-            "AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"
-        }),
-        grantTypes: new[] { "authorization_code" },
-        secret: "1q2w3e*".Sha256(),
-        requireClientSecret: false,
+        type: OpenIddictConstants.ClientTypes.Public,
+        consentType: OpenIddictConstants.ConsentTypes.Implicit,
+        displayName: "Blazor Client",
+        secret: null,
+        grantTypes: new List<string>
+        {
+            OpenIddictConstants.GrantTypes.AuthorizationCode
+        },
+        scopes: commonScopes.Union(new[] {"AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"}).ToList(),
         redirectUris: new List<string> { $"{blazorClientRootUrl}authentication/login-callback" },
-        postLogoutRedirectUri: $"{blazorClientRootUrl}authentication/logout-callback",
-        corsOrigins: new[] { blazorClientRootUrl.RemovePostFix("/") }
+        postLogoutRedirectUris: new List<string> { $"{blazorClientRootUrl}authentication/logout-callback" }
     );
 
     //Blazor Server Client
-    var blazorServerClientRootUrl = _configuration["IdentityServer:Clients:MyProjectName_BlazorServer:RootUrl"].EnsureEndsWith('/');
-    await CreateClientAsync(
+    var blazorServerClientRootUrl = _configuration["OpenIddict:Applications:MyProjectName_BlazorServer:RootUrl"].EnsureEndsWith('/');
+    await CreateApplicationAsync(
         name: "MyProjectName_BlazorServer",
-        scopes: commonScopes.Union(new[] {
-            "AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"
-        }),
-        grantTypes: new[] { "hybrid" },
-        secret: "1q2w3e*".Sha256(),
+        type: OpenIddictConstants.ClientTypes.Confidential,
+        consentType: OpenIddictConstants.ConsentTypes.Implicit,
+        displayName: "Blazor Server Client",
+        secret: "1q2w3e*",
+        grantTypes: new List<string> //Hybrid flow
+        {
+            OpenIddictConstants.GrantTypes.AuthorizationCode,
+            OpenIddictConstants.GrantTypes.Implicit
+        },
+        scopes: commonScopes.Union(new[] {"AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService" }).ToList(),
         redirectUris: new List<string> { $"{blazorServerClientRootUrl}signin-oidc" },
-        postLogoutRedirectUri: $"{blazorServerClientRootUrl}signout-callback-oidc",
-        frontChannelLogoutUri: $"{blazorServerClientRootUrl}Account/FrontChannelLogout",
-        corsOrigins: new[] { blazorServerClientRootUrl.RemovePostFix("/") }
+        postLogoutRedirectUris: new List<string> { $"{blazorServerClientRootUrl}signout-callback-oidc" }
     );
 
     //Public Web Client
-    var publicWebClientRootUrl = _configuration["IdentityServer:Clients:MyProjectName_PublicWeb:RootUrl"]
-        .EnsureEndsWith('/');
-    await CreateClientAsync(
+    var publicWebClientRootUrl = _configuration["OpenIddict:Applications:MyProjectName_PublicWeb:RootUrl"].EnsureEndsWith('/');
+    await CreateApplicationAsync(
         name: "MyProjectName_PublicWeb",
-        scopes: commonScopes.Union(new[] { "AccountService", "AdministrationService", "ProductService" }),
-        grantTypes: new[] { "hybrid" },
-        secret: "1q2w3e*".Sha256(),
+        type: OpenIddictConstants.ClientTypes.Confidential,
+        consentType: OpenIddictConstants.ConsentTypes.Implicit,
+        displayName: "Public Web Client",
+        secret: "1q2w3e*",
+        grantTypes: new List<string> //Hybrid flow
+        {
+            OpenIddictConstants.GrantTypes.AuthorizationCode,
+            OpenIddictConstants.GrantTypes.Implicit
+        },
+        scopes: commonScopes.Union(new[] { "AccountService", "AdministrationService", "ProductService" }).ToList(),
         redirectUris: new List<string> { $"{publicWebClientRootUrl}signin-oidc" },
-        postLogoutRedirectUri: $"{publicWebClientRootUrl}signout-callback-oidc",
-        frontChannelLogoutUri: $"{publicWebClientRootUrl}Account/FrontChannelLogout",
-        corsOrigins: new[] { publicWebClientRootUrl.RemovePostFix("/") }
+        postLogoutRedirectUris: new List<string> { $"{publicWebClientRootUrl}signout-callback-oidc" }
     );
 
     //Angular Client
-    var angularClientRootUrl = _configuration["IdentityServer:Clients:MyProjectName_Angular:RootUrl"].TrimEnd('/');
-    await CreateClientAsync(
+    var angularClientRootUrl = _configuration["OpenIddict:Applications:MyProjectName_Angular:RootUrl"].TrimEnd('/');
+    await CreateApplicationAsync(
         name: "MyProjectName_Angular",
-        scopes: commonScopes.Union(new[] {
-            "AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"
-        }),
-        grantTypes: new[] { "authorization_code", "LinkLogin", "Impersonation" },
-        secret: "1q2w3e*".Sha256(),
-        requireClientSecret: false,
+        type: OpenIddictConstants.ClientTypes.Public,
+        consentType: OpenIddictConstants.ConsentTypes.Implicit,
+        displayName: "Angular Client",
+        secret: null,
+        grantTypes: new List<string>
+        {
+            OpenIddictConstants.GrantTypes.AuthorizationCode,
+            OpenIddictConstants.GrantTypes.RefreshToken,
+            OpenIddictConstants.GrantTypes.Password,
+            "LinkLogin",
+            "Impersonation"
+        },
+        scopes: commonScopes.Union(new[] {"AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService" }).ToList(),
         redirectUris: new List<string> { $"{angularClientRootUrl}" },
-        postLogoutRedirectUri: $"{angularClientRootUrl}",
-        corsOrigins: new[] { angularClientRootUrl }
+        postLogoutRedirectUris: new List<string> { $"{angularClientRootUrl}" }
     );
 
     //Administration Service Client
-    await CreateClientAsync(
+    await CreateApplicationAsync(
         name: "MyProjectName_AdministrationService",
-        scopes: commonScopes.Union(new[] { "IdentityService" }),
-        grantTypes: new[] { "client_credentials" },
-        secret: "1q2w3e*".Sha256(),
-        permissions: new[] { IdentityPermissions.Users.Default }
+        type: OpenIddictConstants.ClientTypes.Confidential,
+        consentType: OpenIddictConstants.ConsentTypes.Implicit,
+        displayName: "Administration Service Client",
+        secret: "1q2w3e*",
+        grantTypes: new List<string>
+        {
+            OpenIddictConstants.GrantTypes.ClientCredentials
+        },
+        scopes: commonScopes.Union(new[] { "IdentityService" }).ToList(),
+        permissions: new List<string> { IdentityPermissions.Users.Default }
     );
 }
 ```
@@ -411,29 +458,9 @@ private async Task CreateClientsAsync()
 
 ### Auto Migration Data Seeding
 
-`IdentityServiceDatabaseMigrationEventHandler` is used for seeding *language management*, *identity server* and *identity* data.
+`IdentityServiceDatabaseMigrationEventHandler` is used for seeding *language management* and *identity* data.
 
-```csharp
-private async Task SeedDataAsync(Guid? tenantId, string adminEmail, string adminPassword)
-{
-    using (CurrentTenant.Change(tenantId))
-    {
-        if (tenantId == null)
-        {
-            await _languageManagementDataSeeder.SeedAsync();
-            await _identityServerDataSeeder.SeedAsync();
-        }
-
-        await _identityDataSeeder.SeedAsync(
-            adminEmail,
-            adminPassword,
-            tenantId
-        );
-    }
-}
-```
-
-Data seeding occurs when **database is migrated**:
+Data seeding occurs when the **database is migrated**:
 
 ```csharp
 public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
@@ -478,7 +505,7 @@ public async Task HandleEventAsync(TenantConnectionStringUpdatedEto eventData)
 }
 ```
 
-> Changing connection string will cause creation of a new database. This database will be empty if data from old database is not moved to new database. It is left for developer's choice.
+> Changing the connection string will cause the creation of a new database. This database will be empty if data from the old database is not moved to the new database. It is left for the developer's choice.
 
 ### DbMigrator Data Seeding
 
@@ -493,7 +520,7 @@ private async Task MigrateHostAsync(CancellationToken cancellationToken)
 }
 ```
 
- `IdentityServerDataSeedContributor` is used for seeding the required `IdentityServerDataSeeder` and seeding data runs after migrating all the databases:
+ `IdentityServiceDataSeeder` is used for seeding the required `OpenIddictDataSeeder` and seeding data runs after migrating all the databases:
 
 ```csharp
 private async Task SeedDataAsync()
@@ -508,7 +535,7 @@ private async Task SeedDataAsync()
 }
 ```
 
-**Tenant data** is seeded after host data is migrated in `MigrateTenantsAsync` method after tenant database migration is completed:
+**Tenant data** is seeded after host data is migrated in the `MigrateTenantsAsync` method after tenant database migration is completed:
 
 ```csharp
 private async Task MigrateTenantsAsync(CancellationToken cancellationToken)
@@ -526,7 +553,7 @@ private async Task MigrateTenantsAsync(CancellationToken cancellationToken)
 }
 ```
 
-> If you decide to use **both DbMigrator and Auto Migration** approaches, you need to keep both `IdentityServerDataSeeder` files located under *IdentityService/DbMigrations* and *DbMigrator* projects synchonized.
+> If you decide to use **both DbMigrator and Auto Migration** approaches, you need to keep both `IdentityServerDataSeeder` files located under *IdentityService/DbMigrations* and *DbMigrator* projects synchronized.
 
 ## AdministrationService Data Seeding
 
@@ -607,13 +634,13 @@ public async Task HandleEventAsync(TenantConnectionStringUpdatedEto eventData)
 
 ## SaasService Data Seeding
 
-SaasService uses two different mapped [database configurations](infrastructure.md#hosting); *SaasService* and *AdministrationService*  which are located under *appsettings.json* file. SaasService **does not seed any initial data**. If an initial saas data is required to be seeded, create a [SaasDataSeedContibutor](https://docs.abp.io/en/abp/latest/Data-Seeding#idataseedcontributor).
+SaasService uses two different mapped [database configurations](infrastructure.md#hosting); *SaasService* and *AdministrationService* which are located under *appsettings.json* file. SaasService **does not seed any initial data**. If an initial Saas data is required to be seeded, create a [SaasDataSeedContibutor](https://docs.abp.io/en/abp/latest/Data-Seeding#idataseedcontributor).
 
 > SaasService database is only available for the host side.
 
 ### Auto Migration Data Seeding
 
-`SaasServiceDatabaseMigrationEventHandler` is used for seeding initial saas data by calling `SeedAsync` method of newly created *SaasDataSeedContibutor* after migrating database schema.
+`SaasServiceDatabaseMigrationEventHandler` is used for seeding initial Saas data by calling `SeedAsync` method of the newly created *SaasDataSeedContibutor* after migrating the database schema.
 
 ```csharp
 public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
@@ -633,11 +660,11 @@ public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
 
 ## ProductService Data Seeding
 
-ProductService uses three different mapped [database configurations](infrastructure.md#hosting); *ProductService*, *AdministrationService*  and *SaasService* which are located under *appsettings.json* file. ProductService **does not seed any initial data**. If an initial product data is required to be seeded, create a [ProductDataSeedContibutor](https://docs.abp.io/en/abp/latest/Data-Seeding#idataseedcontributor).
+ProductService uses three different mapped [database configurations](infrastructure.md#hosting); *ProductService*, *AdministrationService*, and *SaasService* which are located under *appsettings.json* file. ProductService **does not seed any initial data**. If an initial product data is required to be seeded, create a [ProductDataSeedContibutor](https://docs.abp.io/en/abp/latest/Data-Seeding#idataseedcontributor).
 
 ### Auto Migration Data Seeding
 
-`ProductServiceDatabaseMigrationEventHandler` is used for seeding initial product data by calling `SeedAsync` method of newly created *ProductDataSeedContibutor* after migrating database schema.
+`ProductServiceDatabaseMigrationEventHandler` is used for seeding initial product data by calling `SeedAsync` method of the newly created *ProductDataSeedContibutor* after migrating the database schema.
 
 ```csharp
 public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
@@ -676,3 +703,7 @@ public async Task HandleEventAsync(TenantConnectionStringUpdatedEto eventData)
 ### DbMigrator Data Seeding
 
 Generic [IDataSeeder](https://docs.abp.io/en/abp/latest/Data-Seeding#idataseeder) is used to seed the required data and Data seed contributors are automatically discovered by the ABP Framework and executed as a part of the data seed process.
+
+## Next
+
+- [Microservice Startup Template: Tye Integration](tye-integration.md)

@@ -113,6 +113,19 @@
             {
               "text": "Solution Structure",
               "path": "startup-templates/application/solution-structure.md"
+            },
+            {
+              "text": "Mobile",
+              "items":[
+                {
+                  "text": "MAUI",
+                  "path": "getting-started-maui.md"
+                },
+                {
+                  "text": "React Native",
+                  "path": "getting-started-react-native.md"
+                }
+              ]
             }
           ]
         },
