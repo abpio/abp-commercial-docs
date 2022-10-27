@@ -324,6 +324,7 @@
     },
     {
       "text": "UI Themes",
+      "path": "themes/index.md",
       "items": [
         {
           "text": "Lepton",
