@@ -19,13 +19,12 @@ A screenshot from the light style of the theme:
 
 
 ## LeptonX Theme
-
-The LeptonX Theme is a professional theme for the ABP Commercial. 
+[LeptonX Theme](https://x.leptontheme.com/) is a new generation theme of Lepton Theme. It's includes all the features of Lepton Theme and more. It comes with ABP Commercial.
 
 * Check out the website of LeptonX on https://leptontheme.com/
 * Check out the live demo to see it in action. https://x.leptontheme.com/
 
-## Highlights
+### Highlights
 
 * Built on the [Bootstrap 5](https://getbootstrap.com) library.
 * 100% compatible with  [Bootstrap 5](https://getbootstrap.com) HTML structure and CSS classes
