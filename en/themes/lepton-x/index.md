@@ -14,7 +14,7 @@ The LeptonX Theme is a professional theme for the ABP Commercial.
 
 A screenshot from the light style of the theme:
 
-![lepton-theme-light](../images/lepton-x-theme-light.png)
+![lepton-theme-light](../../images/lepton-x-theme-light.png)
 
 > [See all the theme styles and create a demo to see it in action](https://commercial.abp.io/themes).
 
@@ -52,11 +52,11 @@ LeptonX Theme module doesn't provide any UI pages. It just changes the existing 
 
 #### Login page
 
-![lepton-theme-module-login-page](../images/lepton-x-theme-module-login-page.png) 
+![lepton-theme-module-login-page](../../images/lepton-x-theme-module-login-page.png) 
 
 #### Languages Page
 
-![lepton-theme-module-languages-page](../images/lepton-x-theme-module-languages-page.png)
+![lepton-theme-module-languages-page](../../images/lepton-x-theme-module-languages-page.png)
 
 ### Pages
 
@@ -66,7 +66,7 @@ This module doesn't define any pages.
 
 LeptonX Theme module adds a new tab to the Settings page to customize the behavior on runtime.
 
-![lepton-theme-module-settings-page](../images/lepton-x-theme-module-settings-page.png)
+![lepton-theme-module-settings-page](../../images/lepton-x-theme-module-settings-page.png)
 
 ## Internals
 
