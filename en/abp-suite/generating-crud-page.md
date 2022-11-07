@@ -92,8 +92,12 @@ A property is a field in the entity which refers a column in the relational data
 
 * **Property name:** Name of the field. Do not use [C# reserved keywords](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/) and database reserved keywords.
 * **Property type:** Choose a relevant property type from the list.
+* **Default Value:** Add a default value for this property every time it's created.
 * **Min-Max length:** These values are used to limit the data value. The length of the database column will also be created by taking this number into consideration. ABP validates the data on the client and server side according to these values.
-* **Required:** Defines whether a value is required or not. 
+* **Regex:** Add a general expression for the property.
+* **Email validation:** Choose if your property is an email and needs to be validated.
+* **Required:** Defines whether a value is required or not.
+* **Text area:** Make the property a text area to input a text, e.g. description.
 * **Nullable**: Allows you to set the property as `nullable` for the `C#` supported data types.
 
 ![Define a property](../images/suite-define-property.png)
@@ -139,6 +143,8 @@ Let's see how to create a navigation property for a **Book Store** project.  We 
 
 Click **Save and generate** button and wait for ABP Suite to create the page.
 
+Create the "Author" entity as the dependent entity:Create "Book" as the principal entity:
+
 ![navigation-property-author-entity](../images/navigation-property-author-entity.png)
 
 After it finishes, run the web project and go to **Authors** page. Click **New Author** button and add the below 3 records:
@@ -160,10 +166,12 @@ Click the **Navigation properties** tab. Then click **Add navigation property** 
 
 > Notice that almost all fields are automatically filled by convention. If you don't rename the `DTO` names, `DbSet` names in the `DbContext`, navigation property names or namespaces, this tool will automatically set all required fields. On the other hand, these textboxes are not readonly, so that you can change them according to your requirements.
 
+Create "Book" as the principal entity:
+
 
 ![navigation-property-book-entity](../images/navigation-property-book-entity.png)
 
-In the below image, you will see the mappings of navigation property fields with the code classes.
+In the below image, you will see the mappings of the navigation property fields with the code classes.
 
 ![Navigation property example](../images/navigation-property-field-mappings.png)
 
