@@ -116,7 +116,7 @@
             },
             {
               "text": "Mobile",
-              "items":[
+              "items": [
                 {
                   "text": "MAUI",
                   "path": "getting-started-maui.md"
@@ -341,21 +341,16 @@
           "path": "themes/leptonx.md",
           "items": [
             {
-              "text": "Migrating from Lepton Theme",
-              "items": [
-                {
-                  "text": "MVC",
-                  "path": "themes/lepton-x/commercial/mvc.md"
-                },
-                {
-                  "text": "Angular",
-                  "path": "themes/lepton-x/commercial/angular.md"
-                },
-                {
-                  "text": "Blazor",
-                  "path": "themes/lepton-x/commercial/blazor.md"
-                }
-              ]
+              "text": "MVC",
+              "path": "themes/lepton-x/commercial/mvc.md"
+            },
+            {
+              "text": "Angular",
+              "path": "themes/lepton-x/commercial/angular.md"
+            },
+            {
+              "text": "Blazor",
+              "path": "themes/lepton-x/commercial/blazor.md"
             },
             {
               "text": "Comparison between Lite and Commercial",
