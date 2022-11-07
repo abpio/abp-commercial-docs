@@ -15,7 +15,7 @@ LeptonX theme is implemented and ready to use with ABP Commercial. No custom imp
 
 - Add **Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXTheme** package to your **Blazor WASM** application.
   ```bash
-  dotnet add package Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXTheme --prerelease
+  dotnet add package Volo.Abp.AspNetCore.Components.WebAssembly.LeptonXTheme
   ```
 
 - Remove old theme from **DependsOn** attribute in your module class and add **AbpAspNetCoreComponentsWebAssemblyLeptonXThemeModule** type to **DependsOn** attribute.
@@ -53,7 +53,7 @@ LeptonX theme is implemented and ready to use with ABP Commercial. No custom imp
 
 - Add **Volo.Abp.AspNetCore.Components.Server.LeptonXTheme** package to your **Blazor Server** application.
   ```bash
-  dotnet add package Volo.Abp.AspNetCore.Components.Server.LeptonXTheme --prerelease
+  dotnet add package Volo.Abp.AspNetCore.Components.Server.LeptonXTheme
   ```
 - Remove old theme from **DependsOn** attribute in your module class and add **AbpAspNetCoreComponentsServerLeptonXThemeModule** type to **DependsOn** attribute.
 
