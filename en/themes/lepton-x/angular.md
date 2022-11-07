@@ -1,4 +1,4 @@
-# Client Side
+# LeptonX Angular UI
 
 To add `LeptonX` into your existing projects, follow the steps below. 
 
