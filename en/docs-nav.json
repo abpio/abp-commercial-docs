@@ -328,7 +328,7 @@
       "items": [
         {
           "text": "Lepton",
-          "path": "themes/lepton.md",
+          "path": "themes/lepton/index.md",
           "items": [
             {
               "text": "Customizing Lepton Theme",
@@ -338,7 +338,7 @@
         },
         {
           "text": "LeptonX",
-          "path": "themes/leptonx.md",
+          "path": "themes/leptonx/index.md",
           "items": [
             {
               "text": "MVC",
