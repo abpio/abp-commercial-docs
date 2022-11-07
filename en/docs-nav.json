@@ -342,15 +342,15 @@
           "items": [
             {
               "text": "MVC",
-              "path": "themes/lepton-x/commercial/mvc.md"
+              "path": "themes/lepton-x/mvc.md"
             },
             {
               "text": "Angular",
-              "path": "themes/lepton-x/commercial/angular.md"
+              "path": "themes/lepton-x/angular.md"
             },
             {
               "text": "Blazor",
-              "path": "themes/lepton-x/commercial/blazor.md"
+              "path": "themes/lepton-x/blazor.md"
             },
             {
               "text": "Comparison between Lite and Commercial",
