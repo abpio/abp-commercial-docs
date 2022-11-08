@@ -3,7 +3,7 @@ LeptonX theme is implemented and ready to use with ABP Commercial. No custom imp
 
 ## Installation
 
-- Install package to your **Web** project with CLI.
+- Install the package to your **Web** project with the CLI.
 ```bash
 abp add-package Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX
 ```
@@ -40,9 +40,9 @@ abp add-package Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX
 ---
 
 ### Themes
-You can set default theme or add or remove themes via using **LeptonXThemeOptions**.
+You can set a default theme, add or remove themes by using **LeptonXThemeOptions**.
 
-- `DefaultStyle`: Defines default fallback theme. Default value is **Dim**
+- `DefaultStyle`: Defines the default fallback theme. The default value is **Dim**
   
 ```csharp
 Configure<LeptonXThemeOptions>(options =>
@@ -58,7 +58,7 @@ Configure<LeptonXThemeOptions>(options =>
 ```csharp
 Configure<LeptonXThemeOptions>(options =>
 {
-    // Removing existing themes
+    // Removing the existing themes
     options.Styles.Remove(LeptonXStyleNames.Light);
 
     // Adding a new theme
@@ -70,14 +70,14 @@ Configure<LeptonXThemeOptions>(options =>
 
 ```
 
-> `red.css` and `bootstrap-red.css` have to be added under **/Themes/LeptonX/Global/side-menu/css/** folder for switching to your custom theme properly when selected.
+> `red.css` and `bootstrap-red.css` have to be added under the **/Themes/LeptonX/Global/side-menu/css/** folder for switching to your custom theme properly when selected.
 
 --- 
 
 ### LeptonXThemeMvcOptions
-Layout options of MVC Razor Pages UI can be manageable via using **LeptonXThemeMvcOptions**.
+Layout options of the MVC Razor Pages UI can be manageable by using **LeptonXThemeMvcOptions**.
 
-- `ApplicationLayout`: Layout of main application. Default value is `LeptonXMvcLayouts.SideMenu`
+- `ApplicationLayout`: Layout of the main application. The default value is `LeptonXMvcLayouts.SideMenu`
 
     ```csharp
     Configure<LeptonXThemeMvcOptions>(options =>
@@ -88,7 +88,7 @@ Layout options of MVC Razor Pages UI can be manageable via using **LeptonXThemeM
     });
     ```
 
-- `MobileMenuSelector`: Defines items to be displayed at mobile menu. Default value is first 2 items from main menu items.
+- `MobileMenuSelector`: Defines items to be displayed at the mobile menu. The default value is the first 2 items from the main menu items.
 
     ![leptonx-mobile-menu-preview](images/mobile-menu-preview.png)
 
@@ -113,7 +113,7 @@ Layout options of MVC Razor Pages UI can be manageable via using **LeptonXThemeM
 
 > The layouts are defined in the **Themes/LeptonX/Layouts/Application** folder and you can **override it** by creating the file (**SideMenuLayout.cshtml** or **TopMenuLayout.cshtml**) with the **same name** and under the **same folder**. 
 
-> There are **partial views** are defined in the **Themes/LeptonX/Layouts/Application** folder. You can **override** it by creating the file with the **same name** and under the **same folder**. 
+> There are **partial views** that are defined in the **Themes/LeptonX/Layouts/Application** folder. You can **override** them by creating the file with the **same name** and under the **same folder**. 
 
 > - **_Footer.cshtml**
 > - **_Sidebar.cshtml**
@@ -123,7 +123,7 @@ Layout options of MVC Razor Pages UI can be manageable via using **LeptonXThemeM
 
 ![Account layout](images/leptonx-account-layout.png)
 
-> The **account layout** is defined in the **Themes/LeptonX/Layouts/Account** folder and you can **override it** by creating the file (**Default.cshtml**) with the **same name** and under the **same folder**. There is a **partial view**, its name is **Footer.cshtml**. You can **override** it by **following** the **same way**. 
+> The **account layout** is defined in the **Themes/LeptonX/Layouts/Account** folder and you can **override** it by creating the file (**Default.cshtml**) with the **same name** and under the **same folder**. There is a **partial view**, its name is **Footer.cshtml**. You can **override** it by **following** the **same way**. 
 
 ---
 
@@ -133,7 +133,7 @@ Abp **helps** you make **highly customizable UI**. You can easily **customize** 
 
 An application (or another module) can **override** a **virtual file of a module** just like placing a file with the **same name** and **extension** into the **same folder** of the **virtual file**.
 
-LeptonX built on the [Abp Framework](https://abp.io/), so you can **easily** customize your Asp.Net Core Mvc user interface by following [Abp Mvc UI Customization](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Customization-xUser-Interface).
+LeptonX is built on the [Abp Framework](https://abp.io/), so you can **easily** customize your Asp.Net Core Mvc user interface by following [Abp Mvc UI Customization](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Customization-xUser-Interface).
 
 ## Common Components
 
@@ -202,7 +202,7 @@ Components used in the side menu layout.
 
 * The **main menu component (C# file)** is defined in the `Themes/LeptonX/Components/SideMenu/MainMenu/MainMenuViewComponent.cs` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**.
 
-> The **main menu component** uses **partial view** to render the **menu items**. The **partial view** is defined in the in `Themes/LeptonX/Components/SideMenu/MainMenu/_MenuItem.cshtml` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**.
+> The **main menu component** uses **partial view** to render the **menu items**. The **partial view** is defined in the `Themes/LeptonX/Components/SideMenu/MainMenu/_MenuItem.cshtml` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**.
 
 ### Mobile Navbar
 
