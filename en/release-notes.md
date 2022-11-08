@@ -2,6 +2,20 @@
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
 
+## 6.0 (2022-10-05)
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-6.0-Final-Has-Been-Released)** for the v6.0 release.
+
+* New **OpenIddict** integration module (replacing the IdentityServer integration module).
+* The **[LeptonX theme](https://x.leptontheme.com/)** is the default theme now, allowing to use the [old Lepton](https://leptontheme.com/) theme too.
+* New **.NET MAUI mobile application**.
+* **Blazor UI** for the **chat** module.
+* **Blazor admin UI** for the **CMS Kit** module.
+* Allow to add **poll widgets** in blog/page contents in the **CMS Kit** module.
+* **Cookie consent** feature for the **GDPR** module.
+* Optional **PWA** support.
+* Exporting to **excel** for **ABP Suite** code generation.
+
 ## 5.3 (2022-06-14)
 
 See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-5.3-Final-Has-Been-Released)** for the v5.3 release.

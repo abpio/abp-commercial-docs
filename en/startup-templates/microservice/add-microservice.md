@@ -383,3 +383,7 @@ Open your browser and navigate to your startup URL:
 * **Blazor Web Assembly**: [https://localhost:44307](https://localhost:44307/)
 * **MVC**: [https://localhost:44321](https://localhost:44321/)
 * **Angular**: [http://localhost:4200](http://localhost:4200/)
+
+## Next
+
+- [Guides: Communication Between Microservices](interservice-communication.md)

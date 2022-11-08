@@ -78,6 +78,10 @@
         {
           "text": "IdentityServer Deployment",
           "path": "guides/identityserver-deployment.md"
+        },
+        {
+          "text": "Migrating to OpenIddict",
+          "path": "migration-guides/openIddict-step-by-step.md"
         }
       ]
     },
@@ -109,6 +113,19 @@
             {
               "text": "Solution Structure",
               "path": "startup-templates/application/solution-structure.md"
+            },
+            {
+              "text": "Mobile",
+              "items": [
+                {
+                  "text": "MAUI",
+                  "path": "getting-started-maui.md"
+                },
+                {
+                  "text": "React Native",
+                  "path": "getting-started-react-native.md"
+                }
+              ]
             }
           ]
         },
@@ -183,6 +200,10 @@
                 {
                   "text": "Extracting a Module as a Microservice",
                   "path": "guides/extracting-module-as-microservice.md"
+                },
+                {
+                  "text": "Migrating to OpenIdDict",
+                  "path": "migration-guides/openIddict-microservice.md"
                 }
               ]
             }
@@ -276,6 +297,10 @@
           "path": "modules/identity-server.md"
         },
         {
+          "text": "OpenIddict",
+          "path": "modules/openiddict.md"
+        },
+        {
           "text": "Language Management",
           "path": "modules/language-management.md"
         },
@@ -299,36 +324,33 @@
     },
     {
       "text": "UI Themes",
+      "path": "themes/index.md",
       "items": [
         {
           "text": "Lepton",
-          "path": "themes/lepton.md",
+          "path": "themes/lepton/index.md",
           "items": [
             {
               "text": "Customizing Lepton Theme",
-              "path": "themes/customizing-lepton-theme.md"
+              "path": "themes/lepton/customizing-lepton-theme.md"
             }
           ]
         },
         {
           "text": "LeptonX",
+          "path": "themes/lepton-x/index.md",
           "items": [
             {
-              "text": "Migrating from Lepton Theme",
-              "items": [
-                {
-                  "text": "MVC",
-                  "path": "themes/lepton-x/commercial/mvc.md"
-                },
-                {
-                  "text": "Angular",
-                  "path": "themes/lepton-x/commercial/angular.md"
-                },
-                {
-                  "text": "Blazor",
-                  "path": "themes/lepton-x/commercial/blazor.md"
-                }
-              ]
+              "text": "MVC",
+              "path": "themes/lepton-x/mvc.md"
+            },
+            {
+              "text": "Angular",
+              "path": "themes/lepton-x/angular.md"
+            },
+            {
+              "text": "Blazor",
+              "path": "themes/lepton-x/blazor.md"
             },
             {
               "text": "Comparison between Lite and Commercial",
@@ -417,6 +439,10 @@
         {
           "text": "Editing Templates",
           "path": "abp-suite/editing-templates.md"
+        },
+        {
+          "text": "How to uninstall",
+          "path": "abp-suite/how-to-uninstall.md"
         }
       ]
     },
