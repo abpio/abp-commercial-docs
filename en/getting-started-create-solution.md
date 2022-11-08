@@ -49,9 +49,21 @@ Click the **Create a new solution** button and fill the modal form:
 
 ![suite-create-new-solution-blazorserver](D:\GitHub\abp-commercial-docs\en\images\suite-create-new-solution-blazorserver.png)
 
-
+{{ end }}
 
 Select the UI framework, Database provider, and other options based on your preferences, then click on the OK button.
+
+{{ if UI == "NG" }}
+
+For **Angular UI,** you get a **Progressive Web Application (PWA)** checkbox option at the bottom of the *Create a new solution* modal form.
+
+{{ end }}
+
+{{ if UI == "Blazor" }}
+
+For **Blazor WebAssembly UI,** you get a **Progressive Web Application (PWA)** checkbox option at the bottom of the *Create a new solution* modal form.
+
+{{ end }}
 
 > You can use a different level of namespaces, e.g: BookStore, Acme.BookStore or Acme.Retail.BookStore. 
 
