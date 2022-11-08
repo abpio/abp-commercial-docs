@@ -491,6 +491,10 @@
         {
           "text": "Why ABP.IO Platform?",
           "path": "why-abp-io-platform.md"
+        },
+        {
+          "text": "Penetration Security Test Report",
+          "path": "others/penetration-test-report.md"
         }
       ]
     }
