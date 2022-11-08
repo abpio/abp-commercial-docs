@@ -435,17 +435,17 @@ The application startup template comes with **Twitter**, **Google** and **Micros
 
 ## Docker Support
 
-All the application startup templates provide docker-compose tool for containerization. Each application contains `Dockerfile.local` dockerfiles that builds a docker image locally. 
+All the application startup templates provide docker-compose tool for containerization. Each application contains `Dockerfile.local` dockerfiles that build a docker image locally. 
 
 ### Building Images
 
 Use the `build-images-locally.ps1` file under the `etc/build` folder. This script will navigate to related project folders and build the docker image using the `Dockerfile.local` after publishing your application using the `dotnet publish -c Release` command. It is **recommended** to use `build-images-locally.ps1`  script to build the images.
 
-It is essential to have published application since Dockerfile uses the publish folder to build the image.
+It is essential to have a published application since Dockerfile uses the publish folder to build the image.
 
 ### Running Images
 
-You can run the docker images you have build using the `docker run` command individually or use the provided `run-docker.ps1` script under the `etc/docker` folder that uses `docker-compose.yml` file for orchestration. It is **recommended** to use the `run-docker.ps1` script that also generates required HTTPS certificates to run the solution on HTTPS.
+You can run the docker images you have built using the `docker run` command individually or use the provided `run-docker.ps1` script under the `etc/docker` folder that uses the `docker-compose.yml` file for orchestration. It is **recommended** to use the `run-docker.ps1` script that also generates required HTTPS certificates to run the solution on HTTPS.
 
 ## What's next?
 
