@@ -336,7 +336,7 @@ Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` 
 
 
 
-### Cross Site Scripting Weakness (Reflected in JSON Response) [Risk: Low] — Positive 
+### Cross Site Scripting Weakness (Reflected in JSON Response) [Risk: Low] — False Positive 
 
 * *[GET] — https://localhost:44378/Abp/MultiTenancy/TenantSwitchModal*
 * *[GET] — https://localhost:44378/api/identity/organization-units/75e2ae9d-a624-aa67-f819-3a047edddf34/members?filter=zap&sorting=userName+asc&skipCount=%3CscrIpt%3Ealert%281%29%3B%3C%2FscRipt%3E&maxResultCount=100*
@@ -353,19 +353,17 @@ A XSS attack was reflected in a `JSON` response, this might leave content consum
 
 **Solution:**  
 
-For every web page that is generated, use and specify a character encoding such as ISO-8859-1 or UTF-8. When an encoding is not specified, the web browser may choose a different encoding by guessing which encoding is actually being used by the web page. This can cause the web browser to treat certain sequences as special, opening up the client to subtle XSS attacks. See CWE-116 for more mitigations related to encoding/escaping.
+User input should be HTML encoded at any point where it is being used in all HTML pages. 
 
-To help mitigate XSS attacks against the user's session cookie, set the session cookie to be `HttpOnly`. In browsers that support the  `HttpOnly`feature, this attribute can prevent the user's session cookie from being accessible to malicious client-side scripts that use `document.cookie`. This is not a complete solution, since  `HttpOnly`is not supported by all browsers. More importantly, `XMLHTTPRequest` and other powerful browser technologies provide read access to HTTP headers, including the Set-Cookie header in which the  `HttpOnly`flag is set.
+**Explanation:** 
 
-Assume all input is malicious. Use an "accept known good" input validation strategy, i.e., use an allow list of acceptable inputs that strictly conform to specifications. Reject any input that does not strictly conform to specifications, or transform it into something that does. Do not rely exclusively on looking for malicious or malformed inputs (i.e., do not rely on a deny list). However, deny lists can be useful for detecting potential attacks or determining which inputs are so malformed that they should be rejected outright.
+The data that's retrieved from the use is being saved as is. The reason is the malicious script works only on HTML pages but there are other platforms that this data is being printed like mobile apps, CLI tools or Windows/Linux applications. So in this attack, the hacker tries to evaluate JavaScript code that only works on HTML pages. And the fix is encoding the data where it's being used. Hence the response that comes from the backend is the user input's raw data as seen on the following image.
 
-When performing input validation, consider all potentially relevant properties, including length, type of input, the full range of acceptable values, missing or extra inputs, syntax, consistency across related fields, and conformance to business rules. As an example of business rule logic, "boat" may be syntactically valid because it only contains alphanumeric characters, but it is not valid if you are expecting colors such as "red" or "blue."
+![XSS Reflected OWASP ZAP request](../images/pen-test-xss-reflected-owasp-request.png)
 
-Ensure that you perform input validation at well-defined interfaces within the application. This will help protect the application even if a component is reused or moved elsewhere.
+But we encode this raw data when rendering on the HTML pages. You can see from the following screenshot that, the JavaScript code is not being evaluated. So this is a false-positive alert.
 
-The vulnerability will be fixed in the following issue https://github.com/volosoft/volo/issues/12124.
-
-
+![XSS Reflected False Positive](../images/pen-test-xss-reflected-false-positive.png)
 
 ### Information Disclosure - Debug Error Messages [Risk: Low] — False Positive
 
