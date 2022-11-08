@@ -11,7 +11,7 @@ See [the module description page](https://commercial.abp.io/modules/Volo.Payment
 Payment module is not installed in [the startup templates](../startup-templates/application/index.md). So, it needs to be installed manually. There are two ways of installing a module into your application.
 
 
-### 1. Using ABP CLI
+### Using ABP CLI
 
 ABP CLI allows adding a module to a solution using ```add-module``` command. You can check its [documentation](https://docs.abp.io/en/abp/latest/CLI#add-module) for more information. So, payment module can be added using the command below;
 
@@ -19,7 +19,7 @@ ABP CLI allows adding a module to a solution using ```add-module``` command. You
 abp add-module Volo.Payment
 ```
 
-### 2. Manual Installation
+### Manual Installation
 
 If you modified your solution structure, adding module using ABP CLI might not work for you. In such cases,  payment module can be added to a solution manually.
 
