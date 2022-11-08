@@ -14,7 +14,7 @@ Open the `appsettings.json` in the `MAUI` project:
 
 {{else}}
 
-* Make sure that `Authority` and `BaseUrl` matches the running address of the `.HttpApi.Host` or `.Web` project.
+* Make sure that `Authority` and `BaseUrl` matches the running address of the `.HttpApi.Host` or `.Web` or `.Blazor`(BlazorServer UI) project.
 
 {{ end }}
 
@@ -28,8 +28,9 @@ Cannot connect to the backend on localhost.
 
 Open a command line terminal and run the `adb reverse` command to expose a port on your Android device to a port on your computer. For example:
 
-`adb reverse tcp:44305: tcp:44305`
+`adb reverse tcp:44305 tcp:44305`
 
+> You should replace "44305" with the real port.
 > You should run the command after starting the emulator.
 
 ### iOS
@@ -41,6 +42,10 @@ The iOS simulator uses the host machine network. Therefore, applications running
 #### Got could not find any available provisioning profiles for on ios error!
 
 You need some extra steps, please check the [Microsoft document](https://learn.microsoft.com/en-us/xamarin/ios/get-started/installation/device-provisioning/)
+
+#### Remote iOS Simulator for Windows
+
+If you are run the MAUI on Mac agent, the remote iOS Simulator can't access backend application running on Windows, you need to run the backend application on Mac or make the backend application on the internal.
 
 ## Run the Mobile Application
 

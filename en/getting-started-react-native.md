@@ -47,7 +47,7 @@ yarn
 
 {{else}}
 
-> Make sure that `issuer` and `apiUrl` matches the running address of the `.HttpApi.Host` or `.Web` project.
+> Make sure that `issuer` and `apiUrl` matches the running address of the `.HttpApi.Host` or `.Web` or `.Blazor`(BlazorServer UI) project.
 
 {{ end }}
 
