@@ -73,7 +73,7 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Bl
 
 ## Theme
 
-### Lepton-x
+### Lepton X
 
 A new, modern and stylish Bootstrap UI theme with different color options, it's the newest theme and is the default. If you choose it, another option named **Theme style**** will show up, you can choose one out of 4 options: `System`, `Dim`, `Dark` or `Light`.
 
