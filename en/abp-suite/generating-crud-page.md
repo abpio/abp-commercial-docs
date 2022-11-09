@@ -147,8 +147,6 @@ Let's see how to create a navigation property for a **Book Store** project.  We 
 
 Click **Save and generate** button and wait for ABP Suite to create the page.
 
-Create the "Author" entity as the dependent entity:
-
 ![navigation-property-author-entity](../images/navigation-property-author-entity.png)
 
 After it finishes, run the web project and go to **Authors** page. Click **New Author** button and add the below 3 records:
@@ -169,9 +167,6 @@ After it finishes, run the web project and go to **Authors** page. Click **New A
 Click the **Navigation properties** tab. Then click **Add navigation property** button. In the opening window, click **Select dependent entity** textbox. A file browser will pop up. Find the `Author.cs` that we previously created in step 1.  `Author.cs`  is located in `src\Acme.BookStore.Domain\Authors` directory. After you select the file, almost all fields will be automatically filled, except **Display Property**. Select `NameSurname` from the **Properties** dropdown. It will write it to the **Display Property** textbox. Revise the other fields for the last check and click **OK** button. A new navigation property is added. Click **Save and generate** button and wait for the ABP Suite to create the Books page with the navigation property.
 
 > Notice that almost all fields are automatically filled by convention. If you don't rename the `DTO` names, `DbSet` names in the `DbContext`, navigation property names or namespaces, this tool will automatically set all required fields. On the other hand, these textboxes are not readonly, so that you can change them according to your requirements.
-
-Create "Book" as the principal entity:
-
 
 ![navigation-property-book-entity](../images/navigation-property-book-entity.png)
 
