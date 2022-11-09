@@ -20,7 +20,25 @@ Also, you can add a *public web site* project to your solution, separate tenant 
 
   ![New Solution Directory](../images/suite-new-solution-directory.png)
 
+- **Theme:** You can generate your project with one of the 3 themes: `LeptonX`, `Lepton`, and `Basic theme`.
+
+  - `LeptonX` is a new modern and stylish Bootstrap UI theme with different color options. It's is the newest theme and is the default.
+
+  - `Lepton` is a modern, mature, responsive UI theme with different style and color options.
+
+  - `Basic theme` is a minimalist UI theme with plain Bootstrap colors and styles. Ideal if you will build your own UI theme.
+
+> If you choose **LeptonX**, another option named **Theme style** will show up, you can choose one out of 4 options: `System`, `Dim`, `Dark` or `Light`.
+
+![suite-new-solution-leptonx-theme](../images/suite-new-solution-leptonx-theme.png)
+
 - **UI framework:** There are 4 types of UI Frameworks: `MVC`, `Angular`, `Blazor WebAssembly`, `Blazor Server`. Suite works with all of these frameworks.
+
+  - If you choose `Angular` or `Blazor WebAssembly`, two checkbox options will appear at the bottom:
+
+      - `Separate Identity Server`: Separates the Identity Server application from the API host application. If not checked, the server-side will have a single endpoint.
+
+      - `Progressive web application`: Optional Progressive Web Application checkbox.
 
 - **Mobile:** You can create the template with React Native and MAUI as a mobile framework or without any mobile application support.
 
