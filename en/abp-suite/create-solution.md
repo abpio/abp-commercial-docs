@@ -20,36 +20,40 @@ Also, you can add a *public web site* project to your solution, separate tenant 
 
   ![New Solution Directory](../images/suite-new-solution-directory.png)
 
-  
+- **Theme:** You can generate your project with one of the 3 themes: `LeptonX`, `Lepton`, and `Basic theme`.
 
-- **Theme:** You can generate your project with one of the 3 themes, `Lepton-X`, `Lepton`, and `Basic theme`.
+  - `LeptonX` is a new modern and stylish Bootstrap UI theme with different color options. It's is the newest theme and is the default.
 
-  `Lepton-X` is a new modern and stylish Bootstrap UI theme with different color options. It's is the newest theme and is the default
+  - `Lepton` is a modern, mature, responsive UI theme with different style and color options.
 
-  `Lepton` is a modern, mature, responsive UI theme with different style and color options. It has been used until ABP v6.0.0.
+  - `Basic theme` is a minimalist UI theme with plain Bootstrap colors and styles. Ideal if you will build your own UI theme.
 
-  `Basic theme` is a minimalist UI theme with plain Bootstrap colors and styles. Ideal if you will build your own UI theme.
+> If you choose **LeptonX**, another option named **Theme style** will show up, you can choose one out of 4 options: `System`, `Dim`, `Dark` or `Light`.
 
-  if you choose Lepton-x, another option named `Theme style` will show up, you can choose one out of 4 options:
-  `System`, `Dim`, `Dark` or `Light`.
-
-![suite-new-solution-leptonx-theme](D:\GitHub\abp-commercial-docs\en\images\suite-new-solution-leptonx-theme.png)
+![suite-new-solution-leptonx-theme](../images/suite-new-solution-leptonx-theme.png)
 
 - **UI framework:** There are 4 types of UI Frameworks: `MVC`, `Angular`, `Blazor WebAssembly`, `Blazor Server`. Suite works with all of these frameworks.
 
-  If you choose `Angular` or `Blazor WebAssembly`, two checkbox options will appear at the bottom:
+  - If you choose `Angular` or `Blazor WebAssembly`, two checkbox options will appear at the bottom:
 
-  `Separate Identity Server`: Separates the Identity Server application from the API host application. If not checked, the server-side will have a single endpoint.
+      - `Separate Identity Server`: Separates the Identity Server application from the API host application. If not checked, the server-side will have a single endpoint.
 
-  `Progressive web application`: Optional Progressive Web Application checkbox.
+      - `Progressive web application`: Optional Progressive Web Application checkbox.
 
 - **Mobile:** You can create the template with React Native and MAUI as a mobile framework or without any mobile application support.
+
 - **Database Provider:** ABP framework supports 2 database providers: `Entity Framework Core` and `MongoDB`.  `Entity Framework Core` supports a variety of database management systems like `MS SQL Server`, `Oracle`, `MySQL` or  `PostgreSQL`. See the full list https://docs.microsoft.com/ef/core/providers/?tabs=dotnet-core-cli. On the other hand [MongoDB](https://www.mongodb.com/) is a document-oriented NoSQL database used for high volume data storage. If you have a requirement to work with relational database systems, choose  `Entity Framework Core` otherwise choose `MongoDB`.
+
 - **Database management system:** You can choose your **Database Management System (DBMS)** while creating a new solution. There are 6 types of database management system: `SqlServer` (default), `MySQL`, `SQLite`, `Oracle`, `Oracle-Devart` and `PostgreSQL`.
+
 - **Connection string:** You can define the connection string for connecting to the database by filling this area.
+
 - **Public web site:** Creates the solution with an additional public web site project.
+
 - **Separated tenant schema:** Creates the solution with the separated tenant schema support.
+
 - **Tiered:** Creates a tiered solution where `Web` and `HTTP API ` layers are physically separated. If not specified, it creates a layered solution which is less complex and suitable for most scenarios. You can leave it unchecked, if you are not sure.
+
 - **Preview:** Creates the solution in the latest preview version.
 
 ## What's next?
