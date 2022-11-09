@@ -33,9 +33,15 @@ This command starts the ABP Suite and opens in your default browser:
 
 Click the **Create a new solution** button and fill the modal form:
 
-![angular-efcore](images/suite-create-new-solution-Angular-Ef.png)
+![suite-create-new-solution-angular](images/suite-create-new-solution-angular.png)
 
 Select the UI framework, Database provider, and other options based on your preferences, then click on the OK button.
+
+{{ if UI == "NG" || UI == "Blazor" }}
+
+For **Angular** and **Blazor WebAssembly** UIs, you get a **Progressive Web Application (PWA)** checkbox option at the bottom of the *Create a new solution* modal form.
+
+{{ end }}
 
 > You can use a different level of namespaces, e.g: BookStore, Acme.BookStore or Acme.Retail.BookStore. 
 
@@ -64,6 +70,20 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Bl
 {{ end }}
 
 > You can use a different level of namespaces; e.g: BookStore, Acme.BookStore or Acme.Retail.BookStore. 
+
+## Theme
+
+### Lepton X
+
+A new, modern and stylish Bootstrap UI theme with different color options, it's the newest theme and is the default. If you choose it, another option named **Theme style**** will show up, you can choose one out of 4 options: `System`, `Dim`, `Dark` or `Light`.
+
+### Lepton
+
+A modern, mature, responsive UI theme with different style and color options.
+
+### Basic theme
+
+A minimalist UI theme with plain Bootstrap colors and styles. Ideal if you will build your own UI theme.
 
 ## Mobile Development
 
