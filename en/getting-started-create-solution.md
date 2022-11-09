@@ -33,7 +33,7 @@ This command starts the ABP Suite and opens in your default browser:
 
 Click the **Create a new solution** button and fill the modal form:
 
-![suite-create-new-solution-angular](/images/suite-create-new-solution-angular.png)
+![suite-create-new-solution-angular](images/suite-create-new-solution-angular.png)
 
 Select the UI framework, Database provider, and other options based on your preferences, then click on the OK button.
 
