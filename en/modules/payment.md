@@ -2,7 +2,7 @@
 
 Payment module implements payment gateway integration of an application. It provides one time payment and recurring payment options. 
 
-* Supports [Stripe](https://stripe.com/), [PayPal](https://www.paypal.com/), [2Checkout](https://www.2checkout.com/), [PayU](https://corporate.payu.com/), [Iyzico](https://www.iyzico.com/en), [Alipay](https://global.alipay.com/) and [WeChat Pay](https://pay.weixin.qq.com/index.php/public/wechatpay_en) payment gateways.
+* Supports [Stripe](https://stripe.com/), [PayPal](https://www.paypal.com/), [2Checkout](https://www.2checkout.com/), [PayU](https://corporate.payu.com/), [Iyzico](https://www.iyzico.com/en) and [Alipay](https://global.alipay.com/) payment gateways.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Payment) for an overview of the module features.
 
