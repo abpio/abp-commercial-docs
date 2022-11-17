@@ -190,6 +190,10 @@
                   "path": "startup-templates/microservice/add-microservice.md"
                 },
                 {
+                  "text": "Using gRPC",
+                  "path": "startup-templates/microservice/using-grpc.md"
+                },
+                {
                   "text": "Communication Between Microservices",
                   "path": "startup-templates/microservice/interservice-communication.md"
                 },
