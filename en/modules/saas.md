@@ -313,4 +313,4 @@ The Saas module remote URL configurations shown above are optional. If you don't
 
 ## Distributed Events
 
-This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
+This module doesn't define any additional distributed events. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
