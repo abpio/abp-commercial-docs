@@ -14,6 +14,34 @@ Here, a screenshot from the widget:
 
 ![contact-form](../../images/cmskit-module-contact-form.png)
 
+### The Multiple Contact Widgets
+
+The contact management system provides multiple forms. You should update your widget according to your new configuration. You can see the updated code below.
+```csharp
+Configure<CmsKitContactOptions>(options =>
+{
+    @await Component.InvokeAsync(typeof(ContactViewComponent), new
+    {
+        contactName = "Sales"
+    })
+});
+```
+
+Now, you should configure that in `ConfigureServices` under the module page.
+
+```csharp
+Configure<CmsKitContactOptions>(options =>
+{
+    options.AddContact("Sales", "info@sales.com");
+    options.AddContact("Training", "info@training.com");
+});
+```
+
+Here, is a screenshot from the updated multiple widgets
+
+![multiple-contact-forms](../../images/cmskit-module-multiple-contact-forms.png)
+
+
 ## Options
 
 You can configure the `CmsKitContactOptions` to enable/disable recaptcha for contact form in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics).
@@ -29,7 +57,7 @@ Configure<CmsKitContactOptions>(options =>
 
 `CmsKitContactOptions` properties:
 
-* `IsRecaptchaEnabled` (default: false): This flag enables or disables the reCaptcha for contact form. You can set it as **true** if you want to use reCaptcha in your contact form.
+* `IsRecaptchaEnabled` (default: false): This flag enables or disables the reCaptcha for the contact form. You can set it as **true** if you want to use reCaptcha in your contact form.
 
 If you set **IsRecaptchaEnabled** as **true**, you also need to specify **SiteKey** and **SiteSecret** options for reCaptcha. To do that, add **CmsKit:Contact** section into your `appsettings.json` file:
 
@@ -52,4 +80,4 @@ You can configure the receiver (email address) by using the CMS tab in the setti
 
 ## Internals
 
-* `ContactEmailSender` is used to send email to notify the configured receiver when a new contact form entry is arrived.
+* `ContactEmailSender` is used to send emails to notify the configured receiver when a new contact form entry is arrived.
