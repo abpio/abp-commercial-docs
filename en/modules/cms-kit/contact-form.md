@@ -80,4 +80,4 @@ You can configure the receiver (email address) by using the CMS tab in the setti
 
 ## Internals
 
-* `ContactEmailSender` is used to send emails to notify the configured receiver when a new contact form entry is arrived.
+* `ContactEmailSender` is used to send emails to notify the configured receiver when a new contact form entry arrives.
