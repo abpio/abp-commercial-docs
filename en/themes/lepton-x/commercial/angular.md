@@ -93,7 +93,8 @@ In order to migrate to LeptonX on your server side projects (Host and/or Identit
 
 ### Layouts
 
-The Angular version of LeptonX Lite provides **layout components** for your **user interface** on [ABP Framework Theming](https://docs.abp.io/en/abp/latest/UI/Angular/Theming). You can use layouts to **organize your user interface**. You can replace the **layout components** and some parts of the **layout components** with the [ABP replaceable component  system](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement).
+The Angular version of LeptonX provides **layout components** for your **user interface** on [ABP Framework Theming](https://docs.abp.io/en/abp/latest/UI/Angular/Theming). 
+You can use layouts to **organize your user interface**. You can replace the **layout components** and some parts of the **layout components** with the [ABP replaceable component  system](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement).
 
 
 The main responsibility of a theme is to **provide** the layouts. There are **three pre-defined layouts that must be implemented by all the themes:**
@@ -110,8 +111,7 @@ The **Layout components** and all the replacable components are predefined in  `
 
 ```js
 import { ReplaceableComponentsService } from '@abp/ng.core'; // imported ReplaceableComponentsService
-import { eIdentityComponents } from '@abp/ng.identity'; // imported eIdentityComponents enum
-import { eThemeLeptonXComponents } from '@abp/ng.theme.lepton-x';   // imported eThemeLeptonXComponents enum
+import { eThemeLeptonXComponents } from '@volo/abp.ng.theme.lepton';   // imported eThemeLeptonXComponents enum
 //...
 @Component(/* component metadata */)
 export class AppComponent {
@@ -130,7 +130,8 @@ See the [Component Replacement](https://docs.abp.io/en/abp/latest/UI/Angular/Com
 
 ### Brand Component
 
-The **brand component** is a simple component that can be used to display your brand. It contains a **logo** and a **company name**. You can change the logo via css but if you want to change logo component, the key is `eThemeLeptonXComponents.Logo`
+The **brand component** is a simple component that can be used to display your brand. It contains a **logo** and a **company name**.
+You can change the logo via css but if you want to change logo component, the key is `eThemeLeptonXComponents.Logo`
 
 ```js
 ///...
@@ -141,28 +142,31 @@ The **brand component** is a simple component that can be used to display your b
 ///...
 ```
 
-![Brand component](../../images/leptonxlite-brand-component.png)
+![Brand component](images/leptonx-main-header-branding.png)
 
 
 
 ## Breadcrumb Component
 
-On websites that have a lot of pages, **breadcrumb navigation** can greatly **enhance the way users find their way** around. In terms of **usability**, breadcrumbs reduce the number of actions a website **visitor** needs to take in order to get to a **higher-level page**, and they **improve** the **findability** of **website sections** and **pages**.
+On websites that have a lot of pages, **breadcrumb navigation** can greatly **enhance the way users find their way** around. In terms of **usability**, 
+breadcrumbs reduce the number of actions a website **visitor** needs to take in order 
+to get to a **higher-level page**, and they **improve** the **findability** of **website sections** and **pages**.
 
 ```js
 ///...
     this.replaceableComponents.add({
-        component: YourNewSidebarComponent,
+        component: YourNewBreadCrumbComponent,
         key: eThemeLeptonXComponents.Breadcrumb,
     });
 ///...
 ```
 
-![Breadcrumb component](../../images/leptonxlite-breadcrumb-component.png)
+![Breadcrumb component](images/leptonx-breadcrumb.png)
 
 ## Sidebar Menu Component
 
-Sidebar menus have been used as a **directory for Related Pages** to a **Service** offering, **Navigation** items to a **specific service** or topic and even just as **Links** the user may be interested in.
+Sidebar menus have been used as a **directory for Related Pages** to a **Service** offering, **Navigation** items to a **specific service** or topic and even just as **Links** 
+the user may be interested in.
 
 ```js
 ///...
@@ -172,47 +176,32 @@ Sidebar menus have been used as a **directory for Related Pages** to a **Service
     });
 ///...
 ```
-![Sidebar menu component](../../images/leptonxlite-sidebar-menu-component.png)
+![Sidebar menu component](images/leptonx-sidebar-main-menu.png)
 
 ## Page Alerts Component
 
 Provides contextual **feedback messages** for typical user actions with a handful of **available** and **flexible** **alert messages**. Alerts are available for any length of text, as well as an **optional dismiss button**.
 
-![Page alerts component](../../images/leptonxlite-page-alerts-component.png)
+![Page alerts component](images/leptonx-page-alerts.png)
+
 ```js
 ///...
-    this.replaceableComponents.add({
-        component: YourNewPageAlertContainerComponent,
-        key: eThemeLeptonXComponents.PageAlertContainer,
-    });
+this.replaceableComponents.add({
+  component: YourNewPageAlertContainerComponent,
+  key: eThemeLeptonXComponents.PageAlertContainerComponent,
+});
 ///...
 ```
-## Toolbar Component
-![Breadcrumb component](../../images/leptonxlite-toolbar-component.png)
 
-Toolbar items are used to add **extra functionality to the toolbar**. The toolbar is a **horizontal bar** that **contains** a group of **toolbar items**.
+## Navbar Component
+![Breadcrumb component](images/angular-toolbar.png)
+
+Navbar items are used to add **extra functionality to the toolbar**. The toolbar is a **vertical bar** that **contains** a group of **Navbar items**.
 ```js
 ///...
     this.replaceableComponents.add({
         component: YourNewNavItemsComponent,
-        key: eThemeLeptonXComponents.NavItems,
-    });
-///...
-```
-
-## Toolbar Items
-There are two parts to the toolbar. The first is Language-Switch. The second is the User-Profile element. You can swap out each of these parts individually.
-
-## Language Switch Component
-
-Think about a **multi-lingual** website and the first thing that could **hit your mind** is **the language switch component**. A **navigation bar** is a **great place** to **embed a language switch**. By embedding the language switch in the navigation bar of your website, you would **make it simpler** for users to **find it** and **easily** switch the **language**  <u>**without trying to locate it across the website.**</u>
-
-![Language switch component](../../images/leptonxlite-language-switch-component.png)
-```js
-///...
-    this.replaceableComponents.add({
-        component: YourNewLanguagesComponent,
-        key: eThemeLeptonXComponents.Languages,
+        key: eThemeLeptonXComponents.Navbar,
     });
 ///...
 ```
@@ -230,7 +219,6 @@ The **User Menu** is the **menu** that **drops down** when you **click your name
     });
 ///...
 ```
-Note: The language selection component in the Volo app is not replaceable. It is part of the settings menu.
 
 ## Mobile Navbar Component
 The **mobile navbar component** is used to display the **navbar menu on mobile devices**. The mobile navbar component is a **dropdown menu** that contains language selection and user menu.
@@ -240,7 +228,7 @@ The **mobile navbar component** is used to display the **navbar menu on mobile d
 ///...
     this.replaceableComponents.add({
         component: YourNewMobileNavbarComponent,
-        key: eThemeLeptonXComponents.MobileNavbar,
+        key: eThemeLeptonXComponents.NavbarMobile,
     });
 ///...
 ```
@@ -251,3 +239,44 @@ The Mobile language-Selection component key is `eThemeLeptonXComponents.MobileLa
 
 The Mobile User-Profile component key is `eThemeLeptonXComponents.MobileUserProfile`.
 
+
+## Footer Component
+
+![Angular Footer Component](images/angular-footer.png)
+
+The Footer is the section of content at the very bottom of the site. This section of the content can be modified.
+Inject **FooterLinksService** and use the **setFooterInfo** method of **FooterLinksService**
+to assign path or link and description.
+**descUrl** and **footerLinks** are nullable. Constant **footerLinks** are on the right side of footer.
+
+
+```js
+///...
+const footerLinks = [
+  {
+    link: "/components/bootstrap/badge",
+    text: "Manage Your Profile",
+  },
+  {
+    link: "/components/bootstrap/border",
+    text: "My Security Logs",
+  },
+];
+const footerInfo: FooterNav = {
+  desc: "Home",
+  descUrl: "/components/home",
+  footerLinks: footerLinks,
+};
+this.footerLinksService.setFooterInfo(footerInfo);
+///...
+```
+If you want to change the footer component, the key is `eThemeLeptonXComponents.Footer`
+
+```js
+///...
+this.replaceableComponents.add({
+  component: YourNewFooterComponent,
+  key: eThemeLeptonXComponents.Footer,
+});
+///...
+```
