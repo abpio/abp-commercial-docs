@@ -2,9 +2,11 @@
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version. Also, they generally don't cover the features made in the open-source ABP Framework. For the ABP Framework features, check blog post for the related version.
 
-## 7.0 RC (2022-11-15)
+## 7.0 RC (2022-11-22)
 
-> This version is currently in preview (RC: Release Candidate).
+> **This version is currently in preview. The stable version release date is planned for December 2022.**
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-7.0-RC-Has-Been-Published)** for the v7.0 release.
 
 * Upgraded to **.NET 7.0**.
 * Upgraded to **OpenIddict 4.0**.
