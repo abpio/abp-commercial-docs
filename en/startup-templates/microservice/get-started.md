@@ -7,7 +7,7 @@ This document explains how to start development with this solution template.
 The following tools are required in order to run the solution;
 
 * [Visual Studio 2022](https://visualstudio.microsoft.com/vs/community/) (v17.3+) or another suitable IDE.
-* [.NET 6.0+ SDK](https://dotnet.microsoft.com/download) (If you have Visual Studio 2022, this will be installed already)
+* [.NET 7.0+ SDK](https://dotnet.microsoft.com/download) (If you have Visual Studio 2022, this will be installed already)
 * [NPM](https://nodejs.org/) v16+ (or [Yarn](https://classic.yarnpkg.com/en/docs/install) 1.20+).
 * [Powershell](https://docs.microsoft.com/en-us/powershell/) 5.0+
 * [Docker Desktop](https://www.docker.com/products/docker-desktop) v3.0+
