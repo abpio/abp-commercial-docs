@@ -33,11 +33,11 @@ A React Native application running on an Android emulator or a physical phone **
  Go to MyProjectNameHttpApiHostModule.cs under the host project. Add these codes under `PreConfigureServices` function.
 
 ```csharp
-#ifDEBUG
-PreConfigure<OpenIddictServerBuilder>(options => {
-options.UseAspNetCore()
-.DisableTransportSecurityRequirement();
-});
+#if DEBUG
+ PreConfigure<OpenIddictServerBuilder>(options => {
+ options.UseAspNetCore()
+ .DisableTransportSecurityRequirement();
+ });
 #endif
 ```
 
