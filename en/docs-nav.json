@@ -351,10 +351,6 @@
             {
               "text": "Blazor",
               "path": "themes/lepton-x/blazor.md"
-            },
-            {
-              "text": "Comparison between Lite and Commercial",
-              "path": "themes/lepton-x/comparison.md"
             }
           ]
         }
