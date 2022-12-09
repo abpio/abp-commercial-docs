@@ -3,7 +3,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC", "Blazor", "BlazorServer", "NG"]
+    "UI": ["MVC", "Blazor", "BlazorServer", "NG", "MAUIBlazor"]
 }
 ````
 You may want to change certain aspects of your website’s  appearance with a custom CSS (Cascading Style Sheet) file. In this document we will show you how to add a custom CSS to your ABP {{UI_Value}} solution to replace the existing Lepton Theme CSS. By adding your custom CSS, you will modify your website’s overall look.
