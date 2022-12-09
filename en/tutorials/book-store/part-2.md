@@ -3,7 +3,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC","Blazor","BlazorServer","NG"],
+    "UI": ["MVC","Blazor","BlazorServer","NG", "MAUIBlazor"],
     "DB": ["EF","Mongo"]
 }
 ````
@@ -556,13 +556,17 @@ Now you can see the final result on your browser:
 
 ![Book list final result](images/bookstore-angular-book-list.png)
 
-{{else if UI == "Blazor" || UI == "BlazorServer"}}
+{{else if UI == "Blazor" || UI == "BlazorServer" || UI == "MAUIBlazor"}}
 
 ## Create a Books Page
 
-It's time to create something visible and usable! Right click to the `Pages` folder under the `Acme.BookStore.Blazor` project and add a new **razor component**, named `Books.razor`:
+It's time to create something visible and usable! Right click to the `Pages` folder under the {{if UI == "MAUIBlazor"}}`Acme.BookStore.MauiBlazor`{{else}}`Acme.BookStore.Blazor`{{end}} project and add a new **razor component**, named `Books.razor`:
 
+{{ if UI == "MAUIBlazor" }}
+![maui-blazor-add-books-component](images/maui-blazor-add-books-component.png)
+{{else}}
 ![blazor-add-books-component](images/blazor-add-books-component.png)
+{{end}}
 
 Replace the contents of this component as shown below:
 
@@ -578,7 +582,7 @@ Replace the contents of this component as shown below:
 
 ### Add Books Page to the Main Menu
 
-Open the `BookStoreMenuContributor` class in the `Blazor` project add the following code to the end of the `ConfigureMainMenuAsync` method:
+Open the `BookStoreMenuContributor` class in the {{if UI == "MAUIBlazor"}}`MauiBlazor`{{else}}`Blazor`{{end}} project add the following code to the end of the `ConfigureMainMenuAsync` method:
 
 ````csharp
 context.Menu.AddItem(

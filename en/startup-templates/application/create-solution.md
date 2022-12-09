@@ -52,7 +52,9 @@ The template provides multiple UI frameworks:
 
 * `mvc`: ASP.NET Core MVC UI with Razor Pages (default)
 * `blazor`: Blazor UI
+* `blazor-server`: Blazor Server UI
 * `angular`: Angular UI
+* `maui-blazor`: MAUI Blazor UI
 
 Use `-u` or `--ui` option to specify the UI framework:
 
