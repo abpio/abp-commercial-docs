@@ -131,7 +131,7 @@ See the [Component Replacement](https://docs.abp.io/en/abp/latest/UI/Angular/Com
 ### Brand Component
 
 The **brand component** is a simple component that can be used to display your brand. It contains a **logo** and a **company name**.
-You can change the logo via css but if you want to change logo component, the key is `eThemeLeptonXComponents.Logo`
+You can change the logo with css but if you want to change logo component, the key is `eThemeLeptonXComponents.Logo`
 
 ```js
 ///...
@@ -208,7 +208,7 @@ this.replaceableComponents.add({
 
 ## Routes Component
 
-Routes components contains routes in navbar.
+The routes component contains routes in the navbar.
 
 ![Routes component](images/angular-navbar-routes.png)
 
@@ -223,7 +223,7 @@ this.replaceableComponents.add({
 
 ## General Settings
 
-- The **general settings component** used to change your **Appearance** , **Container width** and **Language** at the **bottom right** is the section that contains the settings.
+- The **general settings component** is used to change your **Appearance** , **Container width** and **Language**. At the **bottom right** is the section that contains the settings.
 
 ![General settings](images/leptonx-general-settings.png)
 
@@ -268,7 +268,7 @@ this.replaceableComponents.add({
 
 ## Avatar Component
 
-**Avatar Component** is your user image that display on **Toolbar top right**.
+The **Avatar Component** is your user image that displays on the **Toolbar top right**.
 
 ![Avatar Component](images/current-user-image.png)
 
@@ -283,7 +283,7 @@ this.replaceableComponents.add({
 
 ## Language Component
 
-**Language Component** allows you to change the **language** under the settings.
+The **Language Component** allows you to change the **language** under the settings.
 
 ![Language switch](images/leptonx-sidemenu-language-switch.png)
 
@@ -303,7 +303,7 @@ this.replaceableComponents.add({
 The Footer is the section of content at the very bottom of the site. This section of the content can be modified.
 Inject **FooterLinksService** and use the **setFooterInfo** method of **FooterLinksService**
 to assign path or link and description.
-**descUrl** and **footerLinks** are nullable. Constant **footerLinks** are on the right side of footer.
+**descUrl** and **footerLinks** are nullable. Constant **footerLinks** are on the right side of the footer.
 
 ```js
 ///...
