@@ -14,7 +14,7 @@ Open the `appsettings.json` in the `MAUI` project:
 
 {{else}}
 
-* Make sure that `Authority` and `BaseUrl` matches the running address of the `.HttpApi.Host` or `.Web` or `.Blazor`(BlazorServer UI) project.
+* Make sure that `Authority` and `BaseUrl` match the running address of the `.HttpApi.Host`, `.Web` or `.Blazor`(BlazorServer UI) projects.
 
 {{ end }}
 
@@ -45,7 +45,7 @@ You need some extra steps, please check the [Microsoft document](https://learn.m
 
 #### Remote iOS Simulator for Windows
 
-If you are run the MAUI on Mac agent, the remote iOS Simulator can't access backend application running on Windows, you need to run the backend application on Mac or make the backend application on the internal.
+If you run the MAUI on a Mac agent, the remote iOS Simulator can't access the backend application running on Windows, you need to run the backend application on Mac or make the backend application internally.
 
 ## Run the Mobile Application
 
