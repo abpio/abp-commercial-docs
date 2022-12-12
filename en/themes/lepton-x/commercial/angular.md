@@ -281,21 +281,6 @@ this.replaceableComponents.add({
 ///...
 ```
 
-## Language Component
-
-The **Language Component** allows you to change the **language** under the settings.
-
-![Language switch](images/leptonx-sidemenu-language-switch.png)
-
-```js
-///...
-this.replaceableComponents.add({
-  component: YourNewMobileNavbarComponent,
-  key: eThemeLeptonXComponents.Language,
-});
-///...
-```
-
 ## Footer Component
 
 ![Angular Footer Component](images/angular-footer.png)
