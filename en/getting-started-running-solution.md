@@ -3,7 +3,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC", "Blazor", "BlazorServer", "NG"],
+    "UI": ["MVC", "Blazor", "BlazorServer", "NG", "MAUIBlazor"],
     "DB": ["EF", "Mongo"],
     "Tiered": ["Yes", "No"]
 }
@@ -196,6 +196,63 @@ yarn start
 It may take a longer time for the first build. Once it finishes, it opens the Angular UI in your default browser with the [localhost:4200](http://localhost:4200/) address.
 
 
+![bookstore-login](images/bookstore-login-2.png)
+
+{{ if UI == "MAUIBlazor" }}
+
+### Running the MAUI Blazor Application (Client Side)
+
+Ensure that the `.MauiBlazor` project is the startup project.
+
+> Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
+
+MAUI supports multiple platforms:
+
+#### Windows
+
+Ensure that the target is `Windows Machine` and run the application.
+
+#### Android
+
+Ensure that the target is `Android Emulators`.
+
+Android emulator is isolated from your development machine network interfaces, you need to configure the network:
+
+**ADB**
+
+Open a command line terminal and run the `adb reverse` command to expose a port on your Android device to a port on your computer. For example:
+
+`adb reverse tcp:44305 tcp:44305`
+
+> You should replace "44305" with the real port.
+> You should run the command after starting the emulator.
+> You will find that the user avatar cannot be loaded, this is due to the use of insecure https, you can use `Ngrok`.
+
+**Ngrok**
+
+You can use the [ngrok](https://ngrok.com/) to reverse proxy your localhost servies. For example:
+
+`ngrok http 44305`
+
+> You should replace "44305" with the real port.
+
+#### IOS
+
+Ensure that the target is `IOS Emulators`.
+
+The iOS simulator uses the host machine network. Therefore, applications running in the simulator can connect to web services running on your local machine via the machines IP address or via the localhost hostname. For example, given a local secure web service that exposes a GET operation via the /api/todoitems/ relative URI, an application running on the iOS simulator can consume the operation by sending a GET request to https://localhost:<port>/api/todoitems/.
+
+> If the simulator is used from Windows with a remote connection, follow the [Microsoft's documentation](https://docs.microsoft.com/en-us/xamarin/cross-platform/deploy-test/connect-to-local-web-services#specify-the-local-machine-address) to setup a proper configuration.
+
+##### Remote iOS Simulator for Windows
+
+If you are run the MAUI on Mac agent, the remote iOS Simulator can't access backend application running on Windows, you need to run the backend application on Mac or make the backend application on the internal.
+
+##### Got could not find any available provisioning profiles for on ios error!
+
+You need some extra steps, please check the [Microsoft document](https://learn.microsoft.com/en-us/xamarin/ios/get-started/installation/device-provisioning/)
+
+After you run the project, you can click the login button to the login UI.
 
 ![bookstore-login](images/bookstore-login-2.png)
 

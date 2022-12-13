@@ -28,7 +28,7 @@ Cannot connect to the backend on localhost.
 
 Open a command line terminal and run the `adb reverse` command to expose a port on your Android device to a port on your computer. For example:
 
-`adb reverse tcp:44305: tcp:44305`
+`adb reverse tcp:44305 tcp:44305`
 
 > You should replace "44305" with the real port.
 > You should run the command after starting the emulator.

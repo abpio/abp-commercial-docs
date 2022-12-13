@@ -3,7 +3,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC","Blazor","BlazorServer","NG"],
+    "UI": ["MVC","Blazor","BlazorServer","NG", "MAUIBlazor"],
     "DB": ["EF","Mongo"]
 }
 ````
@@ -1154,7 +1154,7 @@ Clicking the "Delete" action calls the `delete` method which then shows a confir
 
 {{end}}
 
-{{if UI == "Blazor" || UI == "BlazorServer"}}
+{{if UI == "Blazor" || UI == "BlazorServer" || UI == "MAUIBlazor" }}
 
 ## Creating a New Book
 

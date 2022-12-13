@@ -52,7 +52,7 @@ There are 2 ways of creating a new solution from the microservice startup templa
 
 
 
-> Some options are not available for the microservice template.  Therefore you cannot change the default database provider `Entity Framework Core`.  Also `--separate-identity-server` parameter is ignored since it comes already with a separate Identity Server. 
+> Some options are not available for the microservice template.  Therefore you cannot change the default database provider `Entity Framework Core`.  Also `--separate-auth-server` parameter is ignored since it comes already with a separate Identity Server. 
 
 
 

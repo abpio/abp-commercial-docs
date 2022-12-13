@@ -2,7 +2,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC","Blazor","BlazorServer","NG"],
+    "UI": ["MVC","Blazor","BlazorServer","NG", "MAUIBlazor"],
     "DB": ["EF","Mongo"]
 }
 ````
@@ -129,7 +129,7 @@ Once you define the permissions, you can see them on the **permission management
 
 Go to the *Administration -> Identity Management -> Roles* page, select *Permissions* action for the admin role to open the permission management modal:
 
-{{if UI == "Blazor" || UI == "BlazorServer"}}
+{{if UI == "Blazor" || UI == "BlazorServer" || UI == "MAUIBlazor"}}
 
 ![bookstore-permissions-ui](images/bookstore-blazor-permissions-ui-2.png)
 
@@ -470,11 +470,11 @@ Open the `/src/app/book/book.component.html` file and replace the edit and delet
 * Added `*abpPermission="'BookStore.Books.Edit'"` that hides the edit action if the current user has no editing permission.
 * Added `*abpPermission="'BookStore.Books.Delete'"` that hides the delete action if the current user has no delete permission.
 
-{{else if UI == "Blazor" || UI == "BlazorServer"}}
+{{else if UI == "Blazor" || UI == "BlazorServer" || UI == "MAUIBlazor"}}
 
 ### Authorize the Razor Component
 
-Open the `/Pages/Books.razor` file in the `Acme.BookStore.Blazor` project and add an `Authorize` attribute just after the `@page` directive and the following namespace imports (`@using` lines), as shown below:
+Open the `/Pages/Books.razor` file in the {{if UI == "MAUIBlazor"}}`Acme.BookStore.MauiBlazor`{{else}}`Acme.BookStore.Blazor`{{end}} project and add an `Authorize` attribute just after the `@page` directive and the following namespace imports (`@using` lines), as shown below:
 
 ````html
 @page "/books"

@@ -116,7 +116,7 @@
             },
             {
               "text": "Mobile",
-              "items":[
+              "items": [
                 {
                   "text": "MAUI",
                   "path": "getting-started-maui.md"
@@ -324,41 +324,33 @@
     },
     {
       "text": "UI Themes",
+      "path": "themes/index.md",
       "items": [
         {
           "text": "Lepton",
-          "path": "themes/lepton.md",
+          "path": "themes/lepton/index.md",
           "items": [
             {
               "text": "Customizing Lepton Theme",
-              "path": "themes/customizing-lepton-theme.md"
+              "path": "themes/lepton/customizing-lepton-theme.md"
             }
           ]
         },
         {
           "text": "LeptonX",
-          "path": "themes/leptonx.md",
+          "path": "themes/lepton-x/index.md",
           "items": [
             {
-              "text": "Migrating from Lepton Theme",
-              "items": [
-                {
-                  "text": "MVC",
-                  "path": "themes/lepton-x/commercial/mvc.md"
-                },
-                {
-                  "text": "Angular",
-                  "path": "themes/lepton-x/commercial/angular.md"
-                },
-                {
-                  "text": "Blazor",
-                  "path": "themes/lepton-x/commercial/blazor.md"
-                }
-              ]
+              "text": "MVC",
+              "path": "themes/lepton-x/mvc.md"
             },
             {
-              "text": "Comparison between Lite and Commercial",
-              "path": "themes/lepton-x/comparison.md"
+              "text": "Angular",
+              "path": "themes/lepton-x/angular.md"
+            },
+            {
+              "text": "Blazor",
+              "path": "themes/lepton-x/blazor.md"
             }
           ]
         }
@@ -495,6 +487,10 @@
         {
           "text": "Why ABP.IO Platform?",
           "path": "why-abp-io-platform.md"
+        },
+        {
+          "text": "Penetration Security Test Report",
+          "path": "others/penetration-test-report.md"
         }
       ]
     }

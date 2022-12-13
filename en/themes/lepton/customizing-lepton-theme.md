@@ -3,7 +3,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC", "Blazor", "BlazorServer", "NG"]
+    "UI": ["MVC", "Blazor", "BlazorServer", "NG", "MAUIBlazor"]
 }
 ````
 You may want to change certain aspects of your website’s  appearance with a custom CSS (Cascading Style Sheet) file. In this document we will show you how to add a custom CSS to your ABP {{UI_Value}} solution to replace the existing Lepton Theme CSS. By adding your custom CSS, you will modify your website’s overall look.
@@ -113,12 +113,12 @@ export class AppModule {}
 
 If you start the dev server, you must see the inserted content as follows:
 
-<img src="../images/angular-menu-content-after-routes.png" alt="" width="445">
+<img src="../../images/angular-menu-content-after-routes.png" alt="" width="445">
 
 
 Placing the content before menu items is straightforward: Just replace `contentAfterRoutes` with `contentBeforeRoutes`.
 
-<img src="../images/angular-menu-content-before-routes.png" alt="" width="445">
+<img src="../../images/angular-menu-content-before-routes.png" alt="" width="445">
 
 
 
@@ -146,7 +146,7 @@ export class AppModule {}
 
 Here is how the search input works:
 
-<img src="../images/angular-menu-search-before-routes.gif" alt="" width="445">
+<img src="../../images/angular-menu-search-before-routes.gif" alt="" width="445">
 
 Please note that the **search component** filters only the routes and cannot hide custom 
 
@@ -189,7 +189,7 @@ Comment out the existing background style and add the following background style
  background: linear-gradient(7deg, #9f3049, #84a21f);
 ```
 
-![lepton-custom-css-result](../images/lepton-custom-css-customize.png)
+![lepton-custom-css-result](../../images/lepton-custom-css-customize.png)
 
 
 
@@ -242,6 +242,6 @@ abp bundle
 
 The main menu's background color changed. With this approach, you can change your website’s overall look.
 
-![lepton-custom-css-result](../images/lepton-custom-css-result.png)
+![lepton-custom-css-result](../../images/lepton-custom-css-result.png)
 
 {{end}}
