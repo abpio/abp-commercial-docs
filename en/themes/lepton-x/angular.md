@@ -112,7 +112,7 @@ The **Layout components** and all the replacable components are predefined in `e
 
 ```js
 import { ReplaceableComponentsService } from '@abp/ng.core'; // imported ReplaceableComponentsService
-import { eThemeLeptonXComponents } from '@volo/abp.ng.theme.lepton';   // imported eThemeLeptonXComponents enum
+import {eThemeLeptonXComponents} from "@volosoft/abp.ng.theme.lepton-x"; // imported eThemeLeptonXComponents enum
 //...
 @Component(/* component metadata */)
 export class AppComponent {
@@ -233,21 +233,6 @@ this.replaceableComponents.add({
 this.replaceableComponents.add({
   component: YourNewGeneralSettingsComponent,
   key: eThemeLeptonXComponents.Settings,
-});
-///...
-```
-
-## User Menu Component
-
-The **User Menu** is the **menu** that **drops down** when you **click your name** or **profile picture** in the **upper right corner** of your page (**in the toolbar**). It drops down options such as **Settings**, **Logout**, etc.
-
-![User menu](images/leptonx-sidemenu-user-menu.png)
-
-```js
-///...
-this.replaceableComponents.add({
-  component: YourNewUserMenuComponent,
-  key: eThemeLeptonXComponents.CurrentUser,
 });
 ///...
 ```
