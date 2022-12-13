@@ -186,7 +186,7 @@ Toolbar items are used to add **extra functionality to the toolbar**. The toolba
 ```js
 ///...
 this.replaceableComponents.add({
-  component: YourNewNavItemsComponent,
+  component: YourNewToolbarComponent,
   key: eThemeLeptonXComponents.Toolbar,
 });
 ///...
@@ -201,7 +201,7 @@ Navbar items are used to add **extra functionality to the Sidebar**. The toolbar
 ```js
 ///...
 this.replaceableComponents.add({
-  component: YourNewNavItemsComponent,
+  component: YourNewNavbarComponent,
   key: eThemeLeptonXComponents.Navbar,
 });
 ///...
@@ -216,7 +216,7 @@ The routes component contains routes in the navbar.
 ```js
 ///...
 this.replaceableComponents.add({
-  component: YourNewNavItemsComponent,
+  component: YourNewRoutesComponent,
   key: eThemeLeptonXComponents.Routes,
 });
 ///...
@@ -231,7 +231,7 @@ this.replaceableComponents.add({
 ```js
 ///...
 this.replaceableComponents.add({
-  component: YourNewNavItemsComponent,
+  component: YourNewGeneralSettingsComponent,
   key: eThemeLeptonXComponents.Settings,
 });
 ///...
@@ -246,7 +246,7 @@ The **User Menu** is the **menu** that **drops down** when you **click your name
 ```js
 ///...
 this.replaceableComponents.add({
-  component: YourNewCurrentUserComponent,
+  component: YourNewUserMenuComponent,
   key: eThemeLeptonXComponents.CurrentUser,
 });
 ///...
@@ -276,7 +276,7 @@ The **Avatar Component** is your user image that displays on the **Toolbar top r
 ```js
 ///...
 this.replaceableComponents.add({
-  component: YourNewMobileNavbarComponent,
+  component: YourNewAvatarComponent,
   key: eThemeLeptonXComponents.CurrentUserImage,
 });
 ///...
