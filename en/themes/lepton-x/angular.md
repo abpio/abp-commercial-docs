@@ -280,17 +280,17 @@ to assign path or link and description.
 ///...
 const footerLinks = [
   {
-    link: "/components/bootstrap/badge",
+    link: "/account/manage",
     text: "Manage Your Profile",
   },
   {
-    link: "/components/bootstrap/border",
+    link: "/identity/security-logs",
     text: "My Security Logs",
   },
 ];
 const footerInfo: FooterNav = {
   desc: "Home",
-  descUrl: "/components/home",
+  descUrl: "/home",
   footerLinks: footerLinks,
 };
 this.footerLinksService.setFooterInfo(footerInfo);
