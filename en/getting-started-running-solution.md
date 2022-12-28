@@ -234,7 +234,8 @@ You can use the [ngrok](https://ngrok.com/) to reverse proxy your localhost serv
 
 `ngrok http 44305`
 
-> You should replace "44305" with the real port.
+* You should replace "44305" with the real port.
+* You should replace `Authority` with the Ngrok URL.
 
 #### IOS
 
@@ -248,9 +249,15 @@ The iOS simulator uses the host machine network. Therefore, applications running
 
 If you are run the MAUI on Mac agent, the remote iOS Simulator can't access backend application running on Windows, you need to run the backend application on Mac or make the backend application on the internal.
 
-##### Got could not find any available provisioning profiles for on ios error!
+### Secure Storage
 
-You need some extra steps, please check the [Microsoft document](https://learn.microsoft.com/en-us/xamarin/ios/get-started/installation/device-provisioning/)
+The MAUI Blazor application uses [Preferences](https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/storage/preferences) to store access token by default, safe practice is to use [Secure Storage](https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/storage/secure-storage), it requires some extra steps for different platforms.
+
+You can check the [Secure Storage documentation](https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/storage/secure-storage#get-started)
+
+#### Got could not find any available provisioning profiles for on ios error!
+
+You need some extra steps, please check the [Microsoft's documentation](https://learn.microsoft.com/en-us/xamarin/ios/get-started/installation/device-provisioning/)
 
 After you run the project, you can click the login button to the login UI.
 
