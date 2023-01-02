@@ -55,33 +55,27 @@ Create a new razor page, `Index.cshtml` under the `Pages/Authors` folder of the 
 @using Acme.BookStore.Web.Pages.Authors
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
 @inject IStringLocalizer<BookStoreResource> L
 @inject IAuthorizationService AuthorizationService
 @model IndexModel
-
+@inject IPageLayout PageLayout
+@{
+    PageLayout.Content.MenuItemName = "BooksStore";
+    PageLayout.Content.Title = L["Books"].Value;
+}
 @section scripts
-{
-    <abp-script src="/Pages/Authors/Index.js"/>
+    {
+    <abp-script src="/Pages/Authors/Index.js" />
+}
+@section content_toolbar {
+    @if (await AuthorizationService.IsGrantedAsync(BookStorePermissions.Authors.Create))
+    {
+        <abp-button id="NewAuthorButton" text="@L["NewAuthor"].Value" icon="plus" size="Small" button-type="Primary" />
+    }
 }
 
 <abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["Authors"]</abp-card-title>
-            </abp-column>
-            <abp-column size-md="_6" class="text-right">
-                @if (await AuthorizationService
-                    .IsGrantedAsync(BookStorePermissions.Authors.Create))
-                {
-                    <abp-button id="NewAuthorButton"
-                                text="@L["NewAuthor"].Value"
-                                icon="plus"
-                                button-type="Primary"/>
-                }
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="AuthorsTable"></abp-table>
     </abp-card-body>
@@ -95,14 +89,12 @@ This is a simple page similar to the Books page we had created before. It import
 ````csharp
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Acme.BookStore.Web.Pages.Authors
-{
-    public class IndexModel : PageModel
-    {
-        public void OnGet()
-        {
+namespace Acme.BookStore.Web.Pages.Authors;
 
-        }
+public class IndexModel : PageModel
+{
+    public void OnGet()
+    {
     }
 }
 ````
@@ -344,22 +336,21 @@ The main reason of this decision was to show you how to use a different model cl
 In this way, you can specialize the view model class based on your UI requirements without touching to the DTO. As a result of this decision, we have used `ObjectMapper` to map `CreateAuthorViewModel` to `CreateAuthorDto`. To be able to do that, you need to add a new mapping code to the `BookStoreWebAutoMapperProfile` constructor:
 
 ````csharp
-using Acme.BookStore.Authors; // ADDED NAMESPACE IMPORT
+using Acme.BookStore.Authors;
 using Acme.BookStore.Books;
 using AutoMapper;
 
-namespace Acme.BookStore.Web
-{
-    public class BookStoreWebAutoMapperProfile : Profile
-    {
-        public BookStoreWebAutoMapperProfile()
-        {
-            CreateMap<BookDto, CreateUpdateBookDto>();
+namespace Acme.BookStore.Web;
 
-            // ADD a NEW MAPPING
-            CreateMap<Pages.Authors.CreateModalModel.CreateAuthorViewModel,
-                      CreateAuthorDto>();
-        }
+public class BookStoreWebAutoMapperProfile : Profile
+{
+    public BookStoreWebAutoMapperProfile()
+    {
+        CreateMap<BookDto, CreateUpdateBookDto>();
+
+        // ADD a NEW MAPPING
+        CreateMap<Pages.Authors.CreateModalModel.CreateAuthorViewModel,
+                  CreateAuthorDto>();
     }
 }
 ````
@@ -409,52 +400,51 @@ using Acme.BookStore.Authors;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 
-namespace Acme.BookStore.Web.Pages.Authors
+namespace Acme.BookStore.Web.Pages.Authors;
+
+public class EditModalModel : BookStorePageModel
 {
-    public class EditModalModel : BookStorePageModel
+    [BindProperty]
+    public EditAuthorViewModel Author { get; set; }
+
+    private readonly IAuthorAppService _authorAppService;
+
+    public EditModalModel(IAuthorAppService authorAppService)
     {
-        [BindProperty]
-        public EditAuthorViewModel Author { get; set; }
+        _authorAppService = authorAppService;
+    }
 
-        private readonly IAuthorAppService _authorAppService;
+    public async Task OnGetAsync(Guid id)
+    {
+        var authorDto = await _authorAppService.GetAsync(id);
+        Author = ObjectMapper.Map<AuthorDto, EditAuthorViewModel>(authorDto);
+    }
 
-        public EditModalModel(IAuthorAppService authorAppService)
-        {
-            _authorAppService = authorAppService;
-        }
+    public async Task<IActionResult> OnPostAsync()
+    {
+        await _authorAppService.UpdateAsync(
+            Author.Id,
+            ObjectMapper.Map<EditAuthorViewModel, UpdateAuthorDto>(Author)
+        );
 
-        public async Task OnGetAsync(Guid id)
-        {
-            var authorDto = await _authorAppService.GetAsync(id);
-            Author = ObjectMapper.Map<AuthorDto, EditAuthorViewModel>(authorDto);
-        }
+        return NoContent();
+    }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            await _authorAppService.UpdateAsync(
-                Author.Id,
-                ObjectMapper.Map<EditAuthorViewModel, UpdateAuthorDto>(Author)
-            );
+    public class EditAuthorViewModel
+    {
+        [HiddenInput]
+        public Guid Id { get; set; }
 
-            return NoContent();
-        }
+        [Required]
+        [StringLength(AuthorConsts.MaxNameLength)]
+        public string Name { get; set; }
 
-        public class EditAuthorViewModel
-        {
-            [HiddenInput]
-            public Guid Id { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime BirthDate { get; set; }
 
-            [Required]
-            [StringLength(AuthorConsts.MaxNameLength)]
-            public string Name { get; set; }
-
-            [Required]
-            [DataType(DataType.Date)]
-            public DateTime BirthDate { get; set; }
-
-            [TextArea]
-            public string ShortBio { get; set; }
-        }
+        [TextArea]
+        public string ShortBio { get; set; }
     }
 }
 ```
@@ -471,22 +461,21 @@ using Acme.BookStore.Authors;
 using Acme.BookStore.Books;
 using AutoMapper;
 
-namespace Acme.BookStore.Web
+namespace Acme.BookStore.Web;
+
+public class BookStoreWebAutoMapperProfile : Profile
 {
-    public class BookStoreWebAutoMapperProfile : Profile
+    public BookStoreWebAutoMapperProfile()
     {
-        public BookStoreWebAutoMapperProfile()
-        {
-            CreateMap<BookDto, CreateUpdateBookDto>();
+        CreateMap<BookDto, CreateUpdateBookDto>();
 
-            CreateMap<Pages.Authors.CreateModalModel.CreateAuthorViewModel,
-                      CreateAuthorDto>();
+        CreateMap<Pages.Authors.CreateModalModel.CreateAuthorViewModel,
+                  CreateAuthorDto>();
 
-            // ADD THESE NEW MAPPINGS
-            CreateMap<AuthorDto, Pages.Authors.EditModalModel.EditAuthorViewModel>();
-            CreateMap<Pages.Authors.EditModalModel.EditAuthorViewModel,
-                      UpdateAuthorDto>();
-        }
+        // ADD THESE NEW MAPPINGS
+        CreateMap<AuthorDto, Pages.Authors.EditModalModel.EditAuthorViewModel>();
+        CreateMap<Pages.Authors.EditModalModel.EditAuthorViewModel,
+                  UpdateAuthorDto>();
     }
 }
 ```

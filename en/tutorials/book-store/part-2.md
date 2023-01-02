@@ -108,23 +108,30 @@ Open the `en.json` (*the English translations*) file and change the content as b
   "Culture": "en",
   "Texts": {
     "Menu:Home": "Home",
+    "Menu:ContactUs": "Contact Us",
+    "Menu:ArticleSample": "Article Sample",
     "Home": "Home",
     "Welcome": "Welcome",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information visit abp.io.",
-    "EndDate": "End date",
-    "StartDate": "Start date",
+    "Date": "Date",
     "Permission:Dashboard": "Dashboard",
     "Menu:Dashboard": "Dashboard",
+    "Menu:HomePage": "Home page",
     "Dashboard": "Dashboard",
-    "ExternalProvider:Google":"Google",
-    "ExternalProvider:Google:ClientId":"Client ID",
-    "ExternalProvider:Google:ClientSecret":"Client Secret",
-    "ExternalProvider:Microsoft":"Microsoft",
-    "ExternalProvider:Microsoft:ClientId":"Client ID",
-    "ExternalProvider:Microsoft:ClientSecret":"Client Secret",
-    "ExternalProvider:Twitter":"Twitter",
-    "ExternalProvider:Twitter:ConsumerKey":"Consumer Key",
-    "ExternalProvider:Twitter:ConsumerSecret":"Consumer Secret",
+    "ExternalProvider:Google": "Google",
+    "ExternalProvider:Google:ClientId": "Client ID",
+    "ExternalProvider:Google:ClientSecret": "Client Secret",
+    "ExternalProvider:Microsoft": "Microsoft",
+    "ExternalProvider:Microsoft:ClientId": "Client ID",
+    "ExternalProvider:Microsoft:ClientSecret": "Client Secret",
+    "ExternalProvider:Twitter": "Twitter",
+    "ExternalProvider:Twitter:ConsumerKey": "Consumer Key",
+    "ExternalProvider:Twitter:ConsumerSecret": "Consumer Secret",
+    "NewsletterHeader": "Subscribe to the newsletter!",
+    "NewsletterInfo": "Get information about the latest happenings.",
+    "NewsletterPreference_Default": "Default Newsletter",
+    "NewsletterPrivacyAcceptMessage": "I accept the <a href='/privacy-policy'>Privacy Policy</a>.",
+    "ChangeLanguage": "Change language",
     "Menu:BookStore": "Book Store",
     "Menu:Books": "Books",
     "PublishDate": "Publish date",
@@ -134,22 +141,23 @@ Open the `en.json` (*the English translations*) file and change the content as b
     "Price": "Price",
     "CreationTime": "Creation time",
     "AreYouSureToDelete": "Are you sure you want to delete this item?",
-    "Enum:BookType:0": "Undefined",
-    "Enum:BookType:1": "Adventure",
-    "Enum:BookType:2": "Biography",
-    "Enum:BookType:3": "Dystopia",
-    "Enum:BookType:4": "Fantastic",
-    "Enum:BookType:5": "Horror",
-    "Enum:BookType:6": "Science",
-    "Enum:BookType:7": "Science fiction",
-    "Enum:BookType:8": "Poetry"
+    "Enum:BookType.0": "Undefined",
+    "Enum:BookType.1": "Adventure",
+    "Enum:BookType.2": "Biography",
+    "Enum:BookType.3": "Dystopia",
+    "Enum:BookType.4": "Fantastic",
+    "Enum:BookType.5": "Horror",
+    "Enum:BookType.6": "Science",
+    "Enum:BookType.7": "Science fiction",
+    "Enum:BookType.8": "Poetry"
   }
 }
+
 ````
 
 * Localization key names are arbitrary. You can set any name. We prefer some conventions for specific text types;
   * Add `Menu:` prefix for menu items.
-  * Use `Enum:<enum-type>:<enum-value>` naming convention to localize the enum members. When you do it like that, ABP can automatically localize the enums in some proper cases.
+  * Use `Enum:<enum-type>.<enum-value>` naming convention to localize the enum members. When you do it like that, ABP can automatically localize the enums in some proper cases.
 
 If a text is not defined in the localization file, it **fallbacks** to the localization key (as ASP.NET Core's standard behavior).
 
@@ -169,15 +177,25 @@ Open the `Index.cshtml` and change the whole content as shown below:
 
 ````html
 @page
+@using Acme.BookStore.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
 @using Acme.BookStore.Web.Pages.Books
+@using Microsoft.Extensions.Localization
 @model IndexModel
+@inject IStringLocalizer<BookStoreResource> L
+@inject IPageLayout PageLayout
+@{
+    PageLayout.Content.MenuItemName = "BooksStore";
+    PageLayout.Content.Title = L["Books"].Value;
+}
 
-<h2>Books</h2>
+
 ````
 
 `Index.cshtml.cs` content should be like that:
 
 ```csharp
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Acme.BookStore.Web.Pages.Books
@@ -186,10 +204,10 @@ namespace Acme.BookStore.Web.Pages.Books
     {
         public void OnGet()
         {
-            
         }
     }
 }
+
 ```
 
 ### Add Books Page to the Main Menu
@@ -231,23 +249,22 @@ Change the `Pages/Books/Index.cshtml` as following:
 ````html
 @page
 @using Acme.BookStore.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
 @using Acme.BookStore.Web.Pages.Books
 @using Microsoft.Extensions.Localization
-@using Volo.Abp.AspNetCore.Mvc.UI.Layout
 @model IndexModel
 @inject IStringLocalizer<BookStoreResource> L
 @inject IPageLayout PageLayout
 @{
     PageLayout.Content.MenuItemName = "BooksStore";
+    PageLayout.Content.Title = L["Books"].Value;
 }
 @section scripts
-{
+    {
     <abp-script src="/Pages/Books/Index.js" />
 }
+
 <abp-card>
-    <abp-card-header>
-        <h2>@L["Books"]</h2>
-    </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="BooksTable"></abp-table>
     </abp-card-body>

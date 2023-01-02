@@ -247,22 +247,21 @@ The final `BookDto` class should be following:
 using System;
 using Volo.Abp.Application.Dtos;
 
-namespace Acme.BookStore.Books
+namespace Acme.BookStore.Books;
+
+public class BookDto : AuditedEntityDto<Guid>
 {
-    public class BookDto : AuditedEntityDto<Guid>
-    {
-        public Guid AuthorId { get; set; }
+    public Guid AuthorId { get; set; }
 
-        public string AuthorName { get; set; }
+    public string AuthorName { get; set; }
 
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public BookType Type { get; set; }
+    public BookType Type { get; set; }
 
-        public DateTime PublishDate { get; set; }
+    public DateTime PublishDate { get; set; }
 
-        public float Price { get; set; }
-    }
+    public float Price { get; set; }
 }
 ```
 
@@ -282,12 +281,11 @@ Create a new class, `AuthorLookupDto`, inside the `Books` folder of the `Acme.Bo
 using System;
 using Volo.Abp.Application.Dtos;
 
-namespace Acme.BookStore.Books
+namespace Acme.BookStore.Books;
+
+public class AuthorLookupDto : EntityDto<Guid>
 {
-    public class AuthorLookupDto : EntityDto<Guid>
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }
 ````
 
@@ -303,18 +301,17 @@ using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
-namespace Acme.BookStore.Books
+namespace Acme.BookStore.Books;
+
+public interface IBookAppService :
+    ICrudAppService< //Defines CRUD methods
+        BookDto, //Used to show books
+        Guid, //Primary key of the book entity
+        PagedAndSortedResultRequestDto, //Used for paging/sorting
+        CreateUpdateBookDto> //Used to create/update a book
 {
-    public interface IBookAppService :
-        ICrudAppService< //Defines CRUD methods
-            BookDto, //Used to show books
-            Guid, //Primary key of the book entity
-            PagedAndSortedResultRequestDto, //Used for paging/sorting
-            CreateUpdateBookDto> //Used to create/update a book
-    {
-        // ADD the NEW METHOD
-        Task<ListResultDto<AuthorLookupDto>> GetAuthorLookupAsync();
-    }
+    // ADD the NEW METHOD
+    Task<ListResultDto<AuthorLookupDto>> GetAuthorLookupAsync();
 }
 ````
 
@@ -340,119 +337,118 @@ using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 
-namespace Acme.BookStore.Books
+namespace Acme.BookStore.Books;
+
+[Authorize(BookStorePermissions.Books.Default)]
+public class BookAppService :
+    CrudAppService<
+        Book, //The Book entity
+        BookDto, //Used to show books
+        Guid, //Primary key of the book entity
+        PagedAndSortedResultRequestDto, //Used for paging/sorting
+        CreateUpdateBookDto>, //Used to create/update a book
+    IBookAppService //implement the IBookAppService
 {
-    [Authorize(BookStorePermissions.Books.Default)]
-    public class BookAppService :
-        CrudAppService<
-            Book, //The Book entity
-            BookDto, //Used to show books
-            Guid, //Primary key of the book entity
-            PagedAndSortedResultRequestDto, //Used for paging/sorting
-            CreateUpdateBookDto>, //Used to create/update a book
-        IBookAppService //implement the IBookAppService
+    private readonly IAuthorRepository _authorRepository;
+
+    public BookAppService(
+        IRepository<Book, Guid> repository,
+        IAuthorRepository authorRepository)
+        : base(repository)
     {
-        private readonly IAuthorRepository _authorRepository;
+        _authorRepository = authorRepository;
+        GetPolicyName = BookStorePermissions.Books.Default;
+        GetListPolicyName = BookStorePermissions.Books.Default;
+        CreatePolicyName = BookStorePermissions.Books.Create;
+        UpdatePolicyName = BookStorePermissions.Books.Edit;
+        DeletePolicyName = BookStorePermissions.Books.Create;
+    }
 
-        public BookAppService(
-            IRepository<Book, Guid> repository,
-            IAuthorRepository authorRepository)
-            : base(repository)
+    public override async Task<BookDto> GetAsync(Guid id)
+    {
+        //Get the IQueryable<Book> from the repository
+        var queryable = await Repository.GetQueryableAsync();
+
+        //Prepare a query to join books and authors
+        var query = from book in queryable
+                    join author in await _authorRepository.GetQueryableAsync() on book.AuthorId equals author.Id
+                    where book.Id == id
+                    select new { book, author };
+
+        //Execute the query and get the book with author
+        var queryResult = await AsyncExecuter.FirstOrDefaultAsync(query);
+        if (queryResult == null)
         {
-            _authorRepository = authorRepository;
-            GetPolicyName = BookStorePermissions.Books.Default;
-            GetListPolicyName = BookStorePermissions.Books.Default;
-            CreatePolicyName = BookStorePermissions.Books.Create;
-            UpdatePolicyName = BookStorePermissions.Books.Edit;
-            DeletePolicyName = BookStorePermissions.Books.Create;
+            throw new EntityNotFoundException(typeof(Book), id);
         }
 
-        public override async Task<BookDto> GetAsync(Guid id)
+        var bookDto = ObjectMapper.Map<Book, BookDto>(queryResult.book);
+        bookDto.AuthorName = queryResult.author.Name;
+        return bookDto;
+    }
+
+    public override async Task<PagedResultDto<BookDto>>
+        GetListAsync(PagedAndSortedResultRequestDto input)
+    {
+        //Get the IQueryable<Book> from the repository
+        var queryable = await Repository.GetQueryableAsync();
+
+        //Prepare a query to join books and authors
+        var query = from book in queryable
+                    join author in await _authorRepository.GetQueryableAsync() on book.AuthorId equals author.Id
+                    select new { book, author };
+
+        query = query
+            .OrderBy(NormalizeSorting(input.Sorting))
+            .Skip(input.SkipCount)
+            .Take(input.MaxResultCount);
+
+        //Execute the query and get a list
+        var queryResult = await AsyncExecuter.ToListAsync(query);
+
+        //Convert the query result to a list of BookDto objects
+        var bookDtos = queryResult.Select(x =>
         {
-            //Get the IQueryable<Book> from the repository
-            var queryable = await Repository.GetQueryableAsync();
-
-            //Prepare a query to join books and authors
-            var query = from book in queryable
-                join author in await _authorRepository.GetQueryableAsync() on book.AuthorId equals author.Id
-                where book.Id == id
-                select new { book, author };
-
-            //Execute the query and get the book with author
-            var queryResult = await AsyncExecuter.FirstOrDefaultAsync(query);
-            if (queryResult == null)
-            {
-                throw new EntityNotFoundException(typeof(Book), id);
-            }
-
-            var bookDto = ObjectMapper.Map<Book, BookDto>(queryResult.book);
-            bookDto.AuthorName = queryResult.author.Name;
+            var bookDto = ObjectMapper.Map<Book, BookDto>(x.book);
+            bookDto.AuthorName = x.author.Name;
             return bookDto;
+        }).ToList();
+
+        //Get the total count with another query
+        var totalCount = await Repository.GetCountAsync();
+
+        return new PagedResultDto<BookDto>(
+            totalCount,
+            bookDtos
+        );
+    }
+
+    public async Task<ListResultDto<AuthorLookupDto>> GetAuthorLookupAsync()
+    {
+        var authors = await _authorRepository.GetListAsync();
+
+        return new ListResultDto<AuthorLookupDto>(
+            ObjectMapper.Map<List<Author>, List<AuthorLookupDto>>(authors)
+        );
+    }
+
+    private static string NormalizeSorting(string sorting)
+    {
+        if (sorting.IsNullOrEmpty())
+        {
+            return $"book.{nameof(Book.Name)}";
         }
 
-        public override async Task<PagedResultDto<BookDto>>
-            GetListAsync(PagedAndSortedResultRequestDto input)
+        if (sorting.Contains("authorName", StringComparison.OrdinalIgnoreCase))
         {
-            //Get the IQueryable<Book> from the repository
-            var queryable = await Repository.GetQueryableAsync();
-
-            //Prepare a query to join books and authors
-            var query = from book in queryable
-                join author in await _authorRepository.GetQueryableAsync() on book.AuthorId equals author.Id
-                select new {book, author};
-
-            query = query
-                .OrderBy(NormalizeSorting(input.Sorting))
-                .Skip(input.SkipCount)
-                .Take(input.MaxResultCount);
-
-            //Execute the query and get a list
-            var queryResult = await AsyncExecuter.ToListAsync(query);
-
-            //Convert the query result to a list of BookDto objects
-            var bookDtos = queryResult.Select(x =>
-            {
-                var bookDto = ObjectMapper.Map<Book, BookDto>(x.book);
-                bookDto.AuthorName = x.author.Name;
-                return bookDto;
-            }).ToList();
-
-            //Get the total count with another query
-            var totalCount = await Repository.GetCountAsync();
-
-            return new PagedResultDto<BookDto>(
-                totalCount,
-                bookDtos
+            return sorting.Replace(
+                "authorName",
+                "author.Name",
+                StringComparison.OrdinalIgnoreCase
             );
         }
 
-        public async Task<ListResultDto<AuthorLookupDto>> GetAuthorLookupAsync()
-        {
-            var authors = await _authorRepository.GetListAsync();
-
-            return new ListResultDto<AuthorLookupDto>(
-                ObjectMapper.Map<List<Author>, List<AuthorLookupDto>>(authors)
-            );
-        }
-
-        private static string NormalizeSorting(string sorting)
-        {
-            if (sorting.IsNullOrEmpty())
-            {
-                return $"book.{nameof(Book.Name)}";
-            }
-            
-            if (sorting.Contains("authorName", StringComparison.OrdinalIgnoreCase))
-            {
-                return sorting.Replace(
-                    "authorName",
-                    "author.Name", 
-                    StringComparison.OrdinalIgnoreCase
-                );
-            }
-
-            return $"book.{sorting}";
-        }
+        return $"book.{sorting}";
     }
 }
 ```
@@ -723,7 +719,7 @@ Book list page change is trivial. Open the `Pages/Books/Index.js` in the `Acme.B
     title: l('Type'),
     data: "type",
     render: function (data) {
-        return l('Enum:BookType:' + data);
+        return l('Enum:BookType.' + data);
     }
 },
 ...
@@ -749,61 +745,60 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 
-namespace Acme.BookStore.Web.Pages.Books
+namespace Acme.BookStore.Web.Pages.Books;
+
+public class CreateModalModel : BookStorePageModel
 {
-    public class CreateModalModel : BookStorePageModel
+    [BindProperty]
+    public CreateBookViewModel Book { get; set; }
+
+    public List<SelectListItem> Authors { get; set; }
+
+    private readonly IBookAppService _bookAppService;
+
+    public CreateModalModel(
+        IBookAppService bookAppService)
     {
-        [BindProperty]
-        public CreateBookViewModel Book { get; set; }
+        _bookAppService = bookAppService;
+    }
 
-        public List<SelectListItem> Authors { get; set; }
+    public async Task OnGetAsync()
+    {
+        Book = new CreateBookViewModel();
 
-        private readonly IBookAppService _bookAppService;
+        var authorLookup = await _bookAppService.GetAuthorLookupAsync();
+        Authors = authorLookup.Items
+            .Select(x => new SelectListItem(x.Name, x.Id.ToString()))
+            .ToList();
+    }
 
-        public CreateModalModel(
-            IBookAppService bookAppService)
-        {
-            _bookAppService = bookAppService;
-        }
+    public async Task<IActionResult> OnPostAsync()
+    {
+        await _bookAppService.CreateAsync(
+            ObjectMapper.Map<CreateBookViewModel, CreateUpdateBookDto>(Book)
+            );
+        return NoContent();
+    }
 
-        public async Task OnGetAsync()
-        {
-            Book = new CreateBookViewModel();
+    public class CreateBookViewModel
+    {
+        [SelectItems(nameof(Authors))]
+        [DisplayName("Author")]
+        public Guid AuthorId { get; set; }
 
-            var authorLookup = await _bookAppService.GetAuthorLookupAsync();
-            Authors = authorLookup.Items
-                .Select(x => new SelectListItem(x.Name, x.Id.ToString()))
-                .ToList();
-        }
+        [Required]
+        [StringLength(128)]
+        public string Name { get; set; }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            await _bookAppService.CreateAsync(
-                ObjectMapper.Map<CreateBookViewModel, CreateUpdateBookDto>(Book)
-                );
-            return NoContent();
-        }
+        [Required]
+        public BookType Type { get; set; } = BookType.Undefined;
 
-        public class CreateBookViewModel
-        {
-            [SelectItems(nameof(Authors))]
-            [DisplayName("Author")]
-            public Guid AuthorId { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime PublishDate { get; set; } = DateTime.Now;
 
-            [Required]
-            [StringLength(128)]
-            public string Name { get; set; }
-
-            [Required]
-            public BookType Type { get; set; } = BookType.Undefined;
-
-            [Required]
-            [DataType(DataType.Date)]
-            public DateTime PublishDate { get; set; } = DateTime.Now;
-
-            [Required]
-            public float Price { get; set; }
-        }
+        [Required]
+        public float Price { get; set; }
     }
 }
 ```
@@ -828,66 +823,65 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 
-namespace Acme.BookStore.Web.Pages.Books
+namespace Acme.BookStore.Web.Pages.Books;
+
+public class EditModalModel : BookStorePageModel
 {
-    public class EditModalModel : BookStorePageModel
+    [BindProperty]
+    public EditBookViewModel Book { get; set; }
+
+    public List<SelectListItem> Authors { get; set; }
+
+    private readonly IBookAppService _bookAppService;
+
+    public EditModalModel(IBookAppService bookAppService)
     {
-        [BindProperty]
-        public EditBookViewModel Book { get; set; }
+        _bookAppService = bookAppService;
+    }
 
-        public List<SelectListItem> Authors { get; set; }
+    public async Task OnGetAsync(Guid id)
+    {
+        var bookDto = await _bookAppService.GetAsync(id);
+        Book = ObjectMapper.Map<BookDto, EditBookViewModel>(bookDto);
 
-        private readonly IBookAppService _bookAppService;
+        var authorLookup = await _bookAppService.GetAuthorLookupAsync();
+        Authors = authorLookup.Items
+            .Select(x => new SelectListItem(x.Name, x.Id.ToString()))
+            .ToList();
+    }
 
-        public EditModalModel(IBookAppService bookAppService)
-        {
-            _bookAppService = bookAppService;
-        }
+    public async Task<IActionResult> OnPostAsync()
+    {
+        await _bookAppService.UpdateAsync(
+            Book.Id,
+            ObjectMapper.Map<EditBookViewModel, CreateUpdateBookDto>(Book)
+        );
 
-        public async Task OnGetAsync(Guid id)
-        {
-            var bookDto = await _bookAppService.GetAsync(id);
-            Book = ObjectMapper.Map<BookDto, EditBookViewModel>(bookDto);
+        return NoContent();
+    }
 
-            var authorLookup = await _bookAppService.GetAuthorLookupAsync();
-            Authors = authorLookup.Items
-                .Select(x => new SelectListItem(x.Name, x.Id.ToString()))
-                .ToList();
-        }
+    public class EditBookViewModel
+    {
+        [HiddenInput]
+        public Guid Id { get; set; }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            await _bookAppService.UpdateAsync(
-                Book.Id,
-                ObjectMapper.Map<EditBookViewModel, CreateUpdateBookDto>(Book)
-            );
+        [SelectItems(nameof(Authors))]
+        [DisplayName("Author")]
+        public Guid AuthorId { get; set; }
 
-            return NoContent();
-        }
+        [Required]
+        [StringLength(128)]
+        public string Name { get; set; }
 
-        public class EditBookViewModel
-        {
-            [HiddenInput]
-            public Guid Id { get; set; }
+        [Required]
+        public BookType Type { get; set; } = BookType.Undefined;
 
-            [SelectItems(nameof(Authors))]
-            [DisplayName("Author")]
-            public Guid AuthorId { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime PublishDate { get; set; } = DateTime.Now;
 
-            [Required]
-            [StringLength(128)]
-            public string Name { get; set; }
-
-            [Required]
-            public BookType Type { get; set; } = BookType.Undefined;
-
-            [Required]
-            [DataType(DataType.Date)]
-            public DateTime PublishDate { get; set; } = DateTime.Now;
-
-            [Required]
-            public float Price { get; set; }
-        }
+        [Required]
+        public float Price { get; set; }
     }
 }
 ```

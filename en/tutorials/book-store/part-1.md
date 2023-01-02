@@ -57,18 +57,17 @@ The main entity of the application is the `Book`. Create a `Books` folder (names
 using System;
 using Volo.Abp.Domain.Entities.Auditing;
 
-namespace Acme.BookStore.Books
+namespace Acme.BookStore.Books;
+
+public class Book : AuditedAggregateRoot<Guid>
 {
-    public class Book : AuditedAggregateRoot<Guid>
-    {
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public BookType Type { get; set; }
+    public BookType Type { get; set; }
 
-        public DateTime PublishDate { get; set; }
+    public DateTime PublishDate { get; set; }
 
-        public float Price { get; set; }
-    }
+    public float Price { get; set; }
 }
 ````
 
@@ -83,20 +82,19 @@ namespace Acme.BookStore.Books
 The `Book` entity uses the `BookType` enum. Create a `Books` folder and then create the `BookType` in the `Acme.BookStore.Domain.Shared` project:
 
 ````csharp
-namespace Acme.BookStore.Books
+namespace Acme.BookStore.Books;
+
+public enum BookType
 {
-    public enum BookType
-    {
-        Undefined,
-        Adventure,
-        Biography,
-        Dystopia,
-        Fantastic,
-        Horror,
-        Science,
-        ScienceFiction,
-        Poetry
-    }
+    Undefined,
+    Adventure,
+    Biography,
+    Dystopia,
+    Fantastic,
+    Horror,
+    Science,
+    ScienceFiction,
+    Poetry
 }
 ````
 
@@ -111,10 +109,13 @@ The final folder/file structure should be as shown below:
 EF Core requires to relate entities with your `DbContext`. The easiest way to do this is to add a `DbSet` property to the `BookStoreDbContext` class in the `Acme.BookStore.EntityFrameworkCore` project, as shown below:
 
 ````csharp
-public class BookStoreDbContext : AbpDbContext<BookStoreDbContext>
+//....
+public class BookStoreDbContext : AbpDbContext<BookStoreDbContext> //....
 {
     public DbSet<Book> Books { get; set; }
-    //...
+
+    //....
+    //....
 }
 ````
 
@@ -143,36 +144,48 @@ Locate to `OnModelCreating` method in the `BookStoreDbContext` class and add the
 
 ````csharp
 using Acme.BookStore.Books;
-...
+using Volo.Abp.EntityFrameworkCore.Modeling;
+//...
 
-namespace Acme.BookStore.EntityFrameworkCore
+namespace Acme.BookStore.EntityFrameworkCore;
+
+[ReplaceDbContext(typeof(IIdentityProDbContext))]
+[ReplaceDbContext(typeof(ISaasDbContext))]
+[ConnectionStringName("Default")]
+public class BookStoreDbContext :
+    AbpDbContext<BookStoreDbContext>,
+    IIdentityProDbContext,
+    ISaasDbContext
 {
-    public class BookStoreDbContext : 
-        AbpDbContext<BookStoreDbContext>,
-        IIdentityDbContext,
-        ITenantManagementDbContext
+    /* Add DbSet properties for your Aggregate Roots / Entities here. */
+    public DbSet<Book> Books { get; set; }
+
+    //...
+
+    public BookStoreDbContext(DbContextOptions<BookStoreDbContext> options)
+        : base(options)
     {
-        ...
 
-        protected override void OnModelCreating(ModelBuilder builder)
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        /* Include modules to your migration db context */
+
+        builder.ConfigurePermissionManagement();
+        //...
+
+        /* Configure your own tables/entities inside here */
+
+        builder.Entity<Book>(b =>
         {
-            base.OnModelCreating(builder);
-
-            /* Include modules to your migration db context */
-
-            builder.ConfigurePermissionManagement();
-            ...
-
-            /* Configure your own tables/entities inside here */
-
-            builder.Entity<Book>(b =>
-            {
-                b.ToTable(BookStoreConsts.DbTablePrefix + "Books",
-                    BookStoreConsts.DbSchema);
-                b.ConfigureByConvention(); //auto configure for the base class props
-                b.Property(x => x.Name).IsRequired().HasMaxLength(128);
-            });
-        }
+            b.ToTable(BookStoreConsts.DbTablePrefix + "Books",
+                BookStoreConsts.DbSchema);
+            b.ConfigureByConvention(); //auto configure for the base class props
+            b.Property(x => x.Name).IsRequired().HasMaxLength(128);
+        });
     }
 }
 ````
@@ -212,47 +225,46 @@ using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 
-namespace Acme.BookStore
+namespace Acme.BookStore;
+
+public class BookStoreDataSeederContributor
+    : IDataSeedContributor, ITransientDependency
 {
-    public class BookStoreDataSeederContributor
-        : IDataSeedContributor, ITransientDependency
+    private readonly IRepository<Book, Guid> _bookRepository;
+
+    public BookStoreDataSeederContributor(IRepository<Book, Guid> bookRepository)
     {
-        private readonly IRepository<Book, Guid> _bookRepository;
+        _bookRepository = bookRepository;
+    }
 
-        public BookStoreDataSeederContributor(IRepository<Book, Guid> bookRepository)
+    public async Task SeedAsync(DataSeedContext context)
+    {
+        if (await _bookRepository.GetCountAsync() > 0)
         {
-            _bookRepository = bookRepository;
+            return;
         }
 
-        public async Task SeedAsync(DataSeedContext context)
-        {
-            if (await _bookRepository.GetCountAsync() > 0)
+        await _bookRepository.InsertAsync(
+            new Book
             {
-                return;
-            }
+                Name = "1984",
+                Type = BookType.Dystopia,
+                PublishDate = new DateTime(1949, 6, 8),
+                Price = 19.84f
+            },
+            autoSave: true
+        );
 
-            await _bookRepository.InsertAsync(
-                new Book
-                {
-                    Name = "1984",
-                    Type = BookType.Dystopia,
-                    PublishDate = new DateTime(1949, 6, 8),
-                    Price = 19.84f
-                },
-                autoSave: true
-            );
-
-            await _bookRepository.InsertAsync(
-                new Book
-                {
-                    Name = "The Hitchhiker's Guide to the Galaxy",
-                    Type = BookType.ScienceFiction,
-                    PublishDate = new DateTime(1995, 9, 27),
-                    Price = 42.0f
-                },
-                autoSave: true
-            );
-        }
+        await _bookRepository.InsertAsync(
+            new Book
+            {
+                Name = "The Hitchhiker's Guide to the Galaxy",
+                Type = BookType.ScienceFiction,
+                PublishDate = new DateTime(1995, 9, 27),
+                Price = 42.0f
+            },
+            autoSave: true
+        );
     }
 }
 ```
@@ -294,18 +306,17 @@ While MongoDB **doesn't require** a database schema migration, it is still good 
 using System;
 using Volo.Abp.Application.Dtos;
 
-namespace Acme.BookStore.Books
+namespace Acme.BookStore.Books;
+
+public class BookDto : AuditedEntityDto<Guid>
 {
-    public class BookDto : AuditedEntityDto<Guid>
-    {
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public BookType Type { get; set; }
+    public BookType Type { get; set; }
 
-        public DateTime PublishDate { get; set; }
+    public DateTime PublishDate { get; set; }
 
-        public float Price { get; set; }
-    }
+    public float Price { get; set; }
 }
 ````
 
@@ -319,14 +330,13 @@ It will be needed to map `Book` entities to `BookDto` objects while returning bo
 using Acme.BookStore.Books;
 using AutoMapper;
 
-namespace Acme.BookStore
+namespace Acme.BookStore;
+
+public class BookStoreApplicationAutoMapperProfile : Profile
 {
-    public class BookStoreApplicationAutoMapperProfile : Profile
+    public BookStoreApplicationAutoMapperProfile()
     {
-        public BookStoreApplicationAutoMapperProfile()
-        {
-            CreateMap<Book, BookDto>();
-        }
+        CreateMap<Book, BookDto>();
     }
 }
 ````
@@ -341,24 +351,23 @@ Create a `CreateUpdateBookDto` class in the Books folder (namespace) of the `Acm
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Acme.BookStore.Books
+namespace Acme.BookStore.Books;
+
+public class CreateUpdateBookDto
 {
-    public class CreateUpdateBookDto
-    {
-        [Required]
-        [StringLength(128)]
-        public string Name { get; set; }
+    [Required]
+    [StringLength(128)]
+    public string Name { get; set; }
 
-        [Required]
-        public BookType Type { get; set; } = BookType.Undefined;
+    [Required]
+    public BookType Type { get; set; } = BookType.Undefined;
 
-        [Required]
-        [DataType(DataType.Date)]
-        public DateTime PublishDate { get; set; } = DateTime.Now;
+    [Required]
+    [DataType(DataType.Date)]
+    public DateTime PublishDate { get; set; } = DateTime.Now;
 
-        [Required]
-        public float Price { get; set; }
-    }
+    [Required]
+    public float Price { get; set; }
 }
 ````
 
@@ -371,17 +380,14 @@ Just like done for the `BookDto` above, we should define the mapping from the `C
 using Acme.BookStore.Books;
 using AutoMapper;
 
-namespace Acme.BookStore
+namespace Acme.BookStore;
+
+public class BookStoreApplicationAutoMapperProfile : Profile
 {
-    public class BookStoreApplicationAutoMapperProfile : Profile
+    public BookStoreApplicationAutoMapperProfile()
     {
-        public BookStoreApplicationAutoMapperProfile()
-        {
-            CreateMap<AppUser, AppUserDto>().Ignore(x => x.ExtraProperties);
-            
-            CreateMap<Book, BookDto>();
-            CreateMap<CreateUpdateBookDto, Book>();
-        }
+        CreateMap<Book, BookDto>();
+        CreateMap<CreateUpdateBookDto, Book>();
     }
 }
 ````
@@ -395,17 +401,16 @@ using System;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
-namespace Acme.BookStore.Books
-{
-    public interface IBookAppService :
-        ICrudAppService< //Defines CRUD methods
-            BookDto, //Used to show books
-            Guid, //Primary key of the book entity
-            PagedAndSortedResultRequestDto, //Used for paging/sorting
-            CreateUpdateBookDto> //Used to create/update a book
-    {
+namespace Acme.BookStore.Books;
 
-    }
+public interface IBookAppService :
+    ICrudAppService< //Defines CRUD methods
+        BookDto, //Used to show books
+        Guid, //Primary key of the book entity
+        PagedAndSortedResultRequestDto, //Used for paging/sorting
+        CreateUpdateBookDto> //Used to create/update a book
+{
+
 }
 ````
 
@@ -423,22 +428,21 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 
-namespace Acme.BookStore.Books
-{
-    public class BookAppService :
-        CrudAppService<
-            Book, //The Book entity
-            BookDto, //Used to show books
-            Guid, //Primary key of the book entity
-            PagedAndSortedResultRequestDto, //Used for paging/sorting
-            CreateUpdateBookDto>, //Used to create/update a book
-        IBookAppService //implement the IBookAppService
-    {
-        public BookAppService(IRepository<Book, Guid> repository)
-            : base(repository)
-        {
+namespace Acme.BookStore.Books;
 
-        }
+public class BookAppService :
+    CrudAppService<
+        Book, //The Book entity
+        BookDto, //Used to show books
+        Guid, //Primary key of the book entity
+        PagedAndSortedResultRequestDto, //Used for paging/sorting
+        CreateUpdateBookDto>, //Used to create/update a book
+    IBookAppService //implement the IBookAppService
+{
+    public BookAppService(IRepository<Book, Guid> repository)
+        : base(repository)
+    {
+
     }
 }
 ````
@@ -467,31 +471,31 @@ If you try to execute the `[GET] /api/app/book` API to get a list of books, the 
 
 ````json
 {
-  "totalCount": 2,
-  "items": [
-    {
-      "name": "The Hitchhiker's Guide to the Galaxy",
-      "type": 7,
-      "publishDate": "1995-09-27T00:00:00",
-      "price": 42,
-      "lastModificationTime": null,
-      "lastModifierId": null,
-      "creationTime": "2020-07-03T21:04:18.4607218",
-      "creatorId": null,
-      "id": "86100bb6-cbc1-25be-6643-39f62806969c"
-    },
-    {
-      "name": "1984",
-      "type": 3,
-      "publishDate": "1949-06-08T00:00:00",
-      "price": 19.84,
-      "lastModificationTime": null,
-      "lastModifierId": null,
-      "creationTime": "2020-07-03T21:04:18.3174016",
-      "creatorId": null,
-      "id": "41055277-cce8-37d7-bb37-39f62806960b"
-    }
-  ]
+    "totalCount": 2,
+    "items": [
+        {
+            "name": "The Hitchhiker's Guide to the Galaxy",
+            "type": 7,
+            "publishDate": "1995-09-27T00:00:00",
+            "price": 42,
+            "lastModificationTime": null,
+            "lastModifierId": null,
+            "creationTime": "2023-01-02T11:36:07.4735924",
+            "creatorId": null,
+            "id": "79fdadb4-a0c8-1e37-3b60-3a0883cc82b1"
+        },
+        {
+            "name": "1984",
+            "type": 3,
+            "publishDate": "1949-06-08T00:00:00",
+            "price": 19.84,
+            "lastModificationTime": null,
+            "lastModifierId": null,
+            "creationTime": "2023-01-02T11:36:07.4639037",
+            "creatorId": null,
+            "id": "8186d48f-5b70-849b-2918-3a0883cc829b"
+        }
+    ]
 }
 ````
 

@@ -128,22 +128,12 @@ Open the `CreateModal.cshtml` file and paste the code below:
 
 ### Add the "New book" Button
 
-Open the `Pages/Books/Index.cshtml` and set the content of `abp-card-header` tag as below:
+Open the `Pages/Books/Index.cshtml` and add the section below:
 
 ````html
-<abp-card-header>
-    <abp-row>
-        <abp-column size-md="_6">
-            <abp-card-title>@L["Books"]</abp-card-title>
-        </abp-column>
-        <abp-column size-md="_6" class="text-right">
-            <abp-button id="NewBookButton"
-                        text="@L["NewBook"].Value"
-                        icon="plus"
-                        button-type="Primary"/>
-        </abp-column>
-    </abp-row>
-</abp-card-header>
+@section content_toolbar {
+    <abp-button id="NewBookButton" text="@L["NewBook"].Value" icon="plus" size="Small" button-type="Primary" />
+}
 ````
 
 The final content of the `Index.cshtml` is shown below:
@@ -151,29 +141,25 @@ The final content of the `Index.cshtml` is shown below:
 ````html
 @page
 @using Acme.BookStore.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
 @using Acme.BookStore.Web.Pages.Books
 @using Microsoft.Extensions.Localization
 @model IndexModel
 @inject IStringLocalizer<BookStoreResource> L
+@inject IPageLayout PageLayout
+@{
+    PageLayout.Content.MenuItemName = "BooksStore";
+    PageLayout.Content.Title = L["Books"].Value;
+}
 @section scripts
-{
-    <abp-script src="/Pages/Books/Index.js"/>
+    {
+    <abp-script src="/Pages/Books/Index.js" />
+}
+@section content_toolbar {
+    <abp-button id="NewBookButton" text="@L["NewBook"].Value" icon="plus" size="Small" button-type="Primary" />
 }
 
 <abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["Books"]</abp-card-title>
-            </abp-column>
-            <abp-column size-md="_6" class="text-right">
-                <abp-button id="NewBookButton"
-                            text="@L["NewBook"].Value"
-                            icon="plus"
-                            button-type="Primary"/>
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="BooksTable"></abp-table>
     </abp-card-body>
@@ -226,7 +212,7 @@ $(function () {
                     title: l('Type'),
                     data: "type",
                     render: function (data) {
-                        return l('Enum:BookType:' + data);
+                        return l('Enum:BookType.' + data);
                     }
                 },
                 {
@@ -331,16 +317,16 @@ namespace Acme.BookStore.Web.Pages.Books
 To be able to map the `BookDto` to `CreateUpdateBookDto`, configure a new mapping. To do this, open the `BookStoreWebAutoMapperProfile.cs` in the `Acme.BookStore.Web` project and change it as shown below:
 
 ````csharp
+using Acme.BookStore.Books;
 using AutoMapper;
 
-namespace Acme.BookStore.Web
+namespace Acme.BookStore.Web;
+
+public class BookStoreWebAutoMapperProfile : Profile
 {
-    public class BookStoreWebAutoMapperProfile : Profile
+    public BookStoreWebAutoMapperProfile()
     {
-        public BookStoreWebAutoMapperProfile()
-        {
-            CreateMap<BookDto, CreateUpdateBookDto>();
-        }
+        CreateMap<BookDto, CreateUpdateBookDto>();
     }
 }
 ````
@@ -424,7 +410,7 @@ $(function () {
                     title: l('Type'),
                     data: "type",
                     render: function (data) {
-                        return l('Enum:BookType:' + data);
+                        return l('Enum:BookType.' + data);
                     }
                 },
                 {
@@ -476,7 +462,7 @@ $(function () {
 * "*Edit*" action simply calls `editModal.open()` to open the edit dialog.
 * `editModal.onResult(...)`  callback refreshes the data table when you close the edit modal.
 
-You can run the application and edit any book by selecting the edit action on a book.
+You can run the application and edit any book by selecting the edit action on a book. Since there is only one action, the "*Actions*" dropdown is simply replaced by the edit button.
 
 The final UI looks as below:
 
@@ -545,18 +531,13 @@ $(function () {
                                 {
                                     text: l('Delete'),
                                     confirmMessage: function (data) {
-                                        return l(
-                                            'BookDeletionConfirmationMessage',
-                                            data.record.name
-                                        );
+                                        return l('BookDeletionConfirmationMessage', data.record.name);
                                     },
                                     action: function (data) {
                                         acme.bookStore.books.book
                                             .delete(data.record.id)
-                                            .then(function() {
-                                                abp.notify.info(
-                                                    l('SuccessfullyDeleted')
-                                                );
+                                            .then(function () {
+                                                abp.notify.info(l('SuccessfullyDeleted'));
                                                 dataTable.ajax.reload();
                                             });
                                     }
@@ -572,7 +553,7 @@ $(function () {
                     title: l('Type'),
                     data: "type",
                     render: function (data) {
-                        return l('Enum:BookType:' + data);
+                        return l('Enum:BookType.' + data);
                     }
                 },
                 {
