@@ -599,7 +599,7 @@ function configureRoutes(routes: RoutesService) {
 Run the following command in the `angular` folder:
 
 ```bash
-abp generate-proxy
+abp generate-proxy -t ng
 ```
 
 This command generates the service proxy for the author service and the related model (DTO) classes:
@@ -708,68 +708,54 @@ export class AuthorComponent implements OnInit {
 Open the `/src/app/author/author.component.html` and replace the content as below:
 
 ````html
-<div class="row entry-row">
-  <div class="col-12 col-sm-auto">
-    <h1 class="content-header-title">{%{{{ '::Menu:Authors' | abpLocalization }}}%}</h1>
-  </div>
-
-  <div class="col-lg-auto pl-lg-0">
-    <abp-breadcrumb></abp-breadcrumb>
-  </div>
-
-  <div class="col">
-    <div class="text-lg-right pt-2">
-      <button
-        *abpPermission="'BookStore.Authors.Create'"
-        class="btn btn-primary btn-sm"
-        type="button"
-        (click)="createAuthor()"
-      >
-        <i class="fa fa-plus mr-1" aria-hidden="true"></i>
+<abp-page [title]=" '::Menu:Authors' | abpLocalization ">
+  <abp-page-toolbar-container class="col">
+    <div class="text-lg-end pt-2">
+      <button *abpPermission="'BookStore.Authors.Create'"
+              class="btn btn-primary btn-sm"
+              type="button"
+              (click)="createAuthor()">
+        <i class="fa fa-plus me-1"></i>
         {%{{{ '::NewAuthor' | abpLocalization }}}%}
       </button>
     </div>
-  </div>
-</div>
+  </abp-page-toolbar-container>
 
-<div class="card">
-  <div class="card-body">
-    <ngx-datatable [rows]="author.items" [count]="author.totalCount" [list]="list" default>
-      <ngx-datatable-column
-        [name]="'::Actions' | abpLocalization"
-        [maxWidth]="150"
-        [sortable]="false"
-      >
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <div ngbDropdown container="body" class="d-inline-block">
-            <button
-              class="btn btn-primary btn-sm dropdown-toggle"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              ngbDropdownToggle
-            >
-              <i class="fa fa-cog mr-1"></i>{%{{{ '::Actions' | abpLocalization }}}%}
-            </button>
-            <div ngbDropdownMenu>
-              <button ngbDropdownItem (click)="editAuthor(row.id)">
-                {%{{{ '::Edit' | abpLocalization }}}%}
+  <div class="card">
+    <div class="card-body">
+      <ngx-datatable [rows]="author.items" [count]="author.totalCount" [list]="list" default>
+        <ngx-datatable-column [name]="'::Actions' | abpLocalization"
+                              [maxWidth]="150"
+                              [sortable]="false">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div ngbDropdown container="body" class="d-inline-block">
+              <button class="btn btn-primary btn-sm dropdown-toggle"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      ngbDropdownToggle>
+                <i class="fa fa-cog mr-1"></i>{%{{{ '::Actions' | abpLocalization }}}%}
               </button>
-              <button ngbDropdownItem (click)="delete(row.id)">
-                {%{{{ '::Delete' | abpLocalization }}}%}
-              </button>
+              <div ngbDropdownMenu>
+                <button ngbDropdownItem (click)="editAuthor(row.id)">
+                  {%{{{ '::Edit' | abpLocalization }}}%}
+                </button>
+                <button ngbDropdownItem (click)="delete(row.id)">
+                  {%{{{ '::Delete' | abpLocalization }}}%}
+                </button>
+              </div>
             </div>
-          </div>
-        </ng-template>
-      </ngx-datatable-column>
-      <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
-      <ngx-datatable-column [name]="'::BirthDate' | abpLocalization">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          {%{{{ row.birthDate | date }}}%}
-        </ng-template>
-      </ngx-datatable-column>
-    </ngx-datatable>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'::BirthDate' | abpLocalization">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {%{{{ row.birthDate | date }}}%}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
   </div>
-</div>
+</abp-page>
 
 <abp-modal [(visible)]="isModalOpen">
   <ng-template #abpHeader>
@@ -785,20 +771,18 @@ Open the `/src/app/author/author.component.html` and replace the content as belo
 
       <div class="form-group">
         <label>Birth date</label><span> * </span>
-        <input
-          #datepicker="ngbDatepicker"
-          class="form-control"
-          name="datepicker"
-          formControlName="birthDate"
-          ngbDatepicker
-          (click)="datepicker.toggle()"
-        />
+        <input #datepicker="ngbDatepicker"
+               class="form-control"
+               name="datepicker"
+               formControlName="birthDate"
+               ngbDatepicker
+               (click)="datepicker.toggle()" />
       </div>
     </form>
   </ng-template>
 
   <ng-template #abpFooter>
-    <button type="button" class="btn btn-secondary" #abpClose>
+    <button type="button" class="btn btn-secondary" abpClose>
       {%{{{ '::Close' | abpLocalization }}}%}
     </button>
 

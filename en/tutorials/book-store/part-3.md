@@ -653,45 +653,56 @@ export class BookComponent implements OnInit {
 Open `/src/app/book/book.component.html` and make the following changes:
 
 ```html
-<div class="row entry-row">
-    <div class="col-auto">
-        <h1 class="content-header-title">
-            {%{{{ '::Menu:Books' | abpLocalization }}}%}
-        </h1>
+<abp-page [title]=" '::Menu:Books' | abpLocalization ">
+  <abp-page-toolbar-container class="col">
+    <div class="text-lg-end pt-2">
+      <button class="btn btn-primary btn-sm"
+              type="button"
+              (click)="createBook()">
+        <i class="fa fa-plus me-1"></i>
+        {%{{{ '::NewBook' | abpLocalization }}}%}
+      </button>
     </div>
-    <div class="col-lg-auto pl-lg-0">
-        <abp-breadcrumb></abp-breadcrumb>
-    </div>
-    <div class="col">
-        <div class="text-lg-right pt-2">
-            <!-- Add the "new book" button here -->
-            <button id="create" class="btn btn-primary" type="button" (click)="createBook()">
-                <i class="fa fa-plus mr-1"></i>
-                <span>{%{{{ "::NewBook" | abpLocalization }}}%}</span>
-            </button>
-        </div>
-    </div>
-</div>
+  </abp-page-toolbar-container>
 
-<div class="card">
+  <div class="card">
     <div class="card-body">
-        <!-- ngx-datatable should be here! -->
+
+      <ngx-datatable [rows]="book.items" [count]="book.totalCount" [list]="list" default>
+        <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'::Type' | abpLocalization" prop="type">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {%{{{ '::Enum:BookType.' + row.type | abpLocalization }}}%}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'::PublishDate' | abpLocalization" prop="publishDate">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {%{{{ row.publishDate | date }}}%}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'::Price' | abpLocalization" prop="price">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+           {%{{{ row.price | currency }}}%}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
     </div>
-</div>
+  </div>
+</abp-page>
 
 <!-- Add the modal here -->
 <abp-modal [(visible)]="isModalOpen">
-    <ng-template #abpHeader>
-        <h3>{%{{{ '::NewBook' | abpLocalization }}}%}</h3>
-    </ng-template>
+  <ng-template #abpHeader>
+    <h3>{%{{{ '::NewBook' | abpLocalization }}}%}</h3>
+  </ng-template>
 
-    <ng-template #abpBody> </ng-template>
+  <ng-template #abpBody> </ng-template>
 
-    <ng-template #abpFooter>
-        <button type="button" class="btn btn-secondary" #abpClose>
-            {%{{{ '::Close' | abpLocalization }}}%}
-        </button>
-    </ng-template>
+  <ng-template #abpFooter>
+    <button type="button" class="btn btn-secondary" abpClose>
+      {%{{{ '::Close' | abpLocalization }}}%}
+    </button>
+  </ng-template>
 </abp-modal>
 ```
 
@@ -791,12 +802,12 @@ Open `/src/app/book/book.component.html` and replace `<ng-template #abpBody> </n
       <input type="text" id="book-name" class="form-control" formControlName="name" autofocus />
     </div>
 
-    <div class="form-group">
+    <div class="form-group mt-2">
       <label for="book-price">Price</label><span> * </span>
       <input type="number" id="book-price" class="form-control" formControlName="price" />
     </div>
 
-    <div class="form-group">
+    <div class="form-group mt-2">
       <label for="book-type">Type</label><span> * </span>
       <select class="form-control" id="book-type" formControlName="type">
         <option [ngValue]="null">Select a book type</option>
@@ -804,7 +815,7 @@ Open `/src/app/book/book.component.html` and replace `<ng-template #abpBody> </n
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="form-group mt-2">
       <label>Publish date</label><span> * </span>
       <input
         #datepicker="ngbDatepicker"
@@ -823,7 +834,7 @@ Also replace `<ng-template #abpFooter> </ng-template>` with the following code p
 
 ````html
 <ng-template #abpFooter>
-  <button type="button" class="btn btn-secondary" #abpClose>
+  <button type="button" class="btn btn-secondary" abpClose>
       {%{{{ '::Close' | abpLocalization }}}%}
   </button>
 
@@ -846,6 +857,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { BookRoutingModule } from './book-routing.module';
 import { BookComponent } from './book.component';
+import { PageModule } from '@abp/ng.components/page'
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap'; // add this line
 
 @NgModule({
@@ -853,6 +865,7 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap'; // add this li
   imports: [
     BookRoutingModule,
     SharedModule,
+    PageModule,
     NgbDatepickerModule, // add this line
   ]
 })

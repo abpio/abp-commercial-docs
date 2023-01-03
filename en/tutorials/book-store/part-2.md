@@ -387,16 +387,16 @@ This command should produce the following output:
 ````bash
 > yarn ng generate module book --module app --routing --route books
 
-yarn run v1.19.1
+yarn run v1.22.17
 $ ng generate module book --module app --routing --route books
-CREATE src/app/book/book-routing.module.ts (336 bytes)
-CREATE src/app/book/book.module.ts (335 bytes)
+CREATE src/app/book/book-routing.module.ts (335 bytes)
+CREATE src/app/book/book.module.ts (343 bytes)
 CREATE src/app/book/book.component.html (19 bytes)
-CREATE src/app/book/book.component.spec.ts (614 bytes)
-CREATE src/app/book/book.component.ts (268 bytes)
+CREATE src/app/book/book.component.spec.ts (585 bytes)
+CREATE src/app/book/book.component.ts (195 bytes)
 CREATE src/app/book/book.component.scss (0 bytes)
-UPDATE src/app/app-routing.module.ts (1289 bytes)
-Done in 3.88s.
+UPDATE src/app/app-routing.module.ts (2181 bytes)
+Done in 1.25s.
 ````
 
 ### BookModule
@@ -408,12 +408,14 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { BookRoutingModule } from './book-routing.module';
 import { BookComponent } from './book.component';
+import { PageModule } from '@abp/ng.components/page'
 
 @NgModule({
   declarations: [BookComponent],
   imports: [
     BookRoutingModule,
-    SharedModule
+    SharedModule,
+	PageModule
   ]
 })
 export class BookModule { }
@@ -490,7 +492,7 @@ For more information, see the [RoutesService document](https://docs.abp.io/en/ab
 Run the following command in the `angular` folder:
 
 ```bash
-abp generate-proxy
+abp generate-proxy -t ng
 ```
 
 This command will create the following files under the `/src/app/proxy/books` folder:
@@ -553,7 +555,7 @@ Open the `/src/app/book/book.component.html` and replace the content as below:
       <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
       <ngx-datatable-column [name]="'::Type' | abpLocalization" prop="type">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {%{{{ '::Enum:BookType:' + row.type | abpLocalization }}}%}
+          {%{{{ '::Enum:BookType.' + row.type | abpLocalization }}}%}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'::PublishDate' | abpLocalization" prop="publishDate">
