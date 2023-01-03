@@ -541,17 +541,14 @@ The base `AbpCrudPageBase` class already has the necessary functionality for the
 
 #### Set the Policy (Permission) Names
 
-Add the following code block to the end of the `Books.razor` file:
+Add the following constructor to the `Books.razor.cs` file:
 
 ````csharp
-@code
+public Books()
 {
-    public Books() // Constructor
-    {
-        CreatePolicyName = BookStorePermissions.Books.Create;
-        UpdatePolicyName = BookStorePermissions.Books.Edit;
-        DeletePolicyName = BookStorePermissions.Books.Delete;
-    }
+    CreatePolicyName = BookStorePermissions.Books.Create;
+    UpdatePolicyName = BookStorePermissions.Books.Edit;
+    DeletePolicyName = BookStorePermissions.Books.Delete;
 }
 ````
 
@@ -561,18 +558,15 @@ The base `AbpCrudPageBase` class automatically checks these permissions on the r
 * `HasUpdatePermission`: True, if the current user has permission to edit/update the entity.
 * `HasDeletePermission`: True, if the current user has permission to delete the entity.
 
-> **Blazor Tip**: While adding the C# code into a `@code` block is fine for small code parts, it is suggested to use the code behind approach to develop a more maintainable code base when the code block becomes longer. We will use this approach for the authors part.
-
 #### Hide the New Book Button
 
-Wrap the *New Book* button by an `if` block as shown below:
+Add the `requiredPolicyName` parameter to button configuration as shown below:
 
-````xml
-@if (HasCreatePermission)
-{
-    <Button Color="Color.Primary"
-            Clicked="OpenCreateModalAsync">@L["NewBook"]</Button>
-}
+````csharp
+Toolbar.AddButton(L["NewBook"],
+    OpenCreateModalAsync,
+    IconName.Add,
+    requiredPolicyName: CreatePolicyName);
 ````
 
 #### Hide the Edit/Delete Actions
@@ -650,38 +644,82 @@ if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
 You also need to add `async` keyword to the `ConfigureMenuAsync` method and re-arrange the return value. The final `ConfigureMainMenuAsync` method should be the following:
 
 ````csharp
-private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
-{
-    var l = context.GetLocalizer<BookStoreResource>();
+    private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
+    {
+        var l = context.GetLocalizer<BookStoreResource>();
 
-    context.Menu.Items.Insert(
-        0,
-        new ApplicationMenuItem(
-            "BookStore.Home",
+        context.Menu.AddItem(new ApplicationMenuItem(
+            BookStoreMenus.Home,
             l["Menu:Home"],
             "/",
-            icon: "fas fa-home"
-        )
-    );
-
-    var bookStoreMenu = new ApplicationMenuItem(
-        "BooksStore",
-        l["Menu:BookStore"],
-        icon: "fa fa-book"
-    );
-
-    context.Menu.AddItem(bookStoreMenu);
-
-    //CHECK the PERMISSION
-    if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
-    {
-        bookStoreMenu.AddItem(new ApplicationMenuItem(
-            "BooksStore.Books",
-            l["Menu:Books"],
-            url: "/books"
+            icon: "fas fa-home",
+            order: 1
         ));
+
+        var bookStoreMenu = new ApplicationMenuItem(
+            "BooksStore",
+            l["Menu:BookStore"],
+            icon: "fa fa-book"
+        );
+
+        context.Menu.AddItem(bookStoreMenu);
+
+        //CHECK the PERMISSION
+        if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
+        {
+            bookStoreMenu.AddItem(new ApplicationMenuItem(
+                "BooksStore.Books",
+                l["Menu:Books"],
+                url: "/books"
+            ));
+        }
+
+        //HostDashboard
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                BookStoreMenus.HostDashboard,
+                l["Menu:Dashboard"],
+                "/HostDashboard",
+                icon: "fa fa-chart-line",
+                order: 2
+            ).RequirePermissions(BookStorePermissions.Dashboard.Host)
+        );
+
+        //TenantDashboard
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                BookStoreMenus.TenantDashboard,
+                l["Menu:Dashboard"],
+                "/Dashboard",
+                icon: "fa fa-chart-line",
+                order: 2
+            ).RequirePermissions(BookStorePermissions.Dashboard.Tenant)
+        );
+
+        context.Menu.SetSubItemOrder(SaasHostMenus.GroupName, 3);
+
+        //Administration
+        var administration = context.Menu.GetAdministration();
+        administration.Order = 3;
+
+        //Administration->Identity
+        administration.SetSubItemOrder(IdentityProMenus.GroupName, 1);
+
+        //Administration->OpenId
+        administration.SetSubItemOrder(OpenIddictProMenus.GroupName, 2);
+
+        //Administration->Language Management
+        administration.SetSubItemOrder(LanguageManagementMenus.GroupName, 3);
+
+        //Administration->Text Template Management
+        administration.SetSubItemOrder(TextTemplateManagementMenus.GroupName, 4);
+
+        //Administration->Audit Logs
+        administration.SetSubItemOrder(AbpAuditLoggingMenus.GroupName, 5);
+
+        //Administration->Settings
+        administration.SetSubItemOrder(SettingManagementMenus.GroupName, 6);
     }
-}
 ````
 
 {{end}}

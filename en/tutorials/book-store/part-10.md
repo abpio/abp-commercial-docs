@@ -140,72 +140,71 @@ using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 
-namespace Acme.BookStore
+namespace Acme.BookStore;
+
+public class BookStoreDataSeederContributor
+    : IDataSeedContributor, ITransientDependency
 {
-    public class BookStoreDataSeederContributor
-        : IDataSeedContributor, ITransientDependency
+    private readonly IRepository<Book, Guid> _bookRepository;
+    private readonly IAuthorRepository _authorRepository;
+    private readonly AuthorManager _authorManager;
+
+    public BookStoreDataSeederContributor(
+        IRepository<Book, Guid> bookRepository,
+        IAuthorRepository authorRepository,
+        AuthorManager authorManager)
     {
-        private readonly IRepository<Book, Guid> _bookRepository;
-        private readonly IAuthorRepository _authorRepository;
-        private readonly AuthorManager _authorManager;
+        _bookRepository = bookRepository;
+        _authorRepository = authorRepository;
+        _authorManager = authorManager;
+    }
 
-        public BookStoreDataSeederContributor(
-            IRepository<Book, Guid> bookRepository,
-            IAuthorRepository authorRepository,
-            AuthorManager authorManager)
+    public async Task SeedAsync(DataSeedContext context)
+    {
+        if (await _bookRepository.GetCountAsync() > 0)
         {
-            _bookRepository = bookRepository;
-            _authorRepository = authorRepository;
-            _authorManager = authorManager;
+            return;
         }
 
-        public async Task SeedAsync(DataSeedContext context)
-        {
-            if (await _bookRepository.GetCountAsync() > 0)
+        var orwell = await _authorRepository.InsertAsync(
+            await _authorManager.CreateAsync(
+                "George Orwell",
+                new DateTime(1903, 06, 25),
+                "Orwell produced literary criticism and poetry, fiction and polemical journalism; and is best known for the allegorical novella Animal Farm (1945) and the dystopian novel Nineteen Eighty-Four (1949)."
+            )
+        );
+
+        var douglas = await _authorRepository.InsertAsync(
+            await _authorManager.CreateAsync(
+                "Douglas Adams",
+                new DateTime(1952, 03, 11),
+                "Douglas Adams was an English author, screenwriter, essayist, humorist, satirist and dramatist. Adams was an advocate for environmentalism and conservation, a lover of fast cars, technological innovation and the Apple Macintosh, and a self-proclaimed 'radical atheist'."
+            )
+        );
+
+        await _bookRepository.InsertAsync(
+            new Book
             {
-                return;
-            }
+                AuthorId = orwell.Id, // SET THE AUTHOR
+                Name = "1984",
+                Type = BookType.Dystopia,
+                PublishDate = new DateTime(1949, 6, 8),
+                Price = 19.84f
+            },
+            autoSave: true
+        );
 
-            var orwell = await _authorRepository.InsertAsync(
-                await _authorManager.CreateAsync(
-                    "George Orwell",
-                    new DateTime(1903, 06, 25),
-                    "Orwell produced literary criticism and poetry, fiction and polemical journalism; and is best known for the allegorical novella Animal Farm (1945) and the dystopian novel Nineteen Eighty-Four (1949)."
-                )
-            );
-
-            var douglas = await _authorRepository.InsertAsync(
-                await _authorManager.CreateAsync(
-                    "Douglas Adams",
-                    new DateTime(1952, 03, 11),
-                    "Douglas Adams was an English author, screenwriter, essayist, humorist, satirist and dramatist. Adams was an advocate for environmentalism and conservation, a lover of fast cars, technological innovation and the Apple Macintosh, and a self-proclaimed 'radical atheist'."
-                )
-            );
-
-            await _bookRepository.InsertAsync(
-                new Book
-                {
-                    AuthorId = orwell.Id, // SET THE AUTHOR
-                    Name = "1984",
-                    Type = BookType.Dystopia,
-                    PublishDate = new DateTime(1949, 6, 8),
-                    Price = 19.84f
-                },
-                autoSave: true
-            );
-
-            await _bookRepository.InsertAsync(
-                new Book
-                {
-                    AuthorId = douglas.Id, // SET THE AUTHOR
-                    Name = "The Hitchhiker's Guide to the Galaxy",
-                    Type = BookType.ScienceFiction,
-                    PublishDate = new DateTime(1995, 9, 27),
-                    Price = 42.0f
-                },
-                autoSave: true
-            );
-        }
+        await _bookRepository.InsertAsync(
+            new Book
+            {
+                AuthorId = douglas.Id, // SET THE AUTHOR
+                Name = "The Hitchhiker's Guide to the Galaxy",
+                Type = BookType.ScienceFiction,
+                PublishDate = new DateTime(1995, 9, 27),
+                Price = 42.0f
+            },
+            autoSave: true
+        );
     }
 }
 ````
@@ -605,88 +604,90 @@ CreateMap<Author, AuthorLookupDto>();
 
 ## Unit Tests
 
-Some of the unit tests will fail since we made some changed on the `AuthorAppService`. Open the `BookAppService_Tests` in the `Books` folder of the `Acme.BookStore.Application.Tests` project and change the content as the following:
+Some of the unit tests will fail since we made some changed on the `BookAppService`. Open the `BookAppService_Tests` in the `Books` folder of the `Acme.BookStore.Application.Tests` project and change the content as the following:
 
 ```csharp
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Acme.BookStore;
 using Acme.BookStore.Authors;
+using Acme.BookStore.Books;
 using Shouldly;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Validation;
 using Xunit;
 
-namespace Acme.BookStore.Books
+namespace Acme.BookStore.Books;
+
 { {{if DB=="Mongo"}}
-    [Collection(BookStoreTestConsts.CollectionDefinitionName)]{{end}}
-    public class BookAppService_Tests : BookStoreApplicationTestBase
+    [Collection(BookStoreTestConsts.CollectionDefinitionName)] { { end} }
+public class BookAppService_Tests : BookStoreApplicationTestBase
+{
+    private readonly IBookAppService _bookAppService;
+    private readonly IAuthorAppService _authorAppService;
+
+    public BookAppService_Tests()
     {
-        private readonly IBookAppService _bookAppService;
-        private readonly IAuthorAppService _authorAppService;
+        _bookAppService = GetRequiredService<IBookAppService>();
+        _authorAppService = GetRequiredService<IAuthorAppService>();
+    }
 
-        public BookAppService_Tests()
+    [Fact]
+    public async Task Should_Get_List_Of_Books()
+    {
+        //Act
+        var result = await _bookAppService.GetListAsync(
+            new PagedAndSortedResultRequestDto()
+        );
+
+        //Assert
+        result.TotalCount.ShouldBeGreaterThan(0);
+        result.Items.ShouldContain(b => b.Name == "1984" &&
+                                   b.AuthorName == "George Orwell");
+    }
+
+    [Fact]
+    public async Task Should_Create_A_Valid_Book()
+    {
+        var authors = await _authorAppService.GetListAsync(new GetAuthorListDto());
+        var firstAuthor = authors.Items.First();
+
+        //Act
+        var result = await _bookAppService.CreateAsync(
+            new CreateUpdateBookDto
+            {
+                AuthorId = firstAuthor.Id,
+                Name = "New test book 42",
+                Price = 10,
+                PublishDate = System.DateTime.Now,
+                Type = BookType.ScienceFiction
+            }
+        );
+
+        //Assert
+        result.Id.ShouldNotBe(Guid.Empty);
+        result.Name.ShouldBe("New test book 42");
+    }
+
+    [Fact]
+    public async Task Should_Not_Create_A_Book_Without_Name()
+    {
+        var exception = await Assert.ThrowsAsync<AbpValidationException>(async () =>
         {
-            _bookAppService = GetRequiredService<IBookAppService>();
-            _authorAppService = GetRequiredService<IAuthorAppService>();
-        }
-
-        [Fact]
-        public async Task Should_Get_List_Of_Books()
-        {
-            //Act
-            var result = await _bookAppService.GetListAsync(
-                new PagedAndSortedResultRequestDto()
-            );
-
-            //Assert
-            result.TotalCount.ShouldBeGreaterThan(0);
-            result.Items.ShouldContain(b => b.Name == "1984" &&
-                                       b.AuthorName == "George Orwell");
-        }
-        
-        [Fact]
-        public async Task Should_Create_A_Valid_Book()
-        {
-            var authors = await _authorAppService.GetListAsync(new GetAuthorListDto());
-            var firstAuthor = authors.Items.First();
-
-            //Act
-            var result = await _bookAppService.CreateAsync(
+            await _bookAppService.CreateAsync(
                 new CreateUpdateBookDto
                 {
-                    AuthorId = firstAuthor.Id,
-                    Name = "New test book 42",
+                    Name = "",
                     Price = 10,
-                    PublishDate = System.DateTime.Now,
+                    PublishDate = DateTime.Now,
                     Type = BookType.ScienceFiction
                 }
             );
+        });
 
-            //Assert
-            result.Id.ShouldNotBe(Guid.Empty);
-            result.Name.ShouldBe("New test book 42");
-        }
-        
-        [Fact]
-        public async Task Should_Not_Create_A_Book_Without_Name()
-        {
-            var exception = await Assert.ThrowsAsync<AbpValidationException>(async () =>
-            {
-                await _bookAppService.CreateAsync(
-                    new CreateUpdateBookDto
-                    {
-                        Name = "",
-                        Price = 10,
-                        PublishDate = DateTime.Now,
-                        Type = BookType.ScienceFiction
-                    }
-                );
-            });
-
-            exception.ValidationErrors
-                .ShouldContain(err => err.MemberNames.Any(m => m == "Name"));
-        }
+        exception.ValidationErrors
+            .ShouldContain(err => err.MemberNames.Any(m => m == "Name"));
     }
 }
 ```
@@ -1092,7 +1093,7 @@ When you run the application, you can see the *Author* column on the table:
 
 ### Create Book Modal
 
-Add the following field to the `@code` section of the `Books.razor` file:
+Add the following field to the `Books.razor.cs` file:
 
 ````csharp
 IReadOnlyList<AuthorLookupDto> authorList = Array.Empty<AuthorLookupDto>();
@@ -1110,26 +1111,46 @@ protected override async Task OnInitializedAsync()
 
 \* It is essential to call the `base.OnInitializedAsync()` since `AbpCrudPageBase` has some initialization code to be executed.
 
-The final `@code` block should be the following:
+The final `Books.razor.cs` should be the following:
 
 ````csharp
-@code
+using Blazorise;
+using System.Threading.Tasks;
+using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars;
+using Acme.BookStore.Permissions;
+using Acme.BookStore.Books;
+using System.Collections.Generic;
+using System;
+
+namespace Acme.BookStore.Blazor.Pages;
+
+public partial class Books
 {
-    //ADDED A NEW FIELD
     IReadOnlyList<AuthorLookupDto> authorList = Array.Empty<AuthorLookupDto>();
-    
-    public Books() // Constructor
+
+    protected PageToolbar Toolbar { get; } = new();
+
+    public Books()
     {
         CreatePolicyName = BookStorePermissions.Books.Create;
         UpdatePolicyName = BookStorePermissions.Books.Edit;
         DeletePolicyName = BookStorePermissions.Books.Delete;
     }
-    
-    //GET AUTHORS ON INITIALIZATION
+
     protected override async Task OnInitializedAsync()
-    {    
+    {
         await base.OnInitializedAsync();
         authorList = (await AppService.GetAuthorLookupAsync()).Items;
+    }
+
+    protected override ValueTask SetToolbarItemsAsync()
+    {
+        Toolbar.AddButton(L["NewBook"],
+            OpenCreateModalAsync,
+            IconName.Add,
+            requiredPolicyName: CreatePolicyName);
+
+        return base.SetToolbarItemsAsync();
     }
 }
 ````

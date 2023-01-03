@@ -251,7 +251,6 @@ public interface IAuthorRepository : IRepository<Author, Guid>
         string filter = null
     );
 }
-
 ````
 
 * `IAuthorRepository` extends the standard `IRepository<Author, Guid>` interface, so all the standard [repository](https://docs.abp.io/en/abp/latest/Repositories) methods will also be available for the `IAuthorRepository`.

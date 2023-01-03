@@ -631,62 +631,79 @@ We will use the [Blazorise library](https://blazorise.com/) as the UI component 
 
 ABP Framework provides a generic base class, `AbpCrudPageBase<...>`, to create CRUD style pages. This base class is compatible to the `ICrudAppService` that was used to build the `IBookAppService`. So, we can inherit from the `AbpCrudPageBase` to automate the code behind for the standard CRUD stuff.
 
-Open the `Books.razor` and replace the content as the following:
+Create `Books.razor.cs` next to `Books.razor` file:
+
+````csharp
+using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars;
+
+namespace Acme.BookStore.Blazor.Pages;
+
+public partial class Books
+{
+    protected PageToolbar Toolbar { get; } = new();
+}
+````
+
+Then open the `Books.razor` and replace the content as the following:
 
 ````xml
 @page "/books"
 @using Volo.Abp.Application.Dtos
 @using Acme.BookStore.Books
 @using Acme.BookStore.Localization
+@using Volo.Abp.AspNetCore.Components.Web.Theming.Layout
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<BookStoreResource> L
 @inherits AbpCrudPageBase<IBookAppService, BookDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateBookDto>
 
-<Card>
-    <CardHeader>
-        <h2>@L["Books"]</h2>
-    </CardHeader>
-    <CardBody>
-        <DataGrid TItem="BookDto"
-                  Data="Entities"
-                  ReadData="OnDataGridReadAsync"
-                  CurrentPage="CurrentPage"
-                  TotalItems="TotalCount"
-                  ShowPager="true"
-                  PageSize="PageSize">
-            <DataGridColumns>
-                <DataGridColumn TItem="BookDto"
-                                Field="@nameof(BookDto.Name)"
-                                Caption="@L["Name"]"></DataGridColumn>
-                <DataGridColumn TItem="BookDto"
-                                Field="@nameof(BookDto.Type)"
-                                Caption="@L["Type"]">
-                    <DisplayTemplate>
-                        @L[$"Enum:BookType:{(int)context.Type}"]
-                    </DisplayTemplate>
-                </DataGridColumn>
-                <DataGridColumn TItem="BookDto"
-                                Field="@nameof(BookDto.PublishDate)" 
-                                Caption="@L["PublishDate"]">
-                    <DisplayTemplate>
-                        @context.PublishDate.ToShortDateString()
-                    </DisplayTemplate>
-                </DataGridColumn>
-                <DataGridColumn TItem="BookDto"
-                                Field="@nameof(BookDto.Price)" 
-                                Caption="@L["Price"]">
-                </DataGridColumn>
-                <DataGridColumn TItem="BookDto"
-                                Field="@nameof(BookDto.CreationTime)"
-                                Caption="@L["CreationTime"]">
-                    <DisplayTemplate>
-                        @context.CreationTime.ToLongDateString()
-                    </DisplayTemplate>
-                </DataGridColumn>
-            </DataGridColumns>
-        </DataGrid>
-    </CardBody>
-</Card>
+<CascadingValue Value="this">
+    @* ************************* PAGE HEADER ************************* *@
+    <PageHeader Title="@L["Books"]" BreadcrumbItems="@BreadcrumbItems" Toolbar="@Toolbar">
+    </PageHeader>
+
+    <Card>
+        <CardBody>
+            <DataGrid TItem="BookDto"
+                      Data="Entities"
+                      ReadData="OnDataGridReadAsync"
+                      CurrentPage="CurrentPage"
+                      TotalItems="TotalCount"
+                      ShowPager="true"
+                      PageSize="PageSize">
+                <DataGridColumns>
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.Name)"
+                                    Caption="@L["Name"]"></DataGridColumn>
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.Type)"
+                                    Caption="@L["Type"]">
+                        <DisplayTemplate>
+                            @L[$"Enum:BookType.{(int)context.Type}"]
+                        </DisplayTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.PublishDate)"
+                                    Caption="@L["PublishDate"]">
+                        <DisplayTemplate>
+                            @context.PublishDate.ToShortDateString()
+                        </DisplayTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.Price)"
+                                    Caption="@L["Price"]">
+                    </DataGridColumn>
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.CreationTime)"
+                                    Caption="@L["CreationTime"]">
+                        <DisplayTemplate>
+                            @context.CreationTime.ToLongDateString()
+                        </DisplayTemplate>
+                    </DataGridColumn>
+                </DataGridColumns>
+            </DataGrid>
+        </CardBody>
+    </Card>
+</CascadingValue>
 ````
 
 > If you see some syntax errors, you can ignore them if your application property built and run. Visual Studio still has some bugs with Blazor.
