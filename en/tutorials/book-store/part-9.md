@@ -212,17 +212,28 @@ Notice that we've added more keys. They will be used in the next sections.
 
 ### Add to the Main Menu
 
-Open the `BookStoreMenuContributor.cs` in the `Menus` folder of the `Acme.BookStore.Web` project and add the following code in the end of the `ConfigureMainMenuAsync` method:
+Open the `BookStoreMenuContributor.cs` in the `Menus` folder of the `Acme.BookStore.Web` project and add a new *Authors* menu item under the *Book Store* menu item. The following code (in the `ConfigureMainMenuAsync` method) shows the final code part:
 
 ````csharp
-if (await context.IsGrantedAsync(BookStorePermissions.Authors.Default))
-{
-    bookStoreMenu.AddItem(new ApplicationMenuItem(
-        "BooksStore.Authors",
-        l["Menu:Authors"],
-        url: "/Authors"
-    ));
-}
+context.Menu.AddItem(
+    new ApplicationMenuItem(
+        "BooksStore",
+        l["Menu:BookStore"],
+        icon: "fa fa-book"
+    ).AddItem(
+        new ApplicationMenuItem(
+            "BooksStore.Books",
+            l["Menu:Books"],
+            url: "/Books"
+        ).RequirePermissions(BookStorePermissions.Books.Default)
+    ).AddItem( // ADDED THE NEW "AUTHORS" MENU ITEM UNDER THE "BOOK STORE" MENU
+        new ApplicationMenuItem(
+            "BooksStore.Authors",
+            l["Menu:Authors"],
+            url: "/Authors"
+        ).RequirePermissions(BookStorePermissions.Authors.Default)
+    )
+);
 ````
 
 ### Run the Application

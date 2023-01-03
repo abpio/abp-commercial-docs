@@ -468,6 +468,8 @@ The final UI looks as below:
 
 ![bookstore-books-table-actions](images/bookstore-edit-button.png)
 
+> Notice that you don't see the "Actions" button in the figure below. Instead, you see an "Edit" button. ABP is smart enough to show a single simple button instead of a actions dropdown button when the dropdown has only a single item. After the next section, it will turn to a drop down button.
+
 ## Deleting a Book
 
 Open the `Pages/Books/Index.js` and add a new item to the `rowAction` `items`:

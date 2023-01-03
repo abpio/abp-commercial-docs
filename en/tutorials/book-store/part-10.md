@@ -52,7 +52,7 @@ public Guid AuthorId { get; set; }
 
 {{if DB=="EF"}}
 
-> In this tutorial, we preferred to not add a **navigation property** to the `Author` entity from the `Book` class (like `public Author Author { get; set; }`). This is due to follow the DDD best practices (rule: refer to other aggregates only by id). However, you can add such a navigation property and configure it for the EF Core. In this way, you don't need to write join queries while getting books with their authors (like we will done below) which makes your application code simpler.
+> In this tutorial, we preferred to not add a **navigation property** to the `Author` entity from the `Book` class (like `public Author Author { get; set; }`). This is due to follow the DDD best practices (rule: refer to other aggregates only by id). However, you can add such a navigation property and configure it for the EF Core. In this way, you don't need to write join queries while getting books with their authors (like we will be doing below) which makes your application code simpler.
 
 {{end}}
 
@@ -102,6 +102,7 @@ This should create a new migration class with the following code in its `Up` met
 migrationBuilder.AddColumn<Guid>(
     name: "AuthorId",
     table: "AppBooks",
+    type: "uniqueidentifier",
     nullable: false,
     defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
@@ -946,7 +947,7 @@ This command will update the service proxy files under the `/src/app/proxy/` fol
 
 ### The Book List
 
-Book list page change is trivial. Open the `/src/app/book/book.component.html` and add the following column definition between the `Name` and `Type` columns:
+Book list page change is trivial. Open the `Pages/Books/Index.js` in the `Acme.BookStore.Web` project and add an `authorName` column between the `name` and `type` columns:
 
 ````html
 <ngx-datatable-column
