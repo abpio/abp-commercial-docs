@@ -198,7 +198,7 @@ It may take a longer time for the first build. Once it finishes, it opens the An
 
 ![bookstore-login](images/bookstore-login-2.png)
 
-{{ if UI == "MAUIBlazor" }}
+{{ else if UI == "MAUIBlazor" }}
 
 ### Running the MAUI Blazor Application (Client Side)
 
