@@ -128,22 +128,12 @@ Open the `CreateModal.cshtml` file and paste the code below:
 
 ### Add the "New book" Button
 
-Open the `Pages/Books/Index.cshtml` and set the content of `abp-card-header` tag as below:
+Open the `Pages/Books/Index.cshtml` and add the section below:
 
 ````html
-<abp-card-header>
-    <abp-row>
-        <abp-column size-md="_6">
-            <abp-card-title>@L["Books"]</abp-card-title>
-        </abp-column>
-        <abp-column size-md="_6" class="text-right">
-            <abp-button id="NewBookButton"
-                        text="@L["NewBook"].Value"
-                        icon="plus"
-                        button-type="Primary"/>
-        </abp-column>
-    </abp-row>
-</abp-card-header>
+@section content_toolbar {
+    <abp-button id="NewBookButton" text="@L["NewBook"].Value" icon="plus" size="Small" button-type="Primary" />
+}
 ````
 
 The final content of the `Index.cshtml` is shown below:
@@ -151,29 +141,25 @@ The final content of the `Index.cshtml` is shown below:
 ````html
 @page
 @using Acme.BookStore.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
 @using Acme.BookStore.Web.Pages.Books
 @using Microsoft.Extensions.Localization
 @model IndexModel
 @inject IStringLocalizer<BookStoreResource> L
+@inject IPageLayout PageLayout
+@{
+    PageLayout.Content.MenuItemName = "BooksStore";
+    PageLayout.Content.Title = L["Books"].Value;
+}
 @section scripts
-{
-    <abp-script src="/Pages/Books/Index.js"/>
+    {
+    <abp-script src="/Pages/Books/Index.js" />
+}
+@section content_toolbar {
+    <abp-button id="NewBookButton" text="@L["NewBook"].Value" icon="plus" size="Small" button-type="Primary" />
 }
 
 <abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["Books"]</abp-card-title>
-            </abp-column>
-            <abp-column size-md="_6" class="text-right">
-                <abp-button id="NewBookButton"
-                            text="@L["NewBook"].Value"
-                            icon="plus"
-                            button-type="Primary"/>
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="BooksTable"></abp-table>
     </abp-card-body>
@@ -226,7 +212,7 @@ $(function () {
                     title: l('Type'),
                     data: "type",
                     render: function (data) {
-                        return l('Enum:BookType:' + data);
+                        return l('Enum:BookType.' + data);
                     }
                 },
                 {
@@ -331,16 +317,16 @@ namespace Acme.BookStore.Web.Pages.Books
 To be able to map the `BookDto` to `CreateUpdateBookDto`, configure a new mapping. To do this, open the `BookStoreWebAutoMapperProfile.cs` in the `Acme.BookStore.Web` project and change it as shown below:
 
 ````csharp
+using Acme.BookStore.Books;
 using AutoMapper;
 
-namespace Acme.BookStore.Web
+namespace Acme.BookStore.Web;
+
+public class BookStoreWebAutoMapperProfile : Profile
 {
-    public class BookStoreWebAutoMapperProfile : Profile
+    public BookStoreWebAutoMapperProfile()
     {
-        public BookStoreWebAutoMapperProfile()
-        {
-            CreateMap<BookDto, CreateUpdateBookDto>();
-        }
+        CreateMap<BookDto, CreateUpdateBookDto>();
     }
 }
 ````
@@ -424,7 +410,7 @@ $(function () {
                     title: l('Type'),
                     data: "type",
                     render: function (data) {
-                        return l('Enum:BookType:' + data);
+                        return l('Enum:BookType.' + data);
                     }
                 },
                 {
@@ -476,11 +462,13 @@ $(function () {
 * "*Edit*" action simply calls `editModal.open()` to open the edit dialog.
 * `editModal.onResult(...)`  callback refreshes the data table when you close the edit modal.
 
-You can run the application and edit any book by selecting the edit action on a book.
+You can run the application and edit any book by selecting the edit action on a book. Since there is only one action, the "*Actions*" dropdown is simply replaced by the edit button.
 
 The final UI looks as below:
 
 ![bookstore-books-table-actions](images/bookstore-edit-button.png)
+
+> Notice that you don't see the "Actions" button in the figure below. Instead, you see an "Edit" button. ABP is smart enough to show a single simple button instead of a actions dropdown button when the dropdown has only a single item. After the next section, it will turn to a drop down button.
 
 ## Deleting a Book
 
@@ -545,18 +533,13 @@ $(function () {
                                 {
                                     text: l('Delete'),
                                     confirmMessage: function (data) {
-                                        return l(
-                                            'BookDeletionConfirmationMessage',
-                                            data.record.name
-                                        );
+                                        return l('BookDeletionConfirmationMessage', data.record.name);
                                     },
                                     action: function (data) {
                                         acme.bookStore.books.book
                                             .delete(data.record.id)
-                                            .then(function() {
-                                                abp.notify.info(
-                                                    l('SuccessfullyDeleted')
-                                                );
+                                            .then(function () {
+                                                abp.notify.info(l('SuccessfullyDeleted'));
                                                 dataTable.ajax.reload();
                                             });
                                     }
@@ -572,7 +555,7 @@ $(function () {
                     title: l('Type'),
                     data: "type",
                     render: function (data) {
-                        return l('Enum:BookType:' + data);
+                        return l('Enum:BookType.' + data);
                     }
                 },
                 {
@@ -672,45 +655,56 @@ export class BookComponent implements OnInit {
 Open `/src/app/book/book.component.html` and make the following changes:
 
 ```html
-<div class="row entry-row">
-    <div class="col-auto">
-        <h1 class="content-header-title">
-            {%{{{ '::Menu:Books' | abpLocalization }}}%}
-        </h1>
+<abp-page [title]=" '::Menu:Books' | abpLocalization ">
+  <abp-page-toolbar-container class="col">
+    <div class="text-lg-end pt-2">
+      <button class="btn btn-primary btn-sm"
+              type="button"
+              (click)="createBook()">
+        <i class="fa fa-plus me-1"></i>
+        {%{{{ '::NewBook' | abpLocalization }}}%}
+      </button>
     </div>
-    <div class="col-lg-auto pl-lg-0">
-        <abp-breadcrumb></abp-breadcrumb>
-    </div>
-    <div class="col">
-        <div class="text-lg-right pt-2">
-            <!-- Add the "new book" button here -->
-            <button id="create" class="btn btn-primary" type="button" (click)="createBook()">
-                <i class="fa fa-plus mr-1"></i>
-                <span>{%{{{ "::NewBook" | abpLocalization }}}%}</span>
-            </button>
-        </div>
-    </div>
-</div>
+  </abp-page-toolbar-container>
 
-<div class="card">
+  <div class="card">
     <div class="card-body">
-        <!-- ngx-datatable should be here! -->
+
+      <ngx-datatable [rows]="book.items" [count]="book.totalCount" [list]="list" default>
+        <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'::Type' | abpLocalization" prop="type">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {%{{{ '::Enum:BookType.' + row.type | abpLocalization }}}%}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'::PublishDate' | abpLocalization" prop="publishDate">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {%{{{ row.publishDate | date }}}%}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'::Price' | abpLocalization" prop="price">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+           {%{{{ row.price | currency }}}%}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
     </div>
-</div>
+  </div>
+</abp-page>
 
 <!-- Add the modal here -->
 <abp-modal [(visible)]="isModalOpen">
-    <ng-template #abpHeader>
-        <h3>{%{{{ '::NewBook' | abpLocalization }}}%}</h3>
-    </ng-template>
+  <ng-template #abpHeader>
+    <h3>{%{{{ '::NewBook' | abpLocalization }}}%}</h3>
+  </ng-template>
 
-    <ng-template #abpBody> </ng-template>
+  <ng-template #abpBody> </ng-template>
 
-    <ng-template #abpFooter>
-        <button type="button" class="btn btn-secondary" #abpClose>
-            {%{{{ '::Close' | abpLocalization }}}%}
-        </button>
-    </ng-template>
+  <ng-template #abpFooter>
+    <button type="button" class="btn btn-secondary" abpClose>
+      {%{{{ '::Close' | abpLocalization }}}%}
+    </button>
+  </ng-template>
 </abp-modal>
 ```
 
@@ -810,12 +804,12 @@ Open `/src/app/book/book.component.html` and replace `<ng-template #abpBody> </n
       <input type="text" id="book-name" class="form-control" formControlName="name" autofocus />
     </div>
 
-    <div class="form-group">
+    <div class="form-group mt-2">
       <label for="book-price">Price</label><span> * </span>
       <input type="number" id="book-price" class="form-control" formControlName="price" />
     </div>
 
-    <div class="form-group">
+    <div class="form-group mt-2">
       <label for="book-type">Type</label><span> * </span>
       <select class="form-control" id="book-type" formControlName="type">
         <option [ngValue]="null">Select a book type</option>
@@ -823,7 +817,7 @@ Open `/src/app/book/book.component.html` and replace `<ng-template #abpBody> </n
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="form-group mt-2">
       <label>Publish date</label><span> * </span>
       <input
         #datepicker="ngbDatepicker"
@@ -842,7 +836,7 @@ Also replace `<ng-template #abpFooter> </ng-template>` with the following code p
 
 ````html
 <ng-template #abpFooter>
-  <button type="button" class="btn btn-secondary" #abpClose>
+  <button type="button" class="btn btn-secondary" abpClose>
       {%{{{ '::Close' | abpLocalization }}}%}
   </button>
 
@@ -865,6 +859,7 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { BookRoutingModule } from './book-routing.module';
 import { BookComponent } from './book.component';
+import { PageModule } from '@abp/ng.components/page'
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap'; // add this line
 
 @NgModule({
@@ -872,6 +867,7 @@ import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap'; // add this li
   imports: [
     BookRoutingModule,
     SharedModule,
+    PageModule,
     NgbDatepickerModule, // add this line
   ]
 })
@@ -1164,23 +1160,20 @@ In this section, you will learn how to create a new modal dialog form to create 
 
 ### Add "New Button" Button
 
-Open the `Books.razor` and replace the `<CardHeader>` section with the following code:
+Open the `Books.razor.cs` and create an override for `SetToolbarItemsAsync` method:
 
-````xml
-<CardHeader>
-    <Row Class="justify-content-between">
-        <Column ColumnSize="ColumnSize.IsAuto">
-            <h2>@L["Books"]</h2>
-        </Column>
-        <Column ColumnSize="ColumnSize.IsAuto">
-            <Button Color="Color.Primary"
-                    Clicked="OpenCreateModalAsync">@L["NewBook"]</Button>
-        </Column>
-    </Row>
-</CardHeader>
+````csharp
+    protected override ValueTask SetToolbarItemsAsync()
+    {
+        Toolbar.AddButton(L["NewBook"],
+            OpenCreateModalAsync,
+            IconName.Add);
+
+        return base.SetToolbarItemsAsync();
+    }
 ````
 
-This will change the card header by adding a "New book" button to the right side:
+This will add a "New book" button to the right side of the toolbar:
 
 ![blazor-add-book-button](images/blazor-add-book-button-2.png)
 
@@ -1217,7 +1210,7 @@ Open the `Books.razor` and add the following code to the end of the page:
                             @foreach (int bookTypeValue in Enum.GetValues(typeof(BookType)))
                             {
                                 <SelectItem TValue="BookType" Value="@((BookType) bookTypeValue)">
-                                    @L[$"Enum:BookType:{bookTypeValue}"]
+                                    @L[$"Enum:BookType.{bookTypeValue}"]
                                 </SelectItem>
                             }
                         </Select>
@@ -1248,6 +1241,8 @@ Open the `Books.razor` and add the following code to the end of the page:
 This code requires a service; Inject the `AbpBlazorMessageLocalizerHelper<T>` at the top of the file, just before the `@inherits...` line:
 
 ````csharp
+@using Volo.Abp.AspNetCore.Components.Web;
+
 @inject AbpBlazorMessageLocalizerHelper<BookStoreResource> LH
 ````
 
@@ -1281,7 +1276,7 @@ Open the `Books.razor` and add the following `DataGridEntityActionsColumn` secti
 
 * `OpenEditModalAsync` is defined in the base class which takes the entity (book) to edit.
 
-`DataGridEntityActionsColumn` component is used to show an "Actions" dropdown for each row in the `DataGrid`.  `DataGridEntityActionsColumn` shows a ***\*single button\**** instead of a dropdown if there is only one available action inside it:
+`DataGridEntityActionsColumn` component is used to show an "Actions" dropdown for each row in the `DataGrid`.
 
 ![blazor-edit-book-action](images/blazor-edit-book-action-2.png)
 
@@ -1316,7 +1311,7 @@ We can now define a modal to edit the book. Add the following code to the end of
                             @foreach (int bookTypeValue in Enum.GetValues(typeof(BookType)))
                             {
                                 <SelectItem TValue="BookType" Value="@((BookType) bookTypeValue)">
-                                    @L[$"Enum:BookType:{bookTypeValue}"]
+                                    @L[$"Enum:BookType.{bookTypeValue}"]
                                 </SelectItem>
                             }
                         </Select>
@@ -1353,14 +1348,14 @@ Open the `BookStoreBlazorAutoMapperProfile` inside the `Acme.BookStore.Blazor` p
 ````csharp
 using Acme.BookStore.Books;
 using AutoMapper;
-namespace Acme.BookStore.Blazor
+
+namespace Acme.BookStore.Blazor;
+
+public class BookStoreBlazorAutoMapperProfile : Profile
 {
-    public class BookStoreBlazorAutoMapperProfile : Profile
+    public BookStoreBlazorAutoMapperProfile()
     {
-        public BookStoreBlazorAutoMapperProfile()
-        {
-            CreateMap<BookDto, CreateUpdateBookDto>();
-        }
+        CreateMap<BookDto, CreateUpdateBookDto>();
     }
 }
 ````
@@ -1388,8 +1383,6 @@ Open the `Books.razor` page and add the following `EntityAction` under the "Edit
 * `ConfirmationMessage` is a callback to show a confirmation message before executing the action.
 * `GetDeleteConfirmationMessage` is defined in the base class. You can override this method (or pass another value to the `ConfirmationMessage` parameter) to customize the localization message.
 
-The "Actions" button becomes a dropdown since it has two actions now:
-
 ![blazor-edit-book-action](images/blazor-delete-book-action.png)
 
 Run the application and try to delete a book.
@@ -1403,183 +1396,188 @@ Here the complete code to create the book management CRUD page, that has been de
 @using Volo.Abp.Application.Dtos
 @using Acme.BookStore.Books
 @using Acme.BookStore.Localization
+@using Volo.Abp.AspNetCore.Components.Web.Theming.Layout
 @using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Components.Web;
 @inject IStringLocalizer<BookStoreResource> L
 @inject AbpBlazorMessageLocalizerHelper<BookStoreResource> LH
 @inherits AbpCrudPageBase<IBookAppService, BookDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateBookDto>
 
-<Card>
-    <CardHeader>
-        <Row Class="justify-content-between">
-            <Column ColumnSize="ColumnSize.IsAuto">
-                <h2>@L["Books"]</h2>
-            </Column>
-            <Column ColumnSize="ColumnSize.IsAuto">
-                <Button Color="Color.Primary"
-                        Clicked="OpenCreateModalAsync">@L["NewBook"]</Button>
-            </Column>
-        </Row>
-    </CardHeader>
-    <CardBody>
-        <DataGrid TItem="BookDto"
-                  Data="Entities"
-                  ReadData="OnDataGridReadAsync"
-                  CurrentPage="CurrentPage"
-                  TotalItems="TotalCount"
-                  ShowPager="true"
-                  PageSize="PageSize">
-            <DataGridColumns>
-                <DataGridEntityActionsColumn TItem="BookDto" @ref="@EntityActionsColumn">
-                    <DisplayTemplate>
-                        <EntityActions TItem="BookDto" EntityActionsColumn="@EntityActionsColumn">
-                            <EntityAction TItem="BookDto"
-                                          Text="@L["Edit"]"
-                                          Clicked="() => OpenEditModalAsync(context)" />
-                            <EntityAction TItem="BookDto"
-                                          Text="@L["Delete"]"
-                                          Clicked="() => DeleteEntityAsync(context)"
-                                          ConfirmationMessage="()=>GetDeleteConfirmationMessage(context)" />
-                        </EntityActions>
-                    </DisplayTemplate>
-                </DataGridEntityActionsColumn>
-                <DataGridColumn TItem="BookDto"
-                                Field="@nameof(BookDto.Name)"
-                                Caption="@L["Name"]"></DataGridColumn>
-                <DataGridColumn TItem="BookDto"
-                                Field="@nameof(BookDto.Type)"
-                                Caption="@L["Type"]">
-                    <DisplayTemplate>
-                        @L[$"Enum:BookType:{(int) context.Type}"]
-                    </DisplayTemplate>
-                </DataGridColumn>
-                <DataGridColumn TItem="BookDto"
-                                Field="@nameof(BookDto.PublishDate)"
-                                Caption="@L["PublishDate"]">
-                    <DisplayTemplate>
-                        @context.PublishDate.ToShortDateString()
-                    </DisplayTemplate>
-                </DataGridColumn>
-                <DataGridColumn TItem="BookDto"
-                                Field="@nameof(BookDto.Price)"
-                                Caption="@L["Price"]">
-                </DataGridColumn>
-                <DataGridColumn TItem="BookDto"
-                                Field="@nameof(BookDto.CreationTime)"
-                                Caption="@L["CreationTime"]">
-                    <DisplayTemplate>
-                        @context.CreationTime.ToLongDateString()
-                    </DisplayTemplate>
-                </DataGridColumn>
-            </DataGridColumns>
-        </DataGrid>
-    </CardBody>
-</Card>
+<CascadingValue Value="this">
+    @* ************************* PAGE HEADER ************************* *@
+    <PageHeader Title="@L["Books"]" BreadcrumbItems="@BreadcrumbItems" Toolbar="@Toolbar">
+    </PageHeader>
 
-<Modal @ref="@CreateModal">
-    <ModalBackdrop />
-    <ModalContent IsCentered="true">
-        <Form>
-            <ModalHeader>
-                <ModalTitle>@L["NewBook"]</ModalTitle>
-                <CloseButton Clicked="CloseCreateModalAsync"/>
-            </ModalHeader>
-            <ModalBody>
-                <Validations @ref="@CreateValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
-                    <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
-                            <FieldLabel>@L["Name"]</FieldLabel>
-                            <TextEdit @bind-Text="@NewEntity.Name">
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </TextEdit>
-                        </Field>
-                    </Validation>
-                    <Field>
-                        <FieldLabel>@L["Type"]</FieldLabel>
-                        <Select TValue="BookType" @bind-SelectedValue="@NewEntity.Type">
-                            @foreach (int bookTypeValue in Enum.GetValues(typeof(BookType)))
-                            {
-                                <SelectItem TValue="BookType" Value="@((BookType) bookTypeValue)">
-                                    @L[$"Enum:BookType:{bookTypeValue}"]
-                                </SelectItem>
-                            }
-                        </Select>
-                    </Field>
-                    <Field>
-                        <FieldLabel>@L["PublishDate"]</FieldLabel>
-                        <DateEdit TValue="DateTime" @bind-Date="NewEntity.PublishDate"/>
-                    </Field>
-                    <Field>
-                        <FieldLabel>@L["Price"]</FieldLabel>
-                        <NumericEdit TValue="float" @bind-Value="NewEntity.Price"/>
-                    </Field>
-                </Validations>
-            </ModalBody>
-            <ModalFooter>
-                <Button Color="Color.Secondary"
-                        Clicked="CloseCreateModalAsync">@L["Cancel"]</Button>
-                <Button Color="Color.Primary"
-                        Type="@ButtonType.Submit"
-                        PreventDefaultOnSubmit="true"
-                        Clicked="CreateEntityAsync">@L["Save"]</Button>
-            </ModalFooter>
-        </Form>
-    </ModalContent>
-</Modal>
+    <Card>
+        <CardBody>
+            <DataGrid TItem="BookDto"
+                      Data="Entities"
+                      ReadData="OnDataGridReadAsync"
+                      CurrentPage="CurrentPage"
+                      TotalItems="TotalCount"
+                      ShowPager="true"
+                      PageSize="PageSize">
+                <DataGridColumns>
+                    <DataGridEntityActionsColumn TItem="BookDto" @ref="@EntityActionsColumn">
+                        <DisplayTemplate>
+                            <EntityActions TItem="BookDto" EntityActionsColumn="@EntityActionsColumn">
+                                <EntityAction TItem="BookDto"
+                                              Text="@L["Edit"]"
+                                              Clicked="() => OpenEditModalAsync(context)" />
+                                <EntityAction TItem="BookDto"
+                                              Text="@L["Delete"]"
+                                              Clicked="() => DeleteEntityAsync(context)"
+                                              ConfirmationMessage="() => GetDeleteConfirmationMessage(context)" />
+                            </EntityActions>
+                        </DisplayTemplate>
+                    </DataGridEntityActionsColumn>
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.Name)"
+                                    Caption="@L["Name"]"></DataGridColumn>
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.Type)"
+                                    Caption="@L["Type"]">
+                        <DisplayTemplate>
+                            @L[$"Enum:BookType.{(int)context.Type}"]
+                        </DisplayTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.PublishDate)"
+                                    Caption="@L["PublishDate"]">
+                        <DisplayTemplate>
+                            @context.PublishDate.ToShortDateString()
+                        </DisplayTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.Price)"
+                                    Caption="@L["Price"]">
+                    </DataGridColumn>
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.CreationTime)"
+                                    Caption="@L["CreationTime"]">
+                        <DisplayTemplate>
+                            @context.CreationTime.ToLongDateString()
+                        </DisplayTemplate>
+                    </DataGridColumn>
+                </DataGridColumns>
+            </DataGrid>
+        </CardBody>
+    </Card>
 
-<Modal @ref="@EditModal">
-    <ModalBackdrop />
-    <ModalContent IsCentered="true">
-        <Form>
-            <ModalHeader>
-                <ModalTitle>@EditingEntity.Name</ModalTitle>
-                <CloseButton Clicked="CloseEditModalAsync"/>
-            </ModalHeader>
-            <ModalBody>
-                <Validations @ref="@EditValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
-                    <Validation MessageLocalizer="@LH.Localize">
+    <Modal @ref="@CreateModal">
+        <ModalBackdrop />
+        <ModalContent IsCentered="true">
+            <Form>
+                <ModalHeader>
+                    <ModalTitle>@L["NewBook"]</ModalTitle>
+                    <CloseButton Clicked="CloseCreateModalAsync" />
+                </ModalHeader>
+                <ModalBody>
+                    <Validations @ref="@CreateValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["Name"]</FieldLabel>
+                                <TextEdit @bind-Text="@NewEntity.Name">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
                         <Field>
-                            <FieldLabel>@L["Name"]</FieldLabel>
-                            <TextEdit @bind-Text="@EditingEntity.Name">
-                                <Feedback>
-                                    <ValidationError/>
-                                </Feedback>
-                            </TextEdit>
+                            <FieldLabel>@L["Type"]</FieldLabel>
+                            <Select TValue="BookType" @bind-SelectedValue="@NewEntity.Type">
+                                @foreach (int bookTypeValue in Enum.GetValues(typeof(BookType)))
+                                {
+                                    <SelectItem TValue="BookType" Value="@((BookType) bookTypeValue)">
+                                        @L[$"Enum:BookType.{bookTypeValue}"]
+                                    </SelectItem>
+                                }
+                            </Select>
                         </Field>
-                    </Validation>
-                    <Field>
-                        <FieldLabel>@L["Type"]</FieldLabel>
-                        <Select TValue="BookType" @bind-SelectedValue="@EditingEntity.Type">
-                            @foreach (int bookTypeValue in Enum.GetValues(typeof(BookType)))
-                            {
-                                <SelectItem TValue="BookType" Value="@((BookType) bookTypeValue)">
-                                    @L[$"Enum:BookType:{bookTypeValue}"]
-                                </SelectItem>
-                            }
-                        </Select>
-                    </Field>
-                    <Field>
-                        <FieldLabel>@L["PublishDate"]</FieldLabel>
-                        <DateEdit TValue="DateTime" @bind-Date="EditingEntity.PublishDate"/>
-                    </Field>
-                    <Field>
-                        <FieldLabel>@L["Price"]</FieldLabel>
-                        <NumericEdit TValue="float" @bind-Value="EditingEntity.Price"/>
-                    </Field>
-                </Validations>
-            </ModalBody>
-            <ModalFooter>
-                <Button Color="Color.Secondary"
-                        Clicked="CloseEditModalAsync">@L["Cancel"]</Button>
-                <Button Color="Color.Primary"
-                        Type="@ButtonType.Submit"
-                        PreventDefaultOnSubmit="true"
-                        Clicked="UpdateEntityAsync">@L["Save"]</Button>
-            </ModalFooter>
-        </Form>
-    </ModalContent>
-</Modal>
+                        <Field>
+                            <FieldLabel>@L["PublishDate"]</FieldLabel>
+                            <DateEdit TValue="DateTime" @bind-Date="NewEntity.PublishDate" />
+                        </Field>
+                        <Field>
+                            <FieldLabel>@L["Price"]</FieldLabel>
+                            <NumericEdit TValue="float" @bind-Value="NewEntity.Price" />
+                        </Field>
+                    </Validations>
+                </ModalBody>
+                <ModalFooter>
+                    <Button Color="Color.Secondary"
+                            Clicked="CloseCreateModalAsync">
+                        @L["Cancel"]
+                    </Button>
+                    <Button Color="Color.Primary"
+                            Type="@ButtonType.Submit"
+                            PreventDefaultOnSubmit="true"
+                            Clicked="CreateEntityAsync">
+                        @L["Save"]
+                    </Button>
+                </ModalFooter>
+            </Form>
+        </ModalContent>
+    </Modal>
+
+    <Modal @ref="@EditModal">
+        <ModalBackdrop />
+        <ModalContent IsCentered="true">
+            <Form>
+                <ModalHeader>
+                    <ModalTitle>@EditingEntity.Name</ModalTitle>
+                    <CloseButton Clicked="CloseEditModalAsync" />
+                </ModalHeader>
+                <ModalBody>
+                    <Validations @ref="@EditValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["Name"]</FieldLabel>
+                                <TextEdit @bind-Text="@EditingEntity.Name">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
+                        <Field>
+                            <FieldLabel>@L["Type"]</FieldLabel>
+                            <Select TValue="BookType" @bind-SelectedValue="@EditingEntity.Type">
+                                @foreach (int bookTypeValue in Enum.GetValues(typeof(BookType)))
+                                {
+                                    <SelectItem TValue="BookType" Value="@((BookType) bookTypeValue)">
+                                        @L[$"Enum:BookType.{bookTypeValue}"]
+                                    </SelectItem>
+                                }
+                            </Select>
+                        </Field>
+                        <Field>
+                            <FieldLabel>@L["PublishDate"]</FieldLabel>
+                            <DateEdit TValue="DateTime" @bind-Date="EditingEntity.PublishDate" />
+                        </Field>
+                        <Field>
+                            <FieldLabel>@L["Price"]</FieldLabel>
+                            <NumericEdit TValue="float" @bind-Value="EditingEntity.Price" />
+                        </Field>
+                    </Validations>
+                </ModalBody>
+                <ModalFooter>
+                    <Button Color="Color.Secondary"
+                            Clicked="CloseEditModalAsync">
+                        @L["Cancel"]
+                    </Button>
+                    <Button Color="Color.Primary"
+                            Type="@ButtonType.Submit"
+                            PreventDefaultOnSubmit="true"
+                            Clicked="UpdateEntityAsync">
+                        @L["Save"]
+                    </Button>
+                </ModalFooter>
+            </Form>
+        </ModalContent>
+    </Modal>
+</CascadingValue>
 ````
 
 {{end}}
