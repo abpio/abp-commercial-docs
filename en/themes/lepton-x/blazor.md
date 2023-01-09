@@ -163,7 +163,7 @@ Layout options of Blazor UI can be manageable via using **LeptonXThemeMvcOptions
 {{if UI == "Blazor"}}
 
 #### Updating Bundles on Layout Changes
-Layout changes requires bundling and restarting the application. Before bundling, you have to add your layout to `appsettings.json`. Make sure `AbpCli:Bundle:Paramters` has `LeptonXTheme.Layout` key with your layout name. Available values are `side-menu` & `top-menu`
+Layout changes requires bundling and restarting the application. Before bundling, you have to add your layout to `appsettings.json`. Make sure `AbpCli:Bundle:Paramters` has `LeptonXTheme.Layout` key with your layout name. Available values are `side-menu` & `top-menu`.
 
 
 _You can add the following section to root level of your appsettings.json file if not added._
