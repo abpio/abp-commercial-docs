@@ -36,6 +36,8 @@ This tutorial has multiple versions based on your **UI** and **Database** prefer
 * [Blazor UI with EF Core](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-blazor-efcore)
 * [Angular UI with MongoDB](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Angular-MongoDb)
 
+> If you encounter the "filename too long" or "unzip" error on Windows, please see [this guide](https://docs.abp.io/en/abp/7.0/KB/Windows-Path-Too-Long-Fix).
+
 {{if UI == "MVC"}}
 
 ## Dynamic JavaScript Proxies
@@ -106,23 +108,30 @@ Open the `en.json` (*the English translations*) file and change the content as b
   "Culture": "en",
   "Texts": {
     "Menu:Home": "Home",
+    "Menu:ContactUs": "Contact Us",
+    "Menu:ArticleSample": "Article Sample",
     "Home": "Home",
     "Welcome": "Welcome",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information visit abp.io.",
-    "EndDate": "End date",
-    "StartDate": "Start date",
+    "Date": "Date",
     "Permission:Dashboard": "Dashboard",
     "Menu:Dashboard": "Dashboard",
+    "Menu:HomePage": "Home page",
     "Dashboard": "Dashboard",
-    "ExternalProvider:Google":"Google",
-    "ExternalProvider:Google:ClientId":"Client ID",
-    "ExternalProvider:Google:ClientSecret":"Client Secret",
-    "ExternalProvider:Microsoft":"Microsoft",
-    "ExternalProvider:Microsoft:ClientId":"Client ID",
-    "ExternalProvider:Microsoft:ClientSecret":"Client Secret",
-    "ExternalProvider:Twitter":"Twitter",
-    "ExternalProvider:Twitter:ConsumerKey":"Consumer Key",
-    "ExternalProvider:Twitter:ConsumerSecret":"Consumer Secret",
+    "ExternalProvider:Google": "Google",
+    "ExternalProvider:Google:ClientId": "Client ID",
+    "ExternalProvider:Google:ClientSecret": "Client Secret",
+    "ExternalProvider:Microsoft": "Microsoft",
+    "ExternalProvider:Microsoft:ClientId": "Client ID",
+    "ExternalProvider:Microsoft:ClientSecret": "Client Secret",
+    "ExternalProvider:Twitter": "Twitter",
+    "ExternalProvider:Twitter:ConsumerKey": "Consumer Key",
+    "ExternalProvider:Twitter:ConsumerSecret": "Consumer Secret",
+    "NewsletterHeader": "Subscribe to the newsletter!",
+    "NewsletterInfo": "Get information about the latest happenings.",
+    "NewsletterPreference_Default": "Default Newsletter",
+    "NewsletterPrivacyAcceptMessage": "I accept the <a href='/privacy-policy'>Privacy Policy</a>.",
+    "ChangeLanguage": "Change language",
     "Menu:BookStore": "Book Store",
     "Menu:Books": "Books",
     "PublishDate": "Publish date",
@@ -132,22 +141,23 @@ Open the `en.json` (*the English translations*) file and change the content as b
     "Price": "Price",
     "CreationTime": "Creation time",
     "AreYouSureToDelete": "Are you sure you want to delete this item?",
-    "Enum:BookType:0": "Undefined",
-    "Enum:BookType:1": "Adventure",
-    "Enum:BookType:2": "Biography",
-    "Enum:BookType:3": "Dystopia",
-    "Enum:BookType:4": "Fantastic",
-    "Enum:BookType:5": "Horror",
-    "Enum:BookType:6": "Science",
-    "Enum:BookType:7": "Science fiction",
-    "Enum:BookType:8": "Poetry"
+    "Enum:BookType.0": "Undefined",
+    "Enum:BookType.1": "Adventure",
+    "Enum:BookType.2": "Biography",
+    "Enum:BookType.3": "Dystopia",
+    "Enum:BookType.4": "Fantastic",
+    "Enum:BookType.5": "Horror",
+    "Enum:BookType.6": "Science",
+    "Enum:BookType.7": "Science fiction",
+    "Enum:BookType.8": "Poetry"
   }
 }
+
 ````
 
 * Localization key names are arbitrary. You can set any name. We prefer some conventions for specific text types;
   * Add `Menu:` prefix for menu items.
-  * Use `Enum:<enum-type>:<enum-value>` naming convention to localize the enum members. When you do it like that, ABP can automatically localize the enums in some proper cases.
+  * Use `Enum:<enum-type>.<enum-value>` naming convention to localize the enum members. When you do it like that, ABP can automatically localize the enums in some proper cases.
 
 If a text is not defined in the localization file, it **fallbacks** to the localization key (as ASP.NET Core's standard behavior).
 
@@ -167,15 +177,25 @@ Open the `Index.cshtml` and change the whole content as shown below:
 
 ````html
 @page
+@using Acme.BookStore.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
 @using Acme.BookStore.Web.Pages.Books
+@using Microsoft.Extensions.Localization
 @model IndexModel
+@inject IStringLocalizer<BookStoreResource> L
+@inject IPageLayout PageLayout
+@{
+    PageLayout.Content.MenuItemName = "BooksStore";
+    PageLayout.Content.Title = L["Books"].Value;
+}
 
-<h2>Books</h2>
+
 ````
 
 `Index.cshtml.cs` content should be like that:
 
 ```csharp
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Acme.BookStore.Web.Pages.Books
@@ -184,10 +204,10 @@ namespace Acme.BookStore.Web.Pages.Books
     {
         public void OnGet()
         {
-            
         }
     }
 }
+
 ```
 
 ### Add Books Page to the Main Menu
@@ -229,23 +249,22 @@ Change the `Pages/Books/Index.cshtml` as following:
 ````html
 @page
 @using Acme.BookStore.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
 @using Acme.BookStore.Web.Pages.Books
 @using Microsoft.Extensions.Localization
-@using Volo.Abp.AspNetCore.Mvc.UI.Layout
 @model IndexModel
 @inject IStringLocalizer<BookStoreResource> L
 @inject IPageLayout PageLayout
 @{
     PageLayout.Content.MenuItemName = "BooksStore";
+    PageLayout.Content.Title = L["Books"].Value;
 }
 @section scripts
-{
+    {
     <abp-script src="/Pages/Books/Index.js" />
 }
+
 <abp-card>
-    <abp-card-header>
-        <h2>@L["Books"]</h2>
-    </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="BooksTable"></abp-table>
     </abp-card-body>
@@ -368,16 +387,16 @@ This command should produce the following output:
 ````bash
 > yarn ng generate module book --module app --routing --route books
 
-yarn run v1.19.1
+yarn run v1.22.17
 $ ng generate module book --module app --routing --route books
-CREATE src/app/book/book-routing.module.ts (336 bytes)
-CREATE src/app/book/book.module.ts (335 bytes)
+CREATE src/app/book/book-routing.module.ts (335 bytes)
+CREATE src/app/book/book.module.ts (343 bytes)
 CREATE src/app/book/book.component.html (19 bytes)
-CREATE src/app/book/book.component.spec.ts (614 bytes)
-CREATE src/app/book/book.component.ts (268 bytes)
+CREATE src/app/book/book.component.spec.ts (585 bytes)
+CREATE src/app/book/book.component.ts (195 bytes)
 CREATE src/app/book/book.component.scss (0 bytes)
-UPDATE src/app/app-routing.module.ts (1289 bytes)
-Done in 3.88s.
+UPDATE src/app/app-routing.module.ts (2181 bytes)
+Done in 1.25s.
 ````
 
 ### BookModule
@@ -389,12 +408,14 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { BookRoutingModule } from './book-routing.module';
 import { BookComponent } from './book.component';
+import { PageModule } from '@abp/ng.components/page'
 
 @NgModule({
   declarations: [BookComponent],
   imports: [
     BookRoutingModule,
-    SharedModule
+    SharedModule,
+	PageModule
   ]
 })
 export class BookModule { }
@@ -471,7 +492,7 @@ For more information, see the [RoutesService document](https://docs.abp.io/en/ab
 Run the following command in the `angular` folder:
 
 ```bash
-abp generate-proxy
+abp generate-proxy -t ng
 ```
 
 This command will create the following files under the `/src/app/proxy/books` folder:
@@ -534,7 +555,7 @@ Open the `/src/app/book/book.component.html` and replace the content as below:
       <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
       <ngx-datatable-column [name]="'::Type' | abpLocalization" prop="type">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          {%{{{ '::Enum:BookType:' + row.type | abpLocalization }}}%}
+          {%{{{ '::Enum:BookType.' + row.type | abpLocalization }}}%}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'::PublishDate' | abpLocalization" prop="publishDate">
@@ -612,62 +633,79 @@ We will use the [Blazorise library](https://blazorise.com/) as the UI component 
 
 ABP Framework provides a generic base class, `AbpCrudPageBase<...>`, to create CRUD style pages. This base class is compatible to the `ICrudAppService` that was used to build the `IBookAppService`. So, we can inherit from the `AbpCrudPageBase` to automate the code behind for the standard CRUD stuff.
 
-Open the `Books.razor` and replace the content as the following:
+Create `Books.razor.cs` next to `Books.razor` file:
+
+````csharp
+using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars;
+
+namespace Acme.BookStore.Blazor.Pages;
+
+public partial class Books
+{
+    protected PageToolbar Toolbar { get; } = new();
+}
+````
+
+Then open the `Books.razor` and replace the content as the following:
 
 ````xml
 @page "/books"
 @using Volo.Abp.Application.Dtos
 @using Acme.BookStore.Books
 @using Acme.BookStore.Localization
+@using Volo.Abp.AspNetCore.Components.Web.Theming.Layout
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<BookStoreResource> L
 @inherits AbpCrudPageBase<IBookAppService, BookDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateBookDto>
 
-<Card>
-    <CardHeader>
-        <h2>@L["Books"]</h2>
-    </CardHeader>
-    <CardBody>
-        <DataGrid TItem="BookDto"
-                  Data="Entities"
-                  ReadData="OnDataGridReadAsync"
-                  CurrentPage="CurrentPage"
-                  TotalItems="TotalCount"
-                  ShowPager="true"
-                  PageSize="PageSize">
-            <DataGridColumns>
-                <DataGridColumn TItem="BookDto"
-                                Field="@nameof(BookDto.Name)"
-                                Caption="@L["Name"]"></DataGridColumn>
-                <DataGridColumn TItem="BookDto"
-                                Field="@nameof(BookDto.Type)"
-                                Caption="@L["Type"]">
-                    <DisplayTemplate>
-                        @L[$"Enum:BookType:{(int)context.Type}"]
-                    </DisplayTemplate>
-                </DataGridColumn>
-                <DataGridColumn TItem="BookDto"
-                                Field="@nameof(BookDto.PublishDate)" 
-                                Caption="@L["PublishDate"]">
-                    <DisplayTemplate>
-                        @context.PublishDate.ToShortDateString()
-                    </DisplayTemplate>
-                </DataGridColumn>
-                <DataGridColumn TItem="BookDto"
-                                Field="@nameof(BookDto.Price)" 
-                                Caption="@L["Price"]">
-                </DataGridColumn>
-                <DataGridColumn TItem="BookDto"
-                                Field="@nameof(BookDto.CreationTime)"
-                                Caption="@L["CreationTime"]">
-                    <DisplayTemplate>
-                        @context.CreationTime.ToLongDateString()
-                    </DisplayTemplate>
-                </DataGridColumn>
-            </DataGridColumns>
-        </DataGrid>
-    </CardBody>
-</Card>
+<CascadingValue Value="this">
+    @* ************************* PAGE HEADER ************************* *@
+    <PageHeader Title="@L["Books"]" BreadcrumbItems="@BreadcrumbItems" Toolbar="@Toolbar">
+    </PageHeader>
+
+    <Card>
+        <CardBody>
+            <DataGrid TItem="BookDto"
+                      Data="Entities"
+                      ReadData="OnDataGridReadAsync"
+                      CurrentPage="CurrentPage"
+                      TotalItems="TotalCount"
+                      ShowPager="true"
+                      PageSize="PageSize">
+                <DataGridColumns>
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.Name)"
+                                    Caption="@L["Name"]"></DataGridColumn>
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.Type)"
+                                    Caption="@L["Type"]">
+                        <DisplayTemplate>
+                            @L[$"Enum:BookType.{(int)context.Type}"]
+                        </DisplayTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.PublishDate)"
+                                    Caption="@L["PublishDate"]">
+                        <DisplayTemplate>
+                            @context.PublishDate.ToShortDateString()
+                        </DisplayTemplate>
+                    </DataGridColumn>
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.Price)"
+                                    Caption="@L["Price"]">
+                    </DataGridColumn>
+                    <DataGridColumn TItem="BookDto"
+                                    Field="@nameof(BookDto.CreationTime)"
+                                    Caption="@L["CreationTime"]">
+                        <DisplayTemplate>
+                            @context.CreationTime.ToLongDateString()
+                        </DisplayTemplate>
+                    </DataGridColumn>
+                </DataGridColumns>
+            </DataGrid>
+        </CardBody>
+    </Card>
+</CascadingValue>
 ````
 
 > If you see some syntax errors, you can ignore them if your application property built and run. Visual Studio still has some bugs with Blazor.

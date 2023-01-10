@@ -34,6 +34,8 @@ This tutorial has multiple versions based on your **UI** and **Database** prefer
 * [Blazor UI with EF Core](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-blazor-efcore)
 * [Angular UI with MongoDB](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Angular-MongoDb)
 
+> If you encounter the "filename too long" or "unzip" error on Windows, please see [this guide](https://docs.abp.io/en/abp/7.0/KB/Windows-Path-Too-Long-Fix).
+
 ## Introduction
 
 In the previous parts, we've used the ABP infrastructure to easily build some services;
@@ -58,47 +60,47 @@ using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 
-namespace Acme.BookStore.Authors
+namespace Acme.BookStore.Authors;
+
+public class Author : FullAuditedAggregateRoot<Guid>
 {
-    public class Author : FullAuditedAggregateRoot<Guid>
+    public string Name { get; private set; }
+    public DateTime BirthDate { get; set; }
+    public string ShortBio { get; set; }
+
+    private Author()
     {
-        public string Name { get; private set; }
-        public DateTime BirthDate { get; set; }
-        public string ShortBio { get; set; }
+        /* This constructor is for deserialization / ORM purpose */
+    }
 
-        private Author()
-        {
-            /* This constructor is for deserialization / ORM purpose */
-        }
+    internal Author(
+        Guid id,
+        [NotNull] string name,
+        DateTime birthDate,
+        [CanBeNull] string shortBio = null)
+        : base(id)
+    {
+        SetName(name);
+        BirthDate = birthDate;
+        ShortBio = shortBio;
+    }
 
-        internal Author(
-            Guid id,
-            [NotNull] string name,
-            DateTime birthDate,
-            [CanBeNull] string shortBio = null)
-            : base(id)
-        {
-            SetName(name);
-            BirthDate = birthDate;
-            ShortBio = shortBio;
-        }
+    internal Author ChangeName([NotNull] string name)
+    {
+        SetName(name);
+        return this;
+    }
 
-        internal Author ChangeName([NotNull] string name)
-        {
-            SetName(name);
-            return this;
-        }
-
-        private void SetName([NotNull] string name)
-        {
-            Name = Check.NotNullOrWhiteSpace(
-                name, 
-                nameof(name), 
-                maxLength: AuthorConsts.MaxNameLength
-            );
-        }
+    private void SetName([NotNull] string name)
+    {
+        Name = Check.NotNullOrWhiteSpace(
+            name,
+            nameof(name),
+            maxLength: AuthorConsts.MaxNameLength
+        );
     }
 }
+
 ````
 
 * Inherited from `FullAuditedAggregateRoot<Guid>` which makes the entity [soft delete](https://docs.abp.io/en/abp/latest/Data-Filtering) (that means when you delete it, it is not deleted in the database, but just marked as deleted) with all the [auditing](https://docs.abp.io/en/abp/latest/Entities) properties.
@@ -111,13 +113,13 @@ namespace Acme.BookStore.Authors
 `AuthorConsts` is a simple class that is located under the `Authors` namespace (folder) of the `Acme.BookStore.Domain.Shared` project:
 
 ````csharp
-namespace Acme.BookStore.Authors
+namespace Acme.BookStore.Authors;
+
+public static class AuthorConsts
 {
-    public static class AuthorConsts
-    {
-        public const int MaxNameLength = 64;
-    }
+    public const int MaxNameLength = 64;
 }
+
 ````
 
 Created this class inside the `Acme.BookStore.Domain.Shared` project since we will re-use it on the [Data Transfer Objects](https://docs.abp.io/en/abp/latest/Data-Transfer-Objects) (DTOs) later.
@@ -133,53 +135,52 @@ using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Services;
 
-namespace Acme.BookStore.Authors
+namespace Acme.BookStore.Authors;
+
+public class AuthorManager : DomainService
 {
-    public class AuthorManager : DomainService
+    private readonly IAuthorRepository _authorRepository;
+
+    public AuthorManager(IAuthorRepository authorRepository)
     {
-        private readonly IAuthorRepository _authorRepository;
+        _authorRepository = authorRepository;
+    }
 
-        public AuthorManager(IAuthorRepository authorRepository)
+    public async Task<Author> CreateAsync(
+        [NotNull] string name,
+        DateTime birthDate,
+        [CanBeNull] string shortBio = null)
+    {
+        Check.NotNullOrWhiteSpace(name, nameof(name));
+
+        var existingAuthor = await _authorRepository.FindByNameAsync(name);
+        if (existingAuthor != null)
         {
-            _authorRepository = authorRepository;
+            throw new AuthorAlreadyExistsException(name);
         }
 
-        public async Task<Author> CreateAsync(
-            [NotNull] string name,
-            DateTime birthDate,
-            [CanBeNull] string shortBio = null)
+        return new Author(
+            GuidGenerator.Create(),
+            name,
+            birthDate,
+            shortBio
+        );
+    }
+
+    public async Task ChangeNameAsync(
+        [NotNull] Author author,
+        [NotNull] string newName)
+    {
+        Check.NotNull(author, nameof(author));
+        Check.NotNullOrWhiteSpace(newName, nameof(newName));
+
+        var existingAuthor = await _authorRepository.FindByNameAsync(newName);
+        if (existingAuthor != null && existingAuthor.Id != author.Id)
         {
-            Check.NotNullOrWhiteSpace(name, nameof(name));
-
-            var existingAuthor = await _authorRepository.FindByNameAsync(name);
-            if (existingAuthor != null)
-            {
-                throw new AuthorAlreadyExistsException(name);
-            }
-
-            return new Author(
-                GuidGenerator.Create(),
-                name,
-                birthDate,
-                shortBio
-            );
+            throw new AuthorAlreadyExistsException(newName);
         }
 
-        public async Task ChangeNameAsync(
-            [NotNull] Author author,
-            [NotNull] string newName)
-        {
-            Check.NotNull(author, nameof(author));
-            Check.NotNullOrWhiteSpace(newName, nameof(newName));
-
-            var existingAuthor = await _authorRepository.FindByNameAsync(newName);
-            if (existingAuthor != null && existingAuthor.Id != author.Id)
-            {
-                throw new AuthorAlreadyExistsException(newName);
-            }
-
-            author.ChangeName(newName);
-        }
+        author.ChangeName(newName);
     }
 }
 ````
@@ -193,15 +194,14 @@ Both methods checks if there is already an author with the given name and throws
 ````csharp
 using Volo.Abp;
 
-namespace Acme.BookStore.Authors
+namespace Acme.BookStore.Authors;
+
+public class AuthorAlreadyExistsException : BusinessException
 {
-    public class AuthorAlreadyExistsException : BusinessException
+    public AuthorAlreadyExistsException(string name)
+        : base(BookStoreDomainErrorCodes.AuthorAlreadyExists)
     {
-        public AuthorAlreadyExistsException(string name)
-            : base(BookStoreDomainErrorCodes.AuthorAlreadyExists)
-        {
-            WithData("name", name);
-        }
+        WithData("name", name);
     }
 }
 ````
@@ -211,12 +211,11 @@ namespace Acme.BookStore.Authors
 Open the `BookStoreDomainErrorCodes` in the `Acme.BookStore.Domain.Shared` project and change as shown below:
 
 ````csharp
-namespace Acme.BookStore
+namespace Acme.BookStore;
+
+public static class BookStoreDomainErrorCodes
 {
-    public static class BookStoreDomainErrorCodes
-    {
-        public const string AuthorAlreadyExists = "BookStore:00001";
-    }
+    public const string AuthorAlreadyExists = "BookStore:00001";
 }
 ````
 
@@ -238,19 +237,18 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
 
-namespace Acme.BookStore.Authors
-{
-    public interface IAuthorRepository : IRepository<Author, Guid>
-    {
-        Task<Author> FindByNameAsync(string name);
+namespace Acme.BookStore.Authors;
 
-        Task<List<Author>> GetListAsync(
-            int skipCount,
-            int maxResultCount,
-            string sorting,
-            string filter = null
-        );
-    }
+public interface IAuthorRepository : IRepository<Author, Guid>
+{
+    Task<Author> FindByNameAsync(string name);
+
+    Task<List<Author>> GetListAsync(
+        int skipCount,
+        int maxResultCount,
+        string sorting,
+        string filter = null
+    );
 }
 ````
 
@@ -260,7 +258,7 @@ namespace Acme.BookStore.Authors
 
 We will implement this repository in the next part.
 
-> Both of these methods might **seem unnecessary** since the standard repositories already `IQueryable` and you can directly use them instead of defining such custom methods. You're right and do it like in a real application. However, for this **"learning" tutorial**, it is useful to explain how to create custom repository methods when you really need it.
+> Both of these methods might **seem unnecessary** since the standard repositories already provide generic querying methods and you can easily use them instead of defining such custom methods. You're right and do it like in a real application. However, for this **"learning" tutorial**, it is useful to explain how to create custom repository methods when you really need it.
 
 ## Conclusion
 

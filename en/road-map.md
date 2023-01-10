@@ -12,7 +12,6 @@ The next feature version will be 7.0 and released in December, 2022. We are cons
 
 Here, a list of major items in the backlog we are considering to work on in the next versions.
 
-* .NET MAUI application with Blazor (reuses the existing Blazor UI modules).
 * Tooling to automate and make easy to develop, run and deploy distributed solutions.
 * New styles, components and features for the LeptonX theme.
 * Payment module: Invoice system.
