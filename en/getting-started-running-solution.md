@@ -175,7 +175,7 @@ Ensure that the `.Blazor` project is the startup project and run the application
 
 Once the application starts, click to the **Login** link on to header, which redirects you to the authentication server to enter a username and password:
 
-![bookstore-login](images/bookstore-login-.png)
+![bookstore-login](images/bookstore-login-3.png)
 
 {{ else if UI == "NG" }}
 
