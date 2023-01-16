@@ -44,7 +44,7 @@ This tutorial has multiple versions based on your **UI** and **Database** prefer
 
 In this section, you will learn how to create a new modal dialog form to create a new book. The modal dialog will look like in the image below:
 
-![bookstore-create-dialog](images/bookstore-create-dialog.png)
+![bookstore-create-dialog](images/bookstore-create-dialog-2.png)
 
 ### Create the Modal Form
 

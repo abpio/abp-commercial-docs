@@ -365,7 +365,7 @@ Open the `/src/app/route.provider.ts` and add `requiredPolicy: 'BookStore.Books'
 
 The book management page has a *New Book* button that should be invisible if the current user has no *Book Creation* permission.
 
-![bookstore-new-book-button-small](images/bookstore-new-book-button-small.png)
+![bookstore-new-book-button-small](images/bookstore-new-book-button-2-small.png)
 
 Open the `/src/app/book/book.component.html` file and replace the create button HTML content as shown below:
 
@@ -383,7 +383,7 @@ Open the `/src/app/book/book.component.html` file and replace the create button 
 
 Books table in the book management page has an actions button for each row. The actions button includes *Edit* and *Delete* actions:
 
-![bookstore-edit-delete-actions](images/bookstore-edit-delete-actions.png)
+![bookstore-edit-delete-actions](images/bookstore-edit-delete-2-actions.png)
 
 We should hide an action if the current user has not granted for the related permission.
 
