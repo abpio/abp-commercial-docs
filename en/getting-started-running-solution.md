@@ -115,11 +115,11 @@ This is the HTTP API that is used by the web application.
 
 3. Lastly, ensure that the {{if UI=="MVC"}}`.Web`{{else}}`.Blazor`{{end}} project is the startup project and run the application which will open a **welcome** page in your browser
 
-![mvc-tiered-app-home](images/mvc-tiered-app-home.png)
+![mvc-tiered-app-home](images/mvc-tiered-app-home-2.png)
 
 Click to the **login** button which will redirect you to the *authentication server* to login to the application:
 
-![bookstore-login](images/bookstore-login-2.png)
+![bookstore-login](images/bookstore-login-3.png)
 
 {{ else # Tiered != "Yes" }}
 
@@ -127,7 +127,7 @@ Ensure that the {{if UI=="MVC"}}`.Web`{{else}}`.Blazor`{{end}} project is the st
 
 > Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
 
-![bookstore-login](images/bookstore-login-2.png)
+![bookstore-login](images/bookstore-login-3.png)
 
 {{ end # Tiered }}
 
@@ -175,7 +175,7 @@ Ensure that the `.Blazor` project is the startup project and run the application
 
 Once the application starts, click to the **Login** link on to header, which redirects you to the authentication server to enter a username and password:
 
-![bookstore-login](images/bookstore-login-2.png)
+![bookstore-login](images/bookstore-login-.png)
 
 {{ else if UI == "NG" }}
 
@@ -196,7 +196,7 @@ yarn start
 It may take a longer time for the first build. Once it finishes, it opens the Angular UI in your default browser with the [localhost:4200](http://localhost:4200/) address.
 
 
-![bookstore-login](images/bookstore-login-2.png)
+![bookstore-login](images/bookstore-login-3.png)
 
 {{ else if UI == "MAUIBlazor" }}
 
@@ -261,16 +261,16 @@ You need some extra steps, please check the [Microsoft's documentation](https://
 
 After you run the project, you can click the login button to the login UI.
 
-![bookstore-login](images/bookstore-login-2.png)
+![bookstore-login](images/bookstore-login-3.png)
 
 {{ end }}
 
 Enter **admin** as the username and **1q2w3E*** as the password to login to the application. 
 
 {{ if UI == "Blazor" }}
-![bookstore-home](images/bookstore-blazor-home-2.png)
+![bookstore-home](images/bookstore-home-3.png)
 {{else}}
-![bookstore-home](images/bookstore-home-2.png)
+![bookstore-home](images/bookstore-home-3.png)
 {{end}}
 
 The application is up and running. You can start developing your application based on this startup template.
