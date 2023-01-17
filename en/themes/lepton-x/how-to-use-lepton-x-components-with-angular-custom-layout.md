@@ -9,7 +9,7 @@ Related content can be found in the [Component Replacement Document](https://doc
 After creating a custom layout, these imports should be imported in the `app.module.ts` file because the modules contain definitions of the Lepton X components.
 
 
-```typescript
+```javascript
 // app.module.ts
 import { LpxSideMenuLayoutModule } from '@volosoft/ngx-lepton-x/layouts';
 import { LpxResponsiveModule } from '@volo/ngx-lepton-x.core';// optional. Only, if you are using lpxResponsive directive
@@ -44,9 +44,6 @@ Here is the simplified version of the `side-menu-layout.ts` file. Only the ABP C
       <div class="lpx-sidebar-container" *lpxResponsive="'md'">
         <div class="lpx-sidebar ps" [perfectScrollbar]>
             <lpx-navbar></lpx-navbar>
-          <div class="lpx-logo-container">
-            <!-- brand-logo -->
-          </div>
         </div>
       </div>
   
