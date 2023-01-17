@@ -607,13 +607,12 @@ CreateMap<Author, AuthorLookupDto>();
 
 Some of the unit tests will fail since we made some changed on the `BookAppService`. Open the `BookAppService_Tests` in the `Books` folder of the `Acme.BookStore.Application.Tests` project and change the content as the following:
 
+
 ```csharp
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Acme.BookStore;
 using Acme.BookStore.Authors;
-using Acme.BookStore.Books;
 using Shouldly;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Validation;
@@ -622,7 +621,7 @@ using Xunit;
 namespace Acme.BookStore.Books;
 
 {{if DB=="Mongo"}}
-[Collection(BookStoreTestConsts.CollectionDefinitionName)] {{ end}}
+[Collection(BookStoreTestConsts.CollectionDefinitionName)] {{end}}
 public class BookAppService_Tests : BookStoreApplicationTestBase
 {
     private readonly IBookAppService _bookAppService;
@@ -947,7 +946,7 @@ This command will update the service proxy files under the `/src/app/proxy/` fol
 
 ### The Book List
 
-Book list page change is trivial. Open the `Pages/Books/Index.js` in the `Acme.BookStore.Web` project and add an `authorName` column between the `name` and `type` columns:
+Book list page change is trivial. Open the `/src/app/book/book.component.html` and add the following column definition between the `Name` and `Type` columns:
 
 ````html
 <ngx-datatable-column
