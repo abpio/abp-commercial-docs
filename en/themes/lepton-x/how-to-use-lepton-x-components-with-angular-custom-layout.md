@@ -1,12 +1,12 @@
 # Custom layout usage with Lepton X components
 
 
-First, The  custom layout component should be created and implemented to angular application.
-Related content can be found at [Component Replacement doc](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement#how-to-replace-a-layout)
+First, The custom layout component should be created and implemented for the Angular application.
+Related content can be found in the [Component Replacement Document](https://docs.abp.io/en/abp/latest/UI/Angular/Component-Replacement#how-to-replace-a-layout)
 
 
  
-After creating a custom layout, this imports should be imported on `app.module.ts` because the modules contains definitions of Lepton X components.
+After creating a custom layout, these imports should be imported in the `app.module.ts` file because the modules contain definitions of the Lepton X components.
 
 
 ```typescript
@@ -26,7 +26,7 @@ export class AppModule {}
 
 ```
 
-Here is the simplified version of `side-menu-layout.ts`.  Only ABP Component Replacement codes have been removed.
+Here is the simplified version of the `side-menu-layout.ts` file. Only the ABP Component Replacement code has been removed.
 
 
 ```typescript
