@@ -9,7 +9,7 @@ Related content can be found in the [Component Replacement Document](https://doc
 After creating a custom layout, these imports should be imported in the `app.module.ts` file because the modules contain definitions of the Lepton X components.
 
 
-```html
+```typescript
 // app.module.ts
 import { LpxSideMenuLayoutModule } from '@volosoft/ngx-lepton-x/layouts';
 import { LpxResponsiveModule } from '@volo/ngx-lepton-x.core';// optional. Only, if you are using lpxResponsive directive
@@ -29,7 +29,7 @@ export class AppModule {}
 Here is the simplified version of the `side-menu-layout.ts` file. Only the ABP Component Replacement code has been removed.
 
 
-```typescript
+```html
 <ng-container *lpxResponsive="'all md-none'">
     <ng-container *ngTemplateOutlet="content"></ng-container>
   </ng-container>
