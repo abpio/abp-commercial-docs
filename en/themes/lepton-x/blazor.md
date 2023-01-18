@@ -222,10 +222,10 @@ You can override layouts by following the steps below:
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout;
 using Volo.Abp.DependencyInjection;
 
-[ExposeServices(typeof(SideMenuLayout))]
-[Dependency(ReplaceServices = true)
 namespace LeptonXLite.DemoApp.Blazor.MyComponents
 {
+    [ExposeServices(typeof(SideMenuLayout))]
+    [Dependency(ReplaceServices = true)]
     public partial class MySideMenuLayout
     {
         public string Name = "My Top Layout";
