@@ -307,3 +307,5 @@ this.replaceableComponents.add({
 });
 ///...
 ```
+
+If you want to create your own layout, [see the docs] (./how-to-use-lepton-x-components-with-angular-custom-layout)
