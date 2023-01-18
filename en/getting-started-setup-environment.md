@@ -3,7 +3,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC", "Blazor", "BlazorServer", "NG"],
+    "UI": ["MVC", "Blazor", "BlazorServer", "NG", "MAUIBlazor"],
     "DB": ["EF", "Mongo"],
     "Tiered": ["Yes", "No"]
 }
@@ -22,7 +22,7 @@ First things first! Let's setup your development environment before creating the
 The following tools should be installed on your development machine:
 
 * [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) (v17.3+) for Windows / [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac/). <sup id="a-editor">[1](#f-editor)</sup>
-* [.NET Core 6.0+](https://www.microsoft.com/net/download/dotnet-core/)
+* [.NET Core 7.0+](https://www.microsoft.com/net/download/dotnet-core/)
 {{ if UI != "Blazor" }}
 * [Node v16 or v18](https://nodejs.org/)
 * [Yarn v1.20+ (not v2)](https://classic.yarnpkg.com/en/docs/install) <sup id="a-yarn">[2](#f-yarn)</sup> or npm v6+ (already installed with Node)

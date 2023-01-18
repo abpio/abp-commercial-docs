@@ -2,7 +2,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC","Blazor","BlazorServer","NG"],
+    "UI": ["MVC","Blazor","BlazorServer","NG", "MAUIBlazor"],
     "DB": ["EF","Mongo"]
 }
 ````
@@ -34,6 +34,8 @@ This tutorial has multiple versions based on your **UI** and **Database** prefer
 * [Blazor UI with EF Core](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-blazor-efcore)
 * [Angular UI with MongoDB](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Angular-MongoDb)
 
+> If you encounter the "filename too long" or "unzip" error on Windows, please see [this guide](https://docs.abp.io/en/abp/7.0/KB/Windows-Path-Too-Long-Fix).
+
 ## Permissions
 
 ABP Framework provides an [authorization system](https://docs.abp.io/en/abp/latest/Authorization) based on the ASP.NET Core's [authorization infrastructure](https://docs.microsoft.com/en-us/aspnet/core/security/authorization/introduction). One major feature added on top of the standard authorization infrastructure is the **permission system** which allows to define permissions and enable/disable per role, user or client.
@@ -45,27 +47,26 @@ A permission must have a unique name (a `string`). The best way is to define it 
 Open the `BookStorePermissions` class inside the `Acme.BookStore.Application.Contracts` project (in the `Permissions` folder) and change the content as shown below:
 
 ````csharp
-namespace Acme.BookStore.Permissions
+namespace Acme.BookStore.Permissions;
+
+public static class BookStorePermissions
 {
-    public static class BookStorePermissions
+    public const string GroupName = "BookStore";
+
+    public static class Dashboard
     {
-        public const string GroupName = "BookStore";
+        public const string DashboardGroup = GroupName + ".Dashboard";
+        public const string Host = DashboardGroup + ".Host";
+        public const string Tenant = GroupName + ".Tenant";
+    }
 
-        public static class Dashboard
-        {
-            public const string DashboardGroup = GroupName + ".Dashboard";
-            public const string Host = DashboardGroup + ".Host";
-            public const string Tenant = GroupName + ".Tenant";
-        }
-
-        // Added items
-        public static class Books
-        {
-            public const string Default = GroupName + ".Books";
-            public const string Create = Default + ".Create";
-            public const string Edit = Default + ".Edit";
-            public const string Delete = Default + ".Delete";
-        }
+    // Added items
+    public static class Books
+    {
+        public const string Default = GroupName + ".Books";
+        public const string Create = Default + ".Create";
+        public const string Edit = Default + ".Edit";
+        public const string Delete = Default + ".Delete";
     }
 }
 ````
@@ -84,27 +85,26 @@ using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Localization;
 using Volo.Abp.MultiTenancy;
 
-namespace Acme.BookStore.Permissions
+namespace Acme.BookStore.Permissions;
+
+public class BookStorePermissionDefinitionProvider : PermissionDefinitionProvider
 {
-    public class BookStorePermissionDefinitionProvider : PermissionDefinitionProvider
+    public override void Define(IPermissionDefinitionContext context)
     {
-        public override void Define(IPermissionDefinitionContext context)
-        {
-            var bookStoreGroup = context.AddGroup(BookStorePermissions.GroupName, L("Permission:BookStore"));
+        var bookStoreGroup = context.AddGroup(BookStorePermissions.GroupName, L("Permission:BookStore"));
 
-            bookStoreGroup.AddPermission(BookStorePermissions.Dashboard.Host, L("Permission:Dashboard"), MultiTenancySides.Host);
-            bookStoreGroup.AddPermission(BookStorePermissions.Dashboard.Tenant, L("Permission:Dashboard"), MultiTenancySides.Tenant);
-            
-            var booksPermission = bookStoreGroup.AddPermission(BookStorePermissions.Books.Default, L("Permission:Books"));
-            booksPermission.AddChild(BookStorePermissions.Books.Create, L("Permission:Books.Create"));
-            booksPermission.AddChild(BookStorePermissions.Books.Edit, L("Permission:Books.Edit"));
-            booksPermission.AddChild(BookStorePermissions.Books.Delete, L("Permission:Books.Delete"));
-        }
+        bookStoreGroup.AddPermission(BookStorePermissions.Dashboard.Host, L("Permission:Dashboard"), MultiTenancySides.Host);
+        bookStoreGroup.AddPermission(BookStorePermissions.Dashboard.Tenant, L("Permission:Dashboard"), MultiTenancySides.Tenant);
 
-        private static LocalizableString L(string name)
-        {
-            return LocalizableString.Create<BookStoreResource>(name);
-        }
+        var booksPermission = bookStoreGroup.AddPermission(BookStorePermissions.Books.Default, L("Permission:Books"));
+        booksPermission.AddChild(BookStorePermissions.Books.Create, L("Permission:Books.Create"));
+        booksPermission.AddChild(BookStorePermissions.Books.Edit, L("Permission:Books.Edit"));
+        booksPermission.AddChild(BookStorePermissions.Books.Delete, L("Permission:Books.Delete"));
+    }
+
+    private static LocalizableString L(string name)
+    {
+        return LocalizableString.Create<BookStoreResource>(name);
     }
 }
 ````
@@ -129,7 +129,7 @@ Once you define the permissions, you can see them on the **permission management
 
 Go to the *Administration -> Identity Management -> Roles* page, select *Permissions* action for the admin role to open the permission management modal:
 
-{{if UI == "Blazor" || UI == "BlazorServer"}}
+{{if UI == "Blazor" || UI == "BlazorServer" || UI == "MAUIBlazor"}}
 
 ![bookstore-permissions-ui](images/bookstore-blazor-permissions-ui-2.png)
 
@@ -152,32 +152,31 @@ Now, you can use the permissions to authorize the book management.
 Open the `BookAppService` class and add set the policy names as the permission names defined above:
 
 ````csharp
-using System;
 using Acme.BookStore.Permissions;
+using System;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 
-namespace Acme.BookStore.Books
+namespace Acme.BookStore.Books;
+
+public class BookAppService :
+    CrudAppService<
+        Book, //The Book entity
+        BookDto, //Used to show books
+        Guid, //Primary key of the book entity
+        PagedAndSortedResultRequestDto, //Used for paging/sorting
+        CreateUpdateBookDto>, //Used to create/update a book
+    IBookAppService //implement the IBookAppService
 {
-    public class BookAppService :
-        CrudAppService<
-            Book, //The Book entity
-            BookDto, //Used to show books
-            Guid, //Primary key of the book entity
-            PagedAndSortedResultRequestDto, //Used for paging/sorting
-            CreateUpdateBookDto>, //Used to create/update a book
-        IBookAppService //implement the IBookAppService
+    public BookAppService(IRepository<Book, Guid> repository)
+        : base(repository)
     {
-        public BookAppService(IRepository<Book, Guid> repository)
-            : base(repository)
-        {
-            GetPolicyName = BookStorePermissions.Books.Default;
-            GetListPolicyName = BookStorePermissions.Books.Default;
-            CreatePolicyName = BookStorePermissions.Books.Create;
-            UpdatePolicyName = BookStorePermissions.Books.Edit;
-            DeletePolicyName = BookStorePermissions.Books.Delete;
-        }
+        GetPolicyName = BookStorePermissions.Books.Default;
+        GetListPolicyName = BookStorePermissions.Books.Default;
+        CreatePolicyName = BookStorePermissions.Books.Create;
+        UpdatePolicyName = BookStorePermissions.Books.Edit;
+        DeletePolicyName = BookStorePermissions.Books.Delete;
     }
 }
 ````
@@ -218,35 +217,31 @@ Open the `Pages/Books/Index.cshtml` file and change the content as shown below:
 ````html
 @page
 @using Acme.BookStore.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Layout
+@using Microsoft.AspNetCore.Authorization
 @using Acme.BookStore.Permissions
 @using Acme.BookStore.Web.Pages.Books
-@using Microsoft.AspNetCore.Authorization
 @using Microsoft.Extensions.Localization
 @model IndexModel
-@inject IStringLocalizer<BookStoreResource> L
 @inject IAuthorizationService AuthorizationService
+@inject IStringLocalizer<BookStoreResource> L
+@inject IPageLayout PageLayout
+@{
+    PageLayout.Content.MenuItemName = "BooksStore";
+    PageLayout.Content.Title = L["Books"].Value;
+}
 @section scripts
-{
-    <abp-script src="/Pages/Books/Index.js"/>
+    {
+    <abp-script src="/Pages/Books/Index.js" />
+}
+@section content_toolbar {
+    @if (await AuthorizationService.IsGrantedAsync(BookStorePermissions.Books.Create))
+    {
+        <abp-button id="NewBookButton" text="@L["NewBook"].Value" icon="plus" size="Small" button-type="Primary" />
+    }
 }
 
 <abp-card>
-    <abp-card-header>
-        <abp-row>
-            <abp-column size-md="_6">
-                <abp-card-title>@L["Books"]</abp-card-title>
-            </abp-column>
-            <abp-column size-md="_6" class="text-right">
-                @if (await AuthorizationService.IsGrantedAsync(BookStorePermissions.Books.Create))
-                {
-                    <abp-button id="NewBookButton"
-                                text="@L["NewBook"].Value"
-                                icon="plus"
-                                button-type="Primary"/>
-                }
-            </abp-column>
-        </abp-row>
-    </abp-card-header>
     <abp-card-body>
         <abp-table striped-rows="true" id="BooksTable"></abp-table>
     </abp-card-body>
@@ -310,82 +305,21 @@ context.Menu.AddItem(
 And replace this code block with the following:
 
 ````csharp
-var bookStoreMenu = new ApplicationMenuItem(
-    "BooksStore",
-    l["Menu:BookStore"],
-    icon: "fa fa-book"
-);
-
-context.Menu.AddItem(bookStoreMenu);
-
-//CHECK the PERMISSION
-if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
-{
-    bookStoreMenu.AddItem(new ApplicationMenuItem(
-        "BooksStore.Books",
-        l["Menu:Books"],
-        url: "/Books"
-    ));
-}
+context.Menu.AddItem(
+    new ApplicationMenuItem(
+        "BooksStore",
+        l["Menu:BookStore"],
+        icon: "fa fa-book"
+    ).AddItem(
+        new ApplicationMenuItem(
+            "BooksStore.Books",
+            l["Menu:Books"],
+            url: "/Books"
+        ).RequirePermissions(BookStorePermissions.Books.Default) // Check the permission!
+    )
 ````
 
-You also need to add `async` keyword to the `ConfigureMenuAsync` method and re-arrange the return values. The final `BookStoreMenuContributor` class should be the following:
-
-````csharp
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
-using Acme.BookStore.Localization;
-using Acme.BookStore.MultiTenancy;
-using Acme.BookStore.Permissions;
-using Volo.Abp.TenantManagement.Web.Navigation;
-using Volo.Abp.UI.Navigation;
-
-namespace Acme.BookStore.Web.Menus
-{
-    public class BookStoreMenuContributor : IMenuContributor
-    {
-        public async Task ConfigureMenuAsync(MenuConfigurationContext context)
-        {
-            if (context.Menu.Name == StandardMenus.Main)
-            {
-                await ConfigureMainMenuAsync(context);
-            }
-        }
-
-        private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
-        {
-            if (!MultiTenancyConsts.IsEnabled)
-            {
-                var administration = context.Menu.GetAdministration();
-                administration.TryRemoveMenuItem(TenantManagementMenuNames.GroupName);
-            }
-
-            var l = context.GetLocalizer<BookStoreResource>();
-
-            context.Menu.Items.Insert(0, new ApplicationMenuItem("BookStore.Home", l["Menu:Home"], "~/"));
-
-            var bookStoreMenu = new ApplicationMenuItem(
-                "BooksStore",
-                l["Menu:BookStore"],
-                icon: "fa fa-book"
-            );
-
-            context.Menu.AddItem(bookStoreMenu);
-
-            //CHECK the PERMISSION
-            if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
-            {
-                bookStoreMenu.AddItem(new ApplicationMenuItem(
-                    "BooksStore.Books",
-                    l["Menu:Books"],
-                    url: "/Books"
-                ));
-            }
-        }
-    }
-}
-````
+We've only added the `.RequirePermissions(BookStorePermissions.Books.Default)` extension method call for the inner menu item.
 
 {{else if UI == "NG"}}
 
@@ -470,11 +404,11 @@ Open the `/src/app/book/book.component.html` file and replace the edit and delet
 * Added `*abpPermission="'BookStore.Books.Edit'"` that hides the edit action if the current user has no editing permission.
 * Added `*abpPermission="'BookStore.Books.Delete'"` that hides the delete action if the current user has no delete permission.
 
-{{else if UI == "Blazor" || UI == "BlazorServer"}}
+{{else if UI == "Blazor" || UI == "BlazorServer" || UI == "MAUIBlazor"}}
 
 ### Authorize the Razor Component
 
-Open the `/Pages/Books.razor` file in the `Acme.BookStore.Blazor` project and add an `Authorize` attribute just after the `@page` directive and the following namespace imports (`@using` lines), as shown below:
+Open the `/Pages/Books.razor` file in the {{if UI == "MAUIBlazor"}}`Acme.BookStore.MauiBlazor`{{else}}`Acme.BookStore.Blazor`{{end}} project and add an `Authorize` attribute just after the `@page` directive and the following namespace imports (`@using` lines), as shown below:
 
 ````html
 @page "/books"
@@ -494,17 +428,14 @@ The base `AbpCrudPageBase` class already has the necessary functionality for the
 
 #### Set the Policy (Permission) Names
 
-Add the following code block to the end of the `Books.razor` file:
+Add the following constructor to the `Books.razor.cs` file:
 
 ````csharp
-@code
+public Books()
 {
-    public Books() // Constructor
-    {
-        CreatePolicyName = BookStorePermissions.Books.Create;
-        UpdatePolicyName = BookStorePermissions.Books.Edit;
-        DeletePolicyName = BookStorePermissions.Books.Delete;
-    }
+    CreatePolicyName = BookStorePermissions.Books.Create;
+    UpdatePolicyName = BookStorePermissions.Books.Edit;
+    DeletePolicyName = BookStorePermissions.Books.Delete;
 }
 ````
 
@@ -514,18 +445,15 @@ The base `AbpCrudPageBase` class automatically checks these permissions on the r
 * `HasUpdatePermission`: True, if the current user has permission to edit/update the entity.
 * `HasDeletePermission`: True, if the current user has permission to delete the entity.
 
-> **Blazor Tip**: While adding the C# code into a `@code` block is fine for small code parts, it is suggested to use the code behind approach to develop a more maintainable code base when the code block becomes longer. We will use this approach for the authors part.
-
 #### Hide the New Book Button
 
-Wrap the *New Book* button by an `if` block as shown below:
+Add the `requiredPolicyName` parameter to button configuration as shown below:
 
-````xml
-@if (HasCreatePermission)
-{
-    <Button Color="Color.Primary"
-            Clicked="OpenCreateModalAsync">@L["NewBook"]</Button>
-}
+````csharp
+Toolbar.AddButton(L["NewBook"],
+    OpenCreateModalAsync,
+    IconName.Add,
+    requiredPolicyName: CreatePolicyName);
 ````
 
 #### Hide the Edit/Delete Actions
@@ -603,38 +531,82 @@ if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
 You also need to add `async` keyword to the `ConfigureMenuAsync` method and re-arrange the return value. The final `ConfigureMainMenuAsync` method should be the following:
 
 ````csharp
-private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
-{
-    var l = context.GetLocalizer<BookStoreResource>();
+    private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
+    {
+        var l = context.GetLocalizer<BookStoreResource>();
 
-    context.Menu.Items.Insert(
-        0,
-        new ApplicationMenuItem(
-            "BookStore.Home",
+        context.Menu.AddItem(new ApplicationMenuItem(
+            BookStoreMenus.Home,
             l["Menu:Home"],
             "/",
-            icon: "fas fa-home"
-        )
-    );
-
-    var bookStoreMenu = new ApplicationMenuItem(
-        "BooksStore",
-        l["Menu:BookStore"],
-        icon: "fa fa-book"
-    );
-
-    context.Menu.AddItem(bookStoreMenu);
-
-    //CHECK the PERMISSION
-    if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
-    {
-        bookStoreMenu.AddItem(new ApplicationMenuItem(
-            "BooksStore.Books",
-            l["Menu:Books"],
-            url: "/books"
+            icon: "fas fa-home",
+            order: 1
         ));
+
+        var bookStoreMenu = new ApplicationMenuItem(
+            "BooksStore",
+            l["Menu:BookStore"],
+            icon: "fa fa-book"
+        );
+
+        context.Menu.AddItem(bookStoreMenu);
+
+        //CHECK the PERMISSION
+        if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
+        {
+            bookStoreMenu.AddItem(new ApplicationMenuItem(
+                "BooksStore.Books",
+                l["Menu:Books"],
+                url: "/books"
+            ));
+        }
+
+        //HostDashboard
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                BookStoreMenus.HostDashboard,
+                l["Menu:Dashboard"],
+                "/HostDashboard",
+                icon: "fa fa-chart-line",
+                order: 2
+            ).RequirePermissions(BookStorePermissions.Dashboard.Host)
+        );
+
+        //TenantDashboard
+        context.Menu.AddItem(
+            new ApplicationMenuItem(
+                BookStoreMenus.TenantDashboard,
+                l["Menu:Dashboard"],
+                "/Dashboard",
+                icon: "fa fa-chart-line",
+                order: 2
+            ).RequirePermissions(BookStorePermissions.Dashboard.Tenant)
+        );
+
+        context.Menu.SetSubItemOrder(SaasHostMenus.GroupName, 3);
+
+        //Administration
+        var administration = context.Menu.GetAdministration();
+        administration.Order = 3;
+
+        //Administration->Identity
+        administration.SetSubItemOrder(IdentityProMenus.GroupName, 1);
+
+        //Administration->OpenId
+        administration.SetSubItemOrder(OpenIddictProMenus.GroupName, 2);
+
+        //Administration->Language Management
+        administration.SetSubItemOrder(LanguageManagementMenus.GroupName, 3);
+
+        //Administration->Text Template Management
+        administration.SetSubItemOrder(TextTemplateManagementMenus.GroupName, 4);
+
+        //Administration->Audit Logs
+        administration.SetSubItemOrder(AbpAuditLoggingMenus.GroupName, 5);
+
+        //Administration->Settings
+        administration.SetSubItemOrder(SettingManagementMenus.GroupName, 6);
     }
-}
 ````
 
 {{end}}
