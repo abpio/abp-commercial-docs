@@ -1066,7 +1066,7 @@ Open the `/src/app/book/book.component.html`  and add the following `ngx-datata
         aria-haspopup="true"
         ngbDropdownToggle
       >
-        <i class="fa fa-cog mr-1"></i>{%{{{ '::Actions' | abpLocalization }}}%}
+        <i class="fa fa-cog me-1"></i>{%{{{ '::Actions' | abpLocalization }}}%}
       </button>
       <div ngbDropdownMenu>
         <button ngbDropdownItem (click)="editBook(row.id)">
@@ -1343,9 +1343,29 @@ We can now define a modal to edit the book. Add the following code to the end of
 
 The base `AbpCrudPageBase` uses the [object to object mapping](https://docs.abp.io/en/abp/latest/Object-To-Object-Mapping) system to convert an incoming `BookDto` object to a `CreateUpdateBookDto` object. So, we need to define the mapping.
 
-Open the `BookStoreBlazorAutoMapperProfile` inside the `Acme.BookStore.Blazor` project and change the content as the following:
+{{if UI == "MAUIBlazor" }}
+Open the `BookStoreMauiBlazorAutoMapperProfile` inside the `Acme.BookStore.MauiBlazor` project and change the content as the following:
 
 ````csharp
+
+using Acme.BookStore.Books;
+using AutoMapper;
+
+namespace Acme.BookStore.MauiBlazor;
+
+public class BookStoreMauiBlazorAutoMapperProfile : Profile
+{
+    public BookStoreMauiBlazorAutoMapperProfile()
+    {
+        CreateMap<BookDto, CreateUpdateBookDto>();
+    }
+}
+````
+{{else}}
+
+Open the `BookStoreBlazorAutoMapperProfile` inside the `Acme.BookStore.Blazor` project and change the content as the following:
+````csharp
+
 using Acme.BookStore.Books;
 using AutoMapper;
 
@@ -1359,6 +1379,7 @@ public class BookStoreBlazorAutoMapperProfile : Profile
     }
 }
 ````
+ {{end}}
 
 * We've just added the `CreateMap<BookDto, CreateUpdateBookDto>();` line to define the mapping.
 

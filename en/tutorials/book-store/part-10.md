@@ -1122,7 +1122,9 @@ using Acme.BookStore.Books;
 using System.Collections.Generic;
 using System;
 
-namespace Acme.BookStore.Blazor.Pages;
+{{if UI == "MAUIBlazor"}}
+`namespace Acme.BookStore.MauiBlazor`{{else}}
+`namespace Acme.BookStore.Blazor`{{end}}
 
 public partial class Books
 {

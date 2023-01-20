@@ -745,7 +745,7 @@ Open the `/src/app/author/author.component.html` and replace the content as belo
                       data-toggle="dropdown"
                       aria-haspopup="true"
                       ngbDropdownToggle>
-                <i class="fa fa-cog mr-1"></i>{%{{{ '::Actions' | abpLocalization }}}%}
+                <i class="fa fa-cog me-1"></i>{%{{{ '::Actions' | abpLocalization }}}%}
               </button>
               <div ngbDropdownMenu>
                 <button ngbDropdownItem (click)="editAuthor(row.id)">
@@ -781,7 +781,7 @@ Open the `/src/app/author/author.component.html` and replace the content as belo
         <input type="text" id="author-name" class="form-control" formControlName="name" autofocus />
       </div>
 
-      <div class="form-group">
+      <div class="mt-2">
         <label>Birth date</label><span> * </span>
         <input #datepicker="ngbDatepicker"
                class="form-control"
@@ -995,9 +995,9 @@ using Blazorise.DataGrid;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars;
-
-namespace Acme.BookStore.Blazor.Pages;
-
+{{if UI == "MAUIBlazor"}}
+`namespace Acme.BookStore.MauiBlazor`{{else}}
+`namespace Acme.BookStore.Blazor`{{end}}
 public partial class Authors
 {
     private IReadOnlyList<AuthorDto> AuthorList { get; set; }
@@ -1116,7 +1116,7 @@ This class typically defines the properties and methods used by the `Authors.raz
 
 `Authors` class uses the `IObjectMapper` in the `OpenEditAuthorModal` method. So, we need to define this mapping.
 
-Open the `BookStoreBlazorAutoMapperProfile.cs` in the `Acme.BookStore.Blazor` project and add the following mapping code in the constructor:
+Open the `BookStoreBlazorAutoMapperProfile.cs` in the {{if UI == "MAUIBlazor"}}`Acme.BookStore.MauiBlazor`{{else}}`Acme.BookStore.Blazor`{{end}} project and add the following mapping code in the constructor:
 
 ````csharp
 CreateMap<AuthorDto, UpdateAuthorDto>();
@@ -1126,7 +1126,7 @@ You will need to declare a `using Acme.BookStore.Authors;` statement to the begi
 
 ### Add to the Main Menu
 
-Open the `BookStoreMenuContributor.cs` in the `Acme.BookStore.Blazor` project and add the following code to the end of the `ConfigureMainMenuAsync` method:
+Open the `BookStoreMenuContributor.cs` in the {{if UI == "MAUIBlazor"}}`Acme.BookStore.MauiBlazor`{{else}}`Acme.BookStore.Blazor`{{end}} project and add the following code to the end of the `ConfigureMainMenuAsync` method:
 
 ````csharp
 if (await context.IsGrantedAsync(BookStorePermissions.Authors.Default))
