@@ -842,7 +842,7 @@ Also replace `<ng-template #abpFooter> </ng-template>` with the following code p
 
   <!--added save button-->
   <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
-        <i class="fa fa-check mr-1"></i>
+        <i class="fa fa-check me-1"></i>
         {%{{{ '::Save' | abpLocalization }}}%}
   </button>
 </ng-template>
@@ -1066,7 +1066,7 @@ Open the `/src/app/book/book.component.html`  and add the following `ngx-datata
         aria-haspopup="true"
         ngbDropdownToggle
       >
-        <i class="fa fa-cog mr-1"></i>{%{{{ '::Actions' | abpLocalization }}}%}
+        <i class="fa fa-cog me-1"></i>{%{{{ '::Actions' | abpLocalization }}}%}
       </button>
       <div ngbDropdownMenu>
         <button ngbDropdownItem (click)="editBook(row.id)">
@@ -1175,7 +1175,7 @@ Open the `Books.razor.cs` and create an override for `SetToolbarItemsAsync` meth
 
 This will add a "New book" button to the right side of the toolbar:
 
-![blazor-add-book-button](images/blazor-add-book-button-2.png)
+![blazor-add-book-button](images/blazor-add-book-button.png)
 
 Now, we can add a modal that will be opened when we click to the button.
 
@@ -1343,9 +1343,29 @@ We can now define a modal to edit the book. Add the following code to the end of
 
 The base `AbpCrudPageBase` uses the [object to object mapping](https://docs.abp.io/en/abp/latest/Object-To-Object-Mapping) system to convert an incoming `BookDto` object to a `CreateUpdateBookDto` object. So, we need to define the mapping.
 
-Open the `BookStoreBlazorAutoMapperProfile` inside the `Acme.BookStore.Blazor` project and change the content as the following:
+{{if UI == "MAUIBlazor" }}
+Open the `BookStoreMauiBlazorAutoMapperProfile` inside the `Acme.BookStore.MauiBlazor` project and change the content as the following:
 
 ````csharp
+
+using Acme.BookStore.Books;
+using AutoMapper;
+
+namespace Acme.BookStore.MauiBlazor;
+
+public class BookStoreMauiBlazorAutoMapperProfile : Profile
+{
+    public BookStoreMauiBlazorAutoMapperProfile()
+    {
+        CreateMap<BookDto, CreateUpdateBookDto>();
+    }
+}
+````
+{{else}}
+
+Open the `BookStoreBlazorAutoMapperProfile` inside the `Acme.BookStore.Blazor` project and change the content as the following:
+````csharp
+
 using Acme.BookStore.Books;
 using AutoMapper;
 
@@ -1359,6 +1379,7 @@ public class BookStoreBlazorAutoMapperProfile : Profile
     }
 }
 ````
+ {{end}}
 
 * We've just added the `CreateMap<BookDto, CreateUpdateBookDto>();` line to define the mapping.
 

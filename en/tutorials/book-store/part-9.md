@@ -530,10 +530,11 @@ import { SharedModule } from '../shared/shared.module';
 import { AuthorRoutingModule } from './author-routing.module';
 import { AuthorComponent } from './author.component';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { PageModule } from '@abp/ng.components/page'
 
 @NgModule({
   declarations: [AuthorComponent],
-  imports: [SharedModule, AuthorRoutingModule, NgbDatepickerModule],
+  imports: [SharedModule, AuthorRoutingModule, NgbDatepickerModule, PageModule],
 })
 export class AuthorModule {}
 ```
@@ -744,7 +745,7 @@ Open the `/src/app/author/author.component.html` and replace the content as belo
                       data-toggle="dropdown"
                       aria-haspopup="true"
                       ngbDropdownToggle>
-                <i class="fa fa-cog mr-1"></i>{%{{{ '::Actions' | abpLocalization }}}%}
+                <i class="fa fa-cog me-1"></i>{%{{{ '::Actions' | abpLocalization }}}%}
               </button>
               <div ngbDropdownMenu>
                 <button ngbDropdownItem (click)="editAuthor(row.id)">
@@ -780,7 +781,7 @@ Open the `/src/app/author/author.component.html` and replace the content as belo
         <input type="text" id="author-name" class="form-control" formControlName="name" autofocus />
       </div>
 
-      <div class="form-group">
+      <div class="mt-2">
         <label>Birth date</label><span> * </span>
         <input #datepicker="ngbDatepicker"
                class="form-control"
@@ -798,7 +799,7 @@ Open the `/src/app/author/author.component.html` and replace the content as belo
     </button>
 
     <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
-      <i class="fa fa-check mr-1"></i>
+      <i class="fa fa-check me-1"></i>
       {%{{{ '::Save' | abpLocalization }}}%}
     </button>
   </ng-template>
@@ -994,9 +995,9 @@ using Blazorise.DataGrid;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars;
-
-namespace Acme.BookStore.Blazor.Pages;
-
+{{if UI == "MAUIBlazor"}}
+`namespace Acme.BookStore.MauiBlazor`{{else}}
+`namespace Acme.BookStore.Blazor`{{end}}
 public partial class Authors
 {
     private IReadOnlyList<AuthorDto> AuthorList { get; set; }
@@ -1115,7 +1116,7 @@ This class typically defines the properties and methods used by the `Authors.raz
 
 `Authors` class uses the `IObjectMapper` in the `OpenEditAuthorModal` method. So, we need to define this mapping.
 
-Open the `BookStoreBlazorAutoMapperProfile.cs` in the `Acme.BookStore.Blazor` project and add the following mapping code in the constructor:
+Open the `BookStoreBlazorAutoMapperProfile.cs` in the {{if UI == "MAUIBlazor"}}`Acme.BookStore.MauiBlazor`{{else}}`Acme.BookStore.Blazor`{{end}} project and add the following mapping code in the constructor:
 
 ````csharp
 CreateMap<AuthorDto, UpdateAuthorDto>();
@@ -1125,7 +1126,7 @@ You will need to declare a `using Acme.BookStore.Authors;` statement to the begi
 
 ### Add to the Main Menu
 
-Open the `BookStoreMenuContributor.cs` in the `Acme.BookStore.Blazor` project and add the following code to the end of the `ConfigureMainMenuAsync` method:
+Open the `BookStoreMenuContributor.cs` in the {{if UI == "MAUIBlazor"}}`Acme.BookStore.MauiBlazor`{{else}}`Acme.BookStore.Blazor`{{end}} project and add the following code to the end of the `ConfigureMainMenuAsync` method:
 
 ````csharp
 if (await context.IsGrantedAsync(BookStorePermissions.Authors.Default))
@@ -1158,7 +1159,7 @@ Run and login to the application. **If you don't see the Authors menu item under
 
 As you see, the admin role has no *Author Management* permissions yet. Click to the checkboxes and save the modal to grant the necessary permissions. You will see the *Authors* menu item under the *Book Store* in the main menu, after **refreshing the page**:
 
-![bookstore-authors-page](images/bookstore-authors-blazor-ui-2.png)
+![bookstore-authors-page](images/bookstore-authors-blazor-ui.png)
 
 That's all! This is a fully working CRUD page, you can create, edit and delete the authors.
 

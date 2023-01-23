@@ -637,8 +637,9 @@ Create `Books.razor.cs` next to `Books.razor` file:
 
 ````csharp
 using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars;
-
-namespace Acme.BookStore.Blazor.Pages;
+{{if UI == "MAUIBlazor"}}
+namespace Acme.BookStore.MauiBlazor{{else}}
+namespace Acme.BookStore.Blazor{{end}}
 
 public partial class Books
 {
@@ -723,7 +724,7 @@ We will continue to benefit from the `AbpCrudPageBase` for the books page. You c
 
 You can run the application! The final UI of this part is shown below:
 
-![blazor-bookstore-book-list](images/blazor-bookstore-book-list-2.png)
+![blazor-bookstore-book-list](images/blazor-bookstore-book-list.png)
 
 This is a fully working, server side paged, sorted and localized table of books.
 
