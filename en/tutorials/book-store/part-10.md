@@ -607,13 +607,12 @@ CreateMap<Author, AuthorLookupDto>();
 
 Some of the unit tests will fail since we made some changed on the `BookAppService`. Open the `BookAppService_Tests` in the `Books` folder of the `Acme.BookStore.Application.Tests` project and change the content as the following:
 
+
 ```csharp
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Acme.BookStore;
 using Acme.BookStore.Authors;
-using Acme.BookStore.Books;
 using Shouldly;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Validation;
@@ -622,7 +621,7 @@ using Xunit;
 namespace Acme.BookStore.Books;
 
 {{if DB=="Mongo"}}
-[Collection(BookStoreTestConsts.CollectionDefinitionName)] {{ end}}
+[Collection(BookStoreTestConsts.CollectionDefinitionName)] {{end}}
 public class BookAppService_Tests : BookStoreApplicationTestBase
 {
     private readonly IBookAppService _bookAppService;
@@ -947,7 +946,7 @@ This command will update the service proxy files under the `/src/app/proxy/` fol
 
 ### The Book List
 
-Book list page change is trivial. Open the `Pages/Books/Index.js` in the `Acme.BookStore.Web` project and add an `authorName` column between the `name` and `type` columns:
+Book list page change is trivial. Open the `/src/app/book/book.component.html` and add the following column definition between the `Name` and `Type` columns:
 
 ````html
 <ngx-datatable-column
@@ -1090,7 +1089,7 @@ It is very easy to show the *Author Name* in the book list. Open the `/Pages/Boo
 
 When you run the application, you can see the *Author* column on the table:
 
-![blazor-bookstore-book-list-with-authors](images/blazor-bookstore-book-list-with-authors-2.png)
+![blazor-bookstore-book-list-with-authors](images/blazor-bookstore-book-list-with-authors.png)
 
 ### Create Book Modal
 
@@ -1123,7 +1122,9 @@ using Acme.BookStore.Books;
 using System.Collections.Generic;
 using System;
 
-namespace Acme.BookStore.Blazor.Pages;
+{{if UI == "MAUIBlazor"}}
+`namespace Acme.BookStore.MauiBlazor`{{else}}
+`namespace Acme.BookStore.Blazor`{{end}}
 
 public partial class Books
 {
@@ -1144,6 +1145,17 @@ public partial class Books
         authorList = (await AppService.GetAuthorLookupAsync()).Items;
     }
 
+    protected override async Task OpenCreateModalAsync()
+     {
+         if (!authorList.Any())
+         {
+             throw new UserFriendlyException(message: L["AnAuthorIsRequiredForCreatingBook"]);
+         }
+
+         await base.OpenCreateModalAsync();
+         NewEntity.AuthorId = authorList.First().Id;
+     }
+
     protected override ValueTask SetToolbarItemsAsync()
     {
         Toolbar.AddButton(L["NewBook"],
@@ -1162,7 +1174,6 @@ Finally, add the following `Field` definition into the `ModalBody` of the *Creat
 <Field>
     <FieldLabel>@L["Author"]</FieldLabel>
     <Select TValue="Guid" @bind-SelectedValue="@NewEntity.AuthorId">
-        <SelectItem TValue="Guid" Value="Guid.Empty">@L["PickAnAuthor"]</SelectItem>
         @foreach (var author in authorList)
         {
             <SelectItem TValue="Guid" Value="@author.Id">
@@ -1176,7 +1187,8 @@ Finally, add the following `Field` definition into the `ModalBody` of the *Creat
 This requires to add a new localization key to the `en.json` file:
 
 ````js
-"PickAnAuthor": "Pick an author"
+"PickAnAuthor": "Pick an author",
+"AnAuthorIsRequiredForCreatingBook": "An author is required to create a book"
 ````
 
 You can run the application to see the *Author Selection* while creating a new book:

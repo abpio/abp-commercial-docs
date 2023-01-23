@@ -423,7 +423,8 @@ public interface IBookAppService :
 
 ### BookAppService
 
-Implement the `IBookAppService` as named `BookAppService` in the `Acme.BookStore.Application` project:
+Implement the `IBookAppService` as `BookAppService` in the `Books` folder in the `Acme.BookStore.Application` project:
+
 
 ````csharp
 using System;

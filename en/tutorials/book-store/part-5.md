@@ -372,7 +372,7 @@ Open the `/src/app/book/book.component.html` file and replace the create button 
 ````html
 <!-- Add the abpPermission directive -->
 <button *abpPermission="'BookStore.Books.Create'" id="create" class="btn btn-primary" type="button" (click)="createBook()">
-  <i class="fa fa-plus mr-1"></i>
+  <i class="fa fa-plus me-1"></i>
   <span>{%{{{ '::NewBook' | abpLocalization }}}%}</span>
 </button>
 ````
@@ -488,7 +488,7 @@ You can run and test the permissions. Remove a book related permission from the 
 
 Even we have secured all the layers of the book management page, it is still visible on the main menu of the application. We should hide the menu item if the current user has no permission.
 
-Open the `BookStoreMenuContributor` class in the `Acme.BookStore.Blazor` project, find the code block below:
+Open the `BookStoreMenuContributor` class in the {{if UI == "MAUIBlazor"}}`Acme.BookStore.MauiBlazor`{{else}}`Acme.BookStore.Blazor`{{end}} project, find the code block below:
 
 ````csharp
 context.Menu.AddItem(
