@@ -1145,6 +1145,17 @@ public partial class Books
         authorList = (await AppService.GetAuthorLookupAsync()).Items;
     }
 
+    protected override async Task OpenCreateModalAsync()
+     {
+         if (!authorList.Any())
+         {
+             throw new UserFriendlyException(message: L["AnAuthorIsRequiredForCreatingBook"]);
+         }
+
+         await base.OpenCreateModalAsync();
+         NewEntity.AuthorId = authorList.First().Id;
+     }
+
     protected override ValueTask SetToolbarItemsAsync()
     {
         Toolbar.AddButton(L["NewBook"],
@@ -1163,7 +1174,6 @@ Finally, add the following `Field` definition into the `ModalBody` of the *Creat
 <Field>
     <FieldLabel>@L["Author"]</FieldLabel>
     <Select TValue="Guid" @bind-SelectedValue="@NewEntity.AuthorId">
-        <SelectItem TValue="Guid" Value="Guid.Empty">@L["PickAnAuthor"]</SelectItem>
         @foreach (var author in authorList)
         {
             <SelectItem TValue="Guid" Value="@author.Id">
@@ -1177,7 +1187,8 @@ Finally, add the following `Field` definition into the `ModalBody` of the *Creat
 This requires to add a new localization key to the `en.json` file:
 
 ````js
-"PickAnAuthor": "Pick an author"
+"PickAnAuthor": "Pick an author",
+"AnAuthorIsRequiredForCreatingBook": "An author is required to create a book"
 ````
 
 You can run the application to see the *Author Selection* while creating a new book:
