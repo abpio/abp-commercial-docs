@@ -799,7 +799,7 @@ Open the `/src/app/author/author.component.html` and replace the content as belo
     </button>
 
     <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
-      <i class="fa fa-check mr-1"></i>
+      <i class="fa fa-check me-1"></i>
       {%{{{ '::Save' | abpLocalization }}}%}
     </button>
   </ng-template>
@@ -1159,7 +1159,7 @@ Run and login to the application. **If you don't see the Authors menu item under
 
 As you see, the admin role has no *Author Management* permissions yet. Click to the checkboxes and save the modal to grant the necessary permissions. You will see the *Authors* menu item under the *Book Store* in the main menu, after **refreshing the page**:
 
-![bookstore-authors-page](images/bookstore-authors-blazor-ui-2.png)
+![bookstore-authors-page](images/bookstore-authors-blazor-ui.png)
 
 That's all! This is a fully working CRUD page, you can create, edit and delete the authors.
 

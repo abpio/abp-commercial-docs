@@ -1089,7 +1089,7 @@ It is very easy to show the *Author Name* in the book list. Open the `/Pages/Boo
 
 When you run the application, you can see the *Author* column on the table:
 
-![blazor-bookstore-book-list-with-authors](images/blazor-bookstore-book-list-with-authors-2.png)
+![blazor-bookstore-book-list-with-authors](images/blazor-bookstore-book-list-with-authors.png)
 
 ### Create Book Modal
 

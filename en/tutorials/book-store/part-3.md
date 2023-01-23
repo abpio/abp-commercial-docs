@@ -44,7 +44,7 @@ This tutorial has multiple versions based on your **UI** and **Database** prefer
 
 In this section, you will learn how to create a new modal dialog form to create a new book. The modal dialog will look like in the image below:
 
-![bookstore-create-dialog](images/bookstore-create-dialog-2.png)
+![bookstore-create-dialog](images/bookstore-create-dialog.png)
 
 ### Create the Modal Form
 
@@ -842,7 +842,7 @@ Also replace `<ng-template #abpFooter> </ng-template>` with the following code p
 
   <!--added save button-->
   <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
-        <i class="fa fa-check mr-1"></i>
+        <i class="fa fa-check me-1"></i>
         {%{{{ '::Save' | abpLocalization }}}%}
   </button>
 </ng-template>
@@ -1175,7 +1175,7 @@ Open the `Books.razor.cs` and create an override for `SetToolbarItemsAsync` meth
 
 This will add a "New book" button to the right side of the toolbar:
 
-![blazor-add-book-button](images/blazor-add-book-button-2.png)
+![blazor-add-book-button](images/blazor-add-book-button.png)
 
 Now, we can add a modal that will be opened when we click to the button.
 

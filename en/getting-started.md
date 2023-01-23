@@ -5,7 +5,7 @@
 {
     "UI": ["MVC", "Blazor", "BlazorServer", "NG", "MAUIBlazor"],
     "DB": ["EF", "Mongo"],
-    "Tiered": ["No"]
+    "Tiered": ["Yes", "No"]
 }
 ````
 
