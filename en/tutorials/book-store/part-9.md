@@ -996,8 +996,8 @@ using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars;
 {{if UI == "MAUIBlazor"}}
-`namespace Acme.BookStore.MauiBlazor`{{else}}
-`namespace Acme.BookStore.Blazor`{{end}}
+namespace Acme.BookStore.MauiBlazor{{else}}
+namespace Acme.BookStore.Blazor{{end}}
 public partial class Authors
 {
     private IReadOnlyList<AuthorDto> AuthorList { get; set; }

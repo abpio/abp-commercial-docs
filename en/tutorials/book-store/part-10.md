@@ -1123,8 +1123,8 @@ using System.Collections.Generic;
 using System;
 
 {{if UI == "MAUIBlazor"}}
-`namespace Acme.BookStore.MauiBlazor`{{else}}
-`namespace Acme.BookStore.Blazor`{{end}}
+namespace Acme.BookStore.MauiBlazor{{else}}
+namespace Acme.BookStore.Blazor{{end}}
 
 public partial class Books
 {
