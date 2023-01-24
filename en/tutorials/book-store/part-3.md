@@ -61,7 +61,7 @@ using System.Threading.Tasks;
 using Acme.BookStore.Books;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Acme.BookStore.Web.Pages.Books
+namespace Acme.BookStore.Web.Pages.Books;
 {
     public class CreateModalModel : BookStorePageModel
     {
@@ -275,7 +275,7 @@ using System.Threading.Tasks;
 using Acme.BookStore.Books;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Acme.BookStore.Web.Pages.Books
+namespace Acme.BookStore.Web.Pages.Books;
 {
     public class EditModalModel : BookStorePageModel
     {

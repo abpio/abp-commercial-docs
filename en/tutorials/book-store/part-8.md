@@ -79,7 +79,7 @@ This interface is using the DTOs defined below (create them for your project).
 using System;
 using Volo.Abp.Application.Dtos;
 
-namespace Acme.BookStore.Authors
+namespace Acme.BookStore.Authors;
 {
     public class AuthorDto : EntityDto<Guid>
     {
@@ -99,7 +99,7 @@ namespace Acme.BookStore.Authors
 ````csharp
 using Volo.Abp.Application.Dtos;
 
-namespace Acme.BookStore.Authors
+namespace Acme.BookStore.Authors;
 {
     public class GetAuthorListDto : PagedAndSortedResultRequestDto
     {
