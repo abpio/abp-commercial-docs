@@ -1115,15 +1115,15 @@ Override the `OpenCreateModalAsync` method and add the following code to the end
 
 ````csharp
 protected override async Task OpenCreateModalAsync()
+{
+    if (!authorList.Any())
     {
-        if (!authorList.Any())
-        {
-            throw new UserFriendlyException(message: L["AnAuthorIsRequiredForCreatingBook"]);
-        }
-        
-        await base.OpenCreateModalAsync();
-        NewEntity.AuthorId = authorList.First().Id;
+        throw new UserFriendlyException(message: L["AnAuthorIsRequiredForCreatingBook"]);
     }
+        
+    await base.OpenCreateModalAsync();
+    NewEntity.AuthorId = authorList.First().Id;
+}
 ````
 
 The final `Books.razor.cs` should be the following:
