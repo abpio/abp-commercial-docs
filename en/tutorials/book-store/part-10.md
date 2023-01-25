@@ -1111,6 +1111,21 @@ protected override async Task OnInitializedAsync()
 
 \* It is essential to call the `base.OnInitializedAsync()` since `AbpCrudPageBase` has some initialization code to be executed.
 
+Override the `OpenCreateModalAsync` method and add the following code to the end of the method:
+
+````csharp
+protected override async Task OpenCreateModalAsync()
+    {
+        if (!authorList.Any())
+        {
+            throw new UserFriendlyException(message: L["AnAuthorIsRequiredForCreatingBook"]);
+        }
+        
+        await base.OpenCreateModalAsync();
+        NewEntity.AuthorId = authorList.First().Id;
+    }
+````
+
 The final `Books.razor.cs` should be the following:
 
 ````csharp
@@ -1187,7 +1202,6 @@ Finally, add the following `Field` definition into the `ModalBody` of the *Creat
 This requires to add a new localization key to the `en.json` file:
 
 ````js
-"PickAnAuthor": "Pick an author",
 "AnAuthorIsRequiredForCreatingBook": "An author is required to create a book"
 ````
 
