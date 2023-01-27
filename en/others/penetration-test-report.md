@@ -1,53 +1,51 @@
 # ABP Commercial Penetration Test Report
 
-ABP Commercial MVC `v6.0.0` application template has been tested against security vulnerabilities via [OWASP ZAP v2.11.1](https://www.zaproxy.org/) tool. The demo web application was started on the `https://localhost:44378` address. The below alerts have been reported by the pentest tool. These alerts are sorted by the risk level  as high, medium and low. The informational alerts are not mentioned in this document. Many of these alerts are false-positive, meaning the vulnerability scanner detected these issues, but they are not exploitable. It's clearly explained for each false-positive alert why this alert is a false-positive. In the next sections, you will find the affected URLs, alert descriptions, false-positive explanations and fixes for the issues. Some positive alerts are already fixed, and some of them will be fixed in the next milestone. The issue links for the fixes are mentioned in each positive alert.
+ABP Commercial MVC `v7.0.0` application template has been tested against security vulnerabilities via [OWASP ZAP v2.11.1](https://www.zaproxy.org/) tool. The demo web application was started on the `https://localhost:44378` address. The below alerts have been reported by the pentest tool. These alerts are sorted by the risk level as high, medium, and low. The informational alerts are not mentioned in this document. 
 
+Many of these alerts are **false-positive**, meaning the vulnerability scanner detected these issues, but they are not exploitable. It's clearly explained for each false-positive alert why this alert is a false-positive. 
 
-
+In the next sections, you will find the affected URLs, alert descriptions, false-positive explanations, and fixes for the issues. Some positive alerts are already fixed, and some of them will be fixed in the next milestone. The issue links for the fixes are mentioned in each positive alert.
 
 ## Alerts
 
 There are high _(red flag)_, medium _(orange flag)_, low _(yellow flag)_ and informational _(blue flag)_ alerts. 
 
-![image-20220630183012987](../images/pen-test-alert-list.png)
+![penetration-test-7.0](../images/pen-test-alert-list-7.0.png)
 
-### Cross Site Scripting (Reflected)  [Risk: High] — Positive (Fixed)
+> The informational alerts are not mentioned in this document. These alerts are not raising any risks on your application and they are optional steps to take.
 
-* *[GET]* — https://localhost:44378/Abp/Languages/Switch?culture=%3CscrIpt%3Ealert%281%29%3B%3C%2FscRipt%3E&returnUrl=%2F&uiCulture=ar
-* *[GET]* — https://localhost:44378/Abp/Languages/Switch?culture=ar&returnUrl=%2F&uiCulture=%3CscrIpt%3Ealert%281%29%3B%3C%2FscRipt%3E
+### Cross Site Scripting (Reflected) [Risk: High] — Positive (Fixed)
 
-The above URLs reported to be vulnerable against "Cross Site Scripting (Reflected)" attack. This vulnerability has been fixed with the following issue in the ABP Framework's Language Management Module: https://github.com/abpframework/abp/issues/13183
+* *[GET]* — https://localhost:44378/AbpPermissionManagement/PermissionManagementModal?
+providerName=C&providerKey=EfCoreNonTierZap_Web_Public_Tiered&providerKeyDisplayName=%
+3C%2Fh5%3E%3CscrIpt%3Ealert%281%29%3B%3C%2FscRipt%3E%3Ch5%3E
 
+The above URL reported to be vulnerable against "Cross Site Scripting (Reflected)" attack. We fixed this problem, see the following PR for the changes: https://github.com/abpframework/abp/pull/15519.
 
+### External Redirect [Risk: High] 
 
-### Remote OS Command Injection [Risk: High] — False Positive
+//TODO:
 
-* *[GET]* — https://localhost:44378/SettingManagement?AccountRecaptchaSettings.UseCaptchaOnLogin=false&AccountRecaptchaSettings.UseCaptchaOnRegistration=false&AccountSettings.EnableLocalLogin=false&AccountSettings.IsSelfRegistrationEnabled=false&AccountTwoFactorSettings.IsRememberBrowserEnabled=false&AccountTwoFactorSettings.UsersCanChange=false&BoxedLayout=true&EnableLocalLogin=true&IsRememberBrowserEnabled=true&IsSelfRegistrationEnabled=true&MenuPlacement=Left&MenuStatus=AlwaysOpened&PublicLayoutStyle=Style1&Score=0.5&SiteKey=ZAP&SiteSecret=ZAP&Style=Style6&TwoFactorBehaviour=Optional&UseCaptchaOnLogin=true%7Ctimeout+%2FT+5&UseCaptchaOnRegistration=true&UsersCanChange=true&VerifyBaseUrl=https%3A%2F%2Fwww.google.com%2F&Version=3
+### Generic Padding Oracle [Risk: High]
 
-**Description:** 
+//TODO:
 
-Attack technique used for unauthorized execution of operating system commands. This attack is possible when an application accepts untrusted input to build operating system commands in an insecure manner involving improper data sanitization, and/or improper calling of external programs.
+### PII Disclosure [Risk: High]
 
-**Explanation:** 
+//TODO:
 
-This is a false-positive alert. The URL param is given  `UseCaptchaOnLogin=true%7Ctimeout+%2FT+5`. As the attacker sends `true|timeout /T 15`, it should wait the request thread for 5 seconds. Because it pauses the thread. But this command is not being evaluated in the OS. Because it's being binded to a boolean property in the backend: `public bool UseCaptchaOnLogin { get; set; }` and any invalid value comes from the client will result in `false` value. To check if it's being evaluated we set it to a very high number like `timeout /T 999` and we see the request completes very fast and doesn't evaluate this pause OS command.
+### Path Traversal [Risk: High]
 
+//TODO:
 
+### SQL Injection [Risk: High] 
 
-### SQL Injection [Risk: High] — False Positive
+- *[POST] - https://localhost:44378/Account/ForgotPassword?returnUrl=%2FAccount%2FSecurityLogs*
+- *[POST] - https://localhost:44378/AuditLogs*
+- *[POST] - https://localhost:44378/FeatureManagement/FeatureManagementModal*
+- *[POST] - https://localhost:44378/Identity/OrganizationUnits/CreateModal*
 
-* *[POST]* — https://localhost:44378/LanguageManagement/Texts
-
-**Description:** 
-
-SQL injection may be possible. The page results were successfully manipulated using the boolean conditions [de-DE' AND '1'='1] and [de-DE' AND '1'='2]. The parameter value being modified was NOT stripped from the HTML output for the purposes of the comparison
-Data was returned for the original parameter. The vulnerability was detected by successfully restricting the data originally returned, by manipulating the parameter
-
-**Explanation:**
-
-ABP uses Entity Framework Core. In the specified endpoint it runs the following database query. This is a false-positive alert. When the culture name is sent as `de-DE' AND '1'='1` the backend throws `[ERR] Culture is not supported. (Parameter 'name')` exception. That is why the modified value was not stripped the HTML output. 
-
-
+//TODO:
 
 ### Absence of Anti-CSRF Tokens [Risk: Medium] — False Positive
 
@@ -60,30 +58,23 @@ A cross-site request forgery is an attack that involves forcing a victim to send
 
 **Explanation:**
 
-This is false-positive alert because ABP Framework provides the Anti-CSRF token via cookie as seen on the following screenshot.  
+This is **false-positive** alert because ABP Framework provides the Anti-CSRF token via cookie as seen on the following screenshot.  
 
 ![Absence of Anti-CSRF Token](../images/pen-test-alert-remote-os-command-injection.png)
 
+### Application Error Disclosure [Risk: Medium] - False Positive
 
-
-### Application Error Disclosure [Risk: Medium] — False Positive
-
-- *[GET] — https://localhost:44378/Abp/ApplicationConfigurationScript*
-- *[GET] —https://localhost:44378/api/language-management/language-texts?filter=&resourceName=&baseCultureName=en&targetCultureName=de-DE&getOnlyEmptyValues=false&sorting=name%20asc&skipCount=0&maxResultCount=10*
-- *[GET] —https://localhost:44378/AuditLogs*
-- *[GET] —https://localhost:44378/libs/uppy/uppy.min.js*
+- *[POST] — https://localhost:44378/Account/ImpersonateTenant*
+- *[POST] — https://localhost:44378/Account/ImpersonateUser*
+- *[POST] — https://localhost:44378/Account/Manage*
 
 **Description**: 
 
 This page contains an error/warning message that may disclose sensitive information like the location of the file that produced the unhandled exception. This information can be used to launch further attacks against the web application. The alert could be a false positive if the error message is found inside a documentation page.
 
-**Explanation:**
+**Explanation**:
 
-There are 4 URLs that are reported as exposing error messages. This is a false-positive alert. As seen on the following screenshot, all these endpoints returns `Internal Error` text for the localization purposes and there is no exception thrown.
-
-![Absence of Anti-CSRF Token](../images/pen-test-error-disclosure.png)
-
-
+There are 3 URLs that are reported as exposing error messages. This is a false-positive alert. All these endpoints returns Internal Server Error and there is no sensetive information disclosed.
 
 ### Content Security Policy (CSP) Header Not Set [Risk: Medium] — Positive (Fixed)
 
@@ -107,24 +98,26 @@ app.Use(async (context, next) =>
 });
 ```
 
-This vulnerability is being fixed in ABP v7.0. You can check track the issue from https://github.com/abpframework/abp/issues/14173
+This vulnerability is being fixed in ABP v7.0. You can check track the issue from https://github.com/abpframework/abp/issues/14173.
 
+### Format String Error [Risk: Medium] - Positive and False Positive 
 
-
-### Format String Error [Risk: Medium] — Positive (Fixed)
-
-- *[GET] — https://localhost:44378/Abp/Languages/Switch?culture=ar&returnUrl=%2F&uiCulture=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A*  
-- *[GET] — https://localhost:44378/Abp/Languages/Switch?culture=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&returnUrl=%2F&uiCulture=ar*  
-- *[POST] — https://localhost:44378/Account/Login*  
+- *[GET] - https://localhost:44378/Abp/Languages/Switch?culture=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&returnUrl=%2F&uiCulture=ar*
+- *[GET] - https://localhost:44378/Abp/ApplicationLocalizationScript?cultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A*
+- *[POST] — https://localhost:44378/Account/Login*
 - *[POST] — https://localhost:44378/Account/Register*
 
-**Description:** 
+**Description**:
 
 A Format String error occurs when the submitted data of an input string is evaluated as a command by the application.
 
-**Solution:** 
+**Solution**:
 
-Rewrite the background program using proper deletion of bad character strings.  This will require a recompile of the background executable. The first affected URL is being fixed by this issue https://github.com/abpframework/abp/issues/14174. The second URL is already fixed with  https://github.com/abpframework/abp/issues/13183. The last 2 URLs are false-positive because there is no bad character strings in the response. For example the third request's response is the following and as seen there is no invalid chars in the response.
+Rewrite the background program using proper deletion of bad character strings. This will require a recompile of the background executable. The first affected URL is being fixed by this issue https://github.com/abpframework/abp/issues/14174. 
+
+The second one is positive and we created an issue for it. See the following issue for the progress: https://github.com/abpframework/abp/issues/15525.
+
+The last 2 URLs are false-positive because there is no bad character strings in the response. For example the third request's response is the following and as seen there is no invalid chars in the response:
 
 ```
 Volo.Abp.Validation.AbpValidationException: ModelState is not valid! See ValidationErrors for details.
@@ -199,39 +192,9 @@ Content-Length: 639
 X-Correlation-Id: 2c103514abd44a17b1ec792b6a5c1dc3
 ```
 
+### XSLT Injection [Risk: Medium]
 
-
-### Missing Anti-clickjacking Header [Risk: Medium] — False Positive
-
-- *[GET] — https://localhost:44378* 
-- *[GET] — https://localhost:44378/Abp/MultiTenancy/TenantSwitchModal*
-
-**Description:** 
-
-There are 248 URLs reported to be vulnerable against missing Anti-clickjacking header. The above 2 URLs are written to be examples. In this topic, the tools reports that the response does not include either `Content-Security-Policy` with 'frame-ancestors' directive or `X-Frame-Options` to protect against ClickJacking attacks.
-
-**Solution:** 
-
-This vulnerability is same as "Content Security Policy (CSP) Header Not Set" and with the following issue, this is also being fixed.
-https://github.com/abpframework/abp/issues/14173. On the other hand `X-Frame-Options`  header is already being added in the following middleware in ABP Framework core module: https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.AspNetCore/Volo/Abp/AspNetCore/Security/AbpSecurityHeadersMiddleware.cs#L20.
-
-In the below screenshot it is seen that the header is being added. The reason that the OWASP ZAP tool reported this vulnerability is that, the project was running in Debug mode and the security headers are being added only in the Release mode.
-
-![image-20220929162325285](../images/pen-test-anti-clickjacking-header.png)
-
-Besides, there is a tracking issue for this vulnerability: https://github.com/abpframework/abp/issues/14175
-
-### Vulnerable JS Library [Risk: Medium] — Positive (Fixed)
-
-* *[GET] — https://localhost:44378/libs/jquery/jquery.js*
-
-**Description:** 
-
-The identified library jQuery, version 3.3.1 is vulnerable.
-
-**Solution:** 
-
-The ABP templates uses jQuery v3.6.0 and it is configured at https://github.com/abpframework/abp/blob/dev/npm/packs/jquery/package.json#L14. Even it's configured to use the not vulnerable version, the templates uses the v3.3.1. This issue is being tracked at https://github.com/abpframework/abp/issues/14176.
+//TODO:
 
 ### Application Error Disclosure [Risk: Low] — False Positive (Fixed)
 
@@ -261,7 +224,7 @@ This vulnerability was reported as a positive alert because the application ran 
 
 ### Cookie No `HttpOnly`  [Risk: Low] — Positive (No need a fix)
 
-* *[GET] — https://localhost:44378*
+* *[GET] — https://localhost:44378 (and there are several URLs)*
 
 **Description:** 
 
@@ -270,8 +233,6 @@ A cookie has been set without the secure flag, which means that the cookie can b
 **Explanation:** 
 
 The following alert also includes this issue. To understand this alert, you can take a look at the next alert: _Cookie Without Secure Flag [Risk: Low]_
-
-
 
 ### Cookie Without Secure Flag [Risk: Low] — Positive (No need a fix)
 
@@ -305,70 +266,35 @@ If you want to set you can do it in [AbpRequestCultureCookieHelper](https://gith
 
 The related issue for this alert is https://github.com/abpframework/abp/issues/14214.
 
-
 ### Cookie with SameSite Attribute None [Risk: Low] — Positive (No need a fix)
 
 * *[GET] — https://localhost:44378 (and there are several URLs)*
 
 **Description:** 
 
-A cookie has been set with its `SameSite ` attribute set to `none`, which means that the cookie can be sent as a result of a `cross-site` request. The `SameSite` attribute is an effective counter measure to cross-site request forgery, cross-site script inclusion, and timing attacks.
+A cookie has been set with its `SameSite` attribute set to `none`, which means that the cookie can be sent as a result of a `cross-site` request. The `SameSite` attribute is an effective counter measure to cross-site request forgery, cross-site script inclusion, and timing attacks.
 
 **Solution:** 
 
-Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` for all cookies. You can see the Amazon.com `SameSite` attribute policy. This vulnerability will be fixed with the following issue https://github.com/abpframework/abp/issues/14215.
+Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` for all cookies. You can see the Amazon.com `SameSite` attribute policy. We discussed to set **SameSite** attribute to `strict` in the following issue https://github.com/abpframework/abp/issues/14215 and decided to leave this change to the final developer.
 
-![Amazon.com SameSite attribute policy ](../images/pen-test-samesite-attribute.png)
+![Amazon.com SameSite attribute policy](../images/pen-test-samesite-attribute.png)
 
 ### Cookie without `SameSite` Attribute [Risk: Low] — Positive 
 
-* *[GET] — https://localhost:44378/Abp/Languages/Switch?culture=ar&returnUrl=%2F&uiCulture=ar* 
-
-_(and there are several URLs with different parameters of https://localhost:44378/Abp/Languages/Switch endpoint)_
+* *[GET] — https://localhost:44378/Abp/Languages/Switch?culture=ar&returnUrl=%2F&uiCulture=ar _(and there are several URLs with different parameters of https://localhost:44378/Abp/Languages/Switch endpoint)_* 
 
 **Description:** 
 
-A cookie has been set with its `SameSite ` attribute set to `none`, which means that the cookie can be sent as a result of a `cross-site` request. The `SameSite` attribute is an effective counter measure to cross-site request forgery, cross-site script inclusion, and timing attacks.
+A cookie has been set with its `SameSite` attribute set to `none`, which means that the cookie can be sent as a result of a `cross-site` request. The `SameSite` attribute is an effective counter measure to cross-site request forgery, cross-site script inclusion, and timing attacks.
 
 **Solution:** 
 
-Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` for all cookies. This vulnerability will be fixed with the following issue https://github.com/abpframework/abp/issues/14215.
-
-
-
-### Cross Site Scripting Weakness (Reflected in JSON Response) [Risk: Low] — False Positive 
-
-* *[GET] — https://localhost:44378/Abp/MultiTenancy/TenantSwitchModal*
-* *[GET] — https://localhost:44378/api/identity/organization-units/75e2ae9d-a624-aa67-f819-3a047edddf34/members?filter=zap&sorting=userName+asc&skipCount=%3CscrIpt%3Ealert%281%29%3B%3C%2FscRipt%3E&maxResultCount=100*
-* *[GET] —* https://localhost:44378/api/audit-logging/audit-logs/statistics/average-execution-duration-per-day?startDate=%3CscrIpt%3Ealert%281%29%3B%3C%2FscRipt%3E&endDate=2022-06-16T00%3A00%3A00.000Z
-* *[GET] — https://localhost:44378/api/identity/security-logs?startTime=%3CscrIpt%3Ealert%281%29%3B%3C%2FscRipt%3E&endTime=&applicationName=&identity=&action=&userName=&clientId=&correlationId=&sorting=creationTime+desc&skipCount=0&maxResultCount=10*
-* *[GET] — https://localhost:44378/api/identity/users?filter=alper&roleId=&organizationUnitId=&userName=&phoneNumber=&emailAddress=&isLockedOut=&notActive=%3CscrIpt%3Ealert%281%29%3B%3C%2FscRipt%3E&sorting=email+asc&skipCount=0&maxResultCount=10*
-* *[GET] — https://localhost:44378/api/language-management/languages?filter=&skipCount=0&maxResultCount=%3CscrIpt%3Ealert%281%29%3B%3C%2FscRipt%3E*
-* *[GET] — https://localhost:44378/api/saas/tenants?filter=tenant1&editionId=&expirationDateMin=&expirationDateMax=&activationState=&sorting=name+asc&skipCount=0&maxResultCount=%3CscrIpt%3Ealert%281%29%3B%3C%2FscRipt%3E*
-* *[GET] — https://localhost:44378/api/text-template-management/template-definitions?filterText=&sorting=name+asc&skipCount=0&maxResultCount=%3CscrIpt%3Ealert%281%29%3B%3C%2FscRipt%3E*
-
-**Description:**  
-
-A XSS attack was reflected in a `JSON` response, this might leave content consumers vulnerable to attack if they don't appropriately handle the data (response).
-
-**Solution:**  
-
-User input should be HTML encoded at any point where it is being used in all HTML pages. 
-
-**Explanation:** 
-
-The data that's retrieved from the use is being saved as is. The reason is the malicious script works only on HTML pages but there are other platforms that this data is being printed like mobile apps, CLI tools or Windows/Linux applications. So in this attack, the hacker tries to evaluate JavaScript code that only works on HTML pages. And the fix is encoding the data where it's being used. Hence the response that comes from the backend is the user input's raw data as seen on the following image.
-
-![XSS Reflected OWASP ZAP request](../images/pen-test-xss-reflected-owasp-request.png)
-
-But we encode this raw data when rendering on the HTML pages. You can see from the following screenshot that, the JavaScript code is not being evaluated. So this is a false-positive alert.
-
-![XSS Reflected False Positive](../images/pen-test-xss-reflected-false-positive.png)
+Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` for all cookies. We discussed to set **SameSite** attribute to `strict` in the following issue https://github.com/abpframework/abp/issues/14215 and decided to leave this change to the final developer.
 
 ### Information Disclosure - Debug Error Messages [Risk: Low] — False Positive
 
 * *[GET] —* https://localhost:44378/api/language-management/language-texts?filter=&resourceName=&baseCultureName=en&targetCultureName=de-DE&getOnlyEmptyValues=false&sorting=name%20asc&skipCount=0&maxResultCount=10
-* *[GET] — https://localhost:44378/AuditLogs*
 
 **Description:**  
 
@@ -380,120 +306,10 @@ Disable debugging messages before pushing to production.
 
 **Explanation:** 
 
-The following 2 responses are the responses of https://localhost:44378/api/language-management/language-texts and https://localhost:44378/AuditLogs. Both responses return localization texts which are not real error messages. As there is no real error in the backend, this vulnerability is a false-positive alert.
+The response of https://localhost:44378/api/language-management/language-texts endpoint returns localization texts which are not real error messages. As there is no real error in the backend, this vulnerability is a false-positive alert.
 
 ![Information Disclosure - Debug Error Messages](../images/pen-test-information-disclosure.png)
 
+### Strict-Transport-Security Header Not Set [Risk: Low]
 
-
-### Server Leaks Information via "X-Powered-By" Header [Risk: Low] — Positive (Fix on your project)
-
-* *[GET] — https://localhost:44378/Account/Login*
-* *[POST] — https://localhost:44378/LanguageManagement/Texts*
-
-**Description:**  
-
-The web/application server is leaking information via one or more `X-Powered-By` HTTP response headers. Access to such information may facilitate attackers identifying other frameworks/components your web application is reliant upon and the vulnerabilities such components may be subject to.
-
-**Solution:**  
-
-Ensure that your web server, application server, load balancer, etc. is configured to suppress `X-Powered-By` headers.
-
-**Explanation:** 
-
-The `X-Powered-By` header is automatically being added by IIS or IIS Express. If you are running your application on IIS or IIS Express, you can simply remove this header by adding the below code into your `web.config` file. As ABP Commercial and open-source application templates do not include `web.config` file, you need to do this in your web project. For further information, see the following issue https://github.com/abpframework/abp/issues/14216.
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<configuration>
-  <system.webServer> 
-    <httpProtocol>
-      <customHeaders>
-        <remove name="x-powered-by" />
-      </customHeaders>
-    </httpProtocol>
-  </system.webServer>
-</configuration>
-```
-![X-Powered-By Header](../images/pen-test-xpoweredby-header.png)
-
-
-### Timestamp Disclosure - Unix [Risk: Low] — False Positive 
-
-* *[GET] — https://localhost:44378/Abp/ApplicationConfigurationScript*
-* *[GET] — https://localhost:44378/api/identity-server/clients*
-* *[GET] — https://localhost:44378/api/identity/security-logs*
-* *[GET] — https://localhost:44378/images/favicon/safari-pinned-tab.svg*
-* *[GET] — https://localhost:44378/libs/abp/core/abp.js*
-* *[GET] — https://localhost:44378/libs/chart.js/chart.js*
-* *[GET] — https://localhost:44378/libs/datatables.net/js/jquery.dataTables.js*
-* *[GET] — https://localhost:44378/libs/jquery-validation/jquery.validate.js*
-* *[GET] — https://localhost:44378/libs/jquery/jquery.js*
-* *[GET] — https://localhost:44378/libs/jstree/jstree.min.js*
-* *[GET] — https://localhost:44378/libs/uppy/uppy.min.js*
-* *[GET] — https://localhost:44378/Pages/Identity/Users/setPassword.js*
-* *[GET] — https://localhost:44378/Themes/Lepton/Global/Styles/lepton6.css*
-* *[GET] — https://localhost:44378/Themes/Lepton/Global/Styles/lepton6.rtl.css*
-* *[POST] — https://localhost:44378/Account/ImpersonateTenant*
-* *[POST] — https://localhost:44378/Account/ImpersonateUser*
-* *[POST] — https://localhost:44378/Account/Manage*
-* *[POST] — https://localhost:44378/SettingManagement*
-
-**Description:**  A timestamp was disclosed by the application/web server - Unix
-
-**Solution:**  Manually confirm that the timestamp data is not sensitive, and that the data cannot be aggregated to disclose exploitable patterns.
-
-**Explanation:** All the responses reported in this vulnerability have a programmatic value and these values are not sensitive. Therefore this is not an exploitable attack vector. The following lines are some of the responses of the reported URLs: 
-
-Example-1
-```
-"Abp.Identity.OrganizationUnit.MaxUserMembershipCount": "2147483647",
-```
-Example-2
-```
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-```
-Example-3
-```
-cookieValue = cookieValue + "; expires=" + (new Date(new Date().getTime() - 86400000)).toUTCString();
-```
-Example-4
-```
-day: {common: true, size: 86400000, steps: 30},
-```
-
-
-### X-Content-Type-Options Header Missing [Risk: Low] — False Positive 
-
-* *[GET] — https://localhost:44378*
-* *[GET] — https://localhost:44378/Abp/ApplicationConfigurationScript*
-* *[GET] — https://localhost:44378/Abp/MultiTenancy/TenantSwitchModal*
-* *[GET] — https://localhost:44378/Abp/ServiceProxyScript*
-* *[GET] — https://localhost:44378/Account/ForgotPassword*
-* *[GET] — https://localhost:44378/Account/Login*
-* *[GET] — https://localhost:44378/Account/Manage*
-* *[GET] — https://localhost:44378/Account/Register* 
-* *[GET] — https://localhost:44378/Account/SecurityLogs*
-* *[GET] — https://localhost:44378/AuditLogs* (and there are other URLs...)
-
-**Description:**  
-
-The Anti-MIME-Sniffing header `X-Content-Type-Options` was not set to `nosniff`. This allows older versions of Internet Explorer and Chrome to perform MIME-sniffing on the response body, potentially causing the response body to be interpreted and displayed as a content type other than the declared content type. 
-
-**Solution:**  
-
-Ensure that the application/web server sets the `Content-Type` header appropriately, and that it sets the X-Content-Type-Options header to `nosniff` for all web pages. If possible, ensure that the end user uses a standards-compliant and modern web browser that does not perform MIME-sniffing at all, or that can be directed by the web application/web server to not perform MIME-sniffing.
-
-**Explanation:** 
-
-ABP Framework adds the `X-Content-Type-Options` with the `nosniff` value in the following middleware: 
-
-https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.AspNetCore/Volo/Abp/AspNetCore/Security/AbpSecurityHeadersMiddleware.cs#L14
-
-But in some URLs the penetration tools reported that the response has no  `X-Content-Type-Options` header. This situation will be checked and revised with the following issue https://github.com/abpframework/abp/issues/14217.
-
-The other vulnerabilities are *Informational* alerts.  There is no need to take any action for *Information* level findings as they are not exploitable.
-
----
-
-> You can report any suspected security vulnerabilities related to the ABP Framework to info@abp.io.
+//TODO:
