@@ -30,22 +30,46 @@ The above URL reported to be vulnerable against "Cross Site Scripting (Reflected
 
 //TODO:
 
-### PII Disclosure [Risk: High]
+### PII Disclosure [Risk: High] - Positive (No need a fix)
 
-//TODO:
+- *[GET] - https://localhost:44378/Account/Manage?Picture=test_file.txt&pptype=use-default&returnUrl=%2FAccount%2FManage%3FPicture%3Dtest_file.txt%26pptype%3Duse-default%26returnUrl%3D%252FPrivacyPolicy*
+
+**Description**:
+
+The response contains Personally Identifiable Information, such as CC number, SSN and similar sensitive data.
+
+**Solution**:
+
+You can set **Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII** as `false` to exclude the PII from logs.
+
+![PII Disclosure](../images/pen-test-pii.png)
 
 ### Path Traversal [Risk: High]
 
-//TODO:
+- *[GET] - https://localhost:44378/api/audit-logging/audit-logs?startTime=&endTime=&url=&userName=&applicationName=&clientIpAddress=&correlationId=&httpMethod=audit-logs&httpStatusCode=&maxExecutionDuration=&minExecutionDuration=&hasException=&sorting=executionTime+desc&skipCount=0&maxResultCount=10*
 
-### SQL Injection [Risk: High] 
+**Description**:
+
+The Path Traversal attack technique allows an attacker access to files, directories, and commands that potentially reside outside the web document root directory. An attacker may manipulate a URL in such a way that the web site will execute or reveal the contents of arbitrary files anywhere on the web server. Any device that exposes an HTTP-based interface is potentially vulnerable to Path Traversal.
+
+**Solution**:
+
+This is a false-positive alert, since ABP Framework does all related checks for this kind of attacks on backend.
+
+### SQL Injection [Risk: High] - False Positive
 
 - *[POST] - https://localhost:44378/Account/ForgotPassword?returnUrl=%2FAccount%2FSecurityLogs*
 - *[POST] - https://localhost:44378/AuditLogs*
 - *[POST] - https://localhost:44378/FeatureManagement/FeatureManagementModal*
 - *[POST] - https://localhost:44378/Identity/OrganizationUnits/CreateModal*
 
-//TODO:
+**Description**:
+
+SQL injection may be possible. SQL injection is a web security vulnerability that allows an attacker to interfere with the queries that an application makes to its database. It allows an attacker to view data that they are not normally able to retrieve and perform unauthorized actions.
+
+**Explanation**:
+
+ABP uses Entity Framework Core and LINQ. It's safe against SQL Injection because it passes all data to the database via SQL parameters. LINQ queries are not composed by using string manipulation or concatenation, that's why they are not susceptible to traditional SQL injection attacks. Therefore, this is a false-positive alert.
 
 ### Absence of Anti-CSRF Tokens [Risk: Medium] — False Positive
 
@@ -194,25 +218,26 @@ X-Correlation-Id: 2c103514abd44a17b1ec792b6a5c1dc3
 
 ### XSLT Injection [Risk: Medium]
 
-//TODO:
+- *[GET] - https://localhost:44378/?page=%3Cxsl%3Avalue-of+select%3D%22system-property%28%27xsl%3Avendor%27%29%22%2F%3E*
+- *[GET] - https://localhost:44378/Abp/Languages/Switch?culture=%3Cxsl%3Avalue-of+select%3D%22system-property%28%27xsl%3Avendor%27%29%22%2F%3E&returnUrl=%2F&uiCulture=ar*
+- *[GET] - https://localhost:44378/Account/ForgotPassword?returnUrl=%3Cxsl%3Avalue-of+select%3D%22system-property%28%27xsl%3Avendor%27%29%22%2F%3E*
+- *[GET] - https://localhost:44378/Account/Login?handler=CreateLinkUser&LinkUserId=%3Cxsl%3Avalue-of+select%3D%22system-property%28%27xsl%3Avendor%27%29%22%2F%3E&LinkToken=CfDJ8KJ4q0EP0P9EsZ5KtdIYqZ1SPxVNqhILj3UjN0C1mWPlvrw%2FBPriEbgrwcypDnv7b4QC0tvrMihmtEUZUuY5YrAIDwWhQ9vyCPTbFTjpS7kjX%2BNRC%2FAFlWrxvTyPrhtV4QcHD2VRnBx1xmASFq1XvxhANylej7iVTnii8QTsFpF2vcW0tu%2FO1xADiS1geFyDgk1vZGcPlLGs45pEGBazcw%2Bi2p35xakGNGu7OI8zJWyw*
+- *[GET] - https://localhost:44378/Account/Manage?CurrentPassword=%3Cxsl%3Avalue-of+select%3D%22system-property%28%27xsl%3Avendor%27%29%22%2F%3E&NewPassword=ZAP&NewPasswordConfirm=ZAP&Picture=test_file.txt&pptype=use-default*
+- *[GET] - https://localhost:44378/LanguageManagement/Create*
+- other similar page URLS...
+
+**Description**: 
+
+Injection using XSL transformations may be possible, and may allow an attacker to read system information, read and write files, or execute arbitrary code.
+
+**Solution**: //TODO:
 
 ### Application Error Disclosure [Risk: Low] — False Positive (Fixed)
 
 - *[POST] — https://localhost:44378/Account/ImpersonateTenant*
 - *[POST] — https://localhost:44378/Account/ImpersonateUser*  
-- *[POST] — https://localhost:44378/Account/Manage?returnUrl=https://localhost:44378/AuditLogs*
-- *[POST] — https://localhost:44378/Account/Manage?returnUrl=https://localhost:44378/Identity/ClaimTypes*
-- *[POST] — https://localhost:44378/Account/Manage?returnUrl=https://localhost:44378/Identity/SecurityLogs*  
-- *[POST] — https://localhost:44378/Account/Manage?returnUrl=https://localhost:44378/IdentityServer/ApiResources* 
-- *[POST] — https://localhost:44378/Account/Manage?returnUrl=https://localhost:44378/IdentityServer/ApiScopes*
-- *[POST] — https://localhost:44378/Account/Manage?returnUrl=https://localhost:44378/IdentityServer/Clients*
-- *[POST] — https://localhost:44378/Account/Manage?returnUrl=https://localhost:44378/IdentityServer/IdentityResources*
-- *[POST] — https://localhost:44378/Account/Manage?returnUrl=https://localhost:44378/LanguageManagement*
-- *[POST] — https://localhost:44378/Account/Manage?returnUrl=https://localhost:44378/LanguageManagement/Texts*
-- *[POST] — https://localhost:44378/Account/Manage?returnUrl=https://localhost:44378/SettingManagement*
-- *[POST] — https://localhost:44378/Account/Manage?returnUrl=https://localhost:44378/TextTemplates* 
-- *[POST] — https://localhost:44378/SettingManagement?BoxedLayout=true&MenuPlacement=Left&MenuStatus=AlwaysOpened&PublicLayoutStyle=Style1&Style=Style6*
-- *[POST] — https://localhost:44378/SettingManagement?IdentitySettings.Lockout.AllowedForNewUsers=true&IdentitySettings.Lockout.LockoutDuration=300&IdentitySettings.Lockout.MaxFailedAccessAttempts=5&IdentitySettings.Password.RequireDigit=true&IdentitySettings.Password.RequireLowercase=true&IdentitySettings.Password.RequireNonAlphanumeric=true&IdentitySettings.Password.RequireUppercase=true&IdentitySettings.Password.RequiredLength=6&IdentitySettings.Password.RequiredUniqueChars=1&IdentitySettings.SignIn.EnablePhoneNumberConfirmation=true&IdentitySettings.SignIn.RequireConfirmedEmail=true&IdentitySettings.SignIn.RequireConfirmedPhoneNumber=true&IdentitySettings.User.IsEmailUpdateEnabled=true&IdentitySettings.User.IsUserNameUpdateEnabled=true*
+- *[POST] — https://localhost:44378/Account/Manage?returnUrl=https://localhost:44378/AuditLogs (and other similar URLS)*
+- *[POST] — https://localhost:44378/SettingManagement?BoxedLayout=true&MenuPlacement=Left&MenuStatus=AlwaysOpened&PublicLayoutStyle=Style1&Style=Style6 (and other similar URLS)*
 
 **Description:** 
 
@@ -310,6 +335,21 @@ The response of https://localhost:44378/api/language-management/language-texts e
 
 ![Information Disclosure - Debug Error Messages](../images/pen-test-information-disclosure.png)
 
-### Strict-Transport-Security Header Not Set [Risk: Low]
+### Strict-Transport-Security Header Not Set [Risk: Low] - False Positive
 
-//TODO:
+- *[DELETE] - https://localhost:44378/api/feature-management/features?providerName=T&providerKey=*
+- *[DELETE] - https://localhost:44378/api/identity/claim-types/2b4a38aa-778a-df02-47bf-3a08a8c0ac28*
+- *[GET] - https://localhost:44378/Abp/ApplicationConfigurationScript*
+- other URLS...
+
+**Description**: 
+
+HTTP Strict Transport Security (HSTS) is a web security policy mechanism whereby a web server declares that complying user agents (such as a web browser) are to interact with it using only secure HTTPS connections (i.e. HTTP layered over TLS/SSL). HSTS is an IETF standards track protocol and is specified.
+
+**Solution**: Enabling HSTS on production.
+
+**Explanation**: 
+
+This vulnerability was reported as a positive alert because the application ran on `Development` mode. We enable HSTS on `Production` mode as can be seen in the image below, therefore this is a false-positive alert.
+
+![HSTS](../images/pen-test-hsts.png)
