@@ -22,13 +22,29 @@ providerName=C&providerKey=EfCoreNonTierZap_Web_Public_Tiered&providerKeyDisplay
 
 The above URL reported to be vulnerable against "Cross Site Scripting (Reflected)" attack. We fixed this problem, see the following PR for the changes: https://github.com/abpframework/abp/pull/15519.
 
-### External Redirect [Risk: High] 
+### External Redirect [Risk: High] - False Positive
 
-//TODO:
+- *[GET] - https://localhost:44378/Account/Login?handler=6426431813712824969.owasp.org&LinkUserId=548b97b1-ab3a-a6a2-e961-3a08a881b211&LinkToken=CfDJ8KJ4q0EP0P9EsZ5KtdIYqZ1SPxVNqhILj3UjN0C1mWPlvrw%2FBPriEbgrwcypDnv7b4QC0tvrMihmtEUZUuY5YrAIDwWhQ9vyCPTbFTjpS7kjX%2BNRC%2FAFlWrxvTyPrhtV4QcHD2VRnBx1xmASFq1XvxhANylej7iVTnii8QTsFpF2vcW0tu%2FO1xADiS1geFyDgk1vZGcPlLGs45pEGBazcw%2Bi2p35xakGNGu7OI8zJWyw*
 
-### Generic Padding Oracle [Risk: High]
+**Description**:
 
-//TODO:
+URL redirectors represent common functionality employed by web sites to forward an incoming request to an alternate resource. This can be done for a variety of reasons and is often done to allow resources to be moved within the directory structure and to avoid breaking functionality for users that request the resource at its previous location. URL redirectors may also be used to implement load balancing, leveraging abbreviated URLs or recording outgoing links.
+
+**Explanation**:
+
+This is a false-positive alert, since ABP Framework validate inputs (for example, `returnUrl` or `handler` (in this case)) to prevent external redirections.
+
+### Generic Padding Oracle [Risk: High] - False Positive
+
+- *[GET] - https://localhost:44390/Account/Login?handler=CreateLinkUser&LinkUserId=548b97b1-ab3a-a6a2-e961-3a08a881b211&LinkToken=CfDJ8KJ4q0EP0P9EsZ5KtdIYqZ1SPxVNqhILj3UjN0C1mWPlvrw%2FBPriEbgrwcypDnv7b4QC0tvrMihmtEUZUuY5YrAIDwWhQ9vyCPTbFTjpS7kjX%2BNRC%2FAFlWrxvTyPrhtV4QcHD2VRnBx1xmASFq1XvxhANylej7iVTnii8QTsFpF2vcW0tu%2FO1xADiS1geFyDgk1vZGcPlLGs45pEGBazcw%2Bi2p35xakGNGu7OI8zJWyx*
+
+**Description**: 
+
+By manipulating the padding on an encrypted string, an attacker is able to generate an error message that indicates a likely 'padding oracle' vulnerability. Such a vulnerability can affect any application or framework that uses encryption improperly, such as some versions of ASP.Net, Java Server Faces, and Mono. 
+
+**Explanation:**
+
+This is a false-positive alert. Because, the URL returns "500 - Internal Error" and does not reveal any encrypted/decrypted data.
 
 ### PII Disclosure [Risk: High] - Positive (No need a fix)
 
@@ -44,7 +60,7 @@ You can set **Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII**
 
 ![PII Disclosure](../images/pen-test-pii.png)
 
-### Path Traversal [Risk: High]
+### Path Traversal [Risk: High] - False Positive
 
 - *[GET] - https://localhost:44378/api/audit-logging/audit-logs?startTime=&endTime=&url=&userName=&applicationName=&clientIpAddress=&correlationId=&httpMethod=audit-logs&httpStatusCode=&maxExecutionDuration=&minExecutionDuration=&hasException=&sorting=executionTime+desc&skipCount=0&maxResultCount=10*
 
@@ -216,7 +232,7 @@ Content-Length: 639
 X-Correlation-Id: 2c103514abd44a17b1ec792b6a5c1dc3
 ```
 
-### XSLT Injection [Risk: Medium]
+### XSLT Injection [Risk: Medium] - False Positive
 
 - *[GET] - https://localhost:44378/?page=%3Cxsl%3Avalue-of+select%3D%22system-property%28%27xsl%3Avendor%27%29%22%2F%3E*
 - *[GET] - https://localhost:44378/Abp/Languages/Switch?culture=%3Cxsl%3Avalue-of+select%3D%22system-property%28%27xsl%3Avendor%27%29%22%2F%3E&returnUrl=%2F&uiCulture=ar*
@@ -230,7 +246,9 @@ X-Correlation-Id: 2c103514abd44a17b1ec792b6a5c1dc3
 
 Injection using XSL transformations may be possible, and may allow an attacker to read system information, read and write files, or execute arbitrary code.
 
-**Solution**: //TODO:
+**Explanation**: 
+
+This is a false-positive alert. XSLT transformation is not possible on .NET Core or .NET 5 or later.
 
 ### Application Error Disclosure [Risk: Low] — False Positive (Fixed)
 
