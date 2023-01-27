@@ -8,11 +8,11 @@ In the next sections, you will find the affected URLs, alert descriptions, false
 
 ## Alerts
 
-There are high _(red flag)_, medium _(orange flag)_, low _(yellow flag)_ and informational _(blue flag)_ alerts. 
+There are high _(red flag)_, medium _(orange flag)_, low _(yellow flag)_, and informational _(blue flag)_ alerts. 
 
 ![penetration-test-7.0](../images/pen-test-alert-list-7.0.png)
 
-> The informational alerts are not mentioned in this document. These alerts are not raising any risks on your application and they are optional steps to take.
+> The informational alerts are not mentioned in this document. These alerts are not raising any risks on your application and they are optional.
 
 ### Cross Site Scripting (Reflected) [Risk: High] — Positive (Fixed)
 
@@ -20,7 +20,7 @@ There are high _(red flag)_, medium _(orange flag)_, low _(yellow flag)_ and inf
 providerName=C&providerKey=EfCoreNonTierZap_Web_Public_Tiered&providerKeyDisplayName=%
 3C%2Fh5%3E%3CscrIpt%3Ealert%281%29%3B%3C%2FscRipt%3E%3Ch5%3E
 
-The above URL reported to be vulnerable against "Cross Site Scripting (Reflected)" attack. We fixed this problem, see the following PR for the changes: https://github.com/abpframework/abp/pull/15519.
+The above URL was reported to be vulnerable to a "Cross Site Scripting (Reflected)" attack. We fixed this problem, see the following PR for the changes: https://github.com/abpframework/abp/pull/15519.
 
 ### External Redirect [Risk: High] - False Positive
 
@@ -28,11 +28,10 @@ The above URL reported to be vulnerable against "Cross Site Scripting (Reflected
 
 **Description**:
 
-URL redirectors represent common functionality employed by web sites to forward an incoming request to an alternate resource. This can be done for a variety of reasons and is often done to allow resources to be moved within the directory structure and to avoid breaking functionality for users that request the resource at its previous location. URL redirectors may also be used to implement load balancing, leveraging abbreviated URLs or recording outgoing links.
+URL redirectors represent common functionality employed by websites to forward an incoming request to an alternate resource. This can be done for a variety of reasons and is often done to allow resources to be moved within the directory structure and to avoid breaking functionality for users that request the resource at its previous location. URL redirectors may also be used to implement load balancing, leveraging abbreviated URLs or recording outgoing links.
 
 **Explanation**:
-
-This is a false-positive alert, since ABP Framework validate inputs (for example, `returnUrl` or `handler` (in this case)) to prevent external redirections.
+This is a false-positive alert since ABP Framework validates inputs (for example, `returnUrl` or `handler` (in this case)) to prevent external redirections.
 
 ### Generic Padding Oracle [Risk: High] - False Positive
 
@@ -44,7 +43,7 @@ By manipulating the padding on an encrypted string, an attacker is able to gener
 
 **Explanation:**
 
-This is a false-positive alert. Because, the URL returns "500 - Internal Error" and does not reveal any encrypted/decrypted data.
+This is a false-positive alert. Because the URL returns "500 - Internal Error" and does not reveal any encrypted/decrypted data.
 
 ### PII Disclosure [Risk: High] - Positive (No need a fix)
 
@@ -52,7 +51,7 @@ This is a false-positive alert. Because, the URL returns "500 - Internal Error" 
 
 **Description**:
 
-The response contains Personally Identifiable Information, such as CC number, SSN and similar sensitive data.
+The response contains Personally Identifiable Information, such as CC number, SSN, and similar sensitive data.
 
 **Solution**:
 
@@ -66,11 +65,11 @@ You can set **Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII**
 
 **Description**:
 
-The Path Traversal attack technique allows an attacker access to files, directories, and commands that potentially reside outside the web document root directory. An attacker may manipulate a URL in such a way that the web site will execute or reveal the contents of arbitrary files anywhere on the web server. Any device that exposes an HTTP-based interface is potentially vulnerable to Path Traversal.
+The Path Traversal attack technique allows an attacker access to files, directories, and commands that potentially reside outside the web document root directory. An attacker may manipulate a URL in such a way that the website will execute or reveal the contents of arbitrary files anywhere on the web server. Any device that exposes an HTTP-based interface is potentially vulnerable to Path Traversal.
 
 **Solution**:
 
-This is a false-positive alert, since ABP Framework does all related checks for this kind of attacks on backend.
+This is a false-positive alert since ABP Framework does all related checks for this kind of attack on the backend side for this endpoint.
 
 ### SQL Injection [Risk: High] - False Positive
 
@@ -93,12 +92,12 @@ ABP uses Entity Framework Core and LINQ. It's safe against SQL Injection because
 
 **Description**: 
 
-No Anti-CSRF tokens were found in a HTML submission form.
-A cross-site request forgery is an attack that involves forcing a victim to send an HTTP request to a target destination without their knowledge or intent in order to perform an action as the victim. The underlying cause is application functionality using predictable URL/form actions in a repeatable way. The nature of the attack is that CSRF exploits the trust that a web site has for a user. By contrast, cross-site scripting (XSS) exploits the trust that a user has for a web site. Like XSS, CSRF attacks are not necessarily cross-site, but they can be. Cross-site request forgery is also known as CSRF, XSRF, one-click attack, session riding, confused deputy, and sea surf.
+No Anti-CSRF tokens were found in an HTML submission form.
+A cross-site request forgery is an attack that involves forcing a victim to send an HTTP request to a target destination without their knowledge or intent in order to perform an action as the victim. The underlying cause is application functionality using predictable URL/form actions in a repeatable way. The nature of the attack is that CSRF exploits the trust that a website has for a user. By contrast, cross-site scripting (XSS) exploits the trust that a user has in a website. Like XSS, CSRF attacks are not necessarily cross-site, but they can be. Cross-site request forgery is also known as CSRF, XSRF, one-click attack, session riding, confused deputy, and sea surf.
 
 **Explanation:**
 
-This is **false-positive** alert because ABP Framework provides the Anti-CSRF token via cookie as seen on the following screenshot.  
+This is a **false-positive** alert because ABP Framework provides the Anti-CSRF token via a cookie as seen on the following screenshot:
 
 ![Absence of Anti-CSRF Token](../images/pen-test-alert-remote-os-command-injection.png)
 
@@ -114,7 +113,7 @@ This page contains an error/warning message that may disclose sensitive informat
 
 **Explanation**:
 
-There are 3 URLs that are reported as exposing error messages. This is a false-positive alert. All these endpoints returns Internal Server Error and there is no sensetive information disclosed.
+There are 3 URLs that are reported as exposing error messages. This is a false-positive alert. All these endpoints return Internal Server Error and there is no sensitive information disclosed.
 
 ### Content Security Policy (CSP) Header Not Set [Risk: Medium] — Positive (Fixed)
 
@@ -122,13 +121,13 @@ There are 3 URLs that are reported as exposing error messages. This is a false-p
 
 **Description:** 
 
-Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.
+Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio, and video files.
 
 **Solution:** 
 
-Ensure that your web server, application server, load balancer, etc. is configured to set the `Content-Security-Policy` header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+ and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.
+Ensure that your web server, application server, load balancer, etc. is configured to set the `Content-Security-Policy` header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+, and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.
 
-In ASP.NET Core, you can create middleware to set the header to http  response, here is a minimal middleware to do this. You need to add this  code to the `Configure()` method in `Startup.cs` before the `UseEndpoints` method.
+In ASP.NET Core, you can create middleware to set the header to the HTTP response, here is a minimal middleware to do this. You need to add this  code to the `Configure()` method in `Startup.cs` before the `UseEndpoints` method.
 
 ```
 app.Use(async (context, next) =>
@@ -138,7 +137,7 @@ app.Use(async (context, next) =>
 });
 ```
 
-This vulnerability is being fixed in ABP v7.0. You can check track the issue from https://github.com/abpframework/abp/issues/14173.
+This vulnerability is being fixed in ABP v7.0. You can check and track the issue from https://github.com/abpframework/abp/issues/14173.
 
 ### Format String Error [Risk: Medium] - Positive and False Positive 
 
@@ -157,7 +156,7 @@ Rewrite the background program using proper deletion of bad character strings. T
 
 The second one is positive and we created an issue for it. See the following issue for the progress: https://github.com/abpframework/abp/issues/15525.
 
-The last 2 URLs are false-positive because there is no bad character strings in the response. For example the third request's response is the following and as seen there is no invalid chars in the response:
+The last 2 URLs are false-positive because there is no bad character string in the response. For example, the third request's response is the following and as seen there is no invalid chars in the response:
 
 ```
 Volo.Abp.Validation.AbpValidationException: ModelState is not valid! See ValidationErrors for details.
@@ -244,7 +243,7 @@ X-Correlation-Id: 2c103514abd44a17b1ec792b6a5c1dc3
 
 **Description**: 
 
-Injection using XSL transformations may be possible, and may allow an attacker to read system information, read and write files, or execute arbitrary code.
+Injection using XSL transformations may be possible and may allow an attacker to read system information, read and write files, or execute arbitrary code.
 
 **Explanation**: 
 
@@ -263,7 +262,7 @@ The reported pages contain an error/warning message that may disclose sensitive 
 
 **Explanation:** 
 
-This vulnerability was reported as a positive alert because the application ran on `Development` mode. ABP Framework throws exceptions for developers in the `Development` environment. We set the environment to `Production` and re-run the test, then the server sent a 500-Internal Error. Therefore this alert is false-positive. Further information can be found at the following issue https://github.com/abpframework/abp/issues/14177.
+This vulnerability was reported as a positive alert because the application ran in `Development` mode. ABP Framework throws exceptions for developers in the `Development` environment. We set the environment to `Production` and re-run the test, then the server sent a 500-Internal Error. Therefore this alert is false-positive. Further information can be found at the following issue https://github.com/abpframework/abp/issues/14177.
 
 ### Cookie No `HttpOnly`  [Risk: Low] — Positive (No need a fix)
 
@@ -364,10 +363,12 @@ The response of https://localhost:44378/api/language-management/language-texts e
 
 HTTP Strict Transport Security (HSTS) is a web security policy mechanism whereby a web server declares that complying user agents (such as a web browser) are to interact with it using only secure HTTPS connections (i.e. HTTP layered over TLS/SSL). HSTS is an IETF standards track protocol and is specified.
 
-**Solution**: Enabling HSTS on production.
+**Solution**: 
+
+Enabling HSTS on production.
 
 **Explanation**: 
 
-This vulnerability was reported as a positive alert because the application ran on `Development` mode. We enable HSTS on `Production` mode as can be seen in the image below, therefore this is a false-positive alert.
+This vulnerability was reported as a positive alert because the application ran in `Development` mode. We enable HSTS on `Production` mode as can be seen in the image below, therefore this is a false-positive alert.
 
 ![HSTS](../images/pen-test-hsts.png)
