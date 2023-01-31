@@ -1,6 +1,6 @@
 # ABP Commercial Penetration Test Report
 
-ABP Commercial MVC `v7.0.0` application template has been tested against security vulnerabilities via [OWASP ZAP v2.11.1](https://www.zaproxy.org/) tool. The demo web application was started on the `https://localhost:44378` address. The below alerts have been reported by the pentest tool. These alerts are sorted by the risk level as high, medium, and low. The informational alerts are not mentioned in this document. 
+The ABP Commercial MVC `v7.0.0` application template has been tested against security vulnerabilities by the [OWASP ZAP v2.11.1](https://www.zaproxy.org/) tool. The demo web application was started on the `https://localhost:44378` address. The below alerts have been reported by the pentest tool. These alerts are sorted by the risk level as high, medium, and low. The informational alerts are not mentioned in this document. 
 
 Many of these alerts are **false-positive**, meaning the vulnerability scanner detected these issues, but they are not exploitable. It's clearly explained for each false-positive alert why this alert is a false-positive. 
 
@@ -45,13 +45,13 @@ By manipulating the padding on an encrypted string, an attacker is able to gener
 
 This is a false-positive alert. Because the URL returns "500 - Internal Error" and does not reveal any encrypted/decrypted data.
 
-### PII Disclosure [Risk: High] - Positive (No need a fix)
+### PII Disclosure [Risk: High] - Positive (No need for a fix)
 
 - *[GET] - https://localhost:44378/Account/Manage?Picture=test_file.txt&pptype=use-default&returnUrl=%2FAccount%2FManage%3FPicture%3Dtest_file.txt%26pptype%3Duse-default%26returnUrl%3D%252FPrivacyPolicy*
 
 **Description**:
 
-The response contains Personally Identifiable Information, such as CC number, SSN, and similar sensitive data.
+The response contains Personally Identifiable Information, such as a CC number, SSN, and similar sensitive data.
 
 **Solution**:
 
@@ -97,7 +97,7 @@ A cross-site request forgery is an attack that involves forcing a victim to send
 
 **Explanation:**
 
-This is a **false-positive** alert because ABP Framework provides the Anti-CSRF token via a cookie as seen on the following screenshot:
+This is a **false-positive** alert because ABP provides the Anti-CSRF token via a cookie as seen on the following screenshot:
 
 ![Absence of Anti-CSRF Token](../images/pen-test-alert-remote-os-command-injection.png)
 
@@ -121,13 +121,13 @@ There are 3 URLs that are reported as exposing error messages. This is a false-p
 
 **Description:** 
 
-Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio, and video files.
+Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on a certain page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio, and video files.
 
 **Solution:** 
 
-Ensure that your web server, application server, load balancer, etc. is configured to set the `Content-Security-Policy` header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+, and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.
+Ensure that your web server, application server, load balancer, etc. are configured to set the `Content-Security-Policy` header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+, and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.
 
-In ASP.NET Core, you can create middleware to set the header to the HTTP response, here is a minimal middleware to do this. You need to add this  code to the `Configure()` method in `Startup.cs` before the `UseEndpoints` method.
+In ASP.NET Core, you can create middleware to set the header to the HTTP response, here is a minimal middleware to do this. You need to add this code to the `Configure()` method in `Startup.cs` before the `UseEndpoints` method.
 
 ```
 app.Use(async (context, next) =>
@@ -262,9 +262,9 @@ The reported pages contain an error/warning message that may disclose sensitive 
 
 **Explanation:** 
 
-This vulnerability was reported as a positive alert because the application ran in `Development` mode. ABP Framework throws exceptions for developers in the `Development` environment. We set the environment to `Production` and re-run the test, then the server sent a 500-Internal Error. Therefore this alert is false-positive. Further information can be found at the following issue https://github.com/abpframework/abp/issues/14177.
+This vulnerability was reported as a positive alert because the application ran in `Development` mode. ABP Framework throws exceptions for developers in the `Development` environment. We set the environment to `Production` and re-run the test, then the server sent a 500-Internal Error. Therefore this alert is false-positive. Further information can be found in the following issue https://github.com/abpframework/abp/issues/14177.
 
-### Cookie No `HttpOnly`  [Risk: Low] — Positive (No need a fix)
+### Cookie No `HttpOnly`  [Risk: Low] — Positive (No need for a fix)
 
 * *[GET] — https://localhost:44378 (and there are several URLs)*
 
@@ -276,11 +276,11 @@ A cookie has been set without the secure flag, which means that the cookie can b
 
 The following alert also includes this issue. To understand this alert, you can take a look at the next alert: _Cookie Without Secure Flag [Risk: Low]_
 
-### Cookie Without Secure Flag [Risk: Low] — Positive (No need a fix)
+### Cookie Without Secure Flag [Risk: Low] — Positive (No need for a fix)
 
 * *[GET] — https://localhost:44378 (and there are several URLs)*
 
-**Description:** A cookie has been set without the secure flag, which means that the cookie can be accessed via unencrypted connections. The following cookies don't have `httponly` flag.
+**Description:** A cookie has been set without the secure flag, which means that the cookie can be accessed via unencrypted connections. The following cookies don't have an `httponly` flag.
 
 * `XSRF-TOKEN` (Anti CSRF token cookie)
 * `.AspNetCore.Culture` (ASP.NET Core culture cookie)
@@ -288,7 +288,7 @@ The following alert also includes this issue. To understand this alert, you can 
 
 **Explanation:** 
 
-All the pages that are setting `XSRF-TOKEN` , `.AspNetCore.Culture` and `idsrv.session` in the HTTP response are reported as "No `HttpOnly` Flag" vulnerability. This is a positive alert. `idsrv.session` cookie is being used in IDS4 and after ABP 6.x the support for IDS will be dropped therefore this cookie will not be used anymore. Also, there is an issue related to the `idsrv.session` cookie cannot be set as `HttpOnly`; you can see the related thread at its own repository https://github.com/IdentityServer/IdentityServer4/issues/3873. 
+All the pages that are setting `XSRF-TOKEN` , `.AspNetCore.Culture` and `idsrv.session` in the HTTP response are reported as "No `HttpOnly` Flag" vulnerability. This is a positive alert. The `idsrv.session` cookie is being used in IDS4 and after ABP 6.x the support for IDS will be dropped. And therefore, this cookie will not be used anymore. There's also an issue related to the `idsrv.session` cookie, it cannot be set as `HttpOnly`; you can see the related thread at its own repository https://github.com/IdentityServer/IdentityServer4/issues/3873. 
 
 On the other hand, the cookies `.AspNetCore.Culture` and `XSRF-TOKEN` are being retrieved via JavaScript in ABP Angular, MVC and Blazor WASM projects. Therefore cannot be set as `HttpOnly`. You can check out the following modules that retrieve these cookies via JavaScript:
 
@@ -301,14 +301,14 @@ On the other hand, the cookies `.AspNetCore.Culture` and `XSRF-TOKEN` are being 
 * https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.AspNetCore.Components.Web/Volo/Abp/AspNetCore/Components/Web/AbpBlazorClientHttpMessageHandler.cs#L94
 
 **Setting `XSRF-TOKEN` cookie as `HttpOnly`:**
-If you want to set  you can do it in [AbpAntiForgeryOptions](https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.AspNetCore.Mvc/Volo/Abp/AspNetCore/Mvc/AntiForgery/AbpAntiForgeryOptions.cs#L56) class.
+If you want to set it, you can do it in the [AbpAntiForgeryOptions](https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.AspNetCore.Mvc/Volo/Abp/AspNetCore/Mvc/AntiForgery/AbpAntiForgeryOptions.cs#L56) class.
 
 **Setting `.AspNetCore.Culture` cookie as `HttpOnly`:**
-If you want to set you can do it in [AbpRequestCultureCookieHelper](https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.AspNetCore/Microsoft/AspNetCore/RequestLocalization/AbpRequestCultureCookieHelper.cs#L16) class. Set the option `HttpOnly = true`.
+If you want to set it, you can do it in the [AbpRequestCultureCookieHelper](https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.AspNetCore/Microsoft/AspNetCore/RequestLocalization/AbpRequestCultureCookieHelper.cs#L16) class. Set the option `HttpOnly = true`.
 
 The related issue for this alert is https://github.com/abpframework/abp/issues/14214.
 
-### Cookie with SameSite Attribute None [Risk: Low] — Positive (No need a fix)
+### Cookie with SameSite Attribute None [Risk: Low] — Positive (No need for a fix)
 
 * *[GET] — https://localhost:44378 (and there are several URLs)*
 
@@ -332,7 +332,7 @@ A cookie has been set with its `SameSite` attribute set to `none`, which means t
 
 **Solution:** 
 
-Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` for all cookies. We discussed to set **SameSite** attribute to `strict` in the following issue https://github.com/abpframework/abp/issues/14215 and decided to leave this change to the final developer.
+Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` for all cookies. We discussed to set the **SameSite** attribute to `strict` in the following issue https://github.com/abpframework/abp/issues/14215 and decided to leave this change to the final developer.
 
 ### Information Disclosure - Debug Error Messages [Risk: Low] — False Positive
 
