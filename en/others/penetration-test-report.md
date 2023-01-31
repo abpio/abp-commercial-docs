@@ -249,7 +249,7 @@ Injection using XSL transformations may be possible and may allow an attacker to
 
 This is a false-positive alert. XSLT transformation is not possible on .NET Core or .NET 5 or later.
 
-### Application Error Disclosure [Risk: Low] — False Positive (Fixed)
+### Application Error Disclosure [Risk: Low] — False Positive
 
 - *[POST] — https://localhost:44378/Account/ImpersonateTenant*
 - *[POST] — https://localhost:44378/Account/ImpersonateUser*  
