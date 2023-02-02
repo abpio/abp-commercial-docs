@@ -62,7 +62,7 @@ This table stores the user votes for the polls managed by the CMS Kit Module. It
 
 ### CmsShortenedUrls
 
-This table stores the information about shortened URLs. Shortened URLs allow to redirect users to a different URL, in a more compact and memorable format.
+This table stores URL mappings in the system and used by the [URL Forwarding](cms-kit/url-forwarding.md) feature of the CMS Kit Module. The [URL forwarding system](cms-kit/url-forwarding.md) allows the creation of URLs that redirect to other pages or external websites. 
 
 ## [File Management Module](file-management.md)
 
