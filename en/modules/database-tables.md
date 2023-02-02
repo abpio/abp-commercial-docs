@@ -14,7 +14,7 @@ This table is used to store information about online chat conversations between 
 
 ### ChatMessages
 
-This table can be used to store information about Chat messages, including the message id, text, sender, creation date and other relevant information. It can also be used to filter and search for messages, as well as to track the metrics associated with the messages, such as views and response time.
+This table is used to store information about Chat messages, including the text, creator id, creation date, and other relevant details. It enables filtering and searching for messages, and tracking metrics such as views.
 
 ### ChatUserMessages
 
@@ -44,7 +44,7 @@ This table is used to store information about users who are registered for the n
 
 ### CmsPolls
 
-This table stores information about polls created using the [CMS Kit Poll system](cms-kit/poll.md). Polls can be used to gather user feedback or opinions on a topic, and this table stores details such as poll question and choices.
+This table stores information about polls created using the [CMS Kit Poll system](cms-kit/poll.md). Polls can be used to gather user feedback or opinions on a topic, and this table stores details such as poll question and vote count.
 
 ### CmsPollOptions
 
