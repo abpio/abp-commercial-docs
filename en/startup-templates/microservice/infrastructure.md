@@ -38,7 +38,7 @@ which creates the external docker network for infrastructure services and runs t
 ```yaml
 sql-server-db:
     container_name: sql-server-db
-    image: mcr.microsoft.com/mssql/server
+    image: mcr.microsoft.com/mssql/server:2019-latest
     volumes:
       - sqldata:/var/opt/mssql
     networks:
@@ -74,7 +74,7 @@ Redis runs on container with the main configurations are located in *docker-comp
 ```yaml
 redis:
     container_name: redis
-    image: redis:6.0.10-alpine
+    image: redis:alpine
     networks:
       - mycompanyname.myprojectname-network
     ports:
@@ -100,7 +100,7 @@ Microservices and applications have their redis configuration in appsettings *Re
 ```yaml
 rabbitmq:
     container_name: rabbitmq
-    image: rabbitmq:3.8.11-management-alpine
+    image: rabbitmq:management-alpine
     networks:
       - mycompanyname.myprojectname-network
     ports:
@@ -143,7 +143,7 @@ They all share the same **ExchangeName** and individual queues will be created a
 ```yaml
 elasticsearch:
     container_name: elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.5.3
     volumes:
       - esdata:/usr/share/elasticsearch/data
     networks:
@@ -158,7 +158,7 @@ elasticsearch:
 
 kibana:
     container_name: kibana
-    image: docker.elastic.co/kibana/kibana:7.10.2
+    image: docker.elastic.co/kibana/kibana:8.5.3
     depends_on:
       - elasticsearch
     networks:
@@ -249,7 +249,7 @@ Shared projects are as the name implies; modules and configurations that are use
 
 ### Localization
 
-The *Shared.Localization* project contains configuration for [Virtual File System](https://docs.abp.io/en/abp/latest/Virtual-File-System) and **solution-wide** localization. 
+The *Shared.Localization* project contains configuration for [Virtual File System](https://docs.abp.io/en/abp/latest/Virtual-File-System) and **solution-wide** localization. It is also the localization resource used for public-web application. If you plan to develop monolith UI as the public-web application, this localization resource will be used.
 
 ```csharp
 Configure<AbpVirtualFileSystemOptions>(options =>
