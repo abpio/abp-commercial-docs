@@ -205,7 +205,8 @@ This page uses some localization keys we need to declare. Open the `en.json` fil
 "Authors": "Authors",
 "AuthorDeletionConfirmationMessage": "Are you sure to delete the author '{0}'?",
 "BirthDate": "Birth date",
-"NewAuthor": "New author"
+"NewAuthor": "New author",
+"ShortBio": "Short Bio"
 ````
 
 Notice that we've added more keys. They will be used in the next sections.
@@ -996,7 +997,7 @@ using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars;
 {{if UI == "MAUIBlazor"}}
-namespace Acme.BookStore.MauiBlazor; {{else}}
+namespace Acme.BookStore.MauiBlazor.Pages; {{else}}
 namespace Acme.BookStore.Blazor; {{end}}
 
 public partial class Authors
@@ -1021,7 +1022,7 @@ public partial class Authors
     }
     protected ValueTask SetToolbarItemsAsync()
     {
-        Toolbar.AddButton(L["NewBook"],
+        Toolbar.AddButton(L["NewAuthor"],
             OpenCreateAuthorModal,
             IconName.Add,
             requiredPolicyName: BookStorePermissions.Authors.Create);
