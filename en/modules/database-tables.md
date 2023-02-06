@@ -1,24 +1,24 @@
 # Database Tables
 
-This documentation describes all database tables and their purposes. You can read this documentation to get an overall knowledge of the database tables that comes from different modules.
+This documentation describes all database tables and their purposes. You can read this documentation to get general knowledge of the database tables that come from each module.
 
 ## [Chat Module](chat.md)
 
 ### ChatUsers
 
-This table is used to store chat users. When you create a new user, a new identity user is created and a new record is added to this table as well.
+This table stores chat users. When you create a new user, a new identity user is created and a new record is added to this table as well.
 
 ### ChatConversations
 
-This table is used to store information about online chat conversations between users. When a user starts a new conversation, a new record is added to this table.
+This table stores information about online chat conversations between users. When a user starts a new conversation, a new record is added to this table.
 
 ### ChatMessages
 
-This table is used to store information about Chat messages, including the text, creator id, creation date, and other relevant details. It enables filtering and searching for messages, and tracking metrics such as views.
+This table stores information about Chat messages, including the text, creator id, creation date, and other relevant details. It enables filtering and searching for messages, and tracking metrics such as views.
 
 ### ChatUserMessages
 
-This table can be used to store information about Chat user messages, including the message id, sender, receiver and other relevant information. It can also be used to filter and search for messages, as well as to track the metrics associated with the messages, such as views and response time.
+This table can store information about the Chat user messages, including the message id, sender, receiver and other relevant information. It can also be used to filter and search messages, as well as to track the metrics associated with the messages, such as views and response time.
 
 #### Foreign Keys
 
@@ -30,7 +30,7 @@ This table can be used to store information about Chat user messages, including 
 
 ### CmsNewsletterPreferences
 
-This table is used to maintain the user's preferred settings for receiving newsletters through the [CMS Kit Newsletters system](cms-kit/newsletter.md). The information stored in this table helps the CMS system to deliver tailored newsletters to each user, providing a more personalized experience for subscribers.
+This table maintains the user's preferred settings for receiving newsletters through the [CMS Kit Newsletters system](cms-kit/newsletter.md). The information stored in this table helps the CMS system to deliver preferred and specific newsletters to each user, providing a more personalized experience for subscribers.
 
 #### Foreign Keys
 
@@ -40,11 +40,11 @@ This table is used to maintain the user's preferred settings for receiving newsl
 
 ### CmsNewsletterRecords
 
-This table is used to store information about users who are registered for the newsletter, such as their email address. You can query the email addresses of users registered for the newsletter.
+This table stores information about users that are registered for the newsletter, such as their email addresses. You can query the email addresses of users registered for the newsletter.
 
 ### CmsPolls
 
-This table stores information about polls created using the [CMS Kit Poll system](cms-kit/poll.md). Polls can be used to gather user feedback or opinions on a topic, and this table stores details such as poll question and vote count.
+This table stores information about the polls created using the [CMS Kit Poll system](cms-kit/poll.md). Polls can be used to gather user feedback or opinions on a topic, and this table stores details such as the poll question and vote count.
 
 ### CmsPollOptions
 
@@ -58,11 +58,11 @@ This table stores information about the poll options that are associated with ea
 
 ### CmsPollUserVotes
 
-This table stores the user votes for the polls managed by the CMS Kit Module. It allows to keep track of the users who have voted in a particular poll and their selected options.
+This table stores the user votes for the polls that are managed by the CMS Kit Module. It allows to keep track of the users who have voted in a particular poll and their selected options.
 
 ### CmsShortenedUrls
 
-This table stores URL mappings in the system and used by the [URL Forwarding](cms-kit/url-forwarding.md) feature of the CMS Kit Module. The [URL forwarding system](cms-kit/url-forwarding.md) allows the creation of URLs that redirect to other pages or external websites. 
+This table stores URL mappings in the system and is used by the [URL Forwarding](cms-kit/url-forwarding.md) feature of the CMS Kit Module. The [URL forwarding system](cms-kit/url-forwarding.md) allows the creation of URLs that redirect to other pages or external websites. 
 
 ## [File Management Module](file-management.md)
 
@@ -78,7 +78,7 @@ This table is utilized by the [File Management system](file-management.md) to ma
 
 ### FmFileDescriptors
 
-This table is used by the [File Management system](file-management.md) to store information about the files and directories in the application, including metadata such as file name, size, and creation date.
+This table is used by the [File Management system](file-management.md) to store information about the files and directories in the application, including metadata such as the file name, size, and creation date.
 
 #### Foreign Keys
 
@@ -94,11 +94,11 @@ This table stores information related to forms created using the [Forms Module](
 
 ### FrmQuestions
 
-This table is used to store information about the questions used in the [Forms Module](forms.md), such as the type of question, the text of the question. This information is used to build and display forms to the user for data collection and analysis.
+This table is used to store information about the questions used in the [Forms Module](forms.md), such as the type of the question, the text of the question. This information is used to build and display forms to the user for data collection and analysis.
 
 ### FrmChoices
 
-This table stores the choices or options for a form question in the [Forms Module](forms.md). The table is used to store the information needed to display choices in a form question, such as text and value.
+This table stores the choices or options for a form question in the [Forms Module](forms.md). The table is used to store the information needed to display choices in a form question, such as the text and value.
 
 #### Foreign Keys
 
@@ -108,7 +108,7 @@ This table stores the choices or options for a form question in the [Forms Modul
 
 ### FrmFormResponses
 
-This table holds information on which users have responded to forms. It can be used to calculate statistics such as how many people have answered a form.
+This table holds information on the results that the users have responded with to the forms. It can be used to calculate statistics such as how many people have answered a form.
 
 ### FrmAnswers
 
@@ -128,7 +128,7 @@ This table stores requests made by users to access or delete their personal data
 
 ### GdprInfo
 
-This table holds information related to the personal data that has been collected by modules/applications. This information is used when a user requests her/his personal data. Also, when a user request to delete her/his personal data, related records with the user removed from this table.
+This table holds information related to the personal data that has been collected by modules/applications. This information is used when a user requests her/his personal data. Also, when a user requests to delete their personal data, related records with the user are removed from this table.
 
 #### Foreign Keys
 
@@ -168,7 +168,7 @@ This table contains information about the different plans offered within the app
 
 ### PayGatewayPlans
 
-This table maps the plans offered in the application to the corresponding plans available in the integrated payment gateway for processing recurring payments.
+This table maps the plans offered in the application to the corresponding plans available in the integrated payment gateway to process recurring payments.
 
 #### Foreign Keys
 
@@ -180,11 +180,11 @@ This table maps the plans offered in the application to the corresponding plans 
 
 ### SaasEditions
 
-This table stores information about the different editions of the application. Each record represents an edition and contains information about the edition, such as name and other details.
+This table stores information about the different editions of the application. Each record represents an edition and contains information about the edition, such as the name and other details.
 
 ### SaasTenants
 
-This table stores information about the tenants. Each record represents a tenant and contains information about the tenant, such as name, password, and all other relevant details.
+This table stores information about the tenants. Each record represents a tenant and contains information about the tenant, such as the name, password, and all other relevant details.
 
 ### SaasTenantConnectionStrings
 
@@ -200,4 +200,4 @@ This table stores information about the tenant database connection strings. When
 
 ### AbpTextTemplateContents
 
-This table can be used to store reusable text templates that can be easily referenced and rendered by the application at runtime. Each record in the table represents a text template content and allows to manage and track the text template contents effectively.
+This table can store reusable text templates that can be easily referenced and rendered by the application at runtime. Each record in the table represents a text template content and allows to manage and track the text template contents effectively.
