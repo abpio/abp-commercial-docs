@@ -80,16 +80,16 @@ using System;
 using Volo.Abp.Application.Dtos;
 
 namespace Acme.BookStore.Authors;
+
+public class AuthorDto : EntityDto<Guid>
 {
-    public class AuthorDto : EntityDto<Guid>
-    {
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public DateTime BirthDate { get; set; }
+    public DateTime BirthDate { get; set; }
 
-        public string ShortBio { get; set; }
-    }
+    public string ShortBio { get; set; }
 }
+
 ````
 
 * `EntityDto<T>` simply has an `Id` property with the given generic argument. You could create an `Id` property yourself instead of inheriting the `EntityDto<T>`.
@@ -100,12 +100,12 @@ namespace Acme.BookStore.Authors;
 using Volo.Abp.Application.Dtos;
 
 namespace Acme.BookStore.Authors;
+
+public class GetAuthorListDto : PagedAndSortedResultRequestDto
 {
-    public class GetAuthorListDto : PagedAndSortedResultRequestDto
-    {
-        public string Filter { get; set; }
-    }
+    public string Filter { get; set; }
 }
+
 ````
 
 * `Filter` is used to search authors. It can be `null` (or empty string) to get all the authors.
