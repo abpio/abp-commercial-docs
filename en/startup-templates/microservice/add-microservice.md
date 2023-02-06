@@ -26,6 +26,8 @@ dotnet sln add services/order/src/Acme.BookStore.OrderService.HttpApi.Host/Acme.
 
 ![Add to main solution](../../images/microservice-template-add-to-solution.png)
 
+> Your solution can have errors when you try to build the main solution. This is because your newly added project has references out of your current solution. To restore your main application solution, use `dotnet build /graphBuild` dotnet tooling to restore it.
+
 You need to update other dependent projects in order to integrate your new service into your composition.  Follow the next steps to integrate your new service.
 
 ## Updating Administration Microservice
@@ -50,26 +52,16 @@ typeof(OrderServiceApplicationContractsModule)
 
   ![Add order service module dependency into the Administration Service](../../images/administration-service-module-added-orderservice.png)
 
+## AuthServer Configuration
 
+> You can also do the same functionality explained in this step by using OpenIddict Management UI. However it is a good practice to keep `OpenIddictDataSeeder` updated. 
 
-## IdentityServer Configuration
+To keep `OpenIddictDataSeeder` updated, you need to do the following steps in the **OpenIddictDataSeeder.cs** class. Note that there are 2 **OpenIddictDataSeeder.cs** classes in the solution:
 
-> You can also do the same functionality explained in this step by using IdentityServer Management UI. However it is a good practice to keep `IdentityServerDataSeeder` updated. 
-
-To keep `IdentityServerDataSeeder` updated, you need to do the following steps in the **IdentityServerDataSeeder.cs** class. Note that there are 2 **IdentityServerDataSeeder.cs** classes in the solution:
-
-1. `Acme.BookStore.DbMigrator\IdentityServerDataSeeder.cs`
-2. `Acme.BookStore.IdentityService.HttpApi.Host\DbMigrations\IdentityServerDataSeeder.cs`. 
+1. `Acme.BookStore.DbMigrator\OpenIddictDataSeeder.cs`
+2. `Acme.BookStore.IdentityService.HttpApi.Host\DbMigrations\OpenIddictDataSeeder.cs`. 
 
 If you will use the DbMigrator application you need to do the same steps in both classes.
-
-- **Create ApiResource**: 
-
-  `OrderService` itself is a new API resource, you should add it to the API resources. Open `IdentityServerDataSeeder.cs` and add the below line in 
-
-```csharp
-await CreateApiResourceAsync("OrderService", commonApiUserClaims);
-```
 
 
 - **Create ApiScope**: 
@@ -77,13 +69,13 @@ await CreateApiResourceAsync("OrderService", commonApiUserClaims);
   To make OrderService a reachable scope for other services, you should add it as a new scope by updating **CreateApiScopesAsync** method with: 
 
 ```csharp
-await CreateApiScopeAsync("OrderService");
+await CreateScopesAsync("OrderService");
 ```
 
 
 - **Add Swagger Client Scopes**: 
 
-  Swagger clients are used to **authorize** the microservice endpoints via *authorization code* flow for the swagger endpoints. You need to update the related swagger client scopes by adding the **OrderService** scope. You can select the gateways you want to grant for new service to be reached. **Keep in mind** that you need to add route configuration for each gateway. 
+  `WebGateway` swagger client is used to **authorize** the microservice endpoints via *authorization code* flow for the swagger endpoints. You need to update the swagger client scopes by adding the **OrderService** scope. You can select the gateways you want to grant for new service to be reached. **Keep in mind** that you need to add route configuration for each gateway. 
 
 - **Update Clients**: 
 
@@ -101,7 +93,7 @@ await CreateApiScopeAsync("OrderService");
 
 
 
-Below you can see a screenshot of the final **IdentityServerDataSeeder.cs** , creating `OrderService ` `ApiResource` and `ApiScope` granting scopes to all Swagger clients.
+Below you can see a screenshot of the final **OpenIddictDataSeeder.cs** , creating `OrderService `  `ApiScope` and granting it the `WebGateway` and other back-office clients.
 
 ![IdentityServerDataSeeder changes](../../images/microservice-template-dbmigrator-identityserver-seeder-update.png)
 
@@ -109,35 +101,14 @@ Below you can see a screenshot of the final **IdentityServerDataSeeder.cs** , cr
 
 ## Updating Gateways
 
-If you need to expose the new service endpoints, you need to configure all the 3 gateways:  
+If you need to expose the new service endpoints, you need to configure the gateway of your choosing or all the gateways:  
 
-- **InternalGateway** 
 - **WebGateway** 
 - **PublicWebGateway**
 
-You need to repeat the following steps for the 3 gateways:
+### Gateway Authorization
 
-1. **Add project reference and module dependency**: 
-
-   Add **OrderService.HttpApi** project reference to your gateway project dependency and add **OrderServiceHttpApiModule** to gateway module dependency like:
-* **Add csproj reference**
-
-```json
-<ProjectReference Include="..\..\..\..\services\order\src\Acme.BookStore.OrderService.HttpApi\Acme.BookStore.OrderService.HttpApi.csproj" />
-```
-
-   * **Add DependsOn attribute**
-
-```csharp
-typeof(OrderServiceHttpApiModule)
-```
-
-![Add service to gateways](../../images/webgateway-service-module-added-orderservice.png)
-
-
-​     
-
-Add the **OrderService** scope to the Swagger UI. To do this add `{"OrderService", "Order Service API"}` into the scopes dictionary in ` SwaggerWithAuthConfigurationHelper.Configure()` method. Do this step for the 3 gateways.
+Add the **OrderService** scope to the Swagger UI. To do this add `{"OrderService", "Order Service API"}` into the scopes dictionary in ` SwaggerWithAuthConfigurationHelper.Configure()` method. Do this step for the gateways you want OrderService to be used.
 
 
  ![Add to Swagger scopes](../../images/add-microservice-swagger-add-scope.png)
@@ -169,10 +140,6 @@ Add the **OrderService** scope to the Swagger UI. To do this add `{"OrderService
 
 
   > You can make different configurations for each method or endpoint for your service and add QoS configurations based on your business requirements. You can check [ocelot documentation](https://ocelot.readthedocs.io/en/latest/) for more.
-
-
-
-The 2 steps above are explained for **InternalGateway**, you need to repeat these steps for **WebGateway** and **PublicWebGateway**.
 
 
 

@@ -14,7 +14,7 @@ This section introduces the solution structure and briefly explains the solution
 
 *Figure: Overall Diagram of the Solution (not all associations are shown, for the sake of simplicity)*
 
-* The **Authentication Server** is a web application that is used as a single sign-on authentication server. It hosts the login, register, forgot password, two-factor authentication, profile management... pages, OAuth endpoints and authentication-related APIs. All applications and services use this application as a central authority for authentication.
+* The **Authentication Server** is a web application serves as openid-provider that is used as a single sign-on authentication server. It hosts the login, register, forgot password, two-factor authentication, profile management... pages, OAuth endpoints and authentication-related APIs. All applications and services use this application as a central authority for authentication.
 * There are two **web applications** in the solution (you can add more yourself);
   * The **Web Application** is the main UI of the system. It uses the *Authentication Server* to make users login to the application. Then it uses the *Web Gateway* to access  the HTTP APIs. You mostly develop your UI here. Based on your preference, it can be an **MVC (Razor Pages)**, **Angular** or **Blazor** application.
   * The **Public Website** is a second web application that can be used to develop your landing page for the application. If you don't need it, you can remove it. It uses the *Authentication Server* to make users login to the application. Then it uses the *Public Web Gateway* to access the HTTP APIs.
