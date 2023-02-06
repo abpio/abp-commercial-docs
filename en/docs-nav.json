@@ -319,6 +319,15 @@
         {
           "text": "Twilio SMS",
           "path": "modules/twilio-sms.md"
+        },
+        {
+          "text": "Common",
+          "items":[
+            {
+              "text": "Database Tables",
+              "path": "modules/database-tables.md"
+            }
+          ]
         }
       ]
     },
