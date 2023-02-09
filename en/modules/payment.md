@@ -2,7 +2,7 @@
 
 Payment module implements payment gateway integration of an application. It provides one time payment and recurring payment options. 
 
-* Supports [Stripe](https://stripe.com/), [PayPal](https://www.paypal.com/), [2Checkout](https://www.2checkout.com/), [PayU](https://corporate.payu.com/) and [Iyzico](https://www.iyzico.com/en) payment gateways.
+* Supports [Stripe](https://stripe.com/), [PayPal](https://www.paypal.com/), [2Checkout](https://www.2checkout.com/), [PayU](https://corporate.payu.com/), [Iyzico](https://www.iyzico.com/en) and [Alipay](https://global.alipay.com/) payment gateways.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Payment) for an overview of the module features.
 
@@ -188,6 +188,30 @@ Configure<PaymentOptions>(options =>
 * ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
 * ```PrePaymentCheckoutButtonStyle```: CSS style to add Checkout button on Iyzico prepayment page. This class can be used for tracking user activity via 3rd party tools like Google Tag Manager.
 
+### AlipayOptions
+
+```AlipayOptions``` is used to configure Alipay payment gateway options。 **Alipay gateway only supports CNY currency**.
+
+* ```Protocol```：Protocol for the Alipay (ex: https).
+* ```GatewayHost```: Gateway host for the Aliapy.
+* ```SignType```: Sign type for the Alipay.
+* ```AppId```: AppId for the Alipay account.
+* ```MerchantPrivateKey```: Merchant private key of the Alipay account.
+* ```MerchantCertPath```Merchant cert path of the Alipay account.
+* ```AlipayCertPath```: Alipay cert path of the Alipay account.
+* ```AlipayRootCertPath```: Alipay root cert path of the Alipay account.
+* ```AlipayPublicKey```: Alipay public key of the Alipay account.
+* ```NotifyUrl```: Notify url of the Alipay.
+* ```EncryptKey```: Encrypt key of the Alipay.
+
+#### AlipayWebOptions
+
+* ```Recommended```: Is payment gateway is recommended or not. This information is displayed on payment gateway selection page.
+* ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
+* ```PrePaymentCheckoutButtonStyle```: CSS style to add Checkout button on Iyzico prepayment page. This class can be used for tracking user activity via 3rd party tools like Google Tag Manager.
+
+> You can check the [Alipay document](https://opendocs.alipay.com/open/02np97) for more details.
+
 Instead of configuring options in your module class, you can configure it in your appsettings.json file like below;
 
 ```json
@@ -229,6 +253,12 @@ Instead of configuring options in your module class, you can configure it in you
       "BaseUrl": "https://sandbox-api.iyzipay.com",
       "Locale": "en",
       "Currency": "USD"
+    },
+    "Alipay": {
+      "AppId": "APP_ID",
+      "GatewayHost": "openapi.alipaydev.com",
+      "AlipayPublicKey": "ALIPAY_PUBLIC_KEY",
+      "MerchantPrivateKey": "MERCHANT_PRIVATE_KEY"
     }
   }
 ```

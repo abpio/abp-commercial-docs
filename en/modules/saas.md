@@ -108,7 +108,9 @@ You can create a new tenant or edit a tenant in this page:
 
 You can manage connection string of a tenant in case you want to use a separate database for a specific tenant. If you want to use Host database for a tenant, select "Use the Shared Database" option.
 
-![saas-module-tenant-connection-strings-modal](../images/saas-module-tenant-connection-strings-modal-2.png)
+You can also use the module-specific database connection string feature. In this case, you should select the "Use module specific database connection string" option, then you can determine your modules and their connection strings. Before adding you can check your connection by clicking "Check"
+
+![saas-module-tenant-connection-strings-modal](../images/saas-module-tenant-connection-strings-modal-3.png)
 
 ##### Tenant Features
 
@@ -311,4 +313,4 @@ The Saas module remote URL configurations shown above are optional. If you don't
 
 ## Distributed Events
 
-This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
+This module doesn't define any additional distributed events. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).

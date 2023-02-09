@@ -2,7 +2,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC","Blazor","BlazorServer","NG"],
+    "UI": ["MVC","Blazor","BlazorServer","NG", "MAUIBlazor"],
     "DB": ["EF","Mongo"]
 }
 ````
@@ -32,7 +32,9 @@ This tutorial has multiple versions based on your **UI** and **Database** prefer
 
 * [MVC (Razor Pages) UI with EF Core](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-mvc-ef)
 * [Blazor UI with EF Core](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-blazor-efcore)
-* [Angular UI with MongoDB](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-Angular-MongoDb)
+* [Angular UI with MongoDB](https://abp.io/Account/Login?returnUrl=/api/download/samples/bookstore-angular-mongodb)
+
+> If you encounter the "filename too long" or "unzip" error on Windows, please see [this guide](https://docs.abp.io/en/abp/7.0/KB/Windows-Path-Too-Long-Fix).
 
 ## Introduction
 
@@ -88,7 +90,7 @@ You can apply changes to the database using the following command, in the same c
 dotnet ef database update
 ````
 
-> If you are using Visual Studio, you may want to use `Add-Migration Added_Authors -Context BookStoreDbContext` and `Update-Database -Context BookStoreDbContext` commands in the *Package Manager Console (PMC)*. In this case, ensure that {{if UI=="MVC"}}`Acme.BookStore.Web`{{else if UI=="BlazorServer"}}`Acme.BookStore.Blazor`{{else if UI=="Blazor" || UI=="NG"}}`Acme.BookStore.HttpApi.Host`{{end}} is the startup project and `Acme.BookStore.EntityFrameworkCore` is the *Default Project* in PMC.
+> If you are using Visual Studio, you may want to use the `Add-Migration Created_Book_Entity` and `Update-Database` commands in the *Package Manager Console (PMC)*. In this case, ensure that `Acme.BookStore.EntityFrameworkCore` is the startup project in Visual Studio and `Acme.BookStore.EntityFrameworkCore` is the *Default Project* in PMC.
 
 {{else if DB=="Mongo"}}
 
@@ -119,41 +121,40 @@ using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 
-namespace Acme.BookStore.Authors
+namespace Acme.BookStore.Authors;
+
+public class EfCoreAuthorRepository
+    : EfCoreRepository<BookStoreDbContext, Author, Guid>,
+        IAuthorRepository
 {
-    public class EfCoreAuthorRepository
-        : EfCoreRepository<BookStoreDbContext, Author, Guid>,
-            IAuthorRepository
+    public EfCoreAuthorRepository(
+        IDbContextProvider<BookStoreDbContext> dbContextProvider)
+        : base(dbContextProvider)
     {
-        public EfCoreAuthorRepository(
-            IDbContextProvider<BookStoreDbContext> dbContextProvider)
-            : base(dbContextProvider)
-        {
-        }
+    }
 
-        public async Task<Author> FindByNameAsync(string name)
-        {
-            var dbSet = await GetDbSetAsync();
-            return await dbSet.FirstOrDefaultAsync(author => author.Name == name);
-        }
+    public async Task<Author> FindByNameAsync(string name)
+    {
+        var dbSet = await GetDbSetAsync();
+        return await dbSet.FirstOrDefaultAsync(author => author.Name == name);
+    }
 
-        public async Task<List<Author>> GetListAsync(
-            int skipCount,
-            int maxResultCount,
-            string sorting,
-            string filter = null)
-        {
-            var dbSet = await GetDbSetAsync();
-            return await dbSet
-                .WhereIf(
-                    !filter.IsNullOrWhiteSpace(),
-                    author => author.Name.Contains(filter)
-                 )
-                .OrderBy(sorting)
-                .Skip(skipCount)
-                .Take(maxResultCount)
-                .ToListAsync();
-        }
+    public async Task<List<Author>> GetListAsync(
+        int skipCount,
+        int maxResultCount,
+        string sorting,
+        string filter = null)
+    {
+        var dbSet = await GetDbSetAsync();
+        return await dbSet
+            .WhereIf(
+                !filter.IsNullOrWhiteSpace(),
+                author => author.Name.Contains(filter)
+             )
+            .OrderBy(sorting)
+            .Skip(skipCount)
+            .Take(maxResultCount)
+            .ToListAsync();
     }
 }
 ````
@@ -180,43 +181,42 @@ using MongoDB.Driver.Linq;
 using Volo.Abp.Domain.Repositories.MongoDB;
 using Volo.Abp.MongoDB;
 
-namespace Acme.BookStore.Authors
+namespace Acme.BookStore.Authors;
+
+public class MongoDbAuthorRepository
+    : MongoDbRepository<BookStoreMongoDbContext, Author, Guid>,
+    IAuthorRepository
 {
-    public class MongoDbAuthorRepository
-        : MongoDbRepository<BookStoreMongoDbContext, Author, Guid>,
-        IAuthorRepository
+    public MongoDbAuthorRepository(
+        IMongoDbContextProvider<BookStoreMongoDbContext> dbContextProvider
+        ) : base(dbContextProvider)
     {
-        public MongoDbAuthorRepository(
-            IMongoDbContextProvider<BookStoreMongoDbContext> dbContextProvider
-            ) : base(dbContextProvider)
-        {
-        }
+    }
 
-        public async Task<Author> FindByNameAsync(string name)
-        {
-            var queryable = await GetMongoQueryableAsync();
-            return await queryable
-                .FirstOrDefaultAsync(author => author.Name == name);
-        }
+    public async Task<Author> FindByNameAsync(string name)
+    {
+        var queryable = await GetMongoQueryableAsync();
+        return await queryable
+            .FirstOrDefaultAsync(author => author.Name == name);
+    }
 
-        public async Task<List<Author>> GetListAsync(
-            int skipCount,
-            int maxResultCount,
-            string sorting,
-            string filter = null)
-        {
-            var queryable = await GetMongoQueryableAsync();
-            return await queryable
-                .WhereIf<Author, IMongoQueryable<Author>>(
-                    !filter.IsNullOrWhiteSpace(),
-                    author => author.Name.Contains(filter)
-                )
-                .OrderBy(sorting)
-                .As<IMongoQueryable<Author>>()
-                .Skip(skipCount)
-                .Take(maxResultCount)
-                .ToListAsync();
-        }
+    public async Task<List<Author>> GetListAsync(
+        int skipCount,
+        int maxResultCount,
+        string sorting,
+        string filter = null)
+    {
+        var queryable = await GetMongoQueryableAsync();
+        return await queryable
+            .WhereIf<Author, IMongoQueryable<Author>>(
+                !filter.IsNullOrWhiteSpace(),
+                author => author.Name.Contains(filter)
+            )
+            .OrderBy(sorting)
+            .As<IMongoQueryable<Author>>()
+            .Skip(skipCount)
+            .Take(maxResultCount)
+            .ToListAsync();
     }
 }
 ```

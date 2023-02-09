@@ -12,19 +12,15 @@ The next feature version will be 7.0 and released in December, 2022. We are cons
 
 Here, a list of major items in the backlog we are considering to work on in the next versions.
 
-* .NET MAUI application with Blazor (reuses existing Blazor UI modules).
-* New features and improvements on the LeptonX theme.
-* Payment module: Invoice system, WeChat and Alipay integrations.
-* Prepare more deployment guides and configuration for different platforms.
+* Tooling to automate and make easy to develop, run and deploy distributed solutions.
+* New styles, components and features for the LeptonX theme.
+* Payment module: Invoice system.
 * Real-time notification system.
 * Dynamic dashboard system.
+* User guiding module.
 * Account module: Authority delegation, Google authenticator integration.
-* New theme styles and components (including public/corporate web site themes).
-* More module extension points.
-* More code generation / developer assistance features for the [ABP Suite](https://commercial.abp.io/tools/suite).
 * gRPC integration and implementation for all the pre-built modules.
 * CMS Kit features, including FAQ, spam protection, social media feeds, multi-language support, and so on.
-* New features to existing modules.
 
 ## Feature Requests
 
