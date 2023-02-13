@@ -47,11 +47,11 @@ Identity module adds the following items to the "Main" menu, under the "Administ
 
 Roles page is used to manage roles in the system. A role is a set of permissions assigned to the users.
 
-![identity-role-page](../images/identity-role-page-2.png)
+![identity-role-page](../images/identity-role-page.png)
 
 You can create a new role or edit a role in this page:
 
-![identity-edit-role-modal](../images/identity-edit-role-modal-2.png)
+![identity-edit-role-modal](../images/identity-edit-role-modal.png)
 
 * **Default** roles are assigned to new users by default.
 * **Public** roles are visible to other users.
@@ -60,7 +60,7 @@ You can create a new role or edit a role in this page:
 
 You can manage permissions of a role:
 
-![identity-edit-role-permissions-modal](../images/identity-edit-role-permissions-modal-2.png)
+![identity-edit-role-permissions-modal](../images/identity-edit-role-permissions-modal.png)
 
 * A permission is an **action of the application** granted to roles and users.
 * A user with a role will **inherit** all the permissions granted for the role.
@@ -71,7 +71,7 @@ You can manage permissions of a role:
 
 You can set custom claim values for a role:
 
-![identity-edit-role-claims-modal](../images/identity-edit-role-claims-modal-2.png)
+![identity-edit-role-claims-modal](../images/identity-edit-role-claims-modal.png)
 
 Claim types are retrieved from the claim list defined in the Claim Types  Management page (see below).
 
@@ -79,11 +79,11 @@ Claim types are retrieved from the claim list defined in the Claim Types  Manage
 
 Users page is used to manage the users in your system.
 
-![identity-users-page](../images/identity-user-page-2.png)
+![identity-users-page](../images/identity-user-page.png)
 
 You can create a new user or edit an existing user in this page:
 
-![identity-user-edit-modal](../images/identity-user-edit-modal-2.png)
+![identity-user-edit-modal](../images/identity-user-edit-modal.png)
 
 * A user can have **zero or more roles** in the system.
 * You can set **two factor** verification and user **lockout** settings per user.
@@ -92,13 +92,13 @@ You can create a new user or edit an existing user in this page:
 
 A user has union of the permissions of the assigned roles. Identity module also allows to grant extra permissions to a specific user.
 
-![identity-edit-user-permissions-modal](../images/identity-edit-user-permissions-modal-2.png)
+![identity-edit-user-permissions-modal](../images/identity-edit-user-permissions-modal.png)
 
 ##### User claims
 
 You can also set custom claim values for a user:
 
-![identity-edit-user-claims-modal](../images/identity-edit-user-claims-modal-2.png)
+![identity-edit-user-claims-modal](../images/identity-edit-user-claims-modal.png)
 
 Claim types are retrieved from the claim list defined in the Claim Type Management page (see below).
 
@@ -106,7 +106,7 @@ Claim types are retrieved from the claim list defined in the Claim Type Manageme
 
 Identity module allows to define custom claim types.
 
-![identity-claim-type-page](../images/identity-claim-type-page-2.png)
+![identity-claim-type-page](../images/identity-claim-type-page.png)
 
 * Custom claims can be used to store additional information to a user or role.
 * Custom claim values then can be accessed in the application code for an authenticated user.

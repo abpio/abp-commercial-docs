@@ -30,13 +30,13 @@ This module doesn't define any menu items.
 
 Login page is used to log in to the system.
 
-![account-pro-module-login-page](../images/account-pro-module-login-page-2.png)
+![account-pro-module-login-page](../images/account-pro-module-login-page.png)
 
 #### Register Page
 
 Register page allows new users to register to your system.
 
-![identity-users-page](../images/account-pro-module-register-page-2.png)
+![identity-users-page](../images/account-pro-module-register-page.png)
 
 #### Two Factor Authentication
 
