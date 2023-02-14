@@ -116,7 +116,7 @@ Identity module allows to define custom claim types.
 
 Identity module adds a new tab to the Settings page to customize the behavior on runtime.
 
-![identity-settings-ui](../images/identity-settings-ui-2.png)
+![identity-settings-ui](../images/identity-settings-ui.png)
 
 ### Organization Units
 

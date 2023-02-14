@@ -46,13 +46,13 @@ Identity module allows two factor authentication pages.
 
 Send security code page allows selecting a two factor authentication provider (Email, Phone etc...) and sends a security code to user via selected provider.
 
-![account-pro-module-two-factor-send-page](../images/account-pro-module-two-factor-send-page-2.png)
+![account-pro-module-two-factor-send-page](../images/account-pro-module-two-factor-send-page.png)
 
 ##### Verify Security Code
 
 Verify security code page verifies the security code sent to user and if the code is verified, user logs in to the system.
 
-![account-pro-module-two-factor-verify-page](../images/account-pro-module-two-factor-verify-page-2.png)
+![account-pro-module-two-factor-verify-page](../images/account-pro-module-two-factor-verify-page.png)
 
 ## Data Seed
 
