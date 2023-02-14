@@ -38,8 +38,6 @@ In addition, we can change two-factor authentication behavior across host by goi
 
 All 2FA settings for the host side will be applied **only to the host users**. If we want to change 2FA setting for **a specific tenant**,  this can be done from SaaS > Tenants `https://hostname/Saas/Host/Tenants` page. Click the **Actions** button of a tenant and see the **Features**.
 
-![tenant-features](../../images/2fa-tenant-features.png)
-
 In the features modal, you can change the 2FA behavior for the selected tenant.
 
 ![tenant-features modal](../../images/2fa-tenant-features-modal.png)
