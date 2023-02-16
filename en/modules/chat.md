@@ -102,7 +102,7 @@ Chat module defines the chat feature, you need to enable the chat feature to use
 
 This is the page that users send messages to each other.
 
-![chat-page](../images/chat-page-2.png)
+![chat-page](../images/chat-page.png)
 
 #### Chat icon on navigation bar
 
