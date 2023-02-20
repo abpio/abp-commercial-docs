@@ -31,7 +31,7 @@ The contact management system allows you to create multiple contact forms. You c
 });
 ```
 
-Then, you need to configure the defined contact widgets in `ConfigureServices` under the your module class:
+Then, you need to configure the defined contact widgets in the `ConfigureServices` method of your module class:
 
 ```csharp
 Configure<CmsKitContactOptions>(options =>
