@@ -4,23 +4,33 @@ CMS kit provides a **poll** system to allow users to create, edit and delete pol
 
 ![cmskit-module-poll-widget](../../images/cmskit-module-poll-widget.png)
 
+## Enabling the Poll System
+
+By default, CMS Kit features are disabled. Therefore, you need to enable the features you want, before starting to use it. You can use the [Global Feature](https://docs.abp.io/en/abp/latest/Global-Features) system to enable/disable CMS Kit features on development time. Alternatively, you can use the ABP Framework's [Feature System](https://docs.abp.io/en/abp/latest/Features) to disable a CMS Kit feature on runtime.
+
+> Check the ["How to Install" section of the CMS Kit Module documentation](index.md#how-to-install) to see how to enable/disable CMS Kit features on development time.
+
 ## User Interface
 
 ### Menu Items
 
-**Polls**: Opens the poll management page.
+CMS Kit module admin side adds the following items to the main menu, under the **CMS** menu item:
+
+**Polls**: Poll management page.
+
+`CmsKitProAdminMenus` class has the constants for the menu item names.
 
 ### Pages
 
 #### Polls
 
-You can list, create, update and delete on the admin side of your solution.
+You can list, create, update and delete polls on the admin side of your solution.
 
 ![poll-page](../../images/cmskit-module-poll-page.png)
 ![poll-edit-question-page](../../images/cmskit-module-poll-edit-question-page.png)
 ![poll-edit-options-page](../../images/cmskit-module-poll-edit-options-page.png)
 
-## The Poll Widget
+## Poll Widget
 
 The poll system provides a poll [widget](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Widgets) for users to vote and show the result. You can place the widget on a page like the below:
 
@@ -50,9 +60,9 @@ Configure<CmsKitPollingOptions>(options =>
 
 - `WidgetNames`: List of defined widgets in the poll system. `options.AddWidget` method was a shortcut to add a new widget to this list.
 
-# Internals
+## Internals
 
-## Domain Layer
+### Domain Layer
 
 #### Aggregates
 
@@ -60,14 +70,15 @@ This module follows the [Entity Best Practices & Conventions](https://docs.abp.i
 
 ##### Poll
 
-A poll represents a created poll with its options. 
+A poll represents a created poll with its options: 
 
 - `Poll` (aggregate root): Represents a poll by including the options in the system.
 - `PollOption` (entity): Represents the defined poll options related to the poll in the system.
 
 ##### PollUserVote
 
-A poll user vote represents voted poll from a user.
+A poll user vote represents voted poll from a user:
+
 - `PollUserVote` (aggregate root): Represents poll user votes in the system.
 
 #### Repositories
