@@ -2,7 +2,13 @@
 
 CMS Kit provides a widget to create a contact form on your website.
 
-### The Contact Widget
+## Enabling the Contact Management System
+
+By default, CMS Kit features are disabled. Therefore, you need to enable the features you want, before starting to use it. You can use the [Global Feature](https://docs.abp.io/en/abp/latest/Global-Features) system to enable/disable CMS Kit features on development time. Alternatively, you can use the ABP Framework's [Feature System](https://docs.abp.io/en/abp/latest/Features) to disable a CMS Kit feature on runtime.
+
+> Check the ["How to Install" section of the CMS Kit Module documentation](index.md#how-to-install) to see how to enable/disable CMS Kit features on development time.
+
+## Contact Widget
 
 The contact management system provides a contact form [widget](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Widgets) to create contact forms on the UI:
 
@@ -14,20 +20,18 @@ Here, a screenshot from the widget:
 
 ![contact-form](../../images/cmskit-module-contact-form.png)
 
-### The Multiple Contact Widgets
+## Multiple Contact Widgets
 
-The contact management system provides multiple forms. You should update your widget according to your new configuration. You can see the updated code below.
+The contact management system allows you to create multiple contact forms. You can define a named contact widget as below:
+
 ```csharp
-Configure<CmsKitContactOptions>(options =>
+@await Component.InvokeAsync(typeof(ContactViewComponent), new
 {
-    @await Component.InvokeAsync(typeof(ContactViewComponent), new
-    {
-        contactName = "Sales"
-    })
+    contactName = "Sales"
 });
 ```
 
-Now, you should configure that in `ConfigureServices` under the module page.
+Then, you need to configure the defined contact widgets in `ConfigureServices` under the your module class:
 
 ```csharp
 Configure<CmsKitContactOptions>(options =>
@@ -37,7 +41,7 @@ Configure<CmsKitContactOptions>(options =>
 });
 ```
 
-Here, is a screenshot from the updated multiple widgets
+Here, is a screenshot that show multiple contact forms in a page:
 
 ![multiple-contact-forms](../../images/cmskit-module-multiple-contact-forms.png)
 
