@@ -455,8 +455,12 @@
       "text": "Release Information",
       "items": [
         {
-          "text": "Release Notes (Change Logs)",
+          "text": "Release Notes",
           "path": "release-notes.md"
+        },
+        {
+          "text": "Full Change Logs",
+          "path": "change-logs/index.md"
         },
         {
           "text": "Road Map",
