@@ -37,7 +37,7 @@ Audit logs module adds the following items to the "Main" menu, under the "Admini
 
 Audit logs tab is used to list, view and filter audit logs and entity changes in the system. 
 
-![audit-logging-module-list-page](../images/audit-logging-module-list-page-2.png)
+![audit-logging-module-list-page](../images/audit-logging-module-list-page.png)
 
 
 
@@ -47,7 +47,7 @@ Each line on the list contains basic information about an audit log like HTTP St
 
 You can view details of an audit log by clicking the magnifier icon on each audit log line:
 
-![audit-logging-module-log-detail-modal](../images/audit-logging-module-log-detail-modal-2.png)
+![audit-logging-module-log-detail-modal](../images/audit-logging-module-log-detail-modal.png)
 
 * **Overall:** This tab contains detailed information about audit log.
 * **Actions:** This tab shows list of actions (controller actions and application service method calls with their parameters) executed during a web request.
@@ -57,7 +57,7 @@ You can view details of an audit log by clicking the magnifier icon on each audi
 
 Entity changes tab is used to list, view and filter entity change logs. 
 
-![audit-logging-module-entity-changes-list-page](../images/audit-logging-module-entity-changes-list-page-2.png)
+![audit-logging-module-entity-changes-list-page](../images/audit-logging-module-entity-changes-list-page.png)
 
 
 
@@ -67,7 +67,7 @@ Each line on the list contains basic information about an entity change log like
 
 You can view details of an entity change log by clicking the "Change Details" action item in the entity change log list:
 
-![audit-logging-module-entity-change-details-modal](../images/audit-logging-module-entity-change-details-modal-2.png)
+![audit-logging-module-entity-change-details-modal](../images/audit-logging-module-entity-change-details-modal.png)
 
 
 
@@ -75,7 +75,7 @@ You can view details of an entity change log by clicking the "Change Details" ac
 
 You can view details of all changes of an entity by clicking the "Full Change History" action item in the entity change log list:
 
-![audit-logging-module-full-entity-change-details-modal](../images/audit-logging-module-full-entity-change-details-modal-2.png)
+![audit-logging-module-full-entity-change-details-modal](../images/audit-logging-module-full-entity-change-details-modal.png)
 
 ## Data seed
 

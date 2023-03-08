@@ -35,7 +35,7 @@ This is a false-positive alert since ABP Framework validates inputs (for example
 
 ### Generic Padding Oracle [Risk: High] - False Positive
 
-- *[GET] - https://localhost:44390/Account/Login?handler=CreateLinkUser&LinkUserId=548b97b1-ab3a-a6a2-e961-3a08a881b211&LinkToken=CfDJ8KJ4q0EP0P9EsZ5KtdIYqZ1SPxVNqhILj3UjN0C1mWPlvrw%2FBPriEbgrwcypDnv7b4QC0tvrMihmtEUZUuY5YrAIDwWhQ9vyCPTbFTjpS7kjX%2BNRC%2FAFlWrxvTyPrhtV4QcHD2VRnBx1xmASFq1XvxhANylej7iVTnii8QTsFpF2vcW0tu%2FO1xADiS1geFyDgk1vZGcPlLGs45pEGBazcw%2Bi2p35xakGNGu7OI8zJWyx*
+- *[GET] - https://localhost:44378/Account/Login?handler=CreateLinkUser&LinkUserId=548b97b1-ab3a-a6a2-e961-3a08a881b211&LinkToken=CfDJ8KJ4q0EP0P9EsZ5KtdIYqZ1SPxVNqhILj3UjN0C1mWPlvrw%2FBPriEbgrwcypDnv7b4QC0tvrMihmtEUZUuY5YrAIDwWhQ9vyCPTbFTjpS7kjX%2BNRC%2FAFlWrxvTyPrhtV4QcHD2VRnBx1xmASFq1XvxhANylej7iVTnii8QTsFpF2vcW0tu%2FO1xADiS1geFyDgk1vZGcPlLGs45pEGBazcw%2Bi2p35xakGNGu7OI8zJWyx*
 
 **Description**: 
 
