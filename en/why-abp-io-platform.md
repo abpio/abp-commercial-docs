@@ -113,7 +113,7 @@ ABP's RabbitMQ Distributed Event Bus integration abstracts all these details. Yo
 
 ### Tons of Features
 
-Tag helpers, dynamic forms, BLOB storing system and other ABP features helps you to keep DRY and focus on your own business.
+Tag helpers, dynamic forms, BLOB storing system and many other ABP features helps you to keep DRY and focus on your own business.
 
 ### Why Not Build Your Own Framework?
 
@@ -224,4 +224,4 @@ So, for most of the systems, the performance overhead can be safely ignored. For
 
 **ABP is not a CMS** (Content Management System). It is a **generic business application development framework**. The Framework doesn't make any assumption for CMS or any type of applications. It is well layered so that the core modules are Web or ASP.NET Core independent and can be used to develop console applications, background services or any type of .NET compatible application.
 
-By the way ABP Framework provides modularity and a CMS module or CMS system can be developed on top of it. We are currently building such a CMS Kit module for the ABP Framework that provides CMS primitives and features to develop your own CMS application.
+By the way ABP Framework provides modularity and a CMS module or CMS system can be developed on top of it. Actually, we are already providing a [CMS Kit module](modules/cms-kit/index.md) that provides some common CMS primitives, so you can build your CMS on top of it.
