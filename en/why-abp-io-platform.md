@@ -220,10 +220,6 @@ If you'd written all these code yourself and if they run in every HTTP request, 
 
 So, for most of the systems, the performance overhead can be safely ignored. For others, you can disable the ABP features you don't need to.
 
-***TODO: We will share benchmarks***
-
-***TODO: We will share security tests***
-
 ### Is ABP a CMS?
 
 **ABP is not a CMS** (Content Management System). It is a **generic business application development framework**. The Framework doesn't make any assumption for CMS or any type of applications. It is well layered so that the core modules are Web or ASP.NET Core independent and can be used to develop console applications, background services or any type of .NET compatible application.
