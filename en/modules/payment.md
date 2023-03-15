@@ -466,7 +466,9 @@ Note: It is main application's responsibility to handle if a payment request is 
 
 ### Creating One-Time Payment
 
-In order to initiate a payment process, inject ```IPaymentRequestAppService```, create a payment request using it's ```CreateAsync``` method and redirect user to gateway selection page with the created payment request's Id. Here is a sample Razor Page code which starts a payment process on it's OnPost method.
+In order to initiate a payment process, inject `IPaymentRequestAppService`, create a payment request using it's `CreateAsync` method and redirect user to gateway selection page with the created payment request's Id. Here is a sample Razor Page code which starts a payment process on it's OnPost method.
+
+> Redirection of the gateway selection page has to be a **POST** request. If you implement it as a **GET** request, you will get an error. You can use `LocalRedirectPreserveMethod` to keep the method as POST in the redirected request.
 
 ```c#
 public class IndexModel: PageModel
@@ -478,7 +480,7 @@ public class IndexModel: PageModel
         _paymentRequestAppService = paymentRequestAppService;
     }
 
-    public virtual async Task<IActionResult> OnPost()
+    public virtual async Task<IActionResult> OnPostAsync()
     {
         var paymentRequest = await _paymentRequestAppService.CreateAsync(new PaymentRequestCreateDto()
         {
@@ -545,6 +547,8 @@ Follow [saas](saas.md#tenant-edition-subscription) documentation.
 
 Creating a recurring payment almost same as creating a payment. Setting `PaymentType` property as **Recurring** and passing `PlanId` are enough to start a recurring payment request. If given Plan has multiple GatewayPlan, user will be able to choose gateway to pay.
 
+> Redirection of the gateway selection page has to be a **POST** request. If you implement it as a **GET** request, you will get an error. You can use `LocalRedirectPreserveMethod` to keep the method as POST in the redirected request.
+
 ```csharp
 public class SubscriptionModel : PageModel
 {
@@ -555,7 +559,7 @@ public class SubscriptionModel : PageModel
         PaymentRequestAppService = paymentRequestAppService;
     }
 
-    public virtual async Task<IActionResult> OnPost()
+    public virtual async Task<IActionResult> OnPostAsync()
     {
         var paymentRequest = await PaymentRequestAppService.CreateAsync(
             new PaymentRequestCreateDto()
