@@ -2,7 +2,9 @@
 
 CMS kit provides a **URL forwarding** system to create URLs that redirect to other pages or external websites.
 
-## Enabling
+## Enabling the URL Forwarding System
+
+By default, CMS Kit features are disabled. Therefore, you need to enable the features you want, before starting to use it. You can use the [Global Feature](https://docs.abp.io/en/abp/latest/Global-Features) system to enable/disable CMS Kit features on development time. Alternatively, you can use the ABP Framework's [Feature System](https://docs.abp.io/en/abp/latest/Features) to disable a CMS Kit feature on runtime.
 
 In addition to enabling [Url Shorting global feature](index.md), you need to add `UrlShortingMiddleware` to your final application.
 
