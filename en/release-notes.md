@@ -1,6 +1,8 @@
-# Release Notes / Change Logs / Version History
+# Release Notes
 
-This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version. Also, they generally don't cover the features made in the open-source ABP Framework. For the ABP Framework features, check blog post for the related version.
+This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version. **If you want to see a raw and detailed change logs for every release, please check [the full change logs document](change-logs/index.md).**
+
+> Release notes in this document don't cover the features made in the open-source ABP Framework. For the ABP Framework features, check the blog post for the related version.
 
 ## 7.1 (2023-02-07)
 
