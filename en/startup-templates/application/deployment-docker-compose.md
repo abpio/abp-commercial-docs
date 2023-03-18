@@ -117,9 +117,78 @@ Set-Location $currentFolder
 
 {{ if UI == "Blazor" }}
 
+```powershell
+param ($version='latest')
+
+$currentFolder = $PSScriptRoot
+$slnFolder = Join-Path $currentFolder "../../"
+
+Write-Host "********* BUILDING DbMigrator *********" -ForegroundColor Green
+$dbMigratorFolder = Join-Path $slnFolder "src/Acme.BookStore.DbMigrator"
+Set-Location $dbMigratorFolder
+dotnet publish -c Release
+docker build -f Dockerfile.local -t acme/bookstore-db-migrator:$version .
+
+Write-Host "********* BUILDING Blazor Application *********" -ForegroundColor Green
+$blazorFolder = Join-Path $slnFolder "src/Acme.BookStore.Blazor"
+Set-Location $blazorFolder
+dotnet publish -c Release -p:PublishTrimmed=false
+docker build -f Dockerfile.local -t acme/bookstore-blazor:$version .
+
+Write-Host "********* BUILDING Api.Host Application *********" -ForegroundColor Green
+$hostFolder = Join-Path $slnFolder "src/Acme.BookStore.HttpApi.Host"
+Set-Location $hostFolder
+dotnet publish -c Release
+docker build -f Dockerfile.local -t acme/bookstore-api:$version .
+	{{ if Tiered == "Yes"}}
+$authServerAppFolder = Join-Path $slnFolder "src/Acme.BookStore.AuthServer"
+Set-Location $authServerAppFolder
+dotnet publish -c Release
+docker build -f Dockerfile.local -t acme/bookstore-authserver:$version .
+	{{ end }}
+### ALL COMPLETED
+Write-Host "COMPLETED" -ForegroundColor Green
+Set-Location $currentFolder
+```
+
 {{ end }}
 
 {{ if UI == "BlazorServer" }}
+
+```powershell
+param ($version='latest')
+
+$currentFolder = $PSScriptRoot
+$slnFolder = Join-Path $currentFolder "../../"
+
+Write-Host "********* BUILDING DbMigrator *********" -ForegroundColor Green
+$dbMigratorFolder = Join-Path $slnFolder "src/Acme.BookStore.DbMigrator"
+Set-Location $dbMigratorFolder
+dotnet publish -c Release
+docker build -f Dockerfile.local -t acme/bookstore-db-migrator:$version .
+
+Write-Host "********* BUILDING Blazor Application *********" -ForegroundColor Green
+$blazorFolder = Join-Path $slnFolder "src/Acme.BookStore.Blazor"
+Set-Location $blazorFolder
+dotnet publish -c Release
+docker build -f Dockerfile.local -t acme/bookstore-blazor:$version .
+
+	{{ if Tiered == "Yes"}}
+$authServerAppFolder = Join-Path $slnFolder "src/Acme.BookStore.AuthServer"
+Set-Location $authServerAppFolder
+dotnet publish -c Release
+docker build -f Dockerfile.local -t acme/bookstore-authserver:$version .
+
+Write-Host "********* BUILDING Api.Host Application *********" -ForegroundColor Green
+$hostFolder = Join-Path $slnFolder "src/Acme.BookStore.HttpApi.Host"
+Set-Location $hostFolder
+dotnet publish -c Release
+docker build -f Dockerfile.local -t acme/bookstore-api:$version .
+	{{ end }}
+### ALL COMPLETED
+Write-Host "COMPLETED" -ForegroundColor Green
+Set-Location $currentFolder
+```
 
 {{ end }}
 
@@ -146,6 +215,304 @@ If you don't want to use the `build-images-locally.ps1` to build the images or t
 dotnet publish -c Release #Builds the projects in Release mode
 docker build -f Dockerfile.local -t acme/bookstore-db-migrator:latest . #Builds the image with "latest" tag
 ```
+
+{{ if UI == "MVC" }}
+
+### MVC/Razor Pages
+
+​	{{ if Tiered == "Yes" }}
+
+MVC/Razor Pages application is a server-side rendering application that uses Cookie authentication as default scheme and OpenIdConnect as the default challange scheme.
+
+In the **WebModule** under authentication configuration, there is an extra configuration for containerized environment support:
+
+```csharp
+if (Convert.ToBoolean(configuration["AuthServer:IsContainerizedOnLocalhost"]))
+{
+    context.Services.Configure<OpenIdConnectOptions>("oidc", options =>
+    {
+        options.TokenValidationParameters.ValidIssuers = new[]
+        {
+            configuration["AuthServer:MetaAddress"].EnsureEndsWith('/'), 
+            configuration["AuthServer:Authority"].EnsureEndsWith('/')
+        };
+
+        options.MetadataAddress = configuration["AuthServer:MetaAddress"].EnsureEndsWith('/') +
+                                ".well-known/openid-configuration";
+
+        var previousOnRedirectToIdentityProvider = options.Events.OnRedirectToIdentityProvider;
+        options.Events.OnRedirectToIdentityProvider = async ctx =>
+        {
+            // Intercept the redirection so the browser navigates to the right URL in your host
+            ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') + "connect/authorize";
+
+            if (previousOnRedirectToIdentityProvider != null)
+            {
+                await previousOnRedirectToIdentityProvider(ctx);
+            }
+        };
+        var previousOnRedirectToIdentityProviderForSignOut = options.Events.OnRedirectToIdentityProviderForSignOut;
+        options.Events.OnRedirectToIdentityProviderForSignOut = async ctx =>
+        {
+            // Intercept the redirection for signout so the browser navigates to the right URL in your host
+            ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') + "connect/logout";
+
+            if (previousOnRedirectToIdentityProviderForSignOut != null)
+            {
+                await previousOnRedirectToIdentityProviderForSignOut(ctx);
+            }
+        };
+    });
+
+}
+```
+
+This is used when the **AuthServer is running on docker containers(or pods)** to configure the redirection URLs for internal network and the web. The application must be redirected to real DNS (localhost in this case) when the `/authorize` and `/logout` requests over the browser but handle the token validation inside the isolated network without going out to internet. `"AuthServer:MetaAddress"` appsetting should indicate the container/pod service name while the `AuthServer:Authority` should be pointing to real DNS for browser to redirect.
+
+The `appsettings.json` file does not contain `AuthServer:IsContainerizedOnLocalhost` and `AuthServer:MetaAddress` settings since they are used for orchestrated deployment scenarios, you can see these settings are overridden by the `docker-compose.yml` file.
+
+`Dockerfile.local` is provided under this project as below;
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
+COPY bin/Release/net7.0/publish/ app/
+WORKDIR /app
+ENTRYPOINT ["dotnet", "Acme.BookStore.Web.dll"]
+```
+
+If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to **Web** folder and run:
+
+```powershell
+dotnet publish -c Release #Builds the projects in Release mode
+docker build -f Dockerfile.local -t acme/bookstore-web:latest . #Builds the image with "latest" tag
+```
+
+​	{{ end }}
+
+​	{{ if Tiered == "No" }}
+
+MVC/Razor Pages application is a server-side rendering application that contains both the openid-provider and the Http.Api endpoints within self; it will be a single application to deploy. `Dockerfile.local` is provided under this project as below;
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+COPY bin/Release/net7.0/publish/ app/
+WORKDIR /app
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+RUN dotnet dev-certs https -v -ep authserver.pfx -p 2D7AA457-5D33-48D6-936F-C48E5EF468ED
+
+FROM base AS final
+WORKDIR /app
+COPY --from=build /src .
+
+ENTRYPOINT ["dotnet", "Acme.BookStore.Web.dll"]
+```
+
+You can come across an error when the image is being built. This occurs because of `dotnet dev-certs` command trying to list the existing certificates **inside the container** and unavailable to. This is not an important error since we aim to generate the **authserver.pfx** file and discard the container it is built in.
+
+![auth-server-pfx-generation-error](../../../en/images/auth-server-pfx-generation-error.png)
+
+Since it contains the openid-provider within, it also uses multi-stages to generate `authserver.pfx` file which is **used by OpenIddict as signing and encryption certificate**. This configuration is found under the `PreConfigureServices` method of the **WebModule**:
+
+```csharp
+if (!hostingEnvironment.IsDevelopment())
+{
+    PreConfigure<AbpOpenIddictAspNetCoreOptions>(options =>
+    {
+        options.AddDevelopmentEncryptionAndSigningCertificate = false;
+    });
+
+    PreConfigure<OpenIddictServerBuilder>(builder =>
+    {
+        builder.AddSigningCertificate(GetSigningCertificate(hostingEnvironment, configuration));
+        builder.AddEncryptionCertificate(GetSigningCertificate(hostingEnvironment, configuration));
+        builder.SetIssuer(new Uri(configuration["AuthServer:Authority"]));
+    });
+}
+```
+
+This configuration disables the *DevelopmentEncryptionAndSigningCertificate* and uses a self-signed certificate called `authserver.pfx`. for **signing and encrypting the tokens**. This certificate is being created when the docker image is build using the `dotnet dev-certs` tooling . It is a sample generated certificate and it is **recommended** to update it for production environment. You can check the [OpenIddict Encryption and signing credentials documentation](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html) for different options and customization.
+
+The `GetSigningCertificate` method is a private method located under the same **WebModule**:
+
+```csharp
+private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv, IConfiguration configuration)
+{
+    var fileName = "authserver.pfx";
+    var passPhrase = "2D7AA457-5D33-48D6-936F-C48E5EF468ED";
+    var file = Path.Combine(hostingEnv.ContentRootPath, fileName);
+
+    if (!File.Exists(file))
+    {
+        throw new FileNotFoundException($"Signing Certificate couldn't found: {file}");
+    }
+
+    return new X509Certificate2(file, passPhrase);
+}
+```
+
+> You can always create any self-signed certificate using any other tooling outside of the dockerfile. You need to keep on mind to set them as **embedded resource** since the `GetSigningCertificate` method will be checking this file physically. 
+
+If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to **Web** folder and run:
+
+```powershell
+dotnet publish -c Release #Builds the projects in Release mode
+docker build -f Dockerfile.local -t acme/bookstore-web:latest . #Builds the image with "latest" tag
+```
+
+​	{{ end }}
+
+{{ end }}
+
+{{ if UI == "BlazorServer" }}
+
+### Blazor Server
+
+​	{{ if Tiered == "Yes" }}
+
+Blazor Server application is a server-side rendering application that uses Cookie authentication as default scheme and OpenIdConnect as the default challange scheme.
+
+In the **BlazorModule** under authentication configuration, there is an extra configuration for containerized environment support:
+
+```csharp
+if (Convert.ToBoolean(configuration["AuthServer:IsContainerizedOnLocalhost"]))
+{
+    context.Services.Configure<OpenIdConnectOptions>("oidc", options =>
+    {
+        options.TokenValidationParameters.ValidIssuers = new[]
+        {
+            configuration["AuthServer:MetaAddress"].EnsureEndsWith('/'), 
+            configuration["AuthServer:Authority"].EnsureEndsWith('/')
+        };
+
+        options.MetadataAddress = configuration["AuthServer:MetaAddress"].EnsureEndsWith('/') +
+                                ".well-known/openid-configuration";
+
+        var previousOnRedirectToIdentityProvider = options.Events.OnRedirectToIdentityProvider;
+        options.Events.OnRedirectToIdentityProvider = async ctx =>
+        {
+            // Intercept the redirection so the browser navigates to the right URL in your host
+            ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') + "connect/authorize";
+
+            if (previousOnRedirectToIdentityProvider != null)
+            {
+                await previousOnRedirectToIdentityProvider(ctx);
+            }
+        };
+        var previousOnRedirectToIdentityProviderForSignOut = options.Events.OnRedirectToIdentityProviderForSignOut;
+        options.Events.OnRedirectToIdentityProviderForSignOut = async ctx =>
+        {
+            // Intercept the redirection for signout so the browser navigates to the right URL in your host
+            ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') + "connect/logout";
+
+            if (previousOnRedirectToIdentityProviderForSignOut != null)
+            {
+                await previousOnRedirectToIdentityProviderForSignOut(ctx);
+            }
+        };
+    });
+
+}
+```
+
+This is used when the **AuthServer is running on docker containers(or pods)** to configure the redirection URLs for internal network and the web. The application must be redirected to real DNS (localhost in this case) when the `/authorize` and `/logout` requests over the browser but handle the token validation inside the isolated network without going out to internet. `"AuthServer:MetaAddress"` appsetting should indicate the container/pod service name while the `AuthServer:Authority` should be pointing to real DNS for browser to redirect.
+
+The `appsettings.json` file does not contain `AuthServer:IsContainerizedOnLocalhost` and `AuthServer:MetaAddress` settings since they are used for orchestrated deployment scenarios, you can see these settings are overridden by the `docker-compose.yml` file.
+
+`Dockerfile.local` is provided under this project as below;
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
+COPY bin/Release/net7.0/publish/ app/
+WORKDIR /app
+ENTRYPOINT ["dotnet", "Acme.BookStore.Blazor.dll"]
+```
+
+If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to **Blazor** folder and run:
+
+```powershell
+dotnet publish -c Release #Builds the projects in Release mode
+docker build -f Dockerfile.local -t acme/bookstore-blazor:latest . #Builds the image with "latest" tag
+```
+
+​	{{ end }}
+
+​	{{ if Tiered == "No" }}
+
+Blazor Server application is a server-side rendering application that contains both the openid-provider and the Http.Api endpoints within self; it will be a single application to deploy. `Dockerfile.local` is provided under this project as below;
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+COPY bin/Release/net7.0/publish/ app/
+WORKDIR /app
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+RUN dotnet dev-certs https -v -ep authserver.pfx -p 2D7AA457-5D33-48D6-936F-C48E5EF468ED
+
+FROM base AS final
+WORKDIR /app
+COPY --from=build /src .
+
+ENTRYPOINT ["dotnet", "Acme.BookStore.Blazor.dll"]
+```
+
+You can come across an error when the image is being built. This occurs because of `dotnet dev-certs` command trying to list the existing certificates **inside the container** and unavailable to. This is not an important error since we aim to generate the **authserver.pfx** file and discard the container it is built in.
+
+![auth-server-pfx-generation-error](../../../en/images/auth-server-pfx-generation-error.png)
+
+Since it contains the openid-provider within, it also uses multi-stages to generate `authserver.pfx` file which is **used by OpenIddict as signing and encryption certificate**. This configuration is found under the `PreConfigureServices` method of the **BlazorModule**:
+
+```csharp
+if (!hostingEnvironment.IsDevelopment())
+{
+    PreConfigure<AbpOpenIddictAspNetCoreOptions>(options =>
+    {
+        options.AddDevelopmentEncryptionAndSigningCertificate = false;
+    });
+
+    PreConfigure<OpenIddictServerBuilder>(builder =>
+    {
+        builder.AddSigningCertificate(GetSigningCertificate(hostingEnvironment, configuration));
+        builder.AddEncryptionCertificate(GetSigningCertificate(hostingEnvironment, configuration));
+        builder.SetIssuer(new Uri(configuration["AuthServer:Authority"]));
+    });
+}
+```
+
+This configuration disables the *DevelopmentEncryptionAndSigningCertificate* and uses a self-signed certificate called `authserver.pfx`. for **signing and encrypting the tokens**. This certificate is being created when the docker image is build using the `dotnet dev-certs` tooling . It is a sample generated certificate and it is **recommended** to update it for production environment. You can check the [OpenIddict Encryption and signing credentials documentation](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html) for different options and customization.
+
+The `GetSigningCertificate` method is a private method located under the same **BlazorModule**:
+
+```csharp
+private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv, IConfiguration configuration)
+{
+    var fileName = "authserver.pfx";
+    var passPhrase = "2D7AA457-5D33-48D6-936F-C48E5EF468ED";
+    var file = Path.Combine(hostingEnv.ContentRootPath, fileName);
+
+    if (!File.Exists(file))
+    {
+        throw new FileNotFoundException($"Signing Certificate couldn't found: {file}");
+    }
+
+    return new X509Certificate2(file, passPhrase);
+}
+```
+
+> You can always create any self-signed certificate using any other tooling outside of the dockerfile. You need to keep on mind to set them as **embedded resource** since the `GetSigningCertificate` method will be checking this file physically. 
+
+If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to **BlazorModule** folder and run:
+
+```powershell
+dotnet publish -c Release #Builds the projects in Release mode
+docker build -f Dockerfile.local -t acme/bookstore-blazor:blazor . #Builds the image with "latest" tag
+```
+
+​		{{ end }}
+
+{{ end }}
 
 {{ if UI == "NG" }}
 
@@ -282,17 +649,59 @@ docker build -f Dockerfile.local -t acme/bookstore-angular:latest . #Builds the 
 
 {{ end }}
 
-{{ if UI == "MVC" }}
+{{ if UI == "Blazor" }}
+
+### Blazor
+
+The Blazor application uses [nginx:alpine-slim](https://hub.docker.com/layers/library/nginx/alpine-slim/images/sha256-0f859db466fda2c52f62b48d0602fb26867d98edbd62c26ae21414b3dea8d8f4?context=explore) base image to host the blazor application. You can modify the base image based on your preference int the `Dockerfile.local` which provided under the Blazor folder of your solution as below;
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS build
+COPY bin/Release/net7.0/publish/ app/
+  
+FROM nginx:alpine-slim AS final
+WORKDIR /usr/share/nginx/html
+COPY --from=build /app/wwwroot .
+COPY /nginx.conf  /etc/nginx/conf.d/default.conf
+```
+
+Other than built blazor application, there is also `nginx.conf` file is copied into application image. The `nginx.conf` file:
+
+```nginx
+server {
+    listen       80;
+    listen  [::]:80;
+    server_name  _;
+    
+    #listen              443 ssl;
+    #server_name         www.myapp.com;
+    #ssl_certificate     www.myapp.com.crt;
+    #ssl_certificate_key www.myapp.com.key;
+    
+	location / {
+        root   /usr/share/nginx/html;        
+        index  index.html index.htm;
+        try_files $uri $uri/ /index.html =404;		
+	}
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html    
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+```
+
+If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to **Blazor** folder and run:
+
+```powershell
+##Builds the projects in Release mode with Trimming option disabled. You can enable it or configure as you like
+dotnet publish -c Release -p:PublishTrimmed=false 
+docker build -f Dockerfile.local -t acme/bookstore-blazor:latest . #Builds the image with "latest" tag
+```
 
 {{ end }}
-
-
-
-{{ if UI == "BlazorServer" }}
-
-{{ end }}
-
-
 
 {{ if Tiered == "No"  }}
 
@@ -300,7 +709,7 @@ docker build -f Dockerfile.local -t acme/bookstore-angular:latest . #Builds the 
 
 ### Http.Api.Host
 
-This is the backend application that contains the authserver functionality as well. The `dockerfile.local` is located under the `Http.Api.Host` project as below;
+This is the backend application that contains the openid-provider functionality as well. The `dockerfile.local` is located under the `Http.Api.Host` project as below;
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
@@ -318,7 +727,11 @@ COPY --from=build /src .
 ENTRYPOINT ["dotnet", "Acme.BookStore.HttpApi.Host.dll"]
 ```
 
-Since it contains authserver within, it also uses multi-stages to generate `authserver.pfx` file which is **used by OpenIddict as signing and encryption certificate**. This configuration is found under the `PreConfigureServices` method of the **HttpApiHostModule**:
+You can come across an error when the image is being built. This occurs because of `dotnet dev-certs` command trying to list the existing certificates **inside the container** and unavailable to. This is not an important error since we aim to generate the **authserver.pfx** file and discard the container it is built in.
+
+![auth-server-pfx-generation-error](../../../en/images/auth-server-pfx-generation-error.png)
+
+Since it contains the openid-provider within, it also uses multi-stages to generate `authserver.pfx` file which is **used by OpenIddict as signing and encryption certificate**. This configuration is found under the `PreConfigureServices` method of the **HttpApiHostModule**:
 
 ```csharp
 if (!hostingEnvironment.IsDevelopment())
@@ -374,7 +787,7 @@ docker build -f Dockerfile.local -t acme/bookstore-api:latest . #Builds the imag
 
 ### AuthServer
 
-This is the authentication server which should be individually hosted compared to non-tiered application templates. The `dockerfile.local` is located under the `AuthServer` project as below;
+This is the openid-provider application, the authentication server which should be individually hosted compared to non-tiered application templates. The `dockerfile.local` is located under the `AuthServer` project as below;
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
@@ -391,6 +804,10 @@ COPY --from=build /src .
 
 ENTRYPOINT ["dotnet", "Acme.BookStore.AuthServer.dll"]
 ```
+
+You can come across an error when the image is being built. This occurs because of `dotnet dev-certs` command trying to list the existing certificates **inside the container** and unavailable to. This is not an important error since we aim to generate the **authserver.pfx** file and discard the container it is built in.
+
+![auth-server-pfx-generation-error](../../../en/images/auth-server-pfx-generation-error.png)
 
 The AuthServer docker image building process contains multi-stages to generate `authserver.pfx` file which is **used by OpenIddict as signing and encryption certificate**. This configuration is found under the `PreConfigureServices` method of the **AuthServerModule**:
 
@@ -458,7 +875,7 @@ dotnet publish -c Release #Builds the projects in Release mode
 docker build -f Dockerfile.local -t acme/bookstore-api:latest . #Builds the image with "latest" tag
 ```
 
-{{ end }} //End of tiered
+{{ end }}
 
 ## Running Docker-Compose on Localhost
 
@@ -485,7 +902,162 @@ docker-compose up -d
 
 `run-docker.ps1` (or `run-docker.sh`) script will be checking if there is an existing dev-cert already under the `etc/certs` folder and generates a `localhost.pfx` file if doesn't exist. **This file will be used by Kestrel as HTTPS certificate**.
 
+You can also manually create the **localhost.pfx** file in a different path with different name and a different password by using `dotnet dev-certs https -v -ep myCert.pfx -p YOUR_PASSWORD_FOR_HTTPS_CERT -t` or with using any other self-signed certificate generation tool. 
+
+You need to update the service environment variables `Kestrel__Certificates__Default__Path` with the path and filename you have created and the  `Kestrel__Certificates__Default__Password` with your new password in the `docker-compose.yml` file.
+
 Now lets break down each docker compose service under the `docker-compose.yml` file:
+
+{{ if UI == "Blazor" }}
+
+**bookstore-blazor:**
+
+```yaml
+services:
+  bookstore-blazor:
+    image: acme/bookstore-blazor:latest
+    container_name: bookstore-blazor
+    build:
+      context: ../../
+      dockerfile: src/Acme.BookStore.Blazor/Dockerfile.local
+    ports:
+      - "44307:80"
+    depends_on:
+      - bookstore-api
+    restart: on-failure
+    volumes:
+      - ./appsettings.json:/usr/share/nginx/html/appsettings.json
+    networks:
+      - abp-network
+```
+
+This is the Blazor application we deploy on http://localhost:44307 by default using the `acme/bookstore-blazor:latest` image we have built using the `build-images-locally.ps1` script. **It is not running on HTTPS** using the `localhost.pfx` since it is running on **Nginx** and it doesn't accept `pfx` files for SSL. You can check [Nginx Configuring HTTPS Servers documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) for more information and apply necessary configurations it to `nginx.conf` file under the `Blazor` folder. 
+
+> Don't forget to rebuild the `acme/bookstore-blazor:latest` image after updating the `nginx.conf` file.
+
+ On **volumes**, it mounts the **appsettings.json** file located under the `docker` folder to achieve **changing the environment variables without re-building the image**. The overriding `docker/appsettings.json` file is as below:
+
+```json
+{
+  "App": {
+    "SelfUrl": "http://localhost:44307"
+  },
+  "AuthServer": {
+{{ if Tiered == "Yes" }}
+    "Authority": "https://localhost:44334",
+{{ end }}
+{{ if Tiered == "No" }}
+    "Authority": "https://localhost:44354",
+{{ end }}
+    "ClientId": "BookStore_Blazor",
+    "ResponseType": "code"
+  },
+  "RemoteServices": {
+    "Default": {
+      "BaseUrl": "https://localhost:44354"
+    },
+    "AbpAccountPublic": {
+{{ if Tiered == "Yes" }}
+      "BaseUrl": "https://localhost:44334"
+{{ end }}
+{{ if Tiered == "No" }}
+      "BaseUrl": "https://localhost:44354"
+{{ end }}
+    }
+  },
+  "AbpCli": {
+    "Bundle": {
+      "Mode": "BundleAndMinify", 
+      "Name": "global",
+      "Parameters": {
+              "LeptonXTheme.Layout": "side-menu"
+      }
+    }
+  }
+}
+
+```
+
+> This service runs in docker network called `abp-network`,  awaits for the the `bookstore-api` to start up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+
+**bookstore-api:**
+
+```yaml
+bookstore-api:
+    image: acme/bookstore-api:latest
+    container_name: bookstore-api
+    hostname: bookstore-api
+    build:
+      context: ../../
+      dockerfile: src/Acme.BookStore.HttpApi.Host/Dockerfile.local
+    environment:
+      - ASPNETCORE_URLS=https://+:443;http://+:80;
+      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Password=91f91912-5ab0-49df-8166-23377efaf3cc
+      - App__SelfUrl=https://localhost:44354
+      - App__CorsOrigins=http://localhost:44307
+      - App__HealthCheckUrl=http://bookstore-api/health-status  
+      {{ if Tiered == "Yes" }}
+      - AuthServer__Authority=http://bookstore-authserver
+      {{ end }}
+      {{ if Tiered == "No" }}
+      - AuthServer__Authority=http://bookstore-api
+      {{ end }}
+      - AuthServer__RequireHttpsMetadata=false
+      {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
+      {{ end }}
+      {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
+      {{ end }}
+      {{ if Tiered == "Yes" }}
+      - Redis__Configuration=redis
+      {{ end }}
+    ports:
+      - "44354:443"
+    depends_on:
+     {{ if DB == "EF" }}
+      sql-server:
+        condition: service_healthy
+    {{ end }}      
+    {{ if DB == "Mongo" }}
+   	  mongo-db:
+        condition: service_healthy
+    {{ end }}
+    {{ if Tiered == "Yes" }}
+      redis:
+        condition: service_healthy
+    {{ end }}
+    restart: on-failure    
+    volumes:
+      - ./certs:/root/certificate
+    networks:
+      - abp-network
+```
+
+This service is the **backend** of our blazor application using the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+
+- `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44354`
+
+- `App__CorsOrigins` is the override configuration for CORS. We add the Blazor application URL here `http://localhost:44307`
+
+- `App__HealthCheckUrl` is the health check url. Since this request will be done **internally**, it points to the **service name** in containerized environment `http://bookstore-api/health-status`
+
+- `AuthServer__Authority` is the issuer URL.  {{ if Tiered == "Yes" }} `http://bookstore-authserver` {{ end }}{{ if Tiered == "No" }} `http://bookstore-api` {{ end }} is the containerized issuer. It must point to a **real DNS when deploying to production**.
+
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Since we are using isolated internal docker network, we want to use HTTP, therefore it is set to `false` by default.
+
+- `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
+
+  {{ if Tiered == "Yes" }}
+
+- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+
+  {{ end }}
+
+> This service runs in docker network called `abp-network`,  awaits for {{ if Tiered == "Yes" }}the redis service and {{ end }}the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+
+{{ end }}
 
 {{ if UI == "NG" }}
 
