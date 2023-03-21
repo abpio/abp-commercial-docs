@@ -530,7 +530,7 @@ COPY /nginx.conf  /etc/nginx/conf.d/default.conf
 
 You can notice that, other than built angular application, there are two more files are copied into application image.
 
-The `dynamic-env.json` file is an empty json file representing angular application's environment variables. This file will be overridden by environment variable on image runtime. If you examine the `environment.prod.ts` file under the `angular/src/environments` folder, there is a remote environment configuration:
+The `dynamic-env.json` file is an empty json file representing angular application's environment variables. This file will be overridden by environment variable on image runtime. If you examine the `environment.prod.ts` file under the `angular/src/environments` folder, **there is a remote environment configuration for production**:
 
 ```json
 remoteEnv: {
@@ -910,7 +910,7 @@ Now lets break down each docker compose service under the `docker-compose.yml` f
 
 {{ if UI == "Blazor" }}
 
-**bookstore-blazor:**
+### bookstore-blazor
 
 ```yaml
 services:
@@ -980,7 +980,7 @@ This is the Blazor application we deploy on http://localhost:44307 by default us
 
 > This service runs in docker network called `abp-network`,  awaits for the the `bookstore-api` to start up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
 
-**bookstore-api:**
+### bookstore-api
 
 ```yaml
 bookstore-api:
@@ -995,57 +995,57 @@ bookstore-api:
       - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
       - Kestrel__Certificates__Default__Password=91f91912-5ab0-49df-8166-23377efaf3cc
       - App__SelfUrl=https://localhost:44354
-      - App__CorsOrigins=http://localhost:44307
-      - App__HealthCheckUrl=http://bookstore-api/health-status  
-      {{ if Tiered == "Yes" }}
-      - AuthServer__Authority=http://bookstore-authserver
-      {{ end }}
-      {{ if Tiered == "No" }}
-      - AuthServer__Authority=http://bookstore-api
-      {{ end }}
+	  - App__CorsOrigins=http://localhost:44307
+      - App__HealthCheckUrl=http://bookstore-api/health-status
+  {{ if Tiered == "Yes" }}
+	  - AuthServer__Authority=http://bookstore-authserver
+  {{ end }}
+  {{ if Tiered == "No" }}
+	  - AuthServer__Authority=http://bookstore-api
+  {{ end }}
       - AuthServer__RequireHttpsMetadata=false
-      {{ if DB == "EF" }}
+  {{ if DB == "EF" }}
       - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
-      {{ end }}
-      {{ if DB == "Mongo" }}
+  {{ end }}
+  {{ if DB == "Mongo" }}
       - ConnectionStrings__Default=mongodb://mongodb/BookStore 
-      {{ end }}
-      {{ if Tiered == "Yes" }}
+  {{ end }}
+  {{ if Tiered == "Yes" }}
       - Redis__Configuration=redis
-      {{ end }}
+  {{ end }}
     ports:
       - "44354:443"
     depends_on:
-     {{ if DB == "EF" }}
+ {{ if DB == "EF" }}
       sql-server:
         condition: service_healthy
-    {{ end }}      
-    {{ if DB == "Mongo" }}
+ {{ end }}      
+ {{ if DB == "Mongo" }}
    	  mongo-db:
         condition: service_healthy
-    {{ end }}
-    {{ if Tiered == "Yes" }}
+ {{ end }}
+ {{ if Tiered == "Yes" }}
       redis:
         condition: service_healthy
-    {{ end }}
-    restart: on-failure    
+    restart: on-failure
+ {{ end }}    
     volumes:
       - ./certs:/root/certificate
     networks:
       - abp-network
 ```
 
-This service is the **backend** of our blazor application using the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+This service is the **backend** application of the blazor application that is using the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
 
-- `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44354`
+- `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44354`. It must point to a **real DNS when deploying to production**.
 
-- `App__CorsOrigins` is the override configuration for CORS. We add the Blazor application URL here `http://localhost:44307`
+- `App__CorsOrigins` is the override configuration for CORS. We add the angular application URL here `http://4200`. It must point to a **real DNS when deploying to production**.
 
 - `App__HealthCheckUrl` is the health check url. Since this request will be done **internally**, it points to the **service name** in containerized environment `http://bookstore-api/health-status`
 
 - `AuthServer__Authority` is the issuer URL.  {{ if Tiered == "Yes" }} `http://bookstore-authserver` {{ end }}{{ if Tiered == "No" }} `http://bookstore-api` {{ end }} is the containerized issuer. It must point to a **real DNS when deploying to production**.
 
-- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Since we are using isolated internal docker network, we want to use HTTP, therefore it is set to `false` by default.
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. {{ if Tiered == "Yes" }}Since we are using isolated internal docker network. We want to use the HTTP in internal network communication without SSL overhead, therefore it is set to `false` by default. {{ end }}{{ if Tiered == "No" }} Since the backend itself is the openid-provider,  we set it `true` by default.{{ end }}
 
 - `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
 
@@ -1057,11 +1057,108 @@ This service is the **backend** of our blazor application using the `acme/bookst
 
 > This service runs in docker network called `abp-network`,  awaits for {{ if Tiered == "Yes" }}the redis service and {{ end }}the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
 
+{{ if Tiered == "Yes" }}
+
+### bookstore-authserver
+
+```yaml
+bookstore-authserver:
+    image: acme/bookstore-authserver:latest
+    container_name: bookstore-authserver
+    build:
+      context: ../../
+      dockerfile: src/Acme.BookStore.AuthServer/Dockerfile.local
+    environment:
+      - ASPNETCORE_URLS=https://+:443;http://+:80;      
+      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Password=91f91912-5ab0-49df-8166-23377efaf3cc
+      - App__SelfUrl=https://localhost:44334
+      - App__CorsOrigins=http://localhost:44307
+      - AuthServer__Authority=http://bookstore-authserver
+      - AuthServer__RequireHttpsMetadata=false
+      {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
+      {{ end }}
+      {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
+      {{ end }}
+      - Redis__Configuration=redis
+    ports:
+      - "44334:443"
+    depends_on:
+     {{ if DB == "EF" }}
+      sql-server:
+        condition: service_healthy
+    {{ end }}      
+    {{ if DB == "Mongo" }}
+   	  mongo-db:
+        condition: service_healthy
+    {{ end }}   
+    restart: on-failure
+    volumes:
+      - ./certs:/root/certificate
+    networks:
+      - abp-network
+```
+
+This is the authentication server application that handles the authentication between applications using the OpenIddict library.  It is using the `acme/bookstore-authserver:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44334` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+
+- `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44334`. It must point to a **real DNS when deploying to production**.
+
+- `App__CorsOrigins` is the override configuration for CORS. We add the angular and the blazor application URLs here by default. It must point to a **real DNS when deploying to production**.
+
+- `AuthServer__Authority` is the issuer URL.  `http://bookstore-authserver` is the endpoint for the authserver by default. It must point to a **real DNS when deploying to production**.
+
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Since we are using isolated internal docker network. We want to use the HTTP in internal network communication without SSL overhead, therefore it is set to `false` by default. 
+
+- `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
+
+- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+
+> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+
+{{ end }}
+
+### db-migrator
+
+```yaml
+db-migrator:
+    image: acme/bookstore-db-migrator:latest
+    container_name: db-migrator
+    build:
+      context: ../../
+      dockerfile: src/BookStore.DbMigrator/Dockerfile.local
+    environment:
+      - OpenIddict__Applications__BookStore_Blazor__RootUrl=http://localhost:44307
+      {{ if Tiered == "Yes" }}
+      - OpenIddict__Applications__BookStore_Swagger__RootUrl=https://localhost:44354
+      {{ end }}
+      {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
+      {{ end }}
+      {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
+      {{ end }}
+    depends_on:
+     {{ if DB == "EF" }}
+      sql-server:
+        condition: service_healthy
+    {{ end }}      
+    {{ if DB == "Mongo" }}
+   	  mongo-db:
+        condition: service_healthy
+    {{ end }}    
+    networks:
+      - abp-network
+```
+
+This is the database migrator service that migrates the database and seeds the initial data. **OpenIddict data** is one of the most important seeded data for your application to run. On **production environment,** you need to override the root URL of your application (http://localhost:44307) {{ if Tiered == "Yes" }} and the swagger-ui client URL (https://localhost:44354){{ end }} so that the authentication can work properly.
+
 {{ end }}
 
 {{ if UI == "NG" }}
 
-**bookstore-angular:**
+### bookstore-angular
 
 ```yaml
 services:
@@ -1084,5 +1181,319 @@ services:
 This is the angular application we deploy on http://localhost:4200 by default using the image we have built using the `build-images-locally.ps1` script. **It is not running on HTTPS** using the `localhost.pfx` since it is running on **Nginx** and it doesn't accept `pfx` files for SSL. You can check [Nginx Configuring HTTPS Servers documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) for more information and apply necessary configurations it to `nginx.conf` file under the `angular` folder. 
 
 > Don't forget to rebuild the `acme/bookstore-angular:latest` image after updating the `nginx.conf` file.
+
+The bookstore-angular service mounts the `etc/docker/dynamic-env.json` file to change the existing dynamic-env.json file which is copied during image creation, to change the environment variables on deployment time instead of re-creating the docker image after each environmental variable change. **Do not forget to override the `dynamic-env.json` located under the `aspnet-core/etc/docker`** folder.
+
+​	{{ if Tiered == "No" }}
+
+```json
+{
+  "production": true,
+  "application": {
+    "baseUrl":"http://localhost:4200",		// https://myapp.com
+    "name": "BookStore",
+    "logoUrl": ""
+  },
+  "oAuthConfig": {
+    "issuer": "https://localhost:44354/", 	// https://myapi.com/
+    "redirectUri": "http://localhost:4200", // https://myapp.com
+    "clientId": "BookStore_App",
+    "responseType": "code",
+    "scope": "offline_access openid profile email phone BookStore"
+  },
+  "apis": {
+    "default": {
+      "url": "https://localhost:44354",		// https://myapi.com
+      "rootNamespace": "BookStore"
+    },
+    "AbpAccountPublic": {
+      "url": "https://localhost:44354",		// https://myapi.com
+      "rootNamespace": "AbpAccountPublic"
+    }
+  }
+}
+```
+
+​	{{ end }}
+
+​	{{ if Tiered == "Yes" }}
+
+```json
+{
+  "production": true,
+  "application": {
+    "baseUrl":"http://localhost:4200",		// https://myapp.com
+    "name": "BookStore",
+    "logoUrl": ""
+  },
+  "oAuthConfig": {
+    "issuer": "https://localhost:44334/",	// https://myauthserver.com/
+    "redirectUri": "http://localhost:4200",	// https://myapp.com
+    "clientId": "BookStore_App",
+    "responseType": "code",
+    "scope": "offline_access openid profile email phone BookStore"
+  },
+  "apis": {
+    "default": {
+      "url": "https://localhost:44354",		// https://myapi.com
+      "rootNamespace": "BookStore"
+    },
+    "AbpAccountPublic": {
+      "url": "https://localhost:44334",		// https://myauthserver.com
+      "rootNamespace": "AbpAccountPublic"
+    }
+  }
+}
+```
+
+​	{{ end }}
+
+### bookstore-api
+
+```yaml
+bookstore-api:
+    image: acme/bookstore-api:latest
+    container_name: bookstore-api
+    hostname: bookstore-api
+    build:
+      context: ../../
+      dockerfile: src/Acme.BookStore.HttpApi.Host/Dockerfile.local
+    environment:
+      - ASPNETCORE_URLS=https://+:443;http://+:80;
+      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Password=91f91912-5ab0-49df-8166-23377efaf3cc
+      - App__SelfUrl=https://localhost:44354
+	  - App__AngularUrl=http://localhost:4200
+	  - App__CorsOrigins=http://localhost:4200
+      - App__HealthCheckUrl=http://bookstore-api/health-status
+  {{ if Tiered == "Yes" }}
+	  - AuthServer__Authority=http://bookstore-authserver
+      - AuthServer__RequireHttpsMetadata=false
+  {{ end }}
+  {{ if Tiered == "No" }}
+	  - AuthServer__Authority=https://localhost:44354
+      - AuthServer__RequireHttpsMetadata=true
+  {{ end }}
+  {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
+  {{ end }}
+  {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
+  {{ end }}
+      - Redis__Configuration=redis
+    ports:
+      - "44354:443"
+    depends_on:
+ {{ if DB == "EF" }}
+      sql-server:
+        condition: service_healthy
+ {{ end }}      
+ {{ if DB == "Mongo" }}
+   	  mongo-db:
+        condition: service_healthy
+ {{ end }}
+      redis:
+        condition: service_healthy
+    restart: on-failure    
+    volumes:
+      - ./certs:/root/certificate
+    networks:
+      - abp-network
+```
+
+This service is the **backend** application of the angular application that is using the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+
+- `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44354`. It must point to a **real DNS when deploying to production**.
+
+- `App__CorsOrigins` is the override configuration for CORS. We add the angular application URL here `http://4200`. It must point to a **real DNS when deploying to production**.
+
+- `App__HealthCheckUrl` is the health check url. Since this request will be done **internally**, it points to the **service name** in containerized environment `http://bookstore-api/health-status`
+
+- `AuthServer__Authority` is the issuer URL.  {{ if Tiered == "Yes" }} `http://bookstore-authserver` {{ end }}{{ if Tiered == "No" }} `http://bookstore-api` {{ end }} is the containerized issuer. It must point to a **real DNS when deploying to production**.
+
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. {{ if Tiered == "Yes" }}Since we are using isolated internal docker network. We want to use the HTTP in internal network communication without SSL overhead, therefore it is set to `false` by default. {{ end }}{{ if Tiered == "No" }} Since the backend itself is the openid-provider,  we set it `true` by default.{{ end }}
+
+- `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
+
+- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+
+> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+
+### db-migrator
+
+```yaml
+db-migrator:
+    image: acme/bookstore-db-migrator:latest
+    container_name: db-migrator
+    build:
+      context: ../../
+      dockerfile: src/BookStore.DbMigrator/Dockerfile.local
+    environment:
+      - OpenIddict__Applications__BookStore_App__RootUrl=http://localhost:4200
+      {{ if Tiered == "Yes" }}
+      - OpenIddict__Applications__BookStore_Swagger__RootUrl=https://localhost:44354
+      {{ end }}
+      {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
+      {{ end }}
+      {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
+      {{ end }}
+    depends_on:
+     {{ if DB == "EF" }}
+      sql-server:
+        condition: service_healthy
+    {{ end }}      
+    {{ if DB == "Mongo" }}
+   	  mongo-db:
+        condition: service_healthy
+    {{ end }}    
+    networks:
+      - abp-network
+```
+
+This is the database migrator service that migrates the database and seeds the initial data. **OpenIddict data** is one of the most important seeded data for your application to run. On **production environment,** you need to override the root URL of your application (http://localhost:4200) and the swagger-ui client URL (https://localhost:44354) so that the authentication can work properly.
+
+{{ end }}
+
+
+
+
+
+{{ if UI == "MVC" }}
+
+​	{{ if Tiered == "Yes" }}
+
+### bookstore-api
+
+```yaml
+bookstore-api:
+    image: acme/bookstore-api:latest
+    container_name: bookstore-api
+    hostname: bookstore-api
+    build:
+      context: ../../
+      dockerfile: src/Acme.BookStore.HttpApi.Host/Dockerfile.local
+    environment:
+      - ASPNETCORE_URLS=https://+:443;http://+:80;
+      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Password=91f91912-5ab0-49df-8166-23377efaf3cc
+      - App__SelfUrl=https://localhost:44354
+      - App__HealthCheckUrl=http://bookstore-api/health-status
+	  - AuthServer__Authority=http://bookstore-authserver
+      - AuthServer__RequireHttpsMetadata=false
+  {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
+  {{ end }}
+  {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
+  {{ end }}
+      - Redis__Configuration=redis
+    ports:
+      - "44354:443"
+    depends_on:
+ {{ if DB == "EF" }}
+      sql-server:
+        condition: service_healthy
+ {{ end }}      
+ {{ if DB == "Mongo" }}
+   	  mongo-db:
+        condition: service_healthy
+ {{ end }}
+      redis:
+        condition: service_healthy
+    restart: on-failure
+    volumes:
+      - ./certs:/root/certificate
+    networks:
+      - abp-network
+```
+
+This service is the **backend** application of the MVC/Razor Page application that is using the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+
+- `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44354`. It must point to a **real DNS when deploying to production**.
+
+- `App__HealthCheckUrl` is the health check url. Since this request will be done **internally**, it points to the **service name** in containerized environment `http://bookstore-api/health-status`
+
+- `AuthServer__Authority` is the issuer URL.   `http://bookstore-authserver` is the containerized issuer. It must point to a **real DNS when deploying to production**.
+
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Since we are using isolated internal docker network. We want to use the HTTP in internal network communication without SSL overhead, therefore it is set to `false` by default. 
+
+- `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
+
+- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+
+> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+
+​	{{ end }}
+
+{{ end }}
+
+{{ if UI == "BlazorServer" }}
+
+​	{{ if Tiered == "Yes" }}
+
+### bookstore-api
+
+```yaml
+bookstore-api:
+    image: acme/bookstore-api:latest
+    container_name: bookstore-api
+    hostname: bookstore-api
+    build:
+      context: ../../
+      dockerfile: src/Acme.BookStore.HttpApi.Host/Dockerfile.local
+    environment:
+      - ASPNETCORE_URLS=https://+:443;http://+:80;
+      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Password=91f91912-5ab0-49df-8166-23377efaf3cc
+      - App__SelfUrl=https://localhost:44354
+      - App__HealthCheckUrl=http://bookstore-api/health-status
+	  - AuthServer__Authority=http://bookstore-authserver
+      - AuthServer__RequireHttpsMetadata=false
+  {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
+  {{ end }}
+  {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
+  {{ end }}
+      - Redis__Configuration=redis
+    ports:
+      - "44354:443"
+    depends_on:
+ {{ if DB == "EF" }}
+      sql-server:
+        condition: service_healthy
+ {{ end }}      
+ {{ if DB == "Mongo" }}
+   	  mongo-db:
+        condition: service_healthy
+ {{ end }}
+      redis:
+        condition: service_healthy
+    restart: on-failure
+    volumes:
+      - ./certs:/root/certificate
+    networks:
+      - abp-network
+```
+
+This service is the **backend** application of the Blazor Server application that is using the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+
+- `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44354`. It must point to a **real DNS when deploying to production**.
+
+- `App__HealthCheckUrl` is the health check url. Since this request will be done **internally**, it points to the **service name** in containerized environment `http://bookstore-api/health-status`
+
+- `AuthServer__Authority` is the issuer URL.  `http://bookstore-authserver` is the containerized issuer. It must point to a **real DNS when deploying to production**.
+
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Since we are using isolated internal docker network. We want to use the HTTP in internal network communication without SSL overhead, therefore it is set to `false` by default. 
+
+- `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
+
+- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+
+> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+
+​	{{ end }}
 
 {{ end }}
