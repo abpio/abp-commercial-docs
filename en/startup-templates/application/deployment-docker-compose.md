@@ -1473,7 +1473,7 @@ bookstore-web:
       - abp-network
 ```
 
-This is the MVC/Razor Page application we deploy on https://localhost:44353 by default using the `acme/bookstore-web:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44353` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+This is the MVC/Razor Page application docker service is using the `acme/bookstore-web:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44353` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
 
 {{ if Tiered == "Yes" }}
 
@@ -1678,7 +1678,94 @@ This is the database migrator service that migrates the database and seeds the i
 
 {{ if UI == "BlazorServer" }}
 
+### bookstore-blazor
 
+```yaml
+bookstore-blazor:
+    image: acme/bookstore-blazor:latest
+    container_name: bookstore-blazor
+    build:
+      context: ../../
+      dockerfile: src/Acme.BookStore.Blazor/Dockerfile.local
+    environment:
+      - ASPNETCORE_URLS=https://+:443;http://+:80;
+      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Password=91f91912-5ab0-49df-8166-23377efaf3cc
+      - App__SelfUrl=https://localhost:44314
+      - AuthServer__RequireHttpsMetadata=false      
+  {{ if Tiered == "Yes" }}
+  	  - AuthServer__IsContainerizedOnLocalhost=true
+	  - AuthServer__Authority=https://localhost:44334/
+      - AuthServer__MetaAddress=http://bookstore-authserver
+      - RemoteServices__Default__BaseUrl=http://bookstore-api
+      - RemoteServices__AbpAccountPublic__BaseUrl=http://bookstore-authserver
+  {{ end }}
+  {{ if Tiered == "No" }}
+	  - AuthServer__Authority=http://bookstore-blazor
+  {{ end }}  
+	{{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
+	{{ end }}
+	{{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
+	{{ end }}
+	{{ if Tiered == "Yes" }}
+      - Redis__Configuration=redis
+  	{{ end }}
+    ports:
+      - "44353:443"
+    {{ if Tiered == "Yes" }}
+    depends_on:
+      - bookstore-api
+  	{{ end }}
+    restart: on-failure
+    volumes:
+      - ./certs:/root/certificate
+    networks:
+      - abp-network
+```
+
+This is the Blazor Server application docker service is using the `acme/bookstore-blazor:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44314` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+
+{{ if Tiered == "Yes" }}
+
+The Blazor Server is a server-side rendering application that uses the **hybrid flow**. This flow uses **browser** to login/logout process to the openid-provider but issues the **access_token from the back-channel** (server-side). To achieve this functionality, the module class has extra `OpenIdConnectOptions` to override some of the events.
+
+{{ end }}
+
+- `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44314`. It must point to a **real DNS when deploying to production**.
+
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Since we are using isolated internal docker network. We want to use HTTP in the internal network communication without SSL overhead, therefore it is set to `false` by default. 
+
+  {{ if Tiered == "Yes" }}
+
+- `AuthServer__IsContainerizedOnLocalhost` is the configuration to enable the **OpenIdConnectOptions** to provide different endpoint for the MetaAddress of the openid-provider and intercepting the URLS for *authorization* and *logout* endpoints.
+
+- `AuthServer__MetaAddress` is the `.well-known/openid-configuration` endpoint for issuing the access_token and internal token validation. It is the containerized `http://bookstore-authserver` by default.
+
+- `AuthServer__Authority` is the issuer URL.   `https://localhost:44334/` is the issuer that the application redirects to on `authorization` and `logout` process. It must point to a **real DNS when deploying to production**.
+
+- `RemoteServices__Default__BaseUrl` is the backend; API endpoint application uses the access_token to get the resources. It is the containerized `http://bookstore-api` by default.
+
+- `RemoteServices__AbpAccountPublic__BaseUrl` is the account URL used to get the profile picture of the user. Since account related information is located in the authserver, it is the containerized `http://bookstore-authserver` by default.
+
+  {{ end }}
+
+  {{ if Tiered == "No" }}
+
+- `AuthServer__Authority` is the issuer URL.   `http://bookstore-blazor` is the containerized issuer. It must point to a **real DNS when deploying to production**.
+
+  {{ end }}
+
+- `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
+
+  {{ if Tiered == "Yes" }}
+
+- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+
+  {{ end }}
+
+> This service runs in docker network called `abp-network`. {{ if Tiered == "Yes" }}It awaits for the redis service and the bookstore-api containers for starting up.{{ end }} It also restarts when fails. You can customize these orchestration behaviours as you prefer.
 
 ​	{{ if Tiered == "Yes" }}
 
@@ -1727,13 +1814,13 @@ bookstore-api:
       - abp-network
 ```
 
-This service is the **backend** application of the Blazor Server application that is using the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+This service is the **backend** application of the MVC/Razor Page application that is using the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
 
 - `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44354`. It must point to a **real DNS when deploying to production**.
 
 - `App__HealthCheckUrl` is the health check url. Since this request will be done **internally**, it points to the **service name** in containerized environment `http://bookstore-api/health-status`
 
-- `AuthServer__Authority` is the issuer URL.  `http://bookstore-authserver` is the containerized issuer. It must point to a **real DNS when deploying to production**.
+- `AuthServer__Authority` is the issuer URL.   `http://bookstore-authserver` is the containerized issuer. It must point to a **real DNS when deploying to production**.
 
 - `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Since we are using isolated internal docker network. We want to use HTTP in the internal network communication without SSL overhead, therefore it is set to `false` by default. 
 
@@ -1741,8 +1828,98 @@ This service is the **backend** application of the Blazor Server application tha
 
 - `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
 
+> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
+
+### bookstore-authserver
+
+```yaml
+bookstore-authserver:
+    image: acme/bookstore-authserver:latest
+    container_name: bookstore-authserver
+    build:
+      context: ../../
+      dockerfile: src/Acme.BookStore.AuthServer/Dockerfile.local
+    environment:
+      - ASPNETCORE_URLS=https://+:443;http://+:80;      
+      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Password=91f91912-5ab0-49df-8166-23377efaf3cc
+      - App__SelfUrl=https://localhost:44334
+      - AuthServer__Authority=http://bookstore-authserver
+      - AuthServer__RequireHttpsMetadata=false
+      {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
+      {{ end }}
+      {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
+      {{ end }}
+      - Redis__Configuration=redis
+    ports:
+      - "44334:443"
+    depends_on:
+     {{ if DB == "EF" }}
+      sql-server:
+        condition: service_healthy
+    {{ end }}      
+    {{ if DB == "Mongo" }}
+   	  mongo-db:
+        condition: service_healthy
+    {{ end }}
+      redis:
+        condition: service_healthy
+    restart: on-failure
+    volumes:
+      - ./certs:/root/certificate
+    networks:
+      - abp-network
+```
+
+This is the authentication server application that handles the authentication between applications using the OpenIddict library.  It is using the `acme/bookstore-authserver:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44334` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+
+- `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44334`. It must point to a **real DNS when deploying to production**.
+- `AuthServer__Authority` is the issuer URL.  `http://bookstore-authserver` is the endpoint for the authserver by default. 
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Docker-compose is using isolated internal docker network called `abp-network`. It is set to `false` by default. 
+- `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
+- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+
 > This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
 
 ​	{{ end }}
+
+### db-migrator
+
+```yaml
+db-migrator:
+    image: acme/bookstore-db-migrator:latest
+    container_name: db-migrator
+    build:
+      context: ../../
+      dockerfile: src/BookStore.DbMigrator/Dockerfile.local
+    environment:
+      - OpenIddict__Applications__BookStore_BlazorServerTiered__RootUrl=https://localhost:44314
+      {{ if Tiered == "Yes" }}
+      - OpenIddict__Applications__BookStore_Swagger__RootUrl=https://localhost:44354
+      {{ end }}
+      {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
+      {{ end }}
+      {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
+      {{ end }}
+    depends_on:
+     {{ if DB == "EF" }}
+      sql-server:
+        condition: service_healthy
+    {{ end }}      
+    {{ if DB == "Mongo" }}
+   	  mongo-db:
+        condition: service_healthy
+    {{ end }}    
+    networks:
+      - abp-network
+```
+
+This is the database migrator service that migrates the database and seeds the initial data. **OpenIddict data** is one of the most important seeded data for your application to run. On **production environment,** you need to override the root URL of your application (https://localhost:44353) and the swagger-ui client URL (https://localhost:44354) so that the authentication can work properly.
+
+> This service runs in docker network called `abp-network`,  awaits for the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
 
 {{ end }}
