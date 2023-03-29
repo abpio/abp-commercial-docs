@@ -1,6 +1,6 @@
 # Why ABP.IO Platform?
 
-This document aims to answer to the big question:
+This document aims to answer the big question:
 
 > "Why should you use the ABP.IO Platform instead of creating a new solution from scratch?"
 
