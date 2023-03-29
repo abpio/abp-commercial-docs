@@ -488,16 +488,6 @@
           "path": "aspnet-zero-vs-abp-commercial.md"
         },
         {
-          "text": "How to?",
-          "path": "how-to/index.md",
-          "items": [
-            {
-              "text": "Implementing Passwordless Authentication",
-              "path": "how-to/implementing-passwordless-authentication.md"
-            }
-          ]
-        },
-        {
           "text": "Why ABP.IO Platform?",
           "path": "why-abp-io-platform.md"
         },
