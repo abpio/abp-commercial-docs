@@ -126,6 +126,10 @@
                   "path": "getting-started-react-native.md"
                 }
               ]
+            },
+            {
+              "text": "Deployment",
+              "path": "startup-templates/application/deployment.md"
             }
           ]
         },
