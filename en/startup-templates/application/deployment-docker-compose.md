@@ -931,7 +931,7 @@ services:
       - abp-network
 ```
 
-This is the Blazor application we deploy on http://localhost:44307 by default using the `acme/bookstore-blazor:latest` image we have built using the `build-images-locally.ps1` script. **It is not running on HTTPS** using the `localhost.pfx` since it is running on **Nginx** and it doesn't accept `pfx` files for SSL. You can check [Nginx Configuring HTTPS Servers documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) for more information and apply necessary configurations it to `nginx.conf` file under the `Blazor` folder. 
+This is the Blazor application we deploy on http://localhost:44307 by default using the `acme/bookstore-blazor:latest` image that we have built using the `build-images-locally.ps1` script. **It is not running on HTTPS** using the `localhost.pfx` since it is running on **Nginx** and it doesn't accept `pfx` files for SSL. You can check [Nginx Configuring HTTPS Servers documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) for more information and apply necessary configurations it to `nginx.conf` file under the `Blazor` folder. 
 
 > Don't forget to rebuild the `acme/bookstore-blazor:latest` image after updating the `nginx.conf` file.
 
@@ -978,7 +978,7 @@ This is the Blazor application we deploy on http://localhost:44307 by default us
 
 ```
 
-> This service runs in docker network called `abp-network`,  awaits for the the `bookstore-api` to start up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+> This service runs in docker network called `abp-network`,  awaits for the the `bookstore-api` to start up and restarts when fails. You can customize these orchestration behaviours as you prefer.
 
 ### bookstore-api
 
@@ -1055,7 +1055,7 @@ This service is the **backend** application of the blazor application that is us
 
   {{ end }}
 
-> This service runs in docker network called `abp-network`,  awaits for {{ if Tiered == "Yes" }}the redis service and {{ end }}the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+> This service runs in docker network called `abp-network`,  awaits for {{ if Tiered == "Yes" }}the redis service and {{ end }}the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
 
 {{ if Tiered == "Yes" }}
 
@@ -1115,7 +1115,7 @@ This is the authentication server application that handles the authentication be
 
 - `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
 
-> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
 
 {{ end }}
 
@@ -1178,7 +1178,7 @@ services:
       - abp-network
 ```
 
-This is the angular application we deploy on http://localhost:4200 by default using the image we have built using the `build-images-locally.ps1` script. **It is not running on HTTPS** using the `localhost.pfx` since it is running on **Nginx** and it doesn't accept `pfx` files for SSL. You can check [Nginx Configuring HTTPS Servers documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) for more information and apply necessary configurations it to `nginx.conf` file under the `angular` folder. 
+This is the angular application we deploy on http://localhost:4200 by default using the image that we have built using the `build-images-locally.ps1` script. **It is not running on HTTPS** using the `localhost.pfx` since it is running on **Nginx** and it doesn't accept `pfx` files for SSL. You can check [Nginx Configuring HTTPS Servers documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) for more information and apply necessary configurations it to `nginx.conf` file under the `angular` folder. 
 
 > Don't forget to rebuild the `acme/bookstore-angular:latest` image after updating the `nginx.conf` file.
 
@@ -1326,7 +1326,7 @@ This service is the **backend** application of the angular application that is u
 
 - `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
 
-> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
 
 {{ if Tiered == "Yes" }}
 
@@ -1383,7 +1383,7 @@ This is the authentication server application that handles the authentication be
 - `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
 - `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
 
-> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
 
 {{ end }}
 
@@ -1422,7 +1422,7 @@ db-migrator:
 
 This is the database migrator service that migrates the database and seeds the initial data. **OpenIddict data** is one of the most important seeded data for your application to run. On **production environment,** you need to override the root URL of your application (http://localhost:4200) and the swagger-ui client URL (https://localhost:44354) so that the authentication can work properly.
 
-> This service runs in docker network called `abp-network`,  awaits for the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+> This service runs in docker network called `abp-network`,  awaits for the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
 
 {{ end }}
 
@@ -1473,13 +1473,53 @@ bookstore-web:
       - abp-network
 ```
 
-This is the MVC/Razor Page application docker service is using the `acme/bookstore-web:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44353` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+This is the MVC/Razor Page application docker service is using the `acme/bookstore-web:latest` image that we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44353` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
 
-{{ if Tiered == "Yes" }}
+​	{{ if Tiered == "Yes" }}
 
-The MVC/Razor Page is a server-side rendering application that uses the **hybrid flow**. This flow uses **browser** to login/logout process to the openid-provider but issues the **access_token from the back-channel** (server-side). To achieve this functionality, the module class has extra `OpenIdConnectOptions` to override some of the events.
+The MVC/Razor Page is a server-side rendering application that uses the **hybrid flow**. This flow uses **browser** to login/logout process to the openid-provider but issues the **access_token from the back-channel** (server-side). To achieve this functionality, the module class has extra `OpenIdConnectOptions` to override some of the events:
 
-{{ end }}
+```csharp
+if (Convert.ToBoolean(configuration["AuthServer:IsContainerizedOnLocalhost"]))
+{
+    context.Services.Configure<OpenIdConnectOptions>("oidc", options =>
+    {
+        options.TokenValidationParameters.ValidIssuers = new[]
+        {
+            configuration["AuthServer:MetaAddress"].EnsureEndsWith('/'), 
+            configuration["AuthServer:Authority"].EnsureEndsWith('/')
+        };
+
+        options.MetadataAddress = configuration["AuthServer:MetaAddress"].EnsureEndsWith('/') +
+                                ".well-known/openid-configuration";
+
+        var previousOnRedirectToIdentityProvider = options.Events.OnRedirectToIdentityProvider;
+        options.Events.OnRedirectToIdentityProvider = async ctx =>
+        {
+            // Intercept the redirection so the browser navigates to the right URL in your host
+            ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') + "connect/authorize";
+
+            if (previousOnRedirectToIdentityProvider != null)
+            {
+                await previousOnRedirectToIdentityProvider(ctx);
+            }
+        };
+        var previousOnRedirectToIdentityProviderForSignOut = options.Events.OnRedirectToIdentityProviderForSignOut;
+        options.Events.OnRedirectToIdentityProviderForSignOut = async ctx =>
+        {
+            // Intercept the redirection for signout so the browser navigates to the right URL in your host
+            ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') + "connect/logout";
+
+            if (previousOnRedirectToIdentityProviderForSignOut != null)
+            {
+                await previousOnRedirectToIdentityProviderForSignOut(ctx);
+            }
+        };
+    });
+}
+```
+
+​	{{ end }}
 
 - `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44353`. It must point to a **real DNS when deploying to production**.
 
@@ -1515,7 +1555,7 @@ The MVC/Razor Page is a server-side rendering application that uses the **hybrid
 
   {{ end }}
 
-> This service runs in docker network called `abp-network`,  awaits for {{ if Tiered == "Yes" }}the redis service and{{ end }} the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+> This service runs in docker network called `abp-network`,  awaits for {{ if Tiered == "Yes" }}the redis service and{{ end }} the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
 
 ​	{{ if Tiered == "Yes" }}
 
@@ -1578,7 +1618,7 @@ This service is the **backend** application of the MVC/Razor Page application th
 
 - `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
 
-> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
 
 ### bookstore-authserver
 
@@ -1633,7 +1673,7 @@ This is the authentication server application that handles the authentication be
 - `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
 - `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
 
-> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
 
 ​	{{ end }}
 
@@ -1672,7 +1712,7 @@ db-migrator:
 
 This is the database migrator service that migrates the database and seeds the initial data. **OpenIddict data** is one of the most important seeded data for your application to run. On **production environment,** you need to override the root URL of your application (https://localhost:44353) and the swagger-ui client URL (https://localhost:44354) so that the authentication can work properly.
 
-> This service runs in docker network called `abp-network`,  awaits for the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+> This service runs in docker network called `abp-network`,  awaits for the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
 
 {{ end }}
 
@@ -1725,11 +1765,51 @@ bookstore-blazor:
       - abp-network
 ```
 
-This is the Blazor Server application docker service is using the `acme/bookstore-blazor:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44314` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+This is the Blazor Server application docker service is using the `acme/bookstore-blazor:latest` image that we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44314` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
 
 {{ if Tiered == "Yes" }}
 
-The Blazor Server is a server-side rendering application that uses the **hybrid flow**. This flow uses **browser** to login/logout process to the openid-provider but issues the **access_token from the back-channel** (server-side). To achieve this functionality, the module class has extra `OpenIdConnectOptions` to override some of the events.
+The Blazor Server is a server-side rendering application that uses the **hybrid flow**. This flow uses **browser** to login/logout process to the openid-provider but issues the **access_token from the back-channel** (server-side). To achieve this functionality, the module class has extra `OpenIdConnectOptions` to override some of the events:
+
+```csharp
+if (Convert.ToBoolean(configuration["AuthServer:IsContainerizedOnLocalhost"]))
+{
+    context.Services.Configure<OpenIdConnectOptions>("oidc", options =>
+    {
+        options.TokenValidationParameters.ValidIssuers = new[]
+        {
+            configuration["AuthServer:MetaAddress"].EnsureEndsWith('/'), 
+            configuration["AuthServer:Authority"].EnsureEndsWith('/')
+        };
+
+        options.MetadataAddress = configuration["AuthServer:MetaAddress"].EnsureEndsWith('/') +
+                                ".well-known/openid-configuration";
+
+        var previousOnRedirectToIdentityProvider = options.Events.OnRedirectToIdentityProvider;
+        options.Events.OnRedirectToIdentityProvider = async ctx =>
+        {
+            // Intercept the redirection so the browser navigates to the right URL in your host
+            ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') + "connect/authorize";
+
+            if (previousOnRedirectToIdentityProvider != null)
+            {
+                await previousOnRedirectToIdentityProvider(ctx);
+            }
+        };
+        var previousOnRedirectToIdentityProviderForSignOut = options.Events.OnRedirectToIdentityProviderForSignOut;
+        options.Events.OnRedirectToIdentityProviderForSignOut = async ctx =>
+        {
+            // Intercept the redirection for signout so the browser navigates to the right URL in your host
+            ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') + "connect/logout";
+
+            if (previousOnRedirectToIdentityProviderForSignOut != null)
+            {
+                await previousOnRedirectToIdentityProviderForSignOut(ctx);
+            }
+        };
+    });
+}
+```
 
 {{ end }}
 
@@ -1881,7 +1961,7 @@ This is the authentication server application that handles the authentication be
 - `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
 - `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
 
-> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
 
 ​	{{ end }}
 
@@ -1920,6 +2000,6 @@ db-migrator:
 
 This is the database migrator service that migrates the database and seeds the initial data. **OpenIddict data** is one of the most important seeded data for your application to run. On **production environment,** you need to override the root URL of your application (https://localhost:44353) and the swagger-ui client URL (https://localhost:44354) so that the authentication can work properly.
 
-> This service runs in docker network called `abp-network`,  awaits for the database container for starting up and restarts when fails. You can remove `depends_on` and `restart` sections if you don't want these orchestration behaviours.
+> This service runs in docker network called `abp-network`,  awaits for the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
 
 {{ end }}
