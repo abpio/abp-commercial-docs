@@ -88,4 +88,4 @@ If everything is ok, you can remove the `@volo/abp.ng.theme.lepton` in package.j
 
 In order to migrate to LeptonX on your server side projects (Host and/or IdentityServer projects), please follow [Server Side Migration](mvc.md) document.
 
-If you want to create your own layout, [see the docs] (./how-to-use-lepton-x-components-with-angular-custom-layout)
+If you want to create your own layout, [see the docs](https://github.com/abpio/abp-commercial-docs/blob/dev/en/themes/lepton-x/how-to-use-lepton-x-components-with-angular-custom-layout.md)
