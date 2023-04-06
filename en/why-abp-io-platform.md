@@ -223,3 +223,7 @@ So, for most systems, the performance overhead can be safely ignored. For others
 **ABP is not a CMS** (Content Management System). It is a **generic business application development framework**. The Framework doesn't make any assumption for CMS or any applications. It is well-layered so that the core modules are Web or ASP.NET Core independent and can be used to develop console applications, background services or any .NET compatible application.
 
 By the way, the ABP Framework provides modularity, and a CMS module or CMS system can be developed on top of it. We are already providing a [CMS Kit module](modules/cms-kit/index.md) that provides some common CMS primitives so that you can build your CMS on top of it.
+
+## See Also
+
+* **[ABP Community Talk 2023.2: Why Should You Use the ABP Framework as a .NET Developer?](https://community.abp.io/events/why-should-you-use-the-abp-framework-as-a-.net-developer-xd489a48)**
