@@ -1,6 +1,19 @@
 # Release Notes / Change Logs / Version History
 
-This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version.
+This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version. Also, they generally don't cover the features made in the open-source ABP Framework. For the ABP Framework features, check blog post for the related version.
+
+## 7.0 (2023-01-05)
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-7.0-Final-Has-Been-Released)** for the v7.0 release.
+
+* Upgraded to **.NET 7.0**.
+* Upgraded to **OpenIddict 4.0**.
+* New **MAUI Blazor Hybrid** UI.
+* Implemented **external localization**, **dynamic feature** and **dynamic permission** systems to allow more advanced microservice scenarios. All they are applied to the **microservice startup template**.
+* **WeChat** and **Alipay** integrations for the **Payment** module.
+* Allow host users to **change the password** of a user of a tenant.
+* Allow host users to **test connection string** of a tenant database on the UI.
+* Introduce **permission** for **searching other users** in the chat module.
 
 ## 6.0 (2022-10-05)
 

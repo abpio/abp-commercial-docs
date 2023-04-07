@@ -24,11 +24,10 @@ abp new Acme.BookStore -t app-nolayers-pro
 This template provides multiple UI frameworks:
 
 * `mvc`: ASP.NET Core MVC UI with Razor Pages (default)
+* `blazor`: Blazor UI
 * `blazor-server`: Blazor Server UI
 * `angular`: Angular UI
 * `none`: Without UI (for HTTP API development)
-
-> This template doesn't have Blazor WebAssembly UI, because it requires at least 3 projects (server-side, UI and shared library between these two projects). We are recommending using the layered [application startup template](../application/index.md) for Blazor WebAssembly projects.
 
 Use the `-u` (or `--ui`) option to specify the UI framework while creating the solution:
 
@@ -36,7 +35,7 @@ Use the `-u` (or `--ui`) option to specify the UI framework while creating the s
 abp new Acme.BookStore -t app-nolayers-pro -u angular
 ```
 
-This example specifies the UI type (the `-u` option) as `angular`. You can also specify `mvc`, `blazor-server` or `none` for the UI type.
+This example specifies the UI type (the `-u` option) as `angular`. You can also specify `mvc`, `blazor`, `blazor-server` or `none` for the UI type.
 
 ### Specify the Database Provider
 
