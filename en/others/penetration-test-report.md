@@ -1,6 +1,6 @@
 # ABP Commercial Penetration Test Report
 
-The ABP Commercial MVC `v7.1.0` application template has been tested against security vulnerabilities by the [OWASP ZAP v2.11.1](https://www.zaproxy.org/) tool. The demo web application was started on the `https://localhost:44379` address. The below alerts have been reported by the pentest tool. These alerts are sorted by the risk level as high, medium, and low. The informational alerts are not mentioned in this document. 
+The ABP Commercial MVC `v7.1.1` application template has been tested against security vulnerabilities by the [OWASP ZAP v2.11.1](https://www.zaproxy.org/) tool. The demo web application was started on the `https://localhost:44379` address. The below alerts have been reported by the pentest tool. These alerts are sorted by the risk level as high, medium, and low. The informational alerts are not mentioned in this document. 
 
 Many of these alerts are **false-positive**, meaning the vulnerability scanner detected these issues, but they are not exploitable. It's clearly explained for each false-positive alert why this alert is a false-positive. 
 
@@ -14,11 +14,29 @@ There are high _(red flag)_, medium _(orange flag)_, low _(yellow flag)_, and in
 
 > The informational alerts are not mentioned in this document. These alerts are not raising any risks on your application and they are optional.
 
-### Cross Site Scripting (Persistent) [Risk: High] — Positive (Fixed)
+### Cross Site Scripting (Persistent) [Risk: High] — False Positive 
 
 * *[GET]* — https://localhost:44379/Identity/Roles/ClaimTypeEditModal?id=dd3bdf4d-1221-cd81-6cad-3a0a65d17563
 
-The above URL was reported to be vulnerable to a "Cross Site Scripting (Reflected)" attack. We fixed this problem, see the following PR for the changes: https://github.com/abpframework/abp/pull/15519.
+**Description:**
+
+Cross-site Scripting (XSS) is an attack technique that involves echoing attacker-supplied 
+code into a user's browser instance. A browser instance can be a standard web browser 
+client, or a browser object embedded in a software product such as the browser within 
+WinAmp, an RSS reader, or an email client. 
+
+There are three types of Cross-site scripting attacks: non-persistent, persistent and DOM-based.
+
+Persistent attacks occur when the malicious code is submitted to a web site where it's 
+stored for a period of time.
+
+**Solution:**
+
+For any data that will be output to another web page, especially any data that was received from external inputs, use the appropriate encoding on all non-alphanumeric characters.
+
+**Explanation:**
+
+The above URL was reported to be vulnerable to a "Cross Site Scripting (Persistent)" attack. This is a **false-positive** alert, since the response encoded while putting into the DOM.
 
 ### Path Traversal [Risk: High] - False Positive
 
@@ -84,22 +102,27 @@ Configure<AbpSecurityHeadersOptions>(options =>
 
 ### Format String Error [Risk: Medium] - Positive and False Positive 
 
-- *[GET] - https://localhost:44379/Abp/Languages/Switch?culture=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&returnUrl=%2F&uiCulture=ar*
-- *[GET] - https://localhost:44379/Abp/ApplicationLocalizationScript?cultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A*
+- *[GET] - https://localhost:44319/api/language-management/language-texts?filter=&resourceName=&baseCultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&targetCultureName=cs&getOnlyEmptyValues=false&sorting=name+asc&skipCount=0&maxResultCount=10*
+- *[GET] - https://localhost:44379/LanguageManagement/Texts/Edit?name=%27%7B0%7D%27+and+%27%7B1%7D%27+do+not+match.&targetCultureName=cs&resourceName=AbpValidation&baseCultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A*
+- *[GET] - https://localhost:44319/Abp/Languages/Switch?culture=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&returnUrl=%2F&uiCulture=ar*
+- *[GET] - https://localhost:44319/Abp/ApplicationLocalizationScript?cultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A*
 - *[POST] — https://localhost:44379/Account/Login*
-- *[POST] — https://localhost:44379/Account/Register*
 
-**Description**:
+**Description:**
 
 A Format String error occurs when the submitted data of an input string is evaluated as a command by the application.
 
-**Solution**:
+**Solution:**
 
-Rewrite the background program using proper deletion of bad character strings. This will require a recompile of the background executable. The first affected URL is being fixed by this issue https://github.com/abpframework/abp/issues/14174. 
+Rewrite the background program using proper deletion of bad character strings. This will require a recompile of the background executable. 
 
-The second one is positive and we created an issue for it. See the following issue for the progress: https://github.com/abpframework/abp/issues/15525.
+**Explanation:**
 
-The last 2 URLs are false-positive because there is no bad character string in the response. For example, the third request's response is the following and as seen there is no invalid chars in the response:
+The first two affected URLs are **positive** alerts. An internal issue has been created (#13938) for this problem and will be fixed asap.
+
+The third and fourth URLs are **false-positive** alerts. Since, it's already fixed (https://github.com/abpframework/abp/issues/14174) and there is not any bad character string in the responses of these endpoints anymore. (It displayes an error message like: *"The selected culture is not valid! Make sure you enter a valid culture name."*).
+
+The last URL is also **false-positive** alert because there is no bad character string in the response. For example, you can see the response is the following and as seen there is no invalid chars in the response:
 
 ```
 Volo.Abp.Validation.AbpValidationException: ModelState is not valid! See ValidationErrors for details.
@@ -279,7 +302,7 @@ A cookie has been set with its `SameSite` attribute set to `none`, which means t
 
 Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` for all cookies. We discussed to set the **SameSite** attribute to `strict` in the following issue https://github.com/abpframework/abp/issues/14215 and decided to leave this change to the final developer.
 
-### Cross Site Scripting Weakness (Persistent in JSON Response)
+### Cross Site Scripting Weakness (Persistent in JSON Response) [Risk: Low] - False Positive
 
 * *[GET] — https://localhost:44379/api/account/security-logs?startTime=&endTime=&action=&sorting=creationTime%20desc&skipCount=0&maxResultCount=10* 
 * *[GET] — https://localhost:44379/api/identity/organization-units/all* 
@@ -293,7 +316,11 @@ vulnerable to attack if they don't appropriately handle the data (response).
 
 **Solution:**
 
-//TODO:
+For any data that will be output to another web page, especially any data that was received from external inputs, use the appropriate encoding on all non-alphanumeric characters.
+
+**Explanation:**
+
+Most of these are validation errors generated by ABP and .NET Core itself, and these messages have been encoded. Therefore, it's a **false-positive** error and will not cause any XSS vulnerability.
 
 ### Information Disclosure - Debug Error Messages [Risk: Low] — False Positive
 
