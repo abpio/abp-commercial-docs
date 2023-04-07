@@ -14,7 +14,7 @@ There are high _(red flag)_, medium _(orange flag)_, low _(yellow flag)_, and in
 
 > The informational alerts are not mentioned in this document. These alerts are not raising any risks on your application and they are optional.
 
-### Cross Site Scripting (Persistent) [Risk: High] — False Positive 
+### Cross-Site Scripting (Persistent) [Risk: High] — False Positive 
 
 * *[GET]* — https://localhost:44379/Identity/Roles/ClaimTypeEditModal?id=dd3bdf4d-1221-cd81-6cad-3a0a65d17563
 
@@ -22,12 +22,12 @@ There are high _(red flag)_, medium _(orange flag)_, low _(yellow flag)_, and in
 
 Cross-site Scripting (XSS) is an attack technique that involves echoing attacker-supplied 
 code into a user's browser instance. A browser instance can be a standard web browser 
-client, or a browser object embedded in a software product such as the browser within 
+client or a browser object embedded in a software product such as the browser within 
 WinAmp, an RSS reader, or an email client. 
 
-There are three types of Cross-site scripting attacks: non-persistent, persistent and DOM-based.
+There are three types of Cross-site scripting attacks: non-persistent, persistent, and DOM-based.
 
-Persistent attacks occur when the malicious code is submitted to a web site where it's 
+Persistent attacks occur when the malicious code is submitted to a website where it's 
 stored for a period of time.
 
 **Solution:**
@@ -36,7 +36,7 @@ For any data that will be output to another web page, especially any data that w
 
 **Explanation:**
 
-The above URL was reported to be vulnerable to a "Cross Site Scripting (Persistent)" attack. This is a **false-positive** alert, since the response encoded while putting into the DOM.
+The above URL was reported to be vulnerable to a "Cross Site Scripting (Persistent)" attack. This is a **false-positive** alert since the response is encoded, therefore it does not cause any XSS vulnerability.
 
 ### Path Traversal [Risk: High] - False Positive
 
@@ -102,10 +102,10 @@ Configure<AbpSecurityHeadersOptions>(options =>
 
 ### Format String Error [Risk: Medium] - Positive and False Positive 
 
-- *[GET] - https://localhost:44319/api/language-management/language-texts?filter=&resourceName=&baseCultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&targetCultureName=cs&getOnlyEmptyValues=false&sorting=name+asc&skipCount=0&maxResultCount=10*
+- *[GET] - https://localhost:44379/api/language-management/language-texts?filter=&resourceName=&baseCultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&targetCultureName=cs&getOnlyEmptyValues=false&sorting=name+asc&skipCount=0&maxResultCount=10*
 - *[GET] - https://localhost:44379/LanguageManagement/Texts/Edit?name=%27%7B0%7D%27+and+%27%7B1%7D%27+do+not+match.&targetCultureName=cs&resourceName=AbpValidation&baseCultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A*
-- *[GET] - https://localhost:44319/Abp/Languages/Switch?culture=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&returnUrl=%2F&uiCulture=ar*
-- *[GET] - https://localhost:44319/Abp/ApplicationLocalizationScript?cultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A*
+- *[GET] - https://localhost:44379/Abp/Languages/Switch?culture=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&returnUrl=%2F&uiCulture=ar*
+- *[GET] - https://localhost:44379/Abp/ApplicationLocalizationScript?cultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A*
 - *[POST] — https://localhost:44379/Account/Login*
 
 **Description:**
@@ -120,9 +120,9 @@ Rewrite the background program using proper deletion of bad character strings. T
 
 The first two affected URLs are **positive** alerts. An internal issue has been created (#13938) for this problem and will be fixed asap.
 
-The third and fourth URLs are **false-positive** alerts. Since, it's already fixed (https://github.com/abpframework/abp/issues/14174) and there is not any bad character string in the responses of these endpoints anymore. (It displayes an error message like: *"The selected culture is not valid! Make sure you enter a valid culture name."*).
+The third and fourth URLs are **false-positive** alerts since it's already fixed (https://github.com/abpframework/abp/issues/14174) and there is not any bad character string in the responses of these endpoints anymore. (It displayes an error message like: *"The selected culture is not valid! Make sure you enter a valid culture name."*).
 
-The last URL is also **false-positive** alert because there is no bad character string in the response. For example, you can see the response is the following and as seen there is no invalid chars in the response:
+The last URL is also a **false-positive** alert because there is no bad character string in the response. For example, you can see the response is the following and as seen there are no invalid chars in the response:
 
 ```
 Volo.Abp.Validation.AbpValidationException: ModelState is not valid! See ValidationErrors for details.
@@ -229,7 +229,7 @@ The reported pages contain an error/warning message that may disclose sensitive 
 
 **Explanation:** 
 
-This vulnerability was reported as a **positive** alert because the application ran in `Development` mode. ABP Framework throws exceptions for developers in the `Development` environment. We set the environment to `Production` and re-run the test, then the server sent a *500-Internal Error* without the error disclosured. Therefore this alert is **false-positive**. Further information can be found in the following issue https://github.com/abpframework/abp/issues/14177.
+This vulnerability was reported as a **positive** alert because the application ran in `Development` mode. ABP Framework throws exceptions for developers in the `Development` environment. We set the environment to `Production` and re-run the test, then the server sent a *500-Internal Error* without the error is disclosed. Therefore this alert is **false-positive**. Further information can be found in the following issue:  https://github.com/abpframework/abp/issues/14177.
 
 ### Cookie No `HttpOnly`  [Risk: Low] — Positive (No need for a fix)
 
@@ -241,7 +241,7 @@ A cookie has been set without the secure flag, which means that the cookie can b
 
 **Explanation:** 
 
-The following alert is related with the next alert. Therefore, to understand this alert, you can take a look at the next alert: _Cookie Without Secure Flag [Risk: Low]_
+The following alert is related to the next alert. Therefore, to understand this alert, you can take a look at the next alert: _Cookie Without Secure Flag [Risk: Low]_
 
 ### Cookie Without Secure Flag [Risk: Low] — Positive (No need for a fix)
 
@@ -286,7 +286,7 @@ A cookie has been set with its `SameSite` attribute set to `none`, which means t
 
 **Solution:** 
 
-Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` for all cookies. You can see the Amazon.com `SameSite` attribute policy. We discussed to set **SameSite** attribute to `strict` in the following issue https://github.com/abpframework/abp/issues/14215 and decided to leave this change to the final developer.
+Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` for all cookies. You can see the Amazon.com `SameSite` attribute policy. We discussed setting the **SameSite** attribute to `strict` in the following issue https://github.com/abpframework/abp/issues/14215 and decided to leave this change to the final developer.
 
 ![Amazon.com SameSite attribute policy](../images/pen-test-samesite-attribute.png)
 
@@ -300,7 +300,7 @@ A cookie has been set with its `SameSite` attribute set to `none`, which means t
 
 **Solution:** 
 
-Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` for all cookies. We discussed to set the **SameSite** attribute to `strict` in the following issue https://github.com/abpframework/abp/issues/14215 and decided to leave this change to the final developer.
+Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` for all cookies. We discussed setting the **SameSite** attribute to `strict` in the following issue https://github.com/abpframework/abp/issues/14215 and decided to leave this change to the final developer.
 
 ### Cross Site Scripting Weakness (Persistent in JSON Response) [Risk: Low] - False Positive
 
@@ -311,7 +311,7 @@ Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` 
 
 **Description:** 
 
-A XSS attack was found in a JSON response, this might leave content consumers 
+An XSS attack was found in a JSON response, this might leave content consumers 
 vulnerable to attack if they don't appropriately handle the data (response).
 
 **Solution:**
@@ -332,7 +332,7 @@ The response appeared to contain common error messages returned by platforms suc
 
 **Solution:**  
 
-Disable debugging messages before pushing to production.
+Disable debugging messages before pushing them to production.
 
 **Explanation:** 
 
