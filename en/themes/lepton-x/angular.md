@@ -1,18 +1,18 @@
 # LeptonX Angular UI
 
-To add `LeptonX` into your existing projects, follow the steps below.
+To add `LeptonX` into your existing projects, follow the steps below. 
 
 * Firstly, install `@volosoft/abp.ng.theme.lepton-x` using the command below.
 
-`yarn add @volosoft/abp.ng.theme.lepton-x@preview`
+`yarn add @volosoft/abp.ng.theme.lepton-x`
 
 * Then, edit `angular.json` as follows:
 
-Add the following ones into the `styles` array
+Add theme-specific styles into the `styles` array of the file.  Check the [Theme Configurations](https://docs.abp.io/en/abp/latest/UI/Angular/Theme-Configurations) documentation for more information.
 
-```JSON
-"node_modules/bootstrap-icons/font/bootstrap-icons.css",
-```
+Importing a CSS file as an ECMA module is not supported in Angular 14. Therefore, we need to add the styles in the angular.json file. 
+
+> You can check [the release notes of Angular 14](https://github.com/angular/angular-cli/releases/tag/14.0.0) for more information. 
 
 * At last, remove `ThemeLeptonModule` from `app.module.ts` and `shared.module.ts`, and import the following modules in `app.module.ts`
 
@@ -81,9 +81,6 @@ export class AppModule {}
   }
 }
 ```
-
-Importing a CSS file as an ECMA module does not supporting in Angular 14. (see [the release note](https://github.com/angular/angular-cli/releases/tag/14.0.0)) So we should add styles in angular.json file. Check the [Theme Configurations](https://docs.abp.io/en/abp/latest/UI/Angular/Theme-Configurations)
-
 
 If everything is ok, you can remove the `@volo/abp.ng.theme.lepton` in package.json
 
