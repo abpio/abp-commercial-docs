@@ -1,5 +1,5 @@
 # Creating a Custom Payment Gateway
-This document explains creating custom a payment gateway different than the existing ones in [Payment Module](payment#packages).
+This document explains creating custom a payment gateway that's different than the existing ones in the [Payment Module](payment#packages).
 
 ## Creating Core Operations
 - Create **MyPaymentGateway.cs** and implement `IPaymentGateway`
@@ -67,8 +67,8 @@ This document explains creating custom a payment gateway different than the exis
     });
   ```
 
-## Creating UI
-2 types of pages are supported by default. You can define a page for before payment and after payment.
+## Creating the UI
+There are 2 types of pages that are supported by default. You can define a pre-payment page and post-payment page.
 
 - Create **PreCheckout.cshtml** and **PreCheckout.cshtml.cs**
 
@@ -91,7 +91,7 @@ This document explains creating custom a payment gateway different than the exis
 
       public virtual ActionResult OnGet()
       {
-          // GET operation not suppoerted here. All selected gateway requests will be sent as POST.
+          // GET operation is not supported here. All the selected gateway requests will be sent as POST.
           return BadRequest();
       }
 
