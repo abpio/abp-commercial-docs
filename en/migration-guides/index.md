@@ -4,6 +4,7 @@ The following documents explain how to migrate your existing ABP Commercial appl
 
 > The following guides are only for the ABP Commercial. Please also see the [ABP Framework migration guides](https://docs.abp.io/en/abp/latest/Migration-Guides/Index) while upgrading your solution.
 
+* [7.1 to 7.2](v7_2.md)
 * [6.0 to 7.0](v7_0.md)
 * [5.3 to 6.0](v6_0.md)
 * [5.2 to 5.3](v5_3.md)
