@@ -1,5 +1,5 @@
 
-name: Merge branch rel-7.1 with rel-7.0
+name: Merge branch rel-7.2 with rel-7.1
 on:
   push:
     branches:
