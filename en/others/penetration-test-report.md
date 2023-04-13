@@ -91,7 +91,7 @@ Content Security Policy (CSP) is an added layer of security that helps to detect
 
 Ensure that your web server, application server, load balancer, etc. are configured to set the `Content-Security-Policy` header, to achieve optimal browser support: "Content-Security-Policy" for Chrome 25+, Firefox 23+, and Safari 7+, "X-Content-Security-Policy" for Firefox 4.0+ and Internet Explorer 10+, and "X-WebKit-CSP" for Chrome 14+ and Safari 6+.
 
-This vulnerability has fixed in ABP v7.0. You can check the related issue from https://github.com/abpframework/abp/issues/14173. You can configure the `AbpSecurityHeadersOptions` and set the `UseContentSecurityPolicyHeader` property as *true* to add `Content-Security-Policy` header into your application:
+This vulnerability has fixed in ABP v7.0. You can check the related issue from https://github.com/abpframework/abp/issues/14173. You can configure the `AbpSecurityHeadersOptions` and set the `UseContentSecurityPolicyHeader` property as *true* to add the `Content-Security-Policy` header into your application:
 
 ```csharp
 Configure<AbpSecurityHeadersOptions>(options => 
@@ -120,9 +120,9 @@ Rewrite the background program using proper deletion of bad character strings. T
 
 The first two affected URLs are **positive** alerts. An internal issue has been created (#13938) for this problem and will be fixed asap.
 
-The third and fourth URLs are **false-positive** alerts since it's already fixed (https://github.com/abpframework/abp/issues/14174) and there is not any bad character string in the responses of these endpoints anymore. (It displayes an error message like: *"The selected culture is not valid! Make sure you enter a valid culture name."*).
+The third and fourth URLs are **false-positive** alerts since it's already fixed (https://github.com/abpframework/abp/issues/14174) and there is not any bad character string in the responses of these endpoints anymore. (It displays an error message such as: *"The selected culture is not valid! Make sure you enter a valid culture name."*).
 
-The last URL is also a **false-positive** alert because there is no bad character string in the response. For example, you can see the response is the following and as seen there are no invalid chars in the response:
+The last URL is also a **false-positive** alert because there is no bad character string in the response. For example, you can see the response as the following and as seen there are no invalid chars in the response:
 
 ```
 Volo.Abp.Validation.AbpValidationException: ModelState is not valid! See ValidationErrors for details.
@@ -229,7 +229,7 @@ The reported pages contain an error/warning message that may disclose sensitive 
 
 **Explanation:** 
 
-This vulnerability was reported as a **positive** alert because the application ran in `Development` mode. ABP Framework throws exceptions for developers in the `Development` environment. We set the environment to `Production` and re-run the test, then the server sent a *500-Internal Error* without the error is disclosed. Therefore this alert is **false-positive**. Further information can be found in the following issue:  https://github.com/abpframework/abp/issues/14177.
+This vulnerability was reported as a **positive** alert because the application ran in `Development` mode. ABP Framework throws exceptions for developers in the `Development` environment. We set the environment to `Production` and re-run the test, then the server sent a *500-Internal Error* without the error disclosed. Therefore this alert is **false-positive**. Further information can be found in the following issue:  https://github.com/abpframework/abp/issues/14177.
 
 ### Cookie No `HttpOnly`  [Risk: Low] — Positive (No need for a fix)
 
@@ -254,11 +254,11 @@ The following alert is related to the next alert. Therefore, to understand this 
 
 **Explanation:** 
 
-All the pages that are setting `XSRF-TOKEN` and `.AspNetCore.Culture` cookies in the HTTP response are reported as "No `HttpOnly` Flag" vulnerability. This is a **positive-alert**. 
+All the pages that are setting the `XSRF-TOKEN` and `.AspNetCore.Culture` cookies in the HTTP response are reported as "No `HttpOnly` Flag" vulnerability. This is a **positive-alert**. 
 
 > **Note for IDS4 users**: The `idsrv.session` cookie is being used in IDS4 and after ABP 6.x, ABP switched to OpenIddict (https://github.com/abpframework/abp/issues/7221). Therefore, this cookie is not being used in the current startup templates and you can ignore this note if you have created your application after v6.0+. However, if you are still using Identity Server 4, there is an issue related to the `idsrv.session` cookie, it cannot be set as `HttpOnly`; you can see the related thread at its own repository https://github.com/IdentityServer/IdentityServer4/issues/3873. 
 
-`.AspNetCore.Culture` and `XSRF-TOKEN` cookies are being retrieved via JavaScript in ABP Angular, MVC and Blazor WASM projects. Therefore cannot be set as `HttpOnly`. You can check out the following modules that retrieve these cookies via JavaScript:
+The `.AspNetCore.Culture` and `XSRF-TOKEN` cookies are being retrieved via JavaScript in ABP Angular, MVC and Blazor WASM projects. Therefore they cannot be set as `HttpOnly`. You can check out the following modules that retrieve these cookies via JavaScript:
 
 * https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.Swashbuckle/wwwroot/swagger/ui/abp.swagger.js#L28
 * https://github.com/abpframework/abp/blob/dev/modules/cms-kit/src/Volo.CmsKit.Admin.Web/Pages/CmsKit/Pages/update.js#L54
