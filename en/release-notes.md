@@ -4,16 +4,27 @@ This document contains **brief release notes** for each release. Release notes o
 
 > Release notes in this document don't cover the features made in the open-source ABP Framework. For the ABP Framework features, check the blog post for the related version.
 
-## 7.1 (2023-02-07)
+## 7.2 (2023-04-11)
 
-> This version is currently in preview. The final release date is planned for March, 2023.
+> This version is currently in preview. The final release date is planned for May, 2023.
 
-See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-7.1-RC-Has-Been-Published)** for the v7.1 release.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-7.2-RC-Has-Been-Published)** for the v7.2 release.
+
+* **[LeptonX Theme](./themes/lepton-x/index.md)** - Navigation Menu Item Grouping.
+* Support for the **Authority Delegation** in the **[Account Module](./modules/account.md)**.
+* Forcing Password Change at Next Logon.
+* Periodic Password Changes / Password Aging.
+* Suite: Show/Hide Properties on Create/Update/List Pages
+* **CMS Kit Comments**: Disallowing External URLs.
+
+## 7.1 (2023-03-22)
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-IO-Platform-7-1-Final-Has-Been-Released)** for the v7.1 release.
 
 * **Blazor WebAssembly** option for the single-layer startup template.
 * **ABP Suite** code generation for **MAUI Blazor Hybrid** solutions.
 * Allow to **impersonate** an arbitrary **user** in the SaaS module.
-* Many enhancements and fixes for the 7.0 version.
+* Many enhancements and fixes for the 7.1 version.
 
 ## 7.0 (2023-01-05)
 
