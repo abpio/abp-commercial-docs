@@ -3,7 +3,7 @@
 This module implements the Login, Register, Forgot Password, Email Confirmation, Password Reset, sending and confirming Two-Factor Authentication, user lockout, switch between tenants functionalities of an application;
 
 * Built on the [Microsoft's ASP.NET Core Identity](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity) library.
-* Identity Server Grant and Consent pages.
+* OpenIddict Grant and Consent pages.
 * Setting page to manage **self registration** and two-factor authentication.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Account.Pro) for an overview of the module features.

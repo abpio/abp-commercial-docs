@@ -36,7 +36,7 @@ Also, you can add a *public web site* project to your solution, separate tenant 
 
   - If you choose `Angular` or `Blazor WebAssembly`, two checkbox options will appear at the bottom:
 
-      - `Separate Identity Server`: Separates the Identity Server application from the API host application. If not checked, the server-side will have a single endpoint.
+      - `Separate Auth Server`: Separates the Auth Server application from the API host application. If not checked, the server-side will have a single endpoint.
 
       - `Progressive web application`: Optional Progressive Web Application checkbox.
 
