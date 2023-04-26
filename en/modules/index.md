@@ -12,6 +12,7 @@ ABP Commercial provides **production ready, enterprise level** application modul
 * **[Forms](forms.md)**: Create forms and surveys.
 * **[GDPR](gdpr.md)**: Personal data management.
 * **[Identity](identity.md)**: User, role, claims and permission management.
+* **[OpenIddict](OpenIddict.md)**: Managing the openiddict objects like applications, scopes.
 * **[Identity Server](identity-server.md)**: Managing the identity server objects like clients, API resources, identity resources, secrets, application URLs, claims and more.
 * **[Language management](language-management.md)**: Add or remove languages and localize the application UI on the fly.
 * **[Payment](payment.md)**: Payment gateway integrations.

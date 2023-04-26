@@ -63,7 +63,7 @@ abp new Acme.BookStore -t app-pro{{if UI == "NG"}} -u angular{{else if UI == "Bl
 
 {{ else }}
 
-* `--separate-auth-server` argument separates the identity server application from the API host application. If not specified, you will have a single endpoint on the server.
+* `--separate-auth-server` argument separates the auth server application from the API host application. If not specified, you will have a single endpoint on the server.
 
 {{ end }}
 

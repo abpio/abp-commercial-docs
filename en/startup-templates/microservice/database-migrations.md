@@ -205,7 +205,7 @@ private async Task MigrateTenantsAsync(CancellationToken cancellationToken)
 
 IdentityService uses three different mapped [database configurations](infrastructure.md#hosting); *IdentityService*, *AdministrationService* and *SaasService* which are located under *appsettings.json* file. 
 
-IdentityService seeding is **required** for AuthServer since it seeds the admin user/password (identity data) and initial identity server data (clients, API resources, scopes).
+IdentityService seeding is **required** for AuthServer since it seeds the admin user/password (identity data) and initial OpenIddict data (applications, scopes).
 
 ### OpenIddict Data Seeding
 

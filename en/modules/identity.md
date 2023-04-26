@@ -110,7 +110,7 @@ Identity module allows to define custom claim types.
 
 * Custom claims can be used to store additional information to a user or role.
 * Custom claim values then can be accessed in the application code for an authenticated user.
-* Claim Types are also used by the Identity Server module if you're using it.
+* Claim Types are also used by the OpenIddict module if you're using it.
 
 #### Identity module settings UI
 
