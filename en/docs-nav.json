@@ -322,7 +322,7 @@
         },
         {
           "text": "Common",
-          "items":[
+          "items": [
             {
               "text": "Database Tables",
               "path": "modules/database-tables.md"
@@ -371,6 +371,10 @@
         {
           "text": "Customization",
           "items": [
+            {
+              "text": "Modifying the Menu",
+              "path": "ui/angular/modifying-the-menu.md"
+            },
             {
               "text": "Manage Profile Page Tabs",
               "path": "ui/angular/manage-profile-page-tabs.md"
