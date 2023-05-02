@@ -1,11 +1,11 @@
 # Modifying the Menu
 
-This page created top of [How to add a navigation element](https://docs.abp.io/en/abp/latest/UI/Angular/Modifying-the-Menu#how-to-add-a-navigation-element) document, check for more detail
+This page is created on top of the [How to add a navigation element](https://docs.abp.io/en/abp/latest/UI/Angular/Modifying-the-Menu#how-to-add-a-navigation-element) document, check for more detail
 
 
 ## Grouped Menu
 
-- This feature only applied for [LeptonX](https://docs.abp.io/en/commercial/latest/themes/lepton-x/angular) theme
+- This feature is only applied for [LeptonX](https://docs.abp.io/en/commercial/latest/themes/lepton-x/angular) theme
 
 ### Web
 
