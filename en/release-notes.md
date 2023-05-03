@@ -4,11 +4,9 @@ This document contains **brief release notes** for each release. Release notes o
 
 > Release notes in this document don't cover the features made in the open-source ABP Framework. For the ABP Framework features, check the blog post for the related version.
 
-## 7.2 (2023-04-11)
+## 7.2 (2023-05-02)
 
-> This version is currently in preview. The final release date is planned for May, 2023.
-
-See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-7.2-RC-Has-Been-Published)** for the v7.2 release.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-7.2-Final-Has-Been-Published)** for the v7.2 release.
 
 * **[LeptonX Theme](./themes/lepton-x/index.md)** - Navigation Menu Item Grouping.
 * Support for the **Authority Delegation** in the **[Account Module](./modules/account.md)**.
