@@ -129,7 +129,21 @@
             },
             {
               "text": "Deployment",
-              "path": "startup-templates/application/deployment.md"
+              "path": "startup-templates/application/deployment.md",
+              "items": [
+                {
+                  "text": "Docker Deployment",
+                  "path": "startup-templates/application/deployment-docker-compose.md"
+                },
+                {
+                  "text": "Azure Deployment",
+                  "path": "startup-templates/application/deployment-azure-application-service.md"
+                },
+                {
+                  "text": "IIS Deployment",
+                  "path": "startup-templates/application/deployment-iis.md"
+                }
+              ]
             }
           ]
         },
