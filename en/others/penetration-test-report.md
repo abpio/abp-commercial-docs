@@ -24,9 +24,11 @@ The response contains Personally Identifiable Information, such as a CC number, 
 
 **Solution**:
 
-You can set **Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII** as false to exclude the PII from logs.
+You can set **Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII** as false to exclude the PII from logs. 
 
 ![disable-pii](../images/pen-test-pii.png)
+
+> The code block above is already exists in the [startup templates](/startup-templates/index.md).
 
 ### Path Traversal [Risk: High] - False Positive
 
@@ -51,7 +53,7 @@ SQL injection may be possible. SQL injection is a web security vulnerability tha
 
 **Explanation**:
 
-ABP uses Entity Framework Core and LINQ. It's safe against SQL Injection because it passes all data to the database via SQL parameters. LINQ queries are not composed by using string manipulation or concatenation, that's why they are not susceptible to traditional SQL injection attacks. Therefore, this is a false-positive alert.
+ABP uses Entity Framework Core and LINQ. It's safe against SQL Injection because it passes all data to the database via SQL parameters. LINQ queries are not composed by using string manipulation or concatenation, that's why they are not susceptible to traditional SQL injection attacks. Therefore, this is a **false-positive** alert.
 
 ### Absence of Anti-CSRF Tokens [Risk: Medium] — False Positive
 
@@ -217,7 +219,7 @@ Injection using XSL transformations may be possible and may allow an attacker to
 
 **Explanation**: 
 
-This is a **false-positive** alert. XSLT transformation is not possible on .NET Core or .NET 5 or later.
+This is a **false-positive** alert. XSLT transformation is not possible on .NET 5 or later.
 
 ### Application Error Disclosure [Risk: Low] — False Positive
 
