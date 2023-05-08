@@ -28,7 +28,7 @@ You can set **Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII**
 
 ![disable-pii](../images/pen-test-pii.png)
 
-> The code block above is already exists in the [startup templates](/startup-templates/index.md).
+> The code block above already exists in the [startup templates](/startup-templates/index.md).
 
 ### Path Traversal [Risk: High] - False Positive
 
