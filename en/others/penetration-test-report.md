@@ -1,6 +1,6 @@
 # ABP Commercial Penetration Test Report
 
-The ABP Commercial MVC `v7.1.1` application template has been tested against security vulnerabilities by the [OWASP ZAP v2.11.1](https://www.zaproxy.org/) tool. The demo web application was started on the `https://localhost:44379` address. The below alerts have been reported by the pentest tool. These alerts are sorted by the risk level as high, medium, and low. The informational alerts are not mentioned in this document. 
+The ABP Commercial MVC `v7.2.1` application template has been tested against security vulnerabilities by the [OWASP ZAP v2.11.1](https://www.zaproxy.org/) tool. The demo web application was started on the `https://localhost:44379` address. The below alerts have been reported by the pentest tool. These alerts are sorted by the risk level as high, medium, and low. The informational alerts are not mentioned in this document. 
 
 Many of these alerts are **false-positive**, meaning the vulnerability scanner detected these issues, but they are not exploitable. It's clearly explained for each false-positive alert why this alert is a false-positive. 
 
@@ -10,33 +10,25 @@ In the next sections, you will find the affected URLs, alert descriptions, false
 
 There are high _(red flag)_, medium _(orange flag)_, low _(yellow flag)_, and informational _(blue flag)_ alerts. 
 
-![penetration-test-7.0](../images/pen-test-alert-list-7.1.png)
+![penetration-test-7.2.1](../images/pen-test-alert-list-7.2.png)
 
 > The informational alerts are not mentioned in this document. These alerts are not raising any risks on your application and they are optional.
 
-### Cross-Site Scripting (Persistent) [Risk: High] — False Positive 
+### PII Disclosure [Risk: High] - Positive (No need for a fix)
 
-* *[GET]* — https://localhost:44379/Identity/Roles/ClaimTypeEditModal?id=dd3bdf4d-1221-cd81-6cad-3a0a65d17563
+- *[GET] - https://localhost:44379/Account/Manage?Picture=test_file.txt&pptype=use-default&returnUrl=%2FAccount%2FManage%3FPicture%3Dtest_file.txt%26pptype%3Duse-default%26returnUrl%3D%252FPrivacyPolicy*
 
-**Description:**
+**Description**:
 
-Cross-site Scripting (XSS) is an attack technique that involves echoing attacker-supplied 
-code into a user's browser instance. A browser instance can be a standard web browser 
-client or a browser object embedded in a software product such as the browser within 
-WinAmp, an RSS reader, or an email client. 
+The response contains Personally Identifiable Information, such as a CC number, SSN, and similar sensitive data.
 
-There are three types of Cross-site scripting attacks: non-persistent, persistent, and DOM-based.
+**Solution**:
 
-Persistent attacks occur when the malicious code is submitted to a website where it's 
-stored for a period of time.
+You can set **Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII** as false to exclude the PII from logs. 
 
-**Solution:**
+![disable-pii](../images/pen-test-pii.png)
 
-For any data that will be output to another web page, especially any data that was received from external inputs, use the appropriate encoding on all non-alphanumeric characters.
-
-**Explanation:**
-
-The above URL was reported to be vulnerable to a "Cross Site Scripting (Persistent)" attack. This is a **false-positive** alert since the response is encoded, therefore it does not cause any XSS vulnerability.
+> The code block above already exists in the [startup templates](/startup-templates/index.md).
 
 ### Path Traversal [Risk: High] - False Positive
 
@@ -49,6 +41,19 @@ The Path Traversal attack technique allows an attacker access to files, director
 **Solution**:
 
 This is a false-positive alert since ABP Framework does all related checks for this kind of attack on the backend side for this endpoint.
+
+### SQL Injection [Risk: High] - False Positive
+
+* *[POST] — https://localhost:44379/AuditLogs*
+* *[POST] — https://localhost:44370/Account/Manage?CurrentPassword=ZAP%27+AND+%271%27%3D%271%27+--+&NewPassword=ZAP&NewPasswordConfirm=ZAP*
+
+**Description**:
+
+SQL injection may be possible. SQL injection is a web security vulnerability that allows an attacker to interfere with the queries that an application makes to its database. It allows an attacker to view data that they are not normally able to retrieve and perform unauthorized actions.
+
+**Explanation**:
+
+ABP uses Entity Framework Core and LINQ. It's safe against SQL Injection because it passes all data to the database via SQL parameters. LINQ queries are not composed by using string manipulation or concatenation, that's why they are not susceptible to traditional SQL injection attacks. Therefore, this is a **false-positive** alert.
 
 ### Absence of Anti-CSRF Tokens [Risk: Medium] — False Positive
 
@@ -82,6 +87,9 @@ There are 3 URLs that are reported as exposing error messages. This is a **false
 ### Content Security Policy (CSP) Header Not Set [Risk: Medium] — Positive (Fixed)
 
 - *[GET] — https://localhost:44379*
+- *[GET] — https://localhost:44379/Account/AuthorityDelegation/AuthorityDelegationModal*
+- *[GET] — https://localhost:44379/Account/AuthorityDelegation/DelegateNewUserModal*
+- *[GET] — https://localhost:44379/Account/ForgotPassword _(other several account URLS)_* 
 
 **Description:** 
 
@@ -100,13 +108,13 @@ Configure<AbpSecurityHeadersOptions>(options =>
 });
 ```
 
-### Format String Error [Risk: Medium] - Positive and False Positive 
+### Format String Error [Risk: Medium] - Positive and False Positive
 
 - *[GET] - https://localhost:44379/api/language-management/language-texts?filter=&resourceName=&baseCultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&targetCultureName=cs&getOnlyEmptyValues=false&sorting=name+asc&skipCount=0&maxResultCount=10*
 - *[GET] - https://localhost:44379/LanguageManagement/Texts/Edit?name=%27%7B0%7D%27+and+%27%7B1%7D%27+do+not+match.&targetCultureName=cs&resourceName=AbpValidation&baseCultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A*
 - *[GET] - https://localhost:44379/Abp/Languages/Switch?culture=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&returnUrl=%2F&uiCulture=ar*
 - *[GET] - https://localhost:44379/Abp/ApplicationLocalizationScript?cultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A*
-- *[POST] — https://localhost:44379/Account/Login*
+- *[POST] — https://localhost:44379/Account/Login (same URL with different parameters)*
 
 **Description:**
 
@@ -118,9 +126,7 @@ Rewrite the background program using proper deletion of bad character strings. T
 
 **Explanation:**
 
-The first two affected URLs are **positive** alerts. An internal issue has been created (#13938) for this problem and will be fixed asap.
-
-The third and fourth URLs are **false-positive** alerts since it's already fixed (https://github.com/abpframework/abp/issues/14174) and there is not any bad character string in the responses of these endpoints anymore. (It displays an error message such as: *"The selected culture is not valid! Make sure you enter a valid culture name."*).
+The first four affected URLS are **false-positive** alerts since it's already fixed and there is not any bad character string in the responses of these endpoints anymore. (It displays an error message such as: *"The selected culture is not valid! Make sure you enter a valid culture name."*).
 
 The last URL is also a **false-positive** alert because there is no bad character string in the response. For example, you can see the response as the following and as seen there are no invalid chars in the response:
 
@@ -213,15 +219,11 @@ Injection using XSL transformations may be possible and may allow an attacker to
 
 **Explanation**: 
 
-This is a **false-positive** alert. XSLT transformation is not possible on .NET Core or .NET 5 or later.
+This is a **false-positive** alert. XSLT transformation is not possible on .NET 5 or later.
 
 ### Application Error Disclosure [Risk: Low] — False Positive
 
-- *[POST] — https://localhost:44379/Account/ImpersonateTenant*
 - *[POST] — https://localhost:44379/Account/ImpersonateUser*  
-- *[POST] — https://localhost:44379/Account/Manage?
-CurrentPassword=ZAP&NewPassword=ZAP&NewPasswordConfirm=ZAP
- (and other similar URLS)*
 
 **Description:** 
 
@@ -279,6 +281,7 @@ The related issue for this alert can be found at https://github.com/abpframework
 ### Cookie with SameSite Attribute None [Risk: Low] — Positive (No need for a fix)
 
 * *[GET] — https://localhost:44379 (and there are several URLs)*
+* *[GET] — https://localhost:44379/Abp/Languages/Switch?culture=ar&returnUrl=%2F%3Fpage%3D%252FAccount%252F%7E%252FAccount%252FLogin&uiCulture=a (and there are several URLs)*
 
 **Description:** 
 
@@ -301,26 +304,6 @@ A cookie has been set with its `SameSite` attribute set to `none`, which means t
 **Solution:** 
 
 Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` for all cookies. We discussed setting the **SameSite** attribute to `strict` in the following issue https://github.com/abpframework/abp/issues/14215 and decided to leave this change to the final developer.
-
-### Cross Site Scripting Weakness (Persistent in JSON Response) [Risk: Low] - False Positive
-
-* *[GET] — https://localhost:44379/api/account/security-logs?startTime=&endTime=&action=&sorting=creationTime%20desc&skipCount=0&maxResultCount=10* 
-* *[GET] — https://localhost:44379/api/identity/organization-units/all* 
-* *[GET] — https://localhost:44379/api/identity/organization-units/available-roles?id=c27ddaf3-7fcf-bd0a-8e5d-3a0a65d11a0c&sorting=name%20asc&skipCount=0&maxResultCount=10* 
-* *[GET] — https://localhost:44379/api/saas/tenants* 
-
-**Description:** 
-
-An XSS attack was found in a JSON response, this might leave content consumers 
-vulnerable to attack if they don't appropriately handle the data (response).
-
-**Solution:**
-
-For any data that will be output to another web page, especially any data that was received from external inputs, use the appropriate encoding on all non-alphanumeric characters.
-
-**Explanation:**
-
-Most of these are validation errors generated by ABP and .NET Core itself, and these messages have been encoded. Therefore, it's a **false-positive** error and will not cause any XSS vulnerability.
 
 ### Information Disclosure - Debug Error Messages [Risk: Low] — False Positive
 
