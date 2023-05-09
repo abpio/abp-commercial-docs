@@ -140,7 +140,7 @@ $hostFolder = Join-Path $slnFolder "src/Acme.BookStore.HttpApi.Host"
 Set-Location $hostFolder
 dotnet publish -c Release
 docker build -f Dockerfile.local -t acme/bookstore-api:$version .
-	{{ if Tiered == "Yes"}}
+	{{ if Tiered == "Yes"}} 
 $authServerAppFolder = Join-Path $slnFolder "src/Acme.BookStore.AuthServer"
 Set-Location $authServerAppFolder
 dotnet publish -c Release
@@ -220,9 +220,7 @@ docker build -f Dockerfile.local -t acme/bookstore-db-migrator:latest . #Builds 
 
 ### MVC/Razor Pages
 
-​	{{ if Tiered == "Yes" }}
-
-MVC/Razor Pages application is a server-side rendering application that uses Cookie authentication as default scheme and OpenIdConnect as the default challange scheme.
+​	{{ if Tiered == "Yes" }}MVC/Razor Pages application is a server-side rendering application that uses Cookie authentication as default scheme and OpenIdConnect as the default challange scheme.
 
 In the **WebModule** under authentication configuration, there is an extra configuration for containerized environment support:
 
@@ -287,11 +285,7 @@ dotnet publish -c Release #Builds the projects in Release mode
 docker build -f Dockerfile.local -t acme/bookstore-web:latest . #Builds the image with "latest" tag
 ```
 
-​	{{ end }}
-
-​	{{ if Tiered == "No" }}
-
-MVC/Razor Pages application is a server-side rendering application that contains both the openid-provider and the Http.Api endpoints within self; it will be a single application to deploy. `Dockerfile.local` is provided under this project as below;
+​	{{ end }}	{{ if Tiered == "No" }}MVC/Razor Pages application is a server-side rendering application that contains both the openid-provider and the Http.Api endpoints within self; it will be a single application to deploy. `Dockerfile.local` is provided under this project as below;
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
@@ -369,9 +363,7 @@ docker build -f Dockerfile.local -t acme/bookstore-web:latest . #Builds the imag
 
 ### Blazor Server
 
-​	{{ if Tiered == "Yes" }}
-
-Blazor Server application is a server-side rendering application that uses Cookie authentication as default scheme and OpenIdConnect as the default challange scheme.
+​	{{ if Tiered == "Yes" }}Blazor Server application is a server-side rendering application that uses Cookie authentication as default scheme and OpenIdConnect as the default challange scheme.
 
 In the **BlazorModule** under authentication configuration, there is an extra configuration for containerized environment support:
 
@@ -436,11 +428,7 @@ dotnet publish -c Release #Builds the projects in Release mode
 docker build -f Dockerfile.local -t acme/bookstore-blazor:latest . #Builds the image with "latest" tag
 ```
 
-​	{{ end }}
-
-​	{{ if Tiered == "No" }}
-
-Blazor Server application is a server-side rendering application that contains both the openid-provider and the Http.Api endpoints within self; it will be a single application to deploy. `Dockerfile.local` is provided under this project as below;
+​	{{ end }}	{{ if Tiered == "No" }}Blazor Server application is a server-side rendering application that contains both the openid-provider and the Http.Api endpoints within self; it will be a single application to deploy. `Dockerfile.local` is provided under this project as below;
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
@@ -705,7 +693,83 @@ docker build -f Dockerfile.local -t acme/bookstore-blazor:latest . #Builds the i
 
 {{ if Tiered == "No"  }}
 
-​	{{ if UI == "NG" || if UI == "Blazor"  }}
+​	{{ if UI == "NG"  }}
+
+### Http.Api.Host
+
+This is the backend application that contains the openid-provider functionality as well. The `dockerfile.local` is located under the `Http.Api.Host` project as below;
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+COPY bin/Release/net7.0/publish/ app/
+WORKDIR /app
+
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+RUN dotnet dev-certs https -v -ep authserver.pfx -p 2D7AA457-5D33-48D6-936F-C48E5EF468ED
+
+FROM base AS final
+WORKDIR /app
+COPY --from=build /src .
+
+ENTRYPOINT ["dotnet", "Acme.BookStore.HttpApi.Host.dll"]
+```
+
+You can come across an error when the image is being built. This occurs because of `dotnet dev-certs` command trying to list the existing certificates **inside the container** and unavailable to. This is not an important error since we aim to generate the **authserver.pfx** file and discard the container it is built in.
+
+![auth-server-pfx-generation-error](../../../en/images/auth-server-pfx-generation-error.png)
+
+Since it contains the openid-provider within, it also uses multi-stages to generate `authserver.pfx` file which is **used by OpenIddict as signing and encryption certificate**. This configuration is found under the `PreConfigureServices` method of the **HttpApiHostModule**:
+
+```csharp
+if (!hostingEnvironment.IsDevelopment())
+{
+    PreConfigure<AbpOpenIddictAspNetCoreOptions>(options =>
+    {
+        options.AddDevelopmentEncryptionAndSigningCertificate = false;
+    });
+
+    PreConfigure<OpenIddictServerBuilder>(builder =>
+    {
+        builder.AddSigningCertificate(GetSigningCertificate(hostingEnvironment, configuration));
+        builder.AddEncryptionCertificate(GetSigningCertificate(hostingEnvironment, configuration));
+        builder.SetIssuer(new Uri(configuration["AuthServer:Authority"]));
+    });
+}
+```
+
+This configuration disables the *DevelopmentEncryptionAndSigningCertificate* and uses a self-signed certificate called `authserver.pfx`. for **signing and encrypting the tokens**. This certificate is being created when the docker image is build using the `dotnet dev-certs` tooling . It is a sample generated certificate and it is **recommended** to update it for production environment. You can check the [OpenIddict Encryption and signing credentials documentation](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html) for different options and customization.
+
+The `GetSigningCertificate` method is a private method located under the same **HttpApiHostModule**:
+
+```csharp
+private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv, IConfiguration configuration)
+{
+    var fileName = "authserver.pfx";
+    var passPhrase = "2D7AA457-5D33-48D6-936F-C48E5EF468ED";
+    var file = Path.Combine(hostingEnv.ContentRootPath, fileName);
+
+    if (!File.Exists(file))
+    {
+        throw new FileNotFoundException($"Signing Certificate couldn't found: {file}");
+    }
+
+    return new X509Certificate2(file, passPhrase);
+}
+```
+
+> You can always create any self-signed certificate using any other tooling outside of the dockerfile. You need to keep on mind to set them as **embedded resource** since the `GetSigningCertificate` method will be checking this file physically. 
+
+If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to **Http.Api.Host** folder and run:
+
+```powershell
+dotnet publish -c Release #Builds the projects in Release mode
+docker build -f Dockerfile.local -t acme/bookstore-api:latest . #Builds the image with "latest" tag
+```
+
+​	{{ end }}
+
+​	{{ if UI == "Blazor"  }}
 
 ### Http.Api.Host
 
@@ -875,7 +939,7 @@ dotnet publish -c Release #Builds the projects in Release mode
 docker build -f Dockerfile.local -t acme/bookstore-api:latest . #Builds the image with "latest" tag
 ```
 
-{{ end }}
+{{ end }} 
 
 ## Running Docker-Compose on Localhost
 
@@ -942,13 +1006,9 @@ This is the Blazor application we deploy on http://localhost:44307 by default us
   "App": {
     "SelfUrl": "http://localhost:44307"
   },
-  "AuthServer": {
-{{ if Tiered == "Yes" }}
-    "Authority": "https://localhost:44334",
-{{ end }}
-{{ if Tiered == "No" }}
-    "Authority": "https://localhost:44354",
-{{ end }}
+  "AuthServer": {	{{ if Tiered == "Yes" }}
+    "Authority": "https://localhost:44334",	{{ end }}	{{ if Tiered == "No" }}
+    "Authority": "https://localhost:44354",	{{ end }}
     "ClientId": "BookStore_Blazor",
     "ResponseType": "code"
   },
@@ -956,13 +1016,9 @@ This is the Blazor application we deploy on http://localhost:44307 by default us
     "Default": {
       "BaseUrl": "https://localhost:44354"
     },
-    "AbpAccountPublic": {
-{{ if Tiered == "Yes" }}
-      "BaseUrl": "https://localhost:44334"
-{{ end }}
-{{ if Tiered == "No" }}
-      "BaseUrl": "https://localhost:44354"
-{{ end }}
+    "AbpAccountPublic": {	{{ if Tiered == "Yes" }}
+      "BaseUrl": "https://localhost:44334"	{{ end }}	{{ if Tiered == "No" }}
+      "BaseUrl": "https://localhost:44354"	{{ end }}
     }
   },
   "AbpCli": {
@@ -996,39 +1052,23 @@ bookstore-api:
       - Kestrel__Certificates__Default__Password=91f91912-5ab0-49df-8166-23377efaf3cc
       - App__SelfUrl=https://localhost:44354
 	  - App__CorsOrigins=http://localhost:44307
-      - App__HealthCheckUrl=http://bookstore-api/health-status
-  {{ if Tiered == "Yes" }}
-	  - AuthServer__Authority=http://bookstore-authserver
-  {{ end }}
-  {{ if Tiered == "No" }}
-	  - AuthServer__Authority=http://bookstore-api
-  {{ end }}
-      - AuthServer__RequireHttpsMetadata=false
-  {{ if DB == "EF" }}
-      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
-  {{ end }}
-  {{ if DB == "Mongo" }}
-      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
-  {{ end }}
-  {{ if Tiered == "Yes" }}
-      - Redis__Configuration=redis
-  {{ end }}
+      - App__HealthCheckUrl=http://bookstore-api/health-status  {{ if Tiered == "Yes" }}
+	  - AuthServer__Authority=http://bookstore-authserver  {{ end }}  {{ if Tiered == "No" }}
+	  - AuthServer__Authority=http://bookstore-api  {{ end }}
+      - AuthServer__RequireHttpsMetadata=false  {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;  {{ end }}  {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore   {{ end }}  {{ if Tiered == "Yes" }}
+      - Redis__Configuration=redis  {{ end }}
     ports:
       - "44354:443"
-    depends_on:
- {{ if DB == "EF" }}
+    depends_on: {{ if DB == "EF" }}
       sql-server:
-        condition: service_healthy
- {{ end }}      
- {{ if DB == "Mongo" }}
+        condition: service_healthy {{ end }}       {{ if DB == "Mongo" }}
    	  mongo-db:
-        condition: service_healthy
- {{ end }}
- {{ if Tiered == "Yes" }}
+        condition: service_healthy {{ end }} {{ if Tiered == "Yes" }}
       redis:
         condition: service_healthy
-    restart: on-failure
- {{ end }}    
+    restart: on-failure {{ end }}    
     volumes:
       - ./certs:/root/certificate
     networks:
@@ -1047,9 +1087,7 @@ This service is the **backend** application of the blazor application that is us
 
 - `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. {{ if Tiered == "Yes" }}Docker-compose is using isolated internal docker network called `abp-network`.  We want to use HTTP in the internal network communication without SSL overhead, therefore it is set to `false` by default. {{ end }}{{ if Tiered == "No" }} Since the backend itself is the openid-provider,  we set it `true` by default.{{ end }}
 
-- `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
-
-  {{ if Tiered == "Yes" }}
+- `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.{{ if Tiered == "Yes" }}
 
 - `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
 
@@ -1075,25 +1113,17 @@ bookstore-authserver:
       - App__SelfUrl=https://localhost:44334
       - App__CorsOrigins=http://localhost:44307
       - AuthServer__Authority=http://bookstore-authserver
-      - AuthServer__RequireHttpsMetadata=false
-      {{ if DB == "EF" }}
-      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
-      {{ end }}
-      {{ if DB == "Mongo" }}
-      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
-      {{ end }}
+      - AuthServer__RequireHttpsMetadata=false      {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;      {{ end }}      {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore       {{ end }}
       - Redis__Configuration=redis
     ports:
       - "44334:443"
-    depends_on:
-     {{ if DB == "EF" }}
+    depends_on:     {{ if DB == "EF" }}
       sql-server:
-        condition: service_healthy
-    {{ end }}      
-    {{ if DB == "Mongo" }}
+        condition: service_healthy    {{ end }}          {{ if DB == "Mongo" }}
    	  mongo-db:
-        condition: service_healthy
-    {{ end }}   
+        condition: service_healthy    {{ end }}   
     restart: on-failure
     volumes:
       - ./certs:/root/certificate
@@ -1129,25 +1159,15 @@ db-migrator:
       context: ../../
       dockerfile: src/BookStore.DbMigrator/Dockerfile.local
     environment:
-      - OpenIddict__Applications__BookStore_Blazor__RootUrl=http://localhost:44307
-      {{ if Tiered == "Yes" }}
-      - OpenIddict__Applications__BookStore_Swagger__RootUrl=https://localhost:44354
-      {{ end }}
-      {{ if DB == "EF" }}
-      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
-      {{ end }}
-      {{ if DB == "Mongo" }}
-      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
-      {{ end }}
-    depends_on:
-     {{ if DB == "EF" }}
+      - OpenIddict__Applications__BookStore_Blazor__RootUrl=http://localhost:44307      {{ if Tiered == "Yes" }}
+      - OpenIddict__Applications__BookStore_Swagger__RootUrl=https://localhost:44354      {{ end }}      {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;      {{ end }}      {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore       {{ end }}
+    depends_on:     {{ if DB == "EF" }}
       sql-server:
-        condition: service_healthy
-    {{ end }}      
-    {{ if DB == "Mongo" }}
+        condition: service_healthy    {{ end }}          {{ if DB == "Mongo" }}
    	  mongo-db:
-        condition: service_healthy
-    {{ end }}    
+        condition: service_healthy    {{ end }}    
     networks:
       - abp-network
 ```
@@ -1265,34 +1285,22 @@ bookstore-api:
       - App__SelfUrl=https://localhost:44354
 	  - App__AngularUrl=http://localhost:4200
 	  - App__CorsOrigins=http://localhost:4200
-      - App__HealthCheckUrl=http://bookstore-api/health-status
-  {{ if Tiered == "Yes" }}
+      - App__HealthCheckUrl=http://bookstore-api/health-status  {{ if Tiered == "Yes" }}
 	  - AuthServer__Authority=http://bookstore-authserver
-      - AuthServer__RequireHttpsMetadata=false
-  {{ end }}
-  {{ if Tiered == "No" }}
+      - AuthServer__RequireHttpsMetadata=false  {{ end }}  {{ if Tiered == "No" }}
 	  - App__RedirectAllowedUrls=http://localhost:4200
 	  - AuthServer__Authority=https://localhost:44354
-      - AuthServer__RequireHttpsMetadata=true
-  {{ end }}
-  {{ if DB == "EF" }}
-      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
-  {{ end }}
-  {{ if DB == "Mongo" }}
-      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
-  {{ end }}
+      - AuthServer__RequireHttpsMetadata=true  {{ end }}  {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;  {{ end }}  {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore   {{ end }}
       - Redis__Configuration=redis
     ports:
       - "44354:443"
-    depends_on:
- {{ if DB == "EF" }}
+    depends_on: {{ if DB == "EF" }}
       sql-server:
-        condition: service_healthy
- {{ end }}      
- {{ if DB == "Mongo" }}
+        condition: service_healthy {{ end }}       {{ if DB == "Mongo" }}
    	  mongo-db:
-        condition: service_healthy
- {{ end }}
+        condition: service_healthy {{ end }}
       redis:
         condition: service_healthy
     restart: on-failure    
@@ -1347,22 +1355,15 @@ bookstore-authserver:
       - App__CorsOrigins=http://localhost:4200
       - App__RedirectAllowedUrls=http://localhost:4200
       - AuthServer__Authority=https://localhost:44334/
-      - AuthServer__RequireHttpsMetadata=false
-      {{ if DB == "EF" }}
-      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
-      {{ end }}
-      {{ if DB == "Mongo" }}
-      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
-      {{ end }}
+      - AuthServer__RequireHttpsMetadata=false      {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;      {{ end }}      {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore       {{ end }}
       - Redis__Configuration=redis
     ports:
       - "44334:443"
-    depends_on:
-     {{ if DB == "EF" }}
+    depends_on:     {{ if DB == "EF" }}
       sql-server:
-        condition: service_healthy
-    {{ end }}      
-    {{ if DB == "Mongo" }}
+        condition: service_healthy    {{ end }}          {{ if DB == "Mongo" }}
    	  mongo-db:
         condition: service_healthy
     {{ end }}   
@@ -1397,25 +1398,15 @@ db-migrator:
       context: ../../
       dockerfile: src/BookStore.DbMigrator/Dockerfile.local
     environment:
-      - OpenIddict__Applications__BookStore_App__RootUrl=http://localhost:4200
-      {{ if Tiered == "Yes" }}
-      - OpenIddict__Applications__BookStore_Swagger__RootUrl=https://localhost:44354
-      {{ end }}
-      {{ if DB == "EF" }}
-      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
-      {{ end }}
-      {{ if DB == "Mongo" }}
-      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
-      {{ end }}
-    depends_on:
-     {{ if DB == "EF" }}
+      - OpenIddict__Applications__BookStore_App__RootUrl=http://localhost:4200      {{ if Tiered == "Yes" }}
+      - OpenIddict__Applications__BookStore_Swagger__RootUrl=https://localhost:44354      {{ end }}      {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;      {{ end }}      {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore       {{ end }}
+    depends_on:     {{ if DB == "EF" }}
       sql-server:
-        condition: service_healthy
-    {{ end }}      
-    {{ if DB == "Mongo" }}
+        condition: service_healthy    {{ end }}          {{ if DB == "Mongo" }}
    	  mongo-db:
-        condition: service_healthy
-    {{ end }}    
+        condition: service_healthy    {{ end }}    
     networks:
       - abp-network
 ```
@@ -1443,27 +1434,17 @@ bookstore-web:
       - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
       - Kestrel__Certificates__Default__Password=91f91912-5ab0-49df-8166-23377efaf3cc
       - App__SelfUrl=https://localhost:44353
-      - AuthServer__RequireHttpsMetadata=false      
-  {{ if Tiered == "Yes" }}
+      - AuthServer__RequireHttpsMetadata=false        {{ if Tiered == "Yes" }}
   	  - AuthServer__IsContainerizedOnLocalhost=true
 	  - AuthServer__Authority=https://localhost:44334/
       - RemoteServices__Default__BaseUrl=http://bookstore-api
       - RemoteServices__AbpAccountPublic__BaseUrl=http://bookstore-authserver
-      - AuthServer__MetaAddress=http://bookstore-authserver
-  {{ end }}
-  {{ if Tiered == "No" }}
-	  - AuthServer__Authority=http://bookstore-web
-  {{ end }}
-      - App__HealthCheckUrl=http://bookstore-web/health-status      
-	{{ if DB == "EF" }}
-      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
-	{{ end }}
-	{{ if DB == "Mongo" }}
-      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
-	{{ end }}
-	{{ if Tiered == "Yes" }}
-      - Redis__Configuration=redis
-  	{{ end }}
+      - AuthServer__MetaAddress=http://bookstore-authserver  {{ end }}  {{ if Tiered == "No" }}
+	  - AuthServer__Authority=http://bookstore-web  {{ end }}
+      - App__HealthCheckUrl=http://bookstore-web/health-status      	{{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;	{{ end }}	{{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore 	{{ end }}	{{ if Tiered == "Yes" }}
+      - Redis__Configuration=redis  	{{ end }}
     ports:
       - "44353:443"
     restart: on-failure
@@ -1576,25 +1557,17 @@ bookstore-api:
       - App__SelfUrl=https://localhost:44354
       - App__HealthCheckUrl=http://bookstore-api/health-status
 	  - AuthServer__Authority=http://bookstore-authserver
-      - AuthServer__RequireHttpsMetadata=false
-  {{ if DB == "EF" }}
-      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
-  {{ end }}
-  {{ if DB == "Mongo" }}
-      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
-  {{ end }}
+      - AuthServer__RequireHttpsMetadata=false  {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;  {{ end }}  {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore   {{ end }}
       - Redis__Configuration=redis
     ports:
       - "44354:443"
-    depends_on:
- {{ if DB == "EF" }}
+    depends_on: {{ if DB == "EF" }}
       sql-server:
-        condition: service_healthy
- {{ end }}      
- {{ if DB == "Mongo" }}
+        condition: service_healthy {{ end }}       {{ if DB == "Mongo" }}
    	  mongo-db:
-        condition: service_healthy
- {{ end }}
+        condition: service_healthy {{ end }}
       redis:
         condition: service_healthy
     restart: on-failure
@@ -1636,25 +1609,17 @@ bookstore-authserver:
       - App__SelfUrl=https://localhost:44334
       - App__CorsOrigins=https://localhost:44353,https://localhost:44354
       - AuthServer__Authority=http://bookstore-authserver
-      - AuthServer__RequireHttpsMetadata=false
-      {{ if DB == "EF" }}
-      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
-      {{ end }}
-      {{ if DB == "Mongo" }}
-      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
-      {{ end }}
+      - AuthServer__RequireHttpsMetadata=false      {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;      {{ end }}      {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore       {{ end }}
       - Redis__Configuration=redis
     ports:
       - "44334:443"
-    depends_on:
-     {{ if DB == "EF" }}
+    depends_on:     {{ if DB == "EF" }}
       sql-server:
-        condition: service_healthy
-    {{ end }}      
-    {{ if DB == "Mongo" }}
+        condition: service_healthy    {{ end }}          {{ if DB == "Mongo" }}
    	  mongo-db:
-        condition: service_healthy
-    {{ end }}
+        condition: service_healthy    {{ end }}
       redis:
         condition: service_healthy
     restart: on-failure
@@ -1687,25 +1652,15 @@ db-migrator:
       context: ../../
       dockerfile: src/BookStore.DbMigrator/Dockerfile.local
     environment:
-      - OpenIddict__Applications__BookStore_Web__RootUrl=https://localhost:44353
-      {{ if Tiered == "Yes" }}
-      - OpenIddict__Applications__BookStore_Swagger__RootUrl=https://localhost:44354
-      {{ end }}
-      {{ if DB == "EF" }}
-      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
-      {{ end }}
-      {{ if DB == "Mongo" }}
-      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
-      {{ end }}
-    depends_on:
-     {{ if DB == "EF" }}
+      - OpenIddict__Applications__BookStore_Web__RootUrl=https://localhost:44353      {{ if Tiered == "Yes" }}
+      - OpenIddict__Applications__BookStore_Swagger__RootUrl=https://localhost:44354      {{ end }}      {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;      {{ end }}      {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore       {{ end }}
+    depends_on:     {{ if DB == "EF" }}
       sql-server:
-        condition: service_healthy
-    {{ end }}      
-    {{ if DB == "Mongo" }}
+        condition: service_healthy    {{ end }}          {{ if DB == "Mongo" }}
    	  mongo-db:
-        condition: service_healthy
-    {{ end }}    
+        condition: service_healthy    {{ end }}    
     networks:
       - abp-network
 ```
@@ -1732,32 +1687,20 @@ bookstore-blazor:
       - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
       - Kestrel__Certificates__Default__Password=91f91912-5ab0-49df-8166-23377efaf3cc
       - App__SelfUrl=https://localhost:44314
-      - AuthServer__RequireHttpsMetadata=false      
-  {{ if Tiered == "Yes" }}
+      - AuthServer__RequireHttpsMetadata=false  {{ if Tiered == "Yes" }}
   	  - AuthServer__IsContainerizedOnLocalhost=true
 	  - AuthServer__Authority=https://localhost:44334/
       - AuthServer__MetaAddress=http://bookstore-authserver
       - RemoteServices__Default__BaseUrl=http://bookstore-api
-      - RemoteServices__AbpAccountPublic__BaseUrl=http://bookstore-authserver
-  {{ end }}
-  {{ if Tiered == "No" }}
-	  - AuthServer__Authority=http://bookstore-blazor
-  {{ end }}  
-	{{ if DB == "EF" }}
-      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
-	{{ end }}
-	{{ if DB == "Mongo" }}
-      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
-	{{ end }}
-	{{ if Tiered == "Yes" }}
-      - Redis__Configuration=redis
-  	{{ end }}
+      - RemoteServices__AbpAccountPublic__BaseUrl=http://bookstore-authserver  {{ end }}  {{ if Tiered == "No" }}
+	  - AuthServer__Authority=http://bookstore-blazor  {{ end }}  	{{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;	{{ end }}	{{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore 	{{ end }}	{{ if Tiered == "Yes" }}
+      - Redis__Configuration=redis  	{{ end }}
     ports:
-      - "44353:443"
-    {{ if Tiered == "Yes" }}
+      - "44353:443"    {{ if Tiered == "Yes" }}
     depends_on:
-      - bookstore-api
-  	{{ end }}
+      - bookstore-api  	{{ end }}
     restart: on-failure
     volumes:
       - ./certs:/root/certificate
@@ -1866,25 +1809,17 @@ bookstore-api:
       - App__SelfUrl=https://localhost:44354
       - App__HealthCheckUrl=http://bookstore-api/health-status
 	  - AuthServer__Authority=http://bookstore-authserver
-      - AuthServer__RequireHttpsMetadata=false
-  {{ if DB == "EF" }}
-      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
-  {{ end }}
-  {{ if DB == "Mongo" }}
-      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
-  {{ end }}
+      - AuthServer__RequireHttpsMetadata=false  {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;  {{ end }}  {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore   {{ end }}
       - Redis__Configuration=redis
     ports:
       - "44354:443"
-    depends_on:
- {{ if DB == "EF" }}
+    depends_on: {{ if DB == "EF" }}
       sql-server:
-        condition: service_healthy
- {{ end }}      
- {{ if DB == "Mongo" }}
+        condition: service_healthy {{ end }}       {{ if DB == "Mongo" }}
    	  mongo-db:
-        condition: service_healthy
- {{ end }}
+        condition: service_healthy {{ end }}
       redis:
         condition: service_healthy
     restart: on-failure
@@ -1925,25 +1860,17 @@ bookstore-authserver:
       - Kestrel__Certificates__Default__Password=91f91912-5ab0-49df-8166-23377efaf3cc
       - App__SelfUrl=https://localhost:44334
       - AuthServer__Authority=http://bookstore-authserver
-      - AuthServer__RequireHttpsMetadata=false
-      {{ if DB == "EF" }}
-      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
-      {{ end }}
-      {{ if DB == "Mongo" }}
-      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
-      {{ end }}
+      - AuthServer__RequireHttpsMetadata=false      {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;      {{ end }}      {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore       {{ end }}
       - Redis__Configuration=redis
     ports:
       - "44334:443"
-    depends_on:
-     {{ if DB == "EF" }}
+    depends_on:     {{ if DB == "EF" }}
       sql-server:
-        condition: service_healthy
-    {{ end }}      
-    {{ if DB == "Mongo" }}
+        condition: service_healthy    {{ end }}          {{ if DB == "Mongo" }}
    	  mongo-db:
-        condition: service_healthy
-    {{ end }}
+        condition: service_healthy    {{ end }}
       redis:
         condition: service_healthy
     restart: on-failure
@@ -1975,25 +1902,15 @@ db-migrator:
       context: ../../
       dockerfile: src/BookStore.DbMigrator/Dockerfile.local
     environment:
-      - OpenIddict__Applications__BookStore_BlazorServerTiered__RootUrl=https://localhost:44314
-      {{ if Tiered == "Yes" }}
-      - OpenIddict__Applications__BookStore_Swagger__RootUrl=https://localhost:44354
-      {{ end }}
-      {{ if DB == "EF" }}
-      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;
-      {{ end }}
-      {{ if DB == "Mongo" }}
-      - ConnectionStrings__Default=mongodb://mongodb/BookStore 
-      {{ end }}
-    depends_on:
-     {{ if DB == "EF" }}
+      - OpenIddict__Applications__BookStore_BlazorServerTiered__RootUrl=https://localhost:44314      {{ if Tiered == "Yes" }}
+      - OpenIddict__Applications__BookStore_Swagger__RootUrl=https://localhost:44354      {{ end }}      {{ if DB == "EF" }}
+      - ConnectionStrings__Default=Data Source=sql-server;Initial Catalog=BookStore;User Id=sa;Password=myPassw0rd;MultipleActiveResultSets=true;TrustServerCertificate=True;      {{ end }}      {{ if DB == "Mongo" }}
+      - ConnectionStrings__Default=mongodb://mongodb/BookStore       {{ end }}
+    depends_on:     {{ if DB == "EF" }}
       sql-server:
-        condition: service_healthy
-    {{ end }}      
-    {{ if DB == "Mongo" }}
+        condition: service_healthy    {{ end }}          {{ if DB == "Mongo" }}
    	  mongo-db:
-        condition: service_healthy
-    {{ end }}    
+        condition: service_healthy    {{ end }}    
     networks:
       - abp-network
 ```
