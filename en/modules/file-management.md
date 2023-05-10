@@ -64,6 +64,17 @@ For user interface, an Angular module called `FileManagementModule` is included 
 
 Please visit [document on feature libraries](https://docs.abp.io/en/abp/latest/UI/Angular/Feature-Libraries) to learn how you can install and set it up in your Angular application.
 
+#### Blazor & Blazor Server
+
+[There is a known problem with ASP NET Core](https://github.com/dotnet/aspnetcore/issues/38842#issuecomment-1342540950), You have to set `DisableImplicitFromServicesParameters` of `HubOptions` to `true`.
+
+```csharp
+Configure<HubOptions>(options =>
+{
+    options.DisableImplicitFromServicesParameters = true;
+});
+```
+
 ## Setting BLOB Provider
 
 File Management module is based on the [BLOB Storing](https://docs.abp.io/en/abp/latest/Blob-Storing) system as defined before, and it uses `FileManagementContainer` as a BLOB container.
