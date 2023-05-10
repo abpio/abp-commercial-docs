@@ -18,7 +18,7 @@ Here, a list of major items in the backlog we are considering to work on in the 
 * Real-time notification system.
 * Dynamic dashboard system.
 * User guiding module.
-* Account module: Authority delegation, Google authenticator integration.
+* Google authenticator integration.
 * gRPC integration and implementation for all the pre-built modules.
 * CMS Kit features, including FAQ, spam protection, social media feeds, multi-language support, and so on.
 
