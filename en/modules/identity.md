@@ -10,6 +10,7 @@ This module implements the User and Role system of an application;
 * Manage **claim types** in the system, set claims to roles and users.
 * Setting page to manage **password complexity**, user sign-in, account and lockout.
 * Supports **LDAP** authentication.
+* Supports **Periodic Password Change (Password Aging)**.
 * Provides **email & phone number** verification.
 * Supports social login integrations (Twitter, Facebook, GitHub etc...).
 * Manage **organization units** in the system.
@@ -425,3 +426,11 @@ The Identity module remote URL configuration shown above is optional. If you don
 ## Distributed Events
 
 This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
+
+## See Also
+
+* [Import External Users](./identity/import-external-users.md)
+* [LDAP Login](./identity/ldap.md)
+* [OAuth Login](./identity/oauth-login.md)
+* [Periodic Password Change (Password Aging)](./identity/periodic-password-change.md)
+* [Two Factor Authentication](./identity/two-factor-authentication.md)

@@ -259,12 +259,12 @@
           "path": "modules/account.md",
           "items": [
             {
-              "text": "Tenant&User impersonation",
-              "path": "modules/account/impersonation.md"
-            },
-            {
               "text": "Authority Delegation",
               "path": "modules/account/authority-delegation.md"
+            },
+            {
+              "text": "Tenant & User Impersonation",
+              "path": "modules/account/impersonation.md"
             }
           ]
         },
@@ -297,8 +297,8 @@
           "path": "modules/identity.md",
           "items": [
             {
-              "text": "Two Factor Authentication",
-              "path": "modules/identity/two-factor-authentication.md"
+              "text": "Import External Users",
+              "path": "modules/identity/import-external-users.md"
             },
             {
               "text": "LDAP Login",
@@ -309,12 +309,12 @@
               "path": "modules/identity/oauth-login.md"
             },
             {
-              "text": "Import External Users",
-              "path": "modules/identity/import-external-users.md"
+              "text": "Periodic Password Change (Password Aging)",
+              "path": "modules/identity/periodic-password-changes.md"
             },
             {
-              "text": "Periodic password changes",
-              "path": "modules/identity/periodic-password-changes.md"
+              "text": "Two Factor Authentication",
+              "path": "modules/identity/two-factor-authentication.md"
             }
           ]
         },

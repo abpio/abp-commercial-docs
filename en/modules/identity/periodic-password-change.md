@@ -1,8 +1,8 @@
-# Periodic Password Change
+# Periodic Password Change (Password Aging)
 
 ## Introduction
 
-The Identity PRO module has built-in password aging function.
+The Identity PRO module has a built-in password aging function.
 
 ## Password renewing settings
 
@@ -13,6 +13,6 @@ You need to enable the periodic password change and configure related settings:
 * **Force users to periodically change password**: Whether users are forced to periodically change their password.
 * **Password change period**: The number of days a user's password is valid for.
 
-If the password is aging, the user must change his password the next time he logs in：
+If the password is aging, the user must change his/her password the next time he/she logs in：
 
 ![identity-pro-module-change-password.jpg](../../images/identity-pro-module-change-password.jpg)

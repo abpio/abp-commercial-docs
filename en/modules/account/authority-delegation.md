@@ -1,24 +1,16 @@
 # Authority Delegation
 
-This article introduces how to enable authority delegation in ABP Framework. Authority delegation is enabled by defautl in ABP v7.2 and above.
-
-## Introduction
-
 Authority Delegation is a way of delegating the responsibility of the current user to a different user(s) for a limited time. Thus, the user can switch to the delegated user's account and perform actions on their behalf.
 
-## How to enable authority delegation feature?
+## Enable/Disable Authority Delegation
 
-If you your ABP version is lower than 7.2, you can implement the authority delegation feature by following the steps below.
+Authority Delegation is enabled by default in [ABP Commercial Startup Templates](../../startup-templates/index.md) since v7.2. However, if your ABP version is lower than 7.2, you need to manually enable it. 
 
-### Impersonation
+>The Authority Delegation feature uses the impersonation system internally, therefore make sure you have correctly configured the [impersonation feature](./impersonation.md) before enabling the Authority Delegation.
 
-The Authority Delegation feature uses the impersonation system internally, make sure you have correctly configured the [impersonation feature](./impersonation.md).
+You can enable the Authority Delegation feature by reading the following sections according to your UI option.
 
-### UI
-
-If you are using tiered or microservices project, you need the following steps.
-
-#### MVC Tiered & Microservice MVC UI
+### MVC Tiered & Microservice MVC UI
 
 ```csharp
 private Task ConfigureUserMenuAsync(MenuConfigurationContext context)
@@ -68,7 +60,9 @@ private Task ConfigureUserMenuAsync(MenuConfigurationContext context)
 }
 ```
 
-> Blazor Tiered UI will be available in 7.3
+> **Note:** Currently, the Blazor Tiered UI is not implemented yet, we are aiming to make it available in v7.3.
+
+## User Interface (UI)
 
 #### Blazor WASM
 
@@ -76,7 +70,7 @@ It is currently not supported.
 
 ### Delegating a new user
 
-After logging into the application, you can see the `Authority Delegation` menu item under the user menu. When you click the menu, a modal will open, and in the first tab of the modal, you will see the list of delegated users.
+You can see the `Authority Delegation` menu item under the user menu. When you click the menu, a modal will open, and in the first tab of the modal, you will see the list of delegated users:
 
 ![account-pro-module-delegated-users](../../images/account-pro-module-delegated-users.jpg)
 
@@ -91,10 +85,10 @@ You can click the `Delegate New User` button to delegate a new user:
 
 ### My delegated users
 
-A list of users who delegated me to log in on behalf of them can be seen in the figure:
+You can see a list of users who delegated you to login on their behalf of them, as in the figure below:
 
 ![account-pro-module-my-delegated-users](../../images/account-pro-module-my-delegated-users.jpg)
 
-You can click the `Login` button to log in to the application as a delegated user and go back to your account by clicking the `Back to my account` icon.
+You can click the `Login` button to log in to the application as a delegated user and go back to your account by clicking the `Back to my account` icon:
 
 ![account-pro-module-delegated-impersonate](../../images/account-pro-module-delegated-impersonate.jpg)
