@@ -261,6 +261,10 @@
             {
               "text": "Tenant&User impersonation",
               "path": "modules/account/impersonation.md"
+            },
+            {
+              "text": "Authority Delegation",
+              "path": "modules/account/authority-delegation.md"
             }
           ]
         },
@@ -307,6 +311,10 @@
             {
               "text": "Import External Users",
               "path": "modules/identity/import-external-users.md"
+            },
+            {
+              "text": "Periodic password changes",
+              "path": "modules/identity/periodic-password-changes.md"
             }
           ]
         },
