@@ -309,7 +309,7 @@
               "path": "modules/identity/oauth-login.md"
             },
             {
-              "text": "Periodic password changes",
+              "text": "Periodic Password Change (Password Aging)",
               "path": "modules/identity/periodic-password-changes.md"
             },
             {
