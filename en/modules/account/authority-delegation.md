@@ -43,7 +43,7 @@ private Task ConfigureUserMenuAsync(MenuConfigurationContext context)
 }
 ```
 
-#### Blazor Tiered & Microservice Blazor UI
+#### Blazor Server Tiered & Microservice Blazor Server UI
 
 ```csharp
 private Task ConfigureUserMenuAsync(MenuConfigurationContext context)
@@ -69,6 +69,10 @@ private Task ConfigureUserMenuAsync(MenuConfigurationContext context)
 ```
 
 > Blazor Tiered UI will be available in 7.3
+
+#### Blazor WASM
+
+It is currently not supported.
 
 ### Delegating a new user
 
