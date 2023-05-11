@@ -6,7 +6,7 @@ Authority Delegation is a way of delegating the responsibility of the current us
 
 Authority Delegation is enabled by default in [ABP Commercial Startup Templates](../../startup-templates/index.md) since v7.2. However, if your ABP version is lower than 7.2, you need to manually enable it. 
 
->The Authority Delegation feature uses the impersonation system internally, therefore make sure you have correctly configured the [impersonation feature](./impersonation.md) before enabling the Authority Delegation.
+> The Authority Delegation feature uses the impersonation system internally, therefore make sure you have correctly configured the [impersonation feature](./impersonation.md) before enabling the Authority Delegation.
 
 You can enable the Authority Delegation feature by reading the following sections according to your UI option.
 
@@ -62,11 +62,13 @@ private Task ConfigureUserMenuAsync(MenuConfigurationContext context)
 
 > **Note:** Currently, the Blazor Tiered UI is not implemented yet, we are aiming to make it available in v7.3.
 
-## User Interface (UI)
-
 #### Blazor WASM
 
 It is currently not supported.
+
+Update Authority Delegation document
+
+## User Interface (UI)
 
 ### Delegating a new user
 
