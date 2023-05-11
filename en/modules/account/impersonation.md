@@ -8,7 +8,7 @@ In some cases, users need to sign in as another user and perform operations on b
 
 ## How to enable impersonation feature?
 
-If you your ABP version is lower than 5.0, you can implement the impersonation feature by following the steps below.
+If your ABP version is lower than 5.0, you can implement the impersonation feature by following the steps below.
 
 ### MVC
 
