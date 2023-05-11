@@ -10,6 +10,7 @@ This module implements the User and Role system of an application;
 * Manage **claim types** in the system, set claims to roles and users.
 * Setting page to manage **password complexity**, user sign-in, account and lockout.
 * Supports **LDAP** authentication.
+* Supports **Periodic Password Change (Password Aging)**.
 * Provides **email & phone number** verification.
 * Supports social login integrations (Twitter, Facebook, GitHub etc...).
 * Manage **organization units** in the system.
