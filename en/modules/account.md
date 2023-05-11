@@ -303,3 +303,8 @@ The Account module remote URL configurations shown above are optional. If you do
 ## Distributed Events
 
 This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
+
+## See Also
+
+* [Authority Delegation](./account/authority-delegation.md)
+* [Impersonation](./account/impersonation.md)
