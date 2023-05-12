@@ -31,15 +31,15 @@ The ABP microservice template provides docker image build scripts based on your 
 
 ## Removing Unused Helm Charts
 
-
+Necessary helm charts are created under `etc/k8s/mystore` folder. Based on your back-office application UI, remove the other UI charts. Ex, if you are using ***\*angular\**** UI, remove ***\*web\****, ***\*blazor\**** and ***\*blazor-server\**** charts.
 
 ## How to Run
 
-
+The default application is configured to be running on HTTPS using domain names. 
 
 ### Configuring HTTPS
 
-
+There are various ways to create a self-signed certificate. 
 
 ### Installing mkcert
 
