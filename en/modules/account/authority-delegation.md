@@ -37,6 +37,10 @@ private Task ConfigureUserMenuAsync(MenuConfigurationContext context)
 
 #### Blazor Server Tiered & Microservice Blazor Server UI
 
+Use ABP CLI to install `Volo.Abp.Account.Pro.Public.Blazor.Server` package the the Blazor project:
+
+`abp install-package Volo.Abp.Account.Pro.Public.Blazor.Server`
+
 ```csharp
 private Task ConfigureUserMenuAsync(MenuConfigurationContext context)
 {
