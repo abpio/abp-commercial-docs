@@ -87,4 +87,4 @@ To stop tye, simply use the command `Ctrl+C` on the console tye is running. Keep
 
 ## Next
 
-- [Guides: Adding New Microservice](add-microservice.md)
+- [Microservice Startup Template: Helm Deployment](helm-deployment.md)

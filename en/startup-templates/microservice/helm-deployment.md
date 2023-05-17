@@ -110,7 +110,7 @@ Under `etc/k8s` folder you can see the **MyStore** (your application name) folde
 
 ### Main Chart
 
-The `deploy-staging.ps1` script uses the MyStore `Chart.yaml` and the `values.yaml` files for single helm deployment for the whole microservice solution as a single chart. **values.yaml** file under the **MyStore** folder is the file to override all the sub-charts.
+The `deploy-staging.ps1` script uses the MyStore `Chart.yaml` and the `values.yaml` files for single helm deployment for the whole microservice solution as a single chart. **MyStore** folder contains the **values.yaml** file that is used to **override all the sub-charts**.
 
 ### Sub-Charts
 
@@ -120,6 +120,8 @@ Under the **charts** folder, you can see all the 3rd party applications (like re
 - **Service** file the service definition for the helm chart.
 - **Deployment** file is contains all the deployment configuration and the most importantly **environment variable overriding**. You can examine and/or add your own appsettings overriding to the this file. You can see all the overriding values are pointing to the `values.yaml` file.
 - **Configmap** file contains json files to replace the existing files. Gateways replace `ocelot.json` files, **angular application** contains `dynamic-env.json` file to replace the **remote environment** file. You can find volume mounts under the `deployment.yaml` files. This is used to prevent the recreation of the image for environment changes. 
+
+Each template deployment override information are located under their own chart folder. The `values.yaml` files contains the keys but the **values are commented out**. This is because **the main chart values.yaml file overrides all these values in a single file.** If you want to deploy any application, microservice or a gateway **individually**, you need to **fill the commented values** of the related `values.yaml` files.
 
 ## FAQ
 
