@@ -210,14 +210,14 @@
                 {
                   "text": "Adding a new Microservice",
                   "path": "startup-templates/microservice/add-microservice.md"
+                },                
+                {
+                  "text": "Communication Between Microservices",
+                  "path": "startup-templates/microservice/interservice-communication.md"
                 },
                 {
                   "text": "Using gRPC",
                   "path": "startup-templates/microservice/using-grpc.md"
-                },
-                {
-                  "text": "Communication Between Microservices",
-                  "path": "startup-templates/microservice/interservice-communication.md"
                 },
                 {
                   "text": "Change Microservice project to use MongoDB Provider",
