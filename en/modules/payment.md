@@ -44,6 +44,11 @@ In order to use a Payment Gateway, you need to add related NuGet packages to you
 
 After adding packages of a payment gateway to your application, you also need to configure global payment module options and options for the payment modules you have added. See the Options section below.
 
+### Creating a custom payment gateway
+If you require a different payment gateway than existing ones, you can create a custom payment gateway by your own. 2 steps are required to create a custom payment gateway. First is creating a payment gateway object that implements `IPaymentGateway`. This interface exposes core payment operations without any UI. Second step is creating UI for the payment gateway. This UI is used to redirect user to payment gateway and validate payment.
+
+Follow the [instructions here](payment-custom-gateway) to create a custom payment gateway.
+
 ## Packages
 
 This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
@@ -466,7 +471,9 @@ Note: It is main application's responsibility to handle if a payment request is 
 
 ### Creating One-Time Payment
 
-In order to initiate a payment process, inject ```IPaymentRequestAppService```, create a payment request using it's ```CreateAsync``` method and redirect user to gateway selection page with the created payment request's Id. Here is a sample Razor Page code which starts a payment process on it's OnPost method.
+In order to initiate a payment process, inject `IPaymentRequestAppService`, create a payment request using it's `CreateAsync` method and redirect user to gateway selection page with the created payment request's Id. Here is a sample Razor Page code which starts a payment process on it's OnPost method.
+
+> Redirection of the gateway selection page has to be a **POST** request. If you implement it as a **GET** request, you will get an error. You can use `LocalRedirectPreserveMethod` to keep the method as POST in the redirected request.
 
 ```c#
 public class IndexModel: PageModel
@@ -478,7 +485,7 @@ public class IndexModel: PageModel
         _paymentRequestAppService = paymentRequestAppService;
     }
 
-    public virtual async Task<IActionResult> OnPost()
+    public virtual async Task<IActionResult> OnPostAsync()
     {
         var paymentRequest = await _paymentRequestAppService.CreateAsync(new PaymentRequestCreateDto()
         {
@@ -545,6 +552,8 @@ Follow [saas](saas.md#tenant-edition-subscription) documentation.
 
 Creating a recurring payment almost same as creating a payment. Setting `PaymentType` property as **Recurring** and passing `PlanId` are enough to start a recurring payment request. If given Plan has multiple GatewayPlan, user will be able to choose gateway to pay.
 
+> Redirection of the gateway selection page has to be a **POST** request. If you implement it as a **GET** request, you will get an error. You can use `LocalRedirectPreserveMethod` to keep the method as POST in the redirected request.
+
 ```csharp
 public class SubscriptionModel : PageModel
 {
@@ -555,7 +564,7 @@ public class SubscriptionModel : PageModel
         PaymentRequestAppService = paymentRequestAppService;
     }
 
-    public virtual async Task<IActionResult> OnPost()
+    public virtual async Task<IActionResult> OnPostAsync()
     {
         var paymentRequest = await PaymentRequestAppService.CreateAsync(
             new PaymentRequestCreateDto()

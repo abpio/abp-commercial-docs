@@ -98,39 +98,41 @@ SaaS module adds the following items to the "Main" menu, under the "Administrati
 
 Tenant page is used to manage tenants in the system. 
 
-![saas-module-tenants-page](../images/saas-module-tenants-page-2.png)
+![saas-module-tenants-page](../images/saas-module-tenants-page.png)
 
 You can create a new tenant or edit a tenant in this page:
 
-![saas-module-tenant-edit-modal](../images/saas-module-tenant-edit-modal-2.png)
+![saas-module-tenant-edit-modal](../images/saas-module-tenant-edit-modal.png)
 
 ##### Connection String
 
 You can manage connection string of a tenant in case you want to use a separate database for a specific tenant. If you want to use Host database for a tenant, select "Use the Shared Database" option.
 
-![saas-module-tenant-connection-strings-modal](../images/saas-module-tenant-connection-strings-modal-2.png)
+You can also use the module-specific database connection string feature. In this case, you should select the "Use module specific database connection string" option, then you can determine your modules and their connection strings. Before adding you can check your connection by clicking "Check"
+
+![saas-module-tenant-connection-strings-modal](../images/saas-module-tenant-connection-strings-modal.png)
 
 ##### Tenant Features
 
 You can set features of tenants.
 
-![saas-module-features-modal](../images/saas-module-features-modal-2.png)
+![saas-module-features-modal](../images/saas-module-features-modal.png)
 
 #### Edition management
 
 Editions page is used to manage the editions in your system.
 
-![saas-module-editions-page](../images/saas-module-editions-page-2.png)
+![saas-module-editions-page](../images/saas-module-editions-page.png)
 
 You can create a new edition or edit an existing edition in this page:
 
-![saas-module-edition-edit-modal](../images/saas-module-edition-edit-modal-2.png)
+![saas-module-edition-edit-modal](../images/saas-module-edition-edit-modal.png)
 
 ##### Edition Features
 
 You can set features of an edition in this page:
 
-![saas-module-features-modal](../images/saas-module-features-modal-2.png)
+![saas-module-features-modal](../images/saas-module-features-modal.png)
 
 ## Data seed
 
@@ -311,4 +313,4 @@ The Saas module remote URL configurations shown above are optional. If you don't
 
 ## Distributed Events
 
-This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
+This module doesn't define any additional distributed events. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).

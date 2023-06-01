@@ -126,6 +126,24 @@
                   "path": "getting-started-react-native.md"
                 }
               ]
+            },
+            {
+              "text": "Deployment",
+              "path": "startup-templates/application/deployment.md",
+              "items": [
+                {
+                  "text": "Docker Deployment",
+                  "path": "startup-templates/application/deployment-docker-compose.md"
+                },
+                {
+                  "text": "Azure Deployment",
+                  "path": "startup-templates/application/deployment-azure-application-service.md"
+                },
+                {
+                  "text": "IIS Deployment",
+                  "path": "startup-templates/application/deployment-iis.md"
+                }
+              ]
             }
           ]
         },
@@ -181,6 +199,10 @@
             {
               "text": "Tye Integration",
               "path": "startup-templates/microservice/tye-integration.md"
+            },
+            {
+              "text": "Helm Deployment",
+              "path": "startup-templates/microservice/helm-deployment.md"
             },
             {
               "text": "Guides",
@@ -245,7 +267,11 @@
           "path": "modules/account.md",
           "items": [
             {
-              "text": "Tenant&User impersonation",
+              "text": "Authority Delegation",
+              "path": "modules/account/authority-delegation.md"
+            },
+            {
+              "text": "Tenant & User Impersonation",
               "path": "modules/account/impersonation.md"
             }
           ]
@@ -279,8 +305,8 @@
           "path": "modules/identity.md",
           "items": [
             {
-              "text": "Two Factor Authentication",
-              "path": "modules/identity/two-factor-authentication.md"
+              "text": "Import External Users",
+              "path": "modules/identity/import-external-users.md"
             },
             {
               "text": "LDAP Login",
@@ -291,8 +317,12 @@
               "path": "modules/identity/oauth-login.md"
             },
             {
-              "text": "Import External Users",
-              "path": "modules/identity/import-external-users.md"
+              "text": "Periodic Password Change (Password Aging)",
+              "path": "modules/identity/periodic-password-changes.md"
+            },
+            {
+              "text": "Two Factor Authentication",
+              "path": "modules/identity/two-factor-authentication.md"
             }
           ]
         },
@@ -323,6 +353,15 @@
         {
           "text": "Twilio SMS",
           "path": "modules/twilio-sms.md"
+        },
+        {
+          "text": "Common",
+          "items": [
+            {
+              "text": "Database Tables",
+              "path": "modules/database-tables.md"
+            }
+          ]
         }
       ]
     },
@@ -355,10 +394,6 @@
             {
               "text": "Blazor",
               "path": "themes/lepton-x/blazor.md"
-            },
-            {
-              "text": "Comparison between Lite and Commercial",
-              "path": "themes/lepton-x/comparison.md"
             }
           ]
         }
@@ -370,6 +405,10 @@
         {
           "text": "Customization",
           "items": [
+            {
+              "text": "Modifying the Menu",
+              "path": "ui/angular/modifying-the-menu.md"
+            },
             {
               "text": "Manage Profile Page Tabs",
               "path": "ui/angular/manage-profile-page-tabs.md"
@@ -454,8 +493,12 @@
       "text": "Release Information",
       "items": [
         {
-          "text": "Release Notes (Change Logs)",
+          "text": "Release Notes",
           "path": "release-notes.md"
+        },
+        {
+          "text": "Full Change Logs",
+          "path": "change-logs/index.md"
         },
         {
           "text": "Road Map",
@@ -481,16 +524,6 @@
         {
           "text": "ABP Commercial vs ASP.NET Zero",
           "path": "aspnet-zero-vs-abp-commercial.md"
-        },
-        {
-          "text": "How to?",
-          "path": "how-to/index.md",
-          "items": [
-            {
-              "text": "Implementing Passwordless Authentication",
-              "path": "how-to/implementing-passwordless-authentication.md"
-            }
-          ]
         },
         {
           "text": "Why ABP.IO Platform?",

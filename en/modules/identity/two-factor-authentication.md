@@ -100,8 +100,7 @@ Then a **verification code** is sent to via the selected provider and the user e
 After clicking the **Remember this browser** check box, a cookie with the name `Identity.TwoFactorRememberMe` will be sent to the client with a default timeout of 14 days. You can override these values as shown below:
 
 ```csharp
-Configure<CookieAuthenticationOptions>
-(IdentityConstants.TwoFactorRememberMeScheme, options =>
+Configure<CookieAuthenticationOptions>(IdentityConstants.TwoFactorRememberMeScheme, options =>
 {
      options.ExpireTimeSpan = TimeSpan.FromDays(30); //override the timeout
      options.Cookie.Name = "MyRememberMeCookieName"; //override the cookie name

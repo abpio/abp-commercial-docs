@@ -25,6 +25,22 @@ A React Native application running on an Android emulator or a physical phone **
 
 {{ end }}
 
+
+> You should turn off the "Https Restriction" if you're using OpenIddict as a central identity management solution. Because the IOS Simulator doesn't support self-signed certificates and OpenIddict is set to only work with HTTPS by default.
+
+## How to disable the Https-only settings of OpenIddict
+
+ Go to MyProjectNameHttpApiHostModule.cs under the host project. Add put these codes under the `PreConfigureServices` function.
+
+```csharp
+#if DEBUG
+ PreConfigure<OpenIddictServerBuilder>(options => {
+ options.UseAspNetCore()
+ .DisableTransportSecurityRequirement();
+ });
+#endif
+```
+
 ## Run the Server Application
 
 Run the backend application as described in the [getting started document](getting-started.md).
@@ -47,7 +63,7 @@ yarn
 
 {{else}}
 
-> Make sure that `issuer` and `apiUrl` matches the running address of the `.HttpApi.Host` or `.Web` or `.Blazor`(BlazorServer UI) project.
+> Make sure that `issuer` and `apiUrl` match the running address of the `.HttpApi.Host`, `.Web` or `.Blazor`(BlazorServer UI) projects.
 
 {{ end }}
 

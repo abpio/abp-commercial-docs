@@ -70,7 +70,7 @@ Configure<LeptonXThemeOptions>(options =>
 
 ```
 
-> `red.css` and `bootstrap-red.css` have to be added under the **/Themes/LeptonX/Global/side-menu/css/** folder for switching to your custom theme properly when selected.
+> `red.css` and `bootstrap-red.css` have to be added under **wwwroot/Themes/LeptonX/Global/side-menu/css/** folder for switching to your custom theme properly when selected.
 
 --- 
 

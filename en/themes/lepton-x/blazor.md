@@ -159,6 +159,35 @@ Layout options of Blazor UI can be manageable via using **LeptonXThemeMvcOptions
     });
     ```
 
+
+{{if UI == "Blazor"}}
+
+#### Updating Bundles on Layout Changes
+Layout changes requires bundling and restarting the application. Before bundling, you have to add your layout to `appsettings.json`. Make sure `AbpCli:Bundle:Paramters` has `LeptonXTheme.Layout` key with your layout name. Available values are `side-menu` & `top-menu`.
+
+
+_You can add the following section to root level of your appsettings.json file if not added._
+```json
+  "AbpCli": {
+    "Bundle": {
+      "Mode": "BundleAndMinify", /* Options: None, Bundle, BundleAndMinify */
+      "Name": "global",
+      "Parameters": {
+        "LeptonXTheme.Layout": "top-menu" /* Options: side-menu, top-menu */
+      }
+    }
+  }
+```
+
+Then you can run bundling command with ABP Cli
+
+```bash
+abp bundle
+```
+
+{{end}}
+
+
 ## Layouts
 
 **LeptonX** offers two **ready-made layouts** for your web application. One of them is **placed** with the **menu items** on the **top** and the other with the **menu items** on the **sides**.
@@ -193,10 +222,10 @@ You can override layouts by following the steps below:
 using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components.ApplicationLayout;
 using Volo.Abp.DependencyInjection;
 
-[ExposeServices(typeof(SideMenuLayout))]
-[Dependency(ReplaceServices = true)
 namespace LeptonXLite.DemoApp.Blazor.MyComponents
 {
+    [ExposeServices(typeof(SideMenuLayout))]
+    [Dependency(ReplaceServices = true)]
     public partial class MySideMenuLayout
     {
         public string Name = "My Top Layout";

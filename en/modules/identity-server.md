@@ -39,21 +39,21 @@ Identity Server module adds the following items to the "Main" menu, under the "A
 
 Clients page is used to manage Identity Server clients. A client represent applications that can request tokens from your Identity Server.
 
-![identity-server-clients-page](../images/identity-server-clients-page-2.png)
+![identity-server-clients-page](../images/identity-server-clients-page.png)
 
 You can create new clients or edit existing clients in this page:
 
-![identity-server-edit-client-modal](../images/identity-server-edit-client-modal-2.png)
+![identity-server-edit-client-modal](../images/identity-server-edit-client-modal.png)
 
 #### Identity Resource Management
 
 Identity resource page is used to manage identity resources of Identity Server. Identity resources are data like user ID, name, or email address of a user.
 
-![identity-server-identity-resources-page](../images/identity-server-identity-resources-page-2.png)
+![identity-server-identity-resources-page](../images/identity-server-identity-resources-page.png)
 
 You can create a new identity resource or edit an existing identity resource in this page:
 
-![identity-server-edit-identity-resource-modal](../images/identity-server-edit-identity-resource-modal-2.png)
+![identity-server-edit-identity-resource-modal](../images/identity-server-edit-identity-resource-modal.png)
 
 This page allows creating standard identity resources (role, profile, phone, openid, email and address) using "Create standard resources" button.
 
@@ -61,11 +61,11 @@ This page allows creating standard identity resources (role, profile, phone, ope
 
 Identity Server module allows to manage API resources. To allow clients to request access tokens for APIs, you need to define API resources.
 
-![identity-server-api-resources-page](../images/identity-server-api-resources-page-2.png)
+![identity-server-api-resources-page](../images/identity-server-api-resources-page.png)
 
 You can create a new API resource or edit an existing API resource in this page:
 
-![identity-server-edit-api-resource-modal](../images/identity-server-edit-api-resource-modal-2.png)
+![identity-server-edit-api-resource-modal](../images/identity-server-edit-api-resource-modal.png)
 
 ## Data Seed
 

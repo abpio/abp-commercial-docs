@@ -1,13 +1,36 @@
-# Release Notes / Change Logs / Version History
+# Release Notes
 
-This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version. Also, they generally don't cover the features made in the open-source ABP Framework. For the ABP Framework features, check blog post for the related version.
+This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version. **To see raw and detailed change logs for every release, please check [the full change logs document](change-logs/index.md).**
 
-## 7.0 RC (2022-11-15)
+> Release notes in this document don't cover the features made in the open-source ABP Framework. For the ABP Framework features, check the blog post for the related version.
 
-> This version is currently in preview (RC: Release Candidate).
+## 7.2 (2023-05-03)
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-7-2-Final-Has-Been-Released)** for the v7.2 release.
+
+* **[LeptonX Theme](./themes/lepton-x/index.md)** - Navigation Menu Item Grouping.
+* Support for the **Authority Delegation** in the **[Account Module](./modules/account.md)**.
+* Forcing Password Change at Next Logon.
+* Periodic Password Changes / Password Aging.
+* Suite: Show/Hide Properties on Create/Update/List Pages
+* **CMS Kit Comments**: Disallowing External URLs.
+
+## 7.1 (2023-03-22)
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP-IO-Platform-7-1-Final-Has-Been-Released)** for the v7.1 release.
+
+* **Blazor WebAssembly** option for the single-layer startup template.
+* **ABP Suite** code generation for **MAUI Blazor Hybrid** solutions.
+* Allow to **impersonate** an arbitrary **user** in the SaaS module.
+* Many enhancements and fixes for the 7.1 version.
+
+## 7.0 (2023-01-05)
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-7.0-Final-Has-Been-Released)** for the v7.0 release.
 
 * Upgraded to **.NET 7.0**.
 * Upgraded to **OpenIddict 4.0**.
+* New **MAUI Blazor Hybrid** UI.
 * Implemented **external localization**, **dynamic feature** and **dynamic permission** systems to allow more advanced microservice scenarios. All they are applied to the **microservice startup template**.
 * **WeChat** and **Alipay** integrations for the **Payment** module.
 * Allow host users to **change the password** of a user of a tenant.

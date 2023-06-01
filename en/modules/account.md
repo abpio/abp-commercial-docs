@@ -3,7 +3,7 @@
 This module implements the Login, Register, Forgot Password, Email Confirmation, Password Reset, sending and confirming Two-Factor Authentication, user lockout, switch between tenants functionalities of an application;
 
 * Built on the [Microsoft's ASP.NET Core Identity](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity) library.
-* Identity Server Grant and Consent pages.
+* OpenIddict Grant and Consent pages.
 * Setting page to manage **self registration** and two-factor authentication.
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Account.Pro) for an overview of the module features.
@@ -30,13 +30,13 @@ This module doesn't define any menu items.
 
 Login page is used to log in to the system.
 
-![account-pro-module-login-page](../images/account-pro-module-login-page-2.png)
+![account-pro-module-login-page](../images/account-pro-module-login-page.png)
 
 #### Register Page
 
 Register page allows new users to register to your system.
 
-![identity-users-page](../images/account-pro-module-register-page-2.png)
+![identity-users-page](../images/account-pro-module-register-page.png)
 
 #### Two Factor Authentication
 
@@ -46,13 +46,13 @@ Identity module allows two factor authentication pages.
 
 Send security code page allows selecting a two factor authentication provider (Email, Phone etc...) and sends a security code to user via selected provider.
 
-![account-pro-module-two-factor-send-page](../images/account-pro-module-two-factor-send-page-2.png)
+![account-pro-module-two-factor-send-page](../images/account-pro-module-two-factor-send-page.png)
 
 ##### Verify Security Code
 
 Verify security code page verifies the security code sent to user and if the code is verified, user logs in to the system.
 
-![account-pro-module-two-factor-verify-page](../images/account-pro-module-two-factor-verify-page-2.png)
+![account-pro-module-two-factor-verify-page](../images/account-pro-module-two-factor-verify-page.png)
 
 ## Data Seed
 
@@ -303,3 +303,8 @@ The Account module remote URL configurations shown above are optional. If you do
 ## Distributed Events
 
 This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
+
+## See Also
+
+* [Authority Delegation](./account/authority-delegation.md)
+* [Impersonation](./account/impersonation.md)

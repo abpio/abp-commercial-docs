@@ -47,7 +47,7 @@ The `Volo.Chat.SignalR` package must be added according to your project structur
 * **Blazor Server** : {ProjectName}.Blazor.Server.
 * **Angular**
   * **Unified Backend**: {ProjectName}.HttpApi.Host project.
-  * **Separated Identity Server**:  {ProjectName}.HttpApi.Host project. 
+  * **Separated Auth Server**:  {ProjectName}.HttpApi.Host project. 
 
 If database provider of your project is **EntityFrameworkCore**, use `modelBuilder.ConfigureChat()` to configure database tables in your project's DbContext.
 
@@ -102,7 +102,7 @@ Chat module defines the chat feature, you need to enable the chat feature to use
 
 This is the page that users send messages to each other.
 
-![chat-page](../images/chat-page-2.png)
+![chat-page](../images/chat-page.png)
 
 #### Chat icon on navigation bar
 

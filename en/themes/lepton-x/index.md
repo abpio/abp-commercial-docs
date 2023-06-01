@@ -2,13 +2,13 @@
 
 The LeptonX Theme is a professional theme for the ABP Commercial. 
 
-* Check out the website of LeptonX on https://leptontheme.com/
-* Check out the live demo to see it in action. https://x.leptontheme.com/
+* Check out the website of LeptonX on https://leptontheme.com/.
+* Check out the live demo to see it in action. https://x.leptontheme.com/.
 
 ## Highlights
 
 * Built on the [Bootstrap 5](https://getbootstrap.com) library.
-* 100% compatible with  [Bootstrap 5](https://getbootstrap.com) HTML structure and CSS classes
+* 100% compatible with  [Bootstrap 5](https://getbootstrap.com) HTML structure and CSS classes.
 * Responsive & mobile-compatible.
 * Provides different style like Dim, Dark and Light.
 
@@ -80,20 +80,28 @@ LeptonX Module doesn't define any permissions.
 
 ### Source code
 
-To download the source-code of the LeptonX Theme use the following CLI command
+You can use the following CLI command to download the source-code:
 
-```
+```bash
 abp get-source Volo.Abp.LeptonXTheme.Pro	
 ```
 
-If you want to download the source code of the preview version, you can use the command below
+If you want to download the source code of the preview version, you can use the following command:
 
-```
+```bash
 abp get-source Volo.Abp.LeptonXTheme.Pro --preview
 ```
 
-ABP Commercial customers can also download the source code of [https://x.leptontheme.com/](https://x.leptontheme.com/) using the downlaod link [https://abp.io/api/download/samples/leptonx-demo](https://abp.io/api/download/samples/leptonx-demo)
+> You can download the source code of a certain version by using the `--version` parameter. See the [ABP CLI documentation](https://docs.abp.io/en/abp/latest/CLI#get-source) for other possible options.
+
+ABP Commercial customers can also download the source code of the [https://x.leptontheme.com/](https://x.leptontheme.com/) from [https://abp.io/api/download/samples/leptonx-demo](https://abp.io/api/download/samples/leptonx-demo).
+
+In order to understand structure of LeptonX's source code and build it from its source code, you can check [LeptonX source code documentation](source-files.md).
 
 ## LeptonX Theme Customization
 
-Customization documents are being prepared.
+You can use the following links to see the customizations for different UI types:
+
+* [LeptonX Theme: MVC UI](mvc.md)
+* [LeptonX Theme: Angular UI](angular.md)
+* [LeptonX Theme: Blazor UI](blazor.md)

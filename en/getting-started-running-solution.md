@@ -3,7 +3,7 @@
 ````json
 //[doc-params]
 {
-    "UI": ["MVC", "Blazor", "BlazorServer", "NG"],
+    "UI": ["MVC", "Blazor", "BlazorServer", "NG", "MAUIBlazor"],
     "DB": ["EF", "Mongo"],
     "Tiered": ["Yes", "No"]
 }
@@ -17,7 +17,7 @@
 
 ### Connection String
 
-Check the **connection string** in the `appsettings.json` file under the {{if Tiered == "Yes"}}`.IdentityServer` and `.HttpApi.Host` projects{{else}}{{if UI=="MVC"}}`.Web` project{{else if UI=="BlazorServer"}}`.Blazor` project{{else}}`.HttpApi.Host` project{{end}}{{end}}.
+Check the **connection string** in the `appsettings.json` file under the {{if Tiered == "Yes"}}`.AuthServer` and `.HttpApi.Host` projects{{else}}{{if UI=="MVC"}}`.Web` project{{else if UI=="BlazorServer"}}`.Blazor` project{{else}}`.HttpApi.Host` project{{end}}{{end}}.
 
 {{ if DB == "EF" }}
 
@@ -101,7 +101,7 @@ Right click to the `.DbMigrator` project and select **Set as StartUp Project**
 
 > Tiered solutions use Redis as the distributed cache. Ensure that it is installed and running in your local computer. If you are using a remote Redis Server, set the configuration in the `appsettings.json` files of the projects below.
 
-1. Ensure that the `.IdentityServer` project is the startup project. Run this application that will open a **login** page in your browser.
+1. Ensure that the `.AuthServer` project is the startup project. Run this application that will open a **login** page in your browser.
 
 > Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
 
@@ -119,7 +119,7 @@ This is the HTTP API that is used by the web application.
 
 Click to the **login** button which will redirect you to the *authentication server* to login to the application:
 
-![bookstore-login](images/bookstore-login-2.png)
+![bookstore-login](images/bookstore-login.png)
 
 {{ else # Tiered != "Yes" }}
 
@@ -127,7 +127,7 @@ Ensure that the {{if UI=="MVC"}}`.Web`{{else}}`.Blazor`{{end}} project is the st
 
 > Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
 
-![bookstore-login](images/bookstore-login-2.png)
+![bookstore-login](images/bookstore-login.png)
 
 {{ end # Tiered }}
 
@@ -139,7 +139,7 @@ Ensure that the {{if UI=="MVC"}}`.Web`{{else}}`.Blazor`{{end}} project is the st
 
 > Tiered solutions use Redis as the distributed cache. Ensure that it is installed and running in your local computer. If you are using a remote Redis Server, set the configuration in the `appsettings.json` files of the projects below.
 
-Ensure that the `.IdentityServer` project is the startup project. Run the application which will open a **login** page in your browser.
+Ensure that the `.AuthServer` project is the startup project. Run the application which will open a **login** page in your browser.
 
 > Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
 
@@ -175,7 +175,7 @@ Ensure that the `.Blazor` project is the startup project and run the application
 
 Once the application starts, click to the **Login** link on to header, which redirects you to the authentication server to enter a username and password:
 
-![bookstore-login](images/bookstore-login-2.png)
+![bookstore-login](images/bookstore-login.png)
 
 {{ else if UI == "NG" }}
 
@@ -196,17 +196,81 @@ yarn start
 It may take a longer time for the first build. Once it finishes, it opens the Angular UI in your default browser with the [localhost:4200](http://localhost:4200/) address.
 
 
+![bookstore-login](images/bookstore-login.png)
 
-![bookstore-login](images/bookstore-login-2.png)
+{{ else if UI == "MAUIBlazor" }}
+
+### Running the MAUI Blazor Application (Client Side)
+
+Ensure that the `.MauiBlazor` project is the startup project.
+
+> Use Ctrl+F5 in Visual Studio (instead of F5) to run the application without debugging. If you don't have a debug purpose, this will be faster.
+
+MAUI supports multiple platforms:
+
+#### Windows
+
+Ensure that the target is `Windows Machine` and run the application.
+
+#### Android
+
+Ensure that the target is `Android Emulators`.
+
+Android emulator is isolated from your development machine network interfaces, you need to configure the network:
+
+**ADB**
+
+Open a command line terminal and run the `adb reverse` command to expose a port on your Android device to a port on your computer. For example:
+
+`adb reverse tcp:44305 tcp:44305`
+
+> You should replace "44305" with the real port.
+> You should run the command after starting the emulator.
+> You will find that the user avatar cannot be loaded, this is due to the use of insecure https, you can use `Ngrok`.
+
+**Ngrok**
+
+You can use the [ngrok](https://ngrok.com/) to reverse proxy your localhost servies. For example:
+
+`ngrok http 44305`
+
+* You should replace "44305" with the real port.
+* You should replace `Authority` with the Ngrok URL.
+
+#### IOS
+
+Ensure that the target is `IOS Emulators`.
+
+The iOS simulator uses the host machine network. Therefore, applications running in the simulator can connect to web services running on your local machine via the machines IP address or via the localhost hostname. For example, given a local secure web service that exposes a GET operation via the /api/todoitems/ relative URI, an application running on the iOS simulator can consume the operation by sending a GET request to https://localhost:<port>/api/todoitems/.
+
+> If the simulator is used from Windows with a remote connection, follow the [Microsoft's documentation](https://docs.microsoft.com/en-us/xamarin/cross-platform/deploy-test/connect-to-local-web-services#specify-the-local-machine-address) to setup a proper configuration.
+
+##### Remote iOS Simulator for Windows
+
+If you are run the MAUI on Mac agent, the remote iOS Simulator can't access backend application running on Windows, you need to run the backend application on Mac or make the backend application on the internal.
+
+### Secure Storage
+
+The MAUI Blazor application uses [Preferences](https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/storage/preferences) to store access token by default, safe practice is to use [Secure Storage](https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/storage/secure-storage), it requires some extra steps for different platforms.
+
+You can check the [Secure Storage documentation](https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/storage/secure-storage#get-started)
+
+#### Got could not find any available provisioning profiles for on ios error!
+
+You need some extra steps, please check the [Microsoft's documentation](https://learn.microsoft.com/en-us/xamarin/ios/get-started/installation/device-provisioning/)
+
+After you run the project, you can click the login button to the login UI.
+
+![bookstore-login](images/bookstore-login.png)
 
 {{ end }}
 
 Enter **admin** as the username and **1q2w3E*** as the password to login to the application. 
 
 {{ if UI == "Blazor" }}
-![bookstore-home](images/bookstore-blazor-home-2.png)
+![bookstore-home](images/bookstore-home.png)
 {{else}}
-![bookstore-home](images/bookstore-home-2.png)
+![bookstore-home](images/bookstore-home.png)
 {{end}}
 
 The application is up and running. You can start developing your application based on this startup template.

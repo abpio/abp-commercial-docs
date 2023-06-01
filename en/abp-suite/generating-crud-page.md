@@ -209,6 +209,11 @@ The below image is the final page created by the ABP Suite. The **new book** dia
 
 ![navigation-property-books-page](../images/navigation-property-books-page.png)
 
+#### Adding IdentityUser as navigation property
+
+You can add `IdentityUser` entity as a navigation property to an entity by manually entering the required information. See the screenshot below:
+
+![navigation-property-books-page](../images/navigation-property-identityuser.png)
 
 ### Saving an entity
 

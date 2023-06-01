@@ -34,6 +34,8 @@
 > Make sure you are already [running the infrastructure](index.md#run-the-infrastructure).
 
 Use the command `tye run` under your main solution directory to run the solution.
+Or you can execute the `run-tye.ps1` PowerShell script to simply start your solution.
+
 
 ![tye-run](../../images/tye-run.png)
 
@@ -85,4 +87,4 @@ To stop tye, simply use the command `Ctrl+C` on the console tye is running. Keep
 
 ## Next
 
-- [Guides: Adding New Microservice](add-microservice.md)
+- [Microservice Startup Template: Helm Deployment](helm-deployment.md)
