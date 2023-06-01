@@ -23,6 +23,53 @@ While API Gateway provides a **single point of entry** to system, Backend for Fr
 
 If you are planning to add your custom client (such as mobile application), it is recommended to add a new gateway for that specific client since each client's requests will probably be different.
 
+## Client Proxies
+
+When the back-office or public-web application makes a request to a microservice, the service location should be obtained on run-time ([Dynamic API Client Proxies](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients)) or on development time ([Static API Client Proxies](https://docs.abp.io/en/abp/latest/API/Static-CSharp-API-Clients)).
+
+If you examine the `ProductServiceHttpApiClientModule` of the sample ProductService and [adding a new microservice](https://docs.abp.io/en/commercial/latest/startup-templates/microservice/add-microservice) template, they support [Static C# API Client Proxies](https://docs.abp.io/en/abp/latest/API/Static-CSharp-API-Clients) **by default**. 
+
+If you want your new microservice to use [Dynamic API Client Proxies](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients), you need to add extra configurations.
+
+**1- Update the HttpApiClientModule**: Change the `.AddStaticHttpClientProxies` method to `AddHttpClientProxies` in the `MicroServiceServiceHttpApiClientModule`.
+
+After making this change, you may get an error:
+
+```txt
+[ERR] Could not found remote action for method: ...
+at Volo.Abp.Http.Client.DynamicProxying.ApiDescriptionFinder.FindActionAsync(HttpClient client, String baseUrl, Type serviceType, MethodInfo method)
+```
+
+This error indicates that the **dynamic proxy couldn't find the related endpoint** in the api definition endpoint (/api/abp/api-definition) which is re-routed to AdministrationService.
+
+**2- Update the gateway midware:** Use the midware below to remove the api definition endpoint from the routing list so that the microservice end-points can be found at the endpoint.
+
+```csharp
+...
+app.UseAbpSerilogEnrichers();
+// Add this mapping        
+app.MapWhen( 
+    ctx => ctx.Request.Path.ToString().StartsWith("/api/abp/api-definition") ||
+           ctx.Request.Path.ToString().TrimEnd('/').Equals(""),
+    app2 =>
+    {
+        app2.UseRouting();
+        app2.UseConfiguredEndpoints();
+    }
+);
+
+app.UseRewriter(new RewriteOptions()
+    // Regex for "", "/" and "" (whitespace)
+    .AddRedirect("^(|\\|\\s+)$", "/swagger"));
+...
+```
+
+**3- Add Microservice.Http.Api dependency**: Add project reference of your `Microservice.Http.Api` and don't forget to add the module dependency on top of the `GatewayModule` class as well. Now you can see the dynamically generated api endpoint.
+
+![ms-gateway-api-definition](../../images/ms-gateway-api-definition.png)
+
+> **Note:** Using [Dynamic API Client Proxies](https://docs.abp.io/en/abp/latest/API/Dynamic-CSharp-API-Clients) in microservice solution creates **tightly coupling** between the gateway and the microservice Http.Api. Keep on mind that whenever you update your microservice Http.Api, you need to re-deploy the gateway. Also, this approach can only be used by .NET based gateways.
+
 ## Web Gateway
 
 Web Gateway is used to connect the **Web** (back-office) application to microservices. This is done by setting this gateway as default [RemoteService](applications.md#remote-service-calls-web-gateway) in Web application appsettings.
@@ -31,7 +78,7 @@ Web Gateway is used to connect the **Web** (back-office) application to microser
 
 As default, this gateway proxies each request from back-office application to related microservice and redirects the account related requests to AuthServer. Ocelot re-route configuration can be found in `ocelot.json` file. This configuration is added by using **AddOcelotJson** extension method in `Program.cs`. The re-routing configuration is as below:
 
-- **Identity Service:** Uses static proxy and re-routes 
+- **Identity Service:** Uses dynamic proxy and re-routes 
 
   - `/api/identity/{everything}`
   - `/api/identity-server/{everything}`
@@ -39,7 +86,7 @@ As default, this gateway proxies each request from back-office application to re
 
   to `localhost:44388` (IdentityService).
 
-- **Administration Service:** Uses static proxy and re-routes
+- **Administration Service:** Uses dynamic proxy and re-routes
 
   -  `/api/abp/{everything}`  [application configuration endpoint](https://docs.abp.io/en/abp/latest/API/Application-Configuration)
   - `/api/audit-logging/{everything}`
@@ -52,7 +99,7 @@ As default, this gateway proxies each request from back-office application to re
 
   to `localhost:44367` (AdministrationService).
 
-- **Saas Service:** Uses static proxy and re-routes
+- **Saas Service:** Uses dynamic proxy and re-routes
 
   -  `/api/saas/{everything}`
 
@@ -64,7 +111,7 @@ As default, this gateway proxies each request from back-office application to re
 
    to `localhost:44361` (ProductService).
 
-- **Account Service:** Uses static proxy and re-routes
+- **Account Service:** Uses dynamic proxy and re-routes
 
   -  `/api/account/{everything}` (login page etc requests)
 
@@ -142,13 +189,13 @@ Public Web Gateway is used to connect the **Public  Web** (landing page) applica
 By default, this gateway proxy each request landing page application to a related microservice and redirects the account related requests to AuthServer. Ocelot re-route configuration can be found in `ocelot.json` file. This configuration is added by using **AddOcelotJson** extension method in `Program.cs`. The re-routing configuration is as below:
 
 
-- **Account Service:** Uses static proxy and re-routes
+- **Account Service:** Uses dynamic proxy and re-routes
 
   -  `/api/account/{everything}` (login page etc requests)
 
   to `localhost:44322` (Authentication Server).
 
-- **Administration Service:** Uses static proxy and re-routes
+- **Administration Service:** Uses dynamic proxy and re-routes
 
   - `/api/abp/{everything}`  [application configuration endpoint](https://docs.abp.io/en/abp/latest/API/Application-Configuration)
 

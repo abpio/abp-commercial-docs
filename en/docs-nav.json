@@ -201,6 +201,10 @@
               "path": "startup-templates/microservice/tye-integration.md"
             },
             {
+              "text": "Helm Deployment",
+              "path": "startup-templates/microservice/helm-deployment.md"
+            },
+            {
               "text": "Guides",
               "items": [
                 {

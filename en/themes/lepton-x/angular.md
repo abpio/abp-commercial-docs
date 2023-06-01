@@ -305,4 +305,6 @@ this.replaceableComponents.add({
 ///...
 ```
 
-If you want to create your own layout, [see the docs] (./how-to-use-lepton-x-components-with-angular-custom-layout)
+## Custom Layout
+
+If you want to create your own layout, please refer to the [Custom layout usage with Lepton X components](./how-to-use-lepton-x-components-with-angular-custom-layout.md) documentation.
