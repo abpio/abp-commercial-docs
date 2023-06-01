@@ -210,7 +210,7 @@
                 {
                   "text": "Adding a new Microservice",
                   "path": "startup-templates/microservice/add-microservice.md"
-                },                
+                },
                 {
                   "text": "Communication Between Microservices",
                   "path": "startup-templates/microservice/interservice-communication.md"
