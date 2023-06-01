@@ -244,19 +244,9 @@ public class BasketProductService : IBasketProductService, ITransientDependency
 }
 ```
 
-## Consuming gRPC services from the web application
+## Sample
 
-#TODO
-
-
-
-## Dealing with multi-tenancy, localization and authorization in gRPC service calls
-
-#TODO
-
-
-
-
+You can examine the [eShopOnAbp.BasketService](https://github.com/abpframework/eShopOnAbp/blob/f1c51a2a2777d8784868f13fb0d0646a0f52b42f/services/basket/src/EShopOnAbp.BasketService/BasketServiceModule.cs#L159-L169) and the [eShopOnAbp.CatalogService](https://github.com/abpframework/eShopOnAbp/blob/main/services/catalog/src/EShopOnAbp.CatalogService.Application/Grpc/PublicProductGrpService.cs).
 
 ## Next
 
