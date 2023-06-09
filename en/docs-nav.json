@@ -216,6 +216,10 @@
                   "path": "startup-templates/microservice/interservice-communication.md"
                 },
                 {
+                  "text": "Using gRPC",
+                  "path": "startup-templates/microservice/using-grpc.md"
+                },
+                {
                   "text": "Change Microservice project to use MongoDB Provider",
                   "path": "guides/microservice-mongodb.md"
                 },
