@@ -133,3 +133,7 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 
 - **CmsPolls**
 - **CmsPollUserVotes**
+
+## Entity Extensions
+
+Check the ["Entity Extensions" section of the CMS Kit Module documentation](index.md#entity-extensions) to see how to extend entities of the Poll Feature of the CMS Kit Pro module.
