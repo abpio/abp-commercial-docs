@@ -69,7 +69,7 @@ There are 3 verification providers available for 2FA out of the box:
   * [Microsoft Authenticator](https://www.microsoft.com/en-us/security/mobile-authenticator-app)
   * [Google Authenticator](https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2)
 
-  Please refer to the steps in `account/manage` page to enable it.
+  Please refer to the steps in the `account/manage` page to enable it.
 
 - **Email Verification:** This is available if the user has a verified email address. Since email sending is disabled in **DEBUG** mode, you can see the security code in **logs**. On **RELEASE** mode, a real e-mail will be sent if the email [settings](https://docs.abp.io/en/abp/latest/Emailing#email-settings) have been configured.  **Be aware that if the user has no verified email address then no verification email will be sent!** This setting is stored on `EmailConfirmed` field of the user entity. The following code will be executed if the selected provider is `Email`.
 
