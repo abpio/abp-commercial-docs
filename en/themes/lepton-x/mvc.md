@@ -78,6 +78,8 @@ Configure<LeptonXThemeOptions>(options =>
 ```
 
 > `red.css` and `bootstrap-red.css` have to be added under **wwwroot/Themes/LeptonX/Global/side-menu/css/** folder for switching to your custom theme properly when selected.
+>
+> If your layout is **TopMenu**, then you have to add them under **wwwroot/Themes/LeptonX/Global/top-menu/css/** folder.
 
 --- 
 
@@ -150,7 +152,7 @@ Commonly used components in all layouts.
 
 ![Breadcrumb](images/leptonx-breadcrumb.png)
 
-Breadcrumbs can be customized  by using `IPageLayout` service. See [PageLayout - Breadcrumb](https://docs.abp.io/en/abp/7.2/UI%2FAspNetCore%2FPage-Header#breadcrumb) for more information. 
+Breadcrumbs can be customized by using `IPageLayout` service. See [PageLayout - Breadcrumb](https://docs.abp.io/en/abp/7.2/UI%2FAspNetCore%2FPage-Header#breadcrumb) for more information. 
 
 If you need to replace the component, you can follow the steps below.
 
