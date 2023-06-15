@@ -35,12 +35,19 @@ abp add-package Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX
         );
 ```
 
+## Source-Code
+You can download the source-code of LeptonX Theme according you your ABP Commverial License.
+
+Visit [LeptonX Source Code](index#source-code) section to download the source-code.
+
 ## Customization
+
+Before starting to customize the theme, you can consider downloading source code of the theme. You can find the original codes of related components below in the source code.
 
 ---
 
-### Themes
-You can set a default theme, add or remove themes by using **LeptonXThemeOptions**.
+### Appearance
+You can set a default theme, add or remove appearance styles by using **LeptonXThemeOptions**.
 
 - `DefaultStyle`: Defines the default fallback theme. The default value is **Dim**
   
@@ -51,17 +58,17 @@ Configure<LeptonXThemeOptions>(options =>
 });
 ```
 
-- `Styles`: Defines selectable themes from UI.
+- `Styles`: Defines selectable appearances from UI.
 
 ![lepton-x-selectable-themes](images/selectable-themes.png)
 
 ```csharp
 Configure<LeptonXThemeOptions>(options =>
 {
-    // Removing the existing themes
+    // Removing the existing styles
     options.Styles.Remove(LeptonXStyleNames.Light);
 
-    // Adding a new theme
+    // Adding a new style
     options.Styles.Add("red", 
         new LeptonXThemeStyle(
         LocalizableString.Create<YourResource>("Theme:Red"),
@@ -133,7 +140,7 @@ Abp **helps** you make **highly customizable UI**. You can easily **customize** 
 
 An application (or another module) can **override** a **virtual file of a module** just like placing a file with the **same name** and **extension** into the **same folder** of the **virtual file**.
 
-LeptonX is built on the [Abp Framework](https://abp.io/), so you can **easily** customize your Asp.Net Core Mvc user interface by following [Abp Mvc UI Customization](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Customization-xUser-Interface).
+LeptonX is built on the [Abp Framework](https://abp.io/), so you can **easily** customize your Asp.Net Core Mvc user interface by following [Abp Mvc UI Customization](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Customization-User-Interface).
 
 ## Common Components
 
@@ -143,21 +150,34 @@ Commonly used components in all layouts.
 
 ![Breadcrumb](images/leptonx-breadcrumb.png)
 
-* The **breadcrumb component page (.cshtml file)** is defined in the `Themes/LeptonX/Components/Common/BreadCrumb/Default.cshtml` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**.  
+Breadcrumbs can be customized  by using `IPageLayout` service. See [PageLayout - Breadcrumb](https://docs.abp.io/en/abp/7.2/UI%2FAspNetCore%2FPage-Header#breadcrumb) for more information. 
 
-- The **breadcrumb component (C# file)** is defined in the `Themes/LeptonX/Components/Common/BreadCrumb/ContentBreadCrumbViewComponent.cs` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**. 
+If you need to replace the component, you can follow the steps below.
+
+- The **breadcrumb component page (.cshtml file)** is defined in the `Themes/LeptonX/Components/Common/BreadCrumb/Default.cshtml` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**.  
+
+- The **breadcrumb component (C# file)** is defined in the `Themes/LeptonX/Components/Common/BreadCrumb/ContentBreadCrumbViewComponent.cs` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**.
+
+
 
 ### Content Title
 
 ![Content title](images/leptonx-content-title.png)
 
+Page Titles can be customized by using the `IPageLayout` service. See [PageLayout - Page Title](https://docs.abp.io/en/abp/7.2/UI%2FAspNetCore%2FPage-Header#page-title) for more information.
+
+If you need to replace the component, you can follow the steps below.
+
 * The **content title component page (.cshtml file)** is defined in the `Themes/LeptonX/Components/Common/ContentTitle/Default.cshtml` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**.
 
 * The **content title component (C# file)** is defined in the `Themes/LeptonX/Components/Common/ContentTitle/ContentTitleViewComponent.cs` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**.
 
+
 ### General Settings
 
 ![General settings](images/leptonx-general-settings.png)
+
+General Settings can be replaced with following files.
 
 * The **general settings component page (.cshtml file)** is defined in the `Themes/LeptonX/Components/Common/GeneralSettings/Default.cshtml` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**.
 
@@ -167,6 +187,10 @@ Commonly used components in all layouts.
 ### Main Header Branding
 
 ![Main header branding](images/leptonx-main-header-branding.png)
+
+Application name and logo can be customized by using the `IBrandingProvider` service. See [Razor Pages: Branding](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Branding) for more information.
+
+If you need to replace the component, you can follow the steps below.
 
 * The **main header branding component page (.cshtml file)** is defined in the `Themes/LeptonX/Components/Common/MainHeaderBranding/Default.cshtml` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**.
 
@@ -228,6 +252,8 @@ Components used in the side menu layout.
 
 * The **user menu component (C# file)** is defined in the `Themes/LeptonX/Components/SideMenu/Toolbar/UserMenu/UserMenuViewComponent.cs` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**.
 
+> LeptonX implements the ABP Framework Menu  [ABP Naviation/Menus]([#user-menu](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Navigation-Menu#standard-menus)) documentation to learn how to add/remove menu items to the user menu.
+
 ---
 
 ## Top Menu Components
@@ -250,6 +276,9 @@ Components used in the top menu layout.
 
 * The **main header toolbar component (C# file)** is defined in the `Themes/LeptonX/Components/TopMenu/MainHeaderToolbar/MainHeaderToolbarViewComponent.cs` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**.
 
+
+> Before replacing the main header toolbar component, make a visit to the [ABP Toolbars](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Toolbars) documentation to learn how to add/remove menu items to the main header toolbar.
+
 ### Main Menu
 
 ![Main menu](images/leptonx-topmenu-main-menu.png)
@@ -265,3 +294,5 @@ Components used in the top menu layout.
 * The **user menu component page (.cshtml file)** is defined in the `Themes/LeptonX/Components/TopMenu/UserMenu/Default.cshtml` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**.
 
 * The **user menu component (C# file)** is defined in the `Themes/LeptonX/Components/TopMenu/UserMenu/UserMenuViewComponent.cs` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**.
+
+> Before replacing the user menu component, make a visit to the [ABP Naviation/Menus](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Navigation-Menu#standard-menus) documentation to learn how to add/remove menu items to the user menu.
