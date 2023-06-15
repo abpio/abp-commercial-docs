@@ -299,6 +299,23 @@ export const environment = {
 
 The Account module remote URL configurations shown above are optional. If you don't set any URLs, the `default.url` will be used as fallback.
 
+### MauiBlazor UI
+
+#### Resource Owner Password Flow
+
+OAuth is preconfigured as authorization code flow in MauiBlazor application templates by default. If you added the account module to your project, you can switch the flow to resource owner password flow by changing the OAuth configuration in the `appsettings.json` files as shown below:
+
+```json
+"OAuthConfig": {
+    "Authority": "https://localhost:44305", // AuthServer url
+    "RequireHttpsMetadata": "true",
+    "ClientId": "MyProjectName_MauiBlazor",
+    "RedirectUri": "myprojectnamemauiblazor://",
+    "PostLogoutRedirectUri": "myprojectnamemauiblazor://",
+    "Scope": "offline_access MyProjectName",
+    "GrantType": "password"
+}
+```
 
 ## Distributed Events
 
