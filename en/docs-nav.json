@@ -228,6 +228,10 @@
                   "path": "guides/extracting-module-as-microservice.md"
                 },
                 {
+                  "text": "Add Module to Existing Microservices",
+                  "path": "guides/add-module-to-microservice.md"
+                },
+                {
                   "text": "Migrating to OpenIdDict",
                   "path": "migration-guides/openIddict-microservice.md"
                 }

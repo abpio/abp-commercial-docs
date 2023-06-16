@@ -124,6 +124,7 @@ Identity module's domain layer is the same. But the application, HTTP API and UI
 | Authority Delegation              | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
 | Password Change at Next Logon     | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
 | Password Aging                    | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
+| Authenticator App (2FA)           | <i class="fa fa-minus text-secondary"></i> | <i class="fa fa-check text-success"></i> |
 
 
 

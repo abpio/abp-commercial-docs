@@ -121,7 +121,7 @@ Layout options of the MVC Razor Pages UI can be manageable by using **LeptonXThe
 
 ### Account Layout
 
-![Account layout](images/leptonx-account-layout.png)
+![Account layout](images/leptonx-account-layout-new.png)
 
 > The **account layout** is defined in the **Themes/LeptonX/Layouts/Account** folder and you can **override** it by creating the file (**Default.cshtml**) with the **same name** and under the **same folder**. There is a **partial view**, its name is **Footer.cshtml**. You can **override** it by **following** the **same way**. 
 
