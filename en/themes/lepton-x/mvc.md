@@ -36,13 +36,13 @@ abp add-package Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX
 ```
 
 ## Source-Code
-You can download the source-code of LeptonX Theme according you your ABP Commverial License.
+You can download the source-code of the LeptonX Theme according you your ABP Commercial License.
 
-Visit [LeptonX Source Code](index#source-code) section to download the source-code.
+Visit the [LeptonX Source Code](index#source-code) section to download the source-code.
 
 ## Customization
 
-Before starting to customize the theme, you can consider downloading source code of the theme. You can find the original codes of related components below in the source code.
+Before starting to customize the theme, you can consider downloading the source code of the theme. You can find the original codes of the related components below in the source code.
 
 ---
 
@@ -58,7 +58,7 @@ Configure<LeptonXThemeOptions>(options =>
 });
 ```
 
-- `Styles`: Defines selectable appearances from UI.
+- `Styles`: Defines the selectable appearances from UI.
 
 ![lepton-x-selectable-themes](images/selectable-themes.png)
 
@@ -79,7 +79,7 @@ Configure<LeptonXThemeOptions>(options =>
 
 > `red.css` and `bootstrap-red.css` have to be added under **wwwroot/Themes/LeptonX/Global/side-menu/css/** folder for switching to your custom theme properly when selected.
 >
-> If your layout is **TopMenu**, then you have to add them under **wwwroot/Themes/LeptonX/Global/top-menu/css/** folder.
+> If your layout is **TopMenu**, then you have to add them under the **wwwroot/Themes/LeptonX/Global/top-menu/css/** folder.
 
 --- 
 
@@ -152,7 +152,7 @@ Commonly used components in all layouts.
 
 ![Breadcrumb](images/leptonx-breadcrumb.png)
 
-Breadcrumbs can be customized by using `IPageLayout` service. See [PageLayout - Breadcrumb](https://docs.abp.io/en/abp/7.2/UI%2FAspNetCore%2FPage-Header#breadcrumb) for more information. 
+Breadcrumbs can be customized by using the `IPageLayout` service. See [PageLayout - Breadcrumb](https://docs.abp.io/en/abp/7.2/UI%2FAspNetCore%2FPage-Header#breadcrumb) for more information. 
 
 If you need to replace the component, you can follow the steps below.
 
@@ -254,7 +254,7 @@ Components used in the side menu layout.
 
 * The **user menu component (C# file)** is defined in the `Themes/LeptonX/Components/SideMenu/Toolbar/UserMenu/UserMenuViewComponent.cs` file and you can **override it** by creating a file with the **same name** and **under** the **same folder**.
 
-> LeptonX implements the ABP Framework Menu  [ABP Naviation/Menus]([#user-menu](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Navigation-Menu#standard-menus)) documentation to learn how to add/remove menu items to the user menu.
+> LeptonX implements the ABP Framework Menu [ABP Naviation/Menus]([#user-menu](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Navigation-Menu#standard-menus)). So you can check it out to learn how to add/remove menu items to the user menu.
 
 ---
 
