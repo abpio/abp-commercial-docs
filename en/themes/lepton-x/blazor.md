@@ -99,12 +99,12 @@ LeptonX theme is implemented and ready to use with ABP Commercial. No custom imp
 ---
 
 ## Source-Code
-You can download the source-code of LeptonX Theme according you your ABP Commverial License.
+You can download the source-code of the LeptonX Theme according to you your ABP Commercial License.
 
-Visit [LeptonX Source Code](index#source-code) section to download the source-code.
+Visit the [LeptonX Source Code](index#source-code) section to download the source-code.
 
 ## Customization
-Before starting to customize the theme, you can consider downloading source code of the theme. You can find the original codes of related components below in the source code.
+Before starting to customize the theme, you can consider downloading the source code of the theme. You can find the original codes of related components below in the source code.
 
 ### Themes
 You can set default theme or add or remove themes via using **LeptonXThemeOptions**.
@@ -136,9 +136,9 @@ You can set default theme or add or remove themes via using **LeptonXThemeOption
 
     ```
 
-    > `red.css` and `bootstrap-red.css` have to be added under `wwwroot/_content/Volo.Abp.AspNetCore.Components.Web.LeptonXTheme/side-menu/css/` folder for switching to your custom theme properly when selected. 
+    > `red.css` and `bootstrap-red.css` have to be added under the `wwwroot/_content/Volo.Abp.AspNetCore.Components.Web.LeptonXTheme/side-menu/css/` folder to switch to your custom theme properly when selected. 
     > 
-    >_If your layout is **TopMenu**, then you have to add them under `wwwroot/_content/Volo.Abp.AspNetCore.Components.Web.LeptonXTheme/top-menu/css/` folder._
+    >_If your layout is **TopMenu**, then you have to add them under the `wwwroot/_content/Volo.Abp.AspNetCore.Components.Web.LeptonXTheme/top-menu/css/` folder._
 
     ![leptonx-red](https://user-images.githubusercontent.com/23705418/188801370-5aa646cf-72fd-4365-aa49-aab1152b5b86.gif)
 
@@ -255,7 +255,7 @@ Commonly used components in all layouts.
 
 ![Breadcrumb](images/leptonx-breadcrumb.png)
 
-Breadcrumbs can be customized by using the `PageLayout` service. See [PageLayout - BreadCrumb](https://docs.abp.io/en/abp/latest/UI/Blazor/Page-Layout#breadcrumbs) section for more information.
+Breadcrumbs can be customized by using the `PageLayout` service. See the [PageLayout - BreadCrumb](https://docs.abp.io/en/abp/latest/UI/Blazor/Page-Layout#breadcrumbs) section for more information.
 
 If you need to replace the component, you can follow the steps below.
 
@@ -564,7 +564,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 
 ![Main Header Toolbar](images/leptonx-blazor-sidemenu-main-toolbar.png)
 
-The main toolbar can be managed by using `ToolbarContributor` classes. See the [Toolbars](https://docs.abp.io/en/abp/latest/UI/Blazor/Toolbars) section for more information.
+The main toolbar can be managed by using the `ToolbarContributor` classes. See the [Toolbars](https://docs.abp.io/en/abp/latest/UI/Blazor/Toolbars) section for more information.
 
 If you need to replace the component, you can follow the steps below.
 
@@ -772,7 +772,7 @@ namespace LeptonXLite.DemoApp.Blazor.MyComponents
 
 ![Main Header Toolbar](images/leptonx-blazor-topmenu-main-header-toolbar.png)
 
-The main toolbar can be managed by using `ToolbarContributor` classes. See the [Toolbars](https://docs.abp.io/en/abp/latest/UI/Blazor/Toolbars) section for more information.
+The main toolbar can be managed by using the `ToolbarContributor` classes. See the [Toolbars](https://docs.abp.io/en/abp/latest/UI/Blazor/Toolbars) section for more information.
 
 If you need to replace the component, you can follow the steps below.
 
