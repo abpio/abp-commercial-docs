@@ -75,6 +75,21 @@ Configure<AbpAccountOptions>(options =>
 
 * `WindowsAuthenticationSchemeName` (default: Windows): Name of the Windows authentication scheme.
 
+### AbpProfilePictureOptions
+
+`AbpProfilePictureOptions` can be configured in the UI layer, in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics). Example:
+
+````csharp
+Configure<AbpProfilePictureOptions>(options =>
+{
+    //Set options here...
+});
+````
+
+`AbpProfilePictureOptions` properties:
+
+* `EnableImageCompress` (default: false): Enables image compression. If enabled, the uploaded image will be compressed.(For it to work, your project must have a [provider for Imaging](https://docs.abp.io/en/abp/latest/Image-Manipulation#providers).)
+
 ## Local login
 
 The user can't log in through the local account, also can't use the local account-related features such as `register` and `find password` etc if this setting is disabled.
