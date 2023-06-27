@@ -88,7 +88,7 @@ Configure<AbpProfilePictureOptions>(options =>
 
 `AbpProfilePictureOptions` properties:
 
-* `EnableImageCompression` (default: false): Enables image compression. If enabled, the uploaded image will be compressed.
+* `EnableImageCompression` (default: false): Enables the image compression for the profile picture. When enabled, the selected compression library will compress the profile picture to decrease the image size. For more information see [image manipulation](https://docs.abp.io/en/abp/latest/Image-Manipulation)
 
 ## Local login
 
