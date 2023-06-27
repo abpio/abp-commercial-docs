@@ -10,13 +10,13 @@ See [the module description page](https://commercial.abp.io/modules/Volo.Account
 
 ## How to Install
 
-Account is pre-installed in [the startup templates](../startup-templates/application/index.md). So, no need to manually install it.
+The account is pre-installed in [the startup templates](../startup-templates/application/index.md). So, no need to manually install it.
 
 ## Packages
 
-This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
+This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and the relations between them.
 
-You can visit [Account module package list page](https://abp.io/packages?moduleName=Volo.Account.Pro) to see list of packages related with this module.
+You can visit the [Account module package list page](https://abp.io/packages?moduleName=Volo.Account.Pro) to see a list of packages related to this module.
 
 ## User Interface
 
@@ -28,29 +28,29 @@ This module doesn't define any menu items.
 
 #### Login Page
 
-Login page is used to log in to the system.
+The login page is used to log in to the system.
 
 ![account-pro-module-login-page](../images/account-pro-module-login-page.png)
 
 #### Register Page
 
-Register page allows new users to register to your system.
+The register page allows new users to register to your system.
 
 ![identity-users-page](../images/account-pro-module-register-page.png)
 
-#### Two Factor Authentication
+#### Two-Factor Authentication
 
-Identity module allows two factor authentication pages.
+The identity module allows two-factor authentication pages.
 
 ##### Send Security Code
 
-Send security code page allows selecting a two factor authentication provider (Email, Phone etc...) and sends a security code to user via selected provider.
+Send security code page allows selecting a two-factor authentication provider (Email, Phone etc...) and sends a security code to the user via the selected provider.
 
 ![account-pro-module-two-factor-send-page](../images/account-pro-module-two-factor-send-page.png)
 
 ##### Verify Security Code
 
-Verify security code page verifies the security code sent to user and if the code is verified, user logs in to the system.
+Verify security code page verifies the security code sent to the user and if the code is verified, the user logs in to the system.
 
 ![account-pro-module-two-factor-verify-page](../images/account-pro-module-two-factor-verify-page.png)
 
@@ -62,7 +62,7 @@ This module doesn't seed any data.
 
 ### AbpIdentityAspNetCoreOptions
 
-`AbpAccountOptions` can be configured in the UI layer, in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics). Example:
+`AbpAccountOptions` can be configured in the UI layer in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics). Example:
 
 ````csharp
 Configure<AbpAccountOptions>(options =>
@@ -77,7 +77,7 @@ Configure<AbpAccountOptions>(options =>
 
 ### AbpProfilePictureOptions
 
-`AbpProfilePictureOptions` can be configured in the UI layer, in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics). Example:
+`AbpProfilePictureOptions` can be configured in the UI layer in the `ConfigureServices` method of your [module](https://docs.abp.io/en/abp/latest/Module-Development-Basics). Example:
 
 ````csharp
 Configure<AbpProfilePictureOptions>(options =>
@@ -92,7 +92,7 @@ Configure<AbpProfilePictureOptions>(options =>
 
 ## Local login
 
-The user can't log in through the local account, also can't use the local account-related features such as `register` and `find password` etc if this setting is disabled.
+The user can't log in through the local account and use the local account-related features such as `register` and `find password` if this setting is disabled.
 
 If you use `Social / External Logins`, It is automatically called for authentication when logging in.
 
@@ -101,19 +101,19 @@ If you use `Social / External Logins`, It is automatically called for authentica
 
 ## Social / External Logins
 
-Account module implements social/external login system. All you need to do is to install & configure the provider you want to use.
+The account module implements a social/external login system. All you need to do is to install & configure the provider you want to use.
 
 The application startup template comes with **Twitter**, **Google** and **Microsoft** logins pre-installed. You can configure the client id and secrets on the Settings page:
 
 ![account-pro-external-login-settings](../images/account-pro-external-login-settings.png)
 
-Social/External login system is compatible with the multi-tenancy. Each tenant can configure their own provider settings if your application is multi-tenant.
+The social/External login system is compatible with the multi-tenancy. Each tenant can configure their own provider settings if your application is multi-tenant.
 
 ### Install a new External Login
 
-Follow the steps below to install a new external/social login. We will show the Facebook authentication as an example.
+Follow the steps below to install a new external/social login. We will show Facebook authentication as an example.
 
-> When you follow the steps below, the provider settings (e.g. ClientId and ClientSecret) will be managed on the settings page on the UI and will support multi-tenancy as explained above. If you don't want these features, you can follow [the standard way](https://docs.abp.io/en/abp/latest/Authentication/Social-External-Logins) to install and configure the provider.
+> When you follow the steps below, the provider settings (e.g., ClientId and ClientSecret) will be managed on the settings page on the UI and will support multi-tenancy as explained above. If you don't want these features, follow [the standard way](https://docs.abp.io/en/abp/latest/Authentication/Social-External-Logins) to install and configure the provider.
 
 #### Add the NuGet Package
 
@@ -141,7 +141,7 @@ context.Services.AddAuthentication()
 ````
 
 * `AddFacebook()` is the standard method that you can set hard-coded configuration.
-* `WithDynamicOptions<FacebookOptions>` is provided by the Account Module that makes possible to configure the provided properties on the UI.
+* `WithDynamicOptions<FacebookOptions>` is provided by the Account Module which makes possible to configure the provided properties on the UI.
 
 ### IPostConfigureAccountExternalProviderOptions
 
