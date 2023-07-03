@@ -187,7 +187,7 @@ await MigrateDatabaseAsync<OrderServiceDbContext>(cancellationToken);
    DbMigrator gets connection string from configuration (`appsettings.json`). Each service has its own connection string. Add the OrderService connection string to the `appsettings.json` of the DbMigrator project. This name is defined in `OrderServiceDbProperties.ConnectionStringName`.
    
 ````json
-"OrderService": "Server=localhost,1434;Database=BookStore_OrderService;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true"
+"OrderService": "Server=(LocalDb)\\MSSQLLocalDB,1434;Database=BookStore_OrderService;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true"
 ````
 
    ![Add connection string to DbMigrator](../../images/add-microservice-appsettings-conn-string.png)
