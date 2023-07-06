@@ -71,6 +71,8 @@ To create a new entity, make sure the *-New entity-* is selected in the **Entity
   * Useful for data warehousing
   * Native data type of the OS and easy to work with in all languages
 
+* **Customizable code**: Specifies hook-points to allow adding custom code blocks. Then, the code blocks that written by you will not be overridden in the next entity generation and will be respected.
+
 * **Multi-tenant**: For your multi-tenant application, you can set an entity as multi-tenant which means the data will be isolated between the tenants. To make an entity multi-tenant, ABP Suite adds the `IMultiTenant` interface to the entity.  Further information see [Multi-Tenancy](https://docs.abp.io/{{Document_Language_Code}}/abp/{{Document_Version}}/Multi-Tenancy)
 
 * **Add migration:** Adds a new migration for the new entity. If you are updating an existing entity, it creates an update migration.
