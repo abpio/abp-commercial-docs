@@ -1,6 +1,6 @@
 # ABP Commercial Penetration Test Report
 
-The ABP Commercial MVC `v7.2.1` application template has been tested against security vulnerabilities by the [OWASP ZAP v2.11.1](https://www.zaproxy.org/) tool. The demo web application was started on the `https://localhost:44379` address. The below alerts have been reported by the pentest tool. These alerts are sorted by the risk level as high, medium, and low. The informational alerts are not mentioned in this document. 
+The ABP Commercial MVC `v7.3.0` application template has been tested against security vulnerabilities by the [OWASP ZAP v2.11.1](https://www.zaproxy.org/) tool. The demo web application was started on the `https://localhost:44379` address. The below alerts have been reported by the pentest tool. These alerts are sorted by the risk level as high, medium, and low. The informational alerts are not mentioned in this document. 
 
 Many of these alerts are **false-positive**, meaning the vulnerability scanner detected these issues, but they are not exploitable. It's clearly explained for each false-positive alert why this alert is a false-positive. 
 
@@ -10,25 +10,9 @@ In the next sections, you will find the affected URLs, alert descriptions, false
 
 There are high _(red flag)_, medium _(orange flag)_, low _(yellow flag)_, and informational _(blue flag)_ alerts. 
 
-![penetration-test-7.2.1](../images/pen-test-alert-list-7.2.png)
+![penetration-test-7.3.0](../images/pen-test-alert-list-7.3.png)
 
 > The informational alerts are not mentioned in this document. These alerts are not raising any risks on your application and they are optional.
-
-### PII Disclosure [Risk: High] - Positive (No need for a fix)
-
-- *[GET] - https://localhost:44379/Account/Manage?Picture=test_file.txt&pptype=use-default&returnUrl=%2FAccount%2FManage%3FPicture%3Dtest_file.txt%26pptype%3Duse-default%26returnUrl%3D%252FPrivacyPolicy*
-
-**Description**:
-
-The response contains Personally Identifiable Information, such as a CC number, SSN, and similar sensitive data.
-
-**Solution**:
-
-You can set **Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII** as false to exclude the PII from logs. 
-
-![disable-pii](../images/pen-test-pii.png)
-
-> The code block above already exists in the [startup templates](/startup-templates/index.md).
 
 ### Path Traversal [Risk: High] - False Positive
 
@@ -45,7 +29,9 @@ This is a false-positive alert since ABP Framework does all related checks for t
 ### SQL Injection [Risk: High] - False Positive
 
 * *[POST] — https://localhost:44379/AuditLogs*
-* *[POST] — https://localhost:44370/Account/Manage?CurrentPassword=ZAP%27+AND+%271%27%3D%271%27+--+&NewPassword=ZAP&NewPasswordConfirm=ZAP*
+* *[POST] — https://localhost:44379/Account/Manage?CurrentPassword=ZAP%27+AND+%271%27%3D%271%27+--+&NewPassword=ZAP&NewPasswordConfirm=ZAP*
+* *[POST] - https://localhost:44379/Identity/SecurityLogs*
+* *[POST] - https://localhost:44379/Identity/Users/CreateModal*
 
 **Description**:
 
@@ -54,6 +40,10 @@ SQL injection may be possible. SQL injection is a web security vulnerability tha
 **Explanation**:
 
 ABP uses Entity Framework Core and LINQ. It's safe against SQL Injection because it passes all data to the database via SQL parameters. LINQ queries are not composed by using string manipulation or concatenation, that's why they are not susceptible to traditional SQL injection attacks. Therefore, this is a **false-positive** alert.
+
+### SQL Injection - Authentication Bypass [Risk: High]
+
+//TODO:assess the alert!!!
 
 ### Absence of Anti-CSRF Tokens [Risk: Medium] — False Positive
 
@@ -72,7 +62,6 @@ This is a **false-positive** alert because ABP provides the Anti-CSRF token via 
 
 ### Application Error Disclosure [Risk: Medium] - False Positive
 
-- *[POST] — https://localhost:44379/Account/ImpersonateTenant*
 - *[POST] — https://localhost:44379/Account/ImpersonateUser*
 - *[POST] — https://localhost:44379/Account/Manage*
 
@@ -87,6 +76,7 @@ There are 3 URLs that are reported as exposing error messages. This is a **false
 ### Content Security Policy (CSP) Header Not Set [Risk: Medium] — Positive (Fixed)
 
 - *[GET] — https://localhost:44379*
+- *[GET] - https://localhost:44379/AbpPermissionManagement/PermissionManagementModal?providerName=R&providerKey=aaa&providerKeyDisplayName=aaa*
 - *[GET] — https://localhost:44379/Account/AuthorityDelegation/AuthorityDelegationModal*
 - *[GET] — https://localhost:44379/Account/AuthorityDelegation/DelegateNewUserModal*
 - *[GET] — https://localhost:44379/Account/ForgotPassword _(other several account URLS)_* 
@@ -108,7 +98,9 @@ Configure<AbpSecurityHeadersOptions>(options =>
 });
 ```
 
-### Format String Error [Risk: Medium] - Positive and False Positive
+> See [the documentation](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Security-Headers) for more info.
+
+### Format String Error [Risk: Medium] - False Positive
 
 - *[GET] - https://localhost:44379/api/language-management/language-texts?filter=&resourceName=&baseCultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&targetCultureName=cs&getOnlyEmptyValues=false&sorting=name+asc&skipCount=0&maxResultCount=10*
 - *[GET] - https://localhost:44379/LanguageManagement/Texts/Edit?name=%27%7B0%7D%27+and+%27%7B1%7D%27+do+not+match.&targetCultureName=cs&resourceName=AbpValidation&baseCultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A*
@@ -211,6 +203,7 @@ X-Correlation-Id: 2c103514abd44a17b1ec792b6a5c1dc3
 - *[GET] - https://localhost:44379/Account/Login?handler=CreateLinkUser&LinkUserId=%3Cxsl%3Avalue-of+select%3D%22system-property%28%27xsl%3Avendor%27%29%22%2F%3E&LinkToken=CfDJ8KJ4q0EP0P9EsZ5KtdIYqZ1SPxVNqhILj3UjN0C1mWPlvrw%2FBPriEbgrwcypDnv7b4QC0tvrMihmtEUZUuY5YrAIDwWhQ9vyCPTbFTjpS7kjX%2BNRC%2FAFlWrxvTyPrhtV4QcHD2VRnBx1xmASFq1XvxhANylej7iVTnii8QTsFpF2vcW0tu%2FO1xADiS1geFyDgk1vZGcPlLGs45pEGBazcw%2Bi2p35xakGNGu7OI8zJWyw*
 - *[GET] - https://localhost:44379/Account/Manage?CurrentPassword=%3Cxsl%3Avalue-of+select%3D%22system-property%28%27xsl%3Avendor%27%29%22%2F%3E&NewPassword=ZAP&NewPasswordConfirm=ZAP&Picture=test_file.txt&pptype=use-default*
 - *[GET] - https://localhost:44379/LanguageManagement/Create*
+- *[GET] - https://localhost:44379/SaasWidgets/LatestTenants?startDate=2023-06-21T21%3A00%3A00.000Z&endDate=2023-06-25T20%3A59%3A59.999Z*
 - other similar page URLS...
 
 **Description**: 
@@ -219,11 +212,12 @@ Injection using XSL transformations may be possible and may allow an attacker to
 
 **Explanation**: 
 
-This is a **false-positive** alert. XSLT transformation is not possible on .NET 5 or later.
+This is a **false-positive** alert. v7.3.0 uses .NET 7 and the XSLT transformation is not possible on .NET5 or higher.
 
 ### Application Error Disclosure [Risk: Low] — False Positive
 
 - *[POST] — https://localhost:44379/Account/ImpersonateUser*  
+- *[POST] - https://localhost:44379/Account/Manage?CurrentPassword=ZAP&NewPassword=ZAP&NewPasswordConfirm=ZAP&Picture=test_file.txt&pptype=use-default*
 
 **Description:** 
 
@@ -308,6 +302,7 @@ Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` 
 ### Information Disclosure - Debug Error Messages [Risk: Low] — False Positive
 
 * *[GET] — https://localhost:44379/api/language-management/language-texts?filter=&resourceName=&baseCultureName=en&targetCultureName=de-DE&getOnlyEmptyValues=false&sorting=name%20asc&skipCount=0&maxResultCount=10*
+* *[GET] - https://localhost:44379/AuditLogs*
 
 **Description:**  
 
@@ -319,16 +314,18 @@ Disable debugging messages before pushing them to production.
 
 **Explanation:** 
 
-The response of https://localhost:44379/api/language-management/language-texts endpoint returns localization texts which are not real error messages. As there is no real error in the backend, this vulnerability is a **false-positive** alert.
+The response of the endpoints above return localization texts which are not real error messages. As there is no real error in the backend, this vulnerability is a **false-positive** alert.
 
 ![Information Disclosure - Debug Error Messages](../images/pen-test-information-disclosure.png)
 
 ### Strict-Transport-Security Header Not Set [Risk: Low] - False Positive
 
-- *[DELETE] - https://localhost:44379/api/identity/users/6a5e3c17-7c03-a4b5-0bd3-3a0a65d22de8*
+- *[DELETE] - https://localhost:44379/api/identity/claim-types/307e5447-7e3c-f410-a347-3a0c75f333e2*
+- *[DELETE] - https://localhost:44379/api/identity/organization-units/8c8634f8-7b55-5711-c760-3a0c75ef9400/members/ce33f43c-d219-a506-b10b-3a0c75d466d3*
 - *[DELETE] - https://localhost:44379/api/language-management/languages/946dd47a-b524-b422-dd35-3a0a65d396b8*
 - *[DELETE] - https://localhost:44379/api/saas/editions/790bc33c-571b-3bc8-dfe5-3a0a65cfe8fe*
 - *[GET] - https://localhost:44379/*
+- *[GET] - https://localhost:44379/Abp/ApplicationLocalizationScript?cultureName=zh-Hant*
 - other URLS...
 
 **Description**: 
