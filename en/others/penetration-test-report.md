@@ -4,7 +4,7 @@ The ABP Commercial MVC `v7.3.0` application template has been tested against sec
 
 Many of these alerts are **false-positive**, meaning the vulnerability scanner detected these issues, but they are not exploitable. It's clearly explained for each false-positive alert why this alert is a false-positive. 
 
-In the next sections, you will find the affected URLs, alert descriptions, false-positive explanations, and fixes for the issues. Some positive alerts are already fixed, or needed additional actions that will be taken by you. The issue links for the fixes are mentioned in each positive alert.
+In the next sections, you will find the affected URLs, alert descriptions, false-positive explanations, and fixes for the issues.  Some positive alerts are already fixed or needed additional actions that can be taken by you. The issue links for the fixes are mentioned in each positive alert.
 
 ## Alerts
 
