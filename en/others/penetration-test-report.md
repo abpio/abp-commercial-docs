@@ -4,7 +4,7 @@ The ABP Commercial MVC `v7.3.0` application template has been tested against sec
 
 Many of these alerts are **false-positive**, meaning the vulnerability scanner detected these issues, but they are not exploitable. It's clearly explained for each false-positive alert why this alert is a false-positive. 
 
-In the next sections, you will find the affected URLs, alert descriptions, false-positive explanations, and fixes for the issues. Some positive alerts are already fixed, and some of them will be fixed in the next milestone. The issue links for the fixes are mentioned in each positive alert.
+In the next sections, you will find the affected URLs, alert descriptions, false-positive explanations, and fixes for the issues. Some positive alerts are already fixed, or needed additional actions that will be taken by you. The issue links for the fixes are mentioned in each positive alert.
 
 ## Alerts
 
@@ -24,7 +24,7 @@ The Path Traversal attack technique allows an attacker access to files, director
 
 **Solution**:
 
-This is a false-positive alert since ABP Framework does all related checks for this kind of attack on the backend side for this endpoint.
+This is a **false-positive** alert since ABP Framework does all related checks for this kind of attack on the backend side for this endpoint.
 
 ### SQL Injection [Risk: High] - False Positive
 
@@ -41,9 +41,18 @@ SQL injection may be possible. SQL injection is a web security vulnerability tha
 
 ABP uses Entity Framework Core and LINQ. It's safe against SQL Injection because it passes all data to the database via SQL parameters. LINQ queries are not composed by using string manipulation or concatenation, that's why they are not susceptible to traditional SQL injection attacks. Therefore, this is a **false-positive** alert.
 
-### SQL Injection - Authentication Bypass [Risk: High]
+### SQL Injection - Authentication Bypass [Risk: High] - False Positive
 
-//TODO:assess the alert!!!
+- *[POST] - https://localhost:44379/Account/Login?returnUrl=%2FAccount%2FManage*
+
+**Description**:
+
+SQL injection may be possible on a login page, potentially allowing the application's 
+authentication mechanism to be bypassed.
+
+**Solution**:
+
+This alert indicates that we must not trust client side input (even if there is client side validation in place) and check all data on the server side. ABP Framework already does that and makes server-side validations while authenticating a user. Therefore this is a **false-positive** alert.
 
 ### Absence of Anti-CSRF Tokens [Risk: Medium] — False Positive
 
