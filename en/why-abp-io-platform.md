@@ -121,6 +121,8 @@ Building, documenting, training and maintaining an internal framework is really 
 
 ## Architectural Infrastructure
 
+SaaS applications, modular or microservice systems are most used enterprise software models. Building such systems not only requires a good understanding and experience, but also requires a strong software infrastructure. Otherwise, you will find yourself spending a great effort to support these architectural details in your codebase.
+
 ### Modularity
 
 Building a truly modular system is not easy! All the aspects of the system (database, entities, APIs, UI pages/components) can be split into modules, and each module can be re-usable without others. The plain ASP.NET Core doesn't provide such a modular architecture. If you need it, you should think about it from scratch.
