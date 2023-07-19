@@ -1,6 +1,6 @@
 # ABP Framework vs ABP Commercial
 
-**ABP.IO Platform** consists of the open source ABP Framework and the ABP Commercial.
+**ABP.IO Platform** consists of the open-source ABP Framework and the ABP Commercial.
 
 ## Introduction
 
@@ -8,7 +8,7 @@
 
 [ABP Commercial](https://commercial.abp.io) adds important benefits on top of the open-source ABP framework with a set of professional [application modules](https://commercial.abp.io/modules), [UI themes](https://commercial.abp.io/themes), CRUD page generator: [ABP Suite](https://commercial.abp.io/tools/suite), [premium support](https://commercial.abp.io/support) and [additional services](https://commercial.abp.io/additional-services). 
 
-> This document only focuses the major differences between the ABP Framework and the ABP Commercial. It doesn't cover all the features.
+> This document only focuses the major differences between the ABP Framework and the ABP Commercial. It only covers some of the features.
 
 
 
@@ -161,6 +161,12 @@ On the other hand, ABP Suite is a commercial tool that aims to assist your devel
 A screenshot from the CRUD Page Generator:
 
 ![abp-suite-example](images/abp-suite-example.png)
+
+
+
+## Is ABP Suite free?
+
+ABP Suite is a part of the ABP Commercial Platform that generates full source code from the backend to the client. ABP Suite is not a free tool for everyone. It is free for only the active ABP Commercial license holders.
 
 
 
