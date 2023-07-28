@@ -293,7 +293,7 @@
             </tr>
             <tr>
                 <td>Time zone selection</td>
-                <td><i class="fa fa-minus text-secondary"></i></td>
+                <td><i class="fa fa-check text-success"></i></td>
                 <td><i class="fa fa-check text-success"></i></td>
             </tr>
             <tr>
