@@ -206,10 +206,10 @@ Configure<AbpAuditingOptions>(options =>
 Update the ConnectionStrings under Product.HttpApi.Host appsettings by adding LoggingService:
 ```json
   "ConnectionStrings": {
-    "LoggingService": "Server=localhost,1434;Database=BookStore_LoggingService;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
-    "ProductService": "Server=localhost,1434;Database=BookStore_ProductService;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
-    "AdministrationService": "Server=localhost,1434;Database=BookStore_Administration;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
-    "SaasService": "Server=localhost,1434;Database=BookStore_Saas;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true"
+    "LoggingService": "Server=(LocalDb)\\MSSQLLocalDB,1434;Database=BookStore_LoggingService;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
+    "ProductService": "Server=(LocalDb)\\MSSQLLocalDB,1434;Database=BookStore_ProductService;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
+    "AdministrationService": "Server=(LocalDb)\\MSSQLLocalDB,1434;Database=BookStore_Administration;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
+    "SaasService": "Server=(LocalDb)\\MSSQLLocalDB,1434;Database=BookStore_Saas;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true"
   },
 ```
 

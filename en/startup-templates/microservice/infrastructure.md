@@ -54,10 +54,10 @@ All the microservices and AuthServer has connection strings configured based on 
 
 ```json
 "ConnectionStrings": {
-    "IdentityService": "Server=localhost,1434;Database=MyProjectName_Identity;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
-    "AdministrationService": "Server=localhost,1434;Database=MyProjectName_Administration;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
-    "SaasService": "Server=localhost,1434;Database=MyProjectName_Saas;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
-    "ProductService": "Server=localhost,1434;Database=MyProjectName_ProductService;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true"
+    "IdentityService": "Server=(LocalDb)\\MSSQLLocalDB,1434;Database=MyProjectName_Identity;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
+    "AdministrationService": "Server=(LocalDb)\\MSSQLLocalDB,1434;Database=MyProjectName_Administration;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
+    "SaasService": "Server=(LocalDb)\\MSSQLLocalDB,1434;Database=MyProjectName_Saas;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
+    "ProductService": "Server=(LocalDb)\\MSSQLLocalDB,1434;Database=MyProjectName_ProductService;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true"
   },
 ```
 
