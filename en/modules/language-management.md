@@ -219,7 +219,31 @@ export const environment = {
 
 The Language Management module remote URL configuration shown above is optional. If you don't set a URL, the `default.url` will be used as fallback.
 
-
 ## Distributed Events
 
-This module doesn't define any additional distributed event. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
+
+This module defines the following ETOs (Event Transfer Objects) to allow you to subscribe to changes on the entities of the module;
+
+- `LanguageEto` is published on changes done on a `Language` entity.
+- `LanguageTextEto` is published on changes done on a `LanguageText` entity.
+
+**Example: Get notified when a new tenant has been created**
+
+```
+public class MyHandler :
+    IDistributedEventHandler<EntityCreatedEto<LanguageEto>>,
+    ITransientDependency
+{
+    public async Task HandleEventAsync(EntityCreatedEto<LanguageEto> eventData)
+    {
+        LanguageEto language = eventData.Entity;
+        // TODO: ...
+    }
+}
+```
+
+
+
+`LanguageEto` and `LanguageTextEto` are configured to automatically publish the events. You should configure yourself for the others. See the [Distributed Event Bus document](https://github.com/abpframework/abp/blob/rel-7.3/docs/en/Distributed-Event-Bus.md) to learn details of the pre-defined events.
+
+> Subscribing to the distributed events is especially useful for distributed scenarios (like microservice architecture). If you are building a monolithic application, or listening events in the same process that runs the Tenant Management Module, then subscribing to the [local events](https://github.com/abpframework/abp/blob/rel-7.3/docs/en/Local-Event-Bus.md) can be more efficient and easier.
