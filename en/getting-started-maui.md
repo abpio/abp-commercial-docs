@@ -47,15 +47,40 @@ You need some extra steps, please check the [Microsoft document](https://learn.m
 
 If you run the MAUI on a Mac agent, the remote iOS Simulator can't access the backend application running on Windows, you need to run the backend application on Mac or make the backend application internally.
 
-## Run the Mobile Application
+## User Interface
+
+The MAUI template consists of four pages: 
+* **Homepage**: This is the welcome page of the application.
+* **Users**: Management page for your application users. You can search, add, update, or delete users of your application.
+* **Tenants**: Management page for your tenants. 
+* **Settings**: Management page for your application settings. On this page, you can change **the current language**, **the profile picture**, **the current password**, or/and **the current theme**.
+
+### Homepage
 
 ![Maui Home Page](./images/maui-home-page.png)
 
-When you click the *Login to the application* button, it redirects you to the login page. 
-Enter **admin** as the username and **1q2w3E*** as the password to login to the application.
+### Users Page
 
-![Maui User Page](./images/maui-user-page.png)
+![Maui Users Page](./images/maui-users-page.png)
 
-The user page shows you how to use CSharp client proxy to request backend API.
+### Tenants Page
 
-The application is up and running. You can continue to develop your application based on this startup template.
+![Maui Tenants Page](./images/maui-tenants-page.png)
+
+### Settings Page
+
+![Maui Settings Page](./images/maui-settings-page.png)
+
+## Run the Mobile Application
+
+You can run the MAUI application through Visual Studio or any other IDE that supports MAUI. After the application is up and running, you can continue to develope your application based on this startup template.
+
+You can examine the [Users Page](#users-page) or any other pre-defined page to see how to use CSharp Client Proxy to request backend API and consume the backend API in the same way in your application.
+
+### Advanced
+
+#### Validation
+
+In the context of the MVVM pattern (Model-View-ViewModel), a view model is responsible to perform data validation and signal any validation errors to the view so that the user can correct them. In MAUI, to perform validation you should define the view model properties as of type `ValidatableObject<T>` and specify related validations rules.
+
+To specify validation rules and add validation rules to a property, you can refer to [Microsoft's Validation documentation](https://learn.microsoft.com/en-us/dotnet/architecture/maui/validation).
