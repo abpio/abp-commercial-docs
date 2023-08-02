@@ -73,7 +73,7 @@ The MAUI template consists of four pages:
 
 ## Run the Mobile Application
 
-You can run the MAUI application through Visual Studio or any other IDE that supports MAUI. After the application is up and running, you can continue to develope your application based on this startup template.
+You can run the MAUI application through Visual Studio or any other IDE that supports MAUI. After the application is up and running, you can continue to develop your application based on this startup template.
 
 You can examine the [Users Page](#users-page) or any other pre-defined page to see how to use CSharp Client Proxy to request backend API and consume the backend API in the same way in your application.
 
