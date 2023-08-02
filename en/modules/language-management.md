@@ -11,19 +11,19 @@ See [the module description page](https://commercial.abp.io/modules/Volo.Languag
 
 ## How to Install
 
-Language management module is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
+The language management module is pre-installed in [the startup templates](../Startup-Templates/Index). So, no need to manually install it.
 
 ## Packages
 
-This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. See the guide if you want to understand the packages and relations between them.
+This module follows the [module development best practices guide](https://docs.abp.io/en/abp/latest/Best-Practices/Index) and consists of several NuGet and NPM packages. Please look at the guide if you want to understand the packages and the relations between them.
 
-You can visit [Language Management module package list page](https://abp.io/packages?moduleName=Volo.LanguageManagement) to see list of packages related with this module.
+You can visit [Language Management module package list page](https://abp.io/packages?moduleName=Volo.LanguageManagement) to see the list of packages related to this module.
 
 ## User Interface
 
 ### Menu Items
 
-Language management module adds the following items to the "Main" menu, under the "Administration" menu item:
+The language management module adds the following items to the "Main" menu, under the "Administration" menu item:
 
 * **Languages**: Language management page.
 * **Language Texts**: Language text management page.
@@ -34,7 +34,7 @@ Language management module adds the following items to the "Main" menu, under th
 
 #### Languages
 
-Languages page is used to manage languages in the system. 
+The languages page is used to manage languages in the system. 
 
 ![language-management-languages-page](../images/language-management-languages-page.png)
 
@@ -46,7 +46,7 @@ You can create a new language or edit an existing language in this page:
 
 #### Language Texts
 
-Language texts page is used to manage texts in different languages.
+The language texts page is used to manage texts in different languages.
 
 ![language-management-language-texts-page](../images/language-management-language-texts-page.png)
 
@@ -136,7 +136,7 @@ See the `LanguageManagementPermissions` class members for all permissions define
 
 #### Installation
 
-In order to configure the application to use the `LanguageManagementModule`, you first need to import `LanguageManagementConfigModule` from `@volo/abp.ng.language-management/config` to root module. `LanguageManagementConfigModule` has a static `forRoot` method which you should call for a proper configuration.
+To configure the application to use the `LanguageManagementModule`, you first need to import `LanguageManagementConfigModule` from `@volo/abp.ng.language-management/config` to root module. `LanguageManagementConfigModule` has a static `forRoot` method which you should call for a proper configuration.
 
 ```js
 // app.module.ts
@@ -170,7 +170,7 @@ const routes: Routes = [
 export class AppRoutingModule {}
 ```
 
-> If you have generated your project via the startup template, you do not have to do anything, because it already has both `LanguageManagementConfigModule` and `LanguageManagementModule`.
+> If you have generated your project via the startup template, you do not have to do anything because it already has both `LanguageManagementConfigModule` and `LanguageManagementModule`.
 
 <h4 id="h-language-management-module-options">Options</h4>
 
@@ -217,7 +217,7 @@ export const environment = {
 };
 ```
 
-The Language Management module remote URL configuration shown above is optional. If you don't set a URL, the `default.url` will be used as fallback.
+The Language Management module remote URL configuration shown above is optional. If you don't set a URL, the `default.url` will be used as a fallback.
 
 ## Distributed Events
 
@@ -244,6 +244,6 @@ public class MyHandler :
 
 
 
-`LanguageEto` and `LanguageTextEto` are configured to automatically publish the events. You should configure yourself for the others. See the [Distributed Event Bus document](https://github.com/abpframework/abp/blob/rel-7.3/docs/en/Distributed-Event-Bus.md) to learn details of the pre-defined events.
+`LanguageEto` and `LanguageTextEto` are configured to publish the events automatically. You should be able to configure yourself for the others. See the [Distributed Event Bus document](https://github.com/abpframework/abp/blob/rel-7.3/docs/en/Distributed-Event-Bus.md) to learn details of the pre-defined events.
 
-> Subscribing to the distributed events is especially useful for distributed scenarios (like microservice architecture). If you are building a monolithic application, or listening events in the same process that runs the Tenant Management Module, then subscribing to the [local events](https://github.com/abpframework/abp/blob/rel-7.3/docs/en/Local-Event-Bus.md) can be more efficient and easier.
+> Subscribing to distributed events is especially useful for distributed scenarios (like microservice architecture). If you are building a monolithic application or listening events in the same process that runs the Tenant Management Module, then subscribing to the [local events](https://github.com/abpframework/abp/blob/rel-7.3/docs/en/Local-Event-Bus.md) can be more efficient and easier.
