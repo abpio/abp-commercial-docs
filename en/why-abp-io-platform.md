@@ -107,7 +107,7 @@ Most libraries are designed as **low level**, and you typically do some work to 
 
 For example, assume you must use **RabbitMQ** to implement your distributed event bus. All you want to do is; send a message to a queue and handle the incoming messages. But you need to understand **messaging patterns**, queue and **exchange details**. To write an efficient code, you must create a **pool** to manage connections, clients and channels. You also must deal with **exceptions**, ACK messages, **re-connecting** to RabbitMQ on failures and more.
 
-For example, ABP's RabbitMQ Distributed Event Bus integration abstracts all these details. You send and receive messages without the hustle and bustle. Do you need to write low-level code? No problem, you can always do that. ABP doesn't restrict you when you need to use low-level features of the library you are using.
+ABP's RabbitMQ Distributed Event Bus integration abstracts all these details. You send and receive messages without the hustle and bustle. Do you need to write low-level code? No problem, you can always do that. ABP doesn't restrict you when you need to use low-level features of the library you are using.
 
 ### Tons of Features
 
@@ -153,7 +153,7 @@ All modules are designed as customizable for your business requirements. If you 
 
 ## ABP Community
 
-Finally, Being in a big community where everyone follows similar coding styles and principles and shares a common infrastructure brings power when you have troubles or need help with design decisions. Since we write code similarly, we can help each other much better. ABP is a community-backed project with more than 10K stars on GitHub. 
+Finally, being in a big community where everyone follows similar coding styles and principles and shares a common infrastructure brings power when you have troubles or need help with design decisions. Since we write code similarly, we can help each other much better. ABP is a community-backed project with more than 10K stars on GitHub. 
 
 It is easy to share code or even re-usable libraries between ABP developers. A code snippet that works for you will also work for others. There are a lot of samples and tutorials that you can directly implement for your application.
 
