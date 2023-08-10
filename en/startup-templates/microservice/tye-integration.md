@@ -38,7 +38,7 @@ Developer certificates are required to run the application on HTTPS and the gene
 
 > Make sure you are already [running the infrastructure](index.md#run-the-infrastructure).
 
-Use the command `tye run` under your main solution directory to run the solution.
+Use the command `tye run` under your main solution directory to run the solution. It will use configured services in the `tye.yaml` file located under the main solution folder.
 
 
 ![tye-run](../../images/tye-run.png)
