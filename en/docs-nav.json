@@ -65,6 +65,15 @@
               "path": "tutorials/book-store/part-10.md"
             }
           ]
+        },
+        {
+          "text": "Mobile Application Development",
+          "items": [
+            {
+              "text": "MAUI",
+              "path": "tutorials/book-store/mobile/maui.md"
+            }
+          ]
         }
       ]
     },
