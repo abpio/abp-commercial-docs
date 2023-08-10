@@ -133,7 +133,7 @@ The ABP Framework is born to be a modular application development structure. Eve
 
 [Multi-Tenancy](https://docs.abp.io/en/abp/latest/Multi-Tenancy) is a common way to implement SaaS systems. However, implementing a consistent multi-tenant infrastructure may become complicated.
 
-ABP Framework provides a complete multi-tenant infrastructure and abstract complexity from your business code. Your application code will be mostly multi-tenancy aware while the ABP Framework automatically isolates the database, cache and other details of the tenants from each other. It supports single database, per tenant database and hybrid approaches. It properly configures the libraries like Microsoft Identity, IdentityServer, OpenIddict, which are not normally multi-tenancy compatible.
+ABP Framework provides a complete multi-tenant infrastructure and abstract complexity from your business code. Your application code will be mostly multi-tenancy aware while the ABP Framework automatically isolates the database, cache and other details of the tenants from each other. It supports single database, per tenant database and hybrid approaches. It properly configures the libraries like Microsoft Identity and OpenIddict, which are not normally multi-tenancy compatible.
 
 ### Microservices
 
@@ -153,7 +153,7 @@ All modules are designed as customizable for your business requirements. If you 
 
 ## ABP Community
 
-Being in a big community where everyone follows similar coding styles and principles and shares a common infrastructure brings power when you have troubles or need help with design decisions. Since we write code similarly, we can help each other much better. ABP is a community-backed project with almost 10K stars on GitHub. 
+Finally, being in a big community where everyone follows similar coding styles and principles and shares a common infrastructure brings power when you have troubles or need help with design decisions. Since we write code similarly, we can help each other much better. ABP is a community-backed project with more than 10K stars on GitHub. 
 
 It is easy to share code or even re-usable libraries between ABP developers. A code snippet that works for you will also work for others. There are a lot of samples and tutorials that you can directly implement for your application.
 
