@@ -1,5 +1,5 @@
 # Password Complexity Indicator
-`PasswordComplexityIndicatorService` is for calculating the password complexity.
+The `PasswordComplexityIndicatorService` is for calculating the password complexity.
 
 - Set default values in `PasswordComplexityIndicatorService`:
   - colors
@@ -20,9 +20,9 @@
     };
     ```
 - Make sure that the lengths of these values are equal (In our service we have **5** tests/colors/texts).
-- `PasswordComplexityIndicatorService` has only one method `validatePassword` that passes the password as an argument and returns the properties of the bar.
+- The `PasswordComplexityIndicatorService` has only one method `validatePassword` that passes the password as an argument and returns the properties of the bar.
 
-- `validatePassword` method returns an object **which type is ProgressBarStats**.
+- The `validatePassword` method returns an object **of the type ProgressBarStats**.
 - ```ts
   interface ProgressBarStats{
     bgColor: string,
@@ -30,7 +30,7 @@
     width: number
   })
   ``` 
-- Use this object to modify `password complexity bar`
+- Use this object to modify the `password complexity bar`
   - ***bgColor:*** decides the color of the bar.
   - ***text:*** explains the meaning of the bar to the user. 
   - ***width:*** decides how full the bar will be.
@@ -43,7 +43,7 @@ It's easy, imagine you have a password input that you want to add the complexity
   <abp-password-complexity-indicator [progressBar]="ProgressBarStatsObject"></abp-password-complexity-indicator>
 ```
 
-- Pass the password to the `validatePassword` method of `PasswordComplexityIndicatorService`, and bind returned value to the `abp-password-complexity-indicator` `progressBar` property.
+- Pass the password to the `validatePassword` method of the `PasswordComplexityIndicatorService`, and bind return the value to the `progressBar` property of the `abp-password-complexity-indicator` 
 - We suggest localization instead of using the text value directly.
 - en.json
   ```json
@@ -59,4 +59,4 @@ It's easy, imagine you have a password input that you want to add the complexity
 # How To Customize
 - If you want to change the test count, make sure that the lengths of the arrays of the `colors,texts,regex` in the `PasswordComplexityIndicatorService` are equal. Otherwise, it won't work.
 - If you change any of the texts, you must change the localization file.
-- That's it you can start typing the password input!
+- That's it, you can start typing the password input!
