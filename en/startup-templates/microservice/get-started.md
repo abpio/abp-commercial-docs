@@ -18,13 +18,11 @@ Other dependencies (like Redis and RabbitMQ) comes with a docker-compose configu
 
 Use the [ABP Suite](../../abp-suite/index.md) to [create a new solution](../../abp-suite/create-solution.md) by selecting the *Microservice* as the project type. Check out [creating a new microservice document](create-new-microservice.md) to see in details.
 
-## Open the Solution
+## Run the Solution on TYE
 
-Now, you can open the solution in Visual Studio or your favorite IDE. You will see a solution structure similar to the figure below (solution and project names will be different based on your naming preference);
+You can run and debug the microservice solution using [dotnet/tye](https://github.com/dotnet/tye). Tye integration is already done in the microservice templates. In order to use it, you need to [install dotnet/tye](https://github.com/dotnet/tye/blob/main/docs/getting_started.md) and run the `run-tye.ps1` PowerShell script. It will automatically create the required certificates, start the docker infrastructure, run the db migrator and start the tye. 
 
-<img src="../../images/microservice-template-solution-in-rider.png" alt="microservice-template-solution-in-rider" style="zoom: 200%;" />
-
-*Figure: The solution structure (it will be a slightly different based on your UI preference).*
+See the [Microservice Template Tye Integration](./tye-integration.md) document for more details.
 
 ## Run the Infrastructure
 
@@ -34,9 +32,13 @@ The **etc/docker** folder under the main solution contains a `up.ps1` file. Exec
 
 > First running may contain additional steps and take a long time since it will download the missing Docker images.
 
-## Run the Solution on TYE
+## Open the Solution
 
-You can run and debug the microservice solution using [dotnet/tye](https://github.com/dotnet/tye). See the [Microservice Template Tye Integration](./tye-integration.md) document.
+Now, you can open the solution in Visual Studio or your favorite IDE. You will see a solution structure similar to the figure below (solution and project names will be different based on your naming preference);
+
+<img src="../../images/microservice-template-solution-in-rider.png" alt="microservice-template-solution-in-rider" style="zoom: 200%;" />
+
+*Figure: The solution structure (it will be a slightly different based on your UI preference).*
 
 ## Run the Solution on IDE
 
