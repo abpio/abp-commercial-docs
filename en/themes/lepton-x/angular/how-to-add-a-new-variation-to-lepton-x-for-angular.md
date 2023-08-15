@@ -83,4 +83,4 @@ By adding this configuration, Angular will include the specified CSS file when b
 
 ![new appearance of LeptonX](../../../images/new-lepton-x-appearance.png)
 
-If you want to learn how to build and customize LeptonX using scss files, see [the link](https://docs.abp.io/en/commercial/latest/themes/lepton-x/source-files#adding-new-theme-bundle-to-source-file).
+If you want to learn how to build and customize LeptonX using scss files, see [the link](../source-files#adding-new-theme-bundle-to-source-file).
