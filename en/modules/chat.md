@@ -53,7 +53,7 @@ If database provider of your project is **EntityFrameworkCore**, use `modelBuild
 
 ## Configuration
 
-### SignalR Access Token Configuration for Angular Projects
+### SignalR Access Token Configuration for Angular and Blazor WebAssembly Projects
 
 See [Microsoft SignalR Authentication and Authorization](https://docs.microsoft.com/en-us/aspnet/core/signalr/authn-and-authz) and [Microsoft SignalR Security](https://docs.microsoft.com/en-us/aspnet/core/signalr/security#access-token-logging) documentations.
 
@@ -264,6 +264,32 @@ The Chat module remote URL configurations shown above are optional.
 
 > If you don't set the `signalRUrl`, `Chat.url` will be used as fallback. If you don't set the `Chat` property, the `default.url` will be used as fallback.
 
+### Blazor WebAssembly UI
+
+#### Remote Endpoint URL
+
+
+The Chat module remote endpoint URLs can be configured via the `ChatBlazorWebAssemblyOptions`.
+
+```csharp
+Configure<ChatBlazorWebAssemblyOptions>(options =>
+{
+    options.SignalrUrl = builder.Configuration["RemoteServices:Chat:BaseUrl"];
+});
+```
+
+```json
+"RemoteServices": {
+  "Default": {
+    "BaseUrl": "Default url here"
+  },
+  "Chat": {
+    "BaseUrl": "Chat remote url here"
+  }
+},
+```
+
+> If you don't set the `BaseUrl`, the `Default.BaseUrl` will be used as fallback.
 
 ## Distributed Events
 
