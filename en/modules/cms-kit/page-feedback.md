@@ -2,6 +2,9 @@
 
 CMS kit provides a **Page Feedback** system to collect feedback from users about pages.
 
+| ![cmskit-module-page-feedback-widget](../../images/cmskit-module-page-feedback-widget.png) |![cmskit-module-page-feedback-widget](../../images/cmskit-module-page-feedback-widget-2.png) |
+| --- | --- |
+
 ## Enabling the Page Feedback System
 
 By default, CMS Kit features are disabled. Therefore, you need to enable the features you want, before starting to use it. You can use the [Global Feature](https://docs.abp.io/en/abp/latest/Global-Features) system to enable/disable CMS Kit features on development time. Alternatively, you can use the ABP Framework's [Feature System](https://docs.abp.io/en/abp/latest/Features) to disable a CMS Kit feature on runtime.
@@ -115,3 +118,79 @@ Configure<CmsKitPageFeedbackOptions>(options =>
 - `CreatePolicies`: List of policy/permission names allowing users to create tags under the entity type.
 - `UpdatePolicies`: List of policy/permission names allowing users to update tags under the entity type.
 - `DeletePolicies`: List of policy/permission names allowing users to delete tags under the entity type.
+
+## Internals
+
+### Domain Layer
+
+#### Aggregates
+
+This module follows the [Entity Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Entities) guide.
+
+##### PageFeedback
+
+A page feedback is a feedback sent by a user about a page.
+
+- `PageFeedback`(Aggregate Root): Represents a page feedback.
+
+##### PageFeedbackSetting
+
+A page feedback setting is a setting to configure the page feedback system.
+
+- `PageFeedbackSetting`(Aggregate Root): Represents a page feedback setting.
+
+#### Repositories
+
+This module follows the [Repository Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Repositories) guide.
+
+Following custom repositories are defined for these features:
+
+- `IPageFeedbackRepository`: Used to get a page feedback.
+- `IPageFeedbackSettingRepository`: Used to get a page feedback setting.
+
+#### Domain Services
+
+This module follows the [Domain Services Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Domain-Services) guide.
+
+##### Page Feedback Manager
+
+`PageFeedbackManager` is used to perform some operations for the `PageFeedback` and `PageFeedbackSetting` aggregate roots.
+
+### Application layer
+
+#### Application services
+
+- `PageFeedbackAdminAppService`(implements `IPageFeedbackAdminAppService`): Used to manage page feedbacks in the admin side of your solution.
+- `PageFeedbackPublicAppService`(implements `IPageFeedbackPublicAppService`): Used to manage page feedbacks in the public side of your solution.
+
+### Database providers
+
+#### Common
+
+##### Table / collection prefix & schema
+
+All tables/collections use the `Cms` prefix by default. Set static properties on the `CmsKitDbProperties` class if you need to change the table prefix or set a schema name (if supported by your database provider).
+
+##### Connection string
+
+This module uses `CmsKit` for the connection string name. If you don't define a connection string with this name, it fallbacks to the `Default` connection string.
+
+See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-Strings) documentation for details.
+
+#### Entity Framework Core
+
+##### Tables
+
+- CmsPageFeedbacks
+- CmsPageFeedbackSettings
+
+#### MongoDB
+
+##### Collections
+
+- **CmsPageFeedbacks**
+- **CmsPageFeedbackSettings**
+
+## Entity Extensions
+
+Check the ["Entity Extensions" section of the CMS Kit Module documentation](index.md#entity-extensions) to see how to extend entities of the Poll Feature of the CMS Kit Pro module.
