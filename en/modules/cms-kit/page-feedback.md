@@ -49,7 +49,6 @@ The page feedback system provides a page feedback [widget](https://docs.abp.io/e
 | -------- | ---- | ------------- | ----------- |
 | EntityType | string | null | Entity type name. |
 | EntityId | string | null | Entity id. |
-| Header | string | null | Header text. |
 | YesButtonText | string | null | Yes button text. |
 | NoButtonText | string | null | No button text. |
 | UserNotePlaceholder | string | null | User note placeholder. |
