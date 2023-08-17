@@ -429,6 +429,10 @@
             {
               "text": "Entity Filters",
               "path": "ui/angular/entity-filters.md"
+            },
+            {
+              "text": "Password Complexity Indicator",
+              "path": "ui/angular/password-complexity-indicator-component.md"
             }
           ]
         }
