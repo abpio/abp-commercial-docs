@@ -45,19 +45,27 @@ The page feedback system provides a page feedback [widget](https://docs.abp.io/e
 
 ### PageFeedbackViewDto Properties
 
-| Property | Type | Default Value | Description |
-| -------- | ---- | ------------- | ----------- |
-| EntityType | string | null | Entity type name. |
-| EntityId | string | null | Entity id. |
-| YesButtonText | string | null | Yes button text. |
-| NoButtonText | string | null | No button text. |
-| UserNotePlaceholder | string | null | User note placeholder. |
-| SubmitButtonText | string | null | Submit button text. |
-| ReverseButtons | bool | false | Reverse buttons. |
-| ThankYouMessageDescription | string | null | Thank you message description. |
-| ThankYouMessageTitle | string | null | Thank you message title. |
-| HeaderVisible | bool | true | Header visible. |
-| HeaderText | string | null | Header text. |
+- `EntityType`: Entity type name. It is used to group feedbacks by entity types. For example, you can group feedbacks by pages, blog posts, etc.
+
+- `EntityId`: Entity id. It is used to group feedbacks by entities. For example, you can group feedbacks by blog post id, page id, etc.
+
+- `YesButtonText`: Yes button text. You can use it to change the default text of the yes button. Default value is `Yes`.
+
+- `NoButtonText`: No button text. You can use it to change the default text of the no button. Default value is `No`.
+
+- `UserNotePlaceholder`: User note placeholder. You can use it to change the default placeholder of the user note input.
+
+- `SubmitButtonText`: Submit button text. You can use it to change the default text of the submit button. Default value is `Submit`.
+
+- `ReverseButtons`: Reverse buttons. You can use it to reverse the order of the yes and no buttons.
+
+- `ThankYouMessageDescription`: Thank you message description. You can use it to change the default thank you message.
+
+- `ThankYouMessageTitle`: Thank you message title. You can use it to change the default title of the thank you message.
+
+- `HeaderVisible`: Header visible. You can use it to hide the header of the widget.
+
+- `HeaderText`: Header text. You can use it to change the default text of the header.
 
 ### Page Feedback Modal Widget
 
@@ -81,9 +89,7 @@ The page feedback system provides a page feedback modal [widget](https://docs.ab
 
 It inherits from the [PageFeedbackViewDto](#pagefeedbackviewdto-properties) and has the following additional properties:
 
-| Property | Type | Default Value | Description |
-| -------- | ---- | ------------- | ----------- |
-| ModalId | string | page-feedback-modal | Modal id. |
+- `ModalId`: Modal id. It is used to set the id of the modal. Default value is `page-feedback-modal`.
 
 ## Page Feedback Notification
 
