@@ -1,13 +1,13 @@
 # Page Feedback System
 
-CMS kit provides a **Page Feedback** system to collect feedback from users about pages.
+The CMS kit provides a **Page Feedback** system to collect feedback from users about pages.
 
 | ![cmskit-module-page-feedback-widget](../../images/cmskit-module-page-feedback-widget.png) |![cmskit-module-page-feedback-widget](../../images/cmskit-module-page-feedback-widget-2.png) |
 | --- | --- |
 
 ## Enabling the Page Feedback System
 
-By default, CMS Kit features are disabled. Therefore, you need to enable the features you want, before starting to use it. You can use the [Global Feature](https://docs.abp.io/en/abp/latest/Global-Features) system to enable/disable CMS Kit features on development time. Alternatively, you can use the ABP Framework's [Feature System](https://docs.abp.io/en/abp/latest/Features) to disable a CMS Kit feature on runtime.
+All CMS Kit features are disabled bu default. Therefore, you need to enable the features you want before starting to use it. You can use the [Global Feature](https://docs.abp.io/en/abp/latest/Global-Features) system to enable/disable the CMS Kit features on development time. Alternatively, you can use the ABP Framework's [Feature System](https://docs.abp.io/en/abp/latest/Features) to disable a CMS Kit feature on runtime.
 
 > Check the ["How to Install" section of the CMS Kit Module documentation](index.md#how-to-install) to see how to enable/disable CMS Kit features on development time.
 
@@ -15,11 +15,11 @@ By default, CMS Kit features are disabled. Therefore, you need to enable the fea
 
 ### Menu Items
 
-CMS Kit module admin side adds the following items to the main menu, under the **CMS** menu item:
+The CMS Kit module admin side adds the following items to the main menu, under the **CMS** menu item:
 
 **Page Feedbacks**: Page feedback management page.
 
-`CmsKitProAdminMenus` class has the constants for the menu item names.
+The `CmsKitProAdminMenus` class has the constants for the menu items names.
 
 ### Pages
 
@@ -49,23 +49,23 @@ The page feedback system provides a page feedback [widget](https://docs.abp.io/e
 
 - `EntityId`: Entity id. It is used to group feedbacks by entities. For example, you can group feedbacks by blog post id, page id, etc.
 
-- `YesButtonText`: Yes button text. You can use it to change the default text of the yes button. Default value is `Yes`.
+- `YesButtonText`: Yes button text. Used to change the default text of the yes button. Default value is `Yes`.
 
-- `NoButtonText`: No button text. You can use it to change the default text of the no button. Default value is `No`.
+- `NoButtonText`: No button text. Used to change the default text of the no button. Default value is `No`.
 
-- `UserNotePlaceholder`: User note placeholder. You can use it to change the default placeholder of the user note input.
+- `UserNotePlaceholder`: User note placeholder. Used to change the default placeholder of the user note input.
 
-- `SubmitButtonText`: Submit button text. You can use it to change the default text of the submit button. Default value is `Submit`.
+- `SubmitButtonText`: Submit button text. Used to change the default text of the submit button. Default value is `Submit`.
 
-- `ReverseButtons`: Reverse buttons. You can use it to reverse the order of the yes and no buttons.
+- `ReverseButtons`: Reverse buttons. Used to reverse the order of the yes and no buttons.
 
-- `ThankYouMessageDescription`: Thank you message description. You can use it to change the default thank you message.
+- `ThankYouMessageDescription`: Thank you message description. Used to change the default thank you message.
 
-- `ThankYouMessageTitle`: Thank you message title. You can use it to change the default title of the thank you message.
+- `ThankYouMessageTitle`: Thank you message title. Used to change the default title of the thank you message.
 
-- `HeaderVisible`: Header visible. You can use it to hide the header of the widget.
+- `HeaderVisible`: Header visible. Used to hide the header of the widget.
 
-- `HeaderText`: Header text. You can use it to change the default text of the header.
+- `HeaderText`: Header text. Used to change the default text of the header.
 
 ### Page Feedback Modal Widget
 
@@ -89,7 +89,7 @@ The page feedback system provides a page feedback modal [widget](https://docs.ab
 
 It inherits from the [PageFeedbackViewDto](#pagefeedbackviewdto-properties) and has the following additional properties:
 
-- `ModalId`: Modal id. It is used to set the id of the modal. Default value is `page-feedback-modal`.
+- `ModalId`: Modal id. Used to set the id of the modal. Default value is `page-feedback-modal`.
 
 ## Page Feedback Notification
 
@@ -114,12 +114,12 @@ Configure<CmsKitPageFeedbackOptions>(options =>
 
 `CmsKitPageFeedbackOptions` properties:
 
-- `EntityTypes`: List of defined entity types(`PageFeedbackEntityTypeDefinition`) in the page feedback system.
+- `EntityTypes`: A list of the defined entity types(`PageFeedbackEntityTypeDefinition`) in the page feedback system.
 
 `PageFeedbackEntityTypeDefinition` properties:
 
 - `EntityType`: Name of the entity type.
-- `DisplayName`: Display name of the entity type. You can use a user friendly display name to show entity type definition on the admin website.
+- `DisplayName`: Display name of the entity type. You can use a user friendly display name to show the entity type definition on the admin website.
 - `CreatePolicies`: List of policy/permission names allowing users to create tags under the entity type.
 - `UpdatePolicies`: List of policy/permission names allowing users to update tags under the entity type.
 - `DeletePolicies`: List of policy/permission names allowing users to delete tags under the entity type.
@@ -148,7 +148,7 @@ A page feedback setting is a setting to configure the page feedback system.
 
 This module follows the [Repository Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Repositories) guide.
 
-Following custom repositories are defined for these features:
+The following custom repositories are defined for these features:
 
 - `IPageFeedbackRepository`: Used to get a page feedback.
 - `IPageFeedbackSettingRepository`: Used to get a page feedback setting.
@@ -174,7 +174,7 @@ This module follows the [Domain Services Best Practices & Conventions](https://d
 
 ##### Table / collection prefix & schema
 
-All tables/collections use the `Cms` prefix by default. Set static properties on the `CmsKitDbProperties` class if you need to change the table prefix or set a schema name (if supported by your database provider).
+All tables/collections use the `Cms` prefix by default. Set static properties in the `CmsKitDbProperties` class if you need to change the table prefix or set a schema name (if supported by your database provider).
 
 ##### Connection string
 
