@@ -1,5 +1,14 @@
 # Provisioning an Azure Web App using Terraform
 
+````json
+//[doc-params]
+{
+    "UI": ["MVC", "Blazor", "BlazorServer", "NG"],
+    "DB": ["EF", "Mongo"],
+    "Tiered": ["Yes", "No"]
+}
+````
+
 In this tutorial, we'll walk through the steps to provision an Azure Web App using Terraform. Terraform is an open-source infrastructure as code tool that allows you to define and manage your infrastructure in a declarative way.
 
 ## Prerequisites
@@ -73,54 +82,80 @@ When working with Terraform on Azure, you'll need a Service Principal for authen
 
 2. Create a new file named `main.tf` in the directory and add the following code:
 
-```# Configure the Azure provider
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.0.0"
-    }
-  }
-  required_version = ">= 0.14.9"
-}
-provider "azurerm" {
-  features {}
-}
+        ```terraform
+        # Configure the Azure provider
+        terraform {
+        required_providers {
+            azurerm = {
+            source  = "hashicorp/azurerm"
+            version = "~> 3.0.0"
+            }
+        }
+        required_version = ">= 0.14.9"
+        }
+        provider "azurerm" {
+            features {}
+        }
 
-# Create the resource group
-resource "azurerm_resource_group" "rg" {
-  name     = "demo-abp-web-app"
-  location = "westeurope"
-}
+        # Create the resource group
+        resource "azurerm_resource_group" "rg" {
+            name     = "demo-abp-web-app"
+            location = "westeurope"
+        }
 
-# Create the Linux App Service Plan
-resource "azurerm_service_plan" "appserviceplan" {
-  name                = "demo-abp-web-app-plan"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  os_type             = "Linux"
-  sku_name            = "B1"
-}
+        # Create the Linux App Service Plan
+        resource "azurerm_service_plan" "appserviceplan" {
+            name                = "demo-abp-web-app-plan"
+            location            = azurerm_resource_group.rg.location
+            resource_group_name = azurerm_resource_group.rg.name
+            os_type             = "Linux"
+            sku_name            = "B1"
+        }
 
-# Create the web app, pass in the App Service Plan ID
-resource "azurerm_linux_web_app" "webapp" {
-  name                  = "demo-abp-web-app"
-  location              = azurerm_resource_group.rg.location
-  resource_group_name   = azurerm_resource_group.rg.name
-  service_plan_id       = azurerm_service_plan.appserviceplan.id
-  https_only            = true
-  site_config {
-    application_stack {
-      dotnet_version = "6.0"
-    }
-    minimum_tls_version  = "1.2"
-  }
-}
+{{if UI_Value =! "NG"}}
 
-output "webappurl" {
-  value = "${azurerm_linux_web_app.webapp.name}.azurewebsites.net"
-}
-```
+        resource "azurerm_linux_web_app" "webapp" {
+            name                  = "webapp-prodemo"
+            location              = azurerm_resource_group.rg.location
+            resource_group_name   = azurerm_resource_group.rg.name
+            service_plan_id       = azurerm_service_plan.appserviceplan.id
+            https_only            = true
+            site_config {
+                application_stack {
+                dotnet_version = "6.0"
+                }
+                minimum_tls_version  = "1.2"
+            }
+            app_settings = {
+                "Redis__Configuration" = azurerm_redis_cache.redis.primary_connection_string
+            }
+        }
+{{else}}
+
+        resource "azurerm_linux_web_app" "webapp" {
+            name                  = "webapp-angular-demo"
+            location              = azurerm_resource_group.rg.location
+            resource_group_name   = azurerm_resource_group.rg.name
+            service_plan_id       = azurerm_service_plan.appserviceplan.id
+            https_only            = true
+            site_config {
+                application_stack {
+                node_version = "16-lts"
+                }
+                minimum_tls_version  = "1.2"
+            }
+            app_settings = {
+                "Redis__Configuration" = azurerm_redis_cache.redis.primary_connection_string
+            }
+        }
+{{end}}
+
+        
+
+        output "webappurl" {
+            value = "${azurerm_linux_web_app.webapp.name}.azurewebsites.net"
+        }
+        ```
 
 3. Run `terraform init` to initialize the directory.
 
@@ -136,7 +171,7 @@ output "webappurl" {
 
 > You have to change **dotnet version** of runtime stack according to your application. For example, if you are using .NET 7, you should change `dotnet_version = "6.0"` to `dotnet_version = "7.0"`.
 
-![Azure Web App](../../images/azure-deploy-runtime-stack.png)
+![Azure Web App](../../../images/azure-deploy-runtime-stack.png)
 
 ## Destroying the Terraform Configuration
 
