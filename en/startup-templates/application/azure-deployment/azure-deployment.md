@@ -15,7 +15,7 @@
 
 An active Azure account. If you don't have one, you can sign up for a [free account](https://azure.microsoft.com/en-us/free/)
 
-Your abp **{{ UI_Value }}** project should be ready at github
+Your ABP **{{ UI_Value }}** project should be ready at GitHub repository
 
 **{{ DB_Value }}** database should be ready to use with your project
 
@@ -39,13 +39,15 @@ To create a new Azure Web App Service, chose one of the following options:
 
 ### Create a new Azure Web App Service using the Azure Portal
 
+#### Create a new Azure Web App Service for web application
+
 1. Log in to the [Azure Portal](https://portal.azure.com/).
 
 2. Click the **Create a resource** button.
 
 3. Search for **Web App** and select **Web App** from the results.
 
-    ![Create a resource](../../images/azure-deploy-create-a-resource.png)
+    ![Create a resource](../../../images/azure-deploy-create-a-resource.png)
 
 4. Click the **Create** button.
 
@@ -53,16 +55,31 @@ To create a new Azure Web App Service, chose one of the following options:
 
 6. Click the **Create** button.
 
-    ![Create Web App](../../images/azure-deploy-create-web-app-2.png)
+{{if UI_Value =! "NG"}}
+    ![Create Web App](../../../images/azure-deploy-create-web-app-2.png)
+{{else}}
+    ![Create Web App](../../../images/azure-deploy-create-web-app-1.png)
+{{end}}
 
 7. Wait for the deployment to complete.
 
-    ![Create Web App](../../images/azure-deploy-create-web-app-3.png)
+    ![Create Web App](../../../images/azure-deploy-create-web-app-3.png)
 
+
+### Create a new Azure Web App Service for API application
+
+Same as above, but you just modify the name of the web app service to **yourapp-apihost** in step 5.
+
+
+{{ if Tiered == "Yes"}}
+### Create a new Azure Web App Service for AuthServer application
+
+Same as above, but you just modify the name of the web app service to **yourapp-apihost** in step 5.
+{{ end }}
 
 ## Step 2: Customizing the Configuration of Your ABP Application
 
-1. Modify the `ConnectionStrings` in every location throughout your project, especially within the **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.Web/appsettings.json** files, to match your database connection string.
+- Modify the `ConnectionStrings` in every location throughout your project, especially within the **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.Web/appsettings.json** files, to match your database connection string.
 
     ```json
     "ConnectionStrings": {
@@ -70,15 +87,48 @@ To create a new Azure Web App Service, chose one of the following options:
     }
     ```
 
-2. Modify the yourapp.Web url in every location throughout your project, especially within the **./src/yourapp.Web/appsettings.json** file, to match your Azure Web App Service url.
+{{ if UI_Value == "NG" }}
+- Modify the `localhost:4200` in every location throughout your project, especially within the **./angular/src/environments/environment.prod.ts** file to match your Azure Web App Service url.
+
+    ```typescript
+    export const environment = {
+        production: true,
+        application: {
+            baseUrl: 'https://yourapp.azurewebsites.net'
+        }
+    };
+    ```
+{{ end }}
+
+{{ if UI_Value =! "NG" }}
+- Modify the yourapp.Web url in every location throughout your project, especially within the **./src/yourapp.Web/appsettings.json** file, to match your Azure Web App Service url.
 
     ```json
     "App": {
         "SelfUrl": "https://yourapp.azurewebsites.net"
     }
     ```
+{{ end }}
 
-3. Modify the **GetSigningCertificate** method in the **./src/yourapp.Web/yourappWebModule.cs** file
+{{ if Tiered == "Yes"}}
+- Modify the yourapp.AuthServer url in every location throughout your project, especially within the **./src/yourapp.AuthServer/appsettings.json** file, to match your Azure Web App Service url.
+
+    ```json
+    "App": {
+        "SelfUrl": "https://yourapp-authserver.azurewebsites.net"
+    }
+    ```
+
+- Modify the yourapp.ApiHost url in every location throughout your project, especially within the **./src/yourapp.ApiHost/appsettings.json** file, to match your Azure Web App Service url.
+
+    ```json
+    "App": {
+        "SelfUrl": "https://yourapp-apihost.azurewebsites.net"
+    }
+    ```
+{{ end }}
+
+- Modify the **GetSigningCertificate** method in your project
 
     ```csharp
     private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv, IConfiguration configuration)
@@ -139,7 +189,7 @@ To create a new Azure Web App Service, chose one of the following options:
     }
     ```
 
-4. In the same file, modify the **PreConfigureServices** method by ensuring the two methods above are called when your application is not running in a production environment
+- In the same file, modify the **PreConfigureServices** method by ensuring the two methods above are called when your application is not running in a production environment
     
     ```csharp
         if (!hostingEnvironment.IsDevelopment())
@@ -160,13 +210,13 @@ To create a new Azure Web App Service, chose one of the following options:
         }
     ```
 
-5. In the same file, add ```using System.Security.Cryptography;``` to the top of the file.
+- In the same file, add ```using System.Security.Cryptography;``` to the top of the file.
 
-6. In the same file, comment ```ConfigureHealthChecks(context);``` in the **ConfigureServices** method.
+- In the same file, comment ```ConfigureHealthChecks(context);``` in the **ConfigureServices** method.
 
-![ConfigureHealthChecks](../../images/azure-deploy-configure-health-checks.png)
+    ![ConfigureHealthChecks](../../../images/azure-deploy-configure-health-checks.png)
 
-7. Add a custom passphrase to your **appsettings.json** or Azure configuration:
+- Add a custom passphrase to your **appsettings.json** or Azure configuration:
 
     ```json
     "MyAppCertificate": {
@@ -186,9 +236,13 @@ To create a new Azure Web App Service, chose one of the following options:
 
 4. Click the **set up a workflow yourself** button.
 
-    ![Set up this workflow](../../images/azure-deploy-set-up-this-workflow.png)
+    ![Set up this workflow](../../../images/azure-deploy-set-up-this-workflow.png)
 
 5. Copy this content to the opened file and commit it.
+
+{{if UI_Value =! "NG"}}
+    {{if Tiered == "No"}}
+        {{if UI_Value == "MVC"}}
 
     ```yml
     # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
@@ -257,6 +311,7 @@ To create a new Azure Web App Service, chose one of the following options:
             publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }} # Set your Azure Web App publish profile as a secret in your repository settings
             package: .
     ```
+        {{else}}
 
 7. Navigate to the **Settings** tab of your GitHub repository.
 
@@ -264,7 +319,7 @@ To create a new Azure Web App Service, chose one of the following options:
     
 9. Click the **New repository secret** button.
 
-![New repository secret](../../images/azure-deploy-new-repository-secret.png)
+    ![New repository secret](../../../images/azure-deploy-new-repository-secret.png)
 
 10. Add the following secrets:
 
@@ -272,39 +327,31 @@ To create a new Azure Web App Service, chose one of the following options:
     
         Example of azure sql connection string:
     
-    ![Azure sql connection string](../../images/azure-deploy-connection-string.png)
+    ![Azure sql connection string](../../../images/azure-deploy-connection-string.png)
 
     - **AZUREAPPSERVICE_PUBLISHPROFILE**: The publish profile of your Azure Web App Service. You can download it from the **Overview** tab of your Azure Web App Service.
 
-    ![Publish profile](../../images/azure-deploy-publish-profile.png)
+    ![Publish profile](../../../images/azure-deploy-publish-profile.png)
 
 11. Navigate to the **Actions** tab of your GitHub repository.
 
 12. Click the **Deploy to Azure Web App** workflow.
 
-    ![Deploy to Azure Web App](../../images/azure-deploy-deploy-to-azure-web-app.png)
+    ![Deploy to Azure Web App](../../../images/azure-deploy-deploy-to-azure-web-app.png)
 
 13. Click the **Run workflow** button.
 
-    ![Run workflow](../../images/azure-deploy-run-workflow.png)
+    ![Run workflow](../../../images/azure-deploy-run-workflow.png)
 
 14. Navigate to the web app url to see the deployed application.
 
-    ![Azure Web App](../../images/azure-deploy-runtime-stack2.png)
+    ![Azure Web App](../../../images/azure-deploy-runtime-stack2.png)
 
 > If you are unsuccessful in deploying your application, you can check the logs of the deployment by clicking the **Deploy to Azure Web App** workflow and then clicking the **deploy-to-webapp** job.
 
 > If deployment is successful, but you get an error when you navigate to the web app url, you can check the logs of the web app by clicking the **Logs** button on the **Overview** tab of your Azure Web App Service.
 
 > Finally you have CI/CD pipeline for your application. Every time you push your code to the main branch, your application will be deployed to Azure Web App Service automatically.
-
-
-
-
-
-
-
-
 
 
 ## What's next?
