@@ -311,3 +311,7 @@ If you want to create your own layout, please refer to the [Custom layout usage 
 
 ## Create a New Variation
 If you want to create your own LeptonX appearance, [see the docs](./angular/how-to-add-a-new-variation-to-lepton-x-for-angular.md) 
+
+
+## Change default variation
+The default variation is "system" but if you want to define another value, [see the docs](./angular/how-to-change-default-theme-option.md) 
