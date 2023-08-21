@@ -58,39 +58,36 @@ This command will make all the certificates created by **mkcert** trusted by the
 Use the `create-tls-secrets.ps1` script under the `etc/k8s` folder to generate self-signed certificate and create the tls secrets that will be used by ingress. The generated script will be based on your project name.
 
 ```powershell
-mkcert `
-"mystore-st-authserver" `
-"mystore-st-angular" `
-"mystore-st-public-web" `
-"mystore-st-gateway-web" "mystore-st-gateway-web-public" `
-"mystore-st-identity" "mystore-st-administration" "mystore-st-saas" "mystore-st-product" 
+mkcert "mystore.dev" "*.mystore.dev" 
+kubectl create namespace mystore
+kubectl create secret tls -n mystore mystore-tls --cert=./mystore.dev+1.pem  --key=./mystore.dev+1-key.pem
 ```
 
 This command generates `mystore-st-authserver+8.pem` and `mystore-st-authserver+8-key.pem` files under the `etc/k8s` folder.
 
 ```powershell
 kubectl create namespace mystore
-kubectl create secret tls -n mystore mystore-tls --cert=./mystore-st-authserver+8.pem  --key=./mystore-st-authserver+8-key.pem
+kubectl create secret tls -n mystore mystore-tls --cert=./mystore.dev+1.pem  --key=./mystore.dev+1-key.pem
 ```
 
 These commands will create a namespace of your project name and the tls secret using the generated files.
 
-> **Note:** If you add a new microservice or an other application, don't forget to generate SSL certificate for it and update the TLS secret.
+> **Note:** Since `mkcert` generates certificate for subdomains, you don't need to create new certificate when you  you add a new microservice as a subdomain. But if you will host it in a different domain, don't forget to generate SSL certificate for it and update the TLS secret.
 
 ### Mapping Host Name
 
 Now we need to **map the domain names** we have generated the SSL certificate for. Add entries to the hosts file (in Windows: `C:\Windows\System32\drivers\etc\hosts`, in linux and macos: `/etc/hosts` ):
 
-```
-127.0.0.1 mystore-st-angular
-127.0.0.1 mystore-st-public-web
-127.0.0.1 mystore-st-authserver
-127.0.0.1 mystore-st-identity
-127.0.0.1 mystore-st-administration
-127.0.0.1 mystore-st-product
-127.0.0.1 mystore-st-saas
-127.0.0.1 mystore-st-gateway-web
-127.0.0.1 mystore-st-gateway-web-public
+```txt
+127.0.0.1 angular.mystore.dev
+127.0.0.1 mystore.dev
+127.0.0.1 authserver.mystore.dev
+127.0.0.1 identity.mystore.dev
+127.0.0.1 administration.mystore.dev
+127.0.0.1 product.mystore.dev
+127.0.0.1 saas.mystore.dev
+127.0.0.1 gateway-web.mystore.dev
+127.0.0.1 gateway-public.mystore.dev
 ```
 
 This configuration will allow k8s ingress to take over when you navigate to any of these domain in the browser.
@@ -131,6 +128,9 @@ Each template deployment override information are located under their own chart 
     2) Check your host name mapping under the `etc\hosts` folder. **Make sure you have proper mapping** for the domain names and your local kubernetes cluster has also correct mapping (like `127.0.0.1 kubernetes.docker.internal`), added by docker for desktop (or your preferred k8s cluster).
 - **Your connection isn't private!** I get `NET::ERR_CERT_AUTHORITY_INVALID` error when I try to navigate any of the applications (like `https://mystore-st-public-web`).
   - It means there is a problem with the **SSL certificate**. Make sure you have generated the certificates properly and created the TLS secret correctly.
+- **Empty page after Authorize for Swagger UI!** For gateways/microservices, when I click to Authorize button, nothing is showing up.
+  - Check the browser console logs for error and information. Make sure that you have correctly configured the `metadataAddress` for swagger. It is the discovery endpoint (.well-known/openid-configuration) to get the supported oidc flows from the openid-provider (AuthServer). It should be a valid and a reachable endpoint over the internet.
+
 
 ## Next
 
