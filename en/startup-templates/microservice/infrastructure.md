@@ -368,18 +368,22 @@ modules and contains contains:
           });
       }
       
-      public static void ConfigureWithAuth(
+      public static void ConfigureWithOidc(
           ServiceConfigurationContext context,
           string authority,
-          Dictionary<string, string> scopes,
+          string[] scopes,
           string apiTitle,
           string apiVersion = "v1",
-          string apiName = "v1"
+          string apiName = "v1",
+          string[]? flows = null,
+          string? discoveryEndpoint = null
       )
       {
-          context.Services.AddAbpSwaggerGenWithOAuth(
+          context.Services.AddAbpSwaggerGenWithOidc(
               authority: authority,
               scopes: scopes,
+              flows: flows,
+              discoveryEndpoint: discoveryEndpoint,
               options =>
               {
                   options.SwaggerDoc(apiName, new OpenApiInfo { Title = apiTitle, Version = apiVersion });
@@ -388,8 +392,8 @@ modules and contains contains:
               });
       }
   ```
-
   
+  See [API/Swagger Integration](https://docs.abp.io/en/abp/latest/API/Swagger-Integration#using-swagger-with-oidc) for more details.
 
 ### Hosting Gateways
 
