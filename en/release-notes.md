@@ -4,6 +4,17 @@ This document contains **brief release notes** for each release. Release notes o
 
 > Release notes in this document don't cover the features made in the open-source ABP Framework. For the ABP Framework features, check the blog post for the related version.
 
+## 7.4 (2023-08-16)
+
+> This version is currently in preview. The final release date is planned for September, 2023.
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-7-4-RC-Has-Been-Published)** for the v7.4 release.
+
+* Dynamic Text Template Support
+* Suite: Custom Code Support
+* MAUI & React Native UI Revisions
+* CMS Kit Pro: Page Feedback
+
 ## 7.3 (2023-06-12)
 
 See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-7-3-Final-Has-Been-Released)** for the v7.3 release.
