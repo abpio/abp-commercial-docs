@@ -309,9 +309,9 @@ this.replaceableComponents.add({
 
 If you want to create your own layout, please refer to the [Custom layout usage with Lepton X components](./how-to-use-lepton-x-components-with-angular-custom-layout.md) documentation.
 
-## Create a New Variation
+## Create a New Appearance
 If you want to create your own LeptonX appearance, [see the docs](./angular/how-to-add-a-new-variation-to-lepton-x-for-angular.md) 
 
 
-## Change default variation
-The default variation is "system" but if you want to define another value, [see the docs](./angular/how-to-change-default-theme-option.md) 
+## Change the Default Appearance
+The default appearance is "system" but if you want to define another value, [see the docs](./angular/how-to-change-default-theme-option.md) 
