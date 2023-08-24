@@ -10,10 +10,10 @@ This document contains **brief release notes** for each release. Release notes o
 
 See the detailed **[blog post / announcement](https://blog.abp.io/abp/ABP.IO-Platform-7-4-RC-Has-Been-Published)** for the v7.4 release.
 
-* Dynamic Text Template Support
-* Suite: Custom Code Support
-* MAUI & React Native UI Revisions
-* CMS Kit Pro: Page Feedback
+* Preserving customizations on code re-generation with ABP Suite
+* Support custom text-templates in distributed scenarios.
+* MAUI & React Native mobile applications are re-designed and revised for functionality.
+* A new CMS Kit feature to collect feedback from users about the site's contents.
 
 ## 7.3 (2023-06-12)
 
