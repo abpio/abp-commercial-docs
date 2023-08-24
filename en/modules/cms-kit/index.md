@@ -112,7 +112,7 @@ public static void ConfigureExtraProperties()
 ```
  
 * `ConfigureCmsKitPro` method is used to configure the entities of the CMS Kit Pro module.
-* 
+
 * `cmsKit.ConfigurePoll(...)` is used to configure the **Poll** entity of the CMS Kit Pro module. You can add or update your extra properties of the **Poll** entity. 
 
 * `cmsKit.ConfigureNewsletterRecord(...)` is used to configure the **NewsletterRecord** entity of the CMS Kit Pro module. You can add or update your extra properties of the **NewsletterRecord** entity. 
