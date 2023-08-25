@@ -13,7 +13,7 @@ All gateways has their respected solutions created already and can be developed 
 
 To compare microservice template to tiered application template: Gateway is an **API.Host** project that proxies all the requests to related microservices.  
 
-All gateways depends on **SharedHostingGatewayModule** which references to [Yarp.ReverseProxy](https://www.nuget.org/packages/Yarp.ReverseProxy) configures the default **YARP** configuration (see the [Shared Modules](infrastructure.md#hosting-gateways) section).
+All gateways depends on **SharedHostingGatewayModule** which references to [YARP.ReverseProxy](https://www.nuget.org/packages/Yarp.ReverseProxy) configures the default **YARP** configuration (see the [Shared Modules](infrastructure.md#hosting-gateways) section).
 
 ## Backend for Frontend Pattern (BFF)
 
