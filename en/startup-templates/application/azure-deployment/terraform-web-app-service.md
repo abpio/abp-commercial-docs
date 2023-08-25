@@ -15,7 +15,7 @@ In this tutorial, we'll walk through the steps to provision an Azure Web App usi
 
 Before you begin, you'll need the following:
 
-- An [Azure account](https://azure.microsoft.com/en-us/free/)
+- [Azure account](https://azure.microsoft.com/en-us/free/) 
 - [Terraform installed](https://developer.hashicorp.com/terraform/downloads) on your local machine 
 - [Azure CLI installed](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) on your local machine
 
@@ -82,7 +82,7 @@ When working with Terraform on Azure, you'll need a Service Principal for authen
 
 2. Create a new file named `main.tf` in the directory and add the following code:
 
-        ```terraform
+```terraform
         # Configure the Azure provider
         terraform {
         required_providers {
@@ -112,7 +112,7 @@ When working with Terraform on Azure, you'll need a Service Principal for authen
             sku_name            = "B1"
         }
 
-{{if UI_Value != "NG"}}
+{{ if UI_Value == "MVC" && Tiered == "No" }}
 
         resource "azurerm_linux_web_app" "webapp" {
             name                  = "webapp-prodemo"
@@ -130,32 +130,112 @@ When working with Terraform on Azure, you'll need a Service Principal for authen
                 "Redis__Configuration" = azurerm_redis_cache.redis.primary_connection_string
             }
         }
+
+        output "webappurl" {
+            value = "${azurerm_linux_web_app.webapp.name}.azurewebsites.net"
+        }
 {{else}}
 
+    {{if UI_Value != "NG"}}
+
         resource "azurerm_linux_web_app" "webapp" {
-            name                  = "webapp-angular-demo"
+            name                  = "webapp-prodemo"
             location              = azurerm_resource_group.rg.location
             resource_group_name   = azurerm_resource_group.rg.name
             service_plan_id       = azurerm_service_plan.appserviceplan.id
             https_only            = true
             site_config {
                 application_stack {
-                node_version = "16-lts"
+                dotnet_version = "6.0"
                 }
                 minimum_tls_version  = "1.2"
             }
+            {{if Tiered == "Yes"}}
             app_settings = {
                 "Redis__Configuration" = azurerm_redis_cache.redis.primary_connection_string
             }
+            {{end}}
         }
-{{end}}
-
-        
 
         output "webappurl" {
             value = "${azurerm_linux_web_app.webapp.name}.azurewebsites.net"
         }
-        ```
+    {{else}}
+
+        resource "azurerm_static_site" "angularweb" {
+            name                = "angularweb"
+            location            = azurerm_resource_group.rg.location
+            resource_group_name = azurerm_resource_group.rg.name
+        }
+    {{end}}
+
+        resource "azurerm_linux_web_app" "apihost" {
+            name                  = "apihost-prodemo"
+            location              = azurerm_resource_group.rg.location
+            resource_group_name   = azurerm_resource_group.rg.name
+            service_plan_id       = azurerm_service_plan.appserviceplan.id
+            https_only            = true
+            site_config {
+                application_stack {
+                dotnet_version = "6.0"
+                }
+                minimum_tls_version  = "1.2"
+            }
+        {{if Tiered == "Yes"}}
+            app_settings = {
+                "Redis__Configuration" = azurerm_redis_cache.redis.primary_connection_string
+            }
+        {{end}}
+        }
+
+        output "apihost" {
+            value = "${azurerm_linux_web_app.apihost.name}.azurewebsites.net"
+        }
+
+    {{if Tiered == "Yes"}}
+
+        resource "azurerm_linux_web_app" "authserver" {
+            name                  = "authserver-prodemo"
+            location              = azurerm_resource_group.rg.location
+            resource_group_name   = azurerm_resource_group.rg.name
+            service_plan_id       = azurerm_service_plan.appserviceplan.id
+            https_only            = true
+            site_config {
+                application_stack {
+                dotnet_version = "6.0"
+                }
+                minimum_tls_version  = "1.2"
+            }
+        {{if Tiered == "Yes"}}
+            app_settings = {
+                "Redis__Configuration" = azurerm_redis_cache.redis.primary_connection_string
+            }
+        {{end}}
+        }
+
+        output "authserver" {
+            value = "${azurerm_linux_web_app.authserver.name}.azurewebsites.net"
+        }
+
+        resource "azurerm_redis_cache" "redis" {
+            name                = "redis-prodemo"
+            location            = azurerm_resource_group.rg.location
+            resource_group_name = azurerm_resource_group.rg.name
+            capacity            = 0
+            family              = "C"
+            sku_name            = "Basic"
+            enable_non_ssl_port = false
+            minimum_tls_version = "1.2"
+
+            redis_configuration {
+                maxmemory_reserved = 2
+                maxmemory_delta    = 2
+                maxmemory_policy   = "volatile-lru"
+            }
+        }
+    {{end}}
+{{end}}
+```
 
 3. Run `terraform init` to initialize the directory.
 
