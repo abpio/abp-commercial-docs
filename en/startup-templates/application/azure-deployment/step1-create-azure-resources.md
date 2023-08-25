@@ -115,5 +115,26 @@ To create a new Azure Web App Service, chose one of the following options:
 Same as the API application, you can create a new Azure Web App Service for AuthServer application in the same resource group. 
 
 Same as above the but you just modify the name of the web app service to **authserver-yourapp** in step 5.
+
+### Create Azure Cache for Redis
+
+1. Click the **Create** button on the top of the resource group page.
+
+2. Search for **Redis Cache** and select **Redis Cache** from the results.
+
+    ![Create a resource](../../../images/azure-deploy-create-redis.png)
+
+3. Click the **Create** button.
+
+4. Fill in the required fields and click the **Review + create** button.
+
+5. Click the **Create** button.
+
+    ![Create Redis](../../../images/azure-deploy-create-redis-2.png)
+
+6. Wait for the deployment to complete.
+
+    ![Create Redis](../../../images/azure-deploy-create-redis-3.png)
+
 {{ end }}
 {{ end }}
