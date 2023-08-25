@@ -112,7 +112,7 @@ When working with Terraform on Azure, you'll need a Service Principal for authen
             sku_name            = "B1"
         }
 
-{{if UI_Value =! "NG"}}
+{{if UI_Value != "NG"}}
 
         resource "azurerm_linux_web_app" "webapp" {
             name                  = "webapp-prodemo"
