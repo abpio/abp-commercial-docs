@@ -162,9 +162,9 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 
 ![Entities](../images/gdpr-entity-relationship.png)
 
-### Angular UI
+## Angular UI
 
-#### Installation
+### Installation
 
 In order to configure the application to use the `GdprModule`, you first need to import `GdprConfigModule` from `@volo/abp.ng.gdpr/config` to the root module. `GdprConfigModule` has a static `forRoot` method which you should call for a proper configuration.
 
