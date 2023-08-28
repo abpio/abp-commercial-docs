@@ -277,6 +277,10 @@
             {
               "text": "Tenant & User Impersonation",
               "path": "modules/account/impersonation.md"
+            },
+            {
+              "text": "Linked Accounts",
+              "path": "modules/account/linkedaccounts.md"
             }
           ]
         },
