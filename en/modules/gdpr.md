@@ -80,6 +80,7 @@ Configure<AbpCookieConsentOptions>(options =>
     IsEnabled = true;
     CookiePolicyUrl = "/CookiePolicy";
     PrivacyPolicyUrl = "/PrivacyPolicy";
+    Expiration = TimeSpan.FromDays(180);
 });
 ```
 
