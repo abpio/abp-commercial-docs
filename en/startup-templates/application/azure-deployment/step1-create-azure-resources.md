@@ -16,6 +16,7 @@ To create a new Azure Web App Service, chose one of the following options:
 - [Create a new Azure Web App Service using the Terraform Template](azure-web-app-terraform.md) (If you have experience with Terraform)
 
 {{ if UI == "MVC" && Tiered == "No" }}
+
 ### Create a new Azure Web App service using the Azure Portal
 
 1. Log in to the [Azure Portal](https://portal.azure.com/).
@@ -37,9 +38,11 @@ To create a new Azure Web App Service, chose one of the following options:
 7. Wait for the deployment to complete.
 
     ![Create Web App](../../../images/azure-deploy-create-web-app-3.png)
+    
 {{else}}
 
 {{ if UI != "NG" }}
+
 ### Create a new Azure Web App service using the Azure Portal
 
 1. Log in to the [Azure Portal](https://portal.azure.com/).
@@ -63,6 +66,7 @@ To create a new Azure Web App Service, chose one of the following options:
     ![Create Web App](../../../images/azure-deploy-create-web-app-3.png)
 
 {{else}}
+
 ### Create a new Azure Static Web App for Angular using the Azure Portal
 
 1. Log in to the [Azure Portal](https://portal.azure.com/).
@@ -110,6 +114,7 @@ To create a new Azure Web App Service, chose one of the following options:
     ![Create Web App](../../../images/azure-deploy-create-web-app-3.png)
 
 {{ if Tiered == "Yes" && (UI == "Mvc" || UI == "BlazorServer")}}
+
 ### Create a new Azure Web App Service for AuthServer application
 
 Same as the API application, you can create a new Azure Web App Service for AuthServer application in the same resource group. 

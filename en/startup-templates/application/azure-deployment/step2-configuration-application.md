@@ -38,7 +38,7 @@ This includes the following files:
 
     {{if Tiered == "No"}}
 
-- Modify the yourapp.Web url in every location throughout your project, especially within the **./src/yourapp.Web/appsettings.json** and **./src/yourapp.DbMigrator/appsettings.json** files, to match your Azure Web App Service url.
+- Modify the **yourapp.Web** url in every location throughout your project, especially within the **./src/yourapp.Web/appsettings.json** and **./src/yourapp.DbMigrator/appsettings.json** files, to match your Azure Web App Service url.
 
 ```json
     "App": {
@@ -48,7 +48,7 @@ This includes the following files:
 
     {{else}}
 
-- Modify the yourapp.Web url in every location throughout your project.
+- Modify the **yourapp.Web** url in every location throughout your project.
 
 This includes the following files:
 
@@ -60,7 +60,7 @@ This includes the following files:
 }
 ```
 
-- Modify the yourapp.ApiHost url in every location throughout your project.
+- Modify the **yourapp.ApiHost** url in every location throughout your project.
 
 This includes the following files:
 
@@ -72,7 +72,7 @@ This includes the following files:
 }
 ```
 
-- Modify the yourapp.AuthServer url in every location throughout your project.
+- Modify the **yourapp.AuthServer** url in every location throughout your project.
 
 This includes the following files:
 
@@ -83,11 +83,24 @@ This includes the following files:
     "SelfUrl": "https://yourapp-authserver.azurewebsites.net"
 }
 ```
+
+- Modify the **Redis__Configuration** url in every location throughout your project.
+
+This includes the following files:
+
+**./src/yourapp.Web/appsettings.json** , **./src/yourapp.AuthServer/appsettings.json** ,  **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
+
+```json
+"Redis": {
+    "Configuration": "redis-abpdemo.redis.cache.windows.net:6380,password={yourpassword},ssl=true,abortConnect=False"
+  },
+```
+
     {{end}}
 
 {{ elseif UI == "NG" }}
 
-- Modify the `localhost:4200` in every location throughout your project.
+- Modify the **`localhost:4200`** in every location throughout your project.
 
 This includes the following files:
 
@@ -99,7 +112,7 @@ This includes the following files:
     }
 ```
 
-- Modify the yourapp.HttpApi.Host url in every location throughout your project.
+- Modify the **yourapp.HttpApi.Host** url in every location throughout your project.
 
 This includes the following files:
 
@@ -113,7 +126,7 @@ This includes the following files:
 
 {{ elseif UI == "Blazor" }}
 
-- Modify the yourapp.Blazor url in every location throughout your project.
+- Modify the **yourapp.Blazor** url in every location throughout your project.
 
 This includes the following files:
 
@@ -125,7 +138,7 @@ This includes the following files:
     }
 ```
 
-- Modify the yourapp.HttpApi.Host url in every location throughout your project.
+- Modify the **yourapp.HttpApi.Host** url in every location throughout your project.
 
 This includes the following files:
 
@@ -141,7 +154,7 @@ This includes the following files:
 
     {{if Tiered == "No"}}
 
-- Modify the yourapp.Web url in every location throughout your project.
+- Modify the **yourapp.Web** url in every location throughout your project.
 
 This includes the following files:
 
@@ -153,7 +166,7 @@ This includes the following files:
 }
 ```
 
-- Modify the yourapp.ApiHost url in every location throughout your project.
+- Modify the **yourapp.ApiHost** url in every location throughout your project.
 
 This includes the following files:
 
@@ -167,7 +180,7 @@ This includes the following files:
 
     {{else}}
 
-- Modify the yourapp.Web url in every location throughout your project.
+- Modify the **yourapp.Web** url in every location throughout your project.
 
 This includes the following files:
 
@@ -179,7 +192,7 @@ This includes the following files:
 }
 ```
 
-- Modify the yourapp.ApiHost url in every location throughout your project.
+- Modify the **yourapp.ApiHost** url in every location throughout your project.
 
 This includes the following files:
 
@@ -191,7 +204,7 @@ This includes the following files:
 }
 ```
 
-- Modify the yourapp.AuthServer url in every location throughout your project.
+- Modify the **yourapp.AuthServer** url in every location throughout your project.
 
 This includes the following files:
 
@@ -203,10 +216,21 @@ This includes the following files:
 }
 ```
 
+- Modify the **Redis__Configuration** url in every location throughout your project.
+
+This includes the following files:
+
+**./src/yourapp.Blazor/appsettings.json** , **./src/yourapp.AuthServer/appsettings.json** ,  **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
+
+```json
+"Redis": {
+    "Configuration": "redis-abpdemo.redis.cache.windows.net:6380,password={yourpassword},ssl=true,abortConnect=False"
+    },
+```
+
     {{end}}
 
 {{end}}
-
 
 
 - Modify the **GetSigningCertificate** method in your project. This method should be located in the **\*Module.cs** file.
@@ -291,9 +315,9 @@ private X509Certificate2 GetEncryptionCertificate(IWebHostEnvironment hostingEnv
     }
 ```
 
-- In the same file, add ```using System.Security.Cryptography;``` to the top of the file.
+- In the same file, add **```using System.Security.Cryptography;```** to the top of the file.
 
-- In the same file, comment ```ConfigureHealthChecks(context);``` in the **ConfigureServices** method.
+- In the same file, comment **```ConfigureHealthChecks(context);```** in the **ConfigureServices** method.
 
     ![ConfigureHealthChecks](../../../images/azure-deploy-configure-health-checks.png)
 
