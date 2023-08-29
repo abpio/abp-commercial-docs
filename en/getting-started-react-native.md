@@ -8,36 +8,45 @@ When you **create a new application** as described in the [getting started docum
 
 A React Native application running on an Android emulator or a physical phone **cannot connect to the backend** on `localhost`. To fix this problem, it is necessary to run backend on your **local IP address**.
 
+### Add application to database
+
+![React native dbmigrator project local IP entry](images/rn-migrator-local-ip.png)
+
+> Since ABP version `7.4` react native uses [authorization code flow](https://datatracker.ietf.org/doc/html/rfc8252). So you need to enter local ip to ProjectName_Mobile property in .DbMigrator project It'll add as application to database.
+
+- Open the `appsettings.json` in the .DbMigrator folder. Replace the `localhost` address on the `ProjectName_Mobile` property with your local IP address.
+
 {{ if Tiered == "No"}}
 ![React Native host project local IP entry](images/rn-host-local-ip.png)
 
-* Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `SelfUrl` and `Authority` properties with your local IP address.
-* Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
+- Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `SelfUrl` and `Authority` properties with your local IP address.
+- Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
 
 {{ else if Tiered == "Yes" }}
 
 ![React Native tiered project local IP entry](images/rn-tiered-local-ip.png)
 
-* Open the `appsettings.json` in the `.IdentityServer` folder. Replace the `localhost` address on the `SelfUrl` property with your local IP address.
-* Open the `launchSettings.json` in the `.IdentityServer/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
-* Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `Authority` property with your local IP address.
-* Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
+- Open the `appsettings.json` in the `.IdentityServer` folder. Replace the `localhost` address on the `SelfUrl` property with your local IP address.
+- Open the `launchSettings.json` in the `.IdentityServer/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
+- Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `Authority` property with your local IP address.
+- Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
 
 {{ end }}
-
 
 > You should turn off the "Https Restriction" if you're using OpenIddict as a central identity management solution. Because the IOS Simulator doesn't support self-signed certificates and OpenIddict is set to only work with HTTPS by default.
 
 ## How to disable the Https-only settings of OpenIddict
 
- Go to MyProjectNameHttpApiHostModule.cs under the host project. Add put these codes under the `PreConfigureServices` function.
+Go to MyProjectNameHttpApiHostModule.cs under the host project. Add put these codes under the `PreConfigureServices` function.
 
 ```csharp
 #if DEBUG
- PreConfigure<OpenIddictServerBuilder>(options => {
- options.UseAspNetCore()
- .DisableTransportSecurityRequirement();
- });
+    PreConfigure<OpenIddictServerBuilder>(options =>
+    {
+        options
+        .UseAspNetCore()
+        .DisableTransportSecurityRequirement();
+    });
 #endif
 ```
 
@@ -53,7 +62,7 @@ Go to the `react-native` folder, open a command line terminal, type the `yarn` c
 yarn
 ```
 
-* Open the `Environment.js` in the `react-native` folder and replace the `localhost` address on the `apiUrl` and `issuer` properties with your local IP address as shown below:
+- Open the `Environment.js` in the `react-native` folder and replace the `localhost` address on the `apiUrl` and `issuer` properties with your local IP address as shown below:
 
 ![react native environment local IP](images/rn-environment-local-ip.png)
 
@@ -81,10 +90,22 @@ In the above management interface, you can start the application with an Android
 
 > See the [Android Studio Emulator](https://docs.expo.io/workflow/android-studio-emulator), [iOS Simulator](https://docs.expo.io/workflow/ios-simulator) documents on expo.io.
 
-![React Native login screen on iPhone 11](images/rn-login-iphone.png)
+![React Native login screen on Android](images/rn-login-android.png)
 
-Enter **admin** as the username and **1q2w3E*** as the password to login to the application:
+Enter **admin** as the username and **1q2w3E\*** as the password to login to the application:
 
-![React Native dashboard screen on iPhone 11](images/rn-dashboard-iphone.png)
+![React Native Home screen on Android](images/rn-home-android.png)
 
 The application is up and running. You can continue to develop your application based on this startup template.
+
+## Authorization
+
+* For authorization process ABP uses 2 main library 
+  * [Expo AuthSession](https://docs.expo.dev/versions/latest/sdk/auth-session/)
+  * [Expo WebBrowser](https://docs.expo.dev/versions/latest/sdk/webbrowser/)
+
+
+## UI Theme
+
+* For UI theme ABP uses [react-native-paper](https://callstack.github.io/react-native-paper/)
+* Also [expo-image-picker](https://docs.expo.dev/versions/latest/sdk/imagepicker/), [react-native-root-toast](https://github.com/magicismight/react-native-root-toast) some libraries used in the project.
