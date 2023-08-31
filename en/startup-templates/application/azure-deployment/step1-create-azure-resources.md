@@ -38,10 +38,10 @@ To create a new Azure Web App Service, chose one of the following options:
 7. Wait for the deployment to complete.
 
     ![Create Web App](../../../images/azure-deploy-create-web-app-3.png)
-    
+
 {{else}}
 
-{{ if UI != "NG" }}
+{{ if UI == "BlazorServer" || UI == "Mvc" }}
 
 ### Create a new Azure Web App service using the Azure Portal
 
@@ -65,7 +65,7 @@ To create a new Azure Web App Service, chose one of the following options:
 
     ![Create Web App](../../../images/azure-deploy-create-web-app-3.png)
 
-{{else}}
+{{ ifelse UI != 'NG' }}
 
 ### Create a new Azure Static Web App for Angular using the Azure Portal
 
@@ -88,6 +88,30 @@ To create a new Azure Web App Service, chose one of the following options:
 7. Wait for the deployment to complete.
 
     ![Create Web App](../../../images/azure-deploy-create-web-app-5.png)
+
+{{else}}
+
+### Create a new Azure Static Web App for Blazor using the Azure Portal
+
+1. Log in to the [Azure Portal](https://portal.azure.com/).
+
+2. Click the **Create a resource** button.
+
+3. Search for **Static Web App** and select **Static Web App** from the results.
+
+    ![Create a resource blazor](../../../images/azure-deploy-create-a-resource-angular.png)
+
+4. Click the **Create** button.
+
+5. Fill in the required fields and click the **Review + create** button.
+
+6. Click the **Create** button.
+
+    ![Create Web App](../../../images/azure-deploy-create-web-app-7.png)
+
+7. Wait for the deployment to complete.
+
+    ![Create Web App](../../../images/azure-deploy-create-web-app-8.png)
 
 {{end}}
 
