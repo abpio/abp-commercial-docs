@@ -1,6 +1,6 @@
 # Microservice Startup Template: API Gateways
 
-API Gateways are used as single entry point to the microservices. ABP microservice startup template uses [Ocelot .Net Api Gateway](https://github.com/ThreeMammals/Ocelot) library. Through this library, gateways have the functionality of *routing*; *rate limiting*, *retry policies* etc. For more, check out [Ocelot Documentations](https://ocelot.readthedocs.io/en/latest/).
+API Gateways are used as single entry point to the microservices. ABP microservice startup template uses [YARP](https://microsoft.github.io/reverse-proxy/) library. For more, check out [YARP Documentations](https://microsoft.github.io/reverse-proxy/api/index.html).
 
 There are 2 different gateways are presented in the microservice startup template;
 
@@ -13,7 +13,7 @@ All gateways has their respected solutions created already and can be developed 
 
 To compare microservice template to tiered application template: Gateway is an **API.Host** project that proxies all the requests to related microservices.  
 
-All gateways depends on **SharedHostingGatewayModule** which implements default **Ocelot** and **Polly** configurations (see the [Shared Modules](infrastructure.md#hosting-gateways) section).
+All gateways depends on **SharedHostingGatewayModule** which references to [YARP.ReverseProxy](https://www.nuget.org/packages/Yarp.ReverseProxy) configures the default **YARP** configuration (see the [Shared Modules](infrastructure.md#hosting-gateways) section).
 
 ## Backend for Frontend Pattern (BFF)
 
@@ -76,7 +76,7 @@ Web Gateway is used to connect the **Web** (back-office) application to microser
 
 ### Module Configuration and Routing
 
-As default, this gateway proxies each request from back-office application to related microservice and redirects the account related requests to AuthServer. Ocelot re-route configuration can be found in `ocelot.json` file. This configuration is added by using **AddOcelotJson** extension method in `Program.cs`. The re-routing configuration is as below:
+As default, this gateway proxies each request from back-office application to related microservice and redirects the account related requests to AuthServer. YARP re-route configuration can be found in `yarp.json` file. This configuration is added by using **AddYarpJson** extension method in `Program.cs`. The re-routing configuration is as below:
 
 - **Identity Service:** Uses dynamic proxy and re-routes 
 
@@ -102,6 +102,8 @@ As default, this gateway proxies each request from back-office application to re
 - **Saas Service:** Uses dynamic proxy and re-routes
 
   -  `/api/saas/{everything}`
+  -  `/api/payment/{everything}`
+  -  `/api/payment-admin/{everything}`
 
    to `localhost:44381` (SaasService).
 
@@ -119,22 +121,20 @@ As default, this gateway proxies each request from back-office application to re
 
 ### Swagger and Authorization Configuration
 
-Web Gateway has swagger with authorization configuration to make *authorization_code* interaction with AuthServer to be able to get authorized scopes:
+Web Gateway has swagger with openid-connect authorization configuration to make *authorization_code* interaction by default with AuthServer to be able to get authorized scopes:
 
 ```csharp
-SwaggerConfigurationHelper.ConfigureWithAuth(
-    context: context,
-    authority: configuration["AuthServer:Authority"],
-    scopes: new
-    Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */ {
-        { "AccountService", "Account Service API" },
-        { "IdentityService", "Identity Service API" },
-        { "AdministrationService", "Administration Service API" },
-        { "SaasService", "Saas Service API" },
-        { "ProductService", "Product Service API" }
-    },
-    apiTitle: "Web Gateway API"
-);
+SwaggerConfigurationHelper
+    .ConfigureWithOidc(
+        context: context,
+        authority: configuration["AuthServer:Authority"]!,
+        scopes: new[] {
+            /* Requested scopes for authorization code request and descriptions for swagger UI only */
+            "AccountService", "IdentityService", "AdministrationService", "SaasService", "ProductService"
+        },
+        apiTitle: "Web Gateway API",
+        discoveryEndpoint: configuration["AuthServer:MetadataAddress"]
+    );
 ```
 
 By default, Web Gateway makes requests to all API scopes that are already allowed when the `WebGateway_Swagger` client is being created in [AuthServer configuration](microservices#authserver-authorization). To be able to make the request, the required information is found under **AuthServer** section in `appsettings.json`:
@@ -142,36 +142,37 @@ By default, Web Gateway makes requests to all API scopes that are already allowe
 ```json
 "AuthServer": {
   "Authority": "https://localhost:44322",
+  "MetadataAddress": "https://localhost:44322",
   "RequireHttpsMetadata": "true",
   "SwaggerClientId": "WebGateway_Swagger"
 },
 ```
 
+The *MetadataAddress* is used when you have different discovery endpoint than the issuer. This is useful when you deploy your gateway on isolated network such as Kubernetes or Docker.
+
 Each routed service is added to swagger definitions distinctively that uses the same `SwaggerClientId` and `SwaggerClientSecret` from appsettings.
 
 ```csharp
-app.UseSwaggerUI(options =>
+private static void ConfigureSwaggerUI(
+    IProxyConfig proxyConfig,
+    SwaggerUIOptions options,
+    IConfiguration configuration)
 {
-    var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-    var routes = configuration.GetSection("Routes").Get<List<OcelotConfiguration>>();
-    var routedServices = routes
-        .GroupBy(t => t.ServiceKey)
-        .Select(r => r.First())
-        .Distinct();
-
-    foreach (var config in routedServices.OrderBy(q => q.ServiceKey))
+    foreach (var cluster in proxyConfig.Clusters)
     {
-        var url = $"{config.DownstreamScheme}://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}:{config.DownstreamHostAndPorts.FirstOrDefault()?.Port}";
-        if (!env.IsDevelopment())
-        {
-            url = $"https://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}";
-        }
-
-        options.SwaggerEndpoint($"{url}/swagger/v1/swagger.json", $"{config.ServiceKey} API");
-        options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-        options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+        options.SwaggerEndpoint($"/swagger-json/{cluster.ClusterId}/swagger/v1/swagger.json",
+            $"{cluster.ClusterId} API");
     }
-});
+
+    options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+    options.OAuthScopes(
+        "AdministrationService",
+        "AccountService",
+        "IdentityService",
+        "SaasService",
+        "ProductService"
+    );
+}
 ```
 
  This will allow each re-routed microservice to be selected from definition and authorized individually by using the same `WebGateway_Swagger` client.
@@ -186,7 +187,7 @@ Public Web Gateway is used to connect the **Public  Web** (landing page) applica
 
 ### Module Configuration and Routing
 
-By default, this gateway proxy each request landing page application to a related microservice and redirects the account related requests to AuthServer. Ocelot re-route configuration can be found in `ocelot.json` file. This configuration is added by using **AddOcelotJson** extension method in `Program.cs`. The re-routing configuration is as below:
+By default, this gateway proxy each request landing page application to a related microservice and redirects the account related requests to AuthServer. YARP re-route configuration can be found in `yarp.json` file. This configuration is added by using **AddYarpJson** extension method in `Program.cs`. The re-routing configuration is as below:
 
 
 - **Account Service:** Uses dynamic proxy and re-routes
@@ -211,19 +212,20 @@ By default, this gateway proxy each request landing page application to a relate
 
 ### Authorization Configuration
 
-Public Web Gateway has swagger with authorization configuration to make *authorization_code* interaction with AuthServer to be able to get authorized scopes:
+Public Web Gateway has swagger with openid-connect authorization configuration to make *authorization_code* interaction by default AuthServer to be able to get authorized scopes:
 
 ```csharp
-SwaggerConfigurationHelper.ConfigureWithAuth(
-    context: context,
-    authority: configuration["AuthServer:Authority"],
-    scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */ {
-            { "AccountService", "Account Service API" },
-            { "AdministrationService", "Administration Service API" },
-            { "ProductService", "Product Service API" }
+SwaggerConfigurationHelper
+    .ConfigureWithOidc(
+        context: context,
+        authority: configuration["AuthServer:Authority"]!,
+        scopes: new[] {
+            /* Requested scopes for authorization code request and descriptions for swagger UI only */
+            "AccountService", "AdministrationService", "ProductService"
         },
-    apiTitle: "Public Web Gateway API"
-);
+        apiTitle: "Public Web Gateway API",
+        discoveryEndpoint: configuration["AuthServer:MetadataAddress"]
+    );
 ```
 
 By default, PublicWeb Gateway makes requests to only **ProductService** scope that is already allowed when the `PublicWebGateway_Swagger` client is being created in [AuthServer configuration](microservices#authserver-authorization). To be able to make the request, the required information is found under **AuthServer** section in `appsettings.json`:
@@ -231,36 +233,35 @@ By default, PublicWeb Gateway makes requests to only **ProductService** scope th
 ```json
 "AuthServer": {
   "Authority": "https://localhost:44322",
+  "MetadataAddress": "https://localhost:44322",
   "RequireHttpsMetadata": "true",
   "SwaggerClientId": "WebGateway_Swagger"
 },
 ```
 
+The *MetadataAddress* is used when you have different discovery endpoint than the issuer. This is useful when you deploy your gateway on isolated network such as Kubernetes or Docker.
+
 Each routed service is added to swagger definitions distinctively that uses the same `SwaggerClientId` and `SwaggerClientSecret` from appsettings.
 
 ```csharp
-app.UseSwaggerUI(options =>
+private static void ConfigureSwaggerUI(
+    IProxyConfig proxyConfig,
+    SwaggerUIOptions options,
+    IConfiguration configuration)
 {
-    var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-    var routes = configuration.GetSection("Routes").Get<List<OcelotConfiguration>>();
-    var routedServices = routes
-        .GroupBy(t => t.ServiceKey)
-        .Select(r => r.First())
-        .Distinct();
-
-    foreach (var config in routedServices.OrderBy(q => q.ServiceKey))
+    foreach (var cluster in proxyConfig.Clusters)
     {
-        var url = $"{config.DownstreamScheme}://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}:{config.DownstreamHostAndPorts.FirstOrDefault()?.Port}";
-        if (!env.IsDevelopment())
-        {
-            url = $"https://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}";
-        }
-
-        options.SwaggerEndpoint($"{url}/swagger/v1/swagger.json", $"{config.ServiceKey} API");
-        options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-        options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+        options.SwaggerEndpoint($"/swagger-json/{cluster.ClusterId}/swagger/v1/swagger.json",
+            $"{cluster.ClusterId} API");
     }
-});
+
+    options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+    options.OAuthScopes(
+        "AdministrationService",
+        "AccountService",
+        "ProductService"
+    );
+}
 ```
 
  This will allow each re-routed microservice to be selected from the definition and authorized individually by using the same `WebGateway_Swagger` client.
