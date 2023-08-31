@@ -192,7 +192,7 @@ When working with Terraform on Azure, you'll need a Service Principal for authen
             value = "${azurerm_linux_web_app.apihost.name}.azurewebsites.net"
         }
 
-    {{if Tiered == "Yes"}}
+    {{if Tiered == "Yes" && (UI_Value == "MVC" || UI_Value == "BlazorServer")}}
 
         resource "azurerm_linux_web_app" "authserver" {
             name                  = "authserver-prodemo"
