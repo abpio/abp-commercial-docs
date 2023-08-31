@@ -12,7 +12,7 @@ A React Native application running on an Android emulator or a physical phone **
 
 ![React native dbmigrator project local IP entry](images/rn-migrator-local-ip.png)
 
-> Since ABP version `7.4` react native uses [authorization code flow](https://datatracker.ietf.org/doc/html/rfc8252). So you need to enter local ip to ProjectName_Mobile property in .DbMigrator project It'll add as application to database.
+> Since ABP version `7.4` react native uses [authorization code flow](https://datatracker.ietf.org/doc/html/rfc8252). So you need to add an application to the database for mobile application. ABP will create a client for the mobile application. You can use the `DbMigrator` project to add an application to the database. You can find the `DbMigrator` project in the `aspnet-core/src/ProjectName.DbMigrator` folder.
 
 - Open the `appsettings.json` in the .DbMigrator folder. Replace the `localhost` address on the `ProjectName_Mobile` property with your local IP address.
 
@@ -100,12 +100,11 @@ The application is up and running. You can continue to develop your application 
 
 ## Authorization
 
-* For authorization process ABP uses 2 main library 
-  * [Expo AuthSession](https://docs.expo.dev/versions/latest/sdk/auth-session/)
-  * [Expo WebBrowser](https://docs.expo.dev/versions/latest/sdk/webbrowser/)
-
+- For authorization process ABP uses 2 main library
+  - [Expo AuthSession](https://docs.expo.dev/versions/latest/sdk/auth-session/)
+  - [Expo WebBrowser](https://docs.expo.dev/versions/latest/sdk/webbrowser/)
 
 ## UI Theme
 
-* For UI theme ABP uses [react-native-paper](https://callstack.github.io/react-native-paper/)
-* Also [expo-image-picker](https://docs.expo.dev/versions/latest/sdk/imagepicker/), [react-native-root-toast](https://github.com/magicismight/react-native-root-toast) some libraries used in the project.
+- For UI theme ABP uses [react-native-paper](https://callstack.github.io/react-native-paper/)
+- Also [expo-image-picker](https://docs.expo.dev/versions/latest/sdk/imagepicker/), [react-native-root-toast](https://github.com/magicismight/react-native-root-toast) some libraries used in the project.
