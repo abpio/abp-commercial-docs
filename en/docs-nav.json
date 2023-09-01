@@ -322,7 +322,7 @@
             },
             {
               "text": "Periodic Password Change (Password Aging)",
-              "path": "modules/identity/periodic-password-changes.md"
+              "path": "modules/identity/periodic-password-change.md"
             },
             {
               "text": "Two Factor Authentication",
