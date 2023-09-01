@@ -656,12 +656,12 @@ Then open the `Books.razor` and replace the content as the following:
 @using Acme.BookStore.Localization
 @using Volo.Abp.AspNetCore.Components.Web.Theming.Layout
 @using Microsoft.Extensions.Localization
-@inject IStringLocalizer<BookStoreResource> L
+
 @inherits AbpCrudPageBase<IBookAppService, BookDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateBookDto>
 
 <CascadingValue Value="this">
     @* ************************* PAGE HEADER ************************* *@
-    <PageHeader Title="@L["Books"]" BreadcrumbItems="@BreadcrumbItems" Toolbar="@Toolbar">
+    <PageHeader Title="@L["Books"]" BreadcrumbItems="@BreadcrumbItems">
     </PageHeader>
 
     <Card>
