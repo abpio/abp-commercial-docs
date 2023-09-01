@@ -638,6 +638,14 @@ jobs:
 
     ![Publish profile](../../../images/azure-deploy-publish-profile.png)
 
+    {{ if UI == "NG" || UI == "Blazor"}}
+
+    - **AZURE_STATIC_WEB_APPS_API_TOKEN_AMBITIOUS**: The API token of your Azure Static Web App. You can get it from the **Overview** tab of your Azure Static Web App.
+
+    ![API token](../../../images/azure-deploy-api-token.png)
+
+    {{end}}
+
 11. Navigate to the **Actions** tab of your GitHub repository.
 
 12. Click the **Deploy to Azure Web App** workflow.
