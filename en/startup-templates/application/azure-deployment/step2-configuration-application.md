@@ -98,7 +98,7 @@ This includes the following files:
 
     {{end}}
 
-{{ elseif UI == "NG" }}
+{{ else if UI == "NG" }}
 
 - Modify the **`localhost:4200`** in every location throughout your project.
 
@@ -124,7 +124,7 @@ This includes the following files:
     }
 ```
 
-{{ elseif UI == "Blazor" }}
+{{ else if UI == "Blazor" }}
 
 - Modify the **yourapp.Blazor** url in every location throughout your project.
 
@@ -233,98 +233,6 @@ This includes the following files:
 {{end}}
 
 
-- Modify the **GetSigningCertificate** method in your project. This method should be located in the **\*Module.cs** file.
+## What's next?
 
-```csharp
-private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv, IConfiguration configuration)
-{
-    var fileName = $"cert-signing.pfx";
-    var passPhrase = configuration["MyAppCertificate:X590:PassPhrase"]; 
-    var file = Path.Combine(hostingEnv.ContentRootPath, fileName);        
-    if (File.Exists(file))
-    {
-        var created = File.GetCreationTime(file);
-        var days = (DateTime.Now - created).TotalDays;
-        if (days > 180)          
-            File.Delete(file);
-        else
-            return new X509Certificate2(file, passPhrase,
-                        X509KeyStorageFlags.MachineKeySet);
-    }
-    // file doesn't exist or was deleted because it expired
-    using var algorithm = RSA.Create(keySizeInBits: 2048);
-    var subject = new X500DistinguishedName("CN=Fabrikam Signing Certificate");
-    var request = new CertificateRequest(subject, algorithm, 
-                        HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-    request.CertificateExtensions.Add(new X509KeyUsageExtension(
-                        X509KeyUsageFlags.DigitalSignature, critical: true));
-    var certificate = request.CreateSelfSigned(DateTimeOffset.UtcNow, 
-                        DateTimeOffset.UtcNow.AddYears(2));
-    File.WriteAllBytes(file, certificate.Export(X509ContentType.Pfx, string.Empty));
-    return new X509Certificate2(file, passPhrase, 
-                        X509KeyStorageFlags.MachineKeySet);
-}
-private X509Certificate2 GetEncryptionCertificate(IWebHostEnvironment hostingEnv,
-                            IConfiguration configuration)
-{
-    var fileName = $"cert-encryption.pfx";
-    var passPhrase = configuration["MyAppCertificate:X590:PassPhrase"]; 
-    var file = Path.Combine(hostingEnv.ContentRootPath, fileName);
-    if (File.Exists(file))
-    {
-        var created = File.GetCreationTime(file);
-        var days = (DateTime.Now - created).TotalDays;
-        if (days > 180)
-            File.Delete(file);
-        else
-            return new X509Certificate2(file, passPhrase, 
-                            X509KeyStorageFlags.MachineKeySet);
-    }
-    // file doesn't exist or was deleted because it expired
-    using var algorithm = RSA.Create(keySizeInBits: 2048);
-    var subject = new X500DistinguishedName("CN=Fabrikam Encryption Certificate");
-    var request = new CertificateRequest(subject, algorithm, 
-                        HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-    request.CertificateExtensions.Add(new X509KeyUsageExtension(
-                        X509KeyUsageFlags.KeyEncipherment, critical: true));
-    var certificate = request.CreateSelfSigned(DateTimeOffset.UtcNow,
-                        DateTimeOffset.UtcNow.AddYears(2));
-    File.WriteAllBytes(file, certificate.Export(X509ContentType.Pfx, string.Empty));
-    return new X509Certificate2(file, passPhrase, X509KeyStorageFlags.MachineKeySet);
-}
-```
-
-- In the same file, modify the **PreConfigureServices** method by ensuring the two methods above are called when your application is not running in a production environment
-
-```csharp
-    if (!hostingEnvironment.IsDevelopment())
-    {
-        PreConfigure<AbpOpenIddictAspNetCoreOptions>(options =>
-        {
-            options.AddDevelopmentEncryptionAndSigningCertificate = false;
-        });
-        PreConfigure<OpenIddictServerBuilder>(builder =>
-        {
-            // In production, it is recommended to use two RSA certificates, 
-            // one for encryption, one for signing.
-            builder.AddEncryptionCertificate(
-                    GetEncryptionCertificate(hostingEnvironment, context.Services.GetConfiguration()));
-            builder.AddSigningCertificate(
-                    GetSigningCertificate(hostingEnvironment, context.Services.GetConfiguration()));
-        });
-    }
-```
-
-- In the same file, add **```using System.Security.Cryptography;```** to the top of the file.
-
-- In the same file, comment **```ConfigureHealthChecks(context);```** in the **ConfigureServices** method.
-
-    ![ConfigureHealthChecks](../../../images/azure-deploy-configure-health-checks.png)
-
-- Add a custom passphrase to your **appsettings.json** or Azure configuration:
-
-```json
-"MyAppCertificate": {
-"X590": "[custom string]"
-}
-```
+- [Deploying Your ABP Application to Azure](../step3-deploying-application-to-azure/README.md)
