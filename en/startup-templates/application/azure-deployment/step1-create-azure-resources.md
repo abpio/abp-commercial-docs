@@ -167,3 +167,8 @@ Same as above but you just modify the name of the web app service to **authserve
 
 {{ end }}
 {{ end }}
+
+
+## What's next?
+
+- [Customizing the Azure Web App Service](step2-configuration-application.md)
