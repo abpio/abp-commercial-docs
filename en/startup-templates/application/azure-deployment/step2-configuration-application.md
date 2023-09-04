@@ -235,4 +235,4 @@ This includes the following files:
 
 ## What's next?
 
-- [Deploying Your ABP Application to Azure](../step3-deploying-application-to-azure/README.md)
+- [Deploying Your ABP Application to Azure](step3-deployment-github-action.md)
