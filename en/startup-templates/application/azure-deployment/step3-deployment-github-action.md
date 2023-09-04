@@ -669,6 +669,6 @@ jobs:
 
 ## What's next?
 
-- [Docker Deployment using Docker Compose](deployment-docker-compose.md)
+- [Docker Deployment using Docker Compose](../deployment-docker-compose.md)
 
-- [IIS Deployment](deployment-iis.md)
+- [IIS Deployment](../deployment-iis.md)
