@@ -630,7 +630,7 @@ jobs:
 
     - **CONNECTION_STRING**: The connection string of your database.
     
-        Example of azure sql connection string:
+        Example of Azure SQL connection string:
     
     ![Azure sql connection string](../../../images/azure-deploy-connection-string.png)
 
@@ -660,11 +660,11 @@ jobs:
 
     ![Azure Web App](../../../images/azure-deploy-runtime-stack2.png)
 
-> If you are unsuccessful in deploying your application, you can check the logs of the deployment by clicking the **Deploy to Azure Web App** workflow and then clicking the **deploy-to-webapp** job.
+> If deploying your application was unsuccessful, you can check the logs of the deployment by clicking the **Deploy to Azure Web App** workflow and then clicking the **deploy-to-webapp** job.
 
 > If deployment is successful, but you get an error when you navigate to the web app url, you can check the logs of the web app by clicking the **Logs** button on the **Overview** tab of your Azure Web App Service.
 
-> Finally you have CI/CD pipeline for your application. Every time you push your code to the main branch, your application will be deployed to Azure Web App Service automatically.
+> Finally, you have the CI/CD pipeline for your application. Every time you push your code to the main branch, your application will be deployed to Azure Web App Service automatically.
 
 
 ## What's next?
