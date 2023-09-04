@@ -13,7 +13,7 @@ To create a new Azure Web App Service, chose one of the following options:
 
 - [Create a new Azure Web App Service using the Azure Portal](#create-a-new-azure-web-app-service-using-the-azure-portal) (Recommended)
 
-- [Create a new Azure Web App Service using the Terraform Template](azure-web-app-terraform.md) (If you have experience with Terraform)
+- [Create a new Azure Web App Service using the Terraform Template](terraform-web-app-service.md) (If you have experience with Terraform)
 
 {{ if UI == "MVC" && Tiered == "No" }}
 
