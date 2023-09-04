@@ -12,24 +12,24 @@ A React Native application running on an Android emulator or a physical phone **
 
 ![React native dbmigrator project local IP entry](images/rn-migrator-local-ip.png)
 
-> Since ABP version `7.4` react native uses [authorization code flow](https://datatracker.ietf.org/doc/html/rfc8252). So you need to add an application to the database for mobile application. ABP will create a client for the mobile application. You can use the `DbMigrator` project to add an application to the database. You can find the `DbMigrator` project in the `aspnet-core/src/ProjectName.DbMigrator` folder.
+> Since ABP version `7.4` react native uses [authorization code flow](https://datatracker.ietf.org/doc/html/rfc8252), you need to add an application to the database for the mobile application. ABP will create a client for the mobile application. You can use the `DbMigrator` project to add an application to the database. You can find the `DbMigrator` project in the `aspnet-core/src/ProjectName.DbMigrator` folder.
 
-- Open the `appsettings.json` in the .DbMigrator folder. Replace the `localhost` address on the `ProjectName_Mobile` property with your local IP address.
+- Open the `appsettings.json` file in the .DbMigrator folder. Replace the `localhost` address on the `ProjectName_Mobile` property with your local IP address.
 
 {{ if Tiered == "No"}}
 ![React Native host project local IP entry](images/rn-host-local-ip.png)
 
-- Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `SelfUrl` and `Authority` properties with your local IP address.
-- Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
+- Open the `appsettings.json` file in the `.HttpApi.Host` project. Replace the `localhost` address of the `SelfUrl` and `Authority` properties with your local IP address.
+- Open the `launchSettings.json` file in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address of the `applicationUrl` properties with your local IP address.
 
 {{ else if Tiered == "Yes" }}
 
 ![React Native tiered project local IP entry](images/rn-tiered-local-ip.png)
 
-- Open the `appsettings.json` in the `.IdentityServer` folder. Replace the `localhost` address on the `SelfUrl` property with your local IP address.
-- Open the `launchSettings.json` in the `.IdentityServer/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
-- Open the `appsettings.json` in the `.HttpApi.Host` folder. Replace the `localhost` address on the `Authority` property with your local IP address.
-- Open the `launchSettings.json` in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address on the `applicationUrl` properties with your local IP address.
+- Open the `appsettings.json` file in the `.IdentityServer` folder. Replace the `localhost` address of the `SelfUrl` property with your local IP address.
+- Open the `launchSettings.json` file in the `.IdentityServer/Properties` folder. Replace the `localhost` address of the `applicationUrl` properties with your local IP address.
+- Open the `appsettings.json` file in the `.HttpApi.Host` project. Replace the `localhost` address of the `Authority` property with your local IP address.
+- Open the `launchSettings.json` file in the `.HttpApi.Host/Properties` folder. Replace the `localhost` address of the `applicationUrl` properties with your local IP address.
 
 {{ end }}
 
@@ -37,7 +37,7 @@ A React Native application running on an Android emulator or a physical phone **
 
 ## How to disable the Https-only settings of OpenIddict
 
-Go to MyProjectNameHttpApiHostModule.cs under the host project. Add put these codes under the `PreConfigureServices` function.
+Go to MyProjectNameHttpApiHostModule.cs under the host project. Add put this code snippet under the `PreConfigureServices` function.
 
 ```csharp
 #if DEBUG
@@ -62,7 +62,7 @@ Go to the `react-native` folder, open a command line terminal, type the `yarn` c
 yarn
 ```
 
-- Open the `Environment.js` in the `react-native` folder and replace the `localhost` address on the `apiUrl` and `issuer` properties with your local IP address as shown below:
+- Open the `Environment.js` file in the `react-native` folder and replace the `localhost` address of the `apiUrl` and `issuer` properties with your local IP address as shown below:
 
 ![react native environment local IP](images/rn-environment-local-ip.png)
 
@@ -100,11 +100,11 @@ The application is up and running. You can continue to develop your application 
 
 ## Authorization
 
-- For authorization process ABP uses 2 main library
+- For the authorization process ABP uses 2 main libraries
   - [Expo AuthSession](https://docs.expo.dev/versions/latest/sdk/auth-session/)
   - [Expo WebBrowser](https://docs.expo.dev/versions/latest/sdk/webbrowser/)
 
 ## UI Theme
 
-- For UI theme ABP uses [react-native-paper](https://callstack.github.io/react-native-paper/)
-- Also [expo-image-picker](https://docs.expo.dev/versions/latest/sdk/imagepicker/), [react-native-root-toast](https://github.com/magicismight/react-native-root-toast) some libraries used in the project.
+- For the UI theme ABP uses [react-native-paper](https://callstack.github.io/react-native-paper/)
+- Also [expo-image-picker](https://docs.expo.dev/versions/latest/sdk/imagepicker/), [react-native-root-toast](https://github.com/magicismight/react-native-root-toast) and some libraries are used in the project.
