@@ -15,9 +15,9 @@
 
 - An active Azure account. If you don't have one, you can sign up for a [free account](https://azure.microsoft.com/en-us/free/)
 
-- Your ABP **{{ UI_Value }}** project should be ready at GitHub repository, because we will use GitHub Actions to deploy your application to Azure Web App Service.
+- Your ABP **{{ UI_Value }}** project should be ready at a GitHub repository, because we will use GitHub Actions to deploy your application to the Azure Web App Service.
 
-- **{{ DB_Value }}** database should be ready to use with your project. If you don't have a database, you can create a new azure sql database or cosmos db by following the instructions below:
+- **{{ DB_Value }}** database should be ready to use with your project. If you don't have a database, you can create a new azure SQL database or Cosmos DB by following the instructions below:
 
     - [Create a new Azure SQL Database](https://docs.microsoft.com/en-us/azure/azure-sql/database/single-database-create-quickstart?tabs=azure-portal)
 
