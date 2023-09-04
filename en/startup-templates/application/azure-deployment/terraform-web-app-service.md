@@ -9,7 +9,7 @@
 }
 ````
 
-In this tutorial, we'll walk through the steps to provision an Azure Web App using Terraform. Terraform is an open-source infrastructure as code tool that allows you to define and manage your infrastructure in a declarative way.
+In this tutorial, we'll walk through the steps to provision an Azure Web App using Terraform. Terraform is an open-source infrastructure as a code tool that allows you to define and manage your infrastructure in a declarative way.
 
 ## Prerequisites
 
@@ -21,13 +21,13 @@ Before you begin, you'll need the following:
 
 ## Creating a Service Principal for Terraform in Azure
 
-When working with Terraform on Azure, you'll need a Service Principal for authentication purposes. A service principal is an identity created for use with applications, hosted services, and automated tools to access Azure resources.
+When working with Terraform on Azure, you'll need a Service Principal for authentication purposes. A service principal is an identity created to be used with applications, hosted services, and automated tools to access Azure resources.
 
 [To create a service principal](https://learn.microsoft.com/en-us/azure/developer/terraform/authenticate-to-azure?tabs=bash#create-a-service-principal), run the following command in the Azure CLI:
 
 1. Login to Azure CLI
 
-    Before you begin, make sure you are logged into your Azure account via the Azure CLI:
+    Before you begin, make sure you are logged into your Azure account with the Azure CLI:
     ```bash
     az login
     ```
@@ -49,7 +49,7 @@ When working with Terraform on Azure, you'll need a Service Principal for authen
 
     The output of this command will provide the **appId**, **displayName**, **name**, **password**, and **tenant**. It's crucial to note these values, especially **appId (Client ID)** and **password (Client Secret)**, as you'll need them for Terraform authentication.
 
-4. Specify service principal credentials in environment variables
+4. Specify the service principal credentials in environment variables
 
     bash:
     ```bash
@@ -560,7 +560,7 @@ output "redis_hostname" {
 
 > You can also see the web app url in the output of the `terraform apply` command.
 
-> You have to change **dotnet version** of runtime stack according to your application. For example, if you are using .NET 7, you should change `dotnet_version = "6.0"` to `dotnet_version = "7.0"`.
+> You have to change the **dotnet version** of the runtime stack according to your application. For example, if you are using .NET 7, you should change `dotnet_version = "6.0"` to `dotnet_version = "7.0"`.
 
 ![Azure Web App](../../../images/azure-deploy-runtime-stack.png)
 
