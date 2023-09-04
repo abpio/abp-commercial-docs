@@ -9,7 +9,7 @@
 
 ## Step 1: Creating an Azure Web App Service Environment
 
-To create a new Azure Web App Service, chose one of the following options:
+To create a new Azure Web App Service, choose one of the following options:
 
 - [Create a new Azure Web App Service using the Azure Portal](#create-a-new-azure-web-app-service-using-the-azure-portal) (Recommended)
 
@@ -117,7 +117,7 @@ To create a new Azure Web App Service, chose one of the following options:
 
 ### Create a new Azure Web App Service for API application
 
-1. You can create a new Azure Web App Service for API application in the same resource group.
+1. You can create a new Azure Web App Service for an API application in the same resource group.
 
 2. Click the **Create** button on the top of the resource group page.
 
@@ -141,9 +141,9 @@ To create a new Azure Web App Service, chose one of the following options:
 
 ### Create a new Azure Web App Service for AuthServer application
 
-Same as the API application, you can create a new Azure Web App Service for AuthServer application in the same resource group. 
+Same as the API application, you can create a new Azure Web App Service for an AuthServer application in the same resource group. 
 
-Same as above but you just modify the name of the web app service to **authserver-yourapp** in step 5.
+Same as above but you only need to modify the name of the web app service to **authserver-yourapp** in step 5.
 
 ### Create Azure Cache for Redis
 
