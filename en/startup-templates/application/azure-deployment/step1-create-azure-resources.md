@@ -41,7 +41,7 @@ To create a new Azure Web App Service, choose one of the following options:
 
 {{else}}
 
-{{ if UI == "BlazorServer" || UI == "Mvc" }}
+{{ if UI == "BlazorServer" || UI == "MVC" }}
 
 ### Create a new Azure Web App service using the Azure Portal
 
@@ -65,7 +65,7 @@ To create a new Azure Web App Service, choose one of the following options:
 
     ![Create Web App](../../../images/azure-deploy-create-web-app-3.png)
 
-{{ else if UI != 'NG' }}
+{{ else if UI == 'NG' }}
 
 ### Create a new Azure Static Web App for Angular using the Azure Portal
 
@@ -137,7 +137,7 @@ To create a new Azure Web App Service, choose one of the following options:
 
     ![Create Web App](../../../images/azure-deploy-create-web-app-3.png)
 
-{{ if Tiered == "Yes" && (UI == "Mvc" || UI == "BlazorServer")}}
+{{ if Tiered == "Yes" && (UI == "MVC" || UI == "BlazorServer")}}
 
 ### Create a new Azure Web App Service for AuthServer application
 
