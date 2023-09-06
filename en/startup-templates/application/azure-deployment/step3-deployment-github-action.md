@@ -512,7 +512,6 @@ deploy:
 }%}
 
     {{ else }}
-    
 
 {%{
 
@@ -635,7 +634,7 @@ jobs:
           package: ./webapp
 ```
     
-%}}
+}%}
 
     {{end}}
     
