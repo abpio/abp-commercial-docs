@@ -65,7 +65,7 @@ To create a new Azure Web App Service, choose one of the following options:
 
     ![Create Web App](../../../images/azure-deploy-create-web-app-3.png)
 
-{{ ifelse UI != 'NG' }}
+{{ if else UI != 'NG' }}
 
 ### Create a new Azure Static Web App for Angular using the Azure Portal
 
