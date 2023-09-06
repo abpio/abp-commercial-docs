@@ -166,7 +166,6 @@ Same as above but you only need to modify the name of the web app service to **a
     ![Create Redis](../../../images/azure-deploy-create-redis-3.png)
 
 {{ end }}
-{{ end }}
 
 
 ## What's next?
