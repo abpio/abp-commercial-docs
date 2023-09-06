@@ -25,6 +25,8 @@
 
 {{if UI == "NG"}}
 
+{%{
+
 ```yaml
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
@@ -113,7 +115,11 @@ jobs:
           output_location: "dist/AzureAppsAngular" # Built app content directory - optional
 ```
 
+}%}
+
 {{ else if UI == "Blazor" }}
+
+{%{
 
 ```yaml
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
@@ -201,9 +207,13 @@ jobs:
           output_location: "wwwroot" # Built app content directory - optional
 ```
 
+}%}
+
 {{ else if UI == "BlazorServer" }}
 
     {{ if Tiered == "No" }}
+
+{%{
 
 ```yaml
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
@@ -297,8 +307,12 @@ jobs:
           publish-profile: ${{ secrets.webappblazorserverPublishSettings }} # Set your Azure Web App publish profile as a secret in your repository settings
           package: ./webapp
 ```
+}%}
 
     {{ else }}
+
+
+{%{
 
 ```yaml
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
@@ -417,12 +431,15 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.webappblazorserverPublishSettings }} # Set your Azure Web App publish profile as a secret in your repository settings
 ```
-    
+}%}
+
         {{end}}
 
 {{ else if UI == "Mvc" }}
 
     {{ if Tiered == "No" }}
+
+{%{
 
 ```yaml
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
@@ -492,7 +509,13 @@ deploy:
         package: .
 ```
 
+}%}
+
+    {{ else }}
+
     {{else}}
+
+{%{
 
 ```yaml
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
@@ -613,6 +636,8 @@ jobs:
           package: ./webapp
 ```
     
+%}}
+
     {{end}}
     
 {{end}}
