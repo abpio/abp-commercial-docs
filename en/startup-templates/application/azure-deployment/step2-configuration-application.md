@@ -9,23 +9,16 @@
 
 ## Step 2: Customizing the Configuration of Your ABP Application
 
-To customize the configuration of your ABP application, modify the `ConnectionStrings` in every location throughout your project. 
+- To customize the configuration of your ABP application, modify the `ConnectionStrings` in every location throughout your project.
 
-This includes the following files:
-
+    This includes the following files:
 {{ if UI == "MVC" && Tiered == "No" }}
-
-**./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.Web/appsettings.json**
-
+    **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.Web/appsettings.json**
 {{else}}
-
-**./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
-
-{{if Tiered == "Yes"}}
-
-**./src/yourapp.AuthServer/appsettings.json**
-
+    **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
 {{end}}
+{{if Tiered == "Yes"}}
+    **./src/yourapp.AuthServer/appsettings.json**
 {{end}}
 
 ```json
@@ -36,7 +29,7 @@ This includes the following files:
 
 {{ if UI == "MVC" }}
 
-    {{if Tiered == "No"}}
+{{if Tiered == "No"}}
 
 - Modify the **yourapp.Web** url in every location throughout your project, especially within the **./src/yourapp.Web/appsettings.json** and **./src/yourapp.DbMigrator/appsettings.json** files, to match your Azure Web App Service url.
 
@@ -46,13 +39,13 @@ This includes the following files:
     }
 ```
 
-    {{else}}
+{{else}}
 
 - Modify the **yourapp.Web** url in every location throughout your project.
 
-This includes the following files:
+    This includes the following files:
 
-**./src/yourapp.Web/appsettings.json** , **./src/yourapp.DbMigrator/appsettings.json** , **./src/yourapp.HttpApi.Host/appsettings.json** and **./src/yourapp.AuthServer/appsettings.json**
+    **./src/yourapp.Web/appsettings.json** , **./src/yourapp.DbMigrator/appsettings.json** , **./src/yourapp.HttpApi.Host/appsettings.json** and **./src/yourapp.AuthServer/appsettings.json**
 
 ```json
 "App": {
@@ -62,9 +55,9 @@ This includes the following files:
 
 - Modify the **yourapp.ApiHost** url in every location throughout your project.
 
-This includes the following files:
+    This includes the following files:
 
-**./src/yourapp.HttpApi.Host/appsettings.json** , **./src/yourapp.Web/appsettings.json** , **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.AuthServer/appsettings.json**
+    **./src/yourapp.HttpApi.Host/appsettings.json** , **./src/yourapp.Web/appsettings.json** , **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.AuthServer/appsettings.json**
 
 ```json
 "App": {
@@ -74,9 +67,9 @@ This includes the following files:
 
 - Modify the **yourapp.AuthServer** url in every location throughout your project.
 
-This includes the following files:
+    This includes the following files:
 
-**./src/yourapp.Web/appsettings.json** , **./src/yourapp.AuthServer/appsettings.json** ,  **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
+    **./src/yourapp.Web/appsettings.json** , **./src/yourapp.AuthServer/appsettings.json** ,  **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
 
 ```json
 "App": {
@@ -86,9 +79,9 @@ This includes the following files:
 
 - Modify the **Redis__Configuration** url in every location throughout your project.
 
-This includes the following files:
+    This includes the following files:
 
-**./src/yourapp.Web/appsettings.json** , **./src/yourapp.AuthServer/appsettings.json** ,  **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
+    **./src/yourapp.Web/appsettings.json** , **./src/yourapp.AuthServer/appsettings.json** ,  **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
 
 ```json
 "Redis": {
@@ -96,15 +89,15 @@ This includes the following files:
   },
 ```
 
-    {{end}}
+{{end}}
 
 {{ else if UI == "NG" }}
 
 - Modify the **`localhost:4200`** in every location throughout your project.
 
-This includes the following files:
+    This includes the following files:
 
-**./angular/src/environments/environment.prod.ts** , **./aspnet-core/src/yourapp.DbMigrator/appsettings.json** and **./aspnet-core/src/yourapp.HttpApi.Host/appsettings.json**
+    **./angular/src/environments/environment.prod.ts** , **./aspnet-core/src/yourapp.DbMigrator/appsettings.json** and **./aspnet-core/src/yourapp.HttpApi.Host/appsettings.json**
 
 ```typescript
     application: {
@@ -114,9 +107,9 @@ This includes the following files:
 
 - Modify the **yourapp.HttpApi.Host** url in every location throughout your project.
 
-This includes the following files:
+    This includes the following files:
 
-**./angular/src/environments/environment.prod.ts** , **./aspnet-core/src/yourapp.DbMigrator/appsettings.json** and **./aspnet-core/src/yourapp.HttpApi.Host/appsettings.json**
+    **./angular/src/environments/environment.prod.ts** , **./aspnet-core/src/yourapp.DbMigrator/appsettings.json** and **./aspnet-core/src/yourapp.HttpApi.Host/appsettings.json**
 
 ```json
     "App": {
@@ -128,9 +121,9 @@ This includes the following files:
 
 - Modify the **yourapp.Blazor** url in every location throughout your project.
 
-This includes the following files:
+    This includes the following files:
 
-**./src/yourapp.Blazor/appsettings.json** , **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
+    **./src/yourapp.Blazor/appsettings.json** , **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
 
 ```json
     "App": {
@@ -140,9 +133,9 @@ This includes the following files:
 
 - Modify the **yourapp.HttpApi.Host** url in every location throughout your project.
 
-This includes the following files:
+    This includes the following files:
 
-**./src/yourapp.Blazor/appsettings.json** , **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
+    **./src/yourapp.Blazor/appsettings.json** , **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
 
 ```json
     "App": {
@@ -152,13 +145,13 @@ This includes the following files:
 
 {{ else }}
 
-    {{if Tiered == "No"}}
+{{if Tiered == "No"}}
 
 - Modify the **yourapp.Web** url in every location throughout your project.
 
-This includes the following files:
+    This includes the following files:
 
-**./src/yourapp.Blazor/appsettings.json** , **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
+    **./src/yourapp.Blazor/appsettings.json** , **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
 
 ```json
 "App": {
@@ -168,9 +161,9 @@ This includes the following files:
 
 - Modify the **yourapp.ApiHost** url in every location throughout your project.
 
-This includes the following files:
+    This includes the following files:
 
-**./src/yourapp.HttpApi.Host/appsettings.json** , **./src/yourapp.Blazor/appsettings.json** and **./src/yourapp.DbMigrator/appsettings.json**
+    **./src/yourapp.HttpApi.Host/appsettings.json** , **./src/yourapp.Blazor/appsettings.json** and **./src/yourapp.DbMigrator/appsettings.json**
 
 ```json
 "App": {
@@ -178,13 +171,13 @@ This includes the following files:
 }
 ```
 
-    {{else}}
+{{else}}
 
 - Modify the **yourapp.Web** url in every location throughout your project.
 
-This includes the following files:
+    This includes the following files:
 
-**./src/yourapp.Blazor/appsettings.json** , **./src/yourapp.DbMigrator/appsettings.json** , **./src/yourapp.HttpApi.Host/appsettings.json** and **./src/yourapp.AuthServer/appsettings.json**
+    **./src/yourapp.Blazor/appsettings.json** , **./src/yourapp.DbMigrator/appsettings.json** , **./src/yourapp.HttpApi.Host/appsettings.json** and **./src/yourapp.AuthServer/appsettings.json**
 
 ```json
 "App": {
@@ -194,9 +187,9 @@ This includes the following files:
 
 - Modify the **yourapp.ApiHost** url in every location throughout your project.
 
-This includes the following files:
+    This includes the following files:
 
-**./src/yourapp.HttpApi.Host/appsettings.json** , **./src/yourapp.Blazor/appsettings.json** , **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.AuthServer/appsettings.json**
+    **./src/yourapp.HttpApi.Host/appsettings.json** , **./src/yourapp.Blazor/appsettings.json** , **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.AuthServer/appsettings.json**
 
 ```json
 "App": {
@@ -206,9 +199,9 @@ This includes the following files:
 
 - Modify the **yourapp.AuthServer** url in every location throughout your project.
 
-This includes the following files:
+    This includes the following files:
 
-**./src/yourapp.Blazor/appsettings.json** , **./src/yourapp.AuthServer/appsettings.json** ,  **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
+    **./src/yourapp.Blazor/appsettings.json** , **./src/yourapp.AuthServer/appsettings.json** ,  **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
 
 ```json
 "App": {
@@ -218,9 +211,9 @@ This includes the following files:
 
 - Modify the **Redis__Configuration** url in every location throughout your project.
 
-This includes the following files:
+    This includes the following files:
 
-**./src/yourapp.Blazor/appsettings.json** , **./src/yourapp.AuthServer/appsettings.json** ,  **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
+    **./src/yourapp.Blazor/appsettings.json** , **./src/yourapp.AuthServer/appsettings.json** ,  **./src/yourapp.DbMigrator/appsettings.json** and **./src/yourapp.HttpApi.Host/appsettings.json**
 
 ```json
 "Redis": {
@@ -228,7 +221,7 @@ This includes the following files:
     },
 ```
 
-    {{end}}
+{{end}}
 
 {{end}}
 
