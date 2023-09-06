@@ -24,13 +24,13 @@
     - [Create a new Azure Cosmos DB](https://docs.microsoft.com/en-us/azure/cosmos-db/create-cosmosdb-resources-portal)
 
 
-## Description of the process in three steps:
+### Description of the process in three steps:
 
-### Step 1: [Creating an Azure Web App Service Environment ](step1-create-azure-resources)
+Step 1: [Creating an Azure Web App Service Environment ](step1-create-azure-resources)
 
-### Step 2: [Customizing the Configuration of Your ABP Application](step2-configuration-application)
+Step 2: [Customizing the Configuration of Your ABP Application](step2-configuration-application)
 
-### Step 3: [Deploying Your Application to Azure Web App Service](step3-deployment-github-action)
+Step 3: [Deploying Your Application to Azure Web App Service](step3-deployment-github-action)
 
 
 ## What's next?
