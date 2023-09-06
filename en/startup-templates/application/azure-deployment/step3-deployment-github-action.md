@@ -25,7 +25,7 @@
 
 {{if UI == "NG"}}
 
-```yml
+```yaml
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
@@ -115,7 +115,7 @@ jobs:
 
 {{ else if UI == "Blazor" }}
 
-```yml
+```yaml
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
@@ -205,7 +205,7 @@ jobs:
 
     {{ if Tiered == "No" }}
 
-```yml
+```yaml
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
@@ -300,7 +300,7 @@ jobs:
 
     {{ else }}
 
-```yml
+```yaml
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
@@ -424,7 +424,7 @@ jobs:
 
     {{ if Tiered == "No" }}
 
-```yml
+```yaml
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
@@ -494,7 +494,7 @@ deploy:
 
     {{else}}
 
-```yml
+```yaml
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
