@@ -211,7 +211,7 @@ jobs:
 
 {{ else if UI == "BlazorServer" }}
 
-    {{ if Tiered == "No" }}
+{{ if Tiered == "No" }}
 
 {%{
 
@@ -307,10 +307,10 @@ jobs:
           publish-profile: ${{ secrets.webappblazorserverPublishSettings }} # Set your Azure Web App publish profile as a secret in your repository settings
           package: ./webapp
 ```
+
 }%}
 
-    {{ else }}
-
+{{ else }}
 
 {%{
 
@@ -431,13 +431,14 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.webappblazorserverPublishSettings }} # Set your Azure Web App publish profile as a secret in your repository settings
 ```
+
 }%}
 
-        {{end}}
+{{end}}
 
-{{ else if UI == "Mvc" }}
+{{ else if UI == "MVC" }}
 
-    {{ if Tiered == "No" }}
+{{ if Tiered == "No" }}
 
 {%{
 
@@ -511,7 +512,7 @@ deploy:
 
 }%}
 
-    {{ else }}
+{{ else }}
 
 {%{
 
@@ -519,7 +520,7 @@ deploy:
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core with Mvc to Azure Web App
+name: Build and deploy ASP.Net Core with MVC to Azure Web App
 
 on:
   push:
@@ -633,11 +634,11 @@ jobs:
           publish-profile: ${{ secrets.webappprodemoPublishSettings }} # Set your Azure Web App publish profile as a secret in your repository settings
           package: ./webapp
 ```
-    
+
 }%}
 
-    {{end}}
-    
+{{end}}
+
 {{end}}
 
 
@@ -651,23 +652,23 @@ jobs:
 
 10. Add the following secrets:
 
-    - **CONNECTION_STRING**: The connection string of your database.
+  - **CONNECTION_STRING**: The connection string of your database.
     
-        Example of Azure SQL connection string:
+    Example of Azure SQL connection string:
     
     ![Azure sql connection string](../../../images/azure-deploy-connection-string.png)
 
-    - **AZUREAPPSERVICE_PUBLISHPROFILE**: The publish profile of your Azure Web App Service. You can download it from the **Overview** tab of your Azure Web App Service.
+  - **AZUREAPPSERVICE_PUBLISHPROFILE**: The publish profile of your Azure Web App Service. You can download it from the **Overview** tab of your Azure Web App Service.
 
     ![Publish profile](../../../images/azure-deploy-publish-profile.png)
 
-    {{ if UI == "NG" || UI == "Blazor"}}
+{{ if UI == "NG" || UI == "Blazor"}}
 
-    - **AZURE_STATIC_WEB_APPS_API_TOKEN_AMBITIOUS**: The API token of your Azure Static Web App. You can get it from the **Overview** tab of your Azure Static Web App.
+  - **AZURE_STATIC_WEB_APPS_API_TOKEN_AMBITIOUS**: The API token of your Azure Static Web App. You can get it from the **Overview** tab of your Azure Static Web App.
 
     ![API token](../../../images/azure-deploy-api-token.png)
 
-    {{end}}
+{{end}}
 
 11. Navigate to the **Actions** tab of your GitHub repository.
 
