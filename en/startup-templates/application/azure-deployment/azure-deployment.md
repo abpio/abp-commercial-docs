@@ -15,9 +15,9 @@
 
 - An active Azure account. If you don't have one, you can sign up for a [free account](https://azure.microsoft.com/en-us/free/)
 
-- Your ABP **{{ UI_Value }}** project should be ready at a GitHub repository, because we will use GitHub Actions to deploy your application to the Azure Web App Service.
+- Your ABP **{{ UI_Value }}** project must be ready at a GitHub repository because we will use GitHub Actions to deploy the ABP application to the Azure Web App Service.
 
-- **{{ DB_Value }}** database should be ready to use with your project. If you don't have a database, you can create a new azure SQL database or Cosmos DB by following the instructions below:
+- **{{ DB_Value }}** database must be ready to use with your project. If you don't have a database, you can create a new Azure SQL database or Cosmos DB by following the instructions below:
 
     - [Create a new Azure SQL Database](https://docs.microsoft.com/en-us/azure/azure-sql/database/single-database-create-quickstart?tabs=azure-portal)
 
@@ -26,11 +26,11 @@
 
 ### Description of the process in three steps:
 
-Step 1: [Creating an Azure Web App Service Environment ](step1-create-azure-resources)
+[Step 1: Creating an Azure Web App Service Environment ](step1-create-azure-resources)
 
-Step 2: [Customizing the Configuration of Your ABP Application](step2-configuration-application)
+[Step 2: Customizing the Configuration of Your ABP Application](step2-configuration-application)
 
-Step 3: [Deploying Your Application to Azure Web App Service](step3-deployment-github-action)
+[Step 3: Deploying Your Application to Azure Web App Service](step3-deployment-github-action)
 
 
 ## What's next?
