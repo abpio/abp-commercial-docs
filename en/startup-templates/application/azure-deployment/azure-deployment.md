@@ -26,11 +26,9 @@
 
 ### Description of the process in three steps:
 
-[Step 1: Creating an Azure Web App Service Environment ](step1-create-azure-resources)
-
-[Step 2: Customizing the Configuration of Your ABP Application](step2-configuration-application)
-
-[Step 3: Deploying Your Application to Azure Web App Service](step3-deployment-github-action)
+1. [Creating an Azure Web App Service Environment ](step1-create-azure-resources)
+2. [Customizing the Configuration of Your ABP Application](step2-configuration-application)
+3. [Deploying Your Application to Azure Web App Service](step3-deployment-github-action)
 
 
 ## What's next?
