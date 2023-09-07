@@ -141,9 +141,9 @@ To create a new Azure Web App Service, choose one of the following options:
 
 ### Create a new Azure Web App Service for AuthServer application
 
-Same as the API application, you can create a new Azure Web App Service for an AuthServer application in the same resource group. 
+Similar to the API application, you can create a new Azure Web App Service for an AuthServer application in the same resource group. 
 
-Same as above but you only need to modify the name of the web app service to **authserver-yourapp** in step 5.
+Same as above, but you only need to modify the name of the web app service to **authserver-yourapp** in step 5.
 
 ### Create Azure Cache for Redis
 
