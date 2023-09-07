@@ -9,7 +9,7 @@
 
 ## Step 2: Customizing the Configuration of Your ABP Application
 
-- To customize the configuration of your ABP application, modify the `ConnectionStrings` in every location throughout your project.
+- To customize the configuration of your ABP application, modify the `ConnectionString` values in every location throughout your project. The `ConnectionString` values are stored in the `appsettings.json` files.
 
     This includes the following files:
 {{ if UI == "MVC" && Tiered == "No" }}
@@ -31,7 +31,7 @@
 
 {{if Tiered == "No"}}
 
-- Modify the **yourapp.Web** url in every location throughout your project, especially within the **./src/yourapp.Web/appsettings.json** and **./src/yourapp.DbMigrator/appsettings.json** files, to match your Azure Web App Service url.
+- Modify the **yourapp.Web** URL in every location throughout your project, especially within the **./src/yourapp.Web/appsettings.json** and **./src/yourapp.DbMigrator/appsettings.json** files, to match your Azure Web App Service URL.
 
 ```json
     "App": {
@@ -41,7 +41,7 @@
 
 {{else}}
 
-- Modify the **yourapp.Web** url in every location throughout your project.
+- Modify the **yourapp.Web** URL in every location throughout your project.
 
     This includes the following files:
 
@@ -53,7 +53,7 @@
 }
 ```
 
-- Modify the **yourapp.ApiHost** url in every location throughout your project.
+- Modify the **yourapp.ApiHost** URL in every location throughout your project.
 
     This includes the following files:
 
@@ -65,7 +65,7 @@
 }
 ```
 
-- Modify the **yourapp.AuthServer** url in every location throughout your project.
+- Modify the **yourapp.AuthServer** URL in every location throughout your project.
 
     This includes the following files:
 
@@ -77,7 +77,7 @@
 }
 ```
 
-- Modify the **Redis__Configuration** url in every location throughout your project.
+- Modify the **Redis__Configuration** URL in every location throughout your project.
 
     This includes the following files:
 
@@ -105,7 +105,7 @@
     }
 ```
 
-- Modify the **yourapp.HttpApi.Host** url in every location throughout your project.
+- Modify the **yourapp.HttpApi.Host** URL in every location throughout your project.
 
     This includes the following files:
 
@@ -119,7 +119,7 @@
 
 {{ else if UI == "Blazor" }}
 
-- Modify the **yourapp.Blazor** url in every location throughout your project.
+- Modify the **yourapp.Blazor** URL in every location throughout your project.
 
     This includes the following files:
 
@@ -131,7 +131,7 @@
     }
 ```
 
-- Modify the **yourapp.HttpApi.Host** url in every location throughout your project.
+- Modify the **yourapp.HttpApi.Host** URL in every location throughout your project.
 
     This includes the following files:
 
@@ -147,7 +147,7 @@
 
 {{if Tiered == "No"}}
 
-- Modify the **yourapp.Web** url in every location throughout your project.
+- Modify the **yourapp.Web** URL in every location throughout your project.
 
     This includes the following files:
 
@@ -159,7 +159,7 @@
 }
 ```
 
-- Modify the **yourapp.ApiHost** url in every location throughout your project.
+- Modify the **yourapp.ApiHost** URL in every location throughout your project.
 
     This includes the following files:
 
@@ -173,7 +173,7 @@
 
 {{else}}
 
-- Modify the **yourapp.Web** url in every location throughout your project.
+- Modify the **yourapp.Web** URL in every location throughout your project.
 
     This includes the following files:
 
@@ -185,7 +185,7 @@
 }
 ```
 
-- Modify the **yourapp.ApiHost** url in every location throughout your project.
+- Modify the **yourapp.ApiHost** URL in every location throughout your project.
 
     This includes the following files:
 
@@ -197,7 +197,7 @@
 }
 ```
 
-- Modify the **yourapp.AuthServer** url in every location throughout your project.
+- Modify the **yourapp.AuthServer** URL in every location throughout your project.
 
     This includes the following files:
 
@@ -209,7 +209,7 @@
 }
 ```
 
-- Modify the **Redis__Configuration** url in every location throughout your project.
+- Modify the **Redis__Configuration** URL in every location throughout your project.
 
     This includes the following files:
 
