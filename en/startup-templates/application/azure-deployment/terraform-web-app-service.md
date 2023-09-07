@@ -21,7 +21,7 @@ Before you begin, you'll need the following:
 
 ## Creating a Service Principal for Terraform in Azure
 
-When working with Terraform on Azure, you'll need a Service Principal for authentication purposes. A service principal is an identity created to be used with applications, hosted services, and automated tools to access Azure resources.
+When working with Terraform on Azure, you'll need a "Service Principal" for authentication. A "Service Principal" is an identity created to be used with applications, hosted services, and automated tools to access Azure resources.
 
 [To create a service principal](https://learn.microsoft.com/en-us/azure/developer/terraform/authenticate-to-azure?tabs=bash#create-a-service-principal), run the following command in the Azure CLI:
 
@@ -552,13 +552,13 @@ output "redis_hostname" {
 
 4. Run `terraform plan` to see the execution plan.
 
-5. Run `terraform apply` to apply the changes. Type `yes` when prompted to confirm the deployment.
+5. Run `terraform apply` to apply the changes. Write `yes` when prompted to confirm the deployment.
 
 6. Wait for the deployment to complete.
 
-7. Navigate to the web app url to see the deployed application.
+7. Navigate to the web app URL to see the deployed application.
 
-> You can also see the web app url in the output of the `terraform apply` command.
+> You can also see the web app URL in the output of the `terraform apply` command.
 
 > You have to change the **dotnet version** of the runtime stack according to your application. For example, if you are using .NET 7, you should change `dotnet_version = "6.0"` to `dotnet_version = "7.0"`.
 
