@@ -7,7 +7,7 @@
 }
 ````
 
-## Step 2: Customizing the Configuration of Your ABP Application
+## Step 2: Customizing the Configuration of the ABP Application
 
 - To customize the configuration of your ABP application, modify the `ConnectionString` values in every location throughout your project. The `ConnectionString` values are stored in the `appsettings.json` files.
 
