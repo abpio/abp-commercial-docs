@@ -93,7 +93,7 @@ jobs:
         with:
           app-name: 'apihost-angular' # Replace with your app name
           slot-name: 'Production'
-          publish-profile: ${{ secrets.apihostangularPublishSettings }} # Set your Azure Web App publish profile as a secret in your repository settings
+          publish-profile: ${{ secrets.apihostangularPublishSettings }} # Set your Azure Web App to publish your profile as a secret in your repository settings
 
   build-deploy-frontend:
     runs-on: ubuntu-latest
@@ -108,7 +108,7 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_PROUD_STONE }} # Set your Azure Static Web App API token as a secret in your repository settings
-          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for GitHub integrations (eg: PR comments)
           action: "upload"
           app_location: "angular" # App source code path
           api_location: "" # Api source code path - optional
@@ -185,7 +185,7 @@ jobs:
         with:
           app-name: 'apihost-blazor' # Replace with your app name
           slot-name: 'Production'
-          publish-profile: ${{ secrets.apihostblazorPublishSettings }} # Set your Azure Web App publish profile as a secret in your repository settings
+          publish-profile: ${{ secrets.apihostblazorPublishSettings }} # Set your Azure Web App to publish your profile as a secret in your repository settings
 
   build-deploy-frontend:
     runs-on: ubuntu-latest
@@ -200,7 +200,7 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_AMBITIOUS }} # Set your Azure Static Web App API token as a secret in your repository settings
-          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for GitHub integrations (eg: PR comments)
           action: "upload"
           app_location: "src/demo.BlazorNonTierEfCore.Blazor" # App source code path
           api_location: "" # Api source code path - optional
@@ -289,7 +289,7 @@ jobs:
         with:
           app-name: 'apihost-blazorserver' # Replace with your app name
           slot-name: 'Production'
-          publish-profile: ${{ secrets.apihostblazorserverPublishSettings }} # Set your Azure Web App publish profile as a secret in your repository settings
+          publish-profile: ${{ secrets.apihostblazorserverPublishSettings }} # Set your Azure Web App to publish your profile as a secret in your repository settings
           package: ./apihost
 
       - name: Download artifact from webapp
@@ -304,7 +304,7 @@ jobs:
         with:
           app-name: 'webapp-blazorserver' # Replace with your app name
           slot-name: 'Production'
-          publish-profile: ${{ secrets.webappblazorserverPublishSettings }} # Set your Azure Web App publish profile as a secret in your repository settings
+          publish-profile: ${{ secrets.webappblazorserverPublishSettings }} # Set your Azure Web App to publish your profile as a secret in your repository settings
           package: ./webapp
 ```
 
@@ -399,7 +399,7 @@ jobs:
         with:
           app-name: 'authserver-blazorserver' # Replace with your app name
           slot-name: 'Production'
-          publish-profile: ${{ secrets.authserverblazorserverPublishSettings }} # Set your Azure Web App publish profile as a secret in your repository settings
+          publish-profile: ${{ secrets.authserverblazorserverPublishSettings }} # Set your Azure Web App to publish your profile as a secret in your repository settings
           package: ./authserver
 
       - name: Download artifact from apihost
@@ -414,7 +414,7 @@ jobs:
         with:
           app-name: 'apihost-blazorserver' # Replace with your app name
           slot-name: 'Production'
-          publish-profile: ${{ secrets.apihostblazorserverPublishSettings }} # Set your Azure Web App publish profile as a secret in your repository settings
+          publish-profile: ${{ secrets.apihostblazorserverPublishSettings }} # Set your Azure Web App to publish your profile as a secret in your repository settings
           package: ./apihost
 
       - name: Download artifact from webapp
@@ -429,7 +429,7 @@ jobs:
         with:
           app-name: 'webapp-blazorserver' # Replace with your app name
           slot-name: 'Production'
-          publish-profile: ${{ secrets.webappblazorserverPublishSettings }} # Set your Azure Web App publish profile as a secret in your repository settings
+          publish-profile: ${{ secrets.webappblazorserverPublishSettings }} # Set your Azure Web App publish your profile as a secret in your repository settings
 ```
 
 }%}
@@ -506,7 +506,7 @@ deploy:
         with:
         app-name: 'yourapp' # Replace with your azure web app name
         slot-name: 'Production'
-        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }} # Set your Azure Web App publish profile as a secret in your repository settings
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }} # Set your Azure Web App publish your profile as a secret in your repository settings
         package: .
 ```
 
@@ -601,7 +601,7 @@ jobs:
         with:
           app-name: 'authserver-prodemo'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.authserverprodemoPublishSettings }} # Set your Azure Web App publish profile as a secret in your repository settings
+          publish-profile: ${{ secrets.authserverprodemoPublishSettings }} # Set your Azure Web App publish your profile as a secret in your repository settings
           package: ./authserver
 
       - name: Download artifact from apihost
@@ -616,7 +616,7 @@ jobs:
         with:
           app-name: 'apihost-prodemo'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.apihostprodemoPublishSettings }} # Set your Azure Web App publish profile as a secret in your repository settings
+          publish-profile: ${{ secrets.apihostprodemoPublishSettings }} # Set your Azure Web App publish your profile as a secret in your repository settings
           package: ./apihost
 
       - name: Download artifact from webapp
@@ -631,7 +631,7 @@ jobs:
         with:
           app-name: 'webapp-prodemo'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.webappprodemoPublishSettings }} # Set your Azure Web App publish profile as a secret in your repository settings
+          publish-profile: ${{ secrets.webappprodemoPublishSettings }} # Set your Azure Web App publish your profile as a secret in your repository settings
           package: ./webapp
 ```
 
@@ -658,7 +658,7 @@ jobs:
     
     ![Azure sql connection string](../../../images/azure-deploy-connection-string.png)
 
-  - **AZUREAPPSERVICE_PUBLISHPROFILE**: The publish profile of your Azure Web App Service. You can download it from the **Overview** tab of your Azure Web App Service.
+  - **AZUREAPPSERVICE_PUBLISHPROFILE**: The publish the profile of your Azure Web App Service. You can download it from the **Overview** tab of your Azure Web App Service.
 
     ![Publish profile](../../../images/azure-deploy-publish-profile.png)
 
@@ -680,7 +680,7 @@ jobs:
 
     ![Run workflow](../../../images/azure-deploy-run-workflow.png)
 
-14. Navigate to the web app url to see the deployed application.
+14. Navigate to the web app URL to see the deployed application.
 
     ![Azure Web App](../../../images/azure-deploy-runtime-stack2.png)
 
