@@ -7,9 +7,9 @@
 }
 ````
 
-## Step 3: Deploying Your Application to Azure Web App Service
+## Step 3: Deploying the ABP Application to Azure Web App Service
 
-### Deploying Your Application to Azure Web App Service using GitHub Actions
+### Deploying the ABP Application to Azure Web App Service using GitHub Actions
 
 1. Create a new GitHub repository for your project if you don't have one.
 
