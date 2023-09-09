@@ -82,6 +82,10 @@
         {
           "text": "Migrating to OpenIddict",
           "path": "migration-guides/openIddict-step-by-step.md"
+        },
+        {
+          "text": "OpenIddict Deployment",
+          "path": "guides/openiddict-deployment.md"
         }
       ]
     },
