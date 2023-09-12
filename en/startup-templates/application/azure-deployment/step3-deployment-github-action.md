@@ -94,6 +94,7 @@ jobs:
           app-name: 'apihost-angular' # Replace with your app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.apihostangularPublishSettings }} # Set your Azure Web App to publish your profile as a secret in your repository settings
+          path: ./apihost
 
   build-deploy-frontend:
     runs-on: ubuntu-latest
