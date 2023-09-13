@@ -74,19 +74,11 @@
         {
           "text": "Customizing the Modules",
           "path": "guides/customizing-modules.md"
-        },
-        {
-          "text": "IdentityServer Deployment",
-          "path": "guides/identityserver-deployment.md"
-        },
+        },        
         {
           "text": "Migrating to OpenIddict",
           "path": "migration-guides/openIddict-step-by-step.md"
-        },
-        {
-          "text": "OpenIddict Deployment",
-          "path": "guides/openiddict-deployment.md"
-        }
+        }        
       ]
     },
     {
@@ -146,7 +138,15 @@
                 {
                   "text": "IIS Deployment",
                   "path": "startup-templates/application/deployment-iis.md"
-                }
+                },
+                {
+                  "text": "IdentityServer Deployment",
+                  "path": "guides/identityserver-deployment.md"
+                },
+                {
+                  "text": "OpenIddict Deployment",
+                  "path": "guides/openiddict-deployment.md"
+                },
               ]
             }
           ]
