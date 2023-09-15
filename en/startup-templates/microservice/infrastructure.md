@@ -54,10 +54,10 @@ All the microservices and AuthServer has connection strings configured based on 
 
 ```json
 "ConnectionStrings": {
-    "IdentityService": "Server=localhost,1434;Database=MyProjectName_Identity;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
-    "AdministrationService": "Server=localhost,1434;Database=MyProjectName_Administration;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
-    "SaasService": "Server=localhost,1434;Database=MyProjectName_Saas;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
-    "ProductService": "Server=localhost,1434;Database=MyProjectName_ProductService;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true"
+    "IdentityService": "Server=(LocalDb)\\MSSQLLocalDB,1434;Database=MyProjectName_Identity;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
+    "AdministrationService": "Server=(LocalDb)\\MSSQLLocalDB,1434;Database=MyProjectName_Administration;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
+    "SaasService": "Server=(LocalDb)\\MSSQLLocalDB,1434;Database=MyProjectName_Saas;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true",
+    "ProductService": "Server=(LocalDb)\\MSSQLLocalDB,1434;Database=MyProjectName_ProductService;User Id=sa;password=myPassw0rd;MultipleActiveResultSets=true"
   },
 ```
 
@@ -368,18 +368,22 @@ modules and contains contains:
           });
       }
       
-      public static void ConfigureWithAuth(
+      public static void ConfigureWithOidc(
           ServiceConfigurationContext context,
           string authority,
-          Dictionary<string, string> scopes,
+          string[] scopes,
           string apiTitle,
           string apiVersion = "v1",
-          string apiName = "v1"
+          string apiName = "v1",
+          string[]? flows = null,
+          string? discoveryEndpoint = null
       )
       {
-          context.Services.AddAbpSwaggerGenWithOAuth(
+          context.Services.AddAbpSwaggerGenWithOidc(
               authority: authority,
               scopes: scopes,
+              flows: flows,
+              discoveryEndpoint: discoveryEndpoint,
               options =>
               {
                   options.SwaggerDoc(apiName, new OpenApiInfo { Title = apiTitle, Version = apiVersion });
@@ -388,8 +392,8 @@ modules and contains contains:
               });
       }
   ```
-
   
+  See [API/Swagger Integration](https://docs.abp.io/en/abp/latest/API/Swagger-Integration#using-swagger-with-oidc) for more details.
 
 ### Hosting Gateways
 
@@ -400,16 +404,16 @@ This module depends on
 - `SharedHostingAspNetCoreModule` for serilog configuration
 - `AbpAspNetCoreMvcUiMultiTenancyModule` for tenantId redirection in the http headers
 
- modules along with `Ocelot` and `Ocelot.Provider.Polly` libraries. 
+ modules along with [YARP Reverse Proxy](https://www.nuget.org/packages/Yarp.ReverseProxy) library.
 
-Ocelot service is configured to use Polly as default
+YARP is configured as:
 
 ```csharp
-context.Services.AddOcelot(configuration)
-    .AddPolly();
+context.Services.AddReverseProxy()
+            .LoadFromConfig(configuration.GetSection("ReverseProxy"));
 ```
 
-This module also contains `GatewayHostBuilderExtensions` to add ocelot.json configuration along with appsettings.json.
+This module also contains `GatewayHostBuilderExtensions` to add `yarp.json` configuration along with appsettings.json. The `yarp.json` file is used for YARP re-route configurations in the gateways.
 
 ### Hosting Microservices
 

@@ -131,6 +131,20 @@ Configure<AbpDbContextOptions>(options =>
 });
 ```
 
+### SwaggerConfiguration
+
+IdentityService uses `WebGateway_Swagger` client for swagger authorization and it uses `authorization_code` flow with the default `IdentityService` scope:
+```csharp
+SwaggerConfigurationHelper.ConfigureWithOidc(
+            context: context,
+            authority: configuration["AuthServer:Authority"]!,
+            scopes: new[] { "IdentityService" },
+            flows: new[] { "authorization_code" },
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
+            apiTitle: "Identity Service API"
+        );
+```
+
 ## AdministrationService
 
 AdministrationService is an infrastructural microservice that hosts [Permission Management Module](https://docs.abp.io/en/abp/latest/Modules/Permission-Management), [Feature Management Module](https://docs.abp.io/en/abp/latest/Modules/Feature-Management), [Setting Management Module](https://docs.abp.io/en/abp/latest/Modules/Setting-Management), [Audit Logging](https://docs.abp.io/en/commercial/latest/modules/audit-logging), [Language Management Module](https://docs.abp.io/en/commercial/latest/modules/language-management), [Text Template Management Module](https://docs.abp.io/en/commercial/latest/modules/text-template-management), [Lepton Theme Module](https://docs.abp.io/en/commercial/latest/themes/lepton) and functions as a combination of these modules. All the related layers reference the respected layers of these modules. 
@@ -205,6 +219,21 @@ Configure<AbpDbContextOptions>(options =>
 });
 ```
 
+### SwaggerConfiguration
+
+AdministrationService uses `WebGateway_Swagger` client for swagger authorization and it uses `authorization_code` flow with the default `AdministrationService` scope:
+
+```csharp
+SwaggerConfigurationHelper.ConfigureWithOidc(
+            context: context,
+            authority: configuration["AuthServer:Authority"]!,
+            scopes: new[] { "AdministrationService" },
+            flows: new[] { "authorization_code" },
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
+            apiTitle: "Administration Service API"
+        );
+```
+
 ## SaasService
 
 SaasService is an infrastructural microservice that for multi-tenancy functionality and data store.
@@ -246,6 +275,21 @@ Configure<AbpDbContextOptions>(options =>
 });
 ```
 
+### SwaggerConfiguration
+
+SaasService uses `WebGateway_Swagger` client for swagger authorization and it uses `authorization_code` flow with the default `SaasService ` scope:
+
+```csharp
+SwaggerConfigurationHelper.ConfigureWithOidc(
+            context: context,
+            authority: configuration["AuthServer:Authority"]!,
+            scopes: new[] { "SaasService" },
+            flows: new[] { "authorization_code" },
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
+            apiTitle: "Saas Service API"
+        );
+```
+
 ## ProductService
 
 ProductService is a sample microservice for examination, created with using [Module Development Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Index). Since the Microservice template solution is created with modularity in mind, it is pretty straightforward to integrate modules as microservices into the solution.
@@ -277,6 +321,21 @@ Configure<AbpDbContextOptions>(options =>
         });
     });
 });
+```
+
+### SwaggerConfiguration
+
+ProductService uses `WebGateway_Swagger` client for swagger authorization and it uses `authorization_code` flow with the default `ProductService` scope:
+
+```csharp
+SwaggerConfigurationHelper.ConfigureWithOidc(
+            context: context,
+            authority: configuration["AuthServer:Authority"]!,
+            scopes: new[] { "ProductService" },
+            flows: new[] { "authorization_code" },
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
+            apiTitle: "Product Service API"
+        );
 ```
 
 ## Next
