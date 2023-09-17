@@ -158,11 +158,11 @@
                 },
                 {
                   "text": "IdentityServer Deployment",
-                  "path": "startup-templates/application/identityserver-deployment.md"
+                  "path": "guides/identityserver-deployment.md"
                 },
                 {
                   "text": "OpenIddict Deployment",
-                  "path": "startup-templates/application/openiddict-deployment.md"
+                  "path": "guides/openiddict-deployment.md"
                 }
               ]
             }
