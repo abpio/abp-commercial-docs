@@ -404,16 +404,16 @@ This module depends on
 - `SharedHostingAspNetCoreModule` for serilog configuration
 - `AbpAspNetCoreMvcUiMultiTenancyModule` for tenantId redirection in the http headers
 
- modules along with `Ocelot` and `Ocelot.Provider.Polly` libraries. 
+ modules along with [YARP Reverse Proxy](https://www.nuget.org/packages/Yarp.ReverseProxy) library.
 
-Ocelot service is configured to use Polly as default
+YARP is configured as:
 
 ```csharp
-context.Services.AddOcelot(configuration)
-    .AddPolly();
+context.Services.AddReverseProxy()
+            .LoadFromConfig(configuration.GetSection("ReverseProxy"));
 ```
 
-This module also contains `GatewayHostBuilderExtensions` to add ocelot.json configuration along with appsettings.json.
+This module also contains `GatewayHostBuilderExtensions` to add `yarp.json` configuration along with appsettings.json. The `yarp.json` file is used for YARP re-route configurations in the gateways.
 
 ### Hosting Microservices
 
