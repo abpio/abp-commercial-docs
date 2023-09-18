@@ -33,6 +33,23 @@ import { SideMenuLayoutModule } from '@volosoft/abp.ng.theme.lepton-x/layouts';
 })
 export class AppModule {}
 ```
+If you want to use the **`Top Menu`** instead of the **`Side Menu`**, you can follow the code below and [this style imports](https://docs.abp.io/en/abp/7.4/UI/Angular/Theme-Configurations#lepton-x-commercial)
+```js
+import { HttpErrorComponent, ThemeLeptonXModule } from '@volosoft/abp.ng.theme.lepton-x';
+import { TopMenuLayoutModule } from '@volosoft/abp.ng.theme.lepton-x/layouts';
+
+@NgModule({
+  // ...
+  imports: [
+    // ...
+    // ThemeLeptonModule.forRoot(), -> remove this line.
+    ThemeLeptonXModule.forRoot(),
+    TopMenuLayoutModule.forRoot(),
+  ],
+  // ...
+})
+export class AppModule {}
+```
 
 Note: If you are using [Resource Owner Password Flow](https://docs.abp.io/en/abp/latest/UI/Angular/Authorization#resource-owner-password-flow) for authorization, you should import the following module as well to `app.module.ts`:
 
