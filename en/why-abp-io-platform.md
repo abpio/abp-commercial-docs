@@ -5,6 +5,7 @@ This document aims to answer the big question:
 > "Why should you use the ABP.IO Platform instead of creating a new solution from scratch?"
 
 The document introduces the challenges of building a modern software solution and explains how ABP addresses these challenges.
+See also https://commercial.abp.io/why-abp-io
 
 ## Creating a New Solution
 
