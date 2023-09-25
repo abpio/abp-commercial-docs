@@ -34,14 +34,14 @@ The contact management system allows you to create multiple contact forms. You c
 Then, you need to configure the defined contact widgets in the `ConfigureServices` method of your module class:
 
 ```csharp
-Configure<CmsKitContactOptions>(options =>
+Configure<CmsKitContactConfigOptions>(options =>
 {
     options.AddContact("Sales", "info@sales.com");
     options.AddContact("Training", "info@training.com");
 });
 ```
 
-Here, is a screenshot that show multiple contact forms in a page:
+Here, is a screenshot that shows multiple contact forms on a page:
 
 ![multiple-contact-forms](../../images/cmskit-module-multiple-contact-forms.png)
 
