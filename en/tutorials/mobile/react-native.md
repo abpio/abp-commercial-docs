@@ -20,9 +20,15 @@ You can use the following link to download the source code of the application de
 ```js
 ./src/api/BookAPI.js
 
-import api from "./API";
+import api from './API';
 
-export const getBooks = () => api.get("/api/app/book").then(({ data }) => data);
+export const getList = () => api.get('/api/app/book').then(({ data }) => data);
+
+export const get = id => api.get(`/api/app/book/${id}`).then(({ data }) => data);
+
+export const create = input => api.post('/api/app/book', input).then(({ data }) => data);
+
+export const update = (input, id) => api.put(`/api/app/book/${id}`, input).then(({ data }) => data);
 ```
 
 - Add Book Store menu item to navigation
@@ -44,13 +50,13 @@ export const getBooks = () => api.get("/api/app/book").then(({ data }) => data);
         drawerContent={DrawerContent}
         defaultStatus="closed"
       >
-        {/*Other Screens..*/}
+        {/*Added Screen*/}
         <Drawer.Screen
           name="BookStoreStack"
           component={BookStoreStackNavigator}
           options={{ header: () => null }}
         />
-        {/*Other Screens..*/}
+        {/*Added Screen*/}
       </Drawer.Navigator>
     );
   }
@@ -141,13 +147,13 @@ export const getBooks = () => api.get("/api/app/book").then(({ data }) => data);
   - Create BookStoreScreen.js file
 
   ```js
-  ./src/components/screens/Books/BookStoreScreen.js
+  ./src/screens/BookStore/BookStoreScreen.js
 
-  import React from "react";
-  import i18n from "i18n-js";
-  import { BottomNavigation, Text } from "react-native-paper";
+  import React from 'react';
+  import i18n from 'i18n-js';
+  import { BottomNavigation } from 'react-native-paper';
 
-  import BooksScreen from "./BooksScreen";
+  import BooksScreen from './Books/BooksScreen';
 
   const BooksRoute = () => <BooksScreen />;
 
@@ -155,10 +161,10 @@ export const getBooks = () => api.get("/api/app/book").then(({ data }) => data);
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
       {
-        key: "books",
-        title: i18n.t("BookStore::Menu:Books"),
-        focusedIcon: "book",
-        unfocusedIcon: "book-outline",
+        key: 'books',
+        title: i18n.t('BookStore::Menu:Books'),
+        focusedIcon: 'book',
+        unfocusedIcon: 'book-outline',
       },
     ]);
 
@@ -179,7 +185,7 @@ export const getBooks = () => api.get("/api/app/book").then(({ data }) => data);
   ```
 
   ```js
-  ./src/components/screens/Books/BooksScreen.js
+  ./src/screens/BookStore/Books/BooksScreen.js
 
   import React from 'react';
   import { useSelector } from 'react-redux';
@@ -217,12 +223,10 @@ export const getBooks = () => api.get("/api/app/book").then(({ data }) => data);
   export default BooksScreen;
   ```
 
-  - `getBooks` api used for fetching books from the server.
-  - `i18n` api localized given key. It uses server's resource from `application-configuration` endpoint.
+  - `getBooks` function used for fetching books from the server.
+  - `i18n` api localize given key. It use incoming resource from `application-configuration` endpoint.
   - `DataList` component takes `proxy method` for the fetch data and run the logic for lazy loading etc.
 
   ### Book List Page
 
   ![Book List Page](./images/react-native/book-list.png)
-
-- Create Book List component
