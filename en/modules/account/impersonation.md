@@ -10,6 +10,8 @@ In some cases, users need to sign in as another user and perform operations on b
 
 If your ABP version is lower than 5.0, you can implement the impersonation feature by following the steps below.
 
+> Please remember to configure the `ImpersonationTenantPermission` and `ImpersonationUserPermission` permissions!!!
+
 ### MVC
 
 ```cs
