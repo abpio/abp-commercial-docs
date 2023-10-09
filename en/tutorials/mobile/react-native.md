@@ -136,7 +136,7 @@ export const remove = id => api.delete(`/api/app/book/${id}`).then(({ data }) =>
   // Other codes..
   ```
 
-  ![Book Store Menu Item](./images/react-native/book-store-menu-item.png)
+  ![Book Store Menu Item](../../images/book-store-menu-item.png)
 
 - `Create Book List page`
 
@@ -225,7 +225,7 @@ export const remove = id => api.delete(`/api/app/book/${id}`).then(({ data }) =>
 
   ### Book List Page
 
-  ![Book List Page](./images/react-native/book-list.png)
+  ![Book List Page](../../images/book-list.png)
 
 ## Creating a New Book
 
@@ -626,9 +626,9 @@ export default CreateUpdateBookForm;
 - `AbpSelect` component used for select book type.
 - `submit` method will pass form values to `CreateUpdateBookScreen` component.
 
-![Create New Book Icon](./images/react-native/create-book-icon.png)
+![Create New Book Icon](../../images/create-book-icon.png)
 
-![Create New Book](./images/react-native/create-book.png)
+![Create New Book](../../images/create-book.png)
 
 ## Update a Book
 
@@ -864,9 +864,9 @@ function CreateUpdateBookForm({
 //Other codes..
 ```
 
-![Book List With Options](./images/react-native/book-list-with-options.png)
+![Book List With Options](../../images/book-list-with-options.png)
 
-![Update Book Page](./images/react-native/update-book.png)
+![Update Book Page](../../images/update-book.png)
 
 ## Delete a Book
 
@@ -998,9 +998,9 @@ const styles = StyleSheet.create({
 export default BooksScreen;
 ```
 
-![Delete Book](./images/react-native/delete-book.png)
+![Delete Book](../../images/delete-book.png)
 
-![Delete Book Alert](./images/react-native/delete-book-alert.png)
+![Delete Book Alert](../../images/delete-book-alert.png)
 
 ## Authorization
 
@@ -1057,7 +1057,7 @@ function BookStoreScreen({ navigation }) {
 export default BookStoreScreen;
 ```
 
-![Books Menu Item](./images/react-native/books-menu-item.png)
+![Books Menu Item](../../images/books-menu-item.png)
 
 ### Hide the New Book Button
 
@@ -1094,7 +1094,7 @@ function BooksScreen({ navigation }) {
 }
 ```
 
-![Create New Book Button Policy](./images/react-native/create-book-button-visibility.png)
+![Create New Book Button Policy](../../images/create-book-button-visibility.png)
 
 ### Hide the Edit and Delete Actions
 
@@ -1122,7 +1122,7 @@ function BooksScreen() {
 }
 ```
 
-![Create New Book Button Policy](./images/react-native/update-delete-book-button-visibility.png)
+![Create New Book Button Policy](../../images/update-delete-book-button-visibility.png)
 
 ## Author
 
@@ -1576,15 +1576,15 @@ CreateUpdateAuthorForm.propTypes = {
 export default CreateUpdateAuthorForm;
 ```
 
-![Author List](./images/react-native/author-list.png)
+![Author List](../../images/author-list.png)
 
-![Author Create Page](./images/react-native/create-author.png)
+![Author Create Page](../../images/create-author.png)
 
-![Author List With Options](./images/react-native/author-list-with-options.png)
+![Author List With Options](../../images/author-list-with-options.png)
 
-![Author Update Page](./images/react-native/update-author.png)
+![Author Update Page](../../images/update-author.png)
 
-![Author Delete Alert](./images/react-native/delete-author-alert.png)
+![Author Delete Alert](../../images/delete-author-alert.png)
 
 ## Add `Author` Relation To Book
 
@@ -1778,10 +1778,10 @@ CreateUpdateBookForm.propTypes = {
 export default CreateUpdateBookForm;
 ```
 
-![Book List with Author](./images/react-native/book-list-with-author.png)
+![Book List with Author](../../images/book-list-with-author.png)
 
-![Author Input in Book Form](./images/react-native/author-input-in-book-form.png)
+![Author Input in Book Form](../../images/author-input-in-book-form.png)
 
-![Authors in Book Form](./images/react-native/authors-in-book-form.png)
+![Authors in Book Form](../../images/authors-in-book-form.png)
 
 That's all. Just run the application and try to create or edit an author.
