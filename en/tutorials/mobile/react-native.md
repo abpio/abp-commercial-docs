@@ -3,7 +3,7 @@
 ## About This Tutorial
 
 - This tutorial assumes that you have completed the [Web Application Development tutorial](../part-1.md) and built an ABP based application named `Acme.BookStore`. In this tutorial, we will only focus on the UI side of the `Acme.BookStore` application and will implement the CRUD operations.
-- Before start please be sure the [React Native Development Environment](https://docs.abp.io/en/commercial/latest/getting-started-react-native) is ready on your machine.
+- Before starting, please make sure that the [React Native Development Environment](https://docs.abp.io/en/commercial/latest/getting-started-react-native) is ready on your machine.
 
 ## Download the Source Code
 
@@ -15,7 +15,7 @@ You can use the following link to download the source code of the application de
 
 ## The Book List Page
 
-In react native there is no dynamic proxy generation, that's why we need to create BookAPI proxy manually under the `./src/api` folder.
+In react native there is no dynamic proxy generation, that's why we need to create the BookAPI proxy manually under the `./src/api` folder.
 
 ```js
 import api from "./API";
@@ -35,7 +35,7 @@ export const remove = (id) =>
   api.delete(`/api/app/book/${id}`).then(({ data }) => data);
 ```
 
-### Add `Book Store` menu item to navigation
+### Add the `Book Store` menu item to the navigation
 
 For the create menu item, navigate to `./src/navigators/DrawerNavigator.js` file and add `BookStoreStack` to `Drawer.Navigator` component.
 
@@ -64,7 +64,7 @@ export default function DrawerNavigator() {
 }
 ```
 
-Create `BookStoreStackNavigator` to `./src/navigators/BookStoreNavigator.js`, this navigator will be used for BookStore menu item.
+Create the `BookStoreStackNavigator` in `./src/navigators/BookStoreNavigator.js`, this navigator will be used for the BookStore menu item.
 
 ```js
 import React from "react";
@@ -94,9 +94,9 @@ export default function BookStoreStackNavigator() {
 }
 ```
 
-- BookStoreScreen will be used for store `books` and `authors` page
+- BookStoreScreen will be used to store the `books` and `authors` page
 
-Add `BookStoreStack` to screens object in the `./src/components/DrawerContent/DrawerContent.js` file. DrawerContent component will be used for render menu items.
+Add the `BookStoreStack` to the screens object in the `./src/components/DrawerContent/DrawerContent.js` file. The DrawerContent component will be used to render the menu items.
 
 ```js
 // Imports..
@@ -136,7 +136,7 @@ const screens = {
 
 ### Create Book List page
 
-Before create book list page, we need to create `BookStoreScreen.js` file under the `./src/screens/BookStore` folder. This file will be used for store `books` and `authors` page.
+Before creating the book list page, we need to create the `BookStoreScreen.js` file under the `./src/screens/BookStore` folder. This file will be used to store the `books` and `authors` page.
 
 ```js
 import React from "react";
@@ -172,7 +172,7 @@ function BookStoreScreen({ navigation }) {
 export default BookStoreScreen;
 ```
 
-Create `BooksScreen.js` file under the `./src/screens/BookStore/Books` folder.
+Create the `BooksScreen.js` file under the `./src/screens/BookStore/Books` folder.
 
 ```js
 import React from "react";
@@ -209,15 +209,15 @@ function BooksScreen({ navigation }) {
 export default BooksScreen;
 ```
 
-- `getBooks` function used for fetching books from the server.
-- `i18n` api localize given key. It use incoming resource from `application-localization` endpoint.
-- `DataList` component takes `fetchFn` property we'll give API request function, it using for the fetch data and run the logic for lazy loading etc.
+- `getBooks` function is used to fetch the books from the server.
+- `i18n` API to localize the given key. It uses the incoming resource from the `application-localization` endpoint.
+- `DataList` component takes the `fetchFn` property that we'll give to the API request function, it's used to fetch data and maintain the logic of lazy loading etc.
 
 ![Book List Page](../../images/book-list.png)
 
 ## Creating a New Book
 
-### Add `@react-native-community/datetimepicker` package for date picker.
+### Add the `@react-native-community/datetimepicker` package for the date functionality.
 
 ```bash
 yarn expo install @react-native-community/datetimepicker
@@ -227,9 +227,9 @@ yarn expo install @react-native-community/datetimepicker
 npx expo install @react-native-community/datetimepicker
 ```
 
-### Add `CreateUpdateBook` Screen to BookStoreNavigator
+### Add the `CreateUpdateBook` Screen to the BookStoreNavigator
 
-Like the `BookStoreScreen` we need to add `CreateUpdateBookScreen` to `./src/navigators/BookStoreNavigator.js` file.
+Like the `BookStoreScreen` we need to add the `CreateUpdateBookScreen` to the `./src/navigators/BookStoreNavigator.js` file.
 
 ```js
 //Other codes
@@ -270,7 +270,7 @@ export default function BookStoreStackNavigator() {
 }
 ```
 
-For the navigate to `CreateUpdateBookScreen` we need to add `CreateUpdateBook` button to `BooksScreen.js` file.
+To navigate to the `CreateUpdateBookScreen`, we need to add the `CreateUpdateBook` button to the `BooksScreen.js` file.
 
 ```js
 //Other imports..
@@ -327,7 +327,7 @@ const styles = StyleSheet.create({
 export default BooksScreen;
 ```
 
-After the add `CreateUpdateBook` button, we need to add `CreateUpdateBookScreen.js` file under the `./src/screens/BookStore/Books/CreateUpdateBook` folder.
+After adding the `CreateUpdateBook` button, we need to add the `CreateUpdateBookScreen.js` file under the `./src/screens/BookStore/Books/CreateUpdateBook` folder.
 
 ```js
 import PropTypes from "prop-types";
@@ -366,10 +366,10 @@ export default connectToRedux({
 });
 ```
 
-- In this page we'll store logic, send post/put request, getting selected book data and etc.
-- This page will wrap `CreateUpdateBookFrom` component and pass submit function with other props.
+- In this page we'll store logic, send post/put requests, get the selected book data and etc.
+- This page will wrap the `CreateUpdateBookFrom` component and pass the submit function with other properties.
 
-Create file under the `./src/screens/BookStore/Books/CreateUpdateBook` folder as `CreateUpdateBookForm.js`.
+Create a `CreateUpdateBookForm.js` file under the `./src/screens/BookStore/Books/CreateUpdateBook` folder and add the following code to it.
 
 ```js
 import React, { useRef, useState } from "react";
@@ -620,10 +620,10 @@ CreateUpdateBookForm.propTypes = {
 export default CreateUpdateBookForm;
 ```
 
-- `formik` will manage form state, validation and value changes.
-- `Yup` allows the build validation schema.
-- `AbpSelect` component used for select book type.
-- `submit` method will pass form values to `CreateUpdateBookScreen` component.
+- `formik` will manage the form state, validation and value changes.
+- `Yup` allows for the build validation schema.
+- `AbpSelect` component is used to select the book type.
+- `submit` method will pass the form values to the `CreateUpdateBookScreen` component.
 
 ![Create New Book Icon](../../images/create-book-icon.png)
 
@@ -631,7 +631,7 @@ export default CreateUpdateBookForm;
 
 ## Update a Book
 
-We need navigation parameter for the get bookId from navigation and navigate after the Create & Update operation. That's why we'll pass navigation parameter to `BooksScreen` component.
+We need the navigation parameter for the get bookId and then navigate it again after the Create & Update operation. That's why we'll pass the navigation parameter to the `BooksScreen` component.
 
 ```js
 //Imports..
@@ -652,7 +652,7 @@ function BookStoreScreen({ navigation }) {
 export default BookStoreScreen;
 ```
 
-Paste code below to the `BookScreen.js` file under the `./src/screens/BookStore/Books` folder.
+Replace the code below in the `BookScreen.js` file under the `./src/screens/BookStore/Books` folder.
 
 ```js
 import React from "react";
@@ -809,11 +809,11 @@ export default connectToRedux({
 });
 ```
 
-- `get` method used for fetching book detail from the server.
-- `update` method used for updating book on the server.
-- `route` parameter will used for getting bookId from navigation.
+- `get` method is used to fetch the book details from the server.
+- `update` method is used to update the book on the server.
+- `route` parameter will be used to get the bookId from the navigation.
 
-Update `CreateUpdateBookForm.js` file as below. We'll use this file for create and update operations.
+Replace the `CreateUpdateBookForm.js` file with the code below. We'll use this file for the create and update operations.
 
 ```js
 //Imports..
@@ -854,7 +854,7 @@ function CreateUpdateBookForm({
 //Other codes..
 ```
 
-- `book` is a nullable prop. It'll store selected book, if book parameter is null then we'll create new book.
+- `book` is a nullable property. It'll store the selected book, if the book parameter is null then we'll create a new book.
 
 ![Book List With Options](../../images/book-list-with-options.png)
 
@@ -862,7 +862,7 @@ function CreateUpdateBookForm({
 
 ## Delete a Book
 
-Replace code below for `BooksScreen.js` file under the `./src/screens/BookStore/Books` folder.
+Replace the code below in the `BooksScreen.js` file under the `./src/screens/BookStore/Books` folder.
 
 ```js
 import React, { useState } from "react";
@@ -988,8 +988,8 @@ const styles = StyleSheet.create({
 export default BooksScreen;
 ```
 
-- `Delete` option added to context menu list
-- `removeOnClick` method will handle delete process. It'll show alert before delete operation.
+- `Delete` option is added to context menu list
+- `removeOnClick` method will handle the delete process. It'll show an alert before the delete operation.
 
 ![Delete Book](../../images/delete-book.png)
 
@@ -999,7 +999,7 @@ export default BooksScreen;
 
 ### Hide Books item in tab
 
-Add `grantedPolicies` to policies variable from `appConfig` store
+Add `grantedPolicies` to the policies variable from the `appConfig` store
 
 ```js
 //Other imports..
@@ -1052,15 +1052,15 @@ function BookStoreScreen({ navigation }) {
 export default BookStoreScreen;
 ```
 
-- In the `useEffect` function we'll check `currentUser` and `policies` variables.
-- useEffect's condition will be the policies of the `BookStore` permission group.
-- `Books` tab will be shown if the user has `BookStore.Books` permission anymore
+- In the `useEffect` function we'll check the `currentUser` and `policies` variables.
+- useEffect's conditions will be the policies of the `BookStore` permission group.
+- `Books` tab will be shown if the user has the `BookStore.Books` permission
 
 ![Books Menu Item](../../images/books-menu-item.png)
 
 ### Hide the New Book Button
 
-`New Book` button placed in the BooksScreen as a `+` icon button, for the toggle visiblity of the button we need to add `policies` variable to `BooksScreen` component like the `BookStoreScreen` component. Open `BooksScreen.js` file in the `./src/screens/BookStore/Books` folder and include code below.
+`New Book` button is placed in the BooksScreen as a `+` icon button. For the toggle visibility of the button, we need to add the `policies` variable to the `BooksScreen` component like the `BookStoreScreen` component. Open the `BooksScreen.js` file in the `./src/screens/BookStore/Books` folder and include the code below.
 
 ```js
 //Imports..
@@ -1093,13 +1093,13 @@ function BooksScreen({ navigation }) {
 }
 ```
 
-- Now `+` icon button will be shown if the user has `BookStore.Books.Create` permission.
+- Now the `+` icon button will be shown if the user has the `BookStore.Books.Create` permission.
 
 ![Create New Book Button Policy](../../images/create-book-button-visibility.png)
 
 ### Hide the Edit and Delete Actions
 
-Update your code as below in the `./src/screens/BookStore/Books/BooksScreen.js` file. We'll check `policies` variable for the `Edit` and `Delete` actions.
+Update your code as below in the `./src/screens/BookStore/Books/BooksScreen.js` file. We'll check the `policies` variables for the `Edit` and `Delete` actions.
 
 ```js
 function BooksScreen() {
@@ -1149,7 +1149,7 @@ export const remove = id => api.delete(`/api/app/author/${id}`).then(({ data }) 
 
 ### Add Authors Tab to BookStoreScreen
 
-Open `./src/screens/BookStore/BookStoreScreen.js` file and update code below.
+Open the `./src/screens/BookStore/BookStoreScreen.js` file and update it with the code below.
 
 ```js
 //Other imports
@@ -1181,7 +1181,7 @@ function BookStoreScreen({ navigation }) {
 export default BookStoreScreen;
 ```
 
-Create `AuthorsScreen.js` file under the `./src/screens/BookStore/Authors` folder.
+Create a `AuthorsScreen.js` file under the `./src/screens/BookStore/Authors` folder and add the code below to it.
 
 ```js
 import React, { useState } from "react";
@@ -1317,7 +1317,7 @@ const styles = StyleSheet.create({
 export default AuthorsScreen;
 ```
 
-Create `CreateUpdateAuthorScreen.js` file under the `./src/screens/BookStore/Authors/CreateUpdateAuthor` folder.
+Create a `CreateUpdateAuthorScreen.js` file under the `./src/screens/BookStore/Authors/CreateUpdateAuthor` folder and add the code below to it.
 
 ```js
 import PropTypes from "prop-types";
@@ -1374,7 +1374,7 @@ export default connectToRedux({
 });
 ```
 
-Create `CreateUpdateAuthorForm.js` file under the `./src/screens/BookStore/Authors/CreateUpdateAuthor` folder.
+Create a `CreateUpdateAuthorForm.js` file under the `./src/screens/BookStore/Authors/CreateUpdateAuthor` folder and add the code below to it.
 
 ```js
 import React, { useRef, useState } from "react";
