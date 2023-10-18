@@ -127,6 +127,8 @@ abp bundle
 
 {{ if UI == "MVC" || UI == "BlazorServer" }}
 
+> Note: When you create an ABP solution, the client-side packages are being restored by ABP CLI and Suite. But if you fetch the source-code that's commited by another team member, your `libs` folder will be empty. Before starting the application, run `abp install-libs` command in your Web directory to restore the client-side libraries. This will populate the `libs` folder.
+
 {{ if Tiered == "Yes" }}
 
 > Tiered solutions use Redis as the distributed cache. Ensure that it is installed and running in your local computer. If you are using a remote Redis Server, set the configuration in the `appsettings.json` files of the projects below.
