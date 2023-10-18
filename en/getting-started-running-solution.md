@@ -91,11 +91,41 @@ Right click to the `.DbMigrator` project and select **Set as StartUp Project**
 
 {{ end }}
 
+## Before Running the Application
+
+### Installing the Client-Side Packages
+
+[ABP CLI](https://docs.abp.io/en/abp/latest/CLI) runs the `abp install-libs` command behind the scenes to install the required NPM packages for your solution while creating the application. So, if you have created the application via ABP CLI or [ABP Suite](./abp-suite/index.md), you don't need to run this command manually.
+
+However, sometimes this command might need to be manually run. For example, you need to run this command, if you have cloned the application, or the resources from *node_modules* folder didn't copy to *wwwroot/libs* folder, or if you have added a new client-side package dependency to your solution.
+
+For such cases, run the `abp install-libs` command on the root directory of your solution to install all required NPM packages:
+
+```bash
+abp install-libs
+```
+
+> We suggest you install [Yarn](https://classic.yarnpkg.com/) to prevent possible package inconsistencies, if you haven't installed it yet.
+
+{{if UI=="Blazor" || UI=="BlazorServer"}}
+
+### Bundling and Minification
+
+`abp bundle` command offers bundling and minification support for client-side resources (JavaScript and CSS files) for Blazor projects. This command automatically run when you create a new solution with the [ABP CLI](https://docs.abp.io/en/abp/latest/CLI).
+
+However, sometimes you might need to run this command manually. To update script & style references without worrying about dependencies, ordering, etc. in a project, you can run this command in the directory of your blazor application:
+
+```bash
+abp bundle
+```
+
+> For more details about managing style and script references in Blazor or MAUI Blazor apps, see [Managing Global Scripts & Styles](https://docs.abp.io/en/abp/latest/UI/Blazor/Global-Scripts-Styles).
+
+{{end}}
+
 ## Run the application
 
 {{ if UI == "MVC" || UI == "BlazorServer" }}
-
-> Warning: When you create an ABP solution, the client-side packages are being restored by ABP CLI and Suite. But if you fetch the source-code that's commited by another team member, your `libs` folder will be empty. Before starting the application, run `abp install-libs` command in your Web directory to restore the client-side libraries. This will populate the `libs` folder.
 
 {{ if Tiered == "Yes" }}
 
