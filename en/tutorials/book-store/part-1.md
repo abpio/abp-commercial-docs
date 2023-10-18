@@ -59,6 +59,7 @@ abp install-libs
 ```
 
 > We suggest you install [Yarn](https://classic.yarnpkg.com/) to prevent possible package inconsistencies, if you haven't installed it yet.
+
 {{if UI=="Blazor" || UI="BlazorServer"}}
 
 ### Bundling and Minification
@@ -72,6 +73,7 @@ abp bundle
 ```
 
 > For more details about managing style and script references in Blazor or MAUI Blazor apps, see [Managing Global Scripts & Styles](https://docs.abp.io/en/abp/latest/UI/Blazor/Global-Scripts-Styles).
+
 {{end}}
 
 
