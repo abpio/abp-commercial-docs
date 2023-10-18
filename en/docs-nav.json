@@ -83,11 +83,7 @@
         {
           "text": "Customizing the Modules",
           "path": "guides/customizing-modules.md"
-        },
-        {
-          "text": "IdentityServer Deployment",
-          "path": "guides/identityserver-deployment.md"
-        },
+        },        
         {
           "text": "Migrating to OpenIddict",
           "path": "migration-guides/openIddict-step-by-step.md"
@@ -146,11 +142,36 @@
                 },
                 {
                   "text": "Azure Deployment",
-                  "path": "startup-templates/application/deployment-azure-application-service.md"
+                  "items": [
+                    {
+                      "text": "Deploy to Azure Web App Service",
+                      "path": "startup-templates/application/azure-deployment/azure-deployment.md"
+                    },
+                    {
+                      "text": "Creating an Azure Web App Service Environment",
+                      "path": "startup-templates/application/azure-deployment/step1-create-azure-resources.md"
+                    },
+                    {
+                      "text": "Customizing the Configuration of Your ABP Application",
+                      "path": "startup-templates/application/azure-deployment/step2-configuration-application.md"
+                    },
+                    {
+                      "text": "Deploying Application With GitHub Actions",
+                      "path": "startup-templates/application/azure-deployment/step3-deployment-github-action.md"
+                    }
+                  ]
                 },
                 {
                   "text": "IIS Deployment",
                   "path": "startup-templates/application/deployment-iis.md"
+                },
+                {
+                  "text": "IdentityServer Deployment",
+                  "path": "guides/identityserver-deployment.md"
+                },
+                {
+                  "text": "OpenIddict Deployment",
+                  "path": "guides/openiddict-deployment.md"
                 }
               ]
             }
@@ -286,6 +307,10 @@
             {
               "text": "Tenant & User Impersonation",
               "path": "modules/account/impersonation.md"
+            },
+            {
+              "text": "Linked Accounts",
+              "path": "modules/account/linkedaccounts.md"
             }
           ]
         },
@@ -438,6 +463,10 @@
             {
               "text": "Entity Filters",
               "path": "ui/angular/entity-filters.md"
+            },
+            {
+              "text": "Password Complexity Indicator",
+              "path": "ui/angular/password-complexity-indicator-component.md"
             }
           ]
         }

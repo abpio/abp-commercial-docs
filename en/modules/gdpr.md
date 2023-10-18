@@ -80,6 +80,7 @@ Configure<AbpCookieConsentOptions>(options =>
     IsEnabled = true;
     CookiePolicyUrl = "/CookiePolicy";
     PrivacyPolicyUrl = "/PrivacyPolicy";
+    Expiration = TimeSpan.FromDays(180);
 });
 ```
 
@@ -88,6 +89,7 @@ Configure<AbpCookieConsentOptions>(options =>
 * `IsEnabled` (default: false): This flag enables or disables the **Cookie Consent** feature.
 * `CookiePolicyUrl`: It defines the cookie policy page URL. When it's set, "Cookie Policy" page URL is automatically added to the cookie consent statement. Thus, users can check the cookie policy before accepting the cookie consent. You can set it as a local address like `/CookiePolicy` or full URL like `https://example.com/cookie-policy`.
 * `PrivacyPolicyUrl`: It defines the privacy policy page URL. When it's set, the "Privacy Policy" page URL is automatically added to the cookie consent statement. Thus, users can check the privacy policy before accepting the cookie consent. You can set it as a local address like `/PrivacyPolicy` or full URL like `https://example.com/privacy-policy`.
+* `Expiration`: It defines the cookie expiration for the Cookie Consent. By default, when the cookie consent is accepted, it sets a `.AspNet.Consent` cookie with 6 months expiration.
 
 ## Internals
 
@@ -162,9 +164,9 @@ See the [connection strings](https://docs.abp.io/en/abp/latest/Connection-String
 
 ![Entities](../images/gdpr-entity-relationship.png)
 
-### Angular UI
+## Angular UI
 
-#### Installation
+### Installation
 
 In order to configure the application to use the `GdprModule`, you first need to import `GdprConfigModule` from `@volo/abp.ng.gdpr/config` to the root module. `GdprConfigModule` has a static `forRoot` method which you should call for a proper configuration.
 

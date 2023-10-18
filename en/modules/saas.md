@@ -313,4 +313,30 @@ The Saas module remote URL configurations shown above are optional. If you don't
 
 ## Distributed Events
 
-This module doesn't define any additional distributed events. See the [standard distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
+
+This module defines the following ETOs (Event Transfer Objects) to allow you to subscribe to changes on the entities of the module;
+
+- `TenantEto` is published on changes done on a `Tenant` entity.
+- `EditionEto` is published on changes done on an `Edition` entity.
+
+**Example: Get notified when a new tenant has been created**
+
+```
+public class MyHandler :
+    IDistributedEventHandler<EntityCreatedEto<TenantEto>>,
+    ITransientDependency
+{
+    public async Task HandleEventAsync(EntityCreatedEto<TenantEto> eventData)
+    {
+        TenantEto tenant = eventData.Entity;
+        // TODO: ...
+    }
+}
+```
+
+
+
+`TenantEto` and `EditionEto` are configured to automatically publish the events. You should configure yourself for the others. See the [Distributed Event Bus document](https://github.com/abpframework/abp/blob/rel-7.3/docs/en/Distributed-Event-Bus.md) to learn details of the pre-defined events.
+
+> Subscribing to the distributed events is especially useful for distributed scenarios (like microservice architecture). If you are building a monolithic application, or listening events in the same process that runs the Tenant Management Module, then subscribing to the [local events](https://github.com/abpframework/abp/blob/rel-7.3/docs/en/Local-Event-Bus.md) can be more efficient and easier.
+

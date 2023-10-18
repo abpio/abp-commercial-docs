@@ -1,8 +1,13 @@
 # Microservice Template: Tye Integration
 
-> This documentation introduces guidance for running your microservice template on [dotnet/tye](https://github.com/dotnet/tye). We suggest using tye for your development environment. You can check [tye getting started page](https://github.com/dotnet/tye/blob/main/docs/getting_started.md) for installation. Running angular application on tye is not supported yet however you can still run all the other stack on tye and run the angular application as it is.
+> This documentation introduces guidance for running your microservice template on [dotnet/tye](https://github.com/dotnet/tye). We suggest using tye for your development environment. You can check [tye getting started page](https://github.com/dotnet/tye/blob/main/docs/getting_started.md) for installation. Running angular application on tye is not supported yet however you can still run all the other stack on tye and run the angular application as it is. 
 
-## **Create Developer Certificates** 
+**Tye integration is already done in the microservice template**. When you run the `run-tye.ps1` script, it will automatically create the developer certificates, start the docker infrastructure and run the tye using the `--watch` flag.
+
+## **Create Developer Certificates**
+
+Developer certificates are required to run the application on HTTPS and the generated **certificate file** and **password** are used for *Kestrel_Certificate* environment.
+
 - **Windows Users:** Run the powershell script file `create-certificate.ps1`. This file will create a self-signed certificate named `localhost.pfx` with a predefined password using **dotnet dev-certs** command. 
 - **Linux Users:** dotnet dev-certs may not be fully working on Linux so you may need to generate and trust your own certificate and put `localhost.pfx` file under **etc/dev-cert** folder inside solution directory.
 
@@ -33,8 +38,7 @@
 
 > Make sure you are already [running the infrastructure](index.md#run-the-infrastructure).
 
-Use the command `tye run` under your main solution directory to run the solution.
-Or you can execute the `run-tye.ps1` PowerShell script to simply start your solution.
+Use the command `tye run` under your main solution directory to run the solution. It will use configured services in the `tye.yaml` file located under the main solution folder.
 
 
 ![tye-run](../../images/tye-run.png)
@@ -83,7 +87,9 @@ tye run --watch
 
 ### Stop
 
-To stop tye, simply use the command `Ctrl+C` on the console tye is running. Keep in mind that, **close the tye dashboard** before stopping tye since tye may sometime fail to stop processes successfully.
+To stop tye, simply use the command `Ctrl+C` on the console tye is running. Keep in mind that, **close the tye dashboard** before stopping tye since tye may sometime fail to stop processes successfully. 
+
+> Even if you stop tye, docker infrastructure will still be running. You can use `stop-docker.ps1` (or `stop-docker.sh`) script to stop the docker infrastructure aswell.
 
 ## Next
 

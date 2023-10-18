@@ -1,3 +1,0 @@
-# OpenIddicit Deployment
-
-In progress...
