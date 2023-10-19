@@ -2,7 +2,7 @@
 
 ## About This Tutorial
 
-This tutorial assumes that you have completed the [Web Application Development tutorial](../part-1.md) and built an ABP based application named `Acme.BookStore`. In this tutorial, we will only focus on the UI side of the `Acme.BookStore` application and we will implement the CRUD operations for a MAUI mobile application.
+This tutorial assumes that you have completed the [Web Application Development tutorial](../part-1.md) and built an ABP based application named `Acme.BookStore`. In this tutorial, we will only focus on the UI side of the `Acme.BookStore` application and we will implement the CRUD operations for a MAUI mobile application. This tutorial follows the [MVVM (Model-View-ViewModel) Pattern ](https://learn.microsoft.com/en-us/dotnet/architecture/maui/mvvm), which separates the UI from the business logic of an application.
 
 ## Download the Source Code
 
@@ -99,6 +99,8 @@ Create a content page, `AuthorsPage.xaml` under the `Pages` folder of the `Acme.
 
 This is a simple page that lists Authors, allow opening a create modal to create a new author, editing an existing one and deleting an author. 
 
+//TODO: add authors page image!
+
 ### AuthorsPage.xaml.cs
 
 Let's create the `AuthorsPage.xaml.cs` code-behind class and copy paste content below:
@@ -119,7 +121,7 @@ public partial class AuthorsPage : ContentPage, ITransientDependency
 }
 ```
 
-Here, we register our pages as `Transient` lifetime, so we can use it later on for navigation purposes and indicating the binding source (`BindingContext`) as the `AuthorPageViewModel` to get full benefit of [the MVVM pattern](https://learn.microsoft.com/en-us/dotnet/architecture/maui/mvvm), which we will create in the next section.
+Here, we register our pages as `Transient` lifetime, so we can use it later on for navigation purposes and indicating the binding source (`BindingContext`) as the `AuthorPageViewModel` to get full benefit of [the MVVM pattern](https://learn.microsoft.com/en-us/dotnet/architecture/maui/mvvm). We haven't created the `AuthorPageViewModel` class yet, so let's create it.
 
 ### AuthorPageViewModel.cs
 
@@ -319,8 +321,8 @@ namespace Acme.BookStore.Maui.ViewModels
 
 The `AuthorPageViewModel` class is where all the logic of the `Authors` page lays behind. Here, we do the following things:
 
-* We have gotten all authors from the database and set those records into the `Items` property, which is a type of `ObservableCollection<AuthorDto>`, so whenever the authors list changes then the grid will be refreshed.
-* We have defined `OpenCreateModal` and `OpenEditModal` methods to navigate to the create modal and edit modal pages (we haven't created them and we will create them in the following sections).
+* We have fetched all authors from the database and set those records into the `Items` property, which is a type of `ObservableCollection<AuthorDto>`, so whenever the authors list changes then the *CollectionView* will be refreshed.
+* We have defined `OpenCreateModal` and `OpenEditModal` methods to navigate to the create modal and edit modal pages (_we will create them in the following sections_).
 * We have defined `ShowActions` method to allow editing or deleting a specific author.
 * We have created the `Delete` method, which deletes a specific author and re-render the grid.
 * And finally, we have implemented `IRecipient<AuthorCreateMessage>` and `IRecipient<AuthorEditMessage>` interfaces to refresh the grid after creating a new author or editing an existing one. (We will create the `AuthorCreateMessage` and `AuthorEditMessage` classes in the following sections)
@@ -353,7 +355,7 @@ public partial class AppShell : Shell, ITransientDependency
 }
 ```
 
-//TODO: description!!!
+Since, we need to navigate to the create modal and edit modal pages whenever the action buttons are clicked, we need to register those pages with their routes. We can do this in the `AppShell.xaml.cs` file, which is responsible to provide the navigation for the application.
 
 ## Creating a New Author
 
@@ -409,7 +411,11 @@ Create a new content page, `AuthorCreatePage.xaml` under the `Pages` folder of t
 </ContentPage>
 ```
 
-//TODO: description!!!
+In this page, we have defined the form elements that needed to create an author such as `Name`, `ShortBio` and `BirthDate`. Whenever a user clicks the *Save* button, the **CreateCommand** will be triggered and will create a new author, if the operation goes successfully. 
+
+//TODO: add author create page image!
+
+Let's define the `AuthorCreateViewModel` as *BindingContext* of this page and then define the logic of the **CreateCommand**.
 
 ### AuthorCreatePage.xaml.cs
 
@@ -430,8 +436,6 @@ public partial class AuthorCreatePage : ContentPage, ITransientDependency
 	}
 }
 ```
-
-//TODO: description!!!
 
 ### AuthorCreateViewModel.cs
 
@@ -493,7 +497,12 @@ namespace Acme.BookStore.Maui.ViewModels
 }
 ```
 
-//TODO: description!!!
+Here, we do the following things:
+
+* This class simply injects and uses the `IAuthorAppService` to create a new author.
+* We have created two methods for the actions in the **AuthorCreatePage**, which are `Cancel` and `Create` methods.
+* `Cancel` method simply returns to the previous page, **AuthorPage**.
+* `Create` method creates a new author whenever the *Save* button clicked on the **AuthorCreatePage**.
 
 ### AuthorCreateMessage.cs
 
@@ -514,7 +523,7 @@ namespace Acme.BookStore.Maui.Messages
 }
 ```
 
-//TODO: description!!!
+This class is used to represents a message that we gonna use for trigger a return result after the author creation and then we subscribe to this message and update the grid on the **AuthorsPage**.
 
 ## Updating an Author
 
@@ -570,7 +579,11 @@ Create a new content page, `AuthorEditPage.xaml` under the `Pages` folder of the
 </ContentPage>
 ```
 
-//TODO: description!!!
+In this page, we have defined the form elements that needed to edit an author such as `Name`, `ShortBio` and `BirthDate`. Whenever a user clicks the *Save* button, the **UpdateCommand** will be triggered and will update an existing author, if the operation goes successfully. 
+
+//TODO: add author edit page image!
+
+Let's define the `AuthorEditViewModel` as *BindingContext* of this page and then define the logic of the **UpdateCommand**.
 
 ### AuthorEditPage.xaml.cs
 
@@ -591,8 +604,6 @@ public partial class AuthorEditPage : ContentPage, ITransientDependency
 	}
 }
 ```
-
-//TODO: description!!!
 
 ### AuthorEditViewModel.cs
 
@@ -688,7 +699,13 @@ namespace Acme.BookStore.Maui.ViewModels
 }
 ```
 
-//TODO: description!!!
+Here, we do the following things:
+
+* This class simply injects and uses the `IAuthorAppService` to updating an existing author.
+* We have created three methods for the actions in the **AuthorEditPage**, which are `GetAuthor`, `Cancel` and `Update` methods.
+* `GetAuthor` method used to get the author from the `Id` query parameter and set to the `Author` property.
+* `Cancel` method simply returns to the previous page, **AuthorPage**.
+* `Update` method updates an existing author whenever the *Save* button clicked on the **AuthorEditPage**.
 
 ### AuthorEditMessage.cs
 
@@ -709,7 +726,7 @@ namespace Acme.BookStore.Maui.Messages
 }
 ```
 
-//TODO: description!!!
+This class is used to represents a message that we gonna use for trigger a return result after an author updated and then we subscribe to this message and update the grid on the **AuthorsPage**.
 
 ## Add Author Menu Item to the Main Menu
 
@@ -727,7 +744,7 @@ Open the `AppShell.xaml` file and add the following code under the *Settings* me
     </FlyoutItem>
 ```
 
-//TODO: description!!!
+This code block adds a new *Authors* menu item under the *Settings* menu item. We need to show this menu item only the required permission is granted. So, let's update the `ShellViewModel.cs` class and check if the permission is granted or not.
 
 ### ShellViewModel.cs
 
@@ -754,11 +771,11 @@ public partial class ShellViewModel : BookStoreViewModelBase, ITransientDependen
 }
 ```
 
-//TODO: description!!!
+//TODO: show authors menu item ss!!
 
 ## Create the Books Page - List & Delete Books
 
-Create a content page, `BooksPage.xaml` under the `Pages` folder of the `Acme.BookStore.Maui` project and change the content as given below:
+Create a new content page, `BooksPage.xaml` under the `Pages` folder of the `Acme.BookStore.Maui` project and change the content as given below:
 
 ### BooksPage.xaml
 
@@ -850,9 +867,13 @@ Create a content page, `BooksPage.xaml` under the `Pages` folder of the `Acme.Bo
 </ContentPage>
 ```
 
-//TODO: description!!!
+This is a simple page that lists books, allow opening a create modal to create a new book, editing an existing one and deleting a book. 
+
+//TODO: add books page image!
 
 ### BooksPage.xaml.cs
+
+Create the `BooksPage.xaml.cs` code-behind class and copy paste content below:
 
 ```cs
 using Acme.BookStore.Maui.ViewModels;
@@ -870,9 +891,9 @@ public partial class BooksPage : ContentPage, ITransientDependency
 }
 ```
 
-//TODO: description!!!
-
 ### BookPageViewModel.cs
+
+Create a view model class, `BookPageViewModel` under the `ViewModels` folder of the project and change the content as follows:
 
 ```csharp
 using Acme.BookStore.Books;
@@ -1061,7 +1082,13 @@ namespace Acme.BookStore.Maui.ViewModels
 }
 ```
 
-//TODO: description!!!
+The `BookPageViewModel` class is where all the logic of the `Books` page lays behind. Here, we do the following things:
+
+* We have fetched all books from the database and set those records into the `Items` property, which is a type of `ObservableCollection<BookDto>`, so whenever the book list changes then the *CollectionView* will be refreshed.
+* We have defined `OpenCreateModal` and `OpenEditModal` methods to navigate to the create modal and edit modal pages (_we will create them in the following sections_).
+* We have defined `ShowActions` method to allow editing or deleting a certain book.
+* We have created the `Delete` method, which deletes a specific book and re-render the grid.
+* And finally, we have implemented `IRecipient<BookCreateMessage>` and `IRecipient<BookEditMessage>` interfaces to refresh the grid after creating a new book or editing an existing one. (We will create the `BookCreateMessage` and `BookEditMessage` classes in the following sections)
 
 ### Registering Book Page Routes
 
@@ -1088,14 +1115,14 @@ public partial class AppShell : Shell, ITransientDependency
         Routing.RegisterRoute(nameof(AuthorCreatePage), typeof(AuthorCreatePage));
         Routing.RegisterRoute(nameof(AuthorEditPage), typeof(AuthorEditPage));
 
-        //Books - register book pape routes
+        //Books - register book page routes
         Routing.RegisterRoute(nameof(BookCreatePage), typeof(BookCreatePage));
         Routing.RegisterRoute(nameof(BookEditPage), typeof(BookEditPage));
     }
 }
 ```
 
-//TODO: description!!!
+Since, we need to navigate to the create modal and edit modal pages whenever the action buttons are clicked, we need to register those pages with their routes. We can do this in the `AppShell.xaml.cs` file, which is responsible to provide the navigation for the application.
 
 ## Creating a New Book
 
@@ -1168,7 +1195,11 @@ Create a new content page, `BookCreatePage.xaml` under the `Pages` folder of the
 </ContentPage>
 ```
 
-//TODO: description!!!
+In this page, we have defined the form elements that needed to create a book such as `Name`, `Type`, `AuthorId` and `PublishDate`. Whenever a user clicks the *Save* button, the **CreateCommand** will be triggered and will create a new book, if the operation goes successfully. 
+
+//TODO: add book create page image!
+
+Let's define the `BookCreateViewModel` as *BindingContext* of this page and then define the logic of the **CreateCommand**.
 
 ### BookCreatePage.xaml.cs
 
@@ -1188,9 +1219,9 @@ public partial class BookCreatePage : ContentPage, ITransientDependency
 }
 ```
 
-//TODO: description!!!
-
 ### BookCreateViewModel.cs
+
+Create a view model class, `BookCreateViewModel` under the `ViewModels` folder of the project and change the content as follows:
 
 ```csharp
 using Acme.BookStore.Books;
@@ -1281,7 +1312,12 @@ namespace Acme.BookStore.Maui.ViewModels
 }
 ```
 
-//TODO: description!!!
+Here, we do the following things:
+
+* This class simply injects and uses the `IBookAppService` to create a new book.
+* We have created two methods for the actions in the **BookCreatePage**, which are `Cancel` and `Create` methods.
+* `Cancel` method simply returns to the previous page, **BooksPage**.
+* `Create` method creates a new book whenever the *Save* button clicked on the **BookCreatePage**.
 
 ### BookCreateMessage.cs
 
@@ -1302,7 +1338,7 @@ namespace Acme.BookStore.Maui.Messages
 }
 ```
 
-//TODO: description!!!
+This class is used to represents a message that we gonna use for trigger a return result after the book creation and then we subscribe to this message and update the grid on the **BooksPage**.
 
 ## Updating a Book
 
@@ -1371,7 +1407,11 @@ Create a new content page, `BookEditPage.xaml` under the `Pages` folder of the `
 </ContentPage>
 ```
 
-//TODO: description!!!
+In this page, we have defined the form elements that needed to edit a book such as `Name`, `Type`, `AuthorId` and `PublishDate`. Whenever a user clicks the *Save* button, the **UpdateCommand** will be triggered and will update an existing book, if the operation goes successfully. 
+
+//TODO: add book edit page image!
+
+Let's define the `BookEditViewModel` as *BindingContext* of this page and then define the logic of the **UpdateCommand**.
 
 ### BookEditPage.xaml.cs
 
@@ -1391,9 +1431,9 @@ public partial class BookEditPage : ContentPage, ITransientDependency
 }
 ```
 
-//TODO: description!!!
-
 ### BookEditViewModel.cs
+
+Create a view model class, `BookEditViewModel` under the `ViewModels` folder of the project and change the content as follows:
 
 ```csharp
 using Acme.BookStore.Books;
@@ -1523,9 +1563,18 @@ namespace Acme.BookStore.Maui.ViewModels
 }
 ```
 
-//TODO: description!!!
+Here, we do the following things:
+
+* This class simply injects and uses the `IBookAppService` to updating an existing book.
+* We have created four methods for the actions in the **BookEditPage**, which are `GetBook`, `GetAuthors`, `Cancel` and `Update` methods.
+* `GetBook` method used to get the book from the `Id` query parameter and set to the `Book` property.
+* `GetAuthors` method used to get the author lookup for list the authors in a picker.
+* `Cancel` method simply returns to the previous page, **BooksPage**.
+* `Update` method updates an existing book whenever the *Save* button clicked on the **BookEditPage**.
 
 ### BookEditMessage.cs
+
+Create a class, `BookEditMessage` under the `Messages` folder of the project and change the content as follows:
 
 ```csharp
 using Acme.BookStore.Books;
@@ -1542,7 +1591,7 @@ namespace Acme.BookStore.Maui.Messages
 }
 ```
 
-//TODO: description!!!
+This class is used to represents a message that we gonna use for trigger a return result after a book is updated and then we subscribe to this message and update the grid on the **BooksPage**.
 
 ## Add Book Menu Item to the Main Menu
 
@@ -1560,7 +1609,7 @@ Open the `AppShell.xaml` file and add the following code before the *Authors* me
     </FlyoutItem>
 ```
 
-//TODO: description!!!
+This code block adds a new *Books* menu item before the *Authors* menu item. We need to show this menu item only the required permission is granted. So, let's update the `ShellViewModel.cs` class and check if the permission is granted or not.
 
 ### ShellViewModel.cs
 
@@ -1588,10 +1637,8 @@ public partial class ShellViewModel : BookStoreViewModelBase, ITransientDependen
 }
 ```
 
-//TODO: description!!!
+//TODO: show books menu item ss!!
 
 ## Run the Application
 
 That's all! You can run the application and login. Then you can navigate through pages, list, create, update and/or delete authors and books.
-
-//TODO: add some screenshots!!!
