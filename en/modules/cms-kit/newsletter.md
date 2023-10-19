@@ -20,9 +20,15 @@ By default, CMS Kit features are disabled. Therefore, you need to enable the fea
 
 #### Newsletters
 
-You can then view the subscribers and export the list as CSV file, in the admin side of your solution.
+You can then view the subscribers and export the list as CSV file, in the admin side of your solution:
 
 ![newsletter-page](../../images/cmskit-module-newsletter-page.png)
+
+#### Email Preferences Management
+
+You (and users of your public web application) can manage your email preferences and unsubscribe from newsletters by visiting the **Email Preferences page** (*/cms/newsletter/email-preferences*), in the public side of your solution:
+
+![manage-email-preferences](../../images/manage-email-preferences.png)
 
 ## The Newsletter Subscription Widget
 
