@@ -99,7 +99,7 @@ Create a content page, `AuthorsPage.xaml` under the `Pages` folder of the `Acme.
 
 This is a simple page that lists Authors, allow opening a create modal to create a new author, editing an existing one and deleting an author. 
 
-//TODO: add authors page image!
+![](../images/maui-authors-page.jpg)
 
 ### AuthorsPage.xaml.cs
 
@@ -413,7 +413,7 @@ Create a new content page, `AuthorCreatePage.xaml` under the `Pages` folder of t
 
 In this page, we have defined the form elements that needed to create an author such as `Name`, `ShortBio` and `BirthDate`. Whenever a user clicks the *Save* button, the **CreateCommand** will be triggered and will create a new author, if the operation goes successfully. 
 
-//TODO: add author create page image!
+![](../images/maui-authors-create.jpg)
 
 Let's define the `AuthorCreateViewModel` as *BindingContext* of this page and then define the logic of the **CreateCommand**.
 
@@ -581,7 +581,7 @@ Create a new content page, `AuthorEditPage.xaml` under the `Pages` folder of the
 
 In this page, we have defined the form elements that needed to edit an author such as `Name`, `ShortBio` and `BirthDate`. Whenever a user clicks the *Save* button, the **UpdateCommand** will be triggered and will update an existing author, if the operation goes successfully. 
 
-//TODO: add author edit page image!
+![](../images/maui-authors-edit.jpg)
 
 Let's define the `AuthorEditViewModel` as *BindingContext* of this page and then define the logic of the **UpdateCommand**.
 
@@ -771,7 +771,7 @@ public partial class ShellViewModel : BookStoreViewModelBase, ITransientDependen
 }
 ```
 
-//TODO: show authors menu item ss!!
+![](../images/maui-authors-menu.jpg)
 
 ## Create the Books Page - List & Delete Books
 
@@ -869,7 +869,7 @@ Create a new content page, `BooksPage.xaml` under the `Pages` folder of the `Acm
 
 This is a simple page that lists books, allow opening a create modal to create a new book, editing an existing one and deleting a book. 
 
-//TODO: add books page image!
+![](../images/maui-books-page.jpg)
 
 ### BooksPage.xaml.cs
 
@@ -1197,7 +1197,7 @@ Create a new content page, `BookCreatePage.xaml` under the `Pages` folder of the
 
 In this page, we have defined the form elements that needed to create a book such as `Name`, `Type`, `AuthorId` and `PublishDate`. Whenever a user clicks the *Save* button, the **CreateCommand** will be triggered and will create a new book, if the operation goes successfully. 
 
-//TODO: add book create page image!
+![](../images/maui-books-create.jpg)
 
 Let's define the `BookCreateViewModel` as *BindingContext* of this page and then define the logic of the **CreateCommand**.
 
@@ -1409,7 +1409,7 @@ Create a new content page, `BookEditPage.xaml` under the `Pages` folder of the `
 
 In this page, we have defined the form elements that needed to edit a book such as `Name`, `Type`, `AuthorId` and `PublishDate`. Whenever a user clicks the *Save* button, the **UpdateCommand** will be triggered and will update an existing book, if the operation goes successfully. 
 
-//TODO: add book edit page image!
+![](../images/maui-books-edit.jpg)
 
 Let's define the `BookEditViewModel` as *BindingContext* of this page and then define the logic of the **UpdateCommand**.
 
@@ -1637,7 +1637,7 @@ public partial class ShellViewModel : BookStoreViewModelBase, ITransientDependen
 }
 ```
 
-//TODO: show books menu item ss!!
+![](../images/maui-books-menu.jpg)
 
 ## Run the Application
 
