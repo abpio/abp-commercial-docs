@@ -415,7 +415,7 @@ In this page, we have defined the form elements that are needed to create an aut
 
 ![](../images/maui-authors-create.jpg)
 
-Let's define the `AuthorCreateViewModel` as a the *BindingContext* of this page and then define the logic of the **CreateCommand**.
+Let's define the `AuthorCreateViewModel` as the *BindingContext* of this page and then define the logic of the **CreateCommand**.
 
 ### AuthorCreatePage.xaml.cs
 
