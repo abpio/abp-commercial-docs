@@ -56,7 +56,7 @@ export default function DrawerNavigator() {
       <Drawer.Screen
         name="BookStoreStack"
         component={BookStoreStackNavigator}
-        options={{ header: () => null }}
+        options={%{{{ header: () => null }}}%}
       />
       {/*Added Screen*/}
     </Drawer.Navigator>
@@ -78,7 +78,7 @@ const Stack = createNativeStackNavigator();
 
 export default function BookStoreStackNavigator() {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={%{{{ flex: 1 }}}%}>
       <Stack.Navigator initialRouteName="BookStore">
         <Stack.Screen
           name="BookStore"
@@ -163,7 +163,7 @@ function BookStoreScreen({ navigation }) {
 
   return (
     <BottomNavigation
-      navigationState={{ index, routes }}
+      navigationState={%{{{ index, routes }}}%}
       onIndexChange={setIndex}
       renderScene={renderScene}
     />
@@ -189,7 +189,7 @@ function BooksScreen({ navigation }) {
   const currentUser = useSelector(createAppConfigSelector())?.currentUser;
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <View style={%{{{ flex: 1, backgroundColor: theme.colors.background }}}%}>
       {currentUser?.isAuthenticated && (
         <DataList
           navigation={navigation}
@@ -242,7 +242,7 @@ import CreateUpdateBookScreen from "../screens/BookStore/Books/CreateUpdateBook/
 
 export default function BookStoreStackNavigator() {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={%{{{ flex: 1 }}}%}>
       <Stack.Navigator initialRouteName="BookStore">
         {/*Other screens*/}
 
@@ -289,7 +289,7 @@ function BooksScreen({ navigation }) {
   //Other codes..
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <View style={%{{{ flex: 1, backgroundColor: theme.colors.background }}}%}>
       {/* Other codes..*/}
 
       {/* Included Code */}
@@ -474,7 +474,7 @@ function CreateUpdateBookForm({ submit }) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <View style={%{{{ flex: 1, backgroundColor: theme.colors.background }}}%}>
       <AbpSelect
         key="typeSelect"
         title={i18n.t("BookStore::Type")}
@@ -697,7 +697,7 @@ function BooksScreen({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <View style={%{{{ flex: 1, backgroundColor: theme.colors.background }}}%}>
       {currentUser?.isAuthenticated && (
         <DataList
           navigation={navigation}
@@ -932,7 +932,7 @@ function BooksScreen({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <View style={%{{{ flex: 1, backgroundColor: theme.colors.background }}}%}>
       {currentUser?.isAuthenticated && (
         <DataList
           navigation={navigation}
@@ -1041,7 +1041,7 @@ function BookStoreScreen({ navigation }) {
   return (
     routes?.length > 0 && (
       <BottomNavigation
-        navigationState={{ index, routes }}
+        navigationState={%{{{ index, routes }}}%}
         onIndexChange={setIndex}
         renderScene={renderScene}
       />
@@ -1259,7 +1259,7 @@ function AuthorsScreen({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <View style={%{{{ flex: 1, backgroundColor: theme.colors.background }}}%}>
       {currentUser?.isAuthenticated && (
         <DataList
           navigation={navigation}
@@ -1470,7 +1470,7 @@ function CreateUpdateAuthorForm({ submit, author = null }) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <View style={%{{{ flex: 1, backgroundColor: theme.colors.background }}}%}>
       {birthDateVisible && (
         <DateTimePicker
           testID="birthDatePicker"
@@ -1729,7 +1729,7 @@ function CreateUpdateBookForm({ submit, book = null, authors = [] }) {
 
   //Add `AbpSelect` component and TextInput for authors
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <View style={%{{{ flex: 1, backgroundColor: theme.colors.background }}}%}>
       <AbpSelect
         key="authorSelect"
         title={i18n.t("BookStore::Authors")}
