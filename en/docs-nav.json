@@ -72,6 +72,10 @@
             {
               "text": "MAUI",
               "path": "tutorials/book-store/mobile/maui.md"
+            },
+            {
+              "text": "React Native",
+              "path": "tutorials/mobile/react-native.md"
             }
           ]
         }
