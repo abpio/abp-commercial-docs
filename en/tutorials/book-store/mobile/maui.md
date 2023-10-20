@@ -548,7 +548,7 @@ Create a new content page, `AuthorEditPage.xaml` under the `Pages` folder of the
     </ContentPage.ToolbarItems>
 
     <ScrollView>
-        <VerticalStackLayout>
+        <VerticalStackLayout Padding="20" Spacing="20">
             <Border StyleClass="AbpInputContainer">
                 <VerticalStackLayout>
                     <Label Text="{ext:Translate Name}" />
