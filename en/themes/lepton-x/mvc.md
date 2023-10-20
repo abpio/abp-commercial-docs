@@ -36,7 +36,7 @@ abp add-package Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX
 ```
 
 ## Source-Code
-You can download the source-code of the LeptonX Theme according you your ABP Commercial License.
+You can download the source code of the LeptonX Theme according to your ABP Commercial License.
 
 Visit the [LeptonX Source Code](index#source-code) section to download the source-code.
 

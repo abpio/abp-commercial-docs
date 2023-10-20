@@ -998,7 +998,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.AspNetCore.Components.Web.Theming.PageToolbars;
 {{if UI == "MAUIBlazor"}}
 namespace Acme.BookStore.MauiBlazor.Pages; {{else}}
-namespace Acme.BookStore.Blazor; {{end}}
+namespace Acme.BookStore.Blazor.Pages; {{end}}
 
 public partial class Authors
 {

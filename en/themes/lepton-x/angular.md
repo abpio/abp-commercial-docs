@@ -33,6 +33,23 @@ import { SideMenuLayoutModule } from '@volosoft/abp.ng.theme.lepton-x/layouts';
 })
 export class AppModule {}
 ```
+If you want to use the **`Top Menu`** instead of the **`Side Menu`**, you can follow the code below and [this style imports](https://docs.abp.io/en/abp/7.4/UI/Angular/Theme-Configurations#lepton-x-commercial)
+```js
+import { HttpErrorComponent, ThemeLeptonXModule } from '@volosoft/abp.ng.theme.lepton-x';
+import { TopMenuLayoutModule } from '@volosoft/abp.ng.theme.lepton-x/layouts';
+
+@NgModule({
+  // ...
+  imports: [
+    // ...
+    // ThemeLeptonModule.forRoot(), -> remove this line.
+    ThemeLeptonXModule.forRoot(),
+    TopMenuLayoutModule.forRoot(),
+  ],
+  // ...
+})
+export class AppModule {}
+```
 
 Note: If you are using [Resource Owner Password Flow](https://docs.abp.io/en/abp/latest/UI/Angular/Authorization#resource-owner-password-flow) for authorization, you should import the following module as well to `app.module.ts`:
 
@@ -309,5 +326,9 @@ this.replaceableComponents.add({
 
 If you want to create your own layout, please refer to the [Custom layout usage with Lepton X components](./how-to-use-lepton-x-components-with-angular-custom-layout.md) documentation.
 
-## Create a New Variation
+## Create a New Appearance
 If you want to create your own LeptonX appearance, [see the docs](./angular/how-to-add-a-new-variation-to-lepton-x-for-angular.md) 
+
+
+## Change the Default Appearance
+The default appearance is "system" but if you want to define another value, [see the docs](./angular/how-to-change-default-theme-option.md) 

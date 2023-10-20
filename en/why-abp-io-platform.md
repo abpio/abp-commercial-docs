@@ -6,6 +6,8 @@ This document aims to answer the big question:
 
 The document introduces the challenges of building a modern software solution and explains how ABP addresses these challenges.
 
+See also https://commercial.abp.io/why-abp-io
+
 ## Creating a New Solution
 
 When you need to start a new solution, there are **a lot of questions** you need to ask yourself, and you should spend **a lot of time** before starting to write your **very first business code**.
