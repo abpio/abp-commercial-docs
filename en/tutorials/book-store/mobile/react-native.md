@@ -132,7 +132,7 @@ const screens = {
 // Other codes..
 ```
 
-![Book Store Menu Item](../../../../images/book-store-menu-item.png)
+![Book Store Menu Item](../../../images/book-store-menu-item.png)
 
 ### Create Book List page
 
