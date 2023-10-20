@@ -132,7 +132,7 @@ const screens = {
 // Other codes..
 ```
 
-![Book Store Menu Item](../../images/book-store-menu-item.png)
+![Book Store Menu Item](../../../images/book-store-menu-item.png)
 
 ### Create Book List page
 
@@ -213,7 +213,7 @@ export default BooksScreen;
 - `i18n` API to localize the given key. It uses the incoming resource from the `application-localization` endpoint.
 - `DataList` component takes the `fetchFn` property that we'll give to the API request function, it's used to fetch data and maintain the logic of lazy loading etc.
 
-![Book List Page](../../images/book-list.png)
+![Book List Page](../../../images/book-list.png)
 
 ## Creating a New Book
 
@@ -625,9 +625,9 @@ export default CreateUpdateBookForm;
 - `AbpSelect` component is used to select the book type.
 - `submit` method will pass the form values to the `CreateUpdateBookScreen` component.
 
-![Create New Book Icon](../../images/create-book-icon.png)
+![Create New Book Icon](../../../images/create-book-icon.png)
 
-![Create New Book](../../images/create-book.png)
+![Create New Book](../../../images/create-book.png)
 
 ## Update a Book
 
@@ -856,9 +856,9 @@ function CreateUpdateBookForm({
 
 - `book` is a nullable property. It'll store the selected book, if the book parameter is null then we'll create a new book.
 
-![Book List With Options](../../images/book-list-with-options.png)
+![Book List With Options](../../../images/book-list-with-options.png)
 
-![Update Book Page](../../images/update-book.png)
+![Update Book Page](../../../images/update-book.png)
 
 ## Delete a Book
 
@@ -991,9 +991,9 @@ export default BooksScreen;
 - `Delete` option is added to context menu list
 - `removeOnClick` method will handle the delete process. It'll show an alert before the delete operation.
 
-![Delete Book](../../images/delete-book.png)
+![Delete Book](../../../images/delete-book.png)
 
-![Delete Book Alert](../../images/delete-book-alert.png)
+![Delete Book Alert](../../../images/delete-book-alert.png)
 
 ## Authorization
 
@@ -1056,7 +1056,7 @@ export default BookStoreScreen;
 - useEffect's conditions will be the policies of the `BookStore` permission group.
 - `Books` tab will be shown if the user has the `BookStore.Books` permission
 
-![Books Menu Item](../../images/books-menu-item.png)
+![Books Menu Item](../../../images/books-menu-item.png)
 
 ### Hide the New Book Button
 
@@ -1095,7 +1095,7 @@ function BooksScreen({ navigation }) {
 
 - Now the `+` icon button will be shown if the user has the `BookStore.Books.Create` permission.
 
-![Create New Book Button Policy](../../images/create-book-button-visibility.png)
+![Create New Book Button Policy](../../../images/create-book-button-visibility.png)
 
 ### Hide the Edit and Delete Actions
 
@@ -1123,7 +1123,7 @@ function BooksScreen() {
 }
 ```
 
-![Create New Book Button Policy](../../images/update-delete-book-button-visibility.png)
+![Create New Book Button Policy](../../../images/update-delete-book-button-visibility.png)
 
 ## Author
 
@@ -1577,15 +1577,15 @@ CreateUpdateAuthorForm.propTypes = {
 export default CreateUpdateAuthorForm;
 ```
 
-![Author List](../../images/author-list.png)
+![Author List](../../../images/author-list.png)
 
-![Author Create Page](../../images/create-author.png)
+![Author Create Page](../../../images/create-author.png)
 
-![Author List With Options](../../images/author-list-with-options.png)
+![Author List With Options](../../../images/author-list-with-options.png)
 
-![Author Update Page](../../images/update-author.png)
+![Author Update Page](../../../images/update-author.png)
 
-![Author Delete Alert](../../images/delete-author-alert.png)
+![Author Delete Alert](../../../images/delete-author-alert.png)
 
 ## Add `Author` Relation To Book
 
@@ -1787,10 +1787,10 @@ export default CreateUpdateBookForm;
 - Create authors dropdown input with `AbpSelect` component.
 - Display selected author in the `TextInput`
 
-![Book List with Author](../../images/book-list-with-author.png)
+![Book List with Author](../../../images/book-list-with-author.png)
 
-![Author Input in Book Form](../../images/author-input-in-book-form.png)
+![Author Input in Book Form](../../../images/author-input-in-book-form.png)
 
-![Authors in Book Form](../../images/authors-in-book-form.png)
+![Authors in Book Form](../../../images/authors-in-book-form.png)
 
 That's all. Just run the application and try to create or edit an author.
