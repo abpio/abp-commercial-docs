@@ -1,6 +1,6 @@
 # ABP Commercial Penetration Test Report
 
-The ABP Commercial MVC `v7.3.0` application template has been tested against security vulnerabilities by the [OWASP ZAP v2.11.1](https://www.zaproxy.org/) tool. The demo web application was started on the `https://localhost:44379` address. The below alerts have been reported by the pentest tool. These alerts are sorted by the risk level as high, medium, and low. The informational alerts are not mentioned in this document. 
+The ABP Commercial MVC `v7.4.0` application template has been tested against security vulnerabilities by the [OWASP ZAP v2.11.1](https://www.zaproxy.org/) tool. The demo web application was started on the `https://localhost:44349` address. The below alerts have been reported by the pentest tool. These alerts are sorted by the risk level as high, medium, and low. The informational alerts are not mentioned in this document. 
 
 Many of these alerts are **false-positive**, meaning the vulnerability scanner detected these issues, but they are not exploitable. It's clearly explained for each false-positive alert why this alert is a false-positive. 
 
@@ -10,13 +10,16 @@ In the next sections, you will find the affected URLs, alert descriptions, false
 
 There are high _(red flag)_, medium _(orange flag)_, low _(yellow flag)_, and informational _(blue flag)_ alerts. 
 
-![penetration-test-7.3.0](../images/pen-test-alert-list-7.3.png)
+![penetration-test-7.4.0](../images/pen-test-alert-list-7.4.png)
 
 > The informational alerts are not mentioned in this document. These alerts are not raising any risks on your application and they are optional.
 
 ### Path Traversal [Risk: High] - False Positive
 
-- *[GET] - https://localhost:44379/api/audit-logging/audit-logs?startTime=&endTime=&url=&userName=&applicationName=&clientIpAddress=&correlationId=&httpMethod=audit-logs&httpStatusCode=&maxExecutionDuration=&minExecutionDuration=&hasException=&sorting=executionTime+desc&skipCount=0&maxResultCount=10*
+- *[GET] - https://localhost:44349/api/audit-logging/audit-logs?startTime=&endTime=&url=&userName=&applicationName=&clientIpAddress=&correlationId=&httpMethod=audit-logs&httpStatusCode=&maxExecutionDuration=&minExecutionDuration=&hasException=&sorting=executionTime+desc&skipCount=0&maxResultCount=10*
+- *[POST] - https://localhost:44349/Account/Login*
+- *[POST] - https://localhost:44349/Identity/SecurityLogs*
+- *[POST] - https://localhost:44349/LanguageManagement/Texts*
 
 **Description**:
 
@@ -24,14 +27,13 @@ The Path Traversal attack technique allows an attacker access to files, director
 
 **Solution**:
 
-This is a **false-positive** alert since ABP Framework does all related checks for this kind of attack on the backend side for this endpoint.
+This is a **false-positive** alert since ABP Framework does all related checks for this kind of attack on the backend side for these endpoints.
 
 ### SQL Injection [Risk: High] - False Positive
 
-* *[POST] — https://localhost:44379/AuditLogs*
-* *[POST] — https://localhost:44379/Account/Manage?CurrentPassword=ZAP%27+AND+%271%27%3D%271%27+--+&NewPassword=ZAP&NewPasswordConfirm=ZAP*
-* *[POST] - https://localhost:44379/Identity/SecurityLogs*
-* *[POST] - https://localhost:44379/Identity/Users/CreateModal*
+* *[POST] — https://localhost:44349/Account/Login*
+* *[POST] — https://localhost:44349/Account/Manage?CurrentPassword=ZAP%27+AND+%271%27%3D%271%27+--+&NewPassword=ZAP&NewPasswordConfirm=ZAP*
+* *[POST] - https://localhost:44349/SettingManagement?handler=RenderView%27+AND+%271%27%*
 
 **Description**:
 
@@ -43,7 +45,7 @@ ABP uses Entity Framework Core and LINQ. It's safe against SQL Injection because
 
 ### SQL Injection - Authentication Bypass [Risk: High] - False Positive
 
-- *[POST] - https://localhost:44379/Account/Login?returnUrl=%2FAccount%2FManage*
+- *[POST] - https://localhost:44349/Account/Login?returnUrl=%2FAccount%2FManage*
 
 **Description**:
 
@@ -56,7 +58,8 @@ This alert indicates that we must not trust client side input (even if there is 
 
 ### Absence of Anti-CSRF Tokens [Risk: Medium] — False Positive
 
-* *[GET] — https://localhost:44379/Account/Manage*
+* *[GET] - https://localhost:44349/Account/LinkUsers/LinkUsersModal?returnUrl=/SettingManagement*
+* *[GET] — https://localhost:44349/Account/Manage* (same URL with different query parameters)
 
 **Description**: 
 
@@ -71,8 +74,8 @@ This is a **false-positive** alert because ABP provides the Anti-CSRF token via 
 
 ### Application Error Disclosure [Risk: Medium] - False Positive
 
-- *[POST] — https://localhost:44379/Account/ImpersonateUser*
-- *[POST] — https://localhost:44379/Account/Manage*
+- *[POST] — https://localhost:44349/Account/ImpersonateUser*
+- *[POST] — https://localhost:44349/api/account/send-email-confirmation-token*
 
 **Description**: 
 
@@ -80,15 +83,15 @@ This page contains an error/warning message that may disclose sensitive informat
 
 **Explanation**:
 
-There are 3 URLs that are reported as exposing error messages. This is a **false-positive** alert. All these endpoints return Internal Server Error and there is not any sensitive information disclosed.
+There are 2 URLs that are reported as exposing error messages. This is a **false-positive** alert. All these endpoints return **Internal Server Error** and there is not any sensitive information disclosed.
 
 ### Content Security Policy (CSP) Header Not Set [Risk: Medium] — Positive (Fixed)
 
-- *[GET] — https://localhost:44379*
-- *[GET] - https://localhost:44379/AbpPermissionManagement/PermissionManagementModal?providerName=R&providerKey=aaa&providerKeyDisplayName=aaa*
-- *[GET] — https://localhost:44379/Account/AuthorityDelegation/AuthorityDelegationModal*
-- *[GET] — https://localhost:44379/Account/AuthorityDelegation/DelegateNewUserModal*
-- *[GET] — https://localhost:44379/Account/ForgotPassword _(other several account URLS)_* 
+- *[GET] — https://localhost:44349*
+- *[GET] — https://localhost:44349/Account/AuthorityDelegation/AuthorityDelegationModal*
+- *[GET] — https://localhost:44349/Account/AuthorityDelegation/DelegateNewUserModal*
+- *[GET] — https://localhost:44349/Account/ForgotPassword _(other several account URLS)_* 
+- *[GET] - https://localhost:44349/Account/Manage _(other several account URLS)_*
 
 **Description:** 
 
@@ -111,11 +114,11 @@ Configure<AbpSecurityHeadersOptions>(options =>
 
 ### Format String Error [Risk: Medium] - False Positive
 
-- *[GET] - https://localhost:44379/api/language-management/language-texts?filter=&resourceName=&baseCultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&targetCultureName=cs&getOnlyEmptyValues=false&sorting=name+asc&skipCount=0&maxResultCount=10*
-- *[GET] - https://localhost:44379/LanguageManagement/Texts/Edit?name=%27%7B0%7D%27+and+%27%7B1%7D%27+do+not+match.&targetCultureName=cs&resourceName=AbpValidation&baseCultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A*
-- *[GET] - https://localhost:44379/Abp/Languages/Switch?culture=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&returnUrl=%2F&uiCulture=ar*
-- *[GET] - https://localhost:44379/Abp/ApplicationLocalizationScript?cultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A*
-- *[POST] — https://localhost:44379/Account/Login (same URL with different parameters)*
+- *[GET] - https://localhost:44349/api/language-management/language-texts?filter=&resourceName=&baseCultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&targetCultureName=cs&getOnlyEmptyValues=false&sorting=name+asc&skipCount=0&maxResultCount=10*
+- *[GET] - https://localhost:44349/LanguageManagement/Texts/Edit?name=%27%7B0%7D%27+and+%27%7B1%7D%27+do+not+match.&targetCultureName=cs&resourceName=AbpValidation&baseCultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A*
+- *[GET] - https://localhost:44349/Abp/Languages/Switch?culture=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A&returnUrl=%2F&uiCulture=ar*
+- *[GET] - https://localhost:44349/Abp/ApplicationLocalizationScript?cultureName=ZAP%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%25n%25s%0A*
+- *[POST] — https://localhost:44349/Account/Login (same URL with different parameters)*
 
 **Description:**
 
@@ -193,40 +196,35 @@ Volo.Abp.Validation.AbpValidationException: ModelState is not valid! See Validat
 HEADERS
 =======
 
-Host: localhost:44379
+Host: localhost:44349
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0
 Cache-Control: no-cache
 Content-Type: application/x-www-form-urlencoded
 Cookie: .AspNetCore.Culture=c%3Des%7Cuic%3Des; XSRF-TOKEN=CfDJ8JCCBt_8KiVKkbkXtzq6V1BEYfhL6Rn88RfFmrkfC8EzpKhj8ZWhGP8HT8Su_7q2wcmhITLg9rrh-Pj-Tu2c88c--wQg5UvXiQBVc_LqlQiqzMUWyxSrrxDIq22_1kmRA62cvIOrUkGLe4ezmZIYCRU; .AspNetCore.Antiforgery.x3gzYhuqPJM=CfDJ8JCCBt_8KiVKkbkXtzq6V1Ar3NwJpY9vG9eyrUYeAySYBUHsTHCmdGylFpjWOKf6CGVEnPNtJP3FDmgWIXe8le2DgOYxcAIkBkM5W1bybUkamp4yVbDYcimwEswXU1tsMSv3el885ZapGup7WneIcZo
 Pragma: no-cache
-Referer: https://localhost:44379/Account/Login
+Referer: https://localhost:44349/Account/Login
 Content-Length: 639
 X-Correlation-Id: 2c103514abd44a17b1ec792b6a5c1dc3
 ```
 
 ### XSLT Injection [Risk: Medium] - False Positive
 
-- *[GET] - https://localhost:44379/?page=%3Cxsl%3Avalue-of+select%3D%22system-property%28%27xsl%3Avendor%27%29%22%2F%3E*
-- *[GET] - https://localhost:44379/Abp/Languages/Switch?culture=%3Cxsl%3Avalue-of+select%3D%22system-property%28%27xsl%3Avendor%27%29%22%2F%3E&returnUrl=%2F&uiCulture=ar*
-- *[GET] - https://localhost:44379/Account/ForgotPassword?returnUrl=%3Cxsl%3Avalue-of+select%3D%22system-property%28%27xsl%3Avendor%27%29%22%2F%3E*
-- *[GET] - https://localhost:44379/Account/Login?handler=CreateLinkUser&LinkUserId=%3Cxsl%3Avalue-of+select%3D%22system-property%28%27xsl%3Avendor%27%29%22%2F%3E&LinkToken=CfDJ8KJ4q0EP0P9EsZ5KtdIYqZ1SPxVNqhILj3UjN0C1mWPlvrw%2FBPriEbgrwcypDnv7b4QC0tvrMihmtEUZUuY5YrAIDwWhQ9vyCPTbFTjpS7kjX%2BNRC%2FAFlWrxvTyPrhtV4QcHD2VRnBx1xmASFq1XvxhANylej7iVTnii8QTsFpF2vcW0tu%2FO1xADiS1geFyDgk1vZGcPlLGs45pEGBazcw%2Bi2p35xakGNGu7OI8zJWyw*
-- *[GET] - https://localhost:44379/Account/Manage?CurrentPassword=%3Cxsl%3Avalue-of+select%3D%22system-property%28%27xsl%3Avendor%27%29%22%2F%3E&NewPassword=ZAP&NewPasswordConfirm=ZAP&Picture=test_file.txt&pptype=use-default*
-- *[GET] - https://localhost:44379/LanguageManagement/Create*
-- *[GET] - https://localhost:44379/SaasWidgets/LatestTenants?startDate=2023-06-21T21%3A00%3A00.000Z&endDate=2023-06-25T20%3A59%3A59.999Z*
-- other similar page URLS...
-
+- *[GET] - https://localhost:44349/Abp/Languages/Switch?culture=%3Cxsl%3Avalue-of+select%3D%22system-property%28%27xsl%3Avendor%27%29%22%2F%3E&returnUrl=%2F&uiCulture=ar*
+- *[POST] - https://localhost:44349/Account/Manage _(other several account URLS)_*
+- *[POST] - https://localhost:44349/AuditLogs*
+  
 **Description**: 
 
 Injection using XSL transformations may be possible and may allow an attacker to read system information, read and write files, or execute arbitrary code.
 
 **Explanation**: 
 
-This is a **false-positive** alert. v7.3.0 uses .NET 7 and the XSLT transformation is not possible on .NET5 or higher.
+This is a **false-positive** alert. v7.4.0 uses .NET 7 and the XSLT transformation is not possible on .NET5 or higher.
 
 ### Application Error Disclosure [Risk: Low] — False Positive
 
-- *[POST] — https://localhost:44379/Account/ImpersonateUser*  
-- *[POST] - https://localhost:44379/Account/Manage?CurrentPassword=ZAP&NewPassword=ZAP&NewPasswordConfirm=ZAP&Picture=test_file.txt&pptype=use-default*
+- *[POST] — https://localhost:44349/Account/ImpersonateUser*  
+- *[POST] - https://localhost:44349/api/account/send-email-confirmation-token*
 
 **Description:** 
 
@@ -236,9 +234,9 @@ The reported pages contain an error/warning message that may disclose sensitive 
 
 This vulnerability was reported as a **positive** alert because the application ran in `Development` mode. ABP Framework throws exceptions for developers in the `Development` environment. We set the environment to `Production` and re-run the test, then the server sent a *500-Internal Error* without the error disclosed. Therefore this alert is **false-positive**. Further information can be found in the following issue:  https://github.com/abpframework/abp/issues/14177.
 
-### Cookie No `HttpOnly`  [Risk: Low] — Positive (No need for a fix)
+### Cookie No `HttpOnly` Flag [Risk: Low] — Positive (No need for a fix)
 
-* *[GET] — https://localhost:44379 (and there are several URLs)*
+* *[GET] — https://localhost:44349 (and there are several URLs)*
 
 **Description:** 
 
@@ -250,7 +248,8 @@ The following alert is related to the next alert. Therefore, to understand this 
 
 ### Cookie Without Secure Flag [Risk: Low] — Positive (No need for a fix)
 
-* *[GET] — https://localhost:44379 (and there are several URLs)*
+* *[GET] — https://localhost:44349 (and there are several URLs)*
+* *[GET] - https://localhost:44349/Abp/Languages/Switch?culture=ar&returnUrl=%2F%3Fpage%3D%*
 
 **Description:** A cookie has been set without the secure flag, which means that the cookie can be accessed via unencrypted connections. The following cookies don't have an `httponly` flag.
 
@@ -283,8 +282,8 @@ The related issue for this alert can be found at https://github.com/abpframework
 
 ### Cookie with SameSite Attribute None [Risk: Low] — Positive (No need for a fix)
 
-* *[GET] — https://localhost:44379 (and there are several URLs)*
-* *[GET] — https://localhost:44379/Abp/Languages/Switch?culture=ar&returnUrl=%2F%3Fpage%3D%252FAccount%252F%7E%252FAccount%252FLogin&uiCulture=a (and there are several URLs)*
+* *[GET] — https://localhost:44349 (and there are several URLs)*
+* *[GET] — https://localhost:44349/Abp/Languages/Switch?culture=ar&returnUrl=%2F%3Fpage%3D%252FAccount%252F%7E%252FAccount%252FLogin&uiCulture=a (and there are several URLs)*
 
 **Description:** 
 
@@ -298,7 +297,7 @@ Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` 
 
 ### Cookie without `SameSite` Attribute [Risk: Low] — Positive (No need for a fix)
 
-* *[GET] — https://localhost:44379/Abp/Languages/Switch?culture=ar&returnUrl=%2F&uiCulture=ar _(and there are several URLs with different parameters of https://localhost:44379/Abp/Languages/Switch endpoint)_* 
+* *[GET] — https://localhost:44349/Abp/Languages/Switch?culture=ar&returnUrl=%2F&uiCulture=ar _(and there are several URLs with different parameters of https://localhost:44349/Abp/Languages/Switch endpoint)_* 
 
 **Description:** 
 
@@ -310,8 +309,8 @@ Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` 
 
 ### Information Disclosure - Debug Error Messages [Risk: Low] — False Positive
 
-* *[GET] — https://localhost:44379/api/language-management/language-texts?filter=&resourceName=&baseCultureName=en&targetCultureName=de-DE&getOnlyEmptyValues=false&sorting=name%20asc&skipCount=0&maxResultCount=10*
-* *[GET] - https://localhost:44379/AuditLogs*
+* *[GET] — https://localhost:44349/api/language-management/language-texts?filter=&resourceName=&baseCultureName=en&targetCultureName=aa-DJ&getOnlyEmptyValues=false&sorting=name%20asc&skipCount=0&maxResultCount=10*
+* *[GET] - https://localhost:44349/AuditLogs*
 
 **Description:**  
 
@@ -329,12 +328,13 @@ The response of the endpoints above return localization texts which are not real
 
 ### Strict-Transport-Security Header Not Set [Risk: Low] - False Positive
 
-- *[DELETE] - https://localhost:44379/api/identity/claim-types/307e5447-7e3c-f410-a347-3a0c75f333e2*
-- *[DELETE] - https://localhost:44379/api/identity/organization-units/8c8634f8-7b55-5711-c760-3a0c75ef9400/members/ce33f43c-d219-a506-b10b-3a0c75d466d3*
-- *[DELETE] - https://localhost:44379/api/language-management/languages/946dd47a-b524-b422-dd35-3a0a65d396b8*
-- *[DELETE] - https://localhost:44379/api/saas/editions/790bc33c-571b-3bc8-dfe5-3a0a65cfe8fe*
-- *[GET] - https://localhost:44379/*
-- *[GET] - https://localhost:44379/Abp/ApplicationLocalizationScript?cultureName=zh-Hant*
+- *[DELETE] - https://localhost:44349/api/identity/claim-types/4e8b181f-f309-435c-c6c6-3a0e778a7e61*
+- *[DELETE] - https://localhost:44349/api/identity/users/a990b4d7-0613-c3e1-851e-3a0e7789288e*
+- *[DELETE] - https://localhost:44349/api/language-management/languages/6b311a44-65bd-14ea-1a21-3a0e778b41d5*
+- *[DELETE] - https://localhost:44349/api/saas/tenants/c77b1554-5837-3303-9983-3a0e77824bb3*
+- *[GET] - https://localhost:44349/*
+- *[GET] - https://localhost:44349/Abp/ApplicationConfigurationScript*
+- *[GET] - https://localhost:44349/Abp/ApplicationLocalizationScript?cultureName=zh-Hant*
 - other URLS...
 
 **Description**: 
