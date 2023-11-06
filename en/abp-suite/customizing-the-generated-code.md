@@ -1,12 +1,12 @@
 # Customizing the Generated Code
 
-ABP Suite allows you to customize the generated code-blocks and preserve your custom code changes in the next CRUD Page Generation. It specifies hook-points to allow adding custom code blocks. Then, the code that written by you to these hook points will be respected and will not be overridden in the next CRUD Page Generation.
+ABP Suite allows you to customize the generated code blocks and preserve your custom code changes in the next CRUD Page Generation. It specifies hook points to allow adding custom code blocks. Then, the code written by you to these hook points will be respected and will not be overridden in the next CRUD Page Generation.
 
 ## Enabling the Custom Code Support
 
 ![](../images/enabling-custom-code.png)
 
-To enable custom code support, you should check the _Customizable code_ option in the **CRUD Page Generation** page (it's selected by default). When you enable the custom code support, you will be seeing some hook-points in your application on both backend and UI side. 
+To enable custom code support, you should check the _Customizable code_ option in the **CRUD Page Generation** page (it's selected by default). When you enable the custom code support, you will see some hook points in your application on both the backend and UI side.
 
 ## Backend - C# Side Customizations
 
@@ -18,7 +18,7 @@ For example, assume that you have created an entity named `Book` with the custom
 
 ![](../images/custom-code-domain-folder-structure.png)
 
-As you would see from the folder structure, some additional classes have been created along with the related entities, repository interfaces and domain service classes (also for the application services, DTOs, controllers etc.).
+As you can see from the folder structure, some additional classes have been created along with the related entities, repository interface, and domain service classes (also for the application services, DTOs, controllers, etc.).
 
 Custom code can be added to these classes, specifically within files named `*.Extended.cs`. By placing your custom code within these files, you can ensure that your changes will not be overridden during the next entity generation. 
 
@@ -39,7 +39,7 @@ You can see the example below, which demonstrates defining a new method in the `
 
 ## UI Side Customizations
 
-For the UI side, ABP Suite provides convenient comment placeholders within pages for MVC, Blazor and Angular UIs. These comment sections serve as hook-points where you can add your custom code. By placing your custom logic with these hook-points, you can enhance the UI by your needs without the fear of losing your changes during the next CRUD page generation.
+For the UI side, ABP Suite provides convenient comment placeholders within pages for MVC, Blazor, and Angular UIs. These comment sections serve as hook points where you can add your custom code. By placing your custom logic with these hook points, you can enhance the UI to your needs without the fear of losing your changes during the next CRUD page generation.
 
 ### Customizations on MVC UI
 
@@ -47,7 +47,7 @@ If you have created your application with MVC UI, you can see the extended class
 
 ![](../images/custom-code-mvc-folder-structure.png)
 
-In these files, you can override the `OnGetAsync` and `OnPostAsync` methods and override the default behavior when a _GET_ or _POST_ request made to the URL of the page, or you can add more validations, customize the logic, or anything you want... In the next time, when you re-generate the entity, your changes on these files will be preserved/respected and won't be overriden.
+In these files, you can override the `OnGetAsync` and `OnPostAsync` methods and override the default behavior when a _GET_ or _POST_ request made to the URL of the page, or you can add more validations, customize the logic, or anything you want... In the next time, when you re-generate the entity, your changes on these files will be preserved/respected and won't be overridden.
 
 Additionally, if you want to make changes on the page itself, you can see the hook-points (`<suite-custom-code-block-n>...</suite-custom-code-block-n>` placeholders) in the related `.cshtml` file and make your changes between those placeholders:
 
@@ -55,13 +55,13 @@ Additionally, if you want to make changes on the page itself, you can see the ho
 
 #### Adding New Custom Hook Points & Changing Their Places
 
-ABP Suite defines hook-points where you might want to make a customization. However, it also allows you to decide where hook-points should be located in a certain file and change their places. If you want to change the place of the hook-points, you can customize the related template and change places of the placeholders or add new placeholders.
+ABP Suite defines hook points where you might want to make a customization. However, it also allows you to decide where hook points should be located in a certain file and change their places. If you want to change the place of the hook points, you can customize the related template and change places of the placeholders or add new placeholders.
 
 ![](../images/custom-code-mvc-templates.png)
 
-As can be seen in the figure above, you can search the related template file, click the _Edit_ button on the card, then make your changes and click the _Ok_ button to save your changes for the template. Then, whenever you generate a CRUD page, the changes that you made in the template (adding or changing placeholders, for an example) will be respected and Suite will use customized template and place the placeholders where you have put them. Thanks to that, you have more freedom to make customization on the UI side and update the UI by your needs.
+As can be seen in the figure above, you can search the related template file, click the _Edit_ button on the card, then make your changes and click the _Ok_ button to save your changes for the template. Then, whenever you generate a CRUD page, the changes that you made in the template (adding or changing placeholders, for example) will be respected and Suite will use the customized template and place the placeholders where you have put them. Thanks to that, you have more freedom to make customization on the UI side and update the UI according to your needs.
 
-> Note: Currently, up to 11 placeholder is allowed in the CRUD page generation and if you have more placeholder then the additional ones will be ignored. From ABP v8.0, up to 20 placeholder is being allowed.
+> Note: Currently, up to 11 placeholder is allowed in the CRUD page generation and if you have more placeholder then the additional ones will be ignored. From ABP v8.0, up to 20 placeholders are allowed.
 
 ### Customizations on Blazor UI
 
@@ -69,7 +69,7 @@ If you have created your application with Blazor UI, you can see the extended cl
 
 ![](../images/custom-code-blazor-folder-structure.png)
 
-In these files, you can add more validations, customize the logic, or anything you want... In the next time, when you re-generate the entity, your changes on these files will be preserved/respected and won't be overriden.
+In these files, you can add more validations, customize the logic, or do anything you want... In the next time, when you re-generate the entity, your changes on these files will be preserved/respected and won't be overridden.
 
 Additionally, if you want to make changes on the page itself, you can see the hook-points (`<suite-custom-code-block-n>...</suite-custom-code-block-n>` placeholders) in the related `.razor` file and make your changes between those placeholders:
 
@@ -77,13 +77,13 @@ Additionally, if you want to make changes on the page itself, you can see the ho
 
 #### Adding New Custom Hook Points & Changing Their Places
 
-ABP Suite defines hook-points where you might want to make a customization. However, it also allows you to decide where hook-points should be located in a certain file and change their places. If you want to change the place of the hook-points, you can customize the related template and change places of the placeholders or add new placeholders.
+ABP Suite defines hook points where you might want to make a customization. However, it also allows you to decide where hook points should be located in a certain file and change their places. If you want to change the place of the hook points, you can customize the related template and change the places of the placeholders or add new placeholders.
 
 ![](../images/custom-code-blazor-template.png)
 
-As can be seen in the figure above, you can search the related template file, click the _Edit_ button on the card, then make your changes and click the _Ok_ button to save your changes for the template. Then, whenever you generate a CRUD page, the changes that you made in the template (adding or changing placeholders, for an example) will be respected and Suite will use customized template and place the placeholders where you have put them. Thanks to that, you have more freedom to make customization on the UI side and update the UI by your needs.
+As can be seen in the figure above, you can search the related template file, click the _Edit_ button on the card, then make your changes and click the _Ok_ button to save your changes for the template. Then, whenever you generate a CRUD page, the changes that you made in the template (adding or changing placeholders, for example) will be respected and Suite will use the customized template and place the placeholders where you have put them. Thanks to that, you have more freedom to make customization on the UI side and update the UI according to your needs.
 
-> Note: Currently, up to 11 placeholder is allowed in the CRUD page generation and if you have more placeholder then the additional ones will be ignored. From ABP v8.0, up to 20 placeholder is being allowed.
+> Note: Currently, up to 11 placeholder is allowed in the CRUD page generation and if you have more placeholder then the additional ones will be ignored. From ABP v8.0, up to 20 placeholders are allowed.
 
 ### Customizations on Angular UI
 
