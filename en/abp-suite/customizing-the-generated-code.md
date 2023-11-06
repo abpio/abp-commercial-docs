@@ -49,11 +49,11 @@ If you have created your application with MVC UI, you can see the extended class
 
 In these files, you can override the `OnGetAsync` and `OnPostAsync` methods and override the default behavior when a _GET_ or _POST_ request made to the URL of the page, or you can add more validations, customize the logic, or anything you want... In the next time, when you re-generate the entity, your changes on these files will be preserved/respected and won't be overriden.
 
-#### Adding New Custom Hook Points & Changing Their Places
-
 Additionally, if you want to make changes on the page itself, you can see the hook-points (`<suite-custom-code-block-n>...</suite-custom-code-block-n>` placeholders) in the related `.cshtml` file and make your changes between those placeholders:
 
 ![](../images/custom-code-mvc-page.png)
+
+#### Adding New Custom Hook Points & Changing Their Places
 
 ABP Suite defines hook-points where you might want to make a customization. However, it also allows you to decide where hook-points should be located in a certain file and change their places. If you want to change the place of the hook-points, you can customize the related template and change places of the placeholders or add new placeholders.
 
@@ -65,13 +65,17 @@ As can be seen in the figure above, you can search the related template file, cl
 
 ### Customizations on Blazor UI
 
-//TODO: description similar to MVC UI!!!
+If you have created your application with Blazor UI, you can see the extended classes for _the code-behind classes of your pages_, under the `Pages` folder:
 
-#### Adding New Custom Hook Points & Changing Their Places
+![](../images/custom-code-blazor-folder-structure.png)
+
+In these files, you can add more validations, customize the logic, or anything you want... In the next time, when you re-generate the entity, your changes on these files will be preserved/respected and won't be overriden.
 
 Additionally, if you want to make changes on the page itself, you can see the hook-points (`<suite-custom-code-block-n>...</suite-custom-code-block-n>` placeholders) in the related `.razor` file and make your changes between those placeholders:
 
 ![](../images/custom-code-blazor-page.png)
+
+#### Adding New Custom Hook Points & Changing Their Places
 
 ABP Suite defines hook-points where you might want to make a customization. However, it also allows you to decide where hook-points should be located in a certain file and change their places. If you want to change the place of the hook-points, you can customize the related template and change places of the placeholders or add new placeholders.
 
