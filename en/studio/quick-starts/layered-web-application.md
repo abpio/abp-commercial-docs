@@ -68,6 +68,8 @@ After clicking the Create button, the dialog is closed and your solution is load
 
 You can explore the solution, but you need to wait for background tasks to be completed before running any application in the solution.
 
+> The solution structure can be different in your case based on the options you've selected.
+
 ## Running the Application
 
 After creating your solution, you can open it in your favorite IDE (e.g. Visual Studio, Visual Studio Code or Rider) and start your development. However, ABP Studio provides a *Solution Runner* system. You can use it to easily run and browse your applications in your solution without needing an external tool.
@@ -82,11 +84,11 @@ In the Solution Runner section (on the left side) you can see all the runnable a
 
 ![abp-studio-quick-start-example-applications-in-solution-runner](images/abp-studio-quick-start-example-applications-in-solution-runner.png)
 
-> Notice that the application list can be different based on the options you've selected while creating the solution.
-
 You can run all the applications or start them one by one. To start an application, either click the *Play* icon near to the application or right-click and select the *Run* -> *Start* context menu item.
 
 I started the `Docker-Dependencies` and the `Acme.BookStore.Web` applications. The `Docker-Dependencies` is used to run the infrastructure service (e.g. Redis) in Docker. Start it first, so the web application can properly start.
+
+> Notice that the services running in docker-compose are exposed to your localhost. If any service in your localhost is already using the same port(s), you will get an error. In that case, stop your local services first.
 
 Once the `Acme.BookStore.Web` application started, you can right-click it and select the *Browse* command:
 
@@ -108,8 +110,18 @@ You can use any IDE (e.g. Visual Studio, Visual Studio Code or Rider) to develop
 
 First of all, we can stop the `Acme.BookStore.Web` application in ABP Studio, so it won't conflict when we run it in Visual Studio. Do not stop the `Docker-Dependencies`, because the application will need the services it runs at runtime.
 
-You can use ABP Studio to open the solution in Visual Studio. Right-click to the `Acme.BookStore` [module](../concepts.md), and select the *Open with* -> *Visual Studio* command.
+You can use ABP Studio to open the solution with Visual Studio. Right-click to the `Acme.BookStore` [module](../concepts.md), and select the *Open with* -> *Visual Studio* command:
 
 ![abp-studio-open-in-visual-studio](images/abp-studio-open-in-visual-studio.png)
 
-d
+If the *Visual Studio* command is not available, that means ABP Studio could not detect it in your computer. You can open the solution folder in your local file system (you can use the *Open with* -> *Explorer* as a shortcut) and manually open the solution in Visual Studio.
+
+Once the solution is opened in Visual Studio, you should see a screen like shown below:
+
+![visual-studio-bookstore-application](images/visual-studio-bookstore-application.png)
+
+Right-click the `Acme.BookStore.Web` project and select the *Set as Startup Project* command. You can then hit *F5* or *Ctrl + F5* to run the web application. It will run and open the application UI in your default browser:
+
+![bookstore-browser-users-page](images/bookstore-browser-users-page.png)
+
+You can use `admin` as username and `1q2w3E*` as default password to login to the application.
