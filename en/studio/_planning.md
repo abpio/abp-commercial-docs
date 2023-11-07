@@ -1,20 +1,15 @@
 # ABP Studio Documentation Content Planning
 
+* Installation
+  * Pre-requirements
+  * Login
+  * Changing the UI Theme
+  * Upgrading
 * Quick Starts
   * Creating a single-layer web application
   * Creating a layered web application
   * Creating a microservice solution
-* Overview
-  * Pre-requirements
-  * Installation
-  * Logging in
-  * IDE Overview: Top menu, Left Area, Welcome page, Solution Explorer, Solution Runner, Kubernetes Integration, Application Monitor Area, Background Tasks, Notifications, Logs, 
-  * Using the CLI
-  * Using the Help Menu
-  * Working with ABP Suite
-  * Changing the UI Theme
-  * Upgrading
-  * Uninstalling
+* Overview: Top menu, Left Area, Welcome page, Solution Explorer, Solution Runner, Kubernetes Integration, Application Monitor Area, Background Tasks, Notifications, Logs, 
 * Concepts (ABP Solution, Module, Package, Solution Folder, etc.)
 * Tutorials
   * Building Modular Monolith Applications
