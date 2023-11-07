@@ -1,7 +1,8 @@
 # ABP Studio Documentation Content Planning
 
 * Quick Starts
-  * Creating a layered application
+  * Creating a single-layer web application
+  * Creating a layered web application
   * Creating a microservice solution
 * Overview
   * Pre-requirements
