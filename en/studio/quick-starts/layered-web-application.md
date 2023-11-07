@@ -106,6 +106,10 @@ The following screenshot was taken from the *User Management* page of the [Ident
 
 You can use any IDE (e.g. Visual Studio, Visual Studio Code or Rider) to develop your solution. Here, we will show Visual Studio as an example.
 
-First of all, we can stop the `Acme.BookStore.Web` application in ABP Studio, so it won't conflict when we run it in Visual Studio. Do not stop the `Docker-Dependencies`, because the application will need it on runtime.
+First of all, we can stop the `Acme.BookStore.Web` application in ABP Studio, so it won't conflict when we run it in Visual Studio. Do not stop the `Docker-Dependencies`, because the application will need the services it runs at runtime.
+
+You can use ABP Studio to open the solution in Visual Studio. Right-click to the `Acme.BookStore` [module](../concepts.md), and select the *Open with* -> *Visual Studio* command.
+
+![abp-studio-open-in-visual-studio](images/abp-studio-open-in-visual-studio.png)
 
 d
