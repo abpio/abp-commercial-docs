@@ -6,14 +6,14 @@
   * Creating a microservice solution
 * Overview
   * Pre-requirements
-  * Installing
-  * Log in, Log out
-  * Upgrading
-  * UI Overview: Top menu, Left Area, Welcome page, Solution Explorer, Solution Runner, Kubernetes Integration, Application Monitor Area, Background Tasks, Notifications, Logs, 
-  * CLI
-  * Help Menu
-  * Opening the ABP Suite
+  * Installation
+  * Logging in
+  * IDE Overview: Top menu, Left Area, Welcome page, Solution Explorer, Solution Runner, Kubernetes Integration, Application Monitor Area, Background Tasks, Notifications, Logs, 
+  * Using the CLI
+  * Using the Help Menu
+  * Working with ABP Suite
   * Changing the UI Theme
+  * Upgrading
   * Uninstalling
 * Concepts (ABP Solution, Module, Package, Solution Folder, etc.)
 * Tutorials
