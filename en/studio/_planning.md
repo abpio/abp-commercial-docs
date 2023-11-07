@@ -1,29 +1,38 @@
 # ABP Studio Documentation Content Planning
 
+* Quick Starts
+  * Creating a layered application
+  * Creating a microservice solution
 * Overview
-  * Installing, Logging In, Upgrading, Studio Logs, Fundamental Views, CLI, Settings (light/dark), Background Tasks, Top Menu structure
-* Creating New Solutions
-  * Layered Application
-  * Non-layered Application
-  * Microservice Solution
-* Tutorials
-  * Building Monolith Applications
-  * Building Monolith Modular Applications
-  * Building Microservice Solutions
+  * Pre-requirements
+  * Installing
+  * Log in, Log out
+  * Upgrading
+  * UI Overview: Top menu, Left Area, Welcome page, Solution Explorer, Solution Runner, Kubernetes Integration, Application Monitor Area, Background Tasks, Notifications, Logs, 
+  * CLI
+  * Help Menu
+  * Opening the ABP Suite
+  * Changing the UI Theme
+  * Uninstalling
 * Concepts (ABP Solution, Module, Package, Solution Folder, etc.)
-* Startup Templates
-  * Layered Application
-  * Non-layered Application
-  * Microservice Solution
+* Tutorials
+  * Building Modular Monolith Applications
+  * Building Microservice Solutions
+* Solution Templates
+  * Empty
+  * Application (Single Layer)
+  * Application (Layered)
+  * Microservice
 * Building Solutions
   * Creating modules, packages, folders
   * Referencing packages
   * Working With Existing Modules
     * Import, Install, Uninstall, Download Source Code
-* Exploring modules & Analyzing
+* Running Applications
 * Monitoring Applications
-* CLI
-* Extensibility / PlugIn System
-* Solution Explorer
-* Solution Runner
-* Kubernetes Integration
+* Working with Kubernetes
+* Exploring modules
+* Analyzing Packages
+* Using the ABP Studio CLI
+* Extensibility / Plugin System
+* Working with ABP Suite
