@@ -34,4 +34,4 @@ After that, run the project and watch the magic! An easy CRUD app using the enti
 
 ## What's next?
 
-[Accessing source code of modules](source-code.md)
+[Creating master-detail (master-child) relationship](creating-master-detail-relationship.md)
