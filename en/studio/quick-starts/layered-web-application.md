@@ -1,4 +1,4 @@
-# Quick Start: Creating a Layered Web Application
+# Quick Start: Creating a Layered Web Application with ABP Studio
 
 Welcome to ABP Studio. In this quick start guide, you will learn how to create and run a layered (and potentially modular) web application using ABP Studio.
 
@@ -67,5 +67,45 @@ After clicking the Create button, the dialog is closed and your solution is load
 ![abp-studio-created-new-solution](images/abp-studio-created-new-solution.png)
 
 You can explore the solution, but you need to wait for background tasks to be completed before running any application in the solution.
+
+## Running the Application
+
+After creating your solution, you can open it in your favorite IDE (e.g. Visual Studio, Visual Studio Code or Rider) and start your development. However, ABP Studio provides a *Solution Runner* system. You can use it to easily run and browse your applications in your solution without needing an external tool.
+
+Open the Solution Runner section on the left side of ABP Studio as shown in the following figure:
+
+![abp-studio-quick-start-application-solution-runner](images/abp-studio-quick-start-application-solution-runner.png)
+
+Once you click the *Play* icon on the left side, the ı section is open in the same place of the Solution Explorer section. ABP Studio also opens the *Application Monitor* view on the main content area. *Application Monitor* shows useful insights for your applications (e.g. *HTTP Request*, *Events* and *Exceptions*) as real-time. You can use it to see the happenings in your applications, so you can easily track errors and many helpful details.
+
+In the Solution Runner section (on the left side) you can see all the runnable applications in the current solution. For the current example, we have three applications:
+
+![abp-studio-quick-start-example-applications-in-solution-runner](images/abp-studio-quick-start-example-applications-in-solution-runner.png)
+
+> Notice that the application list can be different based on the options you've selected while creating the solution.
+
+You can run all the applications or start them one by one. To start an application, either click the *Play* icon near to the application or right-click and select the *Run* -> *Start* context menu item.
+
+I started the `Docker-Dependencies` and the `Acme.BookStore.Web` applications. The `Docker-Dependencies` is used to run the infrastructure service (e.g. Redis) in Docker. Start it first, so the web application can properly start.
+
+Once the `Acme.BookStore.Web` application started, you can right-click it and select the *Browse* command:
+
+![abp-studio-quick-start-browse-command](images/abp-studio-quick-start-browse-command.png)
+
+The *Browse* command opens the UI of the web application in the built-in browser:
+
+![abp-studio-quick-start-browse](images/abp-studio-quick-start-browse.png)
+
+You can browse your application in a full-featured web browser in ABP Studio. Click the *Login* button in the application UI, enter `admin` as username and `1q2w3E*` as password to login to the application.
+
+The following screenshot was taken from the *User Management* page of the [Identity module](../../modules/identity.md) that is pre-installed to the application:
+
+![abp-studio-quick-start-browse-user-list](images/abp-studio-quick-start-browse-user-list.png)
+
+## Open the Solution in Visual Studio
+
+You can use any IDE (e.g. Visual Studio, Visual Studio Code or Rider) to develop your solution. Here, we will show Visual Studio as an example.
+
+First of all, we can stop the `Acme.BookStore.Web` application in ABP Studio, so it won't conflict when we run it in Visual Studio. Do not stop the `Docker-Dependencies`, because the application will need it on runtime.
 
 d

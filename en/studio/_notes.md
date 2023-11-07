@@ -1,5 +1,6 @@
 * Document Notes
   * Quick Start: Creating a Layered Web Application
+    * **Disable the DEMO PLUGIN and re-take all screenshots**
     * Make that tutorial with options (UI and Database), like our getting started / web app dev tutorial
     * Re-take welcome page screenshot when the large logo is removed
     * Re-take *Create new solution* wizard screenshot when we change it to Application (Layered)
@@ -10,3 +11,4 @@
 * Other Notes
   * We should support MAUI Blazor Hybrid UI option as well.
   * App-pro template: Root `aspnet-core` folder should not be exists. Event if the Angular UI is selected, we can create `angular` folder inside the root folder of the .NET solution.
+  * Docker-compose file is wrong for the app-pro template. There are bookstore-web and sql server for example. - Also, even when I delete these, it didn't properly started by ABP Studio. Network name is wrong. Run-docker.ps1 is also wrong...
