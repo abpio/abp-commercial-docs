@@ -551,6 +551,10 @@
           "path": "road-map.md"
         },
         {
+          "text": "API Documentation",
+          "path": "{ApiDocumentationUrl}"
+        },
+        {
           "text": "Migration Guides",
           "path": "migration-guides/index.md"
         }
