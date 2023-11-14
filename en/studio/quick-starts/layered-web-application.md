@@ -1,14 +1,5 @@
 # Quick Start: Creating a Layered Web Application with ABP Studio
 
-````json
-//[doc-params]
-{
-    "UI": ["MVC", "Blazor", "BlazorServer", "NG", "None"],
-    "DB": ["EF", "Mongo"],
-    "Tiered": ["Yes", "No"]
-}
-````
-
 Welcome to ABP Studio. In this quick start guide, you will learn how to create and run a layered (and potentially modular) web application using ABP Studio.
 
 ## Creating a New Solution
@@ -33,17 +24,7 @@ Then select an *output folder* to create your solution. The *Create solution fol
 
 Once your configuration is done, click the *Next* button to navigate to the *UI Framework* selection:
 
-{{ if UI == "MVC" }}
-![abp-studio-new-solution-dialog-ui-framework](images/abp-studio-new-solution-dialog-ui-framework-mvc.png)
-{{ else if UI == "Blazor" }}
-![abp-studio-new-solution-dialog-ui-framework](images/abp-studio-new-solution-dialog-ui-framework-blazor.png)
-{{ else if UI == "BlazorServer" }}
-![abp-studio-new-solution-dialog-ui-framework](images/abp-studio-new-solution-dialog-ui-framework-blazor-server.png)
-{{ else if UI == "NG" }}
-![abp-studio-new-solution-dialog-ui-framework](images/abp-studio-new-solution-dialog-ui-framework-angular.png)
-{{ else if UI == "None" }}
-![abp-studio-new-solution-dialog-ui-framework](images/abp-studio-new-solution-dialog-ui-framework-no-ui.png)
-{{ end }}
+![abp-studio-new-solution-dialog-ui-framework](images/abp-studio-new-solution-dialog-ui-framework.png)
 
 Here, you see all the possible UI options supported by that startup solution template. You can pick your favorite one.
 
