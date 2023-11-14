@@ -514,6 +514,10 @@
           ]
         },
         {
+          "text": "Customizing the Generated Code",
+          "path": "abp-suite/customizing-the-generated-code.md"
+        },
+        {
           "text": "Accessing Source Code of Modules",
           "path": "abp-suite/source-code.md"
         },
