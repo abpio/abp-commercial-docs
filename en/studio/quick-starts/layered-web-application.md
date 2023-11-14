@@ -78,7 +78,7 @@ Open the Solution Runner section on the left side of ABP Studio as shown in the 
 
 ![abp-studio-quick-start-application-solution-runner](images/abp-studio-quick-start-application-solution-runner.png)
 
-Once you click the *Play* icon on the left side, the ı section is open in the same place of the Solution Explorer section. ABP Studio also opens the *Application Monitor* view on the main content area. *Application Monitor* shows useful insights for your applications (e.g. *HTTP Request*, *Events* and *Exceptions*) as real-time. You can use it to see the happenings in your applications, so you can easily track errors and many helpful details.
+Once you click the *Play* icon on the left side, the section is open in the same place of the Solution Explorer section. ABP Studio also opens the *Application Monitor* view on the main content area. *Application Monitor* shows useful insights for your applications (e.g. *HTTP Request*, *Events* and *Exceptions*) as real-time. You can use it to see the happenings in your applications, so you can easily track errors and many helpful details.
 
 In the Solution Runner section (on the left side) you can see all the runnable applications in the current solution. For the current example, we have three applications:
 
