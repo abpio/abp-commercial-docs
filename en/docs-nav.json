@@ -91,7 +91,7 @@
         {
           "text": "Migrating to OpenIddict",
           "path": "migration-guides/openIddict-step-by-step.md"
-        }
+        }        
       ]
     },
     {
@@ -360,7 +360,7 @@
             },
             {
               "text": "Periodic Password Change (Password Aging)",
-              "path": "modules/identity/periodic-password-changes.md"
+              "path": "modules/identity/periodic-password-change.md"
             },
             {
               "text": "Two Factor Authentication",
@@ -510,6 +510,10 @@
             {
               "text": "Generating from an Existing Database",
               "path": "abp-suite/generating-entities-from-an-existing-database-table.md"
+            },
+            {
+              "text": "Creating Master Detail Relationship",
+              "path": "abp-suite/creating-master-detail-relationship.md"
             }
           ]
         },

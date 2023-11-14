@@ -34,4 +34,7 @@ After that, run the project and watch the magic! An easy CRUD app using the enti
 
 ## What's next?
 
-[Customizing the Generated Code](customizing-the-generated-code.md)
+* [Customizing the Generated Code](customizing-the-generated-code.md)
+
+* [Creating master-detail (master-child) relationship](creating-master-detail-relationship.md)
+
