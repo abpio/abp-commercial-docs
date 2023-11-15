@@ -87,34 +87,34 @@ As can be seen in the figure above, you can search the related template file, cl
 
 ## Customizations on Angular UI
 
-### Services in Angular
-
-#### On the Angular side, there are two types of services 
+On the Angular side, there are two types of services: 
 - *.abstracts.service.ts
 - *.service.ts.
 
-When Customizable code is set to true, *.abstract.* files are recreated each time schematics are executed, while `.service.` files are generated only once. As a result, modifications can be made to the `.service.ts` file, preserving your changes.
+When the _Customizable code_ is set to **true**, *.abstract.* files are recreated each time schematics are executed, while `.service.` files are generated only once. As a result, modifications can be made to the `.service.ts` file, preserving your changes.
 
 ### Components in Angular
-#### Similar to services, there are two types of components 
-- abstract.component.ts
-- component.ts.
 
-The .abstract.component.ts file is recreated with each execution of schematics, while the `.component.ts` file is generated only once.
+Similar to services, there are two types of components: 
+- `abstract.component.ts`
+- `component.ts`
+
+The `.abstract.component.ts` file is recreated with each execution of schematics, while the code for `.component.ts` files is generated only once, so your custom changes are preserved.
 
 ### HTML Customizations
-When Customizable code is enabled, ABP Suite introduces custom comment tags in the HTML file. For example:
+
+When the _Customizable code_ is enabled, ABP Suite introduces custom comment placeholders in the HTML file. For example:
 
 ```html
 <!--<suite-custom-code-block-0>-->
 <!--</suite-custom-code-block-0>-->
 ```
 
-By placing your custom code between these tags, ABP Suite preserves and moves it to a new file during regeneration. You can add multiple templates using different tag numbers, ensuring uniqueness and matching end tags. The sequence of tags does not need to be ordered and can differ.
+By placing your custom code between these placeholders, ABP Suite preserves and moves it to a new file during regeneration. You can add multiple templates using different placeholder numbers, ensuring uniqueness and matching end placeholders. The sequence of placeholder does not need to be ordered and can differ.
 
-#### Other Files
+### Other Files
 
-Other Files that created with ABP Suite can not be customized. They can not preserved during regeneration.
+Other Files that created are with ABP Suite can not be customized. They can not preserved during regeneration and most of the time you would not even need to customize them.
 
 ## What's next?
 
