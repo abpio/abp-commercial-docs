@@ -85,37 +85,6 @@ As can be seen in the figure above, you can search the related template file, cl
 
 > Note: Currently, up to 11 placeholders are allowed in the CRUD page generation and if you have more placeholders then the additional ones will be ignored. From ABP v8.0, up to 20 placeholders are allowed.
 
-## Customizations on Angular UI
-
-On the Angular side, there are two types of services: 
-- *.abstracts.service.ts
-- *.service.ts.
-
-When the _Customizable code_ is set to **true**, *.abstract.* files are recreated each time schematics are executed, while `.service.` files are generated only once. As a result, modifications can be made to the `.service.ts` file, preserving your changes.
-
-### Components in Angular
-
-Similar to services, there are two types of components: 
-- `abstract.component.ts`
-- `component.ts`
-
-The `.abstract.component.ts` file is recreated with each execution of schematics, while the code for `.component.ts` files is generated only once, so your custom changes are preserved.
-
-### HTML Customizations
-
-When the _Customizable code_ is enabled, ABP Suite introduces custom comment placeholders in the HTML file. For example:
-
-```html
-<!--<suite-custom-code-block-0>-->
-<!--</suite-custom-code-block-0>-->
-```
-
-By placing your custom code between these placeholders, ABP Suite preserves and moves it to a new file during regeneration. You can add multiple templates using different placeholder numbers, ensuring uniqueness and matching end placeholders. The sequence of placeholder does not need to be ordered and can differ.
-
-### Other Files
-
-Other Files that created are with ABP Suite can not be customized. They can not preserved during regeneration and most of the time you would not even need to customize them.
-
 ## What's next?
 
 [Accessing source code of modules](source-code.md)
