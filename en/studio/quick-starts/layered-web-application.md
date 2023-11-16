@@ -154,3 +154,13 @@ You can use `admin` as username and `1q2w3E*` as default password to login to th
 > Note: If you haven't selected a mobile framework, you can skip this step. 
 
 After started {{ if Tiered == "Yes" }}the Docker-Dependencies and{{ end }} the `Acme.BookStore.{{ if UI == "NG" || UI == "Blazor" }}HttpApi.Host{{ else if UI == "BlazorServer" }}Blazor{{ else }}Web{{ end }}` applications. You can start `Acme.BookStore.Maui` application.
+
+## Runnig the Public Website
+
+> Note: If you haven't checked public website, you can skip this step.
+
+{{ if Tiered == "Yes" }}After started the `Docker-Dependencies`, `Acme.BookStore.AuthServer` and the `Acme.BookStore.HttpApi.Host`{{ end }} applications. You can start `Acme.BookStore.Public` application.
+
+> For example in non-tiered MVC with public website application: 
+
+![solution-runner-public-website](images/solution-runner-public-website.png)
