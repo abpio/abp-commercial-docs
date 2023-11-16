@@ -1,5 +1,14 @@
 # Quick Start: Creating a Layered Web Application with ABP Studio
 
+````json
+//[doc-params]
+{
+    "UI": ["MVC", "Blazor", "BlazorServer", "NG"],
+    "DB": ["EF", "Mongo"],
+    "Tiered": ["Yes", "No"]
+}
+````
+
 Welcome to ABP Studio. In this quick start guide, you will learn how to create and run a layered (and potentially modular) web application using ABP Studio.
 
 ## Creating a New Solution
@@ -26,7 +35,7 @@ Once your configuration is done, click the *Next* button to navigate to the *UI 
 
 ![abp-studio-new-solution-dialog-ui-framework](images/abp-studio-new-solution-dialog-ui-framework.png)
 
-Here, you see all the possible UI options supported by that startup solution template. You can pick your favorite one.
+Here, you see all the possible UI options supported by that startup solution template. Pick the **{{ UI_Value }}**.
 
 Notice that; Once you select a UI type, some additional options will be available under the UI Framework list. You can further configure the options or leave them as default and click the *Next* button for the *UI Theme* selection screen:
 
@@ -54,11 +63,19 @@ The tiered architecture allows you to host the web (UI) application in a server 
 
 After making your *Tiered* selection, you can click the *Next* button for the *Database Provider* selection:
 
-![abp-studio-new-solution-dialog-database-provider](images/abp-studio-new-solution-dialog-database-provider.png)
+{{ if DB == "EF" }}
+![abp-studio-new-solution-dialog-database-provider](images/abp-studio-new-solution-dialog-database-provider-efcore.png)
+{{ else }}
+![abp-studio-new-solution-dialog-database-provider](images/abp-studio-new-solution-dialog-database-provider-mongo.png)
+{{ end }}
 
 On that screen, you can decide on your database provider by selecting one of the provided options. There are some additional options for each database provider. Leave them as default or change them based on your preferences, then click the *Next* button for additional *Database Configurations*:
 
-![abp-studio-new-solution-dialog-database-configurations](images/abp-studio-new-solution-dialog-database-configurations.png)
+{{ if DB == "EF" }}
+![abp-studio-new-solution-dialog-database-configurations](images/abp-studio-new-solution-dialog-database-configurations-efcore.png)
+{{ else }}
+![abp-studio-new-solution-dialog-database-configurations](images/abp-studio-new-solution-dialog-database-configurations-mongo.png)
+{{ end }}
 
 Here, you can select the DBMS (only for Entity Framework Core) and the connection string. Now, we are ready to allow ABP Studio to create our solution. Just click the *Create* button and let it go.
 
