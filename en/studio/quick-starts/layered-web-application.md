@@ -93,17 +93,19 @@ After creating your solution, you can open it in your favorite IDE (e.g. Visual 
 
 Open the Solution Runner section on the left side of ABP Studio as shown in the following figure:
 
+> The solution runner structure can be different in your case based on the options you've selected.
+
 ![abp-studio-quick-start-application-solution-runner](images/abp-studio-quick-start-application-solution-runner.png)
 
 Once you click the *Play* icon on the left side, the ı section is open in the same place of the Solution Explorer section. ABP Studio also opens the *Application Monitor* view on the main content area. *Application Monitor* shows useful insights for your applications (e.g. *HTTP Request*, *Events* and *Exceptions*) as real-time. You can use it to see the happenings in your applications, so you can easily track errors and many helpful details.
 
-In the Solution Runner section (on the left side) you can see all the runnable applications in the current solution. For the current example, we have three applications:
+In the Solution Runner section (on the left side) you can see all the runnable applications in the current solution. For the MVC with public web site example, we have three applications:
 
 ![abp-studio-quick-start-example-applications-in-solution-runner](images/abp-studio-quick-start-example-applications-in-solution-runner.png)
 
 You can run all the applications or start them one by one. To start an application, either click the *Play* icon near to the application or right-click and select the *Run* -> *Start* context menu item.
 
-I started the `Docker-Dependencies` and the `Acme.BookStore.Web` applications. The `Docker-Dependencies` is used to run the infrastructure service (e.g. Redis) in Docker. Start it first, so the web application can properly start.
+You can start {{ if Tiered == "Yes" }}the `Docker-Dependencies` and{{ end }} the `Acme.BookStore.{{ if UI == "NG" || UI == "Blazor" }}HttpApi.Host{{ else if UI == "BlazorServer" }}Blazor{{ else }}Web{{ end }}`{{ if UI == "NG"}} and the `Acme.BookStore.Angular` {{ else if UI == "Blazor" }} and the `Acme.BookStore.Blazor` {{ end }} applications.{{ if Tiered == "Yes" }} The `Docker-Dependencies` is used to run the infrastructure service (e.g. Redis) in Docker. Start it first, so the web application can properly start.{{ end }}
 
 > Notice that the services running in docker-compose are exposed to your localhost. If any service in your localhost is already using the same port(s), you will get an error. In that case, stop your local services first.
 
