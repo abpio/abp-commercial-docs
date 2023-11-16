@@ -129,7 +129,7 @@ The following screenshot was taken from the *User Management* page of the [Ident
 
 You can use any IDE (e.g. Visual Studio, Visual Studio Code or Rider) to develop your solution. Here, we will show Visual Studio as an example.
 
-First of all, we can stop the `Acme.BookStore.Web` application in ABP Studio, so it won't conflict when we run it in Visual Studio. Do not stop the `Docker-Dependencies`, because the application will need the services it runs at runtime.
+First of all, we can stop the `Acme.BookStore.{{ if UI == "NG" }}Angular{{ else if UI == "BlazorServer" || UI == "Blazor" }}Blazor{{ else }}Web{{ end }}` application in ABP Studio, so it won't conflict when we run it in Visual Studio.{{ if Tiered == "Yes" }} Do not stop the `Docker-Dependencies`, because the application will need the services it runs at runtime.{{ end }}
 
 You can use ABP Studio to open the solution with Visual Studio. Right-click to the `Acme.BookStore` [module](../concepts.md), and select the *Open with* -> *Visual Studio* command:
 
@@ -139,9 +139,11 @@ If the *Visual Studio* command is not available, that means ABP Studio could not
 
 Once the solution is opened in Visual Studio, you should see a screen like shown below:
 
+> The solution structure can be different in your case based on the options you've selected.
+
 ![visual-studio-bookstore-application](images/visual-studio-bookstore-application.png)
 
-Right-click the `Acme.BookStore.Web` project and select the *Set as Startup Project* command. You can then hit *F5* or *Ctrl + F5* to run the web application. It will run and open the application UI in your default browser:
+Right-click the `Acme.BookStore.{{ if UI == "NG" || UI == "Blazor" }}HttpApi.Host{{ else if UI == "BlazorServer" }}Blazor{{ else }}Web{{ end }}` project and select the *Set as Startup Project* command. You can then hit *F5* or *Ctrl + F5* to run the web application. It will run and open the application UI in your default browser:
 
 ![bookstore-browser-users-page](images/bookstore-browser-users-page.png)
 
