@@ -105,11 +105,13 @@ In the Solution Runner section (on the left side) you can see all the runnable a
 
 You can run all the applications or start them one by one. To start an application, either click the *Play* icon near to the application or right-click and select the *Run* -> *Start* context menu item.
 
-You can start {{ if Tiered == "Yes" }}the `Docker-Dependencies` and{{ end }} the `Acme.BookStore.{{ if UI == "NG" || UI == "Blazor" }}HttpApi.Host{{ else if UI == "BlazorServer" }}Blazor{{ else }}Web{{ end }}`{{ if UI == "NG"}} and the `Acme.BookStore.Angular` {{ else if UI == "Blazor" }} and the `Acme.BookStore.Blazor` {{ end }} applications.{{ if Tiered == "Yes" }} The `Docker-Dependencies` is used to run the infrastructure service (e.g. Redis) in Docker. Start it first, so the web application can properly start.{{ end }}
+You can start {{ if Tiered == "Yes" }}the `Docker-Dependencies` and{{ end }} the `Acme.BookStore.{{ if UI == "NG" || UI == "Blazor" }}HttpApi.Host{{ else if UI == "BlazorServer" }}Blazor{{ else }}Web{{ end }}`{{ if UI == "NG"}} and the `Acme.BookStore.Angular`{{ else if UI == "Blazor" }} and the `Acme.BookStore.Blazor`{{ end }} applications.{{ if Tiered == "Yes" }} The `Docker-Dependencies` is used to run the infrastructure service (e.g. Redis) in Docker. Start it first, so the web application can properly start.{{ end }}
 
+{{ if Tiered == "Yes" }}
 > Notice that the services running in docker-compose are exposed to your localhost. If any service in your localhost is already using the same port(s), you will get an error. In that case, stop your local services first.
+{{ end }}
 
-Once the `Acme.BookStore.Web` application started, you can right-click it and select the *Browse* command:
+Once the `Acme.BookStore.{{ if UI == "NG" }}Angular{{ else if UI == "BlazorServer" || UI == "Blazor" }}Blazor{{ else }}Web{{ end }}` application started, you can right-click it and select the *Browse* command:
 
 ![abp-studio-quick-start-browse-command](images/abp-studio-quick-start-browse-command.png)
 
