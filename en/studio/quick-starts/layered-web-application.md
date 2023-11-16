@@ -148,3 +148,9 @@ Right-click the `Acme.BookStore.{{ if UI == "NG" || UI == "Blazor" }}HttpApi.Hos
 ![bookstore-browser-users-page](images/bookstore-browser-users-page.png)
 
 You can use `admin` as username and `1q2w3E*` as default password to login to the application.
+
+## Runnig the Mobile Application
+
+> Note: If you haven't selected a mobile framework, you can skip this step. 
+
+After started {{ if Tiered == "Yes" }}the Docker-Dependencies and{{ end }} the `Acme.BookStore.{{ if UI == "NG" || UI == "Blazor" }}HttpApi.Host{{ else if UI == "BlazorServer" }}Blazor{{ else }}Web{{ end }}` applications. You can start `Acme.BookStore.Maui` application.
