@@ -2,7 +2,9 @@
 
 ## About This Tutorial
 
-This tutorial assumes that you have completed the [Web Application Development tutorial](../part-1.md) and built an ABP based application named `Acme.BookStore`. In this tutorial, we will only focus on the UI side of the `Acme.BookStore` application and we will implement the CRUD operations for a MAUI mobile application. This tutorial follows the [MVVM (Model-View-ViewModel) Pattern ](https://learn.microsoft.com/en-us/dotnet/architecture/maui/mvvm), which separates the UI from the business logic of an application.
+This tutorial assumes that you have completed the [Web Application Development tutorial](../part-1.md) and built an ABP based application named `Acme.BookStore` with [MAUI](../../../getting-started-maui.md) as the mobile option. Therefore, if you haven't completed the [Web Application Development tutorial](../part-1.md), you either need to complete it or download the source code from down below and follow this tutorial. 
+
+In this tutorial, we will only focus on the UI side of the `Acme.BookStore` application and we will implement the CRUD operations for a MAUI mobile application. This tutorial follows the [MVVM (Model-View-ViewModel) Pattern ](https://learn.microsoft.com/en-us/dotnet/architecture/maui/mvvm), which separates the UI from the business logic of an application.
 
 ## Download the Source Code
 
