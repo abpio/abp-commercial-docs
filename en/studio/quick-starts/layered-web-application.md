@@ -99,13 +99,32 @@ Open the Solution Runner section on the left side of ABP Studio as shown in the 
 
 Once you click the *Play* icon on the left side, the ı section is open in the same place of the Solution Explorer section. ABP Studio also opens the *Application Monitor* view on the main content area. *Application Monitor* shows useful insights for your applications (e.g. *HTTP Request*, *Events* and *Exceptions*) as real-time. You can use it to see the happenings in your applications, so you can easily track errors and many helpful details.
 
-In the Solution Runner section (on the left side) you can see all the runnable applications in the current solution. For the MVC with public web site example, we have three applications:
+In the Solution Runner section (on the left side) you can see all the runnable applications in the current solution. For the MVC with public website example, we have three applications:
 
 ![abp-studio-quick-start-example-applications-in-solution-runner](images/abp-studio-quick-start-example-applications-in-solution-runner.png)
 
 You can run all the applications or start them one by one. To start an application, either click the *Play* icon near to the application or right-click and select the *Run* -> *Start* context menu item.
 
-You can start {{ if Tiered == "Yes" }}the `Docker-Dependencies` and{{ end }} the `Acme.BookStore.{{ if UI == "NG" || UI == "Blazor" }}HttpApi.Host{{ else if UI == "BlazorServer" }}Blazor{{ else }}Web{{ end }}`{{ if UI == "NG"}} and the `Acme.BookStore.Angular`{{ else if UI == "Blazor" }} and the `Acme.BookStore.Blazor`{{ end }} applications.{{ if Tiered == "Yes" }} The `Docker-Dependencies` is used to run the infrastructure service (e.g. Redis) in Docker. Start it first, so the web application can properly start.{{ end }}
+You can start the following application(s): 
+
+{{ if Tiered == "Yes" }}
+- `Docker-Dependencies`
+- `Acme.BookStore.AuthServer`
+- `Acme.BookStore.HttpApi.Host`
+{{ end }}
+{{ if UI == "NG" }}
+{{ if Tiered == "No" }}- `Acme.BookStore.HttpApi.Host`{{ end }}
+- `Acme.BookStore.Angular`
+{{ else if UI == "Blazor" }}
+{{ if Tiered == "No" }}- `Acme.BookStore.HttpApi.Host`{{ end }}
+- `Acme.BookStore.Blazor`
+{{ else if UI == "BlazorServer" }}
+- `Acme.BookStore.Blazor`
+{{ else }}
+- `Acme.BookStore.Web`
+{{ end }}
+
+{{ if Tiered == "Yes" }} The `Docker-Dependencies` is used to run the infrastructure service (e.g. Redis) in Docker. Start it first, so the web application can properly start.{{ end }}
 
 {{ if Tiered == "Yes" }}
 > Notice that the services running in docker-compose are exposed to your localhost. If any service in your localhost is already using the same port(s), you will get an error. In that case, stop your local services first.
@@ -129,7 +148,7 @@ The following screenshot was taken from the *User Management* page of the [Ident
 
 You can use any IDE (e.g. Visual Studio, Visual Studio Code or Rider) to develop your solution. Here, we will show Visual Studio as an example.
 
-First of all, we can stop the `Acme.BookStore.{{ if UI == "NG" }}Angular{{ else if UI == "BlazorServer" || UI == "Blazor" }}Blazor{{ else }}Web{{ end }}` application in ABP Studio, so it won't conflict when we run it in Visual Studio.{{ if Tiered == "Yes" }} Do not stop the `Docker-Dependencies`, because the application will need the services it runs at runtime.{{ end }}
+First of all, we can stop the application(s) in ABP Studio, so it won't conflict when we run it in Visual Studio.{{ if Tiered == "Yes" }} Do not stop the `Docker-Dependencies`, because the application will need the services it runs at runtime.{{ end }}
 
 You can use ABP Studio to open the solution with Visual Studio. Right-click to the `Acme.BookStore` [module](../concepts.md), and select the *Open with* -> *Visual Studio* command:
 
@@ -154,6 +173,8 @@ You can use `admin` as username and `1q2w3E*` as default password to login to th
 > Note: If you haven't selected a mobile framework, you can skip this step. 
 
 After started {{ if Tiered == "Yes" }}the Docker-Dependencies and{{ end }} the `Acme.BookStore.{{ if UI == "NG" || UI == "Blazor" }}HttpApi.Host{{ else if UI == "BlazorServer" }}Blazor{{ else }}Web{{ end }}` applications. You can start `Acme.BookStore.Maui` application.
+
+TODO Add sample image
 
 ## Runnig the Public Website
 
