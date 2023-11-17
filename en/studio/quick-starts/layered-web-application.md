@@ -180,7 +180,7 @@ TODO Add sample image
 
 > Note: If you haven't checked public website, you can skip this step.
 
-{{ if Tiered == "Yes" }}After started the `Docker-Dependencies`, `Acme.BookStore.AuthServer` and the `Acme.BookStore.HttpApi.Host`{{ end }} applications. You can start `Acme.BookStore.Public` application.
+{{ if Tiered == "Yes" }}After started the `Docker-Dependencies`, `Acme.BookStore.AuthServer` and the `Acme.BookStore.HttpApi.Host`{{ end }} applications. You can start `Acme.BookStore.Web.Public` application.
 
 > For example in non-tiered MVC with public website application: 
 
