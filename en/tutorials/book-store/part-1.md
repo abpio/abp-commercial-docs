@@ -44,6 +44,8 @@ This tutorial has multiple versions based on your **UI** and **Database** prefer
 
 Before starting to the development, create a new solution named `Acme.BookStore` and run it by following the [getting started tutorial](../../getting-started.md).
 
+> **Note**: If you are considering following the [MAUI - Mobile Application Development tutorial](./mobile/maui.md)/[React Native - Mobile Application development tutorial](./mobile/react-native.md) or creating a mobile application, don't forget to specify the mobile option as described in the [getting started tutorial](../../getting-started.md).
+
 ## After Creating the Solution
 
 ### Installing the Client-Side Packages

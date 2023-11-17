@@ -2,7 +2,8 @@
 
 ## About This Tutorial
 
-- This tutorial assumes that you have completed the [Web Application Development tutorial](https://docs.abp.io/en/commercial/latest/tutorials/book-store/part-1?UI=NG&DB=Mongo) and built an ABP based application named `Acme.BookStore`. In this tutorial, we will only focus on the UI side of the `Acme.BookStore` application and will implement the CRUD operations.
+- This tutorial assumes that you have completed the [Web Application Development tutorial](../part-1.md) and built an ABP based application named `Acme.BookStore` with [React Native](../../../getting-started-react-native.md) as the mobile option.. Therefore, if you haven't completed the [Web Application Development tutorial](../part-1.md), you either need to complete it or download the source code from down below and follow this tutorial.
+- In this tutorial, we will only focus on the UI side of the `Acme.BookStore` application and will implement the CRUD operations.
 - Before starting, please make sure that the [React Native Development Environment](https://docs.abp.io/en/commercial/latest/getting-started-react-native) is ready on your machine.
 
 ## Download the Source Code
