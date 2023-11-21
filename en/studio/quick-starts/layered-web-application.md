@@ -1,5 +1,14 @@
 # Quick Start: Creating a Layered Web Application with ABP Studio
 
+````json
+//[doc-params]
+{
+    "UI": ["MVC", "Blazor", "BlazorServer", "NG"],
+    "DB": ["EF", "Mongo"],
+    "Tiered": ["Yes", "No"]
+}
+````
+
 Welcome to ABP Studio. In this quick start guide, you will learn how to create and run a layered (and potentially modular) web application using ABP Studio.
 
 ## Creating a New Solution
@@ -26,7 +35,7 @@ Once your configuration is done, click the *Next* button to navigate to the *UI 
 
 ![abp-studio-new-solution-dialog-ui-framework](images/abp-studio-new-solution-dialog-ui-framework.png)
 
-Here, you see all the possible UI options supported by that startup solution template. You can pick your favorite one.
+Here, you see all the possible UI options supported by that startup solution template. Pick the **{{ UI_Value }}**.
 
 Notice that; Once you select a UI type, some additional options will be available under the UI Framework list. You can further configure the options or leave them as default and click the *Next* button for the *UI Theme* selection screen:
 
@@ -54,11 +63,19 @@ The tiered architecture allows you to host the web (UI) application in a server 
 
 After making your *Tiered* selection, you can click the *Next* button for the *Database Provider* selection:
 
-![abp-studio-new-solution-dialog-database-provider](images/abp-studio-new-solution-dialog-database-provider.png)
+{{ if DB == "EF" }}
+![abp-studio-new-solution-dialog-database-provider](images/abp-studio-new-solution-dialog-database-provider-efcore.png)
+{{ else }}
+![abp-studio-new-solution-dialog-database-provider](images/abp-studio-new-solution-dialog-database-provider-mongo.png)
+{{ end }}
 
 On that screen, you can decide on your database provider by selecting one of the provided options. There are some additional options for each database provider. Leave them as default or change them based on your preferences, then click the *Next* button for additional *Database Configurations*:
 
-![abp-studio-new-solution-dialog-database-configurations](images/abp-studio-new-solution-dialog-database-configurations.png)
+{{ if DB == "EF" }}
+![abp-studio-new-solution-dialog-database-configurations](images/abp-studio-new-solution-dialog-database-configurations-efcore.png)
+{{ else }}
+![abp-studio-new-solution-dialog-database-configurations](images/abp-studio-new-solution-dialog-database-configurations-mongo.png)
+{{ end }}
 
 Here, you can select the DBMS (only for Entity Framework Core) and the connection string. Now, we are ready to allow ABP Studio to create our solution. Just click the *Create* button and let it go.
 
@@ -76,21 +93,44 @@ After creating your solution, you can open it in your favorite IDE (e.g. Visual 
 
 Open the Solution Runner section on the left side of ABP Studio as shown in the following figure:
 
+> The solution runner structure can be different in your case based on the options you've selected.
+
 ![abp-studio-quick-start-application-solution-runner](images/abp-studio-quick-start-application-solution-runner.png)
 
 Once you click the *Play* icon on the left side, the section is open in the same place of the Solution Explorer section. ABP Studio also opens the *Application Monitor* view on the main content area. *Application Monitor* shows useful insights for your applications (e.g. *HTTP Request*, *Events* and *Exceptions*) as real-time. You can use it to see the happenings in your applications, so you can easily track errors and many helpful details.
 
-In the Solution Runner section (on the left side) you can see all the runnable applications in the current solution. For the current example, we have three applications:
+In the Solution Runner section (on the left side) you can see all the runnable applications in the current solution. For the MVC with public website example, we have three applications:
 
 ![abp-studio-quick-start-example-applications-in-solution-runner](images/abp-studio-quick-start-example-applications-in-solution-runner.png)
 
 You can run all the applications or start them one by one. To start an application, either click the *Play* icon near to the application or right-click and select the *Run* -> *Start* context menu item.
 
-I started the `Docker-Dependencies` and the `Acme.BookStore.Web` applications. The `Docker-Dependencies` is used to run the infrastructure service (e.g. Redis) in Docker. Start it first, so the web application can properly start.
+You can start the following application(s): 
 
+{{ if Tiered == "Yes" }}
+- `Docker-Dependencies`
+- `Acme.BookStore.AuthServer`
+- `Acme.BookStore.HttpApi.Host`
+{{ end }}
+{{ if UI == "NG" }}
+{{ if Tiered == "No" }}- `Acme.BookStore.HttpApi.Host`{{ end }}
+- `Acme.BookStore.Angular`
+{{ else if UI == "Blazor" }}
+{{ if Tiered == "No" }}- `Acme.BookStore.HttpApi.Host`{{ end }}
+- `Acme.BookStore.Blazor`
+{{ else if UI == "BlazorServer" }}
+- `Acme.BookStore.Blazor`
+{{ else }}
+- `Acme.BookStore.Web`
+{{ end }}
+
+{{ if Tiered == "Yes" }} The `Docker-Dependencies` is used to run the infrastructure service (e.g. Redis) in Docker. Start it first, so the web application can properly start.{{ end }}
+
+{{ if Tiered == "Yes" }}
 > Notice that the services running in docker-compose are exposed to your localhost. If any service in your localhost is already using the same port(s), you will get an error. In that case, stop your local services first.
+{{ end }}
 
-Once the `Acme.BookStore.Web` application started, you can right-click it and select the *Browse* command:
+Once the `Acme.BookStore.{{ if UI == "NG" }}Angular{{ else if UI == "BlazorServer" || UI == "Blazor" }}Blazor{{ else }}Web{{ end }}` application started, you can right-click it and select the *Browse* command:
 
 ![abp-studio-quick-start-browse-command](images/abp-studio-quick-start-browse-command.png)
 
@@ -108,7 +148,7 @@ The following screenshot was taken from the *User Management* page of the [Ident
 
 You can use any IDE (e.g. Visual Studio, Visual Studio Code or Rider) to develop your solution. Here, we will show Visual Studio as an example.
 
-First of all, we can stop the `Acme.BookStore.Web` application in ABP Studio, so it won't conflict when we run it in Visual Studio. Do not stop the `Docker-Dependencies`, because the application will need the services it runs at runtime.
+First of all, we can stop the application(s) in ABP Studio, so it won't conflict when we run it in Visual Studio.{{ if Tiered == "Yes" }} Do not stop the `Docker-Dependencies`, because the application will need the services it runs at runtime.{{ end }}
 
 You can use ABP Studio to open the solution with Visual Studio. Right-click to the `Acme.BookStore` [module](../concepts.md), and select the *Open with* -> *Visual Studio* command:
 
@@ -118,10 +158,30 @@ If the *Visual Studio* command is not available, that means ABP Studio could not
 
 Once the solution is opened in Visual Studio, you should see a screen like shown below:
 
+> The solution structure can be different in your case based on the options you've selected.
+
 ![visual-studio-bookstore-application](images/visual-studio-bookstore-application.png)
 
-Right-click the `Acme.BookStore.Web` project and select the *Set as Startup Project* command. You can then hit *F5* or *Ctrl + F5* to run the web application. It will run and open the application UI in your default browser:
+Right-click the `Acme.BookStore.{{ if UI == "NG" || UI == "Blazor" }}HttpApi.Host{{ else if UI == "BlazorServer" }}Blazor{{ else }}Web{{ end }}` project and select the *Set as Startup Project* command. You can then hit *F5* or *Ctrl + F5* to run the web application. It will run and open the application UI in your default browser:
 
 ![bookstore-browser-users-page](images/bookstore-browser-users-page.png)
 
 You can use `admin` as username and `1q2w3E*` as default password to login to the application.
+
+## Runnig the Mobile Application
+
+> Note: If you haven't selected a mobile framework, you can skip this step. 
+
+After started {{ if Tiered == "Yes" }}the Docker-Dependencies and{{ end }} the `Acme.BookStore.{{ if UI == "NG" || UI == "Blazor" }}HttpApi.Host{{ else if UI == "BlazorServer" }}Blazor{{ else }}Web{{ end }}` applications. You can start `Acme.BookStore.Maui` application.
+
+TODO Add sample image
+
+## Runnig the Public Website
+
+> Note: If you haven't checked public website, you can skip this step.
+
+{{ if Tiered == "Yes" }}After started the `Docker-Dependencies`, `Acme.BookStore.AuthServer` and the `Acme.BookStore.HttpApi.Host` applications.{{ end }} You can start `Acme.BookStore.Web.Public` application.
+
+> For example in non-tiered MVC with public website application: 
+
+![solution-runner-public-website](images/solution-runner-public-website.png)
