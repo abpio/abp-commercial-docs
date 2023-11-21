@@ -1,4 +1,4 @@
-# Master-Detail Forms
+# Master-Detail Relationship
 
 The Master-Detail (or Master-Child) relationship refers to a hierarchical connection between two entities, where one entity (the master or parent entity) influences or controls the behavior or properties of another element (the child entity) relationship. The relationship between **Order - Order Lines** and **Invoice - Invoice Items** can be considered as examples of a master-detail relationship.
 
