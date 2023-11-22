@@ -175,7 +175,7 @@ You can disable watching by right-clicking an application and selecting *Run* ->
 Solution Runner is a great way to locally run all the applications and services of your solution. However, there are some drawbacks:
 
 * If your solution grows and you have tens or hundreds of services, running all the system in your local environment will consume your system resources (CPU, RAM, ...) a lot.
-* In the end, your solution will work in a production environment, and Kubernetes is currently the de-facto tool to deploy such distributed solutions. Running your solution in a local or remote Kubernetes environment will be much closed to the production environment.
+* In the end, your solution will work in a production environment, and Kubernetes is currently the de-facto tool to deploy such distributed solutions. Running your solution in a local or remote Kubernetes environment will be much closer to a production environment.
 
 ABP Studio's Kubernetes Integration feature is a great way to deploy your microservice solution to Kubernetes and locally develop your services by integrating your local environment to a Kubernetes cluster.
 
