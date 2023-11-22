@@ -8,11 +8,13 @@ Until this version, ABP Commercial was using the [Ocelot](https://github.com/Thr
 
 ## YARP Migration Steps
 
-You should apply the following steps to upgrade your API Gateway from Ocelot to YARP:
+You should update various files in different projects to upgrade your the API Gateway from Ocelot to YARP. All of the required changes are listed below in different sections, please apply the following steps to upgrade from Ocelot to YARP.
 
-### Shared.Hosting.Gateways
+> Alternatively, you can create a Microservice Startup Template and compare your changes with the microservice template. It's recommended approach to ensure all the required changes have been done.
 
-* Remove the Ocelot packages and add `YARP` packages:
+### Shared Hosting Gateways Project
+
+* Remove the Ocelot packages and add `YARP` packages as follows:
 
 ```diff
     <ItemGroup>
@@ -72,9 +74,9 @@ public static class AbpHostingHostBuilderExtensions
 }
 ```
 
-* Delete the `OcelotConfiguration.cs` file.
+* Delete the `OcelotConfiguration.cs` file from the solution.
 
-### PublicWebGateway
+### Public Web Gateway Project
 
 * Remove the **ocelot.json** file and instead create a new **yarp.json** file and update its content as follows (in the root directory of the `PublicWebGateway` project):
 
@@ -166,8 +168,8 @@ public static class AbpHostingHostBuilderExtensions
 ```diff
     builder.Host
         .AddAppSettingsSecretsJson()
--        .AddOcelotJson()
-+        .AddYarpJson() 
+-       .AddOcelotJson()
++       .AddYarpJson() 
         .UseAutofac()
         .UseSerilog();
 ```
@@ -229,7 +231,7 @@ public static class AbpHostingHostBuilderExtensions
 +    }
 ```
 
-### WebGateway
+### Web Gateway Project
 
 * Remove the **ocelot.json** file and instead create a new **yarp.json** file and update its content as follows (in the root directory of the `WebGateway` project):
 
@@ -431,8 +433,8 @@ public static class AbpHostingHostBuilderExtensions
 ```diff
     builder.Host
         .AddAppSettingsSecretsJson()
--        .AddOcelotJson()
-+        .AddYarpJson() 
+-       .AddOcelotJson()
++       .AddYarpJson() 
         .UseAutofac()
         .UseSerilog();
 ```
@@ -583,7 +585,7 @@ data:
     }
 ```
 
-* Make the following changes in the `gateway-web-public-deployment.yaml` file (_etc/k8s/MyProjectName/charts/gateway-web-public/templates/gateway-web-public-deployment.yaml_):
+* Make the following changes in the `gateway-web-public-deployment.yaml` file (_etc/k8s/<project-name>/charts/gateway-web-public/templates/gateway-web-public-deployment.yaml_):
 
 ```diff
 -          mountPath: /app/ocelot.json
@@ -592,7 +594,7 @@ data:
 +          subPath: yarp.json
 ```
 
-* Update the `values.yaml` file as follows (_etc/k8s/MyProjectName/charts/gateway-web-public/values.yaml_):
+* Update the `values.yaml` file as follows (_etc/k8s/<project-name>/charts/gateway-web-public/values.yaml_):
 
 ```yaml
 config:
@@ -832,7 +834,7 @@ data:
     }
 ```
 
-* Make the following changes in the `gateway-web-deployment.yaml` file (_etc/k8s/MyProjectName/charts/gateway-web/templates/gateway-web-deployment.yaml_):
+* Make the following changes in the `gateway-web-deployment.yaml` file (_etc/k8s/<project-name>/charts/gateway-web/templates/gateway-web-deployment.yaml_):
 
 ```diff
 -          mountPath: /app/ocelot.json
@@ -841,7 +843,7 @@ data:
 +          subPath: yarp.json
 ```
 
-* Update the `values.yaml` file as follows (_etc/k8s/MyProjectName/charts/gateway-web/values.yaml_):
+* Update the `values.yaml` file as follows (_etc/k8s/<project-name>/charts/gateway-web/values.yaml_):
 
 ```yaml
 config:
@@ -882,7 +884,7 @@ image:
 env: {}
 ```
 
-* Update the `values.yaml` file as follows (_etc/k8s/MyProjectName/values.yaml_):
+* Update the `values.yaml` file as follows (_etc/k8s/<project-name>/values.yaml_):
 
 ```diff
 - globalConfigurationBaseUrl: http://myprojectname-st-gateway-web
