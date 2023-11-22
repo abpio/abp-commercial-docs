@@ -181,7 +181,7 @@ ABP Studio's Kubernetes Integration feature is a great way to deploy your micros
 
 Open the *Kubernetes* section on the left side of ABP Studio as shown in the following figure:
 
-![abp-studio-new-microservice-helm-charts](D:\Github\abp-commercial-docs\en\studio\quick-starts\images\abp-studio-new-microservice-helm-charts.png)
+![abp-studio-new-microservice-helm-charts](images/abp-studio-new-microservice-helm-charts.png)
 
 In the *Helm* tab (shown in the figure above), we can see all the [Helm](https://helm.sh/) charts in the solution (chart files are located in the `etc/helm` folder in the solution folder). All the charts are ready to use and pre-configured for [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 
