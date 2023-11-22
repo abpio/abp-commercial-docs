@@ -271,7 +271,7 @@
                 },
                 {
                   "text": "Migrating to YARP",
-                  "path": "migration-guides/migrating-to-yarp"
+                  "path": "migration-guides/migrating-to-yarp.md"
                 }
               ]
             }
