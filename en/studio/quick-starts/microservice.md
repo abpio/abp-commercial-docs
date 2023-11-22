@@ -118,4 +118,42 @@ Before running the applications, it is good to be sure that all applications are
 
 > *Solution Runner* doesn't build an application before running it. That provides a great performance gain, because most of the time you will work on one or a few services and you don't need to build all of the other applications in every run. However, if you want to build before run, you can right-click an item in the *Solution Runner* tree and select *Run* -> *Build & Start* command.
 
-It will take some time to build all. Once all ready, you can...
+It will take some time to build all. Once all done, you can start the system. 
+
+You can click the *Play* button on the root item in Solution Runner to start all the applications. Or you can start `Docker-Dependencies` first, so the database and other infrastructure services get ready before the other applications:
+
+![abp-studio-microservice-solution-runner-docker-dependencies](images/abp-studio-microservice-solution-runner-docker-dependencies.png)
+
+> Docker will fetch the docker images before starting the containers in your first run (if they were not fetched before) and that process may get a few minutes depending on your internet connection speed.  So, please wait it to completely start. If the process gets more time than you expect, you can right-click to `Docker-Dependencies` and select the *Logs* command to see what's happening.
+
+Once `Docker-Dependencies` is ready, you can click the *Play* button on the root item in Solution Runner to start all the applications.
+
+> Some applications/services may fail on first run. That may be because of service and database dependencies were not satisfied and an error occurs on the application startup. ABP Studio automatically restarts failing services until it is successfully starts. Being completely ready of such a distributed solution may take a while, but it will be eventually started.
+
+Once all the applications are ready, you can right-click the `Web` application and select the *Browse* command:
+
+![abp-studio-microservice-solution-runner-browse](images/abp-studio-microservice-solution-runner-browse.png)
+
+The *Browse* command opens the web application's UI in the built-in browser of ABP Studio:
+
+***TODO: Screenshot***
+
+You can also browse the other applications/services (that provides a UI) inside ABP Studio. In this way, you don't need to use an external browser and manually type the application's URL.
+
+## Developing Services Using the Solution Runner
+
+Solution Runner not only runs a multi-applications system easier, but it is also useful while developing your services and applications.
+
+In a microservice solution, you typically focus on one or a few services and applications. Assume that you want to make a development in `IdentityService`. You can use the following flow:
+
+* Start all the applications/services in the solution and test if everything works as expected.
+* Stop the `IdentityService` in the Solution Runner.
+* Open the `IdentityService`'s .NET solution in your favorite IDE (e.g. Visual Studio). As an easy way of opening it, you can use the *Solution Explorer*, find the `Acme.CloudCrm.IdentityService` module, right-click to it and select the *Open with* -> *Visual Studio* command.
+* Make your development in the `IdentityService`.
+* Run (with or without debugging) your service in Visual Studio.
+
+Once you run the `IdentityService` in Visual Studio, it will be completely integrated to the rest of the system since they all run in your local machine. In addition, the `IdentityService` application will automatically connect to ABP Studio and send runtime data to it as it works in ABP Studio. When you run an application out of ABP Studio, it is shown as *external* in the Solution Runner and you can't stop it in ABP Studio (you should stop where you've started):
+
+![abp-studio-microservice-solution-runner-external-service](images/abp-studio-microservice-solution-runner-external-service.png)
+
+s
