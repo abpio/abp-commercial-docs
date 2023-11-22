@@ -136,24 +136,40 @@ Once all the applications are ready, you can right-click the `Web` application a
 
 The *Browse* command opens the web application's UI in the built-in browser of ABP Studio:
 
-***TODO: Screenshot***
+![abp-studio-microservice-solution-runner-browse-microservice](images/abp-studio-microservice-solution-runner-browse-microservice.png)
 
-You can also browse the other applications/services (that provides a UI) inside ABP Studio. In this way, you don't need to use an external browser and manually type the application's URL.
+You can browse your application in a full-featured web browser in ABP Studio. Click the *Login* button in the application UI, enter `admin` as username and `1q2w3E*` as password to login to the application.
+
+> You can also browse the other applications/services (that provides a UI) inside ABP Studio. In this way, you don't need to use an external browser or manually type the application's URL.
 
 ## Developing Services Using the Solution Runner
 
-Solution Runner not only runs a multi-applications system easier, but it is also useful while developing your services and applications.
-
-In a microservice solution, you typically focus on one or a few services and applications. Assume that you want to make a development in `IdentityService`. You can use the following flow:
+Solution Runner not only runs a multi-applications system easier, but is also useful while developing your services and applications. In a microservice solution, you typically focus on one or a few services and applications. Assume that you want to make a development in `IdentityService`. You can use the following development flow:
 
 * Start all the applications/services in the solution and test if everything works as expected.
 * Stop the `IdentityService` in the Solution Runner.
 * Open the `IdentityService`'s .NET solution in your favorite IDE (e.g. Visual Studio). As an easy way of opening it, you can use the *Solution Explorer*, find the `Acme.CloudCrm.IdentityService` module, right-click to it and select the *Open with* -> *Visual Studio* command.
 * Make your development in the `IdentityService`.
-* Run (with or without debugging) your service in Visual Studio.
+* Run (with or without debugging) your service in Visual Studio (or another IDE).
 
 Once you run the `IdentityService` in Visual Studio, it will be completely integrated to the rest of the system since they all run in your local machine. In addition, the `IdentityService` application will automatically connect to ABP Studio and send runtime data to it as it works in ABP Studio. When you run an application out of ABP Studio, it is shown as *external* in the Solution Runner and you can't stop it in ABP Studio (you should stop where you've started):
 
 ![abp-studio-microservice-solution-runner-external-service](images/abp-studio-microservice-solution-runner-external-service.png)
 
-s
+As an alternative approach, especially if you don't need to debug your service, you can enable the watching feature of ABP Studio to automatically re-build and re-start when there is change in your application/service.
+
+To enable watching, right-click the application/service you want to watch, select the *Run* -> *Enable Watch* command as shown in the following figure:
+
+![abp-studio-microservice-solution-runner-enable-watch](images/abp-studio-microservice-solution-runner-enable-watch.png)
+
+Now, you can make your development on the `IdentityService`. Whenever you save a code file, it is automatically rebuilt and restarted by ABP Studio, so any change will be effective on the running solution in a few seconds.
+
+When you enable watch for an application an *eye* icon is added near to the application:
+
+![abp-studio-microservice-solution-runner-watch-enabled-icon](images/abp-studio-microservice-solution-runner-watch-enabled-icon.png)
+
+You can disable watching by right-clicking an application and selecting *Run* -> *Disable Watch* command.
+
+## Kubernetes Integration
+
+TODO
