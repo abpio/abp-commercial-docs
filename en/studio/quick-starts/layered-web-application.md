@@ -168,7 +168,7 @@ Right-click the `Acme.BookStore.{{ if UI == "NG" || UI == "Blazor" }}HttpApi.Hos
 
 You can use `admin` as username and `1q2w3E*` as default password to login to the application.
 
-## Runnig the Mobile Application
+## Running the Mobile Application
 
 > Note: If you haven't selected a mobile framework, you can skip this step. 
 
@@ -176,7 +176,7 @@ After started {{ if Tiered == "Yes" }}the Docker-Dependencies and{{ end }} the `
 
 TODO Add sample image
 
-## Runnig the Public Website
+## Running the Public Website
 
 > Note: If you haven't checked public website, you can skip this step.
 
