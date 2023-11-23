@@ -118,4 +118,174 @@ Before running the applications, it is good to be sure that all applications are
 
 > *Solution Runner* doesn't build an application before running it. That provides a great performance gain, because most of the time you will work on one or a few services and you don't need to build all of the other applications in every run. However, if you want to build before run, you can right-click an item in the *Solution Runner* tree and select *Run* -> *Build & Start* command.
 
-It will take some time to build all. Once all ready, you can...
+It will take some time to build all. Once all done, you can start the system. 
+
+You can click the *Play* button on the root item in Solution Runner to start all the applications. Or you can start `Docker-Dependencies` first, so the database and other infrastructure services get ready before the other applications:
+
+![abp-studio-microservice-solution-runner-docker-dependencies](images/abp-studio-microservice-solution-runner-docker-dependencies.png)
+
+> Docker will fetch the docker images before starting the containers in your first run (if they were not fetched before) and that process may get a few minutes depending on your internet connection speed.  So, please wait it to completely start. If the process gets more time than you expect, you can right-click to `Docker-Dependencies` and select the *Logs* command to see what's happening.
+
+Once `Docker-Dependencies` is ready, you can click the *Play* button on the root item in Solution Runner to start all the applications.
+
+> Some applications/services may fail on first run. That may be because of service and database dependencies were not satisfied and an error occurs on the application startup. ABP Studio automatically restarts failing services until it is successfully starts. Being completely ready of such a distributed solution may take a while, but it will be eventually started.
+
+Once all the applications are ready, you can right-click the `Web` application and select the *Browse* command:
+
+![abp-studio-microservice-solution-runner-browse](images/abp-studio-microservice-solution-runner-browse.png)
+
+The *Browse* command opens the web application's UI in the built-in browser of ABP Studio:
+
+![abp-studio-microservice-solution-runner-browse-microservice](images/abp-studio-microservice-solution-runner-browse-microservice.png)
+
+You can browse your application in a full-featured web browser in ABP Studio. Click the *Login* button in the application UI, enter `admin` as username and `1q2w3E*` as password to login to the application.
+
+> You can also browse the other applications/services (that provides a UI) inside ABP Studio. In this way, you don't need to use an external browser or manually type the application's URL.
+
+## Developing Services Using the Solution Runner
+
+Solution Runner not only runs a multi-applications system easier, but is also useful while developing your services and applications. In a microservice solution, you typically focus on one or a few services and applications. Assume that you want to make a development in `IdentityService`. You can use the following development flow:
+
+* Start all the applications/services in the solution and test if everything works as expected.
+* Stop the `IdentityService` in the Solution Runner.
+* Open the `IdentityService`'s .NET solution in your favorite IDE (e.g. Visual Studio). As an easy way of opening it, you can use the *Solution Explorer*, find the `Acme.CloudCrm.IdentityService` module, right-click to it and select the *Open with* -> *Visual Studio* command.
+* Make your development in the `IdentityService`.
+* Run (with or without debugging) your service in Visual Studio (or another IDE).
+
+Once you run the `IdentityService` in Visual Studio, it will be completely integrated to the rest of the system since they all run in your local machine. In addition, the `IdentityService` application will automatically connect to ABP Studio and send runtime data to it as it works in ABP Studio. When you run an application out of ABP Studio, it is shown as *external* in the Solution Runner and you can't stop it in ABP Studio (you should stop where you've started):
+
+![abp-studio-microservice-solution-runner-external-service](images/abp-studio-microservice-solution-runner-external-service.png)
+
+As an alternative approach, especially if you don't need to debug your service, you can enable the watching feature of ABP Studio to automatically re-build and re-start when there is change in your application/service.
+
+To enable watching, right-click the application/service you want to watch, select the *Run* -> *Enable Watch* command as shown in the following figure:
+
+![abp-studio-microservice-solution-runner-enable-watch](images/abp-studio-microservice-solution-runner-enable-watch.png)
+
+Now, you can make your development on the `IdentityService`. Whenever you save a code file, it is automatically rebuilt and restarted by ABP Studio, so any change will be effective on the running solution in a few seconds.
+
+When you enable watch for an application an *eye* icon is added near to the application:
+
+![abp-studio-microservice-solution-runner-watch-enabled-icon](images/abp-studio-microservice-solution-runner-watch-enabled-icon.png)
+
+You can disable watching by right-clicking an application and selecting *Run* -> *Disable Watch* command.
+
+## Kubernetes Integration: Working with Helm Charts
+
+Solution Runner is a great way to locally run all the applications and services of your solution. However, there are some drawbacks:
+
+* If your solution grows and you have tens or hundreds of services, running all the system in your local environment will consume your system resources (CPU, RAM, ...) a lot.
+* In the end, your solution will work in a production environment, and Kubernetes is currently the de-facto tool to deploy such distributed solutions. Running your solution in a local or remote Kubernetes environment will be much closer to a production environment.
+
+ABP Studio's Kubernetes Integration feature is a great way to deploy your microservice solution to Kubernetes and locally develop your services by integrating your local environment to a Kubernetes cluster.
+
+Open the *Kubernetes* section on the left side of ABP Studio as shown in the following figure:
+
+![abp-studio-new-microservice-helm-charts](images/abp-studio-new-microservice-helm-charts.png)
+
+In the *Helm* tab (shown in the figure above), we can see all the [Helm](https://helm.sh/) charts in the solution (chart files are located in the `etc/helm` folder in the solution folder). All the charts are ready to use and pre-configured for [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+
+> **The solution contains a `README.MD` file under the `etc/helm` folder. Please read it carefully and apply the steps to prepare your development environment.**
+
+In the *Helm* tab, you can right-click the root chart (`cloudcrm` in this example), and select the *Build Docker Image(s)* command:
+
+![abp-studio-microservice-kubernetes-build-docker-images](images/abp-studio-microservice-kubernetes-build-docker-images.png)
+
+This command will create local Docker images for all the .NET applications in the solution. Image creation operation will be done in background tasks. You can follow the process in the *Background Tasks* panel at the bottom of ABP Studio:
+
+![abp-studio-background-tasks](images/abp-studio-background-tasks.png)
+
+After building the Docker images, it is ready to install the Helm chart to Kubernetes. To do it, right-click to the root chart (`cloudcrm` in this example), and select the *Install Chart(s)* command:
+
+![abp-studio-microservice-kubernetes-install-helm-chart](images/abp-studio-microservice-kubernetes-install-helm-chart.png)
+
+> Installing chart should be fast. However, it may take time for being fully ready in Kubernetes. For example, if an image of a service (e.g. Redis, Rabbit) was not pulled before, it will need to pull image first.
+
+Once the solution is ready in Kubernetes, you can open a browser and visit the following URL: https://cloudcrm-local-web It will open a web page as shown below:
+
+![abp-studio-microservice-web-application-home-page](images/abp-studio-microservice-web-application-home-page.png)
+
+Click the *Login* link in the application UI, it will redirect you to the *Authentication Server* application, enter `admin` as username and `1q2w3E*` as password to login to the application.
+
+> The services run independently from each other and perform some initial data seed logic on their startups. So, they may fail in their first run. In that case, Kubernetes will re-start them. So, it may initially get some time to make the solution fully ready and working.
+
+If you don't see all the menu items (on the main menu), go to the *Administration* -> *Identity Management* -> *Roles* page, find the `admin` role, select *Actions* -> *Permissions* action:
+
+![abp-studio-microservice-role-management-permissions](images/abp-studio-microservice-role-management-permissions.png)
+
+In the opened dialog, ensure all the permissions are selected, then *Save* the dialog:
+
+![abp-studio-microservice-web-role-permissions](images/abp-studio-microservice-web-role-permissions.png)
+
+It will grant access for all pages. You should refresh the page to see the effect.
+
+## Kubernetes Integration: Connecting to the Cluster
+
+ABP Studio's Kubernetes integration is not just deploying your solution to Kubernetes, but also for providing a convenient development environment that is integrated to Kubernetes.
+
+When you open the *Kubernetes* tab (in the Kubernetes panel), you will see a *Connect* button:
+
+![abp-studio-microservice-kubernetes-tab](images/abp-studio-microservice-kubernetes-tab.png)
+
+Clicking the *Connect* button will start a process that establishes the VPN connection (it may take a while to prepare the connection - you can see the progress in the *Background Tasks* panel) and load all the services in the Kubernetes cluster in the namespace of that solution:
+
+![abp-studio-microservice-kubernetes-services](images/abp-studio-microservice-kubernetes-services.png)
+
+Now, you can access all the services inside the Kubernetes cluster, including the services those are not exposes out of the cluster. You can use the service name as DNS. For example, you can directly visit `http://cloudcrm-local-identity` in your Browser. You can also right-click to a service or application and select the Browse command to open it's UI in the built-in browser of ABP Studio:
+
+![abp-studio-microservice-kubernetes-services-browse](images/abp-studio-microservice-kubernetes-services-browse.png)
+
+You can even use the other services (e.g. SQL Server or RabbitMQ) from your local computer (even if they were not exposed out of cluster) with their service names. `sa` password for the SQL server is `myPassw@rd` by default, you can use your SQL Server management studio to connect to it and see the databases:
+
+![abp-studio-microservice-sql-server-connection](images/abp-studio-microservice-sql-server-connection.png)
+
+Here the databases inside the SQL Server instance in the Kubernetes cluster:
+
+![abp-studio-microservice-sql-server-databases](images/abp-studio-microservice-sql-server-databases.png)
+
+When you connect to Kubernetes, ABP Studio automatically connects to the applications/services running in the Kubernetes cluster and starts collecting the usage data:
+
+![abp-studio-microservice-kubernetes-application-monitor](images/abp-studio-microservice-kubernetes-application-monitor.png)
+
+In this way, you can easily track HTTP requests, distributed events, exceptions, logs and other details of your applications.
+
+## Kubernetes Integration: Intercepting Services
+
+The next step is to intercept a service to forward the traffic (coming to that service) to your local computer, so you can run the same service in your local computer to test, debug and develop it. This is the way of connecting two environments (your local machine and the Kubernetes cluster) to develop your services integrated to Kubernetes.
+
+To intercept a service, right-click to it in the *Kubernetes* tab and select the *Enable Interception* command:
+
+![abp-studio-microservice-kubernetes-enable-interception](images/abp-studio-microservice-kubernetes-enable-interception.png)
+
+It will start the interception process, and finally you will see the *interception icon* near to the intercepted service:
+
+![abp-studio-microservice-kubernetes-interception-enabled](images/abp-studio-microservice-kubernetes-interception-enabled.png)
+
+From now on, all the traffic coming to the Audit Logging microservice is redirected to your local computer. If you open the Audit Logging page now (`https://cloudcrm-local-web/AuditLogs`), you get an error, because the request is redirected to your local machine but the Audit Logging service is not running on your local machine yet.
+
+Open the `Acme.CloudCrm.AuditLoggingService` .NET solution in your IDE (e.g. Visual Studio), set the `Acme.CloudCrm.AuditLoggingService` as startup project and run it (using F5 for debug mode or CTRL+F5 to run it without debugging).
+
+Warning: Do not run the application with IIS Express. Interception system can not work with IIS Express. Just switch to the `Acme.CloudCrm.AuditLoggingService` item in the run options:
+
+![abp-studio-microservice-kubernetes-interception-iis-express-warning](images/abp-studio-microservice-kubernetes-interception-iis-express-warning.png)
+
+Once the service starts in your local computer, re-visit the Audit Logging page in the application, and you will see that it works in that case. ABP Studio configures your machine and the application, so it works as it is inside the Kubernetes cluster.
+
+With ABP Studio's interception feature, you can run all the solution in a Kubernetes cluster and run only a single (or a few) services in your local machine, with your IDE. In this way, you can easily focus on running, testing and debugging your service without caring how the rest of the system is configured and launched.
+
+To disable interception for a service, right click it in the *Kubernetes* tab and select the *Disable Interception* command:
+
+![abp-studio-microservice-kubernetes-disable-interception](images/abp-studio-microservice-kubernetes-disable-interception.png)
+
+A typical development flow can be as the following:
+
+* *Connect* to a Kubernetes cluster where the solution is already deployed (as explained in the *Kubernetes Integration: Connecting to the Cluster* section). You can do it yourself as explained in the *Kubernetes Integration: Working with Helm Charts* section.
+* *Intercept* a service you want to develop in your local machine.
+* Develop, run, stop, fix, debug, re-run... your service easily in your local environment. You can test your service as integrated to others and visit the application UI in the Kubernetes (you can make it for the Web application as similar).
+* Once your development is done, you can *Disable* the interception and re-deploy the service to the Kubernetes cluster.
+
+To re-deploy a service to Kubernetes, right-click the service and select *Commands* -> *Redeploy* command:
+
+![abp-studio-microservice-kubernetes-redeploy](images/abp-studio-microservice-kubernetes-redeploy.png)
+
+ABP Studio will re-build the Docker image and re-install it using the related Helm chart.
