@@ -185,5 +185,45 @@ Open the *Kubernetes* section on the left side of ABP Studio as shown in the fol
 
 In the *Helm* tab (shown in the figure above), we can see all the [Helm](https://helm.sh/) charts in the solution (chart files are located in the `etc/helm` folder in the solution folder). All the charts are ready to use and pre-configured for [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 
-***TODO: PRE-REQUIREMENTS FOR KUBERNETES!***
+> **The solution contains a `README.MD` file under the `etc/helm` folder. Please read it carefully and apply the steps to prepare your development environment.**
+
+In the *Helm* tab, you can right-click the root chart (`cloudcrm` in this example), and select the *Build Docker Image(s)* command:
+
+![abp-studio-microservice-kubernetes-build-docker-images](images/abp-studio-microservice-kubernetes-build-docker-images.png)
+
+This command will create local Docker images for all the .NET applications in the solution. Image creation operation will be done in background tasks. You can follow the process in the *Background Tasks* panel at the bottom of ABP Studio:
+
+![abp-studio-background-tasks](images/abp-studio-background-tasks.png)
+
+After building the Docker images, it is ready to install the Helm chart to Kubernetes. To do it, right-click to the root chart (`cloudcrm` in this example), and select the *Install Chart(s)* command:
+
+![abp-studio-microservice-kubernetes-install-helm-chart](images/abp-studio-microservice-kubernetes-install-helm-chart.png)
+
+> Installing chart should be fast. However, it may take time for being fully ready in Kubernetes. For example, if an image of a service (e.g. Redis, Rabbit) was not pulled before, it will need to pull image first.
+
+Once the solution is ready in Kubernetes, you can open a browser and visit the following URL: https://cloudcrm-local-web It will open a web page as shown below:
+
+![abp-studio-microservice-web-application-home-page](images/abp-studio-microservice-web-application-home-page.png)
+
+Click the *Login* link in the application UI, it will redirect you to the *Authentication Server* application, enter `admin` as username and `1q2w3E*` as password to login to the application.
+
+> The services run independently from each other and perform some initial data seed logic on their startups. So, they may fail in their first run. In that case, Kubernetes will re-start them. So, it may initially get some time to make the solution fully ready and working.
+
+If you don't see all the menu items (on the main menu), go to the *Administration* -> *Identity Management* -> *Roles* page, find the `admin` role, select *Actions* -> *Permissions* action:
+
+![abp-studio-microservice-role-management-permissions](images/abp-studio-microservice-role-management-permissions.png)
+
+In the opened dialog, ensure all the permissions are selected, then *Save* the dialog:
+
+![abp-studio-microservice-web-role-permissions](images/abp-studio-microservice-web-role-permissions.png)
+
+It will grant access for all pages. You should refresh the page to see the effect.
+
+## Developing Services Using the Kubernetes Integration
+
+ABP Studio's Kubernetes integration is not just deploying your solution to Kubernetes, but also for providing a convenient development environment that is integrated to Kubernetes.
+
+![abp-studio-microservice-kubernetes-tab](images/abp-studio-microservice-kubernetes-tab.png)
+
+TODO
 
