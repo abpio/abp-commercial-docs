@@ -36,7 +36,7 @@ Here, select the DBMS right for you, then click the *Next* button to navigate to
 
 Here, you see all the possible UI options supported by that startup solution template. You can pick your favorite one and click the *Next* button for the *Mobile Framework* selection screen:
 
-![abp-studio-new-solution-dialog-mobile-framework](D:/Github/abp-commercial-docs/en/studio/quick-starts/images/abp-studio-new-solution-dialog-mobile-framework-microservice.png)
+![abp-studio-new-solution-dialog-mobile-framework](images/abp-studio-new-solution-dialog-mobile-framework-microservice.png)
 
 Here, you see all the mobile applications available in that startup solution template. These mobile applications are well-integrated to your solution and can use the same backend with your web application. They are simple (not have pre-built features as much as the web application) but a very good starting point to build your mobile application.
 
