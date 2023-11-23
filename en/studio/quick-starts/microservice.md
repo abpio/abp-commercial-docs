@@ -170,7 +170,7 @@ When you enable watch for an application an *eye* icon is added near to the appl
 
 You can disable watching by right-clicking an application and selecting *Run* -> *Disable Watch* command.
 
-## Kubernetes Integration
+## Kubernetes Integration: Working with Helm Charts
 
 Solution Runner is a great way to locally run all the applications and services of your solution. However, there are some drawbacks:
 
@@ -219,11 +219,11 @@ In the opened dialog, ensure all the permissions are selected, then *Save* the d
 
 It will grant access for all pages. You should refresh the page to see the effect.
 
-## Developing Services Using the Kubernetes Integration
+## Kubernetes Integration: Connecting to the Cluster
 
 ABP Studio's Kubernetes integration is not just deploying your solution to Kubernetes, but also for providing a convenient development environment that is integrated to Kubernetes.
 
-When you open the Kubernetes tab (in the Kubernetes panel), you will see a *Connect* button:
+When you open the *Kubernetes* tab (in the Kubernetes panel), you will see a *Connect* button:
 
 ![abp-studio-microservice-kubernetes-tab](images/abp-studio-microservice-kubernetes-tab.png)
 
@@ -247,4 +247,8 @@ When you connect to Kubernetes, ABP Studio automatically connects to the applica
 
 ![abp-studio-microservice-kubernetes-application-monitor](images/abp-studio-microservice-kubernetes-application-monitor.png)
 
-In this way, you can easily track HTTP Requests, distributed events, exceptions, logs and other details of your applications.
+In this way, you can easily track HTTP requests, distributed events, exceptions, logs and other details of your applications.
+
+## Kubernetes Integration: Intercepting Services
+
+TODO
