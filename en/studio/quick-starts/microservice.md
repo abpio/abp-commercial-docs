@@ -251,4 +251,41 @@ In this way, you can easily track HTTP requests, distributed events, exceptions,
 
 ## Kubernetes Integration: Intercepting Services
 
-TODO
+The next step is to intercept a service to forward the traffic (coming to that service) to your local computer, so you can run the same service in your local computer to test, debug and develop it. This is the way of connecting two environments (your local machine and the Kubernetes cluster) to develop your services integrated to Kubernetes.
+
+To intercept a service, right-click to it in the *Kubernetes* tab and select the *Enable Interception* command:
+
+![abp-studio-microservice-kubernetes-enable-interception](images/abp-studio-microservice-kubernetes-enable-interception.png)
+
+It will start the interception process, and finally you will see the *interception icon* near to the intercepted service:
+
+![abp-studio-microservice-kubernetes-interception-enabled](images/abp-studio-microservice-kubernetes-interception-enabled.png)
+
+From now on, all the traffic coming to the Audit Logging microservice is redirected to your local computer. If you open the Audit Logging page now (`https://cloudcrm-local-web/AuditLogs`), you get an error, because the request is redirected to your local machine but the Audit Logging service is not running on your local machine yet.
+
+Open the `Acme.CloudCrm.AuditLoggingService` .NET solution in your IDE (e.g. Visual Studio), set the `Acme.CloudCrm.AuditLoggingService` as startup project and run it (using F5 for debug mode or CTRL+F5 to run it without debugging).
+
+Warning: Do not run the application with IIS Express. Interception system can not work with IIS Express. Just switch to the `Acme.CloudCrm.AuditLoggingService` item in the run options:
+
+![abp-studio-microservice-kubernetes-interception-iis-express-warning](images/abp-studio-microservice-kubernetes-interception-iis-express-warning.png)
+
+Once the service starts in your local computer, re-visit the Audit Logging page in the application, and you will see that it works in that case. ABP Studio configures your machine and the application, so it works as it is inside the Kubernetes cluster.
+
+With ABP Studio's interception feature, you can run all the solution in a Kubernetes cluster and run only a single (or a few) services in your local machine, with your IDE. In this way, you can easily focus on running, testing and debugging your service without caring how the rest of the system is configured and launched.
+
+To disable interception for a service, right click it in the *Kubernetes* tab and select the *Disable Interception* command:
+
+![abp-studio-microservice-kubernetes-disable-interception](images/abp-studio-microservice-kubernetes-disable-interception.png)
+
+A typical development flow can be as the following:
+
+* *Connect* to a Kubernetes cluster where the solution is already deployed (as explained in the *Kubernetes Integration: Connecting to the Cluster* section). You can do it yourself as explained in the *Kubernetes Integration: Working with Helm Charts* section.
+* *Intercept* a service you want to develop in your local machine.
+* Develop, run, stop, fix, debug, re-run... your service easily in your local environment. You can test your service as integrated to others and visit the application UI in the Kubernetes (you can make it for the Web application as similar).
+* Once your development is done, you can *Disable* the interception and re-deploy the service to the Kubernetes cluster.
+
+To re-deploy a service to Kubernetes, right-click the service and select *Commands* -> *Redeploy* command:
+
+![abp-studio-microservice-kubernetes-redeploy](images/abp-studio-microservice-kubernetes-redeploy.png)
+
+ABP Studio will re-build the Docker image and re-install it using the related Helm chart.
