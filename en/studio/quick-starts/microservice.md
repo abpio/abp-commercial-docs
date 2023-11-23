@@ -223,7 +223,28 @@ It will grant access for all pages. You should refresh the page to see the effec
 
 ABP Studio's Kubernetes integration is not just deploying your solution to Kubernetes, but also for providing a convenient development environment that is integrated to Kubernetes.
 
+When you open the Kubernetes tab (in the Kubernetes panel), you will see a *Connect* button:
+
 ![abp-studio-microservice-kubernetes-tab](images/abp-studio-microservice-kubernetes-tab.png)
 
-TODO
+Clicking the *Connect* button will start a process that establishes the VPN connection (it may take a while to prepare the connection - you can see the progress in the *Background Tasks* panel) and load all the services in the Kubernetes cluster in the namespace of that solution:
 
+![abp-studio-microservice-kubernetes-services](images/abp-studio-microservice-kubernetes-services.png)
+
+Now, you can access all the services inside the Kubernetes cluster, including the services those are not exposes out of the cluster. You can use the service name as DNS. For example, you can directly visit `http://cloudcrm-local-identity` in your Browser. You can also right-click to a service or application and select the Browse command to open it's UI in the built-in browser of ABP Studio:
+
+![abp-studio-microservice-kubernetes-services-browse](images/abp-studio-microservice-kubernetes-services-browse.png)
+
+You can even use the other services (e.g. SQL Server or RabbitMQ) from your local computer (even if they were not exposed out of cluster) with their service names. `sa` password for the SQL server is `myPassw@rd` by default, you can use your SQL Server management studio to connect to it and see the databases:
+
+![abp-studio-microservice-sql-server-connection](images/abp-studio-microservice-sql-server-connection.png)
+
+Here the databases inside the SQL Server instance in the Kubernetes cluster:
+
+![abp-studio-microservice-sql-server-databases](images/abp-studio-microservice-sql-server-databases.png)
+
+When you connect to Kubernetes, ABP Studio automatically connects to the applications/services running in the Kubernetes cluster and starts collecting the usage data:
+
+![abp-studio-microservice-kubernetes-application-monitor](images/abp-studio-microservice-kubernetes-application-monitor.png)
+
+In this way, you can easily track HTTP Requests, distributed events, exceptions, logs and other details of your applications.
