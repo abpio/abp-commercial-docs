@@ -506,7 +506,7 @@ public static class AbpHostingHostBuilderExtensions
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-{{ .Chart.Name }}-configmap
+  name: {%{{{ .Release.Name }}}%}-{%{{{ .Chart.Name }}}%}-configmap
 data:
   yarp.json: |-
     {
@@ -562,21 +562,21 @@ data:
           "AuthServer": {
             "Destinations": {
               "AuthServer": {
-                "Address": "{{ .Values.reRoutes.accountService.url }}"
+                "Address": "{%{{{ .Values.reRoutes.accountService.url }}}%}"
               }
             }
           },
           "Administration": {
             "Destinations": {
               "Administration": {
-                "Address": "{{ .Values.reRoutes.administrationService.url }}"
+                "Address": "{%{{{ .Values.reRoutes.administrationService.url }}}%}"
               }
             }
           },
           "Product": {
             "Destinations": {
               "Product": {
-                "Address": "{{ .Values.reRoutes.productService.url }}"
+                "Address": "{%{{{ .Values.reRoutes.productService.url }}}%}"
               }
             }
           }
@@ -639,7 +639,7 @@ env: {}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-{{ .Chart.Name }}-configmap
+  name: {%{{{ .Release.Name }}}%}-{%{{{ .Chart.Name }}}%}-configmap
 data:
   yarp.json: |-
     {
@@ -797,35 +797,35 @@ data:
           "AuthServer": {
             "Destinations": {
               "AuthServer": {
-                "Address": "{{ .Values.reRoutes.accountService.url }}"
+                "Address": "{%{{{ .Values.reRoutes.accountService.url }}}%}"
               }
             }
           },
           "Administration": {
             "Destinations": {
               "Administration": {
-                "Address": "{{ .Values.reRoutes.administrationService.url }}"
+                "Address": "{%{{{ .Values.reRoutes.administrationService.url }}}%}"
               }
             }
           },
           "Identity": {
             "Destinations": {
               "Identity": {
-                "Address": "{{ .Values.reRoutes.identityService.url }}"
+                "Address": "{%{{{ .Values.reRoutes.identityService.url }}}%}"
               }
             }
           },
           "Saas": {
             "Destinations": {
               "Saas": {
-                "Address": "{{ .Values.reRoutes.saasService.url }}"
+                "Address": "{%{{{ .Values.reRoutes.saasService.url }}}%}"
               }
             }
           },
           "Product": {
             "Destinations": {
               "Product": {
-                "Address": "{{ .Values.reRoutes.productService.url }}"
+                "Address": "{%{{{ .Values.reRoutes.productService.url }}}%}"
               }
             }
           }
