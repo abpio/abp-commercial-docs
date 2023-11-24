@@ -61,7 +61,7 @@ To cleanly uninstall ABP Suite, follow these steps:
    *Windows:*
 
    ```bash
-   %UserProfile%\.\AppData\Local\Temp\AbpLicense.bin
+   %UserProfile%\AppData\Local\Temp\AbpLicense.bin
    ```
 
    *MAC:*
