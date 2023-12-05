@@ -36,9 +36,10 @@ Now that you have met the pre-requirements, follow the steps below to install AB
 
 1. **Download ABP Studio:** Visit [your organization page](https://commercial.abp.io/my-organizations) on the official [commercial.abp.io](https://commercial.abp.io/) website to download the latest version.
 
-![[./images/abp-studio-beta-access.png]]
+![abp-studio-beta-access](./images/abp-studio-beta-access.png)
 
-2. **Run the Installer:** Execute the installer and follow the on-screen instructions to install ABP Studio on your machine.
+
+1. **Run the Installer:** Execute the installer and follow the on-screen instructions to install ABP Studio on your machine.
 
 ## Login
 
@@ -52,10 +53,10 @@ After successfully installing ABP Studio, you can log in to access its features.
 
 ABP Studio allows you to customize the user interface theme according to your preferences. Here's how you can change the UI theme:
 
-![[./images/preference-theme-change.png]]
+![preference-theme-change](./images/preference-theme-change.png)
 
 ## Upgrading
 
 ABP Studio periodically checks for updates in the background and when a new version of ABP Studio is available, you will be notified through a modal. The modal will prompt you to update to the latest version as below:
 
-![[./images/new-version-available-window.png]]
+![new-version-available-window](./images/new-version-available-window.png)
