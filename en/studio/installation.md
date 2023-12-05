@@ -65,5 +65,5 @@ When you see the "New Version Available" modal, follow these steps to seamlessly
 
 1. Click the "OK" button in the modal to initiate the download of the new version.
 2. A progress indicator will display, showing the download status.
-3. Once the download is complete, a new modal will appear with "Install & Relaunch" buttons.
+3. Once the download is complete, a new modal will appear with "Install and Relaunch" buttons.
 4. Click on the "Install and Relaunch" button to complete the installation process.
