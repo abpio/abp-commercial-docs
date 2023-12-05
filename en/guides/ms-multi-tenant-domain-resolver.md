@@ -81,8 +81,8 @@ PreConfigure<AbpOpenIddictWildcardDomainOptions>(options =>
     options.WildcardDomainsFormat.Add(configuration["WildCardDomains:PublicWebGateway"]);
     options.WildcardDomainsFormat.Add(configuration["WildCardDomains:IdentityService"]);
     options.WildcardDomainsFormat.Add(configuration["WildCardDomains:AdministrationService"]);
-    options.WildcardDomainsFormat.Add(configuration["WildCardDomains:Saas"]);
-    options.WildcardDomainsFormat.Add(configuration["WildCardDomains:Product"]);
+    options.WildcardDomainsFormat.Add(configuration["WildCardDomains:SaasService"]);
+    options.WildcardDomainsFormat.Add(configuration["WildCardDomains:ProductService"]);
 });
 ```
 
@@ -105,6 +105,113 @@ Add the configurations to the `appsettings.json` file of the AuthServer project:
 ```
 
 If you have more microservices or applications, you need to add them to handle the *redirect* and *post_logout redirect* URIs of them aswell.
+
+## Configuring PublicWeb/Web/Blazor Server 
+
+The server-side rendering applications like public-web, web and blazor-server apps are using hybrid flow authorization flow. Which contains additional configuration on the module when hosted on containerized environment:
+
+```csharp
+if (Convert.ToBoolean(configuration["AuthServer:IsOnK8s"]))
+{
+    context.Services.Configure<OpenIdConnectOptions>("oidc", options =>
+    {
+        options.MetadataAddress = configuration["AuthServer:MetaAddress"]!.EnsureEndsWith('/') +
+                                  ".well-known/openid-configuration";
+
+        var previousOnRedirectToIdentityProvider = options.Events.OnRedirectToIdentityProvider;
+        options.Events.OnRedirectToIdentityProvider = async ctx =>
+        {
+            // Intercept the redirection so the browser navigates to the right URL in your host
+            ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"]!.EnsureEndsWith('/') + "connect/authorize";
+
+            if (previousOnRedirectToIdentityProvider != null)
+            {
+                await previousOnRedirectToIdentityProvider(ctx);
+            }
+        };
+        var previousOnRedirectToIdentityProviderForSignOut = options.Events.OnRedirectToIdentityProviderForSignOut;
+        options.Events.OnRedirectToIdentityProviderForSignOut = async ctx =>
+        {
+            // Intercept the redirection for signout so the browser navigates to the right URL in your host
+            ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"]!.EnsureEndsWith('/') + "connect/logout";
+
+            if (previousOnRedirectToIdentityProviderForSignOut != null)
+            {
+                await previousOnRedirectToIdentityProviderForSignOut(ctx);
+            }
+        };
+    });
+}
+```
+
+This configuration contains the *real DNS* of the AuthServer (configuration["AuthServer:Authority"]) and the *.well-known endpoint* (configuration["AuthServer:MetaAddress"]) used to obtain the tokens fromthe internal network. The configuration intercepts the login and logout requests from the browser to redirect to real DNS. When the tenant try to login from the one of these application (Ex `https://volosoft.mystore.dev`) it should be redirected to **tenant's AuthServer** (`https://volosoft.authserver.mystore.dev`) instead of the host's AuthServer (`https://authserver.mystore.dev`).
+
+You need to update this configuration as below to support this functionality:
+
+```csharp
+if (Convert.ToBoolean(configuration["AuthServer:IsOnK8s"]))
+{
+    context.Services.Configure<OpenIdConnectOptions>("oidc", options =>
+    {
+        options.MetadataAddress = configuration["AuthServer:MetaAddress"]!.EnsureEndsWith('/') +
+                                  ".well-known/openid-configuration";
+
+        var previousOnRedirectToIdentityProvider = options.Events.OnRedirectToIdentityProvider;
+        options.Events.OnRedirectToIdentityProvider = async ctx =>
+        {
+            // Intercept the redirection so the browser navigates to the right URL in your host
+            ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"]!.EnsureEndsWith('/') + "connect/authorize";
+
+            // Resolve the current tenant
+            var currentTenant = ctx.HttpContext.RequestServices.GetRequiredService<ICurrentTenant>();
+            var tenantDomain = configuration["TenantDomain"];
+
+            // Check if the current tenant is available and the solution is using domain tenant resolver
+            if (currentTenant.IsAvailable && !string.IsNullOrEmpty(tenantDomain))
+            {
+                // Replace "{0}"" string for the tenant authserver. The authority value should be replaced from
+                // https://{0}.authserver.mystore.dev to https://tenantName.authserver.mystore.dev
+                ctx.ProtocolMessage.IssuerAddress = ctx.ProtocolMessage.IssuerAddress.Replace("{0}", $"{currentTenant.Name}");
+            }
+            else
+            {
+                // Keep using the host authserver if there is no tenant
+                ctx.ProtocolMessage.IssuerAddress = ctx.ProtocolMessage.IssuerAddress.Replace("{0}.", string.Empty);
+            }
+
+            if (previousOnRedirectToIdentityProvider != null)
+            {
+                await previousOnRedirectToIdentityProvider(ctx);
+            }
+        };
+        var previousOnRedirectToIdentityProviderForSignOut = options.Events.OnRedirectToIdentityProviderForSignOut;
+        // Similar configuration for Logout request
+        options.Events.OnRedirectToIdentityProviderForSignOut = async ctx =>
+        {
+            // Intercept the redirection for signout so the browser navigates to the right URL in your host
+            ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"]!.EnsureEndsWith('/') + "connect/logout";
+
+            var currentTenant = ctx.HttpContext.RequestServices.GetRequiredService<ICurrentTenant>();
+            var tenantDomain = configuration["TenantDomain"];
+            if (currentTenant.IsAvailable && !string.IsNullOrEmpty(tenantDomain))
+            {
+                ctx.ProtocolMessage.IssuerAddress = ctx.ProtocolMessage.IssuerAddress.Replace("{0}", $"{currentTenant.Name}");
+            }
+            else
+            {
+                ctx.ProtocolMessage.IssuerAddress = ctx.ProtocolMessage.IssuerAddress.Replace("{0}.", string.Empty);
+            }
+
+            if (previousOnRedirectToIdentityProviderForSignOut != null)
+            {
+                await previousOnRedirectToIdentityProviderForSignOut(ctx);
+            }
+        };
+    });
+}
+```
+
+Now you can override the `[AuthServer:Authority]` configuration of your public-web, mvc or blazor-server applications by using `https://{0}.authserver.mystore.dev`.
 
 ## Configuring Helm
 
@@ -354,6 +461,9 @@ gateway-web-public:
 publicweb:
   config:
     ... Removed for brevity
+    authServer:
+      authority: https://{0}.authserver.mystore.dev # should be the domain name (https://auth.mydomain.com)
+      ... Removed for brevity
     tenantDomain: "https://{0}.mystore.dev"
 ```
 
