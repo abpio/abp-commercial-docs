@@ -84,3 +84,13 @@ You can examine the [Users Page](#users-page) or any other pre-defined page to s
 In the context of the MVVM pattern (Model-View-ViewModel), a view model is responsible to perform data validation and signal any validation errors to the view so that the user can correct them. In MAUI, to perform validation you should define the view model properties as of type `ValidatableObject<T>` and specify related validations rules.
 
 To specify validation rules and add validation rules to a property, you can refer to [Microsoft's Validation documentation](https://learn.microsoft.com/en-us/dotnet/architecture/maui/validation).
+
+## Publishing
+There is no custom step for publishing your app. You can follow the official documentation for each platform:
+- [Android](https://learn.microsoft.com/en-us/dotnet/maui/android/deployment/?view=net-maui-8.0)
+- [iOS](https://learn.microsoft.com/en-us/dotnet/maui/ios/deployment/?view=net-maui-8.0)
+- [Mac Catalyst](https://learn.microsoft.com/en-us/dotnet/maui/mac-catalyst/deployment/?view=net-maui-8.0)
+- [Windows](https://learn.microsoft.com/en-us/dotnet/maui/windows/deployment/overview?view=net-maui-8.0)
+
+ABP template uses **Secure Storage** to store access & refresh tokens. So, make sure you have completed the following section for each platform to use it in production:
+- [Secure Storage - Get Started](https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/storage/secure-storage?view=net-maui-8.0&tabs=android#get-started)
