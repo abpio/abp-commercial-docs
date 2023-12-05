@@ -39,7 +39,7 @@ Now that you have met the pre-requirements, follow the steps below to install AB
 ![abp-studio-beta-access](./images/abp-studio-beta-access.png)
 
 
-1. **Run the Installer:** Execute the installer and follow the on-screen instructions to install ABP Studio on your machine.
+2. **Run the Installer:** Execute the installer and follow the on-screen instructions to install ABP Studio on your machine.
 
 ## Login
 
@@ -51,7 +51,7 @@ After successfully installing ABP Studio, you can log in to access its features.
 
 ## Changing the UI Theme
 
-ABP Studio allows you to customize the user interface theme according to your preferences. Here's how you can change the UI theme:
+ABP Studio allows you to customize the user interface theme according to your preferences. You can change the UI theme as in the image below:
 
 ![preference-theme-change](./images/preference-theme-change.png)
 
@@ -60,3 +60,10 @@ ABP Studio allows you to customize the user interface theme according to your pr
 ABP Studio periodically checks for updates in the background and when a new version of ABP Studio is available, you will be notified through a modal. The modal will prompt you to update to the latest version as below:
 
 ![new-version-available-window](./images/new-version-available-window.png)
+
+When you see the "New Version Available" modal, follow these steps to seamlessly upgrade ABP Studio:
+
+1. Click the "OK" button in the modal to initiate the download of the new version.
+2. A progress indicator will display, showing the download status.
+3. Once the download is complete, a new modal will appear with "Install & Relaunch" buttons.
+4. Click on the "Install and Relaunch" button to complete the installation process.
