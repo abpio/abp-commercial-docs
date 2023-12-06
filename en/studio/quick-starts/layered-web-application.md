@@ -172,9 +172,23 @@ You can use `admin` as username and `1q2w3E*` as default password to login to th
 
 > Note: If you haven't selected a mobile framework, you can skip this step. 
 
-After started {{ if Tiered == "Yes" }}the Docker-Dependencies and{{ end }} the `Acme.BookStore.{{ if UI == "NG" || UI == "Blazor" }}HttpApi.Host{{ else if UI == "BlazorServer" }}Blazor{{ else }}Web{{ end }}` applications. You can start `Acme.BookStore.Maui` application.
+You can start the following application(s): 
 
-TODO Add sample image
+{{ if Tiered == "Yes" }}
+- `Docker-Dependencies`
+- `Acme.BookStore.AuthServer`
+- `Acme.BookStore.HttpApi.Host`
+{{ else if UI == "NG" || UI == "Blazor" }}
+- `Acme.BookStore.HttpApi.Host`
+{{ else if UI == "BlazorServer" }}
+- `Acme.BookStore.Blazor`
+{{ else }}
+- `Acme.BookStore.Web`
+{{ end }}
+ 
+Before starting the mobile application, ensure that you configure it for [react-native](https://docs.abp.io/en/commercial/latest/getting-started-react-native) or [MAUI](https://docs.abp.io/en/commercial/latest/getting-started-maui).
+
+![mobile-sample](images/abp-studio-mobile-sample.gif)
 
 ## Running the Public Website
 
