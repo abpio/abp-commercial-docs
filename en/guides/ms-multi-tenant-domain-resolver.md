@@ -129,6 +129,7 @@ if (Convert.ToBoolean(configuration["AuthServer:IsOnK8s"]))
                 await previousOnRedirectToIdentityProvider(ctx);
             }
         };
+        
         var previousOnRedirectToIdentityProviderForSignOut = options.Events.OnRedirectToIdentityProviderForSignOut;
         options.Events.OnRedirectToIdentityProviderForSignOut = async ctx =>
         {
@@ -184,6 +185,7 @@ if (Convert.ToBoolean(configuration["AuthServer:IsOnK8s"]))
                 await previousOnRedirectToIdentityProvider(ctx);
             }
         };
+        
         var previousOnRedirectToIdentityProviderForSignOut = options.Events.OnRedirectToIdentityProviderForSignOut;
         // Similar configuration for Logout request
         options.Events.OnRedirectToIdentityProviderForSignOut = async ctx =>
@@ -212,6 +214,14 @@ if (Convert.ToBoolean(configuration["AuthServer:IsOnK8s"]))
 ```
 
 Now you can override the `[AuthServer:Authority]` configuration of your public-web, mvc or blazor-server applications by using `https://{0}.authserver.mystore.dev`.
+
+## Configuring the Microservices for SwaggerUI
+
+The SwaggerUI for the gateways and the microservices are also being configured to resolve the domain as below. Hence, when navigated to the tenant's gateway (or any microservice) SwaggerUI, the Authorization disovery endpoint should be pointing to the tenant's AuthServer instead of the Host's.
+
+Configure the `MetadataAddress` of the SwaggerUI AuthServer configuration to use `https://{0}.authserver.mystore.dev` so the discovery endpoint can be resolved correctly.
+
+> This feature is available after ABP v7.5.
 
 ## Configuring Helm
 
@@ -400,6 +410,8 @@ You may also get CORS error when authenticating SwaggerUI of your gateways or mi
 # identity-service sub-chart override
 identity:
   config:
+  	authServer:
+      metadataAddress: https://{0}.authserver.mystore.dev
     ... Removed for brevity
     tenantDomain: "https://{0}.identity.mystore.dev"
 ```
@@ -410,6 +422,8 @@ identity:
 # administration-service sub-chart override
 administration:
   config:
+  	authServer:
+      metadataAddress: https://{0}.authserver.mystore.dev
     ... Removed for brevity
     tenantDomain: "https://{0}.administration.mystore.dev" 
 ```
@@ -420,6 +434,8 @@ administration:
 # saas-service sub-chart override
 saas:
   config:
+  	authServer:
+      metadataAddress: https://{0}.authserver.mystore.dev
     ... Removed for brevity
     tenantDomain: "https://{0}.saas.mystore.dev"
 ```
@@ -430,6 +446,8 @@ saas:
 # product-service sub-chart override
 product:
   config:
+  	authServer:
+      metadataAddress: https://{0}.authserver.mystore.dev
     ... Removed for brevity
     tenantDomain: "https://{0}.product.mystore.dev"
 ```
@@ -440,6 +458,8 @@ product:
 # saas-service sub-chart override
 gateway-web:
   config:
+  	authServer:
+      metadataAddress: https://{0}.authserver.mystore.dev
     ... Removed for brevity
     tenantDomain: "https://{0}.gateway-web.mystore.dev"
 ```
@@ -450,6 +470,8 @@ gateway-web:
 # gateway-web-public sub-chart override
 gateway-web-public:
   config:
+  	authServer:
+      metadataAddress: https://{0}.authserver.mystore.dev
     ... Removed for brevity
     tenantDomain: "https://{0}.gateway-public.mystore.dev"
 ```
