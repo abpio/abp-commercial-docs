@@ -266,6 +266,10 @@
                   "path": "guides/add-module-to-microservice.md"
                 },
                 {
+                  "text": "Multi-tenant Domain Resolving in Microservice Solution",
+                  "path": "guides/ms-multi-tenant-domain-resolver.md"
+                },
+                {
                   "text": "Migrating to OpenIdDict",
                   "path": "migration-guides/openIddict-microservice.md"
                 }
