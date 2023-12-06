@@ -90,8 +90,8 @@ await CreateScopesAsync("OrderService");
 
 
 > Hint: You can search for "*Product*" keyword in this class to find the places where you will add the OrderService.
-
-
+- **Update file appsetting.json:** 
+  Add OrderService with its address and port in the OpenIddict/Resources schema, the appsettings.json must be updated in Acme.BookStore.DbMigrator and Acme.BookStore.IdentityService.HttpApi.Host.DbMigrations.
 
 Below you can see a screenshot of the final **OpenIddictDataSeeder.cs** , creating `OrderService `  `ApiScope` and granting it the `WebGateway` and other back-office clients.
 
