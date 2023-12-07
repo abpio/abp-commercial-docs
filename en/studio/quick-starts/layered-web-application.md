@@ -105,6 +105,8 @@ In the Solution Runner section (on the left side) you can see all the runnable a
 
 You can run all the applications or start them one by one. To start an application, either click the *Play* icon near to the application or right-click and select the *Run* -> *Start* context menu item.
 
+> For the first run, you'll need to build the application. You can achieve this by selecting *Run* -> *Build & Start* from the context menu.
+
 You can start the following application(s): 
 
 {{ if Tiered == "Yes" }}
