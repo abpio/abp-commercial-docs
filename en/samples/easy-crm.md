@@ -6,6 +6,8 @@ This is a sample solution developed on top of ABP Commercial.
 
 ## Download
 
+> **Note:** EasyCRM sample application is only for the **ABP Commercial customers**. Therefore, you need to have a commercial license to be able to download the source code.
+
 * You can download the complete source-code from [https://abp.io/api/download/samples/easy-crm](https://abp.io/Account/Login?returnUrl=/api/download/samples/easy-crm)
 
 ## Demo
