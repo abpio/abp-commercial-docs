@@ -12,6 +12,7 @@ If you haven't installed yet, please see [the installation guide](installation.m
 
 The following guides are great resources to start with, until we fully document all ABP Studio features:
 
+* [Quick Start: Creating a Single Layer Web Application with ABP Studio](quick-starts/single-layer-web-application.md)
 * [Quick Start: Creating a Layered Web Application with ABP Studio](quick-starts/layered-web-application.md)
 * [Quick Start: Creating a Microservice Solution with ABP Studio](quick-starts/microservice.md)
 
