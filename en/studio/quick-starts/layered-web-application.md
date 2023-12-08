@@ -77,7 +77,7 @@ On that screen, you can decide on your database provider by selecting one of the
 ![abp-studio-new-solution-dialog-database-configurations](images/abp-studio-new-solution-dialog-database-configurations-mongo.png)
 {{ end }}
 
-Here, you can select the DBMS (only for Entity Framework Core) and the connection string. Now, we are ready to allow ABP Studio to create our solution. Just click the *Create* button and let it go.
+Here, you can select the database management systems (DBMS){{ if DB == "EF" }} and the connection string{{ end }}. Now, we are ready to allow ABP Studio to create our solution. Just click the *Create* button and let it go.
 
 After clicking the Create button, the dialog is closed and your solution is loaded into ABP Studio:
 
@@ -104,6 +104,8 @@ In the Solution Runner section (on the left side) you can see all the runnable a
 ![abp-studio-quick-start-example-applications-in-solution-runner](images/abp-studio-quick-start-example-applications-in-solution-runner.png)
 
 You can run all the applications or start them one by one. To start an application, either click the *Play* icon near to the application or right-click and select the *Run* -> *Start* context menu item.
+
+> For the first run, you'll need to build the application. You can achieve this by selecting *Run* -> *Build & Start* from the context menu.
 
 You can start the following application(s): 
 
