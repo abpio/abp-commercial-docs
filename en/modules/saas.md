@@ -117,14 +117,14 @@ You can also use the module-specific database connection string feature.
 To use this feature, you should configure the module-specific database in the `ConfigureServices` method of your module class. For example, the following code configures the `Saas` module to use a separate database for each tenant.
 
 ```csharp
- Configure<AbpDbConnectionOptions>(options => 
+Configure<AbpDbConnectionOptions>(options => 
 {
     options.Databases.Configure("Saas", database => 
     {
         database.IsUsedByTenants = true;
     });
 });
-``
+```
 
 You should select the "Use module specific database connection string" option, then you can determine your modules and their connection strings. Before adding you can check your connection by clicking "Check".
 
