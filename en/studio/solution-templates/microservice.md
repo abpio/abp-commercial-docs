@@ -48,15 +48,13 @@ The following features are built and pre-configured for you in the solution.
 
 ### Fundamental Modules
 
-***TODO: List all***
-
 The following modules are pre-installed and configured for the solution:
 
-* Permission Management
-* Setting Management
-* Feature Management
-* Identity
-* OpenIddict (the core part)
+* **[Account](../../modules/account.md)** to authenticate users (login, register, two factor auth, etc)
+* **[Identity](../../modules/identity.md)** to manage roles and users
+* **[OpenIddict](https://docs.abp.io/en/abp/latest/Modules/OpenIddict)** (the core part) to implement the OAuth authentication flows
+
+In addition these, [Feature Management](https://docs.abp.io/en/abp/latest/Modules/Feature-Management), [Permission Management](https://docs.abp.io/en/abp/latest/Modules/Permission-Management) and [Setting Management](https://docs.abp.io/en/abp/latest/Modules/Setting-Management) modules are pre-installed as they are the fundamental feature modules of the ABP Framework.
 
 ### Optional Modules
 
@@ -65,7 +63,7 @@ The following modules are optionally included in the solution, so you can select
 * **[Audit Logging](../../modules/audit-logging.md)** (with its own microservice)
 * **[GDPR](../../modules/gdpr.md)** (with its own microservice)
 * **[Language Management](../../modules/language-management.md)**
-* **[OpenIddict Management UI](../../modules/openiddict.md)**
+* **[OpenIddict (Management UI)](../../modules/openiddict.md)**
 * **[SaaS](../../modules/saas.md) (Multi-Tenancy)** (with its own microservice)
 * **[Text Template Management](../../modules/text-template-management.md)**
 
