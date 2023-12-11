@@ -1,20 +1,12 @@
-# ABP Studio Microservice Solution Template
+# ABP Studio Microservice Solution Template Overview
 
-ABP Studio provides pre-architected and production-ready templates to jump start a new solution. One of them is the Microservice solution template. You can use it to build distributed systems with common microservice patterns. It includes multiple services, API gateways and applications that are well integrated to each other and ready to be a great base solution for your system.
+In this document, you will learn what the Microservice solution template offers to you.
 
-> **This document explains the Microservice solution template in every details. So, it is a reference document to fully understand the solution and refer when you have trouble.**
->
-> **If you just want to quickly create a microservice solution, please refer to [the quick start guide](../quick-starts/microservice.md).**
-
-## Overall
-
-In this section, you will know what that solution template offers to you in overall.
-
-### The Big Picture
+## The Big Picture
 
 ***TODO: Prepare a diagram of the fundamental components of the system.***
 
-### Pre-Installed Libraries & Services
+## Pre-Installed Libraries & Services
 
 All the following **libraries and services** are **pre-installed** and **configured** for both of **development** and **production** environments. After creating your solution, you can **change** to **remove** most of them.
 
@@ -28,7 +20,7 @@ All the following **libraries and services** are **pre-installed** and **configu
 * **[YARP](https://microsoft.github.io/reverse-proxy/)** to implement the API Gateways
 * **[OpenIddict](https://github.com/openiddict/openiddict-core)** as the in-house authentication server.
 
-### Pre-Configured Features
+## Pre-Configured Features
 
 The following features are built and pre-configured for you in the solution.
 
@@ -46,7 +38,7 @@ The following features are built and pre-configured for you in the solution.
 * **[Swagger](https://swagger.io/)** authentication is configured to test the authorized HTTP APIs.
 * Configured the **[Inbox & Outbox patterns](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus#outbox-inbox-for-transactional-events)** for [distributed event bus](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
 
-### Fundamental Modules
+## Fundamental Modules
 
 The following modules are pre-installed and configured for the solution:
 
@@ -56,7 +48,7 @@ The following modules are pre-installed and configured for the solution:
 
 In addition these, [Feature Management](https://docs.abp.io/en/abp/latest/Modules/Feature-Management), [Permission Management](https://docs.abp.io/en/abp/latest/Modules/Permission-Management) and [Setting Management](https://docs.abp.io/en/abp/latest/Modules/Setting-Management) modules are pre-installed as they are the fundamental feature modules of the ABP Framework.
 
-### Optional Modules
+## Optional Modules
 
 The following modules are optionally included in the solution, so you can select the ones you need:
 
@@ -67,22 +59,22 @@ The following modules are optionally included in the solution, so you can select
 * **[SaaS](../../modules/saas.md) (Multi-Tenancy)** (with its own microservice)
 * **[Text Template Management](../../modules/text-template-management.md)**
 
-### UI Theme
+## UI Theme
 
 The **[LeptonX theme](https://leptontheme.com/)** is pre-configured for the solution. You can select one of the color palettes (System, Light or Dark) as default, while the end-user dynamically change it on the fly.
 
-### Other Options
+## Other Options
 
 Microservice startup template asks for some preferences while creating your solution.
 
-#### Database Providers
+### Database Providers
 
 There are two database provider options are provided on a new microservice solution creation:
 
 * **[Entity Framework Core](https://docs.abp.io/en/abp/latest/Entity-Framework-Core)** with SQL Server, MySQL and PostgreSQL DBMS options. You can [switch to anther DBMS](https://docs.abp.io/en/abp/latest/Entity-Framework-Core-Other-DBMS) manually after creating your solution.
 * **[MongoDB](https://docs.abp.io/en/abp/latest/MongoDB)**
 
-#### UI Frameworks
+### UI Frameworks
 
 The solution comes with a main web application with the following UI Framework options:
 
@@ -93,7 +85,7 @@ The solution comes with a main web application with the following UI Framework o
 * **Blazor Server**
 * **MAUI with Blazor (Hybrid)**
 
-#### The Mobile Application
+### The Mobile Application
 
 If you prefer, the solution includes a mobile application with its dedicated API Gateway. The mobile application is fully integrated to the system, implements authentication (login) and other ABP features, and includes a few screens that you can use and take as example. The following options are available:
 
@@ -101,7 +93,10 @@ If you prefer, the solution includes a mobile application with its dedicated API
 * **MAUI**
 * **React Native**
 
-#### Multi-Tenancy & SaaS Module
+### Multi-Tenancy & SaaS Module
 
 The **[SaaS module](../../modules/saas.md)** is included as an option. When you select it, the **[multi-tenancy](https://docs.abp.io/en/abp/latest/Multi-Tenancy)** system is automatically configured. Otherwise, the system will not include any multi-tenancy overhead.
 
+## See Also
+
+* [Quick Start: Creating a Microservice Solution with ABP Studio](../../quick-starts/microservice.md)
