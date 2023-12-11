@@ -10,25 +10,25 @@
   * [DONE] Creating a layered web application
   * [DONE] Creating a microservice solution
 * Overview: Top menu, Left Area, Welcome page, Solution Explorer, Solution Runner, Kubernetes Integration, Application Monitor Area, Background Tasks, Notifications, Logs, 
-* Concepts (ABP Solution, Module, Package, Solution Folder, etc.)
+* [DONE] Concepts (ABP Solution, Module, Package, Solution Folder, etc.)
 * Tutorials
   * Building Modular Monolith Applications
   * Building Microservice Solutions
-* Solution Templates
-  * Empty
-  * Application (Single Layer)
-  * Application (Layered)
-  * Microservice
+* **Solution Templates**
+  * **Empty**
+  * **Application (Single Layer)**
+  * **Application (Layered)**
+  * **Microservice**
 * Building Solutions
   * Creating modules, packages, folders
   * Referencing packages
   * Working With Existing Modules
     * Import, Install, Uninstall, Download Source Code
-* Running Applications
-* Monitoring Applications
-* Working with Kubernetes
+* **Running Applications**
+* **Monitoring Applications**
+* **Working with Kubernetes**
 * Exploring modules
 * Analyzing Packages
 * Using the ABP Studio CLI
 * Extensibility / Plugin System
-* Working with ABP Suite
+* **Working with ABP Suite**
