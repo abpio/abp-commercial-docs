@@ -15,6 +15,7 @@ This module implements the User and Role system of an application;
 * Supports social login integrations (Twitter, Facebook, GitHub etc...).
 * Manage **organization units** in the system.
 * View security logs (login, logout, change password...) in the system.
+* Export & Import **users** to/from Excel and CSV files (also supports **importing external users**).
 
 See [the module description page](https://commercial.abp.io/modules/Volo.Identity.Pro) for an overview of the module features.
 
@@ -80,7 +81,7 @@ Claim types are retrieved from the claim list defined in the Claim Types  Manage
 
 Users page is used to manage the users in your system.
 
-![identity-users-page](../images/identity-user-page.png)
+![identity-users-page](../images/identity-user-page-v8.0.png)
 
 You can create a new user or edit an existing user in this page:
 
