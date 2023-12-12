@@ -163,7 +163,7 @@ Layout options of Blazor UI can be manageable via using **LeptonXThemeMvcOptions
     ```csharp
     Configure<LeptonXThemeBlazorOptions>(options =>
     {
-        options.MobileMenuSelector = items => items.Where(x => x.MenuItem.Name == "Home" || x.MenuItem.Name == "Dashboard");
+        options.MobileMenuSelector = items => items.Where(x => x.MenuItem.Name == "MyProjectName.Home" || x.MenuItem.Name == "MyProjectName.Dashboard");
     });
     ```
 
