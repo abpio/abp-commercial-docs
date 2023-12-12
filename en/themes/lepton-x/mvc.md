@@ -104,7 +104,7 @@ Layout options of the MVC Razor Pages UI can be manageable by using **LeptonXThe
     ```csharp
     Configure<LeptonXThemeMvcOptions>(options =>
     {
-        options.MobileMenuSelector = items => items.Where(x => x.MenuItem.Name == "Home" || x.MenuItem.Name == "Dashboard");
+        options.MobileMenuSelector = items => items.Where(x => x.MenuItem.Name == "MyProjectName.Home" || x.MenuItem.Name == "MyProjectName.Dashboard");
     });
     ```
 
