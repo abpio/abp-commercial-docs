@@ -12,7 +12,7 @@ ABP Studio provides pre-architected and production-ready templates to jump start
 
 * [Overview](overview.md)
 * Architecture
-  * [Folder and solution structure](solution-structure.md)
+  * [Solution structure](solution-structure.md)
   * Authentication
 * Main Components
   * Microservices
