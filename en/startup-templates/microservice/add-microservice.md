@@ -16,7 +16,7 @@ The new service is created in the **services** folder of your solution. Build th
 dotnet build
 ```
 
-## Add the new service to the solution
+## Add the new service to the solution (Optional)
 
 This is an optional step. If you want to see the OrderService in the main solution, add **Acme.BookStore.OrderService.HttpApi.Host.csproj** as an existing project to your main solution under the `services` folder. This will help you manage the host projects from single solution. While you can add it by Visual Studio (or any other IDE you are using), you can also run the following dotnet CLI command to add the Host project.
 
@@ -30,31 +30,27 @@ dotnet sln add services/order/src/Acme.BookStore.OrderService.HttpApi.Host/Acme.
 
 You need to update other dependent projects in order to integrate your new service into your composition.  Follow the next steps to integrate your new service.
 
-## Updating Administration Microservice
+## AuthServer Authentication Configuration
 
-Administration microservice hosts the **permission management**. In order to show your microservice permissions on the permission management page, you need to add the project reference of **Acme.BookStore.OrderService.Application.Contracts** project and then add module dependency to **AdministrationServiceHttpApiHostModule**.
+The newly added microservice has JwtBearer authentication configured with the `OrderService` audience under the **OrderServiceHttpApiHostModule** `ConfigureServices` class:
 
-* **Add csproj reference**:
+``````csharp
+JwtBearerConfigurationHelper.Configure(context, "OrderService");
+``````
 
-  Open **Acme.BookStore.AdministrationService.HttpApi.Host.csproj** and add the following project reference
+To be able to consume this microservice, you will need to configure the AuthServer with this new scope.
 
-```json
-<ProjectReference Include="..\..\..\order\src\Acme.BookStore.OrderService.Application.Contracts\Acme.BookStore.OrderService.Application.Contracts.csproj" />
-```
+There are 2 ways to add the newly added scope the the AuthServer environment. Using the OpenIddict Management UI **or** the OpenIddictDataSeeder.
 
-* **Add DependsOn attribute**:
+### - Configuration using the OpenIddict Manager UI
 
-  Open **AdministrationServiceHttpApiHostModule.cs** class and add the following module dependency
-  
-```csharp
-typeof(OrderServiceApplicationContractsModule)
-```
+Navigate to the Administration section and OpenId->Scopes then add **New Scope**:
 
-  ![Add order service module dependency into the Administration Service](../../images/administration-service-module-added-orderservice.png)
+![OpenIddict Management add new scope](../../images/microservice-template-add-new-scope.png)
 
-## AuthServer Configuration
+The Resources section is the audience of the microservice. It must be the same with the JwtBearer authentication configuration of the new microservice.
 
-> You can also do the same functionality explained in this step by using OpenIddict Management UI. However it is a good practice to keep `OpenIddictDataSeeder` updated. 
+### - Configuration using the OpenIddictDataSeeder
 
 To keep `OpenIddictDataSeeder` updated, you need to do the following steps in the **OpenIddictDataSeeder.cs** class. Note that there are 2 **OpenIddictDataSeeder.cs** classes in the solution:
 
@@ -66,11 +62,33 @@ If you will use the DbMigrator application you need to do the same steps in both
 
 - **Create ApiScope**: 
 
-  To make OrderService a reachable scope for other services, you should add it as a new scope by updating **CreateApiScopesAsync** method with: 
+  To make OrderService to be consumable for other clients (applications/gateways/microservices), you should add it as a new scope by updating **CreateApiScopesAsync** method with: 
 
 ```csharp
 await CreateScopesAsync("OrderService");
 ```
+
+Now the newly created scope is available for your clients (applications, gateways, microservices).
+
+## Client Configuration
+
+Now the AuthServer must define **which clients can be able to make a request** to this newly created scope. Again, you can use both OpenIddict Management UI or the OpenIddictDataSeeder to configure it.
+
+### - Configuration using the OpenIddict Managment UI
+
+By default, there are 3 different clients exist in the microservice template. The **Public-Web** (landing page) application, the **back-office** application (web, angular, blazor or blazor-server based on your UI selection) and the **WebGateway_Swagger** client which is used for all the Swagger UIs (gateways and microservices).
+
+Add the `OrderService` scope to the clients you want to make a request from. Navigate to the Administration section and OpenId->Applications then edit **WebGateway_Swagger**:
+
+![WebGateway swagger update](../../images/microservice-template-swagger_client_update.png)
+
+**Spesific to the WebGateway_Swagger client, you need to add the OrderService microservice URL to the redirect Uris.** 
+
+`https://localhost:44459/swagger/oauth2-redirect.html`. Because the same client is used for all the microservices and the gateways.
+
+For the back-office application or the public-web application, you don't need to add extra redirect Uri.
+
+### - Configuration using the OpenIddictDataSeeder
 
 
 - **Add Swagger Client Scopes**: 
@@ -84,7 +102,7 @@ await CreateScopesAsync("OrderService");
 - **Create New Client:** 
 
   If you want **OrderService** to be able call the other services, you need to add the **OrderService** as a client under **CreateClientsAsync** as well. Then, update appsettings.json of the OrderService with **IdentityClients** section with the ClientId and granted scopes you have defined in **CreateClientAsync** method for client credential flow. For more information, see [Microservice Synchronous Interservice Communication](synchronous-interservice-communication.md) document.
-  
+
   > AdministrationService microservice has configuration for making sync calls to IdentityService which can be examined if you are planning sync communication for your new microservice.  
 
 
@@ -166,13 +184,27 @@ Update the `appsettings.json` file of the **IdentityService** and the **DbMigrat
     "Resources": {
       ...
       "OrderService": {
-        "RootUrl": "https://localhost:44640" // Add your OrderService URL
+        "RootUrl": "https://localhost:44459" // Add your OrderService URL
       }
     }
   }
 ```
 
 > You can check the OrderService.HttpApi.Host appsettings.json `App:SelfUrl` key to find your OrderService URL.
+
+## AuthServer CORS Configuration
+
+When using the SwaggerUI from either gateway or the OrderService itself, the CORS for the AuthServer must be configured or you can come across the following error when you try to Authorize the Swagger UI:
+![AuthServer CORS error](../../images/microservice-template-swagger-ui-cors-error.png)
+
+To solve this problem, add the OrderService URL (https://localhost:44459) to the CorsOrigins of the AuthServer under the appsettings.json file:
+
+```
+  "App": {
+    "SelfUrl": "https://localhost:44322",
+    "CorsOrigins": "https://*.MvcStore.com,http://localhost:4200,https://localhost:44307,https://localhost:44325,https://localhost:44353,https://localhost:44367,https://localhost:44388,https://localhost:44381,https://localhost:44361,https://localhost:44459",
+    ... 
+```
 
 ## Updating Gateways
 
@@ -199,35 +231,53 @@ SwaggerConfigurationHelper
     );
 ```
 
-2. **Update appsettings.json for Ocelot configuration:** 
+2. **Update yarp.json for the route configuration:** 
 
-   You need to add new Downstream and Upstream path templates for the new service as shown below. 
+   You need to add a new **Routes** and the **Cluster** for the new OrderService as shown below. 
    
 
 ```json
 {
-  "ServiceKey": "Order Service",
-  "ServiceDns": "https://order.bookstore.dev",
-  "DownstreamPathTemplate": "/api/order-service/{everything}",
-  "DownstreamScheme": "https",
-  "DownstreamHostAndPorts": [
-    {
-      "Host": "localhost",
-      "Port": 44640 <-- Your generated OrderService port
+  "ReverseProxy": {
+    "Routes": {
+      ...
+      "Order": {
+        "ClusterId": "Order",
+        "Match": {
+          "Path": "/api/order-service/{**catch-all}"
+        }
+      },
+      "OrderSwagger": {
+        "ClusterId": "Order",
+        "Match": {
+          "Path": "/swagger-json/Order/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Order" }
+        ]
+      }
+    },
+    "Clusters": {
+      ...
+      "Order": {
+        "Destinations": {
+          "Order": {
+            "Address": "https://localhost:44459/"
+          }
+        }
+      }
     }
-  ],
-  "UpstreamPathTemplate": "/api/order-service/{everything}",
-  "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+  }
 }
 ```
 
-The `ServiceKey` indicates the unique name of the service that will be shown in the API Definition section of the Swagger UI. The ServiceDns is the real DNS that the OrderService is being hosted which is used in non-development environment.
-
-**Important**: The port `44640` is not same for all services. You can get your service port from `\services\order\src\Acme.BookStore.OrderService.HttpApi.Host\Properties\launchSettings.json` or the OrderService.HttpApi.Host appsettings.json `App:SelfUrl` key to find your OrderService URL.
 
 
+**Important**: The port `44459` is not same for all services. You can get your service port from `\services\order\src\Acme.BookStore.OrderService.HttpApi.Host\Properties\launchSettings.json` or the OrderService.HttpApi.Host appsettings.json `App:SelfUrl` key to find your OrderService URL.
 
-  > You can make different configurations for each method or endpoint for your service and add QoS configurations based on your business requirements. You can check [ocelot documentation](https://ocelot.readthedocs.io/en/latest/) for more.
+
+
+  > The Transforms are used for the Swagger UI to obtain the correct swagger.json endpoints. See [YARP transforms docs](https://microsoft.github.io/reverse-proxy/articles/transforms.html) for more information.
 
 
 
@@ -357,6 +407,8 @@ This approach can benefit you to have backend and frontend integrity in your mic
 
 
 
+
+
 ### 2-) Monolith UI Development inside application:
 
 Develop your application UI inside the application; add your pages under application layer of your solution and use microservice as a remote service. You can check [Module Architecture Best Practices & Conventions](https://docs.abp.io/en/abp/latest/Best-Practices/Module-Architecture#layers-packages) **Section D** for more information.  In this approach, you can separate the front-end and back-end team and develop each in their reputable solution.
@@ -387,6 +439,23 @@ If you are using the Angular application, you need to add the new scope to the *
 
 ![angular-add-scope](../../images/angular-add-scope.png)
 
+### Creating Static Proxy
+
+When the application makes a a request to the newly added microservice through the gateway, it will use the REST API information of the newly added service. By default, the OrderService uses Static proxies that you need to generate them manually. To generate static proxy for the OrderService, run the OrderService HttpApi.Host and then for **MVC/Blazor/Blazor-Server** applications, use the abp command under the `OrderService.HttpApi.Client` project:
+
+``````powershell
+abp generate-proxy -t csharp -u https://localhost:44459/ -m OrderService --without-contracts
+``````
+
+for **Angular** application
+
+``````powershell
+abp generate-proxy -t ng -u https://localhost:44459/ -m OrderService --without-contracts
+``````
+
+This will generate the static proxy for the application services of your OrderService that will be used by the application.
+For more information, check https://docs.abp.io/en/abp/latest/API/Static-CSharp-API-Clients.
+
 ## Updating Tye configuration:
 
 If you are planning to use [Tye](https://github.com/dotnet/tye) to develop and deploy microservices, you need to update your `tye.yaml` configuration which exists in the root directory of your solution. Add **OrderService.HttpApi.Host.csproj** path and port with self-sign development certification information as below:
@@ -396,13 +465,13 @@ If you are planning to use [Tye](https://github.com/dotnet/tye) to develop and d
   project: services/order/src/Acme.BookStore.OrderService.HttpApi.Host/Acme.BookStore.OrderService.HttpApi.Host.csproj
   bindings:
     - protocol: https
-      port: 44640 <-- Your generated OrderService port
+      port: 44459 <-- Your generated OrderService port
   env:
     - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
     - Kestrel__Certificates__Default__Password=e8202f07-66e5-4619-be07-72ba76fde97f // <- Your generated certificate passphrase
 ```
 
-**Important**: The port `44640` is not same for all services. You can get your service port from `\services\order\src\Acme.BookStore.OrderService.HttpApi.Host\Properties\launchSettings.json`
+**Important**: The port `44459` is not same for all services. You can get your service port from `\services\order\src\Acme.BookStore.OrderService.HttpApi.Host\Properties\launchSettings.json`
 
 
 
@@ -447,6 +516,10 @@ Open your browser and navigate to your startup URL:
 * **Blazor Web Assembly**: [https://localhost:44307](https://localhost:44307/)
 * **MVC**: [https://localhost:44321](https://localhost:44321/)
 * **Angular**: [http://localhost:4200](http://localhost:4200/)
+
+## Deployment
+
+If you are using K8s and Helm charts, don't forget to add new helm chart for the new OrderService and update the deployment and values .yaml files of related application and gateway charts.
 
 ## Next
 
