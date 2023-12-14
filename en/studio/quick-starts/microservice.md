@@ -56,7 +56,7 @@ Once you select the desired modules, click the *Next* button for the *UI Theme* 
 
 ![abp-studio-new-solution-dialog-ui-theme](images/abp-studio-new-solution-dialog-ui-theme-microservice.png)
 
-LeptonX is the suggested UI theme that is proper for production usage. Select one of the themes and configure additional options if you want.
+LeptonX is the suggested UI theme that is proper for production usage. Select one of the themes and configure the additional options if you want.
 
 Now, we are ready to allow ABP Studio to create our solution. Just click the *Create* button and let it go. After clicking the Create button, the dialog is closed and your solution is loaded into ABP Studio:
 
@@ -68,9 +68,9 @@ You can explore the solution, but you need to wait for background tasks to be co
 
 ## Exploring the Solution
 
-This solution consists of several modules shown in the *Solution Explorer* section:
+This **solution** consists of several **modules** shown in the *Solution Explorer* section:
 
-> You can refer the *[Concepts](../concepts.md)* document to learn what do solution and module terms mean.
+> You can refer the ***[Concepts](../concepts.md)*** document to learn what do **solution** and **module** terms mean.
 
 ![abp-studio-created-microservice-solution-explorer](images/abp-studio-created-microservice-solution-explorer.png)
 

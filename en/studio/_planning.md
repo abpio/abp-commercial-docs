@@ -24,10 +24,10 @@
   * Referencing packages
   * Working With Existing Modules
     * Import, Install, Uninstall, Download Source Code
+* Solution Explorer
 * **Running Applications**
 * **Monitoring Applications**
 * **Working with Kubernetes**
-* Exploring modules
 * Analyzing Packages
 * Using the ABP Studio CLI
 * Extensibility / Plugin System
