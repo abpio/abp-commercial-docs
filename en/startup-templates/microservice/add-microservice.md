@@ -262,7 +262,7 @@ SwaggerConfigurationHelper
       "Order": {
         "Destinations": {
           "Order": {
-            "Address": "https://localhost:44459/"
+            "Address": "https://localhost:44459/" <-- Your generated OrderService URL
           }
         }
       }
