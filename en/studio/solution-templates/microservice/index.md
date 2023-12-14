@@ -11,15 +11,14 @@ ABP Studio provides pre-architected and production-ready templates to jump start
 > *Documentation is still on going...*
 
 * [Overview](overview.md)
-* Architecture
-  * [Solution structure](solution-structure.md)
-  * Authentication
-* Main Components
-  * Microservices
-  * API Gateways
-  * Web Applications
-  * Mobile Applications
+* [Solution structure](solution-structure.md)
+* [Main Components](main-components.md)
+  * [Microservices](microservices.md)
+  * [API Gateways](api-gateways.md)
+  * [Web Applications](web-applications.md)
+  * [Mobile Applications](mobile-applications.md)
 * Built-In Features
+  * Authentication
   * Database migrations
   * Logging (with Serilog)
   * Monitoring (with Prometheus and Grafana)
