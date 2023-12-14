@@ -97,6 +97,10 @@ If you prefer, the solution includes a mobile application with its dedicated API
 
 The **[SaaS module](../../modules/saas.md)** is included as an option. When you select it, the **[multi-tenancy](https://docs.abp.io/en/abp/latest/Multi-Tenancy)** system is automatically configured. Otherwise, the system will not include any multi-tenancy overhead.
 
+## Next
+
+* [Solution Structure](solution-structure.md)
+
 ## See Also
 
 * [Quick Start: Creating a Microservice Solution with ABP Studio](../../quick-starts/microservice.md)
