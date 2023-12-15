@@ -40,8 +40,6 @@ The folder structure basically matches to the solution in ABP Studio's *Solution
   * `adminstration` microservice is used to manage permissions, languages and other fundamental settings of the system.
   * `identity` microservice is used to manage users, roles and their permissions. It basically serves to the [Identity](../../../modules/identity.md) module's UI (and [OpenIddict](../../../modules/openiddict.md) module's UI, if selected).
 
-The next section explains each of the components with more details.
-
 ## Next
 
 * [Main Components](main-components.md)
