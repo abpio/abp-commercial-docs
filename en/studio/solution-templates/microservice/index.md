@@ -31,7 +31,7 @@ ABP Studio provides pre-architected and production-ready templates to jump start
   * Distributed Locking
   * Multi-Tenancy
   * BLOB Storing
-* Communication approaches
+* Communication
   * Distributed Events
   * HTTP API Calls
   * gRPC Calls
