@@ -18,7 +18,7 @@ We will use the *Microservice* solution template for this tutorial, so pick it a
 
 ![abp-studio-new-microservice-solution-dialog-properties](images/abp-studio-new-microservice-solution-dialog-properties.png)
 
-In that screen, you choose a name for your solution. You can use different level of namespaces; e.g. `CloudCrm`, `Acme.CloudCrm` or `Acme.Solutions.CloudCrm`.
+On that screen, you choose a name for your solution. You can use different levels of namespaces; e.g. `CloudCrm`, `Acme.CloudCrm` or `Acme.Solutions.CloudCrm`.
 
 Then select an *output folder* to create your solution. The *Create solution folder* option will create a folder in the given output folder with the same name of your solution.
 
@@ -38,7 +38,7 @@ Here, you see all the possible UI options supported by that startup solution tem
 
 ![abp-studio-new-solution-dialog-mobile-framework](images/abp-studio-new-solution-dialog-mobile-framework-microservice.png)
 
-Here, you see all the mobile applications available in that startup solution template. These mobile applications are well-integrated to your solution and can use the same backend with your web application. They are simple (not have pre-built features as much as the web application) but a very good starting point to build your mobile application.
+Here, you see all the mobile applications available in that startup solution template. These mobile applications are well-integrated into your solution and can use the same backend with your web application. They are simple (do not have pre-built features as much as the web application) but a very good starting point to build your mobile application.
 
 > If you select a mobile application, an additional API Gateway is created that is only used by the mobile application. 
 
@@ -58,7 +58,7 @@ Once you select the desired modules, click the *Next* button for the *UI Theme* 
 
 LeptonX is the suggested UI theme that is proper for production usage. Select one of the themes and configure the additional options if you want.
 
-Now, we are ready to allow ABP Studio to create our solution. Just click the *Create* button and let it go. After clicking the Create button, the dialog is closed and your solution is loaded into ABP Studio:
+Now, we are ready to allow ABP Studio to create our solution. Just click the *Create* button and let the ABP Studio do the rest for you. After clicking the Create button, the dialog is closed and your solution is loaded into ABP Studio:
 
 ![abp-studio-created-new-microservice-solution](images/abp-studio-created-new-microservice-solution.png)
 
@@ -74,7 +74,7 @@ This **solution** consists of several **modules** shown in the *Solution Explore
 
 ![abp-studio-created-microservice-solution-explorer](images/abp-studio-created-microservice-solution-explorer.png)
 
-Each leaf item (e.g. `Acme.CloudCrm.IdentityService` or `Acme.CloudCrm.Web`) in the tree above is an ABP Studio module. They are grouped into solution folders (`apps`, `gateways` and `services`).
+Each leaf item (e.g. `Acme.CloudCrm.IdentityService` or `Acme.CloudCrm.Web`) in the tree above is an ABP Studio module. They are grouped into solution folders (`apps`, `gateways`, and `services`).
 
 Each module has a separate .NET Solution. You can open a module's (or .NET solution's) folder by right-clicking a module in the *Solution Explorer* tree, select *Open with* -> *Explorer* option as shown below:
 
@@ -84,7 +84,7 @@ If we open the `Acme.CloudCrm.IdentityService` module's path in the explorer, we
 
 ![abp-studio-microservice-example-identity-service-files](images/abp-studio-microservice-example-identity-service-files.png)
 
-This microservice solutions is designed to have separate .NET solutions for each service to make it possible to develop independently from the other services and applications.
+This microservice solution is designed to have separate .NET solutions for each service to make it possible to develop independently from the other services and applications.
 
 You can open any module's .NET solution in your favorite IDE and make your development. The following figure is a screenshot from the *Identity* microservice opened in Visual Studio:
 
@@ -92,17 +92,17 @@ You can open any module's .NET solution in your favorite IDE and make your devel
 
 If you explore that .NET solution, you will typically see some configuration code, and you won't see any business code. That's because the solution uses [pre-built application modules](../../modules/index.md) as NuGet packages, and doesn't contain their source code. In this way, you can easily upgrade these application modules when a new version is available.
 
-You will typically add new microservices to the solution and perform your business logic inside these new services (however, you can always want to download source code of any pre-built application module and include it into your solution to freely customize it).
+You will typically add new microservices to the solution and perform your business logic inside these new services (however, you can always want to download the source code of any pre-built application module and include it into your solution to freely customize it).
 
 ## Running the Solution
 
-Running a microservice solution is not like running a monolith application where you typically have a single executable. All the applications, services, gateways and infrastructure components (e.g. Redis, RabbitMQ) should be up and running. Fortunately, ABP Studio provides the *Solution Runner* and *Kubernetes Integration* features to make it easy and enjoyable.
+Running a microservice solution is not like running a monolith application where you typically have a single executable. All the applications, services, gateways, and infrastructure components (e.g. Redis, RabbitMQ) should be up and running. Fortunately, ABP Studio provides the *Solution Runner* and *Kubernetes Integration* features to make it easy and enjoyable.
 
 Open the *Solution Runner* section on the left side of ABP Studio as shown in the following figure:
 
 ![abp-studio-microservice-solution-runner](images/abp-studio-microservice-solution-runner.png)
 
-Once you click the *Play* icon on the left side, the section is open in the same place of the *Solution Explorer* section. ABP Studio also opens the *Application Monitor* view on the main content area. *Application Monitor* shows useful insights for your applications/services (e.g. *HTTP Request*, *Events* and *Exceptions*) as real-time. You can use it to see the happenings in your system, so you can easily track errors and many helpful details.
+Once you click the *Play* icon on the left side, the section is open in the same place as the *Solution Explorer* section. ABP Studio also opens the *Application Monitor* view on the main content area. *Application Monitor* shows useful insights for your applications/services (e.g. *HTTP Request*, *Events*, and *Exceptions*) in real-time. You can use it to see the happenings in your system, so you can easily track errors and many helpful details.
 
 In the *Solution Runner* section (on the left side) you can see all the runnable applications in the current solution:
 
@@ -110,25 +110,25 @@ In the *Solution Runner* section (on the left side) you can see all the runnable
 
 > All the leaf items in the *Solution Runner* is called as an *Application* as they are executable applications.
 
-As shown in the figure above, the executable applications are grouped into folders like `apps`, `gateways`, `infrastracture` and `services`. You can start/stop them all, a group (folder) of them or one by one.
+As shown in the figure above, the executable applications are grouped into folders like `apps`, `gateways`, `infrastructure`, and `services`. You can start/stop them all, a group (folder) of them, or one by one.
 
 Before running the applications, it is good to be sure that all applications are built. To do that, right-click the root item in the *Solution Runner* and select *Build* -> *Build All* action.
 
 ![abp-studio-microservice-solution-runner-build-all](images/abp-studio-microservice-solution-runner-build-all.png)
 
-> *Solution Runner* doesn't build an application before running it. That provides a great performance gain, because most of the time you will work on one or a few services and you don't need to build all of the other applications in every run. However, if you want to build before run, you can right-click an item in the *Solution Runner* tree and select *Run* -> *Build & Start* command.
+> *Solution Runner* doesn't build an application before running it. That provides a great performance gain because most of the time you will work on one or a few services and you don't need to build all of the other applications in every run. However, if you want to build before running, you can right-click an item in the *Solution Runner* tree and select *Run* -> *Build & Start* command.
 
-It will take some time to build all. Once all done, you can start the system. 
+It will take some time to build all. Once all is done, you can start the system. 
 
 You can click the *Play* button on the root item in Solution Runner to start all the applications. Or you can start `Docker-Dependencies` first, so the database and other infrastructure services get ready before the other applications:
 
 ![abp-studio-microservice-solution-runner-docker-dependencies](images/abp-studio-microservice-solution-runner-docker-dependencies.png)
 
-> Docker will fetch the docker images before starting the containers in your first run (if they were not fetched before) and that process may get a few minutes depending on your internet connection speed.  So, please wait it to completely start. If the process gets more time than you expect, you can right-click to `Docker-Dependencies` and select the *Logs* command to see what's happening.
+> Docker will fetch the docker images before starting the containers in your first run (if they were not fetched before) and that process may take a few minutes depending on your internet connection speed.  So, please wait for it to completely start. If the process takes more time than you expect, you can right-click on `Docker-Dependencies` and select the *Logs* command to see what's happening.
 
 Once `Docker-Dependencies` is ready, you can click the *Play* button on the root item in Solution Runner to start all the applications.
 
-> Some applications/services may fail on first run. That may be because of service and database dependencies were not satisfied and an error occurs on the application startup. ABP Studio automatically restarts failing services until it is successfully starts. Being completely ready of such a distributed solution may take a while, but it will be eventually started.
+> Some applications/services may fail on the first run. That may be because of service and database dependencies were not satisfied and an error occurs on the application startup. ABP Studio automatically restarts failing services until it is successfully started. Being completely ready for such a distributed solution may take a while, but it will be eventually started.
 
 Once all the applications are ready, you can right-click the `Web` application and select the *Browse* command:
 
@@ -152,7 +152,7 @@ Solution Runner not only runs a multi-applications system easier, but is also us
 * Make your development in the `IdentityService`.
 * Run (with or without debugging) your service in Visual Studio (or another IDE).
 
-Once you run the `IdentityService` in Visual Studio, it will be completely integrated to the rest of the system since they all run in your local machine. In addition, the `IdentityService` application will automatically connect to ABP Studio and send runtime data to it as it works in ABP Studio. When you run an application out of ABP Studio, it is shown as *external* in the Solution Runner and you can't stop it in ABP Studio (you should stop where you've started):
+Once you run the `IdentityService` in Visual Studio, it will be completely integrated into the rest of the system since they all run in your local machine. In addition, the `IdentityService` application will automatically connect to ABP Studio and send runtime data to it as it works in ABP Studio. When you run an application out of ABP Studio, it is shown as *external* in the Solution Runner and you can't stop it in ABP Studio (you should stop where you've started):
 
 ![abp-studio-microservice-solution-runner-external-service](images/abp-studio-microservice-solution-runner-external-service.png)
 
@@ -253,7 +253,7 @@ In this way, you can easily track HTTP requests, distributed events, exceptions,
 
 The next step is to intercept a service to forward the traffic (coming to that service) to your local computer, so you can run the same service in your local computer to test, debug and develop it. This is the way of connecting two environments (your local machine and the Kubernetes cluster) to develop your services integrated to Kubernetes.
 
-To intercept a service, right-click to it in the *Kubernetes* tab and select the *Enable Interception* command:
+To intercept a service, right-click on it in the *Kubernetes* tab and select the *Enable Interception* command:
 
 ![abp-studio-microservice-kubernetes-enable-interception](images/abp-studio-microservice-kubernetes-enable-interception.png)
 

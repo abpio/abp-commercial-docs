@@ -27,7 +27,7 @@ We will use the *Application (Layered)* solution template for this tutorial, so 
 
 ![abp-studio-new-solution-dialog-solution-properties](images/abp-studio-new-solution-dialog-solution-properties.png)
 
-In that screen, you choose a name for your solution. You can use different level of namespaces; e.g. `BookStore`, `Acme.BookStore` or `Acme.Retail.BookStore`.
+On that screen, you choose a name for your solution. You can use different levels of namespaces; e.g. `BookStore`, `Acme.BookStore` or `Acme.Retail.BookStore`.
 
 Then select an *output folder* to create your solution. The *Create solution folder* option will create a folder in the given output folder with the same name of your solution.
 
@@ -41,17 +41,17 @@ Notice that; Once you select a UI type, some additional options will be availabl
 
 ![abp-studio-new-solution-dialog-ui-theme](images/abp-studio-new-solution-dialog-ui-theme.png)
 
-LeptonX is the suggested UI theme that is proper for production usage. Select one of the theme and configure additional options and click the *Next* button for the *Mobile Framework* selection:
+LeptonX is the suggested UI theme that is proper for production usage. Select one of the themes, configure the additional options, and click the *Next* button for the *Mobile Framework* selection:
 
 ![abp-studio-new-solution-dialog-mobile-framework](images/abp-studio-new-solution-dialog-mobile-framework.png)
 
-Here, you see all the mobile applications available in that startup solution template. These mobile applications are well-integrated to your solution and can use the same backend with your web application. They are simple (not have pre-built features as much as the web application) but a very good starting point to build your mobile application.
+Here, you see all the mobile applications available in that startup solution template. These mobile applications are well-integrated into your solution and can use the same backend with your web application. They are simple (do not have pre-built features as much as the web application) but a very good starting point to build your mobile application.
 
 Pick the one best for you, or select the *None* if you don't want a mobile application in your solution, then click Next to navigate to the *Additional UI options* screen:
 
 ![abp-studio-new-solution-dialog-additional-ui-options](images/abp-studio-new-solution-dialog-additional-ui-options.png)
 
-That startup solution template also provides an option to create a second web application inside the solution. The second application is called the Public website, an ASP.NET Core MVC / Razor Page application. It can be used to create a public landing/promotion for your product. It is well integrated to the solution (can share same services, entities, database and the same authentication logic, for example). If you want, you can also include the [CMS Kit module](../../modules/cms-kit/index.md) to your solution add dynamic content features to your web application.
+That startup solution template also provides an option to create a second web application inside the solution. The second application is called the Public website, an ASP.NET Core MVC / Razor Page application. It can be used to create a public landing/promotion for your product. It is well integrated into the solution (can share the same services, entities, database, and the same authentication logic, for example). If you want, you can also include the [CMS Kit module](../../modules/cms-kit/index.md) to your solution to add dynamic content features to your web application.
 
 So, either select the *Public website* or skip it and click the Next button for the *Solution Structure* selection:
 
@@ -59,7 +59,7 @@ So, either select the *Public website* or skip it and click the Next button for 
 
 The *Tiered* option is used to physically separate the web application (the UI part) from the backend HTTP APIs. It creates a separate host application that only serves the HTTP (REST) APIs. The web application then performs remote HTTP calls to that application for every operation. If the *Tiered* option is not selected, then the web and HTTP APIs are hosted in a single application, and the calls from the UI layer to the API layer are performed in-process.
 
-The tiered architecture allows you to host the web (UI) application in a server that can not access to your database server. However, it brings a slight loss of performance (because of the HTTP calls between UI and HTTP API applications) and makes your architecture, development and deployment more complex. If you don't understand the tiered structure, just skip it.
+The tiered architecture allows you to host the web (UI) application in a server that can not access to your database server. However, it brings a slight loss of performance (because of the HTTP calls between UI and HTTP API applications) and makes your architecture, development, and deployment more complex. If you don't understand the tiered structure, just skip it.
 
 After making your *Tiered* selection, you can click the *Next* button for the *Database Provider* selection:
 
@@ -77,7 +77,7 @@ On that screen, you can decide on your database provider by selecting one of the
 ![abp-studio-new-solution-dialog-database-configurations](images/abp-studio-new-solution-dialog-database-configurations-mongo.png)
 {{ end }}
 
-Here, you can select the database management systems (DBMS){{ if DB == "EF" }} and the connection string{{ end }}. Now, we are ready to allow ABP Studio to create our solution. Just click the *Create* button and let it go.
+Here, you can select the database management systems (DBMS){{ if DB == "EF" }} and the connection string{{ end }}. Now, we are ready to allow ABP Studio to create our solution. Just click the *Create* button and let the ABP Studio do the rest for you.
 
 After clicking the Create button, the dialog is closed and your solution is loaded into ABP Studio:
 
@@ -97,7 +97,7 @@ Open the Solution Runner section on the left side of ABP Studio as shown in the 
 
 ![abp-studio-quick-start-application-solution-runner](images/abp-studio-quick-start-application-solution-runner.png)
 
-Once you click the *Play* icon on the left side, the section is open in the same place of the Solution Explorer section. ABP Studio also opens the *Application Monitor* view on the main content area. *Application Monitor* shows useful insights for your applications (e.g. *HTTP Request*, *Events* and *Exceptions*) as real-time. You can use it to see the happenings in your applications, so you can easily track errors and many helpful details.
+Once you click the *Play* icon on the left side, the section is open in the same place as the Solution Explorer section. ABP Studio also opens the *Application Monitor* view on the main content area. *Application Monitor* shows useful insights for your applications (e.g. *HTTP Request*, *Events* and *Exceptions*) in real-time. You can use it to see the happenings in your applications, so you can easily track errors and many helpful details.
 
 In the Solution Runner section (on the left side) you can see all the runnable applications in the current solution. For the MVC with public website example, we have three applications:
 
@@ -142,7 +142,7 @@ The *Browse* command opens the UI of the web application in the built-in browser
 
 You can browse your application in a full-featured web browser in ABP Studio. Click the *Login* button in the application UI, enter `admin` as username and `1q2w3E*` as password to login to the application.
 
-The following screenshot was taken from the *User Management* page of the [Identity module](../../modules/identity.md) that is pre-installed to the application:
+The following screenshot was taken from the *User Management* page of the [Identity module](../../modules/identity.md) that is pre-installed in the application:
 
 ![abp-studio-quick-start-browse-user-list](images/abp-studio-quick-start-browse-user-list.png)
 
@@ -156,7 +156,7 @@ You can use ABP Studio to open the solution with Visual Studio. Right-click to t
 
 ![abp-studio-open-in-visual-studio](images/abp-studio-open-in-visual-studio.png)
 
-If the *Visual Studio* command is not available, that means ABP Studio could not detect it in your computer. You can open the solution folder in your local file system (you can use the *Open with* -> *Explorer* as a shortcut) and manually open the solution in Visual Studio.
+If the *Visual Studio* command is not available, that means ABP Studio could not detect it on your computer. You can open the solution folder in your local file system (you can use the *Open with* -> *Explorer* as a shortcut) and manually open the solution in Visual Studio.
 
 Once the solution is opened in Visual Studio, you should see a screen like shown below:
 
