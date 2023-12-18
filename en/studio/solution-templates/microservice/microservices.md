@@ -80,3 +80,7 @@ If you've selected the [GDPR](../../../modules/gdpr.md) module while [creating y
 ![gdpr-microservice-in-solution-explorer](images/gdpr-microservice-in-solution-explorer.png)
 
 This microservice basically serves the [GDPR](../../../modules/gdpr.md) module's HTTP API, creates and manages its database.
+
+Next
+
+* [API Gateways in the Microservice solution](api-gateways.md)
