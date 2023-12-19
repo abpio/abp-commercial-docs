@@ -1,10 +1,10 @@
 # ABP Studio Monitoring Applications
 
-ABP Studio offers a comprehensive centralized monitoring solution, enabling you to oversee all applications from a single interface. Upon selecting the [solution runner](./solution-explorer.md) from the menu, monitoring tabs are automatically opened in the central interface. This seamless integration enables instant access to monitoring features while utilizing the [solution runner](./solution-explorer.md). You can start the application(s) for monitoring.
+ABP Studio offers a comprehensive centralized monitoring solution, enabling you to oversee all applications from a single interface. Upon selecting the [solution runner](./solution-explorer.md) from the menu, monitoring tabs are automatically opened in the central interface. This seamless integration enables instant access to monitoring features while utilizing the [solution runner](./solution-explorer.md). You can start the applications for monitoring.
 
 ## Overall
 
-You can see the overall information for C# application(s) in this tab. Such as current application state, how many instance running, uptime etc. You can start/stop the appliation in the *Action* column instead using [solution runner](./solution-explorer.md).
+You can see the overall information for C# applications in this tab. Such as current application state, how many instance running, uptime etc. You can start/stop the appliation in the *Action* column instead using [solution runner](./solution-explorer.md).
 
 ## Browse
 
