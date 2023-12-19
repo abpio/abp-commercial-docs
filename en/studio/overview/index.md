@@ -2,7 +2,7 @@
 
 ## Introduction
 
-ABP Studio, a comprehensive desktop application, offers a wide range of features and functionalities tailored to streamline the development and management of ABP-based applications. This article provides an overview of the key components of ABP Studio, including the Top Menu, Left Area, Welcome Page, Solution Explorer, Solution Runner, Kubernetes Integration, Application Monitor Area, Background Tasks, Notifications, and Logs. Understanding these components is essential for efficiently utilizing ABP Studio to its full potential.
+ABP Studio, a comprehensive desktop application, offers a wide range of features and functionalities tailored to streamline the development and management of ABP-based applications. This article provides an overview of the key components of ABP Studio, including the Top Menu, Sidebar, Solution Explorer, Solution Runner, Kubernetes, Welcome Screen, Application Monitor Area, Background Tasks, Notifications, and Logs. Understanding these components is essential for efficiently utilizing ABP Studio to its full potential.
 
 ## Top Menu
 
@@ -188,6 +188,6 @@ Features of the Logs interface include:
 - **Clear Button**: Provides the ability to clear the current log entries displayed within the interface, which can be useful for focusing on new events post-clearance.
 - **Copy Button**: Allows for the copying of log information to the clipboard for use in troubleshooting or documentation, although its implementation may be pending.
 
-![logs](./images/logs.png)
+![studio-logs](./images/studio-logs.png)
 
 The Logs section in ABP Studio displays a chronological record of the application's logs, enabling developers to track events, identify issues, and monitor the internal operations of the studio environment.
