@@ -8,7 +8,7 @@ Navigate to the **Solution Runner** pane located in the left menu.
 
 > The project structure might vary based on your selection. In an MVC microservice project, looks like the following;
 
-![solution-runner](images/solution-runner/solution-runner.png)
+![solution-runner](images/solution-runner.png)
 
 The solution runner contains 4 different types to define tree structure.
 - **Profile root** - `Acme.BookStore (Default)`.
@@ -18,7 +18,7 @@ The solution runner contains 4 different types to define tree structure.
 
 ### Start
 
-You can start CLI and C# applications, either click the arrow icon or navigate to the desired application, then select *Run* -> *Start* from the context menu. You can start multiple applications using a **folder** or the **profile root**. Starting a C# application doesn't build it automatically. Ensure that you've built your application before starting. Alternatively, you can choose *Run* -> *Build & Start* from the context menu.
+You can start CLI and C# applications, either click the arrow icon or navigate to the desired application, then select *Run* -> *Start* from the context menu. You can start multiple applications using a **folder** or the **profile root**. Starting a C# application doesn't build it automatically. Ensure that you've build your application before starting. Alternatively, you can choose *Run* -> *Build & Start* from the context menu.
 
 ### Stop
 
@@ -32,8 +32,8 @@ While the application is running, you can select *Run* -> *Restart* from the con
 
 ### Watch
 
-You can enable/disable watch for C# application with *Run* -> *Enable Watch* or *Run* -> *Disable Watch* from the context menu. If watch is enable C# application gonna start with [dotnet watch](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-watch) command.
+Enable/disable watch for C# applications with *Run* -> *Enable Watch* or *Run* -> *Disable Watch* from the context menu. Enabling watch ensures C# applications start with the [dotnet watch](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-watch) command.
 
 ## Profile
 
-*TODO*
+You can edit profiles to define different tree structures. To edit profiles, click the gear icon, which will open a new window named *Manage Run Profiles*. Within this window, you can add or remove new profiles. After creating a new profile, close the window and select the newly created profile. You can then add or remove folders or applications to the **profile root** as needed.
