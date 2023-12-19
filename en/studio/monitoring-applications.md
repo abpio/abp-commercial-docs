@@ -12,11 +12,11 @@ ABP Studio includes a browser tool that allows to access websites and running ap
 
 ## HTTP Requests
 
-Within this tab, you can view all *HTTP Requests* received by your applications. You have the option to filter them using the search textbox or select a specific application from the combobox. Additionally, by clicking the gear icon, you can ignore certain URLs. This feature applies a regex pattern for specified URL patterns.
+Within this tab, you can view all *HTTP Requests* received by your applications. Clicking on a row enables you to view the details of each HTTP request. You have the option to filter requests using the search textbox or by selecting a specific application from the combobox. Additionally, clicking the gear icon allows you to ignore specific URLs by applying a regex pattern. The *Clear Requests* button removes all received requests.
 
 ## Events
 
-TODO
+In this tab, you can view all *Events* sent or received by your applications. You can filter them using the search textbox or by selecting a specific application. Additionally, you can choose the direction and source (inbox/outbox) of events. The *Clear Events* button removes all events.
 
 ## Exceptions
 
