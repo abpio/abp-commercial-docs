@@ -24,4 +24,4 @@ This tab displays all exceptions. Click on a row to inspect the details of each 
 
 ## Logs
 
-You can view the all logs in *Logs* tab. To see the logs you have to choice an application also you can add filter using the search textbox or selecting a specific log level. The *Clear* button removes all logs. When new logs coming it's automacilly scrolls if the *Auto Scroll* checked.
+The *Logs* tab allows you to view all logs. To access logs, simply select an application. You can also apply filters using the search textbox or by selecting a specific log level. The *Clear* button removes all logs. If *Auto Scroll* is checked, the display automatically scrolls when new logs are received.
