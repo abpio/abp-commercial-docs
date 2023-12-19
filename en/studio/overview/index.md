@@ -82,7 +82,7 @@ In support of continuous learning and community engagement, the right-hand panel
 #### Tutorials
 
 - **Getting started with the ABP Commercial**: A resource link designed to onboard new users, offering comprehensive guidance on leveraging ABP Commercial's features.
-- **Introduction to the ABP Studio**: Provides an overview of ABP Studio's capabilities, assisting users in familiarizing themselves with the tool's environment and features.
+- **Introduction to the ABP Studio**: A resource link designed to open ABP Studio's introduction documentation.
 
 #### Latest Community Posts
 
