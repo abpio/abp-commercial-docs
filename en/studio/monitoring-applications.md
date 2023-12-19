@@ -16,12 +16,12 @@ Within this tab, you can view all *HTTP Requests* received by your applications.
 
 ## Events
 
-In this tab, you can view all *Events* sent or received by your applications. You can filter them using the search textbox or by selecting a specific application. Additionally, you can choose the direction and source (inbox/outbox) of events. The *Clear Events* button removes all events.
+In this tab, you can view all *Events* sent or received by your applications. Clicking on a row enables you to view the details of each event. You can filter them using the search textbox or by selecting a specific application. Additionally, you can choose the direction and source (inbox/outbox) of events. The *Clear Events* button removes all events.
 
 ## Exceptions
 
-TODO
+This tab displays all exceptions. Click on a row to inspect the details of each exception. You can filter them using the search textbox or by selecting a specific application. The *Clear Exceptions* button removes all exceptions.
 
 ## Logs
 
-TODO
+You can view the all logs in *Logs* tab. To see the logs you have to choice an application also you can add filter using the search textbox or selecting a specific log level. The *Clear* button removes all logs. When new logs coming it's automacilly scrolls if the *Auto Scroll* checked.
