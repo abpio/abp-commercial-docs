@@ -29,6 +29,7 @@ ABP Studio provides pre-architected and production-ready templates to jump start
   * Background Jobs
   * Background Workers
   * Distributed Locking
+  * Distributed Cache
   * Multi-Tenancy
   * BLOB Storing
 * Communication
