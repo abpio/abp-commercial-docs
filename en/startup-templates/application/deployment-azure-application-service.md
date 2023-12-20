@@ -11,7 +11,9 @@
 
 > This document assumes that you prefer to use **{{ UI_Value }}** as the UI framework and **{{ DB_Value }}** as the database provider. For other options, please change the preference on top of this document.
 
-## TODO
+
+
+### The Azure Deployment document is available after ABP v7.4. You can check out the next versions to read this document.
 
 
 
