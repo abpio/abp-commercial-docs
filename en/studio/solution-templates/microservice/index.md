@@ -32,6 +32,7 @@ ABP Studio provides pre-architected and production-ready templates to jump start
   * Distributed Cache
   * Multi-Tenancy
   * BLOB Storing
+  * CORS configuration
 * Communication
   * Distributed Events
   * HTTP API Calls
