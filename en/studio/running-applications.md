@@ -4,7 +4,7 @@ Running application in ABP Studio is a straightforward process to start one or m
 
 ![solution-runner](images/solution-runner/solution-runner.png)
 
-> The project structure might vary based on your selection. In an MVC microservice project, looks like the following;
+> The project structure might be different based on your selection. In an MVC microservice project, looks like the following;
 
 The solution runner contains 4 different types to define tree structure.
 - **Profile root** - `Acme.BookStore (Default)`.
