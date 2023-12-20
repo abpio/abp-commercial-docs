@@ -1,14 +1,10 @@
-# ABP Studio Running Applications
+# Running Applications Using ABP Studio Solution Runner
 
-Running application in ABP Studio is a straightforward process to start one or more applications easier.
+Running application in ABP Studio is a straightforward process to start one or more applications easier. Navigate to the **Solution Runner** pane located in the left menu.
 
-## Solution Runner
-
-Navigate to the **Solution Runner** pane located in the left menu.
+![solution-runner](images/solution-runner/solution-runner.png)
 
 > The project structure might vary based on your selection. In an MVC microservice project, looks like the following;
-
-![solution-runner](images/solution-runner.png)
 
 The solution runner contains 4 different types to define tree structure.
 - **Profile root** - `Acme.BookStore (Default)`.
@@ -16,24 +12,20 @@ The solution runner contains 4 different types to define tree structure.
 - **C# Application** `Acme.BookStore.AuthServer`, `Acme.BookStore.Web`, `Acme.BookStore.WebGateway`, etc...
 - **CLI Application** `Docker-Dependencies`
 
-### Start
-
-You can start CLI and C# applications, either click the arrow icon or navigate to the desired application, then select *Run* -> *Start* from the context menu. You can start multiple applications using a **folder** or the **profile root**. Starting a C# application doesn't build it automatically. Ensure that you've build your application before starting. Alternatively, you can choose *Run* -> *Build & Start* from the context menu.
-
-### Stop
-
-While the application is running, you can either click the stop icon or choose *Run* -> *Stop* from the context menu. You can stop multiple applications using a **folder** or the **profile root**. If the running application is a C# application, you should see a chain icon next to the application name, that means the started application connected to ABP Studio.
-
-> C# application can connect to ABP Studio even when running from outside the Studio environment, for example using the `dotnet run` command. If the application is run from outside the Studio environment, it will display **(external)** information next to the chain icon.
-
-### Restart
-
-While the application is running, you can select *Run* -> *Restart* from the context menu. For C# application, you can also use *Build & Restart* to build the application before restarting.
-
-### Watch
-
-Enable/disable watch for C# applications with *Run* -> *Enable Watch* or *Run* -> *Disable Watch* from the context menu. Enabling watch ensures C# applications start with the [dotnet watch](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-watch) command.
-
 ## Profile
 
-You can edit profiles to define different tree structures. To edit profiles, click the gear icon, which will open a new window named *Manage Run Profiles*. Within this window, you can add or remove new profiles. After creating a new profile, close the window and select the newly created profile. You can then add or remove folders or applications to the **profile root** as needed.
+We can add or remove profiles to define different profile roots, which is provide us to organize our tree structure as needed. The *Default* profile comes with the project creation, includes all projects in the tree to manage at once. You can view all profiles in the combobox and change the current profile. To edit, click the gear icon located on the right side.
+
+![solution-runner-edit](images/solution-runner/solution-runner-edit.png)
+
+It opens the *Manage Run Profiles* window. You can edit/delete existing profiles or add a new one.
+
+![manage-run-profiles](images/solution-runner/manage-run-profiles.png)
+
+When you click *Add New Profile*, it opens the *Create New Profile* window. You can provide an arbitrary profile name, which should only contain letters, numbers, underscores, dashes, and dots in the text. When you create a new profile, it stores the JSON file at the specified path. You can specify the path `abp-solution-path/etc/abp-studio/run-profiles` to adhere to the standard format. You can click *Ok* button to save profile.
+
+![create-new-profile](images/solution-runner/create-new-profile.png)
+
+> You can change the current profile while applications are running in the previous profile. The applications continue to run under the previous profile. For example if we start the `Acme.BookStore.AdministrationService`, `Acme.BookStore.IdentityService` applications when current profile is *team-1* and after change the current profile to *team-2* the applications continue to run under *team-1*.
+
+> When a profile is deleted while running some applications, those applications will be stopped. If the current profile is edited while running some applications, only the applications associated with the edited profile will be stopped. However, applications running under a different profile will continue to run unaffected. Lastly if we add a new profile then all profiles runned applications gonna be stopped.
