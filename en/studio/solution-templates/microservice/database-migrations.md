@@ -14,3 +14,45 @@ In addition to the schema changes, you may also need to insert some initial (see
 
 > If you are using **MongoDB** as your database provider, the schema migration is not needed (But you should care about some kind of data and schema migrations in case of you made a breaking change on your database schema - this is something depends on your application, so you should understand how to work with a document database like MongoDB). However, the data seeding system is still used to insert initial data to the database.
 
+## Database Migration on Service Startup
+
+The microservice solution was designed so that there are more than one database. Typically, each microservice has its own database.
+
+Every microservice is responsible to migrate its own database schema. They perform that responsibility by checking and applying database migrations on service startup.
+
+> In this document, we will examine the Identity microservice as an example, but the document is valid for other services too.
+
+For example, the Identity microservice's startup module class overrides the `OnPostApplicationInitializationAsync` method to trigger the migration operation:
+
+````csharp
+public override async Task
+    OnPostApplicationInitializationAsync(ApplicationInitializationContext context)
+{
+    using var scope = context.ServiceProvider.CreateScope();
+    await scope.ServiceProvider
+        .GetRequiredService<IdentityServiceRuntimeDatabaseMigrator>()
+        .CheckAndApplyDatabaseMigrationsAsync();
+}
+````
+
+In this example, `IdentityServiceRuntimeDatabaseMigrator` class checks and applies the pending changes if available.
+
+````csharp
+public class IdentityServiceRuntimeDatabaseMigrator
+    : EfCoreRuntimeDatabaseMigratorBase<IdentityServiceDbContext>
+{
+    private readonly IdentityServiceDataSeeder _identityServiceDataSeeder;
+
+    /* The constructor code is omitted to keep it short */
+
+    protected override async Task SeedAsync()
+    {
+        await _identityServiceDataSeeder.SeedAsync();
+    }
+}
+````
+
+Since the migration logic is very common, ABP Framework provides a base class to implement the fundamental migration logic. `IdentityServiceRuntimeDatabaseMigrator` inherits from the `EfCoreRuntimeDatabaseMigratorBase` class which perform the actual migration operation. Here, we are just overriding the `SeedAsync` method that runs just after the database schema migration. If you check the source code, you will see that `IdentityServiceDataSeeder` creates the `admin` user, `admin` role and their permissions, so you can be able to login to the application.
+
+
+
