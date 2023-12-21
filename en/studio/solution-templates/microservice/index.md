@@ -20,7 +20,7 @@ ABP Studio provides pre-architected and production-ready templates to jump start
 * Built-In Features
   * [Authentication](authentication.md)
   * [Database migrations](database-migrations.md)
-  * Logging (with Serilog)
+  * [Logging (with Serilog)](logging.md)
   * Monitoring (with Prometheus and Grafana)
   * Swagger integration
   * Permission management
