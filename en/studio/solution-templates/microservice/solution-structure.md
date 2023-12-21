@@ -1,4 +1,4 @@
-# ABP Studio Microservice Solution Structure
+# Microservice Solution: The Structure
 
 This document explains the solution and folder structure of ABP Studio's [microservice solution template](index.md).
 

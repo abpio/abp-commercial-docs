@@ -1,4 +1,4 @@
-# ABP Studio Microservice Solution: Mobile Applications
+# Microservice Solution: Mobile Applications
 
 The ABP Studio microservice solution template comes with an optional mobile application that is completely integrated to the solution. There are two options for the mobile application:
 
