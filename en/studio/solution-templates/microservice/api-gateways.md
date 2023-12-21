@@ -1,4 +1,4 @@
-# ABP Studio Microservice Solution: API Gateways
+# Microservice Solution: API Gateways
 
 An API Gateway is used to expose your system to the clients. It also provides a single entry point to your system.
 
