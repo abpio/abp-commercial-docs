@@ -104,14 +104,20 @@ When you browse the UI of an API Gateway, you will see a screen as shown below:
 
 ![web-api-gateway-identity-swagger-ui](images/web-api-gateway-identity-swagger-ui.png)
 
-> **WARNING: ABP Studio's built-in browser can not be used to authenticate a Swagger UI because of some technical limitations on the authentication flow. We will work on that in the future to fix the problem. You can directly use your browser to open the Swagger UI. You can right-click to a gateway application in the *Solution Runner* and select the *Copy Url* command to copy the application's URL to your clipboard.**
+> **WARNING: ABP Studio's built-in browser can not be used to authenticate a Swagger UI because of some technical limitations on the authentication flow. We will work on that in the future to fix the problem. Please use your browser to open the Swagger UI. You can right-click to a gateway application in the *Solution Runner* and select the *Copy Url* command to copy the application's URL to your clipboard in ABP Studio.**
 
-Ensure that you've selected the service you want to test with the dropdown on top of the page. Then click the *Authorize* button here to open the Swagger's authorization modal:
+Ensure that you've selected the service you want to test in the dropdown on top of the page. Then click the *Authorize* button here to open the Swagger's authorization modal:
 
 ![swagger-ui-authorization-modal](images/swagger-ui-authorization-modal.png)
 
-Here, you don't need to change anything (leave the `client_secret` field as empty). Just click the *Authorize* button. You are redirected to the login page of the authentication server. You can use the default `admin` username and `1q2w3E*` password if you haven't change them yet. After the login process, you should see a modal similar to the following screenshot:
+Here, you don't need to change anything (leave the *client_secret* field as empty). Just click the *Authorize* button. You are redirected to the login page of the authentication server. You can use the default `admin` username and `1q2w3E*` password if you haven't change them yet. After the login process, you should see a modal similar to the following screenshot:
 
 ![swagger-ui-authorization-modal-result](images/swagger-ui-authorization-modal-result.png)
 
-d
+Now, you are authenticated with the user you've used while logging in to the application, and you have all the permissions of that user. For example, you can test the `/api/identity/roles` endpoint to get a list of the roles in the system:
+
+![identity-roles-get-api-swagger-ui](images/identity-roles-get-api-swagger-ui.png)
+
+When you execute that API, the server should return a JSON value as shown in the following screenshot:
+
+![identity-roles-get-api-swagger-ui-result](images/identity-roles-get-api-swagger-ui-result.png)
