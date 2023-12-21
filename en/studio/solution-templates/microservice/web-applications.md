@@ -50,14 +50,14 @@ The following sections explain each of these UI types.
 
 If you've selected the Angular UI while creating your solution, a folder named `angular` is included in the `apps` folder of the solution. That folder contains the main web application of the solution that is implemented using Angular.
 
-Blazor WebAssembly Web Application
+### Blazor WebAssembly Web Application
 
 TODO
 
-Blazor Server Web Application
+### Blazor Server Web Application
 
 TODO
 
-MAUI Blazor (Hybrid) Web Application
+### MAUI Blazor (Hybrid) Web Application
 
 TODO
