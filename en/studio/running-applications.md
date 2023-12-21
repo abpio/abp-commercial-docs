@@ -56,3 +56,20 @@ After selecting the current profile, which is *Default* comes out of the box we 
 - `Clean`: It cleans each C# applications using the [dotnet clean](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-clean) command in the [Background Tasks](./overview/index.md#background-tasks).
 
 ![profile-root-context-menu-build](images/solution-runner/profile-root-context-menu-build.png)
+
+### Add
+
+We can add 3 different item type to *Profile Root* for defining the tree structure. Those options are `C# Application`, `CLI Application` and `Folder`.
+
+![profile-root-context-menu-add](images/solution-runner/profile-root-context-menu-add.png)
+
+#### C# Application
+
+When we click the *Profile Root* -> *Add* -> *C# Application* it opens the *Add Application* window. We would be able to add two different way. You can add C# application in *This solution* tab with following way:
+
+- `Select application`: First we have to select an application, you have the option to add the same application multiple times.
+- `Name`: Give an arbitrary name to see in solution runner. This name should be unique even the selected application already exists.
+- `Launch url`: Is the url when we want to browse.
+- `Kubernetes service`: If you're not using the *Kubernetes* panel leave it empty. But if solution template is the [microservice](./solution-templates/microservice/index.md) we should give the correct pattern. It's necessary for *Browse* when we connect the kubernetes cluster we should browse the services instead *Launch url*. You can copy the existing C# application *Kubernetes sevice* value.
+
+![profile-root-add-csharp-application](images/solution-runner/profile-root-add-csharp-application.png)
