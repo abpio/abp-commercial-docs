@@ -112,3 +112,25 @@ When adding applications directly to the profile root, it can become disorganize
 - `Folder name`: Give the folder name that we wanna see in solution runner. We can create nested folder with `/` character. This is a solution runner folder so, it doesn't create a real folder. Ensure each folder name is unique for each profile.
 
 You can click the `OK` button to add the folder to the profile root.
+
+### Miscellaneous
+
+- You can drag and drop folders and applications into folders for organization purposes. Click and hold an item, then drag it into the desired folder.
+- We can start all applications by clicking the *Play* icon on the left side, similiar way we can stop all applications by clicking the *Stop*  icon on the left side.
+- To remove an application from the tree, open the context menu by right-clicking the application and selecting *Remove*.
+- To remove a folder from the tree, open the context menu by right-clicking the folder and selecting *Delete*.
+
+## Folder
+
+We already now why we need folder in the [previous](./running-applications.md#folder) section, we can use collective commands within this folder items. To do that go to folder and open the context menu by right-clicking, which includes 5 options `Start`, `Build`, `Add`, `Rename` and `Delete`.
+
+### Start
+
+*Folder* -> *Start* context menu, there are 3 options available:
+
+- `Start`: Start all applications(CLI, C#) in selected folder.
+- `Stop`: Stop all applications(CLI, C#) in selected folder.
+- `Build & Start`: It builds each C# applications using the [dotnet build](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-build) command in the [Background Tasks](./overview/index.md#background-tasks) and starts all applications(CLI, C#) in selected folder after the build tasks are completed.
+
+![folder-context-menu-start](images/solution-runner/folder-context-menu-run.png)
+
