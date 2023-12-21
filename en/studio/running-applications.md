@@ -40,8 +40,19 @@ After selecting the current profile, which is *Default* comes out of the box we 
 
 *Profile Root* -> *Run* context menu, there are 3 options available:
 
-- `Start All`: Start all applications.
-- `Stop All`: Stop all applications.
-- `Build & Start All`: Builds and start all applications.
+- `Start All`: Start all(CLI, C#) applications.
+- `Stop All`: Stop all(CLI, C#) applications.
+- `Build & Start All`: It builds each C# applications using the [dotnet build](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-build) command in the [Background Tasks](./overview/index.md#background-tasks) and starts all(CLI, C#) applications after the build tasks are completed.
 
 ![profile-root-context-menu-run](images/solution-runner/profile-root-context-menu-run.png)
+
+### Build
+
+*Profile Root* -> *Build* context menu, there are 4 options available:
+
+- `Build All`: It builds each C# applications using the [dotnet build](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-build) command in the [Background Tasks](./overview/index.md#background-tasks).
+- `Graph Build`: It builds each C# applications using the [dotnet build](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-build) command with [graphBuild](https://learn.microsoft.com/en-us/visualstudio/msbuild/build-process-overview?view=vs-2022#graph-option) option in the [Background Tasks](./overview/index.md#background-tasks).
+- `Restore`: It restores each C# applications using the [dotnet restore](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-restore) command in the [Background Tasks](./overview/index.md#background-tasks).
+- `Clean`: It cleans each C# applications using the [dotnet clean](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-clean) command in the [Background Tasks](./overview/index.md#background-tasks).
+
+![profile-root-context-menu-build](images/solution-runner/profile-root-context-menu-build.png)
