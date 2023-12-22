@@ -46,6 +46,8 @@ After selecting the current profile, which is *Default* comes out of the box we 
 - `Stop All`: Stop all(CLI, C#) applications.
 - `Build & Start All`: It builds each C# applications using the [dotnet build](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-build) command in the [Background Tasks](./overview/index.md#background-tasks) and starts all(CLI, C#) applications after the build tasks are completed.
 
+> `Start All` applications doesn't mean it's gonna be builded that's why we need to use `Build & Start All` for C# applications.
+
 ### Build
 
 *Profile Root* -> *Build* context menu, there are 4 options available:
@@ -129,11 +131,24 @@ We already now why we need folder in the [previous](./running-applications.md#fo
 
 ### Start
 
-*Folder* -> *Start* context menu, there are 3 options available:
+*Folder* -> *Start* context menu, it's [similiar](#run) like *Profile Root* -> *Run* options, there are 3 options available. The only difference between *Profile Root* it's gonna be execute in selected folder.
 
 ![folder-context-menu-start](images/solution-runner/folder-context-menu-start.png)
 
-- `Start`: Start all applications(CLI, C#) in selected folder.
-- `Stop`: Stop all applications(CLI, C#) in selected folder.
-- `Build & Start`: It builds each C# applications using the [dotnet build](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-build) command in the [Background Tasks](./overview/index.md#background-tasks) and starts all applications(CLI, C#) in selected folder after the build tasks are completed.
 
+### Build
+
+*Folder* -> *Build* context menu, it's the [same](#build) options like *Profile Root* -> *Build* there are 4 options available. The only difference between them it's gonna be execute in selected folder.
+
+![folder-context-menu-build](images/solution-runner/folder-context-menu-build.png)
+
+### Add
+
+*Folder* -> *Add* context menu, it's the [same](#add) options like *Profile Root* -> *Add* there are 3 options avaiable. The only difference, it's gonna add item to selected folder.
+
+![folder-context-menu-add](images/solution-runner/folder-context-menu-add.png)
+
+### Miscellaneous
+
+- You can rename a folder with *Folder* -> *Rename*.
+- You can delete a folder with *Folder* -> *Delete*.
