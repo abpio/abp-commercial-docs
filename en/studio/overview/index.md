@@ -6,7 +6,7 @@ ABP Studio, a comprehensive desktop application, offers a wide range of features
 
 ## Top Menu
 
-The Top Menu is the primary menu bar in ABP Studio. It offers access to various functionalities such as **File**, **ABP Suite**, **Tools**, and **Help**. This menu is intuitively designed to ensure easy access to some features of ABP Studio.
+The Top Menu is the main menu bar in ABP Studio. It offers access to various functionalities such as **File**, **ABP Suite**, **Tools**, and **Help**. This menu is intuitively designed to ensure easy access to some features of ABP Studio.
 
 ![top-menu](./images/top-menu.png)
 
