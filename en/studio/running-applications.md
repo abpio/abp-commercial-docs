@@ -40,22 +40,22 @@ After selecting the current profile, which is *Default* comes out of the box we 
 
 *Profile Root* -> *Run* context menu, there are 3 options available:
 
+![profile-root-context-menu-run](images/solution-runner/profile-root-context-menu-run.png)
+
 - `Start All`: Start all(CLI, C#) applications.
 - `Stop All`: Stop all(CLI, C#) applications.
 - `Build & Start All`: It builds each C# applications using the [dotnet build](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-build) command in the [Background Tasks](./overview/index.md#background-tasks) and starts all(CLI, C#) applications after the build tasks are completed.
-
-![profile-root-context-menu-run](images/solution-runner/profile-root-context-menu-run.png)
 
 ### Build
 
 *Profile Root* -> *Build* context menu, there are 4 options available:
 
+![profile-root-context-menu-build](images/solution-runner/profile-root-context-menu-build.png)
+
 - `Build All`: It builds each C# applications using the [dotnet build](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-build) command in the [Background Tasks](./overview/index.md#background-tasks).
 - `Graph Build`: It builds each C# applications using the [dotnet build](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-build) command with [graphBuild](https://learn.microsoft.com/en-us/visualstudio/msbuild/build-process-overview?view=vs-2022#graph-option) option in the [Background Tasks](./overview/index.md#background-tasks).
 - `Restore`: It restores each C# applications using the [dotnet restore](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-restore) command in the [Background Tasks](./overview/index.md#background-tasks).
 - `Clean`: It cleans each C# applications using the [dotnet clean](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-clean) command in the [Background Tasks](./overview/index.md#background-tasks).
-
-![profile-root-context-menu-build](images/solution-runner/profile-root-context-menu-build.png)
 
 ### Add
 
@@ -67,23 +67,24 @@ We can add 3 different item type to *Profile Root* for defining the tree structu
 
 When we click the *Profile Root* -> *Add* -> *C# Application* it opens the *Add Application* window. We would be able to add two different way. You can add C# application in *This solution* tab with following way:
 
+![profile-root-add-csharp-application](images/solution-runner/profile-root-add-csharp-application.png)
+
 - `Select application`: First we have to select an application, you have the option to add the same application multiple times.
 - `Name`: Give an arbitrary name to see in solution runner. This name should be unique for each profile even the selected application already exists.
 - `Launch url`: Is the url when we want to browse.
 - `Kubernetes service`: If you're not using the *Kubernetes* panel leave it empty. But if solution template is the [microservice](./solution-templates/microservice/index.md) we should give the correct regex pattern. It's necessary for browse, when we connect the kubernetes cluster we should browse the kubernetes services instead *Launch url*. You can copy the existing C# application *Kubernetes sevice* **[GIVE THE C# Applications Properties SECTION]** value.
 
-![profile-root-add-csharp-application](images/solution-runner/profile-root-add-csharp-application.png)
-
 You can click the `OK` button to add the C# application to the profile root.
 
 The C# project doesn't have to be within the current [ABP Solution](./concepts.md#solution); it can even be outside. Also the project type could be anything such as [console app](https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/console-teleprompter), [ASP.NET Core Razor Pages](https://learn.microsoft.com/en-us/aspnet/core/razor-pages/), etc. To add it, click on the *External* tab in *Add Application* window.
+
+![profile-root-add-external-csharp-application](images/solution-runner/profile-root-add-external-csharp-application.png)
+
 
 - `Path`: Provide the path to the .csproj file you wish to add. The path will be [normalized](https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats#path-normalization), allowing the project location to be flexible, as long as it's accessible from the current [ABP Solution](./concepts.md#solution).
 - `Name`: Give an arbitrary name to see in solution runner. This name should be unique for each profile.
 - `Launch url`: Is the url when we want to browse. But if added project doesn't have launch url we can leave it empty.
 - `Kubernetes service`: If you're not using the *Kubernetes* panel leave it empty. But if solution template is the [microservice](./solution-templates/microservice/index.md) and there is a helm chart for added application we should give the correct regex pattern. It's necessary for browse, when we connect the kubernetes cluster we should browse the services instead *Launch url*. Give the matching regex pattern for your helm chart kubernetes service name.
-
-![profile-root-add-external-csharp-application](images/solution-runner/profile-root-add-external-csharp-application.png)
 
 You can click the `OK` button to add the C# application to the profile root.
 
@@ -124,13 +125,15 @@ You can click the `OK` button to add the folder to the profile root.
 
 We already now why we need folder in the [previous](./running-applications.md#folder) section, we can use collective commands within this folder items. To do that go to folder and open the context menu by right-clicking, which includes 5 options `Start`, `Build`, `Add`, `Rename` and `Delete`.
 
+![folder-context-menu](images/solution-runner/folder-context-menu.png)
+
 ### Start
 
 *Folder* -> *Start* context menu, there are 3 options available:
 
+![folder-context-menu-start](images/solution-runner/folder-context-menu-start.png)
+
 - `Start`: Start all applications(CLI, C#) in selected folder.
 - `Stop`: Stop all applications(CLI, C#) in selected folder.
 - `Build & Start`: It builds each C# applications using the [dotnet build](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-build) command in the [Background Tasks](./overview/index.md#background-tasks) and starts all applications(CLI, C#) in selected folder after the build tasks are completed.
-
-![folder-context-menu-start](images/solution-runner/folder-context-menu-run.png)
 
