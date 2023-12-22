@@ -105,13 +105,25 @@ As explained in the previous section, the migration system automatically creates
 
 As explained before, the migration system re-tries a maximum of 3 times on failures by waiting a random duration between 5 and 15 seconds. You can set `MinValueToWaitOnFailure` and `MaxValueToWaitOnFailure` as milliseconds to change these durations. Default try count can be changed by setting the `MaxEventTryCount` value.
 
-If the maximum try count (`MaxEventTryCount`) is reached, then the re-try mechanism is stopped. In that case, the tenant database will remain old, since it couldn't be migrated. In such a case, it is expected from a system admin to understand the problem (maybe the connection string was wrong or the target database server is temporarily unreachable) and manually trigger the migration once the problem is resolved.
+If the maximum try count (`MaxEventTryCount`) is reached, then the re-try mechanism is stopped. In that case, the tenant database will remain old, since it couldn't be migrated. In such a case, it is expected from a system admin to understand the problem (maybe the connection string was wrong or the target database server is temporarily unreachable) and manually trigger the migration once the problem is resolved. See the *SaaS Module: The Tenant Management UI* section for details.
 
-### Manually Triggering the Migrations
+### SaaS Module: The Tenant Management UI
 
-You may need to manually trigger database migrations for a specific tenant if the automatic migrations fails or you need to migrate (or create) tenant databases for some other reason.
+SaaS module provides the necessary UI to set and change connection string for tenants and trigger the database migrations.
 
-SaaS module provides the necessary UI to trigger the database migrations for a tenant.
+#### The Connection String Management Modal
+
+You can click to the *Database Connection Strings* command in the *Actions* dropdown button for a tenant in the *Tenants* page of the SaaS module:
+
+![saas-module-tenant-actions](images/saas-module-tenant-actions.png)
+
+It opens the *Database Connection Strings* modal as shown below:
+
+![tenant-connection-string-management-modal](images/tenant-connection-string-management-modal.png)
+
+Here, we can set a *Default* connection string for the tenant. The default connection string is used as a fallback value if you don't define a connection string for a specific microservice database.
+
+TODO: How it created the database
 
 ## Database Configurations
 
