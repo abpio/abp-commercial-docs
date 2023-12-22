@@ -79,12 +79,44 @@ The following properties are candidate to change in the constructor of your deri
 
 The microservice solution allows to create dedicated physical databases for each tenant for each microservice. This can be useful if you want to have dedicate resources for specific tenants or need to separate some tenant databases for security, isolation or other reasons.
 
-> Allowing tenants have their own databases per services may dramatically increase your database count and may make your system hard to monitor, backup and maintain. It is a serious system decision and we suggest to avoid it if you don't have to do.
+> Tenants with their own databases per services may dramatically increase your database count and may make your system hard to monitor, backup and maintain. It is a serious system decision and we suggest to avoid it if you don't have to do.
 
 If you have a separate database for a tenant for a microservice and if that microservice's database schema is changed, you must change the tenant's database schema too. Otherwise, your service may fail when it uses that tenant's database.
 
-TODO: How it works
+As explained above, `EfCoreRuntimeDatabaseMigratorBase` publishes a distributed event (`AppliedDatabaseMigrationsEto`) when it applied a database schema migration for a microservice database. That is then handled by the SaaS module. The SaaS module then finds all the tenants that have dedicated databases for that microservice database, and publishes `ApplyDatabaseMigrationsEto` events (one for each tenant). The `ApplyDatabaseMigrationsEto` events are then handled by the related microservice to migrate the related database for the given tenant. This is done by the `IdentityServiceDatabaseMigrationEventHandler` in the microservice project. `IdentityServiceDatabaseMigrationEventHandler` is inherited from the `EfCoreDatabaseMigrationEventHandlerBase` class which implements the actual migration logic. 
+
+`EfCoreDatabaseMigrationEventHandlerBase` handles three types of events:
+
+* `TenantCreatedEto`: Published when a new tenant is created.
+* `TenantConnectionStringUpdatedEto`: Published when a connection string of a tenant has changed.
+* `ApplyDatabaseMigrationsEto`: Published when a tenant database should be migrated, as explained above.
+
+For all that events, we need to migrate the related database for the tenant (the migration system creates the initial database if it doesn't exists). The migration logic is like that:
+
+* Switches to the related tenant context using the [`ICurrentTenant.Change` method](https://docs.abp.io/en/abp/latest/Multi-Tenancy#change-the-current-tenant).
+* If the given tenant has a dedicated connection string for the current microservice, it migrates the database schema and seeds the initial data.
+* In case a failure, it re-tries a maximum of 3 times by waiting a random duration between 5 and 15 seconds. It does that by ignoring the error and re-publishing the event that is handled.
+
+### Connection String Update
+
+As explained in the previous section, the migration system automatically creates and seeds the new database when you change connection string of a tenant. However, it doesn't move the data if old database has data in it. You should handle it yourself. You can override the `AfterTenantConnectionStringUpdated` method to take the necessary action.
+
+### On Failures
+
+As explained before, the migration system re-tries a maximum of 3 times on failures by waiting a random duration between 5 and 15 seconds. You can set `MinValueToWaitOnFailure` and `MaxValueToWaitOnFailure` as milliseconds to change these durations. Default try count can be changed by setting the `MaxEventTryCount` value.
+
+If the maximum try count (`MaxEventTryCount`) is reached, then the re-try mechanism is stopped. In that case, the tenant database will remain old, since it couldn't be migrated. In such a case, it is expected from a system admin to understand the problem (maybe the connection string was wrong or the target database server is temporarily unreachable) and manually trigger the migration once the problem is resolved.
+
+### Manually Triggering the Migrations
+
+You may need to manually trigger database migrations for a specific tenant if the automatic migrations fails or you need to migrate (or create) tenant databases for some other reason.
+
+SaaS module provides the necessary UI to trigger the database migrations for a tenant.
 
 ## Database Configurations
 
 TODO: AbpDbContextOptions, DbContext structure, AbpDbConnectionOptions, etc.
+
+## Rapid Failures on System Startup
+
+TODO: ...
