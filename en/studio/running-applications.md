@@ -77,7 +77,7 @@ When we go to root of the tree and right-click, in this example *Acme.BookStore(
 - `Select application`: First we have to select an application, you have the option to add the same application multiple times.
 - `Name`: Give an arbitrary name to see in solution runner. This name should be unique for each profile even the selected application already exists.
 - `Launch url`: Is the url when we want to browse.
-- `Kubernetes service`: If you're not using the *Kubernetes* panel leave it empty. It's necessary for browse, when we connect the kubernetes cluster we should browse the kubernetes services instead *Launch url*. In [microservice](./solution-templates/microservice/index.md) template this option already configured and you can copy the existing regex pattern from your selected application properties[GIVE THE C# Application Properties Section]. If you create a custom helm chart you can also give the regex pattern that matches with your helm chart kubernetes service name.
+- `Kubernetes service`: If you're not using the *Kubernetes* panel leave it empty. It's necessary for browse, when we connect the kubernetes cluster we should browse the kubernetes services instead *Launch url*. In [microservice](./solution-templates/microservice/index.md) template this option already configured and you can copy the existing regex pattern from your selected application [properties](#properties). If you create a custom helm chart you can also give the regex pattern that matches with your helm chart kubernetes service name.
 
 You can click the `OK` button to add the C# application to the profile.
 
@@ -175,3 +175,33 @@ We have several options in C# applications. Those options are `Start`(If the app
 > When you start the C# application, you should see a *chain* icon next to the application name, that means the started application connected to ABP Studio. C# applications can connect to ABP Studio even when running from outside the ABP Studio environment, for example debugging with Visual Studio. If the application is run from outside the ABP Studio environment, it will display *(external)* information next to the chain icon.
 
 > When *Watch* is enable you should see an *eye* icon next to the application name. 
+
+### Build
+
+It's the [similiar](#build) options like root of the tree options. The only difference between them it's gonna be execute the selected application.
+
+![csharp-application-context-menu-build](images/solution-runner/csharp-application-context-menu-build.png)
+
+### Monitoring
+
+When the C# application is connected to ABP Studio, it begins sending information to see in one place. We can easily click these options to see the detail; `Browse`, `Requests`, `Exceptions` and `Logs`.
+
+![csharp-application-context-menu-monitor](images/solution-runner/csharp-application-context-menu-monitor.png)
+
+- `Browse`: ABP Studio includes a browser tool for accessing websites and running applications. You can click this option to view the application in the ABP Studio browser. However, this option is only accessible if the application is started
+- `Requests`: It opens the *HTTP Requests* tab with adding the selected application filter. You can view all *HTTP Requests* received by your applications.
+- `Exceptions`: We can display all exceptions on this tab. It opens the *Exceptions* tab with selected application.
+- `Logs`: Clicking this option opens the *Logs* tab with adding the selected application filter.
+
+### Properties
+
+We can open the *Application Properties* window to change *Launch url* and *Kubernetes service* information. To access the *Application Properties* window, navigate to a C# application, right-click to view the context menu, and select the Properties option.
+
+![csharp-application-context-menu-properties](images/solution-runner/csharp-application-context-menu-properties.png)
+
+You can click the `OK` button to save the changes.
+
+### Miscellaneous
+
+- `Copy Url`: We can copy the selected application *Browse* URL with this option. It copies the *Browse* URL instead *Launch URL* since we could connected to *Kubernetes* service. 
+- To remove an application from the tree, open the context menu by right-clicking the application and selecting *Remove*.
