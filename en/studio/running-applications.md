@@ -23,11 +23,11 @@ It opens the *Manage Run Profiles* window. You can edit/delete existing profiles
 
 ![manage-run-profiles](images/solution-runner/manage-run-profiles.png)
 
-When you click *Add New Profile*, it opens the *Create New Profile* window. You can provide an arbitrary profile name, which should only contain letters, numbers, underscores, dashes, and dots in the text. When you create a new profile, it stores the JSON file at the specified path. You can specify the path `abp-solution-path/etc/abp-studio/run-profiles` for microservice projects or `abp-solution-path/etc/run-profiles` for other project types to adhere to the standard format. Click *OK* button to save profile.
+When you click *Add New Profile*, it opens the *Create New Profile* window. You can provide an arbitrary profile name, which should be unique among the profiles. Additionally, the name should only contain letters, numbers, underscores, dashes, and dots in the text. When you create a new profile, it stores the JSON file at the specified path. You can specify the path `abp-solution-path/etc/abp-studio/run-profiles` for microservice projects or `abp-solution-path/etc/run-profiles` for other project types to adhere to the standard format. Click *OK* button to save profile.
 
 ![create-new-profile](images/solution-runner/create-new-profile.png)
 
-> When a profile is deleted while running some applications, those applications will be stopped. If we edit a profile while running some applications, only the applications associated with the edited profile will be stopped. However, applications running under a different profile will continue to run unaffected. Lastly if we add a new profile then all profiles runned applications gonna be stopped.
+> When a profile is edited or deleted while running some applications, those applications will be stopped. However, applications running under a different profile will continue to run unaffected. Lastly, if we add a new profile, all applications running under existing profiles will be stopped.
 
 ## Using the Profile
 
@@ -43,22 +43,24 @@ We can start/stop the applications with this option. Go to root of the tree and 
 
 - `Start All`: Start all(CLI, C#) applications.
 - `Stop All`: Stop all(CLI, C#) applications.
-- `Build & Start All`: It builds each C# applications using the [dotnet build](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-build) command in the [Background Tasks](./overview/index.md#background-tasks) and starts all(CLI, C#) applications after the build tasks are completed.
+- `Build & Start All`: Builds each C# application in the [Background Tasks](./overview/index.md#background-tasks) and starts all (CLI, C#) applications after the build tasks are completed.
 
-> `Start All` applications doesn't mean it's gonna be builded that's why we need to use `Build & Start All` for C# applications.
+> `Start All` doesn't build the C# applications before running. If you're running it for the first time or if you've made changes, you should build the applications. You can simply use the `Build & Start All`.
 
 > You can change the current profile while applications are running in the previous profile. The applications continue to run under the previous profile. For example if we start the `Acme.BookStore.AdministrationService`, `Acme.BookStore.IdentityService` applications when current profile is *team-1* and after change the current profile to *team-2* the applications continue to run under *team-1*.
 
 ### Build
 
-We can use common [dotnet CLI](https://learn.microsoft.com/en-us/dotnet/core/tools) commands in this option. Go to root of the tree and right-click to view the context menu, in this example *Acme.Bookstore(Default)* -> *Build*, there are 4 options available:
+We can use common [dotnet](https://learn.microsoft.com/en-us/dotnet/core/tools) commands in this option. Go to root of the tree and right-click to view the context menu, in this example *Acme.Bookstore(Default)* -> *Build*, there are 4 options available:
 
 ![profile-root-context-menu-build](images/solution-runner/profile-root-context-menu-build.png)
 
-- `Build All`: It builds each C# applications using the [dotnet build](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-build) command in the [Background Tasks](./overview/index.md#background-tasks).
-- `Graph Build`: It builds each C# applications using the [dotnet build](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-build) command with [graphBuild](https://learn.microsoft.com/en-us/visualstudio/msbuild/build-process-overview?view=vs-2022#graph-option) option in the [Background Tasks](./overview/index.md#background-tasks).
-- `Restore`: It restores each C# applications using the [dotnet restore](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-restore) command in the [Background Tasks](./overview/index.md#background-tasks).
-- `Clean`: It cleans each C# applications using the [dotnet clean](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-clean) command in the [Background Tasks](./overview/index.md#background-tasks).
+- `Build All`: Builds each C# applications.
+- `Graph Build`: Builds each C# applications with [graphBuild](https://learn.microsoft.com/en-us/visualstudio/msbuild/build-process-overview?view=vs-2022#graph-option) option.
+- `Restore`: Restores the dependencies for C# applications.
+- `Clean`: Cleans the output of the previous build for C# applications.
+
+> Since *Solution Runner* may contain numerous C# projects, the *Build* options uses the [Background Tasks](./overview/index.md#background-tasks), ensuring a seamless experience while using ABP Studio.
 
 ### Add
 
@@ -68,7 +70,7 @@ We can add 3 different item type to *Profile* for defining the tree structure. T
 
 #### C# Application
 
-When we go to root of the tree and right-click, in this example *Acme.BookStore(Default)* -> *Add* -> *C# Application* it opens the *Add Application* window. There are two different ways, *This solution* and *External* tabs. You can add C# application in *This solution* tab with following way:
+When we go to root of the tree and right-click, in this example *Acme.BookStore(Default)* -> *Add* -> *C# Application* it opens the *Add Application* window. There are two methods to add applications: *This solution* and *External*. To add via the *This solution* tab, follow these steps:
 
 ![profile-root-add-csharp-application](images/solution-runner/profile-root-add-csharp-application.png)
 
@@ -136,10 +138,9 @@ You can see the context menu by right-clicking *Folder* -> *Start*, it's [simili
 
 ![folder-context-menu-start](images/solution-runner/folder-context-menu-start.png)
 
-
 ### Build
 
-*Folder* -> *Build* context menu, it's the [same](#build) options like *Acme.BookStore(Default)* -> *Builds* options there are 4 options available. The only difference between them it's gonna be execute in selected folder.
+*Folder* -> *Build* context menu, it's the [similiar](#build) options like *Acme.BookStore(Default)* -> *Builds* options there are 4 options available. The only difference between them it's gonna be execute in selected folder.
 
 ![folder-context-menu-build](images/solution-runner/folder-context-menu-build.png)
 
@@ -154,3 +155,23 @@ You can see the context menu by right-clicking *Folder* -> *Start*, it's [simili
 - You can rename a folder with *Folder* -> *Rename*.
 - You can delete a folder with *Folder* -> *Delete*.
 
+## C# Application
+
+The .NET icon indicates that the application is a C# project. After we [add](#c-application) the C# applications to root of the tree or folder, we can go to any C# application and right-click to view the context menu; `Run`, `Build`, `Browse`, `Requests`, `Exceptions`, `Logs`, `Copy Url`, `Properties`, `Remove`.
+
+![csharp-application-context-menu](images/solution-runner/csharp-application-context-menu.png)
+
+### Run
+
+We have several options in C# applications. Those options are `Start`(If the application started this option shown as `Stop`), `Build & Start`(If the application started this option shown as `Build & Restart`), `Enable Watch`(If the watch is enabled this option shown as `Disable Watch`), `Restart`(It's only shown when the application started)
+
+![csharp-application-context-menu-run](images/solution-runner/csharp-application-context-menu-run.png)
+
+- `Start`: Starts the selected application. This option doesn't build before run. If you're running it for the first time or if you've made changes, you should build the application. If the application is started this option changed as `Stop`.
+- `Build & Start`: We can simply use if we wanna build first and start. If the application is started this option changes to `Build & Restart`.
+- `Enable Watch`: When this option is enabled, there's no need to perform `Build & Start` after any change. ABP Studio watches for changes, re-builds, and re-runs your application automatically upon saving. If this option is enabled it changes to `Disable Watch`.
+- `Restart`: Restarts the application. This option visible only if the application started.
+
+> When you start the C# application, you should see a *chain* icon next to the application name, that means the started application connected to ABP Studio. C# applications can connect to ABP Studio even when running from outside the ABP Studio environment, for example debugging with Visual Studio. If the application is run from outside the ABP Studio environment, it will display *(external)* information next to the chain icon.
+
+> When *Watch* is enable you should see an *eye* icon next to the application name. 
