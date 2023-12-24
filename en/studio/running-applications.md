@@ -125,6 +125,7 @@ You can click the `OK` button to add the folder to the profile.
 - We can start all applications by clicking the *Play* icon on the left side, similiar way we can stop all applications by clicking the *Stop*  icon on the left side.
 - To remove an application from the tree, open the context menu by right-clicking the application and selecting *Remove*.
 - To remove a folder from the tree, open the context menu by right-clicking the folder and selecting *Delete*.
+- When starting applications, they continue to restart until the application starts gracefully. To stop the restarting process when attempting to restart the application, click the icon on the left. Additionally, you can review the *Logs* to understand why the application isn't starting gracefully.
 
 ## Folder
 
@@ -204,6 +205,7 @@ You can click the `OK` button to save the changes.
 ### Miscellaneous
 
 - We can copy the selected application *Browse* URL with *Copy URL*. It copies the *Browse* URL instead *Launch URL* since we could connected to *Kubernetes* service. 
+- You can change the target framework by right-click the selected application and change the *Target Framework* option. This option visible if the project has multiple target framework such as MAUI applications.
 - To remove an application from the tree, open the context menu by right-clicking the application and selecting *Remove*.
 
 ## CLI Application
@@ -217,3 +219,5 @@ CLI applications uses the [powershell](https://learn.microsoft.com/en-us/powersh
 - `Logs`: It opens the *Logs* tab, we can see the logs for *Start* and *Stop* commands.
 - `Copy URL`: This option copies the *Launch URL* of the selected application. It is visible if there is a specified *Launch URL*
 - `Remove`: This option allows you to delete the selected application.
+
+> When CLI applications start chain icon won't be visible, because only C# applications can connect the ABP Studio.
