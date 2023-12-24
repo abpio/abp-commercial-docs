@@ -15,6 +15,6 @@ This guide explains how to deploy your application in staging and production env
 
 - [Docker Deployment using Docker Compose](deployment-docker-compose.md)
 
-- [Azure Deployment using Application Service](deployment-azure-application-service.md)
+- [Azure Deployment using Application Service](azure-deployment/azure-deployment.md)
 
 - [IIS Deployment](deployment-iis.md)
