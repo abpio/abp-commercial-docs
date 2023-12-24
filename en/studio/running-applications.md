@@ -11,7 +11,7 @@ The solution runner contains 4 different types to define tree structure.
 - **Profile**: We can create different profiles to manage the tree as our needs. For example we can create 2 different profile for `team-1` and `team-2`. `team-1` want to see the only *Administration* and *Identity* service, `team-2` see the *Saas* and *AuditLogging* services. With that way each team see the only services they need to run. In this example `Default` profile *Acme.BookStore (Default)* comes out of the box when we create the project.
 - **Folder**: We can organize the applications with *Folder* type. In this example for docker set up we use `Docker-Dependencies` CLI application and keep it in `infrastructure`, similarly in `services` folder for our microservice projects. We can also use nested folder if we want `apps`, `gateways`, `infrastructure` and `services` is the folders in current(`Default`) profile. 
 - **C# Application**: We can add any C# application from our [Solution Explorer](./solution-explorer.md). If the application is not in our solution, we can add it externally by providing the *.csproj* file path. The .NET icon indicates that the application is a C# project. For example, `Acme.BookStore.AuthServer`, `Acme.BookStore.Web`, `Acme.BookStore.WebGateway`, etc., are C# applications.
-- **CLI Application**: We can add [powershell](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core) commands to prepare some environments or run other application  types than C# such as angular. In this example `Docker-Dependencies` is the CLI application for docker environment.
+- **CLI Application**: We can add [powershell](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core) commands to prepare some environments or run other application types than C# such as angular. In this example `Docker-Dependencies` is the CLI application for docker environment.
 
 ## Profile
 
@@ -157,7 +157,7 @@ You can see the context menu by right-clicking *Folder* -> *Start*, it's [simili
 
 ## C# Application
 
-The .NET icon indicates that the application is a C# project. After we [add](#c-application) the C# applications to root of the tree or folder, we can go to any C# application and right-click to view the context menu; `Run`, `Build`, `Browse`, `Requests`, `Exceptions`, `Logs`, `Copy Url`, `Properties`, `Remove`.
+The .NET icon indicates that the application is a C# project. After we [add](#c-application) the C# applications to root of the tree or folder, we can go to any C# application and right-click to view the context menu; `Run`, `Build`, `Browse`, `Requests`, `Exceptions`, `Logs`, `Copy URL`, `Properties`, `Remove`.
 
 ![csharp-application-context-menu](images/solution-runner/csharp-application-context-menu.png)
 
@@ -184,11 +184,11 @@ It's the [similiar](#build) options like root of the tree options. The only diff
 
 ### Monitoring
 
-When the C# application is connected to ABP Studio, it begins sending information to see in one place. We can easily click these options to see the detail; `Browse`, `Requests`, `Exceptions` and `Logs`.
+When the C# application is connected to ABP Studio, it starts sending telemetry information to see in one place. We can easily click these options to see the detail; `Browse`, `Requests`, `Exceptions` and `Logs`.
 
 ![csharp-application-context-menu-monitor](images/solution-runner/csharp-application-context-menu-monitor.png)
 
-- `Browse`: ABP Studio includes a browser tool for accessing websites and running applications. You can click this option to view the application in the ABP Studio browser. However, this option is only accessible if the application is started
+- `Browse`: ABP Studio includes a browser tool for accessing websites and running applications. You can click this option to view the application in the ABP Studio browser. However, this option is only accessible if the application is started.
 - `Requests`: It opens the *HTTP Requests* tab with adding the selected application filter. You can view all *HTTP Requests* received by your applications.
 - `Exceptions`: We can display all exceptions on this tab. It opens the *Exceptions* tab with selected application.
 - `Logs`: Clicking this option opens the *Logs* tab with adding the selected application filter.
@@ -203,5 +203,17 @@ You can click the `OK` button to save the changes.
 
 ### Miscellaneous
 
-- `Copy Url`: We can copy the selected application *Browse* URL with this option. It copies the *Browse* URL instead *Launch URL* since we could connected to *Kubernetes* service. 
+- We can copy the selected application *Browse* URL with *Copy URL*. It copies the *Browse* URL instead *Launch URL* since we could connected to *Kubernetes* service. 
 - To remove an application from the tree, open the context menu by right-clicking the application and selecting *Remove*.
+
+## CLI Application
+
+CLI applications uses the [powershell](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core) commands. With this way we can start and stop anything we want. After we add the CLI applications to root of the tree or folder, we can go to any CLI application and right-click to view the context menu.
+
+![cli-application-context-menu](images/solution-runner/cli-application-context-menu.png)
+
+- `Run`: This option includes 3 actions: *Start*, *Stop*, and *Restart* for the CLI application.
+- `Browse`: This option is available when a *Launch URL* is specified upon adding the CLI application. It opens the *Browse* tab, can be clicked while the application is running.
+- `Logs`: It opens the *Logs* tab, we can see the logs for *Start* and *Stop* commands.
+- `Copy URL`: This option copies the *Launch URL* of the selected application. It is visible if there is a specified *Launch URL*
+- `Remove`: This option allows you to delete the selected application.
