@@ -135,6 +135,14 @@ Here, you can set a different connection string for each microservice. If you do
 
 When you make the changes and save the dialog, the necessary databases are automatically created and migrated. If you later update the connection string (for example if you change the database name), it will also trigger the database migration process again.
 
+#### Manually Applying the Database Migrations
+
+If you need to manually trigger the database migrations for a specific tenant, click the *Actions* dropdown for the related tenant and select the *Apply Database Migrations* command on the *Tenant Management* page of the SaaS module:
+
+![apply-tenant-migrations-command](images/apply-tenant-migrations-command.png)
+
+See the *On Failures* section above to understand why you may need to manually trigger that operation.
+
 ## Database Configurations
 
 TODO: AbpDbContextOptions, DbContext structure, AbpDbConnectionOptions, etc.
