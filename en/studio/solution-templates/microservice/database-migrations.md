@@ -121,9 +121,19 @@ It opens the *Database Connection Strings* modal as shown below:
 
 ![tenant-connection-string-management-modal](images/tenant-connection-string-management-modal.png)
 
-Here, we can set a *Default* connection string for the tenant. The default connection string is used as a fallback value if you don't define a connection string for a specific microservice database.
+Here, we can set a *Default connection string* for the tenant. The default connection string is used as a fallback value if you don't define a connection string for a specific microservice database.
 
-TODO: How it created the database
+If you only set the *Default connection string* for a tenant, all the microservices will use that single database for that tenant. They will create their tables inside that database and perform all operations on it. We suggest that approach since a tenant will have a single database, which is easier to manage.
+
+If you want to set a database for each microservice for a tenant, then check the *Use module specific database connection string* checkbox as shown below:
+
+![tenant-connection-string-management-modal-with-separate-modules](images/tenant-connection-string-management-modal-with-separate-modules.png)
+
+Here, you can set a different connection string for each microservice. If you don't define a connection string for one of the services, it will use the *Default* connection string above. If you haven't defined a *Default* connection string, than the main database of the related microservice will be used.
+
+> Tenants with their own databases per services may dramatically increase your database count and may make your system hard to monitor, backup and maintain. It is a serious system decision and we suggest to avoid it if you don't have to do.
+
+When you make the changes and save the dialog, the necessary databases are automatically created and migrated. If you later update the connection string (for example if you change the database name), it will also trigger the database migration process again.
 
 ## Database Configurations
 
