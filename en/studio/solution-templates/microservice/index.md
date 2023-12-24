@@ -19,7 +19,7 @@ ABP Studio provides pre-architected and production-ready templates to jump start
   * [Mobile Applications](mobile-applications.md)
 * Built-In Features
   * [Authentication](authentication.md)
-  * [Database migrations](database-migrations.md)
+  * [Database configurations](database-configurations.md)
   * [Logging (with Serilog)](logging.md)
   * Monitoring (with Prometheus and Grafana)
   * Swagger integration
