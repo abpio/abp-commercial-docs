@@ -511,6 +511,10 @@
       "path": "studio/index.md",
       "items": [
         {
+          "text": "Installation",
+          "path": "studio/installation.md"
+        },
+        {
           "text": "Quick Starts",
           "items": [
             {
@@ -526,10 +530,6 @@
               "path": "studio/quick-starts/microservice.md"
             }
           ]
-        },
-        {
-          "text": "Installation",
-          "path": "studio/installation.md"
         },
         {
           "text": "Overview",
