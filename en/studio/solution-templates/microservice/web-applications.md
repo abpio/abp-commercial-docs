@@ -52,12 +52,12 @@ If you've selected the Angular UI while creating your solution, a folder named `
 
 ### Blazor WebAssembly Web Application
 
-TODO
+If you've selected the Blazor WebAssembly UI while creating your solution, `Acme.CloudCrm.Blazor` project is included in the `apps` folder of the solution. That folder contains the main web application of the solution that is implemented using Blazor WebAssembly.
 
 ### Blazor Server Web Application
 
-TODO
+If you've selected the Blazor Server UI while creating your solution, `Acme.CloudCrm.Blazor` project is included in the `apps` folder of the solution. That folder contains the main web application of the solution that is implemented using Blazor Server.
 
 ### MAUI Blazor (Hybrid) Web Application
 
-TODO
+If you've selected the MAUI Blazor (Hybrid) UI while creating your solution, `Acme.CloudCrm.MauiBlazor` project is included in the `apps` folder of the solution. That folder contains the main desktop application of the solution that is implemented using MAUI Blazor (Hybrid) that uses existing Blazor UI Implementation.
