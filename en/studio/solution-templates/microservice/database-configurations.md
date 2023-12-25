@@ -1,8 +1,12 @@
-# Microservice Solution: Database Migrations
+# Microservice Solution: Database Configurations
 
-This document explains the database migration system that is designed and implemented for the ABP Studio Microservice solution template.
+This document explains the database configuration and migration structure that is designed and implemented for the ABP Studio Microservice solution template.
 
-## Introduction
+## Database Configurations
+
+TODO: AbpDbContextOptions, DbContext structure, AbpDbConnectionOptions, etc, SaaS module, administration service special case, etc.
+
+## Database Migrations
 
 When you use a relational database, the database schema (tables, fields, views, etc) should be explicitly created before using it. In addition, whenever you deploy a new version of your service, the database schema should be updated if you made a change on it.
 
@@ -14,7 +18,7 @@ In addition to the schema changes, you may also need to insert some initial (see
 
 > If you are using **MongoDB** as your database provider, the schema migration is not needed (But you should care about some kind of data and schema migrations in case of you made a breaking change on your database schema - this is something depends on your application, so you should understand how to work with a document database like MongoDB). However, the data seeding system is still used to insert initial data to the database.
 
-## Database Migrations on Service Startup
+### Database Migrations on Service Startup
 
 The microservice solution was designed so that there are more than one database. Typically, each microservice has its own database.
 
@@ -64,7 +68,7 @@ Let's explain how `EfCoreRuntimeDatabaseMigratorBase` behaves:
 * It then seeds the database by calling the virtual `SeedAsync` method. Remember that we have overridden that method to seed the initial data for the identity microservice.
 * Finally, if a database schema migration has applied, it publishes a distributed event, `AppliedDatabaseMigrationsEto`, with the `DatabaseName`. This event is then used by the [SaaS module](../../../modules/saas.md) to trigger migration of tenant databases in a multi-tenant system. See the *Database Migrations for Tenants* section in this document.
 
-### Configuring the `EfCoreRuntimeDatabaseMigratorBase` Class
+#### Configuring the `EfCoreRuntimeDatabaseMigratorBase` Class
 
 `EfCoreRuntimeDatabaseMigratorBase` works is optimized for common scenarios. However, you may want to fine-tune it in some cases.
 
@@ -75,7 +79,7 @@ The following properties are candidate to change in the constructor of your deri
 * `MaxValueToWaitOnFailure` (default value: `15000` as milliseconds): Maximum wait duration before re-trying the migrations in case of any failure.
 * `DatabaseName` (string): Every separate database must be a unique name in the system, so `EfCoreRuntimeDatabaseMigratorBase` can use the distributed locking system per database. This value is passed in the constructor of the `IdentityServiceRuntimeDatabaseMigrator` class and properly configured for the pre-built services. See also the *Database Configurations* section in this document.
 
-## Database Migrations for Tenants
+### Database Migrations for Tenants
 
 The microservice solution allows to create dedicated physical databases for each tenant for each microservice. This can be useful if you want to have dedicate resources for specific tenants or need to separate some tenant databases for security, isolation or other reasons.
 
@@ -97,21 +101,21 @@ For all that events, we need to migrate the related database for the tenant (the
 * If the given tenant has a dedicated connection string for the current microservice, it migrates the database schema and seeds the initial data.
 * In case a failure, it re-tries a maximum of 3 times by waiting a random duration between 5 and 15 seconds. It does that by ignoring the error and re-publishing the event that is handled.
 
-### Connection String Update
+#### Connection String Update
 
 As explained in the previous section, the migration system automatically creates and seeds the new database when you change connection string of a tenant. However, it doesn't move the data if old database has data in it. You should handle it yourself. You can override the `AfterTenantConnectionStringUpdated` method to take the necessary action.
 
-### On Failures
+#### On Failures
 
 As explained before, the migration system re-tries a maximum of 3 times on failures by waiting a random duration between 5 and 15 seconds. You can set `MinValueToWaitOnFailure` and `MaxValueToWaitOnFailure` as milliseconds to change these durations. Default try count can be changed by setting the `MaxEventTryCount` value.
 
 If the maximum try count (`MaxEventTryCount`) is reached, then the re-try mechanism is stopped. In that case, the tenant database will remain old, since it couldn't be migrated. In such a case, it is expected from a system admin to understand the problem (maybe the connection string was wrong or the target database server is temporarily unreachable) and manually trigger the migration once the problem is resolved. See the *SaaS Module: The Tenant Management UI* section for details.
 
-### SaaS Module: The Tenant Management UI
+#### SaaS Module: The Tenant Management UI
 
 SaaS module provides the necessary UI to set and change connection string for tenants and trigger the database migrations.
 
-#### The Connection String Management Modal
+##### The Connection String Management Modal
 
 You can click to the *Database Connection Strings* command in the *Actions* dropdown button for a tenant in the *Tenants* page of the SaaS module:
 
@@ -135,17 +139,13 @@ Here, you can set a different connection string for each microservice. If you do
 
 When you make the changes and save the dialog, the necessary databases are automatically created and migrated. If you later update the connection string (for example if you change the database name), it will also trigger the database migration process again.
 
-#### Manually Applying the Database Migrations
+##### Manually Applying the Database Migrations
 
 If you need to manually trigger the database migrations for a specific tenant, click the *Actions* dropdown for the related tenant and select the *Apply Database Migrations* command on the *Tenant Management* page of the SaaS module:
 
 ![apply-tenant-migrations-command](images/apply-tenant-migrations-command.png)
 
 See the *On Failures* section above to understand why you may need to manually trigger that operation.
-
-## Database Configurations
-
-TODO: AbpDbContextOptions, DbContext structure, AbpDbConnectionOptions, etc.
 
 ## Rapid Failures on System Startup
 
