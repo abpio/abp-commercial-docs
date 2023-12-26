@@ -35,7 +35,27 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 
 ## Overall
 
-You can see the overall information for C# applications in this tab. Such as current application state, how many instance running, uptime etc. You can start/stop the appliation in the *Action* column instead using [solution runner](./solution-explorer.md).
+In this tab, you can view comprehensive overall information. You have the option to search by application name and filter by application state. To reset all filters, use the *Clear* button. When you apply a filter header informations gonna refresh by filtered applications.
+
+- `Apps Running`: The number of applications running. It includes CLI and C# applications. In the example two C# microservice applications and one CLI application is running.
+- `Requests`: The number of HTTP requests received by all applications.
+- `Events`: The number of [Distributed Event](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus) sent or received by all applications.
+- `Exceptions`: The number of exceptions thrown by all applications.
+
+![overall](./images/monitoring-applications/overall.png)
+
+In the data grid, details for each application are displayed. It's possible to sort rows by columns. When selecting a row, you can right-click to access the context menu, offering various actions. This menu allows for opening related tabs that are filtered by the selected application
+
+- `Name`: The name of the application.
+- `State`: The state of the application. It can take on several values such as *Scheduled*, *Starting*, *Started*, *Stopping* and *Stopped*. In the event of an application crash during its starting, the state is mark as *Scheduled*, we can cancel the starting process at that stage.
+- `Instances`: Indicates the count of running instances for the application. This value is particularly helpful when scaling the application within a Kubernetes, providing visibility into the number of currently active instances.
+- `Uptime`: The time elapsed since the application started.
+- `Requests`: The number of HTTP requests received by the application.
+- `Events (R/S)`: The number of [Distributed Event](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus) received or sent by the application.
+- `Exceptions`: The number of exceptions thrown by the application.
+- `Actions`: The actions that can be performed on the application. You can start and stop by the application.
+
+> For the events system, you can exclusively view the [Distributed Event Bus](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus). Generally, the [Local Event Bus](https://docs.abp.io/en/abp/latest/Local-Event-Bus) is not included.
 
 ## Browse
 
