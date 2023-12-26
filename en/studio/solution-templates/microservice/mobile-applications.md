@@ -56,10 +56,6 @@ The settings page allows users to change the theme of the application. The follo
 
 - **Dark/Light Theme**: ABP MAUI and React Native applications support both dark and light themes. The theme is automatically selected based on the device's theme. Users can also change the theme manually from the settings page.
 
-#### Feature 2
-
-TODO: Description of feature 2 and its implementation details.
-
 ## Applications
 
 Following sections explain the structure of MAUI and React Native Applications.
