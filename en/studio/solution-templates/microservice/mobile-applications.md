@@ -19,7 +19,7 @@ You can refer to the *[API Gateways](api-gateways.md)* document to understand th
 
 ### Authentication
 
-Both of the MAUI and React Native applications are installed as native applications to the devices. So, they are using the [OpenID Connect](../../../modules/openiddict.md) protocol to authenticate the users. They  The authentication is done by the `AuthServer` application.
+Both of the MAUI and React Native applications are installed as native applications to the devices. So, they are using the [OpenID Connect](../../../modules/openiddict.md) protocol to authenticate the users. The authentication is done by the `AuthServer` application.
 
 They don't run on a browser, so they can't use the [Cookie Authentication](../../../modules/account.md#cookie-authentication) method. They are using the [JWT Bearer Authentication](../../../modules/account.md#jwt-bearer-authentication) method. 
 
