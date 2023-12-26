@@ -507,6 +507,64 @@
       ]
     },
     {
+      "text": "ABP Studio",
+      "path": "studio/index.md",
+      "items": [
+        {
+          "text": "Installation",
+          "path": "studio/installation.md"
+        },
+        {
+          "text": "Quick Starts",
+          "items": [
+            {
+              "text": "Single-Layer Solution",
+              "path": "studio/quick-starts/single-layer-web-application.md"
+            },
+            {
+              "text": "Layered Solution",
+              "path": "studio/quick-starts/layered-web-application.md"
+            },
+            {
+              "text": "Microservice Solution",
+              "path": "studio/quick-starts/microservice.md"
+            }
+          ]
+        },
+        {
+          "text": "Overview",
+          "path": "studio/overview/index.md"
+        },
+        {
+          "text": "Solution Templates",
+          "path": "studio/solution-templates/index.md",
+          "items": [
+            {
+              "text": "Microservice",
+              "path": "studio/solution-templates/microservice/index.md"
+            }
+          ]
+        },
+        {
+          "text": "Fundamentals",
+          "items": [
+            {
+              "text": "Solution Explorer",
+              "path": "studio/solution-explorer.md"
+            },
+            {
+              "text": "Running Applications",
+              "path": "studio/running-applications.md"
+            }
+          ]
+        },
+        {
+          "text": "Concepts",
+          "path": "studio/concepts.md"
+        }
+      ]
+    },
+    {
       "text": "ABP Suite",
       "items": [
         {
