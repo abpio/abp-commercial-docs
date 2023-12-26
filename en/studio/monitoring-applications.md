@@ -1,6 +1,37 @@
-# ABP Studio Monitoring Applications
+# ABP Studio: Monitoring Applications
 
-ABP Studio offers a comprehensive centralized monitoring solution, enabling you to oversee all applications from a single interface. Upon selecting the [solution runner](./solution-explorer.md) from the menu, monitoring tabs are automatically opened in the central interface. This seamless integration enables instant access to monitoring features while utilizing the [solution runner](./solution-explorer.md). You can start the applications for monitoring.
+ABP Studio offers a comprehensive centralized monitoring solution, enabling you to oversee all applications from a single interface. To see the monitoring tabs you can select the [Solution Runner](./running-applications.md) or *Kubernetes* from the left menu, monitoring tabs are automatically opened in the center. You can start the applications for monitoring. Various monitoring options are available, including [Overall](#overall), [Browse](#browse), [HTTP Requests](#http-requests), [Events](#events), [Exceptions](#exceptions), [Logs](#logs). 
+
+![monitoring](./images/monitoring-applications/monitoring.png)
+
+## Collecting Telemetry Information
+
+There are two application [types](./running-applications.md#abp-studio-running-applications): C# and CLI. Only C# applications can establish a connection with ABP Studio and transmit telemetry information via the `Volo.Abp.Studio.Client.AspNetCore` package. Upon starting C# applications, they attempt to establish a connection with ABP Studio. When connection successful, you should see a chain icon next to the application name in [Solution Runner](./running-applications.md#run-1). Applications can connect the ABP Studio with *Solution Runner* -> *C# Application* -> *Run* -> *Start* or  from an outside environment such as debugging with Visual Studio. Additionally, they can establish a connection from a Kubernetes Cluster through the ABP Studio [Kubernetes Integration: Connecting to the Cluster](./quick-starts/microservice.md#kubernetes-integration-connecting-to-the-cluster).
+
+You can [configure](https://docs.abp.io/en/abp/latest/Options) the *AbpStudioClientOptions* to disable send telemetry information. The package automatically gets the [configuration](https://docs.abp.io/en/abp/latest/Configuration) from the `IConfiguration`. So, you can set your configuration inside the `appsettings.json`:
+
+- `StudioUrl`: The ABP Studio URL. Mostly you don't need to change this value. The default value is `http://localhost:38271`.
+- `IsLinkEnabled`: If this value is true, it starts the connection to ABP Studio and transmits telemetry information. You can switch this to false for deactivation. The default value is true.
+
+```json
+"AbpStudioClient": { 
+ "StudioUrl": "http://abp-studio-proxy:38271",
+ "IsLinkEnabled": false
+}
+```
+
+Alternatively you can configure the standard *Options* pattern in the `ConfigureServices` method of the `YourApplicationModule` class.
+
+```csharp
+public override void ConfigureServices(ServiceConfigurationContext context)
+{
+    Configure<AbpStudioClientOptions>(options =>
+    {
+        options.IsLinkEnabled = false;
+        //options.StudioUrl = "";
+    });
+}
+```
 
 ## Overall
 
