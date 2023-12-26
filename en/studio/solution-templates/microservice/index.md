@@ -1,4 +1,4 @@
-# ABP Studio Microservice Solution Template
+# ABP Studio: Microservice Solution Template
 
 ABP Studio provides pre-architected and production-ready templates to jump start a new solution. One of them is the Microservice solution template. You can use it to build distributed systems with common microservice patterns. It includes multiple services, API gateways and applications that are well integrated to each other and ready to be a great base solution for your microservice system.
 
@@ -18,11 +18,11 @@ ABP Studio provides pre-architected and production-ready templates to jump start
   * [Web Applications](web-applications.md)
   * [Mobile Applications](mobile-applications.md)
 * Built-In Features
-  * Authentication
-  * Database migrations
-  * Logging (with Serilog)
+  * [Authentication](authentication.md)
+  * [Database configurations](database-configurations.md)
+  * [Logging (with Serilog)](logging.md)
   * Monitoring (with Prometheus and Grafana)
-  * Swagger Integration
+  * Swagger integration
   * Permission management
   * Feature management
   * Localization system
@@ -32,6 +32,7 @@ ABP Studio provides pre-architected and production-ready templates to jump start
   * Distributed Cache
   * Multi-Tenancy
   * BLOB Storing
+  * CORS configuration
 * Communication
   * Distributed Events
   * HTTP API Calls
