@@ -48,7 +48,7 @@ The following screenshot was taken from the *Profile* page in the MAUI applicati
 ### Other Features
 
 #### Settings Page
-The settings page allows users to change the theme of the application. The following screenshot was taken from the *Settings* page in the MAUI application:
+The settings page allows users to change the language and theme of the application, manage their profiles, change their passwords, and also to logout from the application.
 
 <img width="360" src="images/settings-page-maui.png" alt="ABP MAUI SettingsPage" />
 
