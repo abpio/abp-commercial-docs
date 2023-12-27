@@ -115,4 +115,6 @@ Click on a row to inspect the details of each exception; `Application`, `Excepti
 
 ## Logs
 
-The *Logs* tab allows you to view all logs. To access logs, simply select an application. You can also apply filters using the search textbox or by selecting a specific log level. The *Clear* button removes all logs. If *Auto Scroll* is checked, the display automatically scrolls when new logs are received.
+The *Logs* tab allows you to view all logs for both CLI and C# applications. To access logs, simply select an application. You can also apply filters using the search textbox by log text or by selecting a specific *Log Level*. When you select a *Log Level* it shows selected log level and higher log levels. For example, if you select *Warning* it shows *Warning*, *Error* and *Critical* logs. To clear selected application logs, use the *Clear Logs* button. If *Auto Scroll* is checked, the display automatically scrolls when new logs are received.
+
+![logs](./images/monitoring-applications/logs.png)
