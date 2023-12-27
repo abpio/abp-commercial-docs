@@ -93,7 +93,15 @@ Furthermore, by clicking the gear icon in the *HTTP Requests* tab, you can acces
 
 ## Events
 
-In this tab, you can view all *Events* sent or received by your applications. Clicking on a row enables you to view the details of each event. You can filter them using the search textbox or by selecting a specific application. Additionally, you can choose the direction and source (inbox/outbox) of events. The *Clear Events* button removes all events.
+In this tab, you can view all [Distributed Events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus) sent or received by your C# applications. You can filter them by [Event Name](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus#event-name) using the search textbox or by selecting a specific application. Additionally, you can choose the *Direction* (Received/Send) and *Source* (Direct/Inbox/Outbox) of events. The *Clear Events* button removes all events.
+
+![events](./images/monitoring-applications/events.png)
+
+> In the *Direction* section, there are two options: *Received*, indicating events received by the application, and *Sent*, indicating events sent by the application. Within the *Source* section, three options are available, and their significance comes into play when utilizing the [Inbox/Outbox pattern](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus#outbox-inbox-for-transactional-events). *Inbox* refers to events received by the application, *Outbox* refers to events sent by the application, and *Direct* signifies events sent or received by the application without involving Inbox/Outbox pattern.
+
+Clicking on a row enables you to view the details of each event; `Application`, `Event Name`, `Direction`, `Source`, `Timestamp` and `Event Data`.
+
+![event-details](./images/monitoring-applications/event-details.png)
 
 ## Exceptions
 
