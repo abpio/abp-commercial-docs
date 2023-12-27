@@ -73,7 +73,23 @@ When you click the *Dev Tools* button it opens the [Chrome DevTools](https://dev
 
 ## HTTP Requests
 
-Within this tab, you can view all *HTTP Requests* received by your applications. Clicking on a row enables you to view the details of each HTTP request. You have the option to filter requests using the search textbox or by selecting a specific application from the combobox. Additionally, clicking the gear icon allows you to ignore specific URLs by applying a regex pattern. The *Clear Requests* button removes all received requests.
+Within this tab, you can view all *HTTP Requests* received by your C# applications. You have the option to filter requests based on URLs by using the search textbox or by selecting a particular application from the combobox. The *Clear Requests* button removes all received requests. Moreover, you have the ability to sort requests by columns.
+
+![http-requests](./images/monitoring-applications/http-requests.png)
+
+Clicking on a row enables you to view the details of each HTTP request; `URL`, `Method`, `Status Code`, `Timestamp`, `Headers (Request, Response)`, `Request (Payload)` and `Response`.
+
+![http-requests-details](./images/monitoring-applications/http-requests-details.png)
+
+You can format the JSON content by clicking the *Format* button.
+
+![http-requests-details-json](./images/monitoring-applications/http-requests-details-json.png)
+
+Furthermore, by clicking the gear icon in the *HTTP Requests* tab, you can access the *Solution Runner HTTP Requests Options* window. Within the *Ignored URLs* tab, you have the ability to exclude particular URLs by applying a regex pattern. Excluded URLs won't be visible in the *HTTP Requests* tab. By default, the metrics URL is already ignored. You can add or remove items as needed.
+
+![http-requests-options](./images/monitoring-applications/http-requests-options.png)
+
+> After adding a new URL, it will only affect subsequent requests.
 
 ## Events
 
