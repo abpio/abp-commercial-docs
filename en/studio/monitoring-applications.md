@@ -105,7 +105,13 @@ Clicking on a row enables you to view the details of each event; `Application`, 
 
 ## Exceptions
 
-This tab displays all exceptions. Click on a row to inspect the details of each exception. You can filter them using the search textbox or by selecting a specific application. The *Clear Exceptions* button removes all exceptions.
+This tab displays all exceptions by your C# applications. You can apply filters using the search textbox based on *Message*, *Source*, *ExceptionType*, and *StackTrace* or by choosing a specific application. Additionally, you have the option to select the [Log Level](https://docs.abp.io/en/abp/latest/Exception-Handling#log-level) for adding a filter. To clear all exceptions, use the *Clear Exceptions* button.
+
+![exceptions](./images/monitoring-applications/exceptions.png)
+
+Click on a row to inspect the details of each exception; `Application`, `Exception Type`, `Source`, `Timestamp`, `Level`, `Message` and `StackTrace`.
+
+![exception-details](./images/monitoring-applications/exception-details.png)
 
 ## Logs
 
