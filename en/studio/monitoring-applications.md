@@ -6,7 +6,7 @@ ABP Studio offers a comprehensive centralized monitoring solution, enabling you 
 
 ## Collecting Telemetry Information
 
-There are two application [types](./running-applications.md#abp-studio-running-applications): C# and CLI. Only C# applications can establish a connection with ABP Studio and transmit telemetry information via the `Volo.Abp.Studio.Client.AspNetCore` package. Upon starting C# applications, they attempt to establish a connection with ABP Studio. When connection successful, you should see a chain icon next to the application name in [Solution Runner](./running-applications.md#run-1). Applications can connect the ABP Studio with *Solution Runner* -> *C# Application* -> *Run* -> *Start* or  from an outside environment such as debugging with Visual Studio. Additionally, they can establish a connection from a Kubernetes Cluster through the ABP Studio [Kubernetes Integration: Connecting to the Cluster](./quick-starts/microservice.md#kubernetes-integration-connecting-to-the-cluster).
+There are two application [types](./running-applications.md#abp-studio-running-applications): C# and CLI. Only C# applications can establish a connection with ABP Studio and transmit telemetry information via the `Volo.Abp.Studio.Client.AspNetCore` package. However, we can view the *Logs* and *Browse* (if there is a *Launch URL*) for both CLI and C# application types. Upon starting C# applications, they attempt to establish a connection with ABP Studio. When connection successful, you should see a chain icon next to the application name in [Solution Runner](./running-applications.md#run-1). Applications can connect the ABP Studio with *Solution Runner* -> *C# Application* -> *Run* -> *Start* or  from an outside environment such as debugging with Visual Studio. Additionally, they can establish a connection from a Kubernetes Cluster through the ABP Studio [Kubernetes Integration: Connecting to the Cluster](./quick-starts/microservice.md#kubernetes-integration-connecting-to-the-cluster).
 
 You can [configure](https://docs.abp.io/en/abp/latest/Options) the *AbpStudioClientOptions* to disable send telemetry information. The package automatically gets the [configuration](https://docs.abp.io/en/abp/latest/Configuration) from the `IConfiguration`. So, you can set your configuration inside the `appsettings.json`:
 
@@ -35,16 +35,16 @@ public override void ConfigureServices(ServiceConfigurationContext context)
 
 ## Overall
 
-In this tab, you can view comprehensive overall information. You have the option to search by application name and filter by application state. To reset all filters, use the *Clear* button. When you apply a filter header informations gonna refresh by filtered applications.
+In this tab, you can view comprehensive overall information. You have the option to search by application name and filter by application state. To reset all filters, use the *Clear Filters* button. When you apply a filter header informations gonna refresh by filtered applications.
 
 - `Apps Running`: The number of applications running. It includes CLI and C# applications. In the example two C# microservice applications and one CLI application is running.
-- `Requests`: The number of HTTP requests received by all applications.
-- `Events`: The number of [Distributed Event](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus) sent or received by all applications.
-- `Exceptions`: The number of exceptions thrown by all applications.
+- `Requests`: The number of HTTP requests received by all C# applications.
+- `Events`: The number of [Distributed Event](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus) sent or received by all C# applications.
+- `Exceptions`: The number of exceptions thrown by all C# applications.
 
 ![overall](./images/monitoring-applications/overall.png)
 
-In the data grid, details for each application are displayed. It's possible to sort rows by columns. When selecting a row, you can right-click to access the context menu, offering various actions. This menu allows for opening related tabs that are filtered by the selected application
+In the data grid, details for each application are displayed. It's possible to sort rows by columns. When selecting a row, you can right-click to access the context menu, offering various actions. This menu allows for opening related tabs that are filtered by the selected application.
 
 - `Name`: The name of the application.
 - `State`: The state of the application. It can take on several values such as *Scheduled*, *Starting*, *Started*, *Stopping* and *Stopped*. In the event of an application crash during its starting, the state is mark as *Scheduled*, we can cancel the starting process at that stage.
@@ -59,7 +59,17 @@ In the data grid, details for each application are displayed. It's possible to s
 
 ## Browse
 
-ABP Studio includes a browser tool that allows to access websites and running applications. You can open new tabs to browse different websites or view active applications. It's a convenient utility access to web sites and applications without leaving ABP Studio. You can inspect the web page content using *Dev Tools*.
+ABP Studio includes a browser tool that allows access to websites and running applications. You can open new tabs to browse different websites or view active applications. It's a convenient utility to access websites and applications without leaving ABP Studio. Clicking the *Browse* tab displays the running applications and an *Open new tab* button.
+
+![browse](./images/monitoring-applications/browse.png)
+
+You can open the *Browse* tabs as many times as you want. It's possible to open the same application in several tabs simultaneously.  Additionally, you can access any URL by entering it into the address bar. 
+
+![browse-2](./images/monitoring-applications/browse-2.png)
+
+When you click the *Dev Tools* button it opens the [Chrome DevTools](https://developers.google.com/web/tools/chrome-devtools) for the selected tab.
+
+![dev-tools](./images/monitoring-applications/dev-tools.png)
 
 ## HTTP Requests
 
