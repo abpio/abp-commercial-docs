@@ -8,10 +8,11 @@ ABP Studio offers a comprehensive centralized monitoring solution, enabling you 
 
 There are two application [types](./running-applications.md#abp-studio-running-applications): C# and CLI. Only C# applications can establish a connection with ABP Studio and transmit telemetry information via the `Volo.Abp.Studio.Client.AspNetCore` package. However, we can view the *Logs* and *Browse* (if there is a *Launch URL*) for both CLI and C# application types. Upon starting C# applications, they attempt to establish a connection with ABP Studio. When connection successful, you should see a chain icon next to the application name in [Solution Runner](./running-applications.md#run-1). Applications can connect the ABP Studio with *Solution Runner* -> *C# Application* -> *Run* -> *Start* or  from an outside environment such as debugging with Visual Studio. Additionally, they can establish a connection from a Kubernetes Cluster through the ABP Studio [Kubernetes Integration: Connecting to the Cluster](./quick-starts/microservice.md#kubernetes-integration-connecting-to-the-cluster).
 
-You can [configure](https://docs.abp.io/en/abp/latest/Options) the *AbpStudioClientOptions* to disable send telemetry information. The package automatically gets the [configuration](https://docs.abp.io/en/abp/latest/Configuration) from the `IConfiguration`. So, you can set your configuration inside the `appsettings.json`:
+You can [configure](https://docs.abp.io/en/abp/latest/Options) the `AbpStudioClientOptions` to disable send telemetry information. The package automatically gets the [configuration](https://docs.abp.io/en/abp/latest/Configuration) from the `IConfiguration`. So, you can set your configuration inside the `appsettings.json`:
 
-- `StudioUrl`: The ABP Studio URL. Mostly you don't need to change this value. The default value is `http://localhost:38271`.
-- `IsLinkEnabled`: If this value is true, it starts the connection to ABP Studio and transmits telemetry information. You can switch this to false for deactivation. The default value is true.
+- `StudioUrl`: The ABP Studio URL for sending telemetry information. Mostly, you don't need to change this value. The default value is `http://localhost:38271`.
+- `IsLinkEnabled`: If this value is `true`, it starts the connection to ABP Studio and transmits telemetry information. You can switch this to `false` for deactivation. In a production deployment, you should explicitly set this value to `false`. The default value is `true`.
+
 
 ```json
 "AbpStudioClient": { 
@@ -20,7 +21,7 @@ You can [configure](https://docs.abp.io/en/abp/latest/Options) the *AbpStudioCli
 }
 ```
 
-Alternatively you can configure the standard *Options* pattern in the `ConfigureServices` method of the `YourApplicationModule` class.
+Alternatively you can configure the standard [Options](https://docs.abp.io/en/abp/latest/Options) pattern in the `ConfigureServices` method of the `YourApplicationModule` class.
 
 ```csharp
 public override void ConfigureServices(ServiceConfigurationContext context)
@@ -53,9 +54,9 @@ In the data grid, details for each application are displayed. It's possible to s
 - `Requests`: The number of HTTP requests received by the application.
 - `Events (R/S)`: The number of [Distributed Event](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus) received or sent by the application.
 - `Exceptions`: The number of exceptions thrown by the application.
-- `Actions`: The actions that can be performed on the application. You can start and stop by the application.
+- `Actions`: The actions that can be performed on the application. You can start and stop the application.
 
-> For the events system, you can exclusively view the [Distributed Event Bus](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus). Generally, the [Local Event Bus](https://docs.abp.io/en/abp/latest/Local-Event-Bus) is not included.
+> For the events system, you can exclusively view the [Distributed Events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus). Generally, the [Local Events](https://docs.abp.io/en/abp/latest/Local-Event-Bus) is not included.
 
 ## Browse
 
@@ -63,7 +64,7 @@ ABP Studio includes a browser tool that allows access to websites and running ap
 
 ![browse](./images/monitoring-applications/browse.png)
 
-You can open the *Browse* tabs as many times as you want. It's possible to open the same application in several tabs simultaneously.  Additionally, you can access any URL by entering it into the address bar. 
+You can open the *Browse* tabs as many times as you want. It's possible to open the same application in several tabs simultaneously. To open an application, navigate through *Solution Runner* -> *C# or CLI Application* -> *Browse*. This option is only visible when there is a [Launch URL](./running-applications.md#properties). Additionally, you can access any URL by entering it into the address bar.
 
 ![browse-2](./images/monitoring-applications/browse-2.png)
 
@@ -97,7 +98,7 @@ In this tab, you can view all [Distributed Events](https://docs.abp.io/en/abp/la
 
 ![events](./images/monitoring-applications/events.png)
 
-> In the *Direction* section, there are two options: *Received*, indicating events received by the application, and *Sent*, indicating events sent by the application. Within the *Source* section, three options are available, and their significance comes into play when utilizing the [Inbox/Outbox pattern](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus#outbox-inbox-for-transactional-events). *Inbox* refers to events received by the application, *Outbox* refers to events sent by the application, and *Direct* signifies events sent or received by the application without involving Inbox/Outbox pattern.
+> In the *Direction* section, there are two options: *Received*, indicating events received by the application, and *Sent*, indicating events sent by the application. Within the *Source* section, three options are available, and their significance comes into play when utilizing the [Inbox/Outbox pattern](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus#outbox-inbox-for-transactional-events). *Inbox* refers to events received by the application, *Outbox* refers to events sent by the application and *Direct* signifies events sent or received by the application without involving Inbox/Outbox pattern.
 
 Clicking on a row enables you to view the details of each event; `Application`, `Event Name`, `Direction`, `Source`, `Timestamp` and `Event Data`.
 
