@@ -27,7 +27,7 @@ Best way to communicate with the `AuthServer` application is using the browser. 
 
 The following screenshot was taken from the *Login* page of the [Account](../../../modules/account.md) module in the mobile application's UI:
 
-![mobile-application-login-page](images/authserver-login-page-maui.png))
+![mobile-application-login-page](images/authserver-login-page-maui.png)
 
 
 ### User Management
@@ -120,10 +120,16 @@ You can start the MAUI application with the solution runner. You can click the s
 
 #### Development on MAUI Application
 
-You can follow [Mobile Application Development Tutorial - MAUI](https://docs.abp.io/en/commercial/latest/tutorials/book-store/mobile/maui) to learn how to develop on MAUI Application.
+You can follow [Mobile Application Development Tutorial - MAUI](../../../tutorials/book-store/mobile/maui.md) to learn how to develop on MAUI Application.
 
 ### The React Native Application
 
 This is the mobile application that is built based on Facebook's [React Native framework](https://reactnative.dev/). It will be in the solution only if you've selected React Native as your mobile application option.
 
-TODO: Project structure, running the application, debugging, development hints, link to the [tutorial](https://docs.abp.io/en/commercial/latest/tutorials/book-store/mobile/react-native) etc.
+#### Running the Application
+
+React Native applications can't be run with the solution runner. You need to run them with the React Native CLI. You can check the [React Native documentation](https://reactnative.dev/docs/environment-setup) to learn how to setup the environment for React Native development.
+
+Before running the React Native application, rest of the applications in the solution must be running. Such as AuthServer, MobileGateway and the microservices.
+
+Then you can run the React Native application by following this documentation: [Getting Started with the React Native](../../../getting-started-react-native.md).
