@@ -555,6 +555,10 @@
             {
               "text": "Running Applications",
               "path": "studio/running-applications.md"
+            },
+            {
+              "text": "Monitoring Applications",
+              "path": "studio/monitoring-applications.md"
             }
           ]
         },
