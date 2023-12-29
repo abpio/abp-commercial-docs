@@ -325,14 +325,14 @@ namespace Acme.BookStore.Web.Pages.Authors
         {
             [Required]
             [StringLength(AuthorConsts.MaxNameLength)]
-            public string Name { get; set; }
+            public string Name { get; set; } = string.Empty;
 
             [Required]
             [DataType(DataType.Date)]
             public DateTime BirthDate { get; set; }
 
             [TextArea]
-            public string ShortBio { get; set; }
+            public string? ShortBio { get; set; }
         }
     }
 }
@@ -449,14 +449,14 @@ public class EditModalModel : BookStorePageModel
 
         [Required]
         [StringLength(AuthorConsts.MaxNameLength)]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [Required]
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
 
         [TextArea]
-        public string ShortBio { get; set; }
+        public string? ShortBio { get; set; }
     }
 }
 ```

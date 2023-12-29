@@ -397,7 +397,7 @@ public class CreateUpdateBookDto
 {
     [Required]
     [StringLength(128)]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     [Required]
     public BookType Type { get; set; } = BookType.Undefined;
