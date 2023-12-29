@@ -1,6 +1,6 @@
 # ABP Commercial Penetration Test Report
 
-The ABP Commercial MVC `v7.4.0` application template has been tested against security vulnerabilities by the [OWASP ZAP v2.11.1](https://www.zaproxy.org/) tool. The demo web application was started on the `https://localhost:44349` address. The below alerts have been reported by the pentest tool. These alerts are sorted by the risk level as high, medium, and low. The informational alerts are not mentioned in this document. 
+The ABP Commercial MVC `v8.0.0` application template has been tested against security vulnerabilities by the [OWASP ZAP v2.14.0](https://www.zaproxy.org/) tool. The demo web application was started on the `https://localhost:44349` address. The below alerts have been reported by the pentest tool. These alerts are sorted by the risk level as high, medium, and low. The informational alerts are not mentioned in this document. 
 
 Many of these alerts are **false-positive**, meaning the vulnerability scanner detected these issues, but they are not exploitable. It's clearly explained for each false-positive alert why this alert is a false-positive. 
 
@@ -10,7 +10,7 @@ In the next sections, you will find the affected URLs, alert descriptions, false
 
 There are high _(red flag)_, medium _(orange flag)_, low _(yellow flag)_, and informational _(blue flag)_ alerts. 
 
-![penetration-test-7.4.0](../images/pen-test-alert-list-7.4.png)
+![penetration-test-8.0.0](../images/pen-test-alert-list-8.0.png)
 
 > The informational alerts are not mentioned in this document. These alerts are not raising any risks on your application and they are optional.
 
@@ -31,6 +31,7 @@ This is a **false-positive** alert since ABP Framework does all related checks f
 
 ### SQL Injection [Risk: High] - False Positive
 
+* *[GET] - https://localhost:44349/Identity/OrganizationUnits/AddRoleModal?organizationUnitId=ff550f9d-8a3d-c961-ef26-3a0fc6b68d16%27+AND+%271%27%3D%271%27+--+*
 * *[POST] — https://localhost:44349/Account/Login*
 * *[POST] — https://localhost:44349/Account/Manage?CurrentPassword=ZAP%27+AND+%271%27%3D%271%27+--+&NewPassword=ZAP&NewPasswordConfirm=ZAP*
 * *[POST] - https://localhost:44349/SettingManagement?handler=RenderView%27+AND+%271%27%*
@@ -60,6 +61,7 @@ This alert indicates that we must not trust client side input (even if there is 
 
 * *[GET] - https://localhost:44349/Account/LinkUsers/LinkUsersModal?returnUrl=/SettingManagement*
 * *[GET] — https://localhost:44349/Account/Manage* (same URL with different query parameters)
+* *[GET] - https://localhost:44349/HostDashboard*
 
 **Description**: 
 
@@ -74,8 +76,7 @@ This is a **false-positive** alert because ABP provides the Anti-CSRF token via 
 
 ### Application Error Disclosure [Risk: Medium] - False Positive
 
-- *[POST] — https://localhost:44349/Account/ImpersonateUser*
-- *[POST] — https://localhost:44349/api/account/send-email-confirmation-token*
+- *[GET] — https://localhost:44349/AuditLogs*
 
 **Description**: 
 
@@ -83,7 +84,7 @@ This page contains an error/warning message that may disclose sensitive informat
 
 **Explanation**:
 
-There are 2 URLs that are reported as exposing error messages. This is a **false-positive** alert. All these endpoints return **Internal Server Error** and there is not any sensitive information disclosed.
+There is only one URL that is reported as exposing error messages. This is a **false-positive** alert. The Audit Logging Module, shows request & response details and exception information, these are not sensitive information and only can be seen by the users whose related permissions are granted.
 
 ### Content Security Policy (CSP) Header Not Set [Risk: Medium] — Positive (Fixed)
 
@@ -111,6 +112,18 @@ Configure<AbpSecurityHeadersOptions>(options =>
 ```
 
 > See [the documentation](https://docs.abp.io/en/abp/latest/UI/AspNetCore/Security-Headers) for more info.
+
+### Cross-Domain Misconfiguration [Risk: Medium] - False Positive
+
+- *[GET] - https://localhost:44349/*
+
+**Description**:
+
+Web browser data loading may be possible, due to a Cross Origin Resource Sharing (CORS) misconfiguration on the web server.
+
+**Explanation**: 
+
+This is a **false-positive** alert. ABP Framework Startup Templates come with pre-configured CORS options.
 
 ### Format String Error [Risk: Medium] - False Positive
 
@@ -219,16 +232,15 @@ Injection using XSL transformations may be possible and may allow an attacker to
 
 **Explanation**: 
 
-This is a **false-positive** alert. v7.4.0 uses .NET 7 and the XSLT transformation is not possible on .NET5 or higher.
+This is a **false-positive** alert. v8.0.0 uses .NET 8 and the XSLT transformation is not possible on .NET5 or higher.
 
 ### Application Error Disclosure [Risk: Low] — False Positive
 
 - *[POST] — https://localhost:44349/Account/ImpersonateUser*  
-- *[POST] - https://localhost:44349/api/account/send-email-confirmation-token*
 
 **Description:** 
 
-The reported pages contain an error/warning message that may disclose sensitive information like the location of the file that produced the unhandled exception. This information can be used to launch further attacks against the web application. The alert could be a false positive if the error message is found inside a documentation page.
+The reported page contains an error/warning message that may disclose sensitive information like the location of the file that produced the unhandled exception. This information can be used to launch further attacks against the web application. The alert could be a false positive if the error message is found inside a documentation page.
 
 **Explanation:** 
 
@@ -309,7 +321,6 @@ Ensure that the `SameSite` attribute is set to either `lax` or ideally `strict` 
 
 ### Information Disclosure - Debug Error Messages [Risk: Low] — False Positive
 
-* *[GET] — https://localhost:44349/api/language-management/language-texts?filter=&resourceName=&baseCultureName=en&targetCultureName=aa-DJ&getOnlyEmptyValues=false&sorting=name%20asc&skipCount=0&maxResultCount=10*
 * *[GET] - https://localhost:44349/AuditLogs*
 
 **Description:**  
@@ -328,10 +339,11 @@ The response of the endpoints above return localization texts which are not real
 
 ### Strict-Transport-Security Header Not Set [Risk: Low] - False Positive
 
-- *[DELETE] - https://localhost:44349/api/identity/claim-types/4e8b181f-f309-435c-c6c6-3a0e778a7e61*
-- *[DELETE] - https://localhost:44349/api/identity/users/a990b4d7-0613-c3e1-851e-3a0e7789288e*
+- *[DELETE] - https://localhost:44349/api/feature-management/features?providerName=E&providerKey=49dfb08f-f5ed-0b61-8d37-3a0fc6b61679*
+- *[DELETE] - https://localhost:44349/api/identity/claim-types/4c580525-c08f-9280-f729-3a0fc6b9c3fa*
 - *[DELETE] - https://localhost:44349/api/language-management/languages/6b311a44-65bd-14ea-1a21-3a0e778b41d5*
 - *[DELETE] - https://localhost:44349/api/saas/tenants/c77b1554-5837-3303-9983-3a0e77824bb3*
+- *[DELETE] - https://localhost:44349/api/openiddict/scopes?id=af5a66e2-7cbb-cf69-7301-3a0fc6bb0ebf*
 - *[GET] - https://localhost:44349/*
 - *[GET] - https://localhost:44349/Abp/ApplicationConfigurationScript*
 - *[GET] - https://localhost:44349/Abp/ApplicationLocalizationScript?cultureName=zh-Hant*
