@@ -175,7 +175,9 @@ We have several options in C# applications. Those options are `Start`(If the app
 
 > When you start the C# application, you should see a *chain* icon next to the application name, that means the started application connected to ABP Studio. C# applications can connect to ABP Studio even when running from outside the ABP Studio environment, for example debugging with Visual Studio. If the application is run from outside the ABP Studio environment, it will display *(external)* information next to the chain icon.
 
-> When *Watch* is enable you should see an *eye* icon next to the application name. 
+> When *Watch* is enable you should see an *eye* icon next to the application name.
+
+![csharp-application-context-menu-run-connection](images/solution-runner/csharp-application-context-menu-run-connection.png)
 
 ### Build
 
