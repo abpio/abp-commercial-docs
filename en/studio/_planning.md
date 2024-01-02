@@ -25,8 +25,8 @@
   * Working With Existing Modules
     * Import, Install, Uninstall, Download Source Code
 * Solution Explorer
-* **Running Applications**
-* **Monitoring Applications**
+* ~~[DONE]Running Applications~~
+* ~~[DONE]Monitoring Applications~~
 * **Working with Kubernetes**
 * Analyzing Packages
 * Using the ABP Studio CLI

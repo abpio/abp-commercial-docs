@@ -615,19 +615,19 @@ using System.Threading.Tasks;
 using Acme.BookStore.Authors;
 using Shouldly;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.Modularity;
 using Volo.Abp.Validation;
 using Xunit;
 
 namespace Acme.BookStore.Books;
 
-{{if DB=="Mongo"}}
-[Collection(BookStoreTestConsts.CollectionDefinitionName)] {{end}}
-public class BookAppService_Tests : BookStoreApplicationTestBase
+public abstract class BookAppService_Tests<TStartupModule> : BookStoreApplicationTestBase<TStartupModule>
+    where TStartupModule : IAbpModule
 {
     private readonly IBookAppService _bookAppService;
     private readonly IAuthorAppService _authorAppService;
 
-    public BookAppService_Tests()
+    protected BookAppService_Tests()
     {
         _bookAppService = GetRequiredService<IBookAppService>();
         _authorAppService = GetRequiredService<IAuthorAppService>();
@@ -789,7 +789,7 @@ public class CreateModalModel : BookStorePageModel
 
         [Required]
         [StringLength(128)]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [Required]
         public BookType Type { get; set; } = BookType.Undefined;
@@ -872,7 +872,7 @@ public class EditModalModel : BookStorePageModel
 
         [Required]
         [StringLength(128)]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [Required]
         public BookType Type { get; set; } = BookType.Undefined;

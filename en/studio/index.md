@@ -1,8 +1,10 @@
 # ABP Studio
 
-ABP Studio is a **cross-platform** desktop application for ABP and .NET developers. It is well integrated to [ABP Framework](https://abp.io/) and [ABP Commercial](https://commercial.abp.io/). It aims to provide a comfortable development environment for you by automating things, providing insights about your solution, making develop, run, browse, monitor, trace and deploy your solutions much easier.
+> ABP Studio is currently in early preview. It is not open to everyone. You can [request a beta access](https://commercial.abp.io/studio) here.
 
-> ABP Studio is currently in early preview. Documentation work is still ongoing.
+> ABP Studio documentation work is still ongoing.
+
+ABP Studio is a **cross-platform** desktop application for ABP and .NET developers. It is well integrated to [ABP Framework](https://abp.io/) and [ABP Commercial](https://commercial.abp.io/). It aims to provide a comfortable development environment for you by automating things, providing insights about your solution, making develop, run, browse, monitor, trace and deploy your solutions much easier.
 
 ## Installation
 

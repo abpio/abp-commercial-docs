@@ -125,7 +125,7 @@ public class CreateAuthorDto
 {
     [Required]
     [StringLength(AuthorConsts.MaxNameLength)]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     [Required]
     public DateTime BirthDate { get; set; }
@@ -148,12 +148,12 @@ public class UpdateAuthorDto
 {
     [Required]
     [StringLength(AuthorConsts.MaxNameLength)]
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     [Required]
     public DateTime BirthDate { get; set; }
 
-    public string ShortBio { get; set; }
+    public string? ShortBio { get; set; }
 }
 ````
 
@@ -477,17 +477,17 @@ Finally, we can write some tests for the `IAuthorAppService`. Add a new class, n
 using System;
 using System.Threading.Tasks;
 using Shouldly;
+using Volo.Abp.Modularity;
 using Xunit;
 
 namespace Acme.BookStore.Authors;
 
-{{if DB=="Mongo"}}
-[Collection(BookStoreTestConsts.CollectionDefinitionName)] {{ end}}
-public class AuthorAppService_Tests : BookStoreApplicationTestBase
+public abstract class AuthorAppService_Tests<TStartupModule> : BookStoreApplicationTestBase<TStartupModule>
+    where TStartupModule : IAbpModule
 {
     private readonly IAuthorAppService _authorAppService;
 
-    public AuthorAppService_Tests()
+    protected AuthorAppService_Tests()
     {
         _authorAppService = GetRequiredService<IAuthorAppService>();
     }
@@ -548,6 +548,41 @@ public class AuthorAppService_Tests : BookStoreApplicationTestBase
     //TODO: Test other methods...
 }
 ````
+
+{{if DB == "EF"}}
+Add a new implementation class of `AuthorAppService_Tests` class, named `EfCoreAuthorAppService_Tests` in the `EntityFrameworkCore\Applications\Authors` namespace (folder) of the `Acme.BookStore.EntityFrameworkCore.Tests` project:
+
+````csharp
+using Acme.BookStore.Authors;
+using Xunit;
+
+namespace Acme.BookStore.EntityFrameworkCore.Applications.Authors;
+
+[Collection(BookStoreTestConsts.CollectionDefinitionName)]
+public class EfCoreAuthorAppService_Tests : AuthorAppService_Tests<BookStoreEntityFrameworkCoreTestModule>
+{
+
+}
+````
+{{end}}
+
+{{if DB == "Mongo"}}
+Add a new implementation class of `AuthorAppService_Tests` class, named `MongoDBAuthorAppService_Tests` in the `MongoDb\Applications\Authors` namespace (folder) of the `Acme.BookStore.MongoDB.Tests` project:
+
+````csharp
+using Acme.BookStore.MongoDB;
+using Acme.BookStore.Authors;
+using Xunit;
+
+namespace Acme.BookStore.MongoDb.Applications.Authors;
+
+[Collection(BookStoreTestConsts.CollectionDefinitionName)]
+public class MongoDBAuthorAppService_Tests : AuthorAppService_Tests<BookStoreMongoDbTestModule>
+{
+
+}
+````
+{{end}}
 
 Created some tests for the application service methods, which should be clear to understand.
 

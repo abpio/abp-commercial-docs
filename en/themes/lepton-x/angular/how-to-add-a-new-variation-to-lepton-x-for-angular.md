@@ -81,6 +81,6 @@ In the above code, make sure to replace the "src/assets/css/my-css-file.min.css"
 
 By adding this configuration, Angular will include the specified CSS file when building the application, making the styles available for your new theme appearance.
 
-![new appearance of LeptonX](../../../images/new-lepton-x-appearance.png)
+![new appearance of LeptonX](../../../images/new-lepton-x-variant.png)
 
-If you want to learn how to build and customize LeptonX using scss files, see [the link](../source-files#adding-new-theme-bundle-to-source-file).
+If you want to learn how to build and customize LeptonX using scss files, see [the link](../source-files).
