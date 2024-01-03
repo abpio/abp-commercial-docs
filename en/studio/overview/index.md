@@ -2,19 +2,19 @@
 
 ## Introduction
 
-ABP Studio, a comprehensive desktop application, offers a wide range of features and functionalities tailored to streamline the development and management of ABP-based applications. This article provides an overview of the key components of ABP Studio, including the [Solution Explorer](../solution-explorer.md), [Solution Runner](../running-applications.md), Kubernetes Integration, [Application Monitoring Area](../monitoring-applications.md), Background Tasks, Notifications and Logs. Understanding these components is essential for efficiently utilizing ABP Studio to its full potential.
+ABP Studio, a comprehensive desktop application, offers a wide range of features and functionalities tailored to streamline the development and management of ABP-based applications. This article provides an overview of the key components of ABP Studio, including the Solution Explorer, Solution Runner, Kubernetes Integration, Application Monitoring Area, Background Tasks, Notifications and Logs. Understanding these components is essential for efficiently utilizing ABP Studio to its full potential.
 
 ![overview-intro](./images/overview-intro.png)
 
 ## The Top Menu
 
-The Top Menu is the main menu bar in ABP Studio. It offers access to various functionalities such as **File**, **ABP Suite**, **Tools**, and **Help**. In this section we will examine these functions.
+The top menu is the main menu bar in ABP Studio. It offers access to various functionalities such as **File**, **ABP Suite**, **Tools**, and **Help**. In this section we will examine these functions.
 
 ![top-menu](./images/top-menu.png)
 
 ### File Menu
 
-- **Welcome Screen:** Opens the [Welcome Screen](#Welcome Screen). The Welcome Screen in ABP Studio is a straightforward starting user interface that provides quick access to recent projects and options to create or open projects.
+- **Welcome Screen:** Opens the [Welcome Screen](#welcome-screen). The Welcome Screen in ABP Studio is a straightforward starting user interface that provides quick access to recent projects and options to create or open projects.
 - **New Solution:** Opens the new solution creation wizard.
 - **Open Solution:** Opens a Solution previously created with ABP Studio.
 - **Initialize Existing Solution:** Makes the project created outside ABP Studio recognizable by ABP Studio.
@@ -53,29 +53,29 @@ The Welcome Screen is the initial user interface users encounter upon starting A
 
 Located on the left side of the interface, the Left Area is a panel that provides quick access to various functionalities like [Solution Explorer](../solution-explorer.md), [Solution Runner](../running-applications.md), and Kubernetes Integration. Now let's examine each item.
 
-## Solution Explorer
+### Solution Explorer
 
 The [Solution Explorer](../solution-explorer.md) is a feature for managing your project's structure, allowing operations such as add package reference, add new package, new module creation, and etc. within ABP Studio.
 
 ![solution-explorer](./images/solution-explorer.png)
 
-## Solution Runner
+### Solution Runner
 
 [Solution Runner](../running-applications.md) is a tool within ABP Studio that enables users to build, run, and monitor their applications directly from the user interface.
 
 ![solution-runner](./images/solution-runner.png)
 
-## Kubernetes Integration
+### Kubernetes Integration
 
-Kubernetes Integration in ABP Studio enables users to deploy solutions directly to Kubernetes clusters and provides tools for displaying and managing Kubernetes pods. This integration features two main panes:
+Kubernetes integration in ABP Studio enables users to deploy solutions directly to Kubernetes clusters and provides tools for displaying and managing Kubernetes services. This integration features two main panes:
 
-### Helm
+#### Helm
 
-This pane is dedicated to managing Helm charts, which are packages used in Kubernetes deployments. It simplifies the process of building images and installing charts.
+This pane is dedicated to managing [Helm](https://helm.sh/) charts, which are packages used in Kubernetes deployments. It simplifies the process of building images and installing charts.
 
 ![kubernetes-integration-helm-pane](./images/kubernetes-integration-helm.png)
 
-### Kubernetes 
+#### Kubernetes 
 
 This pane is dedicated to managing Kubernetes services. It simplifies the process of redeploying and intercepting application service.
 
@@ -83,7 +83,7 @@ This pane is dedicated to managing Kubernetes services. It simplifies the proces
 
 ## Application Monitoring Area
 
-The [Application Monitoring Area](../monitoring-applications.md) is a functional component within ABP Studio that displays real-time operational status and metrics for applications. It indicates the active state of applications, the count of running instances, and so on. The user interface is organized into several tabs: Overall, Browse, HTTP Requests, Events, Exceptions, and Logs. Now let's examine the **overall** tab.
+The [Application Monitoring Area](../monitoring-applications.md) is a functional component within ABP Studio that displays real-time operational status and metrics for applications. It indicates the active state of applications, the count of running instances, and so on. The user interface is organized into several tabs: Overall, Browse, HTTP Requests, Events, Exceptions, and Logs. Now let's examine the **Overall** tab.
 
 ![application-monitor-overall](./images/application-monitor-overall.png)
 
@@ -103,7 +103,7 @@ The summary section gives a quick overview of the system's status, displaying me
     - **Exceptions**: Number of exceptions thrown, which is a direct indicator of potential issues within the application.
     - **Actions**: Quick actions that can be taken directly from the monitor area, such as starting, stopping the application.
 
-Let's examine the **Browse** tab.
+Now let's examine the **Browse** tab.
 
 ### Browse
 
@@ -142,10 +142,10 @@ The Background Tasks section of ABP Studio provides a user interface for observi
 - **Queue time**: The timestamp marking when the task entered the queue.
 - **Task description**: Gives information about the latest status of the task.
 - **Duration**: The time taken from the start of the task until its completion.
-- **Status**: Denotes the task's current phase, with possible states being 'Queued', 'Executing', 'Completed', 'Failed', or 'Canceled'.
+- **Status**: Denotes the task's current phase, with possible states being `Queued`, `Executing`, `Completed`, `Failed`, or `Canceled`.
 - **Actions:** Task-specific interactions are available:
-    - If the task can be canceled and its status is 'Queued' state, tasks can be canceled by the user.
-    - Users have the ability to view error details for tasks that have 'Failed' to understand and address the causes of failure.
+    - If the task can be canceled and its status is `Queued` state, tasks can be canceled by the user.
+    - Users have the ability to view error details for tasks that have `Failed` to understand and address the causes of failure.
 
 ![background-tasks](./images/background-tasks.png)
 
@@ -156,7 +156,7 @@ System behavior includes:
 
 ## Notifications
 
-ABP Studio is designed to inform users of various system events through a dedicated Notifications section in bottom area. This UI provides real-time alerts in the form of informational messages, warnings, success confirmations, and error notifications, each differentiated by distinct visual cues for immediate recognition. Notifications serve to keep the user apprised of the application's state, background operations, and any issues that require attention.  
+ABP Studio is designed to inform users of various system events through a dedicated Notifications section in bottom area. This UI provides real-time alerts in the form of informational messages, warnings, success confirmations, and error notifications, each differentiated by distinct visual cues for immediate recognition.  
 
 - Notifications are displayed transiently on the user interface for a brief period, typically five seconds, ensuring the user is promptly informed without causing prolonged distraction.
 
