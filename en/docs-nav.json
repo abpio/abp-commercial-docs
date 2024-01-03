@@ -515,10 +515,6 @@
           "path": "studio/installation.md"
         },
         {
-          "text": "Overview",
-          "path": "studio/overview/index.md"
-        },
-        {
           "text": "Quick Starts",
           "items": [
             {
@@ -537,7 +533,7 @@
         },
         {
           "text": "Overview",
-          "path": "studio/overview/index.md"
+          "path": "studio/overview.md"
         },
         {
           "text": "Solution Templates",
