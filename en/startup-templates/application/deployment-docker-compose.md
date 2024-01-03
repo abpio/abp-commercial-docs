@@ -1204,6 +1204,8 @@ This is the angular application we deploy on http://localhost:4200 by default us
 
 The bookstore-angular service mounts the `etc/docker/dynamic-env.json` file to change the existing dynamic-env.json file which is copied during image creation, to change the environment variables on deployment time instead of re-creating the docker image after each environmental variable change. **Do not forget to override the `dynamic-env.json` located under the `aspnet-core/etc/docker`** folder.
 
+> If you are not using Docker with WSL, you may have problems with the volume mount permissions. You need to grant docker to be able to use the local file system. See this [SO answer](https://stackoverflow.com/a/20652410) for more information.
+
 ​	{{ if Tiered == "No" }}
 
 ```json
