@@ -515,6 +515,10 @@
           "path": "studio/installation.md"
         },
         {
+          "text": "Overview",
+          "path": "studio/overview/index.md"
+        },
+        {
           "text": "Quick Starts",
           "items": [
             {
