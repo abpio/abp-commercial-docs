@@ -27,8 +27,8 @@
 * Solution Explorer
 * ~~[DONE]Running Applications~~
 * ~~[DONE]Monitoring Applications~~
-* **Working with Kubernetes**
+* **[Working with Kubernetes](kubernetes.md)**
 * Analyzing Packages
 * Using the ABP Studio CLI
 * Extensibility / Plugin System
-* **Working with ABP Suite**
+* **[Working with ABP Suite](working-with-suite.md)**
