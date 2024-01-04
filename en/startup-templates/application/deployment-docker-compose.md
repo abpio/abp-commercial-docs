@@ -9,29 +9,30 @@
 }
 ````
 
-> This document assumes that you prefer to use **{{ UI_Value }}** as the UI framework and **{{ DB_Value }}** as the database provider. For other options, please change the preference on top of this document.
+> This document assumes that you prefer to use **{{ UI_Value }}** as the UI framework and **{{ DB_Value }}** as the database provider. For other options, please change the preference at the top of this document.
 
-This guide will be guide you through how to build docker images for your application and run on localhost using `docker compose`. You will learn the provided build scripts and docker compose files in detail and how to modify for production environment.
+This guide will guide you through how to build docker images for your application and run on localhost using `docker compose`. You will learn the provided build scripts and docker compose files in detail and how to modify them for the production environment.
 
 ## Building Docker Images
 
-Each application contains a dockerfile called `Dockerfile.local` for building the docker image. As naming implies, these dockerfiles are not multi-stage dockerfiles and requires project to be built in `Release` mode to create the image. Currently, if you are building your images using CI&CD pipeline, you either need to include the SDK to your pipeline before building the images or add your own [multi-stage dockerfiles](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/building-net-docker-images?view=aspnetcore-7.0).
+Each application contains a dockerfile called `Dockerfile.local` for building the docker image. As the naming implies, these Dockerfiles are not multi-stage Dockerfiles and require the project to be built in `Release` mode to create the image. Currently, if you are building your images using CI & CD pipeline, you either need to include the SDK to your pipeline before building the images or add your own [multi-stage dockerfiles](https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/docker/building-net-docker-images?view=aspnetcore-7.0).
 
-Since they are not multi-staged dockerfiles, if you want to build the images individually, you can navigate to the related to-be-hosted application folder and run 
+Since they are not multi-staged Dockerfiles, if you want to build the images individually, you can navigate to the related to-be-hosted application folder and run the following command:
 
 ``````powershell
 dotnet publish -c Release
 ``````
 
-to populate the **Release** folder first which will be used to build the docker images. Afterwards,  you can run 
+To populate the **Release** folder first, which will be used to build the docker images. Afterward,  you can run the following command:
 
 ```powershell
 docker build -f Dockerfile.local -t mycompanyname/myappname:version .
 ```
 
-to manually build your application image.
+To manually build your application image.
 
-To ease the process, application templates provide a build script to build all the images with a single script under `etc/build` folder named as `build-images-locally.ps1`. Based on your application name, ui and type; build image script will be generated. 
+To ease the process, application templates provide a build script to build all the images with a single script under `etc/build` folder named `build-images-locally.ps1`. 
+Based on your application name, UI and type, a build image script will be generated. 
 
 {{ if UI == "MVC"}}
 
@@ -192,13 +193,13 @@ Set-Location $currentFolder
 
 {{ end }}
 
-The **image tag** is set to `latest` by default. You can update the `param $version` at the first line as you want to set as tag for your images. 
+The **image tag** is set to `latest` by default. You can update the `param $version` at the first line to set it as a tag for your images. 
 
-You can examine all the provided dockerfiles required to publish your application below;
+You can examine all the provided Dockerfiles required to publish your application below;
 
 ### DBMigrator
 
-DbMigrator is a console application that is used to migrate the database of your application and seed the initial important data to run your application. Such as pre-defined langauges, admin user and role, OpenIddict applications and scopes.
+DbMigrator is a console application that is used to migrate the database of your application and seed the initial important data to run your application. Such as pre-defined languages, admin user and role, OpenIddict applications and scopes.
 
 `Dockerfile.local` is provided under this project as below;
 
@@ -220,7 +221,7 @@ docker build -f Dockerfile.local -t acme/bookstore-db-migrator:latest . #Builds 
 
 ### MVC/Razor Pages
 
-​	{{ if Tiered == "Yes" }}MVC/Razor Pages application is a server-side rendering application that uses Cookie authentication as default scheme and OpenIdConnect as the default challange scheme.
+​	{{ if Tiered == "Yes" }}MVC/Razor Pages application is a server-side rendering application that uses Cookie authentication as the default scheme and OpenIdConnect as the default challenge scheme.
 
 In the **WebModule** under authentication configuration, there is an extra configuration for containerized environment support:
 
@@ -265,7 +266,7 @@ if (Convert.ToBoolean(configuration["AuthServer:IsContainerizedOnLocalhost"]))
 }
 ```
 
-This is used when the **AuthServer is running on docker containers(or pods)** to configure the redirection URLs for internal network and the web. The application must be redirected to real DNS (localhost in this case) when the `/authorize` and `/logout` requests over the browser but handle the token validation inside the isolated network without going out to internet. `"AuthServer:MetaAddress"` appsetting should indicate the container/pod service name while the `AuthServer:Authority` should be pointing to real DNS for browser to redirect.
+This is used when the **AuthServer is running on docker containers(or pods)** to configure the redirection URLs for the internal network and the web. The application must be redirected to real DNS (localhost in this case) when the `/authorize` and `/logout` requests over the browser but handle the token validation inside the isolated network without going out to the internet. `"AuthServer:MetaAddress"` appsetting should indicate the container/pod service name while the `AuthServer:Authority` should be pointing to real DNS for the browser to redirect.
 
 The `appsettings.json` file does not contain `AuthServer:IsContainerizedOnLocalhost` and `AuthServer:MetaAddress` settings since they are used for orchestrated deployment scenarios, you can see these settings are overridden by the `docker-compose.yml` file.
 
@@ -278,14 +279,14 @@ WORKDIR /app
 ENTRYPOINT ["dotnet", "Acme.BookStore.Web.dll"]
 ```
 
-If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to **Web** folder and run:
+If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to the **Web** folder and run:
 
 ```powershell
 dotnet publish -c Release #Builds the projects in Release mode
 docker build -f Dockerfile.local -t acme/bookstore-web:latest . #Builds the image with "latest" tag
 ```
 
-​	{{ end }}	{{ if Tiered == "No" }}MVC/Razor Pages application is a server-side rendering application that contains both the openid-provider and the Http.Api endpoints within self; it will be a single application to deploy. `Dockerfile.local` is provided under this project as below;
+​	{{ end }}	{{ if Tiered == "No" }}MVC/Razor Pages application is a server-side rendering application that contains both the OpenID-provider and the Http.Api endpoints within self; it will be a single application to deploy. `Dockerfile.local` is provided under this project as below;
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
@@ -303,7 +304,7 @@ COPY --from=build /src .
 ENTRYPOINT ["dotnet", "Acme.BookStore.Web.dll"]
 ```
 
-You can come across an error when the image is being built. This occurs because of `dotnet dev-certs` command trying to list the existing certificates **inside the container** and unavailable to. This is not an important error since we aim to generate the **authserver.pfx** file and discard the container it is built in.
+You can come across an error when the image is being built. This occurs because of `dotnet dev-certs` command trying to list the existing certificates **inside the container** and unavailable to. This error is not important since we aim to generate the **authserver.pfx** file and discard the container it is built in.
 
 ![auth-server-pfx-generation-error](../../../en/images/auth-server-pfx-generation-error.png)
 
@@ -326,7 +327,7 @@ if (!hostingEnvironment.IsDevelopment())
 }
 ```
 
-This configuration disables the *DevelopmentEncryptionAndSigningCertificate* and uses a self-signed certificate called `authserver.pfx`. for **signing and encrypting the tokens**. This certificate is being created when the docker image is build using the `dotnet dev-certs` tooling . It is a sample generated certificate and it is **recommended** to update it for production environment. You can check the [OpenIddict Encryption and signing credentials documentation](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html) for different options and customization.
+This configuration disables the *DevelopmentEncryptionAndSigningCertificate* and uses a self-signed certificate called `authserver.pfx`. for **signing and encrypting the tokens**. This certificate is created when the docker image is built using the `dotnet dev-certs` tooling. It is a sample-generated certificate, and it is **recommended** to update it for the production environment. You can check the [OpenIddict Encryption and signing credentials documentation](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html) for different options and customization.
 
 The `GetSigningCertificate` method is a private method located under the same **WebModule**:
 
@@ -346,9 +347,9 @@ private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv, I
 }
 ```
 
-> You can always create any self-signed certificate using any other tooling outside of the dockerfile. You need to keep on mind to set them as **embedded resource** since the `GetSigningCertificate` method will be checking this file physically. 
+> You can always create any self-signed certificate using any other tooling outside the Dockerfile. You need to remember to set them as **embedded resource** since the `GetSigningCertificate` method will be checking this file physically. 
 
-If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to **Web** folder and run:
+If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to the **Web** folder and run:
 
 ```powershell
 dotnet publish -c Release #Builds the projects in Release mode
@@ -363,7 +364,7 @@ docker build -f Dockerfile.local -t acme/bookstore-web:latest . #Builds the imag
 
 ### Blazor Server
 
-​	{{ if Tiered == "Yes" }}Blazor Server application is a server-side rendering application that uses Cookie authentication as default scheme and OpenIdConnect as the default challange scheme.
+​	{{ if Tiered == "Yes" }}Blazor Server application is a server-side rendering application that uses Cookie authentication as the default scheme and OpenIdConnect as the default challenge scheme.
 
 In the **BlazorModule** under authentication configuration, there is an extra configuration for containerized environment support:
 
@@ -408,7 +409,7 @@ if (Convert.ToBoolean(configuration["AuthServer:IsContainerizedOnLocalhost"]))
 }
 ```
 
-This is used when the **AuthServer is running on docker containers(or pods)** to configure the redirection URLs for internal network and the web. The application must be redirected to real DNS (localhost in this case) when the `/authorize` and `/logout` requests over the browser but handle the token validation inside the isolated network without going out to internet. `"AuthServer:MetaAddress"` appsetting should indicate the container/pod service name while the `AuthServer:Authority` should be pointing to real DNS for browser to redirect.
+This is used when the **AuthServer is running on docker containers(or pods)** to configure the redirection URLs for the internal network and the web. The application must be redirected to real DNS (localhost in this case) when the `/authorize` and `/logout` requests over the browser but handle the token validation inside the isolated network without going out to the internet. `"AuthServer:MetaAddress"` appsetting should indicate the container/pod service name while the `AuthServer:Authority` should be pointing to real DNS for the browser to redirect.
 
 The `appsettings.json` file does not contain `AuthServer:IsContainerizedOnLocalhost` and `AuthServer:MetaAddress` settings since they are used for orchestrated deployment scenarios, you can see these settings are overridden by the `docker-compose.yml` file.
 
@@ -428,7 +429,7 @@ dotnet publish -c Release #Builds the projects in Release mode
 docker build -f Dockerfile.local -t acme/bookstore-blazor:latest . #Builds the image with "latest" tag
 ```
 
-​	{{ end }}	{{ if Tiered == "No" }}Blazor Server application is a server-side rendering application that contains both the openid-provider and the Http.Api endpoints within self; it will be a single application to deploy. `Dockerfile.local` is provided under this project as below;
+​	{{ end }}	{{ if Tiered == "No" }}Blazor Server application is a server-side rendering application that contains both the OpenID-provider and the Http.Api endpoints within self; it will be a single application to deploy. `Dockerfile.local` is provided under this project as below;
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
@@ -446,11 +447,11 @@ COPY --from=build /src .
 ENTRYPOINT ["dotnet", "Acme.BookStore.Blazor.dll"]
 ```
 
-You can come across an error when the image is being built. This occurs because of `dotnet dev-certs` command trying to list the existing certificates **inside the container** and unavailable to. This is not an important error since we aim to generate the **authserver.pfx** file and discard the container it is built in.
+You can come across an error when the image is being built. This occurs because of `dotnet dev-certs` command trying to list the existing certificates **inside the container** and unavailable to. This error is not important since we aim to generate the **authserver.pfx** file and discard the container it is built in.
 
 ![auth-server-pfx-generation-error](../../../en/images/auth-server-pfx-generation-error.png)
 
-Since it contains the openid-provider within, it also uses multi-stages to generate `authserver.pfx` file which is **used by OpenIddict as signing and encryption certificate**. This configuration is found under the `PreConfigureServices` method of the **BlazorModule**:
+Since it contains the OpenID-provider within, it also uses multi-stages to generate `authserver.pfx` file which is **used by OpenIddict as a signing and encryption certificate**. This configuration is found under the `PreConfigureServices` method of the **BlazorModule**:
 
 ```csharp
 if (!hostingEnvironment.IsDevelopment())
@@ -469,7 +470,7 @@ if (!hostingEnvironment.IsDevelopment())
 }
 ```
 
-This configuration disables the *DevelopmentEncryptionAndSigningCertificate* and uses a self-signed certificate called `authserver.pfx`. for **signing and encrypting the tokens**. This certificate is being created when the docker image is build using the `dotnet dev-certs` tooling . It is a sample generated certificate and it is **recommended** to update it for production environment. You can check the [OpenIddict Encryption and signing credentials documentation](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html) for different options and customization.
+This configuration disables the *DevelopmentEncryptionAndSigningCertificate* and uses a self-signed certificate called `authserver.pfx`. for **signing and encrypting the tokens**. This certificate is created when the docker image is built using the `dotnet dev-certs` tooling. It is a sample-generated certificate, and it is **recommended** to update it for the production environment. You can check the [OpenIddict Encryption and signing credentials documentation](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html) for different options and customization.
 
 The `GetSigningCertificate` method is a private method located under the same **BlazorModule**:
 
@@ -489,9 +490,9 @@ private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv, I
 }
 ```
 
-> You can always create any self-signed certificate using any other tooling outside of the dockerfile. You need to keep on mind to set them as **embedded resource** since the `GetSigningCertificate` method will be checking this file physically. 
+> You can always create any self-signed certificate using any other tooling outside the dockerfile. You need to remember to set them as **embedded resource** since the `GetSigningCertificate` method will be checking this file physically. 
 
-If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to **BlazorModule** folder and run:
+If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to the **BlazorModule** folder and run:
 
 ```powershell
 dotnet publish -c Release #Builds the projects in Release mode
@@ -506,7 +507,7 @@ docker build -f Dockerfile.local -t acme/bookstore-blazor:blazor . #Builds the i
 
 ### Angular
 
-The angular application uses [nginx:alpine-slim](https://hub.docker.com/layers/library/nginx/alpine-slim/images/sha256-0f859db466fda2c52f62b48d0602fb26867d98edbd62c26ae21414b3dea8d8f4?context=explore) base image to host the angular application. You can modify the base image based on your preference int the `Dockerfile.local` which provided under the angular folder of your solution as below;
+The angular application uses [nginx:alpine-slim](https://hub.docker.com/layers/library/nginx/alpine-slim/images/sha256-0f859db466fda2c52f62b48d0602fb26867d98edbd62c26ae21414b3dea8d8f4?context=explore) base image to host the angular application. You can modify the base image based on your preference in the `Dockerfile.local`, which is provided under the angular folder of your solution as below;
 
 ```dockerfile
 FROM nginx:alpine-slim
@@ -516,9 +517,9 @@ COPY dynamic-env.json /usr/share/nginx/html
 COPY /nginx.conf  /etc/nginx/conf.d/default.conf
 ```
 
-You can notice that, other than built angular application, there are two more files are copied into application image.
+You can notice that two more files are copied into the application image beside the built Angular application.
 
-The `dynamic-env.json` file is an empty json file representing angular application's environment variables. This file will be overridden by environment variable on image runtime. If you examine the `environment.prod.ts` file under the `angular/src/environments` folder, **there is a remote environment configuration for production**:
+The `dynamic-env.json` file is an empty JSON file representing the angular application's environment variables. The environment variable on image runtime will override this file. If you examine the `environment.prod.ts` file under the `angular/src/environments` folder, **there is a remote environment configuration for production**:
 
 ```json
 remoteEnv: {
@@ -527,7 +528,7 @@ remoteEnv: {
   }
 ```
 
-[This configuration is used to get the environment variables from a remote service](https://docs.abp.io/en/abp/latest/UI/Angular/Environment#remoteenvironment). This configuration is used to **override environment variables without rebuilding the image.** The url `/getEnvConfig` is defined in the `nginx.conf` file:
+[This configuration is used to get the environment variables from a remote service](https://docs.abp.io/en/abp/latest/UI/Angular/Environment#remoteenvironment). This configuration is used to **override environment variables without rebuilding the image.** The URL `/getEnvConfig` is defined in the `nginx.conf` file:
 
 ```nginx
 server {
@@ -561,7 +562,7 @@ server {
 }
 ```
 
-This configuration allows returning the `dynamic-env.json` file as a static file in which ABP Angular application uses for environment variables in one of the first initial requests when rendering the page. **The `dynamic-env.json` file you need to override is located under `aspnet-core/etc/docker`** folder.
+This configuration allows returning the `dynamic-env.json` file as a static file, which ABP Angular application uses for environment variables in one of the first initial requests when rendering the page. **The `dynamic-env.json` file you need to override is located under `aspnet-core/etc/docker`** folder.
 
 ​	{{ if Tiered == "No" }}
 
@@ -627,7 +628,7 @@ This configuration allows returning the `dynamic-env.json` file as a static file
 
 ​	{{ end }}
 
-If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to **angular** folder and run:
+If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to the **angular** folder and run:
 
 ```powershell
 yarn 				#Restores the project
@@ -641,7 +642,7 @@ docker build -f Dockerfile.local -t acme/bookstore-angular:latest . #Builds the 
 
 ### Blazor
 
-The Blazor application uses [nginx:alpine-slim](https://hub.docker.com/layers/library/nginx/alpine-slim/images/sha256-0f859db466fda2c52f62b48d0602fb26867d98edbd62c26ae21414b3dea8d8f4?context=explore) base image to host the blazor application. You can modify the base image based on your preference int the `Dockerfile.local` which provided under the Blazor folder of your solution as below;
+The Blazor application uses [nginx:alpine-slim](https://hub.docker.com/layers/library/nginx/alpine-slim/images/sha256-0f859db466fda2c52f62b48d0602fb26867d98edbd62c26ae21414b3dea8d8f4?context=explore) base image to host the blazor application. You can modify the base image based on your preference in the `Dockerfile.local` which provided under the Blazor folder of your solution as below;
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS build
@@ -653,7 +654,7 @@ COPY --from=build /app/wwwroot .
 COPY /nginx.conf  /etc/nginx/conf.d/default.conf
 ```
 
-Other than built blazor application, there is also `nginx.conf` file is copied into application image. The `nginx.conf` file:
+Other than the built Blazor application, there is also `nginx.conf` file is copied into the application image. The `nginx.conf` file:
 
 ```nginx
 server {
@@ -684,7 +685,7 @@ server {
 If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to **Blazor** folder and run:
 
 ```powershell
-##Builds the projects in Release mode with Trimming option disabled. You can enable it or configure as you like
+##Builds the projects in Release mode with the Trimming option disabled. You can enable or configure it as you like
 dotnet publish -c Release -p:PublishTrimmed=false 
 docker build -f Dockerfile.local -t acme/bookstore-blazor:latest . #Builds the image with "latest" tag
 ```
@@ -715,11 +716,11 @@ COPY --from=build /src .
 ENTRYPOINT ["dotnet", "Acme.BookStore.HttpApi.Host.dll"]
 ```
 
-You can come across an error when the image is being built. This occurs because of `dotnet dev-certs` command trying to list the existing certificates **inside the container** and unavailable to. This is not an important error since we aim to generate the **authserver.pfx** file and discard the container it is built in.
+You can come across an error when the image is being built. This occurs because of `dotnet dev-certs` command trying to list the existing certificates **inside the container** and unavailable to. This error is not important since we aim to generate the **authserver.pfx** file and discard the container it is built in.
 
 ![auth-server-pfx-generation-error](../../../en/images/auth-server-pfx-generation-error.png)
 
-Since it contains the openid-provider within, it also uses multi-stages to generate `authserver.pfx` file which is **used by OpenIddict as signing and encryption certificate**. This configuration is found under the `PreConfigureServices` method of the **HttpApiHostModule**:
+Since it contains the OpenID-provider within, it also uses multi-stages to generate `authserver.pfx` file, which is **used by OpenIddict as a signing and encryption certificate**. This configuration is found under the `PreConfigureServices` method of the **HttpApiHostModule**:
 
 ```csharp
 if (!hostingEnvironment.IsDevelopment())
@@ -738,7 +739,7 @@ if (!hostingEnvironment.IsDevelopment())
 }
 ```
 
-This configuration disables the *DevelopmentEncryptionAndSigningCertificate* and uses a self-signed certificate called `authserver.pfx`. for **signing and encrypting the tokens**. This certificate is being created when the docker image is build using the `dotnet dev-certs` tooling . It is a sample generated certificate and it is **recommended** to update it for production environment. You can check the [OpenIddict Encryption and signing credentials documentation](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html) for different options and customization.
+This configuration disables the *DevelopmentEncryptionAndSigningCertificate* and uses a self-signed certificate called `authserver.pfx`. for **signing and encrypting the tokens**. This certificate is created when the docker image is built using the `dotnet dev-certs` tooling. It is a sample-generated certificate, and it is **recommended** to update it for the production environment. You can check the [OpenIddict Encryption and signing credentials documentation](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html) for different options and customization.
 
 The `GetSigningCertificate` method is a private method located under the same **HttpApiHostModule**:
 
@@ -758,7 +759,7 @@ private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv, I
 }
 ```
 
-> You can always create any self-signed certificate using any other tooling outside of the dockerfile. You need to keep on mind to set them as **embedded resource** since the `GetSigningCertificate` method will be checking this file physically. 
+> You can always create any self-signed certificate using any other tooling outside of the dockerfile. You need to keep in mind to set them as **embedded resource** since the `GetSigningCertificate` method will be checking this file physically. 
 
 If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to **Http.Api.Host** folder and run:
 
@@ -773,7 +774,7 @@ docker build -f Dockerfile.local -t acme/bookstore-api:latest . #Builds the imag
 
 ### Http.Api.Host
 
-This is the backend application that contains the openid-provider functionality as well. The `dockerfile.local` is located under the `Http.Api.Host` project as below;
+This is the backend application that contains the OpenID-provider functionality as well. The `dockerfile.local` is located under the `Http.Api.Host` project as below;
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
@@ -791,11 +792,11 @@ COPY --from=build /src .
 ENTRYPOINT ["dotnet", "Acme.BookStore.HttpApi.Host.dll"]
 ```
 
-You can come across an error when the image is being built. This occurs because of `dotnet dev-certs` command trying to list the existing certificates **inside the container** and unavailable to. This is not an important error since we aim to generate the **authserver.pfx** file and discard the container it is built in.
+You can come across an error when the image is being built. This occurs because of `dotnet dev-certs` command trying to list the existing certificates **inside the container** and unavailable to. This error is not important since we aim to generate the **authserver.pfx** file and discard the container it is built in.
 
 ![auth-server-pfx-generation-error](../../../en/images/auth-server-pfx-generation-error.png)
 
-Since it contains the openid-provider within, it also uses multi-stages to generate `authserver.pfx` file which is **used by OpenIddict as signing and encryption certificate**. This configuration is found under the `PreConfigureServices` method of the **HttpApiHostModule**:
+Since it contains the openid-provider within, it also uses multi-stages to generate `authserver.pfx` file which is **used by OpenIddict as a signing and encryption certificate**. This configuration is found under the `PreConfigureServices` method of the **HttpApiHostModule**:
 
 ```csharp
 if (!hostingEnvironment.IsDevelopment())
@@ -814,7 +815,7 @@ if (!hostingEnvironment.IsDevelopment())
 }
 ```
 
-This configuration disables the *DevelopmentEncryptionAndSigningCertificate* and uses a self-signed certificate called `authserver.pfx`. for **signing and encrypting the tokens**. This certificate is being created when the docker image is build using the `dotnet dev-certs` tooling . It is a sample generated certificate and it is **recommended** to update it for production environment. You can check the [OpenIddict Encryption and signing credentials documentation](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html) for different options and customization.
+This configuration disables the *DevelopmentEncryptionAndSigningCertificate* and uses a self-signed certificate called `authserver.pfx`. for **signing and encrypting the tokens**. This certificate is created when the docker image is built using the `dotnet dev-certs` tooling. It is a sample-generated certificate, and it is **recommended** to update it for the production environment. You can check the [OpenIddict Encryption and signing credentials documentation](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html) for different customization options.
 
 The `GetSigningCertificate` method is a private method located under the same **HttpApiHostModule**:
 
@@ -834,7 +835,7 @@ private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv, I
 }
 ```
 
-> You can always create any self-signed certificate using any other tooling outside of the dockerfile. You need to keep on mind to set them as **embedded resource** since the `GetSigningCertificate` method will be checking this file physically. 
+> You can always create any self-signed certificate using any other tooling outside the dockerfile. You need to remember to set them as **embedded resource** since the `GetSigningCertificate` method will be checking this file physically. 
 
 If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to **Http.Api.Host** folder and run:
 
@@ -851,7 +852,7 @@ docker build -f Dockerfile.local -t acme/bookstore-api:latest . #Builds the imag
 
 ### AuthServer
 
-This is the openid-provider application, the authentication server which should be individually hosted compared to non-tiered application templates. The `dockerfile.local` is located under the `AuthServer` project as below;
+This is the openid-provider application, the authentication server, which should be individually hosted compared to non-tiered application templates. The `dockerfile.local` is located under the `AuthServer` project as below;
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
@@ -873,7 +874,7 @@ You can come across an error when the image is being built. This occurs because 
 
 ![auth-server-pfx-generation-error](../../../en/images/auth-server-pfx-generation-error.png)
 
-The AuthServer docker image building process contains multi-stages to generate `authserver.pfx` file which is **used by OpenIddict as signing and encryption certificate**. This configuration is found under the `PreConfigureServices` method of the **AuthServerModule**:
+The AuthServer docker image building process contains multi-stages to generate `authserver.pfx` file, which is **used by OpenIddict as a signing and encryption certificate**. This configuration is found under the `PreConfigureServices` method of the **AuthServerModule**:
 
 ```csharp
 if (!hostingEnvironment.IsDevelopment())
@@ -892,7 +893,7 @@ if (!hostingEnvironment.IsDevelopment())
 }
 ```
 
-This configuration disables the *DevelopmentEncryptionAndSigningCertificate* and uses a self-signed certificate called `authserver.pfx`. for **signing and encrypting the tokens**. This certificate is being created when the docker image is build using the `dotnet dev-certs` tooling . It is a sample generated certificate and it is **recommended** to update it for production environment. You can check the [OpenIddict Encryption and signing credentials documentation](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html) for different options and customization.
+This configuration disables the *DevelopmentEncryptionAndSigningCertificate* and uses a self-signed certificate called `authserver.pfx`. for **signing and encrypting the tokens**. This certificate is created when the docker image is built using the `dotnet dev-certs` tooling. It is a sample-generated certificate, and it is **recommended** to update it for the production environment. You can check the [OpenIddict Encryption and signing credentials documentation](https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html) for different options and customization.
 
 The `GetSigningCertificate` method is a private method located under the same **AuthServerModule**:
 
@@ -912,9 +913,9 @@ private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv, I
 }
 ```
 
-> You can always create any self-signed certificate using any other tooling outside of the dockerfile. You need to keep on mind to set them as **embedded resource** since the `GetSigningCertificate` method will be checking this file physically. 
+> You can always create any self-signed certificate using any other tooling outside the dockerfile. You need to remember to set them as **embedded resource** since the `GetSigningCertificate` method will be checking this file physically. 
 
-If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to **AuthServer** folder and run:
+If you don't want to use the `build-images-locally.ps1` to build the images or to build this image individually and manually, navigate to the **AuthServer** folder and run:
 
 ```powershell
 dotnet publish -c Release #Builds the projects in Release mode
@@ -923,7 +924,7 @@ docker build -f Dockerfile.local -t acme/bookstore-authserver:latest . #Builds t
 
 ### Http.Api.Host
 
-This is the backend application that exposes the endpoints and swagger UI. It is not a multi-stage dockerfile hence you need to have already built this application in **Release mode** in order to use this dockerfile. The `dockerfile.local` is located under the `Http.Api.Host` project as below;
+This is the backend application that exposes the endpoints and swagger UI. It is not a multi-stage dockerfile; hence you need to have already built this application in **Release mode** to use this dockerfile. The `dockerfile.local` is located under the `Http.Api.Host` project as below;
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
@@ -943,7 +944,7 @@ docker build -f Dockerfile.local -t acme/bookstore-api:latest . #Builds the imag
 
 ## Running Docker-Compose on Localhost
 
-Under the `etc/docker` folder, you can find the `docker-compose.yml` to run your application. To ease the running process, the template provides `run-docker.ps1` (and `run-docker.sh`) scripts that handles the HTTPS certificate creation which is used in environment variables;
+Under the `etc/docker` folder, you can find the `docker-compose.yml` to run your application. To ease the running process, the template provides `run-docker.ps1` (and `run-docker.sh`) scripts that handle the HTTPS certificate creation, which is used in environment variables;
 
 ```powershell
 $currentFolder = $PSScriptRoot
@@ -964,7 +965,7 @@ Set-Location $currentFolder
 docker-compose up -d
 ```
 
-`run-docker.ps1` (or `run-docker.sh`) script will be checking if there is an existing dev-cert already under the `etc/certs` folder and generates a `localhost.pfx` file if doesn't exist. **This file will be used by Kestrel as HTTPS certificate**.
+`run-docker.ps1` (or `run-docker.sh`) script will check if there is an existing dev-cert already under the `etc/certs` folder and generate a `localhost.pfx` file if it doesn't exist. **Kestrel will use this file as an HTTPS certificate**.
 
 You can also manually create the **localhost.pfx** file in a different path with different name and a different password by using `dotnet dev-certs https -v -ep myCert.pfx -p YOUR_PASSWORD_FOR_HTTPS_CERT -t` or with using any other self-signed certificate generation tool. 
 
@@ -995,11 +996,11 @@ services:
       - abp-network
 ```
 
-This is the Blazor application we deploy on http://localhost:44307 by default using the `acme/bookstore-blazor:latest` image that we have built using the `build-images-locally.ps1` script. **It is not running on HTTPS** using the `localhost.pfx` since it is running on **Nginx** and it doesn't accept `pfx` files for SSL. You can check [Nginx Configuring HTTPS Servers documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) for more information and apply necessary configurations it to `nginx.conf` file under the `Blazor` folder. 
+This is the Blazor application we deploy on http://localhost:44307 by default using the `acme/bookstore-blazor:latest` image that we have built using the `build-images-locally.ps1` script. **It is not running on HTTPS** using the `localhost.pfx` since it is running on **Nginx** and it doesn't accept `pfx` files for SSL. You can check [Nginx Configuring HTTPS Servers documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) for more information and apply the necessary configurations to `nginx.conf` file under the `Blazor` folder. 
 
 > Don't forget to rebuild the `acme/bookstore-blazor:latest` image after updating the `nginx.conf` file.
 
- On **volumes**, it mounts the **appsettings.json** file located under the `docker` folder to achieve **changing the environment variables without re-building the image**. The overriding `docker/appsettings.json` file is as below:
+ On **volumes**, it mounts the **appsettings.json** file under the `docker` folder to achieve **changing the environment variables without re-building the image**. The overriding `docker/appsettings.json` file is as below:
 
 ```json
 {
@@ -1034,7 +1035,7 @@ This is the Blazor application we deploy on http://localhost:44307 by default us
 
 ```
 
-> This service runs in docker network called `abp-network`,  awaits for the the `bookstore-api` to start up and restarts when fails. You can customize these orchestration behaviours as you prefer.
+> This service runs in Docker network called `abp-network`,  awaits for the the `bookstore-api` to start up and restarts when it fails. You can customize these orchestration behaviors as you prefer.
 
 ### bookstore-api
 
@@ -1075,7 +1076,7 @@ bookstore-api:
       - abp-network
 ```
 
-This service is the **backend** application of the blazor application that is using the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+This service is the **backend** application of the Blazor application that uses the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
 
 - `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44354`. It must point to a **real DNS when deploying to production**.
 
@@ -1085,15 +1086,15 @@ This service is the **backend** application of the blazor application that is us
 
 - `AuthServer__Authority` is the issuer URL.  {{ if Tiered == "Yes" }} `http://bookstore-authserver` {{ end }}{{ if Tiered == "No" }} `http://bookstore-api` {{ end }} is the containerized issuer. It must point to a **real DNS when deploying to production**.
 
-- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. {{ if Tiered == "Yes" }}Docker-compose is using isolated internal docker network called `abp-network`.  We want to use HTTP in the internal network communication without SSL overhead, therefore it is set to `false` by default. {{ end }}{{ if Tiered == "No" }} Since the backend itself is the openid-provider,  we set it `true` by default.{{ end }}
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. {{ if Tiered == "Yes" }}Docker-compose is using an isolated internal docker network called `abp-network`.  We want to use HTTP in the internal network communication without SSL overhead. Therefore, it is set to `false` by default. {{ end }}{{ if Tiered == "No" }} Since the backend itself is the OpenID-provider,  we set it `true` by default.{{ end }}
 
 - `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.{{ if Tiered == "Yes" }}
 
-- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+- `Redis__Configuration` is the overridden Redis configuration. It uses the containerized **redis** service. If you are not using containerized Redis, update your Redis URL.
 
   {{ end }}
 
-> This service runs in docker network called `abp-network`,  awaits for {{ if Tiered == "Yes" }}the redis service and {{ end }}the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
+> This service runs in a Docker network called `abp-network`,  awaits for {{ if Tiered == "Yes" }}the redis service and {{ end }}the database container for starting up and restarts when it fails. You can customize these orchestration behaviors as you prefer.
 
 {{ if Tiered == "Yes" }}
 
@@ -1131,21 +1132,21 @@ bookstore-authserver:
       - abp-network
 ```
 
-This is the authentication server application that handles the authentication between applications using the OpenIddict library.  It is using the `acme/bookstore-authserver:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44334` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+This is the authentication server application that handles the authentication between applications using the OpenIddict library.  It uses the `acme/bookstore-authserver:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44334` by default by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
 
 - `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44334`. It must point to a **real DNS when deploying to production**.
 
-- `App__CorsOrigins` is the override configuration for CORS. We add the angular and the blazor application URLs here by default. It must point to a **real DNS when deploying to production**.
+- `App__CorsOrigins` is the override configuration for CORS. We add the angular and the Blazor application URLs here by default. It must point to a **real DNS when deploying to production**.
 
 - `AuthServer__Authority` is the issuer URL.  `http://bookstore-authserver` is the endpoint for the authserver by default. It must point to a **real DNS when deploying to production**.
 
-- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Docker-compose is using isolated internal docker network called `abp-network`.  We want to use HTTP in the internal network communication without SSL overhead, therefore it is set to `false` by default. 
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Docker-compose uses using isolated internal docker network called `abp-network`.  We want to use HTTP in the internal network communication without SSL overhead. Therefore, it is set to `false` by default. 
 
 - `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
 
-- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+- `Redis__Configuration` is the overridden Redis configuration. It uses the containerized **redis** service. If you are not using containerized Redis, update your Redis URL.
 
-> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
+> This service runs in Docker network called `abp-network`,  awaits for the Redis service and the database container for starting up and restarts when it fails. You can customize these orchestration behaviors as you prefer.
 
 {{ end }}
 
@@ -1172,7 +1173,7 @@ db-migrator:
       - abp-network
 ```
 
-This is the database migrator service that migrates the database and seeds the initial data. **OpenIddict data** is one of the most important seeded data for your application to run. On **production environment,** you need to override the root URL of your application (http://localhost:44307) {{ if Tiered == "Yes" }} and the swagger-ui client URL (https://localhost:44354){{ end }} so that the authentication can work properly.
+The database migrator service migrates the database and seeds the initial data. **OpenIddict data** is one of your application's most important seeded data. On **production environment,** you need to override the root URL of your application (http://localhost:44307) {{ if Tiered == "Yes" }} and the swagger-ui client URL (https://localhost:44354){{ end }} so that the authentication can work properly.
 
 {{ end }}
 
@@ -1198,11 +1199,11 @@ services:
       - abp-network
 ```
 
-This is the angular application we deploy on http://localhost:4200 by default using the image that we have built using the `build-images-locally.ps1` script. **It is not running on HTTPS** using the `localhost.pfx` since it is running on **Nginx** and it doesn't accept `pfx` files for SSL. You can check [Nginx Configuring HTTPS Servers documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) for more information and apply necessary configurations it to `nginx.conf` file under the `angular` folder. 
+This is the angular application we deploy on http://localhost:4200 by default using the image that we have built using the `build-images-locally.ps1` script. **It is not running on HTTPS** using the `localhost.pfx` since it is running on **Nginx** and it doesn't accept `pfx` files for SSL. You can check [Nginx Configuring HTTPS Servers documentation](http://nginx.org/en/docs/http/configuring_https_servers.html) for more information and apply the necessary configurations to `nginx.conf` file under the `angular` folder. 
 
 > Don't forget to rebuild the `acme/bookstore-angular:latest` image after updating the `nginx.conf` file.
 
-The bookstore-angular service mounts the `etc/docker/dynamic-env.json` file to change the existing dynamic-env.json file which is copied during image creation, to change the environment variables on deployment time instead of re-creating the docker image after each environmental variable change. **Do not forget to override the `dynamic-env.json` located under the `aspnet-core/etc/docker`** folder.
+The bookstore-angular service mounts the `etc/docker/dynamic-env.json` file to change the existing dynamic-env.json file, which is copied during image creation, to change the environment variables on deployment time instead of re-creating the docker image after each environmental variable change. **Do not forget to override the `dynamic-env.json` located under the `aspnet-core/etc/docker`** folder.
 
 > If you are not using Docker with WSL, you may have problems with the volume mount permissions. You need to grant docker to be able to use the local file system. See this [SO answer](https://stackoverflow.com/a/20652410) for more information.
 
@@ -1312,11 +1313,11 @@ bookstore-api:
       - abp-network
 ```
 
-This service is the **backend** application of the angular application that is using the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+This service is the **backend** application of the angular application that uses the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
 
 - `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44354`. It must point to a **real DNS when deploying to production**.
 
-- `App__AngularUrl` is the override configuration of URLs for account related endpoints. It is `http://localhost:4200` by default. It must point to a **real DNS when deploying to production**.
+- `App__AngularUrl` is the override configuration of URLs for account-related endpoints. It is `http://localhost:4200` by default. It must point to a **real DNS when deploying to production**.
 
   {{ if Tiered == "No" }}
 
@@ -1326,17 +1327,17 @@ This service is the **backend** application of the angular application that is u
 
 - `App__CorsOrigins` is the override configuration for CORS.  It is `http://localhost:4200` by default. It must point to a **real DNS when deploying to production**.
 
-- `App__HealthCheckUrl` is the override configuration for the health check URL. Since this request will be done **internally**, it points to the **service name** in containerized environment `http://bookstore-api/health-status`.
+- `App__HealthCheckUrl` is the override configuration for the health check URL. Since this request will be done **internally**, it points to the **service name** in the containerized environment `http://bookstore-api/health-status`.
 
 - `AuthServer__Authority` is the issuer URL.  {{ if Tiered == "Yes" }} `http://bookstore-authserver` {{ end }}{{ if Tiered == "No" }} `http://bookstore-api` {{ end }} is the containerized issuer. It must point to a **real DNS when deploying to production**.
 
-- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. {{ if Tiered == "Yes" }}Docker-compose is using isolated internal docker network called `abp-network`.  We want to use HTTP in the internal network communication without SSL overhead, therefore it is set to `false` by default. {{ end }}{{ if Tiered == "No" }} Since the backend itself is the openid-provider,  we set it `true` by default.{{ end }}
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. {{ if Tiered == "Yes" }}Docker-compose is using an isolated internal docker network called `abp-network`.  We want to use HTTP in the internal network communication without SSL overhead; therefore it is set to `false` by default. {{ end }}{{ if Tiered == "No" }} Since the backend itself is the openid-provider,  we set it `true` by default.{{ end }}
 
 - `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
 
-- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+- `Redis__Configuration` is the overridden Redis configuration. It uses the containerized **redis** service. If you are not using containerized Redis, update your Redis URL.
 
-> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
+> This service runs in a docker network called `abp-network`,  and awaits the Redis service and the database container for starting up and restarts when it fails. You can customize these orchestration behaviors as you prefer.
 
 {{ if Tiered == "Yes" }}
 
@@ -1376,17 +1377,17 @@ bookstore-authserver:
       - abp-network
 ```
 
-This is the authentication server application that handles the authentication between applications using the OpenIddict library.  It is using the `acme/bookstore-authserver:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44334` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+This is the authentication server application that handles the authentication between applications using the OpenIddict library.  It uses the `acme/bookstore-authserver:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44334` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
 
 - `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44334`. It must point to a **real DNS when deploying to production**.
 - `App__CorsOrigins` is the override configuration for CORS.  It is `http://localhost:4200` by default. It must point to a **real DNS when deploying to production**.
 - `App__RedirectAllowedUrls` is the override configuration of redirect URLs for the angular application. It is `http://localhost:4200` by default. It must point to a **real DNS when deploying to production**.
 - `AuthServer__Authority` is the issuer URL.  `https://localhost:44334/` is the endpoint for the authserver by default. It must point to a **real DNS when deploying to production**.
-- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Docker-compose is using isolated internal docker network called `abp-network`. It is set to `false` by default. 
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Docker-compose uses using isolated internal docker network called `abp-network`. It is set to `false` by default. 
 - `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
-- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+- `Redis__Configuration` is the overridden Redis configuration. It uses the containerized **redis** service. If you are not using containerized Redis, update your Redis URL.
 
-> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
+> This service runs in Docker network called `abp-network`,  awaits for the Redis service and the database container for starting up and restarts when it fails. You can customize these orchestration behaviors as you prefer.
 
 {{ end }}
 
@@ -1415,7 +1416,7 @@ db-migrator:
 
 This is the database migrator service that migrates the database and seeds the initial data. **OpenIddict data** is one of the most important seeded data for your application to run. On **production environment,** you need to override the root URL of your application (http://localhost:4200) and the swagger-ui client URL (https://localhost:44354) so that the authentication can work properly.
 
-> This service runs in docker network called `abp-network`,  awaits for the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
+> This service runs in Docker network called `abp-network`,  awaits for the database container to start up and restarts when it fails. You can customize these orchestration behaviors as you prefer.
 
 {{ end }}
 
@@ -1456,11 +1457,11 @@ bookstore-web:
       - abp-network
 ```
 
-This is the MVC/Razor Page application docker service is using the `acme/bookstore-web:latest` image that we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44353` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+This is the MVC/Razor Page application docker service is using the `acme/bookstore-web:latest` image that we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44353` by default by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
 
 ​	{{ if Tiered == "Yes" }}
 
-The MVC/Razor Page is a server-side rendering application that uses the **hybrid flow**. This flow uses **browser** to login/logout process to the openid-provider but issues the **access_token from the back-channel** (server-side). To achieve this functionality, the module class has extra `OpenIdConnectOptions` to override some of the events:
+The MVC/Razor Page is a server-side rendering application that uses the **hybrid flow**. This flow uses **browser** to login/logout process to the OpenID-provider but issues the **access_token from the back-channel** (server-side). To achieve this functionality, the module class has extra `OpenIdConnectOptions` to override some of the events:
 
 ```csharp
 if (Convert.ToBoolean(configuration["AuthServer:IsContainerizedOnLocalhost"]))
@@ -1506,11 +1507,11 @@ if (Convert.ToBoolean(configuration["AuthServer:IsContainerizedOnLocalhost"]))
 
 - `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44353`. It must point to a **real DNS when deploying to production**.
 
-- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Since we are using isolated internal docker network. We want to use HTTP in the internal network communication without SSL overhead, therefore it is set to `false` by default. 
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Since we are using an isolated internal docker network. We want to use HTTP in the internal network communication without SSL overhead; therefore it is set to `false` by default. 
 
   {{ if Tiered == "Yes" }}
 
-- `AuthServer__IsContainerizedOnLocalhost` is the configuration to enable the **OpenIdConnectOptions** to provide different endpoint for the MetaAddress of the openid-provider and intercepting the URLS for *authorization* and *logout* endpoints.
+- `AuthServer__IsContainerizedOnLocalhost` is the configuration to enable the **OpenIdConnectOptions** to provide a different endpoint for the MetaAddress of the OpenID-provider and intercepting the URLS for *authorization* and *logout* endpoints.
 
 - `AuthServer__MetaAddress` is the `.well-known/openid-configuration` endpoint for issuing access_token and internal token validation. It is the containerized `http://bookstore-authserver` by default.
 
@@ -1518,13 +1519,13 @@ if (Convert.ToBoolean(configuration["AuthServer:IsContainerizedOnLocalhost"]))
 
 - `RemoteServices__Default__BaseUrl` is the backend; API endpoint application uses the access_token to get the resources. It is the containerized `http://bookstore-api` by default.
 
-- `RemoteServices__AbpAccountPublic__BaseUrl` is the account URL used to get the profile picture of the user. Since account related information is located in the authserver, it is the containerized `http://bookstore-authserver` by default.
+- `RemoteServices__AbpAccountPublic__BaseUrl` is the account URL used to get the profile picture of the user. Since account-related information is located in the authserver, it is the containerized `http://bookstore-authserver` by default.
 
   {{ end }}
 
   {{ if Tiered == "No" }}
 
-- `App__HealthCheckUrl` is the health check url. Since this request will be done **internally**, it points to the **service name** in containerized environment `http://bookstore-api/health-status`.
+- `App__HealthCheckUrl` is the health check url. Since this request will be done **internally**, it points to the **service name** in the containerized environment `http://bookstore-api/health-status`.
 
 - `AuthServer__Authority` is the issuer URL.   `http://bookstore-web` is the containerized issuer. It must point to a **real DNS when deploying to production**.
 
@@ -1534,11 +1535,11 @@ if (Convert.ToBoolean(configuration["AuthServer:IsContainerizedOnLocalhost"]))
 
   {{ if Tiered == "Yes" }}
 
-- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+- `Redis__Configuration` is the overridden Redis configuration. It uses the containerized **redis** service. If you are not using containerized Redis, update your Redis URL.
 
   {{ end }}
 
-> This service runs in docker network called `abp-network`,  awaits for {{ if Tiered == "Yes" }}the redis service and{{ end }} the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
+> This service runs in Docker network called `abp-network`,  awaits for {{ if Tiered == "Yes" }}the redis service and{{ end }} the database container for starting up and restarts when it fails. You can customize these orchestration behaviors as you prefer.
 
 ​	{{ if Tiered == "Yes" }}
 
@@ -1579,7 +1580,7 @@ bookstore-api:
       - abp-network
 ```
 
-This service is the **backend** application of the MVC/Razor Page application that is using the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+This service is the **backend** application of the MVC/Razor Page application that uses the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
 
 - `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44354`. It must point to a **real DNS when deploying to production**.
 
@@ -1587,13 +1588,13 @@ This service is the **backend** application of the MVC/Razor Page application th
 
 - `AuthServer__Authority` is the issuer URL.   `http://bookstore-authserver` is the containerized issuer. It must point to a **real DNS when deploying to production**.
 
-- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Since we are using isolated internal docker network. We want to use HTTP in the internal network communication without SSL overhead, therefore it is set to `false` by default. 
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Since we are using an isolated internal docker network. We want to use HTTP in the internal network communication without SSL overhead, therefore, it is set to `false` by default. 
 
 - `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
 
-- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+- `Redis__Configuration` is the overridden Redis configuration. It uses the containerized **redis** service. If you are not using containerized Redis, update your Redis URL.
 
-> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
+> This service runs in Docker network called `abp-network`,  awaits the Redis service and the database container for starting up and restarts when it fails. You can customize these orchestration behaviors as you prefer.
 
 ### bookstore-authserver
 
@@ -1631,16 +1632,16 @@ bookstore-authserver:
       - abp-network
 ```
 
-This is the authentication server application that handles the authentication between applications using the OpenIddict library.  It is using the `acme/bookstore-authserver:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44334` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+This is the authentication server application that handles the authentication between applications using the OpenIddict library.  It uses the `acme/bookstore-authserver:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44334` by default by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
 
 - `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44334`. It must point to a **real DNS when deploying to production**.
 - `App__CorsOrigins` is the override configuration for CORS.  It is `https://localhost:44353,https://localhost:44354` by default. It must point to a **real DNS when deploying to production**.
 - `AuthServer__Authority` is the issuer URL.  `http://bookstore-authserver` is the endpoint for the authserver by default. 
-- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Docker-compose is using isolated internal docker network called `abp-network`. It is set to `false` by default. 
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Docker-compose uses using isolated internal docker network called `abp-network`. It is set to `false` by default. 
 - `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
-- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+- `Redis__Configuration` is the overridden Redis configuration. It uses the containerized **redis** service. If you are not using containerized Redis, update your Redis URL.
 
-> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
+> This service runs in Docker network called `abp-network`,  awaits the Redis service and the database container for starting up and restarts when it fails. You can customize these orchestration behaviors as you prefer.
 
 ​	{{ end }}
 
@@ -1669,7 +1670,7 @@ db-migrator:
 
 This is the database migrator service that migrates the database and seeds the initial data. **OpenIddict data** is one of the most important seeded data for your application to run. On **production environment,** you need to override the root URL of your application (https://localhost:44353) and the swagger-ui client URL (https://localhost:44354) so that the authentication can work properly.
 
-> This service runs in docker network called `abp-network`,  awaits for the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
+> This service runs in Docker network called `abp-network`,  awaits for the database container to start up and restarts when it fails. You can customize these orchestration behaviors as you prefer.
 
 {{ end }}
 
@@ -1710,11 +1711,11 @@ bookstore-blazor:
       - abp-network
 ```
 
-This is the Blazor Server application docker service is using the `acme/bookstore-blazor:latest` image that we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44314` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+This is the Blazor Server application Docker service is using the `acme/bookstore-blazor:latest` image that we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44314` by default by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
 
 {{ if Tiered == "Yes" }}
 
-The Blazor Server is a server-side rendering application that uses the **hybrid flow**. This flow uses **browser** to login/logout process to the openid-provider but issues the **access_token from the back-channel** (server-side). To achieve this functionality, the module class has extra `OpenIdConnectOptions` to override some of the events:
+The Blazor Server is a server-side rendering application that uses the **hybrid flow**. This flow uses **browser** to login/logout process to the OpenID-provider but issues the **access_token from the back-channel** (server-side). To achieve this functionality, the module class has extra `OpenIdConnectOptions` to override some of the events:
 
 ```csharp
 if (Convert.ToBoolean(configuration["AuthServer:IsContainerizedOnLocalhost"]))
@@ -1758,13 +1759,13 @@ if (Convert.ToBoolean(configuration["AuthServer:IsContainerizedOnLocalhost"]))
 
 {{ end }}
 
-- `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44314`. It must point to a **real DNS when deploying to production**.
+- `App__SelfUrl` points to the localhost with the port we expose, `https://localhost:44314`. It must point to a **real DNS when deploying to production**.
 
-- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Since we are using isolated internal docker network. We want to use HTTP in the internal network communication without SSL overhead, therefore it is set to `false` by default. 
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Since we are using an isolated internal docker network. We want to use HTTP in the internal network communication without SSL overhead, therefore, it is set to `false` by default. 
 
   {{ if Tiered == "Yes" }}
 
-- `AuthServer__IsContainerizedOnLocalhost` is the configuration to enable the **OpenIdConnectOptions** to provide different endpoint for the MetaAddress of the openid-provider and intercepting the URLS for *authorization* and *logout* endpoints.
+- `AuthServer__IsContainerizedOnLocalhost` is the configuration to enable the **OpenIdConnectOptions** to provide a different endpoint for the MetaAddress of the OpenID-provider and intercept the URLS for *authorization* and *logout* endpoints.
 
 - `AuthServer__MetaAddress` is the `.well-known/openid-configuration` endpoint for issuing the access_token and internal token validation. It is the containerized `http://bookstore-authserver` by default.
 
@@ -1772,7 +1773,7 @@ if (Convert.ToBoolean(configuration["AuthServer:IsContainerizedOnLocalhost"]))
 
 - `RemoteServices__Default__BaseUrl` is the backend; API endpoint application uses the access_token to get the resources. It is the containerized `http://bookstore-api` by default.
 
-- `RemoteServices__AbpAccountPublic__BaseUrl` is the account URL used to get the profile picture of the user. Since account related information is located in the authserver, it is the containerized `http://bookstore-authserver` by default.
+- `RemoteServices__AbpAccountPublic__BaseUrl` is the account URL used to get the profile picture of the user. Since account-related information is located in the authserver, it is the containerized `http://bookstore-authserver` by default.
 
   {{ end }}
 
@@ -1786,11 +1787,11 @@ if (Convert.ToBoolean(configuration["AuthServer:IsContainerizedOnLocalhost"]))
 
   {{ if Tiered == "Yes" }}
 
-- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+- `Redis__Configuration` is the overridden Redis configuration. It uses the containerized **redis** service. If you are not using containerized Redis, update your Redis URL.
 
   {{ end }}
 
-> This service runs in docker network called `abp-network`. {{ if Tiered == "Yes" }}It awaits for the redis service and the bookstore-api containers for starting up.{{ end }} It also restarts when fails. You can customize these orchestration behaviours as you prefer.
+> This service runs in docker network called `abp-network`. {{ if Tiered == "Yes" }}It awaits the Redis service and the bookstore-api containers for starting up.{{ end }} It also restarts when it fails. You can customize these orchestration behaviors as you prefer.
 
 ​	{{ if Tiered == "Yes" }}
 
@@ -1831,7 +1832,7 @@ bookstore-api:
       - abp-network
 ```
 
-This service is the **backend** application of the MVC/Razor Page application that is using the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+This service is the **backend** application of the MVC/Razor Page application that uses the `acme/bookstore-api:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44354` by default by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
 
 - `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44354`. It must point to a **real DNS when deploying to production**.
 
@@ -1839,13 +1840,13 @@ This service is the **backend** application of the MVC/Razor Page application th
 
 - `AuthServer__Authority` is the issuer URL.   `http://bookstore-authserver` is the containerized issuer. It must point to a **real DNS when deploying to production**.
 
-- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Since we are using isolated internal docker network. We want to use HTTP in the internal network communication without SSL overhead, therefore it is set to `false` by default. 
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Since we are using an isolated internal docker network. We want to use HTTP in the internal network communication without SSL overhead, therefore, it is set to `false` by default. 
 
 - `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
 
-- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+- `Redis__Configuration` is the overridden Redis configuration. It uses the containerized **redis** service. If you are not using containerized Redis, update your Redis URL.
 
-> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
+> This service runs in Docker network called `abp-network`,  awaits the Redis service and the database container for starting up and restarts when it fails. You can customize these orchestration behaviors as you prefer.
 
 ### bookstore-authserver
 
@@ -1882,15 +1883,15 @@ bookstore-authserver:
       - abp-network
 ```
 
-This is the authentication server application that handles the authentication between applications using the OpenIddict library.  It is using the `acme/bookstore-authserver:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44334` by default, by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
+This is the authentication server application that handles the authentication between applications using the OpenIddict library.  It is using the `acme/bookstore-authserver:latest` image we have built using the `build-images-locally.ps1` script. It runs on `https://localhost:44334` by default by mounting the self-signed certificate we've generated under the `etc/certs` folder. 
 
 - `App__SelfUrl` points to the localhost with the port we expose `https://localhost:44334`. It must point to a **real DNS when deploying to production**.
 - `AuthServer__Authority` is the issuer URL.  `http://bookstore-authserver` is the endpoint for the authserver by default. 
-- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Docker-compose is using isolated internal docker network called `abp-network`. It is set to `false` by default. 
+- `AuthServer__RequireHttpsMetadata` is the option for the **openid-provider** to enforce HTTPS. Docker-compose uses using isolated internal docker network called `abp-network`. It is set to `false` by default. 
 - `ConnectionStrings__Default` is the overridden default connection string. It uses {{ if DB == "Mongo" }}the containerized mongodb service {{ end }}{{ if DB == "EF" }}the containerized sql-server with the **sa** user {{ end }} by default.
-- `Redis__Configuration` is the overridden redis configuration. It uses the containerized **redis** service. If you are not using containerized redis, update with your redis URL.
+- `Redis__Configuration` is the overridden Redis configuration. It uses the containerized **redis** service. If you are not using containerized Redis, update your Redis URL.
 
-> This service runs in docker network called `abp-network`,  awaits for the redis service and the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
+> This service runs in Docker network called `abp-network`,  awaits the Redis service and the database container for starting up and restarts when it fails. You can customize these orchestration behaviors as you prefer.
 
 ​	{{ end }}
 
@@ -1917,9 +1918,9 @@ db-migrator:
       - abp-network
 ```
 
-This is the database migrator service that migrates the database and seeds the initial data. **OpenIddict data** is one of the most important seeded data for your application to run. On **production environment,** you need to override the root URL of your application (https://localhost:44353) and the swagger-ui client URL (https://localhost:44354) so that the authentication can work properly.
+The database migrator service migrates the database and seeds the initial data. **OpenIddict data** is one of the most important seeded data for your application. On **production environment,** you need to override the root URL of your application (https://localhost:44353) and the swagger-ui client URL (https://localhost:44354) so that the authentication can work properly.
 
-> This service runs in docker network called `abp-network`,  awaits for the database container for starting up and restarts when fails. You can customize these orchestration behaviours as you prefer.
+> This service runs in Docker network called `abp-network`,  awaits for the database container to start up and restarts when it fails. You can customize these orchestration behaviors as you prefer.
 
 {{ end }}
 
