@@ -138,9 +138,65 @@ protected override void OnModelCreating(ModelBuilder builder)
 }
 ````
 
+### The `IDesignTimeDbContextFactory` Implementation
 
+The solution has a class that implements `IDesignTimeDbContextFactory` for each `DbContext` class. For example, the Identity microservice has the following class:
 
-TODO: AbpDbContextOptions, AbpDbConnectionOptions, etc, SaaS module, administration service special case, etc.
+````csharp
+public class IdentityServiceDbContextFactory
+    : IDesignTimeDbContextFactory<IdentityServiceDbContext>
+{
+    public IdentityServiceDbContext CreateDbContext(string[] args)
+    {
+        IdentityServiceEfCoreEntityExtensionMappings.Configure();
+        
+        var builder = new DbContextOptionsBuilder<IdentityServiceDbContext>()
+        .UseSqlServer(GetConnectionStringFromConfiguration(), b =>
+        {
+            b.MigrationsHistoryTable("__IdentityService_Migrations");
+        });
+        
+        return new IdentityServiceDbContext(builder.Options);
+    }
+
+    private static string GetConnectionStringFromConfiguration()
+    {
+        return BuildConfiguration()
+            .GetConnectionString(IdentityServiceDbContext.DatabaseName)
+               ?? throw new ApplicationException(
+                    $"Could not find a connection string named
+                    '{IdentityServiceDbContext.DatabaseName}'.");
+    }
+
+    private static IConfigurationRoot BuildConfiguration()
+    {
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false);
+
+        return builder.Build();
+    }
+}
+````
+
+The `IdentityServiceDbContextFactory` class is used to create a `IdentityServiceDbContext` instance when you use the [EF Core command-line commands](https://learn.microsoft.com/en-us/ef/core/cli/dotnet), like `dotnet ef migrations add` or `dotnet ef database update`. It is also used if you use the `Add-Migration` or `Update-Database` commands in the *Package Manager Console* of Visual Studio.
+
+There are two important points in that class:
+
+* `b.MigrationsHistoryTable("__IdentityService_Migrations");` call sets a table name that is used by EF Core to track the migration history for a database schema. We are overriding it to ensure that each `DbContext` has a unique table name. This is especially useful if you want to use a single physical database for multiple microservices, or merge databases of services later.
+* `BuildConfiguration` method creates the configuration using the `appsettings.json` file, so you use don't need to duplicate the connection string and other options.
+
+### The AbpDbConnectionOptions Configuration
+
+TODO
+
+### The AbpDbContextOptions Configuration
+
+TODO
+
+### Registering the `DbContext` Class
+
+TODO
 
 ## Database Migrations
 
