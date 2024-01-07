@@ -423,4 +423,8 @@ See the *On Failures* section above to understand why you may need to manually t
 
 ## Rapid Failures on System Startup
 
-TODO: ...
+When you initially run the application on your development environment, or when you first deploy your solution to production, your services may rapidly fails on startup. This is because they need to make some database operations on their startup, but the databases weren't created yet. They will be created in the first run of the related service.
+
+For example, the Identity microservice will fail on startup if the Administration service wasn't started before and created the database. All **these are expected and nothing to worry about**. That is the nature of distributed system.
+
+The solution has designed to tolerate these startup failures and everything will be working in a few seconds or minutes. ABP Studio solution runner and Kubernetes have systems to restart a failed service, so the service will restart and try it again until its startup dependencies are satisfied.
