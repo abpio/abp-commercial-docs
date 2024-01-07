@@ -188,11 +188,86 @@ There are two important points in that class:
 
 ### The AbpDbConnectionOptions Configuration
 
-TODO
+Every microservice (and the other applications that touches to a database) configures the `AbpDbConnectionOptions` [options class](https://docs.abp.io/en/abp/latest/Options). It is typically done in a method (named `ConfigureDatabase`) defined in the service's (or application's) [module class](https://docs.abp.io/en/abp/latest/Module-Development-Basics). For example, the Identity microservices has a `CloudCrmIdentityServiceModule` class that defines a `ConfigureDatabase` method:
+
+````csharp
+private void ConfigureDatabase(ServiceConfigurationContext context)
+{
+    // ...
+}
+````
+
+That method configures a few options. In this section, we will be focusing on the `AbpDbConnectionOptions` configuration part:
+
+````csharp
+Configure<AbpDbConnectionOptions>(options =>
+{
+    options.Databases.Configure("Administration", database =>
+    {
+        database.MappedConnections
+		        .Add(AbpPermissionManagementDbProperties.ConnectionStringName);
+        database.MappedConnections
+		        .Add(AbpFeatureManagementDbProperties.ConnectionStringName);
+        database.MappedConnections
+		        .Add(AbpSettingManagementDbProperties.ConnectionStringName);
+        database.MappedConnections
+		        .Add(LanguageManagementDbProperties.ConnectionStringName);
+    });
+            
+    options.Databases.Configure("AuditLogging", database =>
+    {
+        database.MappedConnections
+		        .Add(AbpAuditLoggingDbProperties.ConnectionStringName);
+    });
+            
+    options.Databases.Configure("Saas", database =>
+    {
+        database.MappedConnections
+		        .Add(SaasDbProperties.ConnectionStringName);
+    });
+            
+    options.Databases.Configure(IdentityServiceDbContext.DatabaseName, database =>
+    {
+        database.MappedConnections
+		        .Add(AbpIdentityDbProperties.ConnectionStringName);
+        database.MappedConnections
+		        .Add(AbpOpenIddictDbProperties.ConnectionStringName);
+    });
+});
+````
+
+That configuration basically defines the different databases that is accessed by that service/application and defines [the mapping](https://docs.abp.io/en/abp/latest/Connection-Strings#configuring-the-database-structures) between module database schemas to physical databases.
+
+For example, Permission Management, Feature Management, Setting Management and the Language Management modules will use the `Administration` database, because we have merged that modules into the Administration microservice - we don't wanted to create separate services and databases for them.
+
+As similar, we are mapping and redirecting the Identity and OpenIddict module connection strings to the database defined by the `IdentityServiceDbContext`.
+
+Defining the databases and mapping pre-built modules to these databases is critical on runtime, so it should be carefully configured.
 
 ### The AbpDbContextOptions Configuration
 
-TODO
+The `ConfigureDatabase` method then configures the `AbpDbContextOptions`. An example from the Identity microservice:
+
+````csharp
+Configure<AbpDbContextOptions>(options =>
+{
+    options.Configure(opts =>
+    {
+        /* Sets default DBMS for this service */
+        opts.UseSqlServer();
+    });
+            
+    options.Configure<IdentityServiceDbContext>(c =>
+    {
+        c.UseSqlServer(b =>
+        {
+            b.MigrationsHistoryTable("__IdentityService_Migrations");
+        });
+    });     
+});
+````
+
+s
 
 ### Registering the `DbContext` Class
 
