@@ -246,7 +246,7 @@ Defining the databases and mapping pre-built modules to these databases is criti
 
 ### The AbpDbContextOptions Configuration
 
-The `ConfigureDatabase` method then configures the `AbpDbContextOptions`. An example from the Identity microservice:
+The `ConfigureDatabase` method then configures the `AbpDbContextOptions` options class. An example from the Identity microservice:
 
 ````csharp
 Configure<AbpDbContextOptions>(options =>
@@ -267,11 +267,20 @@ Configure<AbpDbContextOptions>(options =>
 });
 ````
 
-s
+We are basically setting the SQL Server as the default DBMS for this service (or application). The we are overriding the configuration for `IdentityServiceDbContext` to set the migrations history table to match with the one defined in the `IdentityServiceDbContextFactory` class.
 
 ### Registering the `DbContext` Class
 
-TODO
+Finally, the `ConfigureDatabase` method registers `IdentityServiceDbContext` class to the [dependency injection](https://docs.abp.io/en/abp/latest/Dependency-Injection) system and configures it:
+
+````csharp
+context.Services.AddAbpDbContext<IdentityServiceDbContext>(options =>
+{
+    options.AddDefaultRepositories();
+});
+````
+
+`AddDefaultRepositories` is used to register the default [repository](https://docs.abp.io/en/abp/latest/Best-Practices/Repositories) implementations for all the aggregate root [entities](https://docs.abp.io/en/abp/latest/Best-Practices/Entities).
 
 ## Database Migrations
 
