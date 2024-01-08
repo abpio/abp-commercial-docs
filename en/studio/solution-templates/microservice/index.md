@@ -44,4 +44,3 @@ ABP Studio provides pre-architected and production-ready templates to jump start
   * Adding new API gateways
   * Mono-repo vs multiple repository approaches
   * Authoring unit and integration tests
-* Dapr Integration

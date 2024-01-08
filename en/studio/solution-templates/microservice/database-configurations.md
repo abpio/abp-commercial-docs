@@ -1,10 +1,286 @@
 # Microservice Solution: Database Configurations
 
-This document explains the database configuration and migration structure that is designed and implemented for the ABP Studio Microservice solution template.
+This document explains the database configuration and migration structure that is designed and implemented in the ABP Studio Microservice solution template.
 
 ## Database Configurations
 
-TODO: AbpDbContextOptions, DbContext structure, AbpDbConnectionOptions, etc, SaaS module, administration service special case, etc.
+The microservice solution was designed so that there are more than one database. Typically, each microservice has its own database. The service is responsible to define, configure and migrate its own database.
+
+> This document is mainly focused on the Entity Framework configuration. It also notices the differences for MongoDB.
+
+### The DbContext Class
+
+Every microservice in the solution defines a `DbContext` class. The following example was taken from the Identity microservice:
+
+````csharp
+[ConnectionStringName(DatabaseName)]
+[ReplaceDbContext(
+    typeof(IIdentityProDbContext),
+    typeof(IOpenIddictDbContext)
+    )]
+public class IdentityServiceDbContext :
+    AbpDbContext<IdentityServiceDbContext>,
+    IIdentityProDbContext,
+    IOpenIddictDbContext,
+    IHasEventInbox,
+    IHasEventOutbox
+{
+    public const string DbTablePrefix = "";
+    public const string DbSchema = null;
+    
+    public const string DatabaseName = "Identity";
+    
+    public DbSet<IncomingEventRecord> IncomingEvents { get; set; }
+    public DbSet<OutgoingEventRecord> OutgoingEvents { get; set; }
+    
+    /* These DbSet properties are coming from the Identity module */
+    public DbSet<IdentityUser> Users { get; set; }
+    public DbSet<IdentityRole> Roles { get; set; }
+    public DbSet<IdentityClaimType> ClaimTypes { get; set; }
+    public DbSet<OrganizationUnit> OrganizationUnits { get; set; }
+    public DbSet<IdentitySecurityLog> SecurityLogs { get; set; }
+    public DbSet<IdentityLinkUser> LinkUsers { get; set; }
+    public DbSet<IdentityUserDelegation> UserDelegations { get; set; }
+    
+    /* These DbSet properties are coming from the OpenIddict module */
+    public DbSet<OpenIddictApplication> Applications { get; set; }
+    public DbSet<OpenIddictAuthorization> Authorizations { get; set; }
+    public DbSet<OpenIddictScope> Scopes { get; set; }
+    public DbSet<OpenIddictToken> Tokens { get; set; }
+
+    public IdentityServiceDbContext(DbContextOptions<IdentityServiceDbContext> options) 
+        : base(options)
+    {
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        
+        builder.ConfigureEventInbox();
+        builder.ConfigureEventOutbox();
+        builder.ConfigureIdentityPro();
+        builder.ConfigureOpenIddictPro();
+    }
+}
+````
+
+Let's examine that class. The first important thing is the `ConnectionStringName` attribute:
+
+````csharp
+[ConnectionStringName(DatabaseName)]
+````
+
+[The `ConnectionStringName` attribute](https://docs.abp.io/en/abp/latest/Connection-Strings#set-the-connection-string-name) defines the unique name of the connection string that is being used by that `DbContext` class. It matches with the connection string defined in the `appsettings.json` file. That name is also used in database migrations to distinguish different database schemas, and used as the key while storing tenant connection strings for a multi-tenant system. So, each physically separate database should have a unique connection string / database name as here.
+
+The `DatabaseName` constant is defined in the `DbContext` class:
+
+````csharp
+public const string DatabaseName = "Identity";
+````
+
+The second important part of that class is the `ReplaceDbContext` attribute's usage:
+
+````csharp
+[ReplaceDbContext(
+    typeof(IIdentityProDbContext),
+    typeof(IOpenIddictDbContext)
+    )]
+````
+
+The Identity microservice utilizes the [Identity](../../../modules/identity.md) and [OpenIddict](../../../modules/openiddict.md) modules and creates a single database that contains these modules' database schemas. These modules define their own `DbContext` class normally. But [the `ReplaceDbContext` attribute](https://docs.abp.io/en/abp/8.0/Entity-Framework-Core#replace-other-dbcontextes) tells to ABP framework to use this (`IdentityServiceDbContext`) `DbContext` class instead of the `DbContext` classes defined by these modules. Technically, it replaces the given `DbContext` classes on runtime. We are doing that to ensure that we have a single (merged) database schema, single database migration path and a single database transaction operation when we work these multiple modules. When we replace a `DbContext`, we should implement its interface as done with the `IdentityServiceDbContext` class:
+
+````csharp
+public class IdentityServiceDbContext :
+    AbpDbContext<IdentityServiceDbContext>,
+    IIdentityProDbContext,
+    IOpenIddictDbContext,
+    IHasEventInbox,
+    IHasEventOutbox
+````
+
+* That class implements `IIdentityProDbContext` and `IOpenIddictDbContext`, so these modules can use it.
+* It also implements `IHasEventInbox` and `IHasEventOutbox` interfaces, so the transactional [inbox/outbox patterns](inbox/outbox patterns) can work while sending and receiving [distributed events](https://docs.abp.io/en/abp/latest/Distributed-Event-Bus).
+
+As the next part, the `IdentityServiceDbContext` class defines the following properties those are forced by the implemented interfaces:
+
+````csharp
+public DbSet<IncomingEventRecord> IncomingEvents { get; set; }
+public DbSet<OutgoingEventRecord> OutgoingEvents { get; set; }
+
+/* These DbSet properties are coming from the Identity module */
+public DbSet<IdentityUser> Users { get; set; }
+public DbSet<IdentityRole> Roles { get; set; }
+public DbSet<IdentityClaimType> ClaimTypes { get; set; }
+public DbSet<OrganizationUnit> OrganizationUnits { get; set; }
+public DbSet<IdentitySecurityLog> SecurityLogs { get; set; }
+public DbSet<IdentityLinkUser> LinkUsers { get; set; }
+public DbSet<IdentityUserDelegation> UserDelegations { get; set; }
+
+/* These DbSet properties are coming from the OpenIddict module */
+public DbSet<OpenIddictApplication> Applications { get; set; }
+public DbSet<OpenIddictAuthorization> Authorizations { get; set; }
+public DbSet<OpenIddictScope> Scopes { get; set; }
+public DbSet<OpenIddictToken> Tokens { get; set; }
+````
+
+Finally, we are executing the extension properties provided by the ABP Framework and the modules to configure the entity mappings for them:
+
+````csharp
+protected override void OnModelCreating(ModelBuilder builder)
+{
+    base.OnModelCreating(builder);
+
+    builder.ConfigureEventInbox();
+    builder.ConfigureEventOutbox();
+    builder.ConfigureIdentityPro();
+    builder.ConfigureOpenIddictPro();
+}
+````
+
+### The `IDesignTimeDbContextFactory` Implementation
+
+The solution has a class that implements `IDesignTimeDbContextFactory` for each `DbContext` class. For example, the Identity microservice has the following class:
+
+````csharp
+public class IdentityServiceDbContextFactory
+    : IDesignTimeDbContextFactory<IdentityServiceDbContext>
+{
+    public IdentityServiceDbContext CreateDbContext(string[] args)
+    {
+        IdentityServiceEfCoreEntityExtensionMappings.Configure();
+        
+        var builder = new DbContextOptionsBuilder<IdentityServiceDbContext>()
+        .UseSqlServer(GetConnectionStringFromConfiguration(), b =>
+        {
+            b.MigrationsHistoryTable("__IdentityService_Migrations");
+        });
+        
+        return new IdentityServiceDbContext(builder.Options);
+    }
+
+    private static string GetConnectionStringFromConfiguration()
+    {
+        return BuildConfiguration()
+            .GetConnectionString(IdentityServiceDbContext.DatabaseName)
+               ?? throw new ApplicationException(
+                    $"Could not find a connection string named
+                    '{IdentityServiceDbContext.DatabaseName}'.");
+    }
+
+    private static IConfigurationRoot BuildConfiguration()
+    {
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false);
+
+        return builder.Build();
+    }
+}
+````
+
+The `IdentityServiceDbContextFactory` class is used to create a `IdentityServiceDbContext` instance when you use the [EF Core command-line commands](https://learn.microsoft.com/en-us/ef/core/cli/dotnet), like `dotnet ef migrations add` or `dotnet ef database update`. It is also used if you use the `Add-Migration` or `Update-Database` commands in the *Package Manager Console* of Visual Studio.
+
+There are two important points in that class:
+
+* `b.MigrationsHistoryTable("__IdentityService_Migrations");` call sets a table name that is used by EF Core to track the migration history for a database schema. We are overriding it to ensure that each `DbContext` has a unique table name. This is especially useful if you want to use a single physical database for multiple microservices, or merge databases of services later.
+* `BuildConfiguration` method creates the configuration using the `appsettings.json` file, so you use don't need to duplicate the connection string and other options.
+
+### The AbpDbConnectionOptions Configuration
+
+Every microservice (and the other applications that touches to a database) configures the `AbpDbConnectionOptions` [options class](https://docs.abp.io/en/abp/latest/Options). It is typically done in a method (named `ConfigureDatabase`) defined in the service's (or application's) [module class](https://docs.abp.io/en/abp/latest/Module-Development-Basics). For example, the Identity microservices has a `CloudCrmIdentityServiceModule` class that defines a `ConfigureDatabase` method:
+
+````csharp
+private void ConfigureDatabase(ServiceConfigurationContext context)
+{
+    // ...
+}
+````
+
+That method configures a few options. In this section, we will be focusing on the `AbpDbConnectionOptions` configuration part:
+
+````csharp
+Configure<AbpDbConnectionOptions>(options =>
+{
+    options.Databases.Configure("Administration", database =>
+    {
+        database.MappedConnections
+		        .Add(AbpPermissionManagementDbProperties.ConnectionStringName);
+        database.MappedConnections
+		        .Add(AbpFeatureManagementDbProperties.ConnectionStringName);
+        database.MappedConnections
+		        .Add(AbpSettingManagementDbProperties.ConnectionStringName);
+        database.MappedConnections
+		        .Add(LanguageManagementDbProperties.ConnectionStringName);
+    });
+            
+    options.Databases.Configure("AuditLogging", database =>
+    {
+        database.MappedConnections
+		        .Add(AbpAuditLoggingDbProperties.ConnectionStringName);
+    });
+            
+    options.Databases.Configure("Saas", database =>
+    {
+        database.MappedConnections
+		        .Add(SaasDbProperties.ConnectionStringName);
+    });
+            
+    options.Databases.Configure(IdentityServiceDbContext.DatabaseName, database =>
+    {
+        database.MappedConnections
+		        .Add(AbpIdentityDbProperties.ConnectionStringName);
+        database.MappedConnections
+		        .Add(AbpOpenIddictDbProperties.ConnectionStringName);
+    });
+});
+````
+
+That configuration basically defines the different databases that is accessed by that service/application and defines [the mapping](https://docs.abp.io/en/abp/latest/Connection-Strings#configuring-the-database-structures) between module database schemas to physical databases.
+
+For example, Permission Management, Feature Management, Setting Management and the Language Management modules will use the `Administration` database, because we have merged that modules into the Administration microservice - we don't wanted to create separate services and databases for them.
+
+As similar, we are mapping and redirecting the Identity and OpenIddict module connection strings to the database defined by the `IdentityServiceDbContext`.
+
+Defining the databases and mapping pre-built modules to these databases is critical on runtime, so it should be carefully configured.
+
+### The AbpDbContextOptions Configuration
+
+The `ConfigureDatabase` method then configures the `AbpDbContextOptions` options class. An example from the Identity microservice:
+
+````csharp
+Configure<AbpDbContextOptions>(options =>
+{
+    options.Configure(opts =>
+    {
+        /* Sets default DBMS for this service */
+        opts.UseSqlServer();
+    });
+            
+    options.Configure<IdentityServiceDbContext>(c =>
+    {
+        c.UseSqlServer(b =>
+        {
+            b.MigrationsHistoryTable("__IdentityService_Migrations");
+        });
+    });     
+});
+````
+
+We are basically setting the SQL Server as the default DBMS for this service (or application). The we are overriding the configuration for `IdentityServiceDbContext` to set the migrations history table to match with the one defined in the `IdentityServiceDbContextFactory` class.
+
+### Registering the `DbContext` Class
+
+Finally, the `ConfigureDatabase` method registers `IdentityServiceDbContext` class to the [dependency injection](https://docs.abp.io/en/abp/latest/Dependency-Injection) system and configures it:
+
+````csharp
+context.Services.AddAbpDbContext<IdentityServiceDbContext>(options =>
+{
+    options.AddDefaultRepositories();
+});
+````
+
+`AddDefaultRepositories` is used to register the default [repository](https://docs.abp.io/en/abp/latest/Best-Practices/Repositories) implementations for all the aggregate root [entities](https://docs.abp.io/en/abp/latest/Best-Practices/Entities).
 
 ## Database Migrations
 
@@ -19,8 +295,6 @@ In addition to the schema changes, you may also need to insert some initial (see
 > If you are using **MongoDB** as your database provider, the schema migration is not needed (But you should care about some kind of data and schema migrations in case of you made a breaking change on your database schema - this is something depends on your application, so you should understand how to work with a document database like MongoDB). However, the data seeding system is still used to insert initial data to the database.
 
 ### Database Migrations on Service Startup
-
-The microservice solution was designed so that there are more than one database. Typically, each microservice has its own database.
 
 Every microservice is responsible to migrate its own database schema. They perform that responsibility by checking and applying database migrations on service startup.
 
@@ -149,4 +423,8 @@ See the *On Failures* section above to understand why you may need to manually t
 
 ## Rapid Failures on System Startup
 
-TODO: ...
+When you initially run the application on your development environment, or when you first deploy your solution to production, your services may rapidly fails on startup. This is because they need to make some database operations on their startup, but the databases weren't created yet. They will be created in the first run of the related service.
+
+For example, the Identity microservice will fail on startup if the Administration service wasn't started before and created the database. All **these are expected and nothing to worry about**. That is the nature of distributed system.
+
+The solution has designed to tolerate these startup failures and everything will be working in a few seconds or minutes. ABP Studio solution runner and Kubernetes have systems to restart a failed service, so the service will restart and try it again until its startup dependencies are satisfied.
