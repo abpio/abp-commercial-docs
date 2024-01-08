@@ -244,9 +244,103 @@ public class BasketProductService : IBasketProductService, ITransientDependency
 }
 ```
 
+## Using Code-first gRPC services and clients
+
+Instead of manually creating the `proto` files, you can also use [protobuff-net.Grpc](https://www.nuget.org/packages/protobuf-net.Grpc) library to create your services and contracts.
+
+> See [Code-first gRPC services and clients with .NET](https://learn.microsoft.com/en-us/aspnet/core/grpc/code-first?view=aspnetcore-8.0) for more details.
+
+You may want to use your back-office or your public-web application to call gRPC services. There is a great community post about [Consuming gRPC Services from Blazor WebAssembly Application Using gRPC-Web](https://community.abp.io/posts/consuming-grpc-services-from-blazor-webassembly-application-using-grpcweb-dqjry3rv) with detail explanation and source-code. 
+
+## Authorization on gRPC Services
+
+You may have defined permissions for your gRPC services. When you are initiating a gRPC call, you need to add the `Authorization` header with `Bearer {access_token}`.  If you are using [protobuff-net.Grpc](https://www.nuget.org/packages/protobuf-net.Grpc), you can set it like:
+
+```csharp
+var accessTokenResult = // Get access_token from TokenProvider (BlazorWasm) or IHttpAccessor (Mvc)
+
+var credentials = CallCredentials.FromInterceptor(async (context, metadata) =>
+{
+    metadata.Add("Authorization", $"Bearer {accessToken}");
+});
+credentials = CallCredentials.FromInterceptor(async (context, metadata) =>
+{
+    metadata.Add("Authorization", $"Bearer {accessToken}");
+});
+
+var channel = GrpcChannel.ForAddress("https://localhost:10042", new GrpcChannelOptions
+{
+    HttpHandler = new GrpcWebHandler(new HttpClientHandler()),
+    Credentials = ChannelCredentials.Create(new SslCredentials(), credentials)
+});
+
+var productAppService = channel.CreateGrpcService<IProductAppService>();
+Products = await productAppService.GetListAsync();
+```
+
+The `metadata` will be the headers sent with the gRPC requests. When the request is made, you may come across with an **error**:
+
+```powershell
+The response was successfully returned as a challenge response: {
+  "error": "invalid_token",
+  "error_description": "The issuer associated to the specified token is not valid.",
+  "error_uri": "https://documentation.openiddict.com/errors/ID2088"
+}
+```
+
+This is because the token is being obtained from the browser which is a **different issuer**. Since the application has two different URLs; one for the browser and one for the gRPC, the openid-provider will not validate the issuer. To solve the problem, add the URL of the gRPC channel to the toke validation parameters valid issuers list.
+
+Navigate to your **AuthServer** project and under the `PreConfigureServices` method:
+
+```csharp
+PreConfigure<OpenIddictBuilder>(builder =>
+{
+    builder.AddValidation(options =>
+    {
+        options.AddAudiences("ProductManagement");
+        options.UseLocalServer();
+        options.UseAspNetCore();
+        options.Configure(validationOptions => validationOptions.TokenValidationParameters.ValidIssuers = new[]
+        {
+            "https://localhost:44388", //AuthServer Url
+            "https://localhost:44388/", 
+            "https://localhost:10042", //gRPC channel
+            "https://localhost:10042/" 
+        });
+    });
+});
+```
+
+## MultiTenancy on gRPC Services
+
+When the multi-tenancy is active in your project, you need to send the tenant information with the header on the request. This is done automatically with the default ABP HTTP requests. Since the gRPC requests are initiated through a different channel, the tenant information needs to be added manually to the header like the Authorization header. 
+
+```csharp
+var grpcChannelOptions = new GrpcChannelOptions
+{
+    HttpHandler = new GrpcWebHandler(new HttpClientHandler())
+};
+
+if (CurrentTenant.IsAvailable) // No need to add header if it's Host
+{
+    var credentials = CallCredentials.FromInterceptor(async (context, metadata) =>
+    {
+        metadata.Add("__tenant", CurrentTenant.Name);
+    });
+    grpcChannelOptions.Credentials = ChannelCredentials.Create(new SslCredentials(), credentials);
+}
+
+var channel = GrpcChannel.ForAddress("https://localhost:10042", grpcChannelOptions);
+
+var productAppService = channel.CreateGrpcService<IProductAppService>();
+Products = await productAppService.GetListAsync();
+```
+
 ## Sample
 
 You can examine the [eShopOnAbp.BasketService](https://github.com/abpframework/eShopOnAbp/blob/f1c51a2a2777d8784868f13fb0d0646a0f52b42f/services/basket/src/EShopOnAbp.BasketService/BasketServiceModule.cs#L159-L169) and the [eShopOnAbp.CatalogService](https://github.com/abpframework/eShopOnAbp/blob/main/services/catalog/src/EShopOnAbp.CatalogService.Application/Grpc/PublicProductGrpService.cs).
+
+You can examine the [GrpcDemo2](https://github.com/abpframework/abp-samples/tree/master/GrpcDemo2) and the [Blazor web app](https://github.com/abpframework/abp-samples/blob/master/GrpcDemo2/src/ProductManagement.Blazor/Pages/Index.razor.cs).
 
 ## Next
 
