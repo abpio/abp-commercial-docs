@@ -18,6 +18,8 @@ If There are more than one module which is openable via Suite, Studio will ask y
 
 
 
+![suite-open-with-module](./images/suite/suite-open-with-module.png)
+
 ### Opening from context menu
 
 Alternatively, you can right click to a module in `Solution Explorer` and click `ABP Suite` to open it with Suite. Suite will automatically open `Crud Page Generation` screen with the selected module.
