@@ -1,6 +1,6 @@
 # ABP Studio: Working with ABP Suite
 
-ABP Studio (Studio) has a shortcut for running ABP Suite (Suite) to allow using it without starting it externally and using it on a browser. Thus you can use both Studio and Suite as a united platform.
+ABP Studio (Studio) has a shortcut for running [ABP Suite](https://docs.abp.io/en/commercial/latest/abp-suite/index) (Suite) to allow using it without starting it externally and using it on a browser. Thus you can use both Studio and Suite as a united platform.
 
 ## Running Suite From Studio
 
