@@ -8,7 +8,7 @@ ABP Studio incorporates various [concepts](./concepts.md) and we're using them i
 
 ## Solution
 
-It is the main solution that you can open with ABP Studio, an ABP solution can contain multiple [modules](./concepts.md#module). You can create a new ABP solution using the *Create New Solution* button on the welcome page. You can also open an existing ABP solution using the *Open Solution* button on the welcome page. You can edit *Modules* and *Folders* using the solution explorer. Additionally, the solution explorer allows you to filter by *Folder*, *Module*, *Package*, and *Imports*.
+It is the main solution that you can open with ABP Studio, an ABP solution can contain multiple [modules](./concepts.md#module). You can create a new ABP solution using the *Create New Solution* button on the welcome page. You can also open an existing ABP solution using the *Open Solution* button on the welcome page. You can edit *Modules* and *Folders* using the solution explorer. Additionally, the solution explorer allows you to filter by *Folder*, *Module*, *Package* and *Imports*. We can collapse the entire tree using the up arrow icon.
 
 ![abp-solution](images/solution-explorer/abp-solution.png)
 
@@ -36,3 +36,35 @@ It is the main solution that you can open with ABP Studio, an ABP solution can c
 - `Open With`
   - `Terminal`: Opens the terminal in the solution directory.
   - `Explorer`: Opens the file explorer in the solution directory.
+
+## Folder
+
+When adding modules directly to the root of the solution, it can become disorganized, especially with numerous modules. Utilizing a folder structure allows us to organize modules more efficiently. This method enables executing collective commands within a specified folder. You can create a new folder using the *Add* -> *New Folder* button on the solution explorer context-menu it opens *New folder* window. You can also rename, delete, and move folders using the solution explorer.
+
+![new-folder](./images/solution-explorer/new-folder.png)
+
+- `Folder name`: Give the folder name that we wanna see in solution explorer. We can create nested folder with `/` character. This is a solution explorer folder so, it doesn't create a real folder. Ensure each folder name is unique.
+
+You can click the `OK` button to add the folder to the solution. When you right-click the solution folder, it opens the context-menu you can see the following options;
+
+![folder-context-menu](./images/solution-explorer/folder-context-menu.png)
+
+- `Add`: You can add following options to your solution folder;
+  - `New Folder`: Creates a new nested folder within the selected folder, allowing you to organize your modules.
+  - `New Module`: Allows you to create a new module to selected folder.
+  - `Existing Module`: You can add existing module to your selected folder.
+- `Rename`: Renames the selected folder.
+- `Delete`: Deletes the selected folder and all child items from the solution.
+- `ABP CLI`: It's the same as the solution ABP CLI.
+  - `Install Libs`: Install NPM Packages for UI projects in your solution.
+  - `Upgrade ABP Packages`: Update all the ABP related NuGet and NPM packages in your solution.
+  - `Swith to`: It is switch your solution to the selected version of the ABP framework.
+    - `Stable`: Switches your solution to the latest stable version.
+    - `Preview`: Switches your solution to the preview version.
+    - `Nightly Build`: Switches your solution to the nightly version.
+  - `Clean`: Deletes all `BIN` and `OBJ` folders in your solution.
+- `Dotnet CLI`: It's the same as the solution Dotnet CLI.
+  - `Build`: Builds each modules.
+  - `Graph Build`: Builds each modules with [graphBuild](https://learn.microsoft.com/en-us/visualstudio/msbuild/build-process-overview?view=vs-2022#graph-option) option.
+  - `Clean`: Cleans the output of the previous build for modules.
+  - `Restore`: Restores the dependencies for modules.
