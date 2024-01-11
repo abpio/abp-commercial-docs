@@ -260,3 +260,54 @@ abpc install-module Volo.Blogging -t "modules/crm/Acme.Crm.abpmdl"
 
 * `--target-module` or `-t`: Path (or folder path) of the target module that the other module will be installed to. If not set, the closest module to the current directory will be used.
 * `--version` or `-v`: Nuget version of the module to be installed.
+
+### kube-connect
+
+Connects to Kubernetes cluster. Press `ctrl+c` to disconnect.
+
+````bash
+abpc kube-connect [options]
+````
+
+Example:
+
+````bash
+abpc kube-connect
+
+abpc kube-connect -p Default.abpk8s.json
+
+abpc kube-connect -c docker-desktop -ns mycrm-local
+````
+
+#### options
+
+* `--profile` or `-p`: Kubernetes Profile path or name to be used. Path can be relative (to current directory) or full path, or you can simply give the name of profile if you run this command in same directory with the solution or profile. This parameter is not needed if you use `--namespace` and `--context` parameters.
+* `--namespace` or `-ns`: The namespace that services running on.
+* `--context` or `-c`: The context that services running in.
+* `--wireguard-password` or `-wp`: Wireguard password for the profile. This is not needed if you already set it on the ABP Studio user interface.
+* `--solution-id` or `-si`: Id of the solution. If not set, the closest solution in file system will be used.
+
+### kube-intercept
+
+Intercepts a service running in Kubernetes environment. Press `ctrl+c` to stop interception.
+
+````bash
+abpc kube-intercept <service-name> [options]
+````
+
+Example:
+
+````bash
+abpc kube-intercept mycrm-product-service -ns mycrm-local
+
+abpc kube-intercept mycrm-product-service -ns mycrm-local -a MyCrm.ProductService.HttpApi.Host.csproj
+
+abpc kube-intercept mycrm-product-service -ns mycrm-local -a MyCrm.ProductService.HttpApi.Host.csproj -pm 8080:80,8081:443
+````
+
+#### options
+
+* `--application` or `-a`: Relative or full path of the project that will intercept the service. If not set, the project in the current directory will be used.
+* `--namespace` or `-ns`: The namespace that service running on.
+* `--context` or `-sc`: The context that service running in. Default value is `docker-desktop`.
+* `--port-mappings` or `-pm`: Port mappings for the service.
