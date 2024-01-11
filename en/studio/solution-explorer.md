@@ -8,7 +8,7 @@ ABP Studio incorporates various [concepts](./concepts.md) and we're using them i
 
 ## Solution
 
-It is the main solution that you can open with ABP Studio, an ABP solution can contain multiple [modules](./concepts.md#module). You can create a new ABP solution using the *New solution* button on the welcome page. You can also open an existing ABP solution using the *Open solution* button on the welcome page. You can edit *Modules* and *Folders* using the root of the solution. Additionally, the solution explorer allows you to filter by *Folder*, *Module*, *Package* and *Imports*. We can collapse the entire tree using the up arrow icon.
+It is the main solution that you can open with ABP Studio, an ABP solution can contain multiple [modules](./concepts.md#module). You can create a new ABP solution using the *New solution* button on the welcome page. You can also open an existing ABP solution using the *Open solution* button on the welcome page. You can edit *Modules* and *Folders* using the root of the solution. Additionally, the solution explorer allows you to filter by *Folder*, *Module*, *Package* and *Imports*. We can collapse the entire tree using the up arrow icon.  When you right-click the root of the solution, it opens the context-menu you can see the following options;
 
 ![abp-solution](images/solution-explorer/abp-solution.png)
 
@@ -55,25 +55,57 @@ You can click the *OK* button to add the folder to the solution. When you right-
   - `Existing Module`: You can add existing module to your selected folder.
 - `Rename`: Renames the selected folder.
 - `Delete`: Deletes the selected folder and all child items from the solution.
-- `ABP CLI`: It's the same as the solution ABP CLI.
-  - `Install Libs`: Install NPM Packages for UI projects in your solution.
-  - `Upgrade ABP Packages`: Update all the ABP related NuGet and NPM packages in your solution.
-  - `Swith to`: It is switch your solution to the selected version of the ABP framework.
-    - `Stable`: Switches your solution to the latest stable version.
-    - `Preview`: Switches your solution to the preview version.
-    - `Nightly Build`: Switches your solution to the nightly version.
-  - `Clean`: Deletes all `BIN` and `OBJ` folders in your solution.
-- `Dotnet CLI`: It's the same as the solution Dotnet CLI.
-  - `Build`: Builds each modules.
-  - `Graph Build`: Builds each modules with [graphBuild](https://learn.microsoft.com/en-us/visualstudio/msbuild/build-process-overview?view=vs-2022#graph-option) option.
-  - `Clean`: Cleans the output of the previous build for modules.
-  - `Restore`: Restores the dependencies for modules.
+- `ABP CLI`
+  - `Install Libs`: Install NPM Packages for UI projects in your selected folder.
+  - `Upgrade ABP Packages`: Update all the ABP related NuGet and NPM packages in your selected folder.
+  - `Swith to`: It switches your selected folder to the specified version of the ABP framework.
+    - `Stable`: Switches your selected folder to the latest stable version.
+    - `Preview`: Switches your selected folder to the preview version.
+    - `Nightly Build`: Switches your selected folder to the nightly version.
+  - `Clean`: Deletes all `BIN` and `OBJ` folders in your selected folder.
+- `Dotnet CLI`
+  - `Build`: Builds each modules in your selected folder.
+  - `Graph Build`: Builds each modules with [graphBuild](https://learn.microsoft.com/en-us/visualstudio/msbuild/build-process-overview?view=vs-2022#graph-option) option in your selected folder.
+  - `Clean`: Cleans the output of the previous build for modules in your selected folder.
+  - `Restore`: Restores the dependencies for modules in your selected folder.
 
 > You can drag and drop folders, modules and packages (within the same module) into a folder for organization purposes. Click and hold an item, then drag it into the desired folder.
 
 ## Module
 
-A [module](./concepts.md#module) is a sub-solution that can contains zero, one or multiple [packages](./concepts.md#package). Each module is considered a .NET solution. We can add or import existing module to the solution, each module can only be added once.
+A [module](./concepts.md#module) is a sub-solution that can contains zero, one or multiple [packages](./concepts.md#package). Each module is considered a .NET solution. We can add or import an existing module to the solution, with each module only able to be added once. When you right-click the module, it opens the context-menu where you can see the following options:
+
+![module-context-menu](./images/solution-explorer/module-context-menu.png)
+
+- `Add`: You can add following options to your module;
+  - `Package`:
+    - `New Package`: Creates a new package within the selected module.
+    - `Existing Package`: You can add existing package to your selected module.
+  - `Folder`: Creates a new folder within the selected module, allowing you to organize your packages.
+- `Import Module`: This option allows you to import an existing module from *Solution*, *Local*, or *NuGet* into your selected module.
+- `Rename`: Renames the selected module.
+- `Remove`: Removes the selected module and all child items from the solution.
+- `Reload`: Reloads the selected module.
+- `ABP Suite`: It will open the selected module in the ABP Suite.
+- `ABP CLI`
+  - `Install Libs`: Install NPM Packages for UI projects in your selected module.
+  - `Upgrade ABP Packages`: Update all the ABP related NuGet and NPM packages in your module.
+  - `Swith to`: It switches your selected module to the specified version of the ABP framework.
+    - `Stable`: Switches your selected module to the latest stable version.
+    - `Preview`: Switches your selected module to the preview version.
+    - `Nightly Build`: Switches your selected module to the nightly version.
+  - `Clean`: Deletes all `BIN` and `OBJ` folders in your selected module.
+- `Dotnet CLI`
+  - `Build`: Builds your selected module.
+  - `Graph Build`: Builds selected module with [graphBuild](https://learn.microsoft.com/en-us/visualstudio/msbuild/build-process-overview?view=vs-2022#graph-option) option.
+  - `Clean`: Cleans the output of the previous build for selected module.
+  - `Restore`: Restores the dependencies for selected module.
+- `Open With`
+  - `Visual Studio`: Opens the module in Visual Studio. This option is only available if you have Visual Studio installed.
+  - `Visual Studio Code`: Opens the module in Visual Studio Code. This option is only available if you have Visual Studio Code installed.
+  - `JetBrains Rider`: Opens the module in JetBrains Rider. This option is only available if you have JetBrains Rider installed.
+  - `Terminal`: Opens the terminal in the module directory.
+  - `Explorer`: Opens the file explorer in the module directory.
 
 ### Adding a New Empty Module
 
