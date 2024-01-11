@@ -169,11 +169,11 @@ abpc new-package --name Acme.BookStore.Domain --template lib.domain
 	* `lib.blazor-wasm`
 	* `lib.blazor-server`
 	* `host.http-api`
-		* `with-serilog`: Includes Serilog configuration.
-		* `with-swagger`: Includes Swagger configuration.
+		* `--with-serilog`: Includes Serilog configuration.
+		* `--with-swagger`: Includes Swagger configuration.
 	* `host.mvc`
-		* `with-serilog`: Includes Serilog configuration.
-		* `with-swagger`: Includes Swagger configuration.
+		* `--with-serilog`: Includes Serilog configuration.
+		* `--with-swagger`: Includes Swagger configuration.
 	* `host.blazor-wasm`
 		* `--backend`: Name of the backend project in the module (not path).
 	* `host.blazor-server`
