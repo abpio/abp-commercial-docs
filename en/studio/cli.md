@@ -14,6 +14,7 @@ As ABP Studio CLI extends [ABP Cli](https://docs.abp.io/en/abp/latest/CLI), all 
 * new-module: Generates a new module based on the given template.
 * new-package: Generates a new package based on the given template.
 * add-package-ref: Adds package to given project.
+* add-source: Downloads the source code and replaces package references with project references.
 * init-solution: Creates ABP Studio configuration files for a given solution.
 * install-local-module: Installs a local module to given module.
 * install-module:  Installs a module to given module via NuGet packages.
@@ -201,6 +202,25 @@ abpc add-package-ref "Acme.BookStore.Domain Acme.BookStore.Domain.Shared" -t Acm
 #### options
 
 * `--target-project` or `-t`: Name of the project that reference will be added. If not set, project in the current directory will be used.
+
+### add-source
+
+Downloads the source code of a module and replaces package references with project references. This command only works if your ABP Commercial License has source-code access, or if source-code of the target module is free to all type of ABP Commercial Licenses.
+
+````bash
+abpc add-source <module-name> [options]
+````
+
+Example:
+
+````bash
+abpc add-source Volo.Chat --add-to-solution-file
+````
+
+#### options
+
+* `--target-module` or `-t`: The module that will refer the downloaded source code. If not set, the module in the current directory will be used.
+* `--add-to-solution-file`: Adds the downloaded source code to C# solution file and ABP Studio solution file.
 
 ### init-solution
 
