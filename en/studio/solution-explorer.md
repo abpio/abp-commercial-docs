@@ -104,3 +104,13 @@ After creating the *Microservice (service-nolayers)* module, it will be added to
 ![created-new-microservice-nolayers](./images/solution-explorer/created-new-microservice-nolayers.png)
 
 > To customize the *Microservice (service-nolayers)* module template, navigate to the solution folder, where you'll find a `_templates` folder. You can edit the `service_nolayers` template based on your specific needs.
+
+### Adding an Existing Module
+
+ABP modules have their own file extension `.abpmdl`, and they are located in the specific module folder once created. Similar to creating a C# project in a solution and adding it to another solution as an existing project, you can create an ABP module in one solution and add it to another solution as an existing module. To add an existing module to your solution, use the *Add* -> *Existing Module* button at the root of the solution or in the folder context-menu. This action opens the *Select an ABP module file* window. Choose the module you want to add to the solution, then click the *Open* button.
+
+> The added module can be located outside of the solution folder. The path will be [normalized](https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats#path-normalization), allowing flexibility in the module's location as long as it's accessible from the current [ABP Solution](./concepts.md#solution) path.
+
+## Imports
+
+## Packages
