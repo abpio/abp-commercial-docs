@@ -136,7 +136,7 @@ In addition, `*.HttpApi.Client.ConsoleTestApp` is a console application (not an 
 Test projects are prepared for integration testing:
 
 * It is fully integrated to ABP framework and all services in your application.
-* It uses `SQLite` in-memory database for `EF Core` and it uses the [Mongo2Go](https://github.com/Mongo2Go/Mongo2Go) library for `MongoDB`.
+* It uses `SQLite` in-memory database for `EF Core` and it uses the [EphemeralMongo](https://github.com/asimmon/ephemeral-mongo) library for `MongoDB`.
 * Authorization is disabled, so any application service can be easily used in tests.
 
 You can also create unit tests to test your functions that requires several clicks to trigger. Because it runs faster by skipping all the initialization processes.
@@ -254,7 +254,7 @@ You should add `routes` property in the `data` object to add a link on the menu 
 {
    path: 'dashboard',
    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-   canActivate: [AuthGuard, PermissionGuard],
+   canActivate: [authGuard, permissionGuard],
    data: {
       routes: {
          name: 'ProjectName::Menu:Dashboard',
@@ -266,8 +266,8 @@ You should add `routes` property in the `data` object to add a link on the menu 
 }
 ```
 In the above example;
-*  If the user is not logged in, AuthGuard blocks access and redirects to the login page.
-*  PermissionGuard checks the user's permission with `requiredPolicy` property of the `rotues` object. If the user is not authorized to access the page, the 403 page appears.
+*  If the user is not logged in, authGuard blocks access and redirects to the login page.
+*  permissionGuard checks the user's permission with `requiredPolicy` property of the `rotues` object. If the user is not authorized to access the page, the 403 page appears.
 *  `name` property of `routes` is the menu link label. A localization key can be defined .
 *  `iconClass` property of `routes` object is the menu link icon class.
 *  `requiredPolicy` property of `routes` object is the required policy key to access the page.
