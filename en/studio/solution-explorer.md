@@ -8,7 +8,7 @@ ABP Studio incorporates various [concepts](./concepts.md) and we're using them i
 
 ## Solution
 
-It is the main solution that you can open with ABP Studio, an ABP solution can contain multiple [modules](./concepts.md#module). You can create a new ABP solution using the *Create New Solution* button on the welcome page. You can also open an existing ABP solution using the *Open Solution* button on the welcome page. You can edit *Modules* and *Folders* using the solution explorer. Additionally, the solution explorer allows you to filter by *Folder*, *Module*, *Package* and *Imports*. We can collapse the entire tree using the up arrow icon.
+It is the main solution that you can open with ABP Studio, an ABP solution can contain multiple [modules](./concepts.md#module). You can create a new ABP solution using the *New solution* button on the welcome page. You can also open an existing ABP solution using the *Open solution* button on the welcome page. You can edit *Modules* and *Folders* using the root of the solution. Additionally, the solution explorer allows you to filter by *Folder*, *Module*, *Package* and *Imports*. We can collapse the entire tree using the up arrow icon.
 
 ![abp-solution](images/solution-explorer/abp-solution.png)
 
@@ -39,13 +39,13 @@ It is the main solution that you can open with ABP Studio, an ABP solution can c
 
 ## Folder
 
-When adding modules directly to the root of the solution, it can become disorganized, especially with numerous modules. Utilizing a folder structure allows us to organize modules more efficiently. This method enables executing collective commands within a specified folder. You can create a new folder using the *Add* -> *New Folder* button on the solution explorer context-menu it opens *New folder* window. You can also rename, delete, and move folders using the solution explorer.
+When adding modules directly to the root of the solution, it can become disorganized, especially with numerous modules. Utilizing a folder structure allows us to organize modules more efficiently. This method enables executing collective commands within a specified folder. You can create a new folder using the *Add* -> *New Folder* button on the root of the solution context-menu it opens *New folder* window. You can also rename, delete, and move folders using the solution explorer.
 
 ![new-folder](./images/solution-explorer/new-folder.png)
 
 - `Folder name`: Give the folder name that we wanna see in solution explorer. We can create nested folder with `/` character. This is a solution explorer folder so, it doesn't create a real folder. Ensure each folder name is unique.
 
-You can click the `OK` button to add the folder to the solution. When you right-click the solution folder, it opens the context-menu you can see the following options;
+You can click the *OK* button to add the folder to the solution. When you right-click the solution folder, it opens the context-menu you can see the following options;
 
 ![folder-context-menu](./images/solution-explorer/folder-context-menu.png)
 
@@ -68,3 +68,39 @@ You can click the `OK` button to add the folder to the solution. When you right-
   - `Graph Build`: Builds each modules with [graphBuild](https://learn.microsoft.com/en-us/visualstudio/msbuild/build-process-overview?view=vs-2022#graph-option) option.
   - `Clean`: Cleans the output of the previous build for modules.
   - `Restore`: Restores the dependencies for modules.
+
+> You can drag and drop folders, modules and packages (within the same module) into a folder for organization purposes. Click and hold an item, then drag it into the desired folder.
+
+## Module
+
+A [module](./concepts.md#module) is a sub-solution that can contains zero, one or multiple [packages](./concepts.md#package). Each module is considered a .NET solution. We can add or import existing module to the solution, each module can only be added once.
+
+### Adding a New Empty Module
+
+Create a new module by clicking the *Add* -> *New Module* button at the root of the solution or in the folder context-menu. This action opens the *Create New Module* window. Choose between two module templates: *Empty* and *Microservice (service-nolayers)*. Please note that these options are only available for *Microservice* solution template. Other solution templates, such as *Application (Layered)*, can only create an empty module.
+
+![create-new-module](./images/solution-explorer/create-new-module.png)
+
+If you choose the *Empty Module*, provide the *Module name* and *Output folder*, then click the *Create* button to add the empty module to the solution. For solution templates other than *Microservice*, the *Create New Module* window opens directly to this step.
+
+![create-new-empty-module](./images/solution-explorer/create-new-empty-module.png)
+
+After creating the empty module, it will be added to the solution, and you should see the following structure in the solution explorer.
+
+![created-new-empty-module](./images/solution-explorer/created-new-empty-module.png)
+
+### Adding a New Microservice Module
+
+Similar to creating an empty module, if you select the *Microservice (service-nolayers)* module template, provide the *Module name* and *Output folder*, then click the *Next* button. Please note that the *Module name* includes the solution name as a prefix, and the use of the dot(.) character in the *Module name* is not allowed.
+
+![create-new-microservice-nolayers-module](./images/solution-explorer/create-new-microservice-nolayers-module.png)
+
+You can choose the database provider for your microservice module. Select one of the following options:
+
+![create-new-microservice-nolayers-database-provider](./images/solution-explorer/create-new-microservice-nolayers-database-provider.png)
+
+After creating the *Microservice (service-nolayers)* module, it will be added to the solution, and you should see the following structure in the solution explorer.
+
+![created-new-microservice-nolayers](./images/solution-explorer/created-new-microservice-nolayers.png)
+
+> To customize the *Microservice (service-nolayers)* module template, navigate to the solution folder, where you'll find a `_templates` folder. You can edit the `service_nolayers` template based on your specific needs.
