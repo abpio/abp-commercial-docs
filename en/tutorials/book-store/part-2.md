@@ -112,7 +112,7 @@ Open the `en.json` (*the English translations*) file and change the content as b
     "Menu:ArticleSample": "Article Sample",
     "Home": "Home",
     "Welcome": "Welcome",
-    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information visit abp.io.",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information visit",
     "Date": "Date",
     "Permission:Dashboard": "Dashboard",
     "Menu:Dashboard": "Dashboard",
@@ -131,7 +131,18 @@ Open the `en.json` (*the English translations*) file and change the content as b
     "NewsletterInfo": "Get information about the latest happenings.",
     "NewsletterPreference_Default": "Default Newsletter",
     "NewsletterPrivacyAcceptMessage": "I accept the <a href='/privacy-policy'>Privacy Policy</a>.",
-    "ChangeLanguage": "Change language",
+    "Language": "Language",
+    "Search": "Search",
+    "LoadMore": "Load More",
+    "Settings": "Settings",
+    "Theme": "Theme",
+    "DeviceTheme": "Device theme",
+    "Dark": "Dark",
+    "Light": "Light",
+    "Unspecified": "System",
+    "SeeAllUsers": "See All Users",
+    "TakePhoto": "Take Photo",
+    "ChoosePhoto": "Choose Photo",
     "Menu:BookStore": "Book Store",
     "Menu:Books": "Books",
     "PublishDate": "Publish date",
@@ -305,7 +316,7 @@ $(function () {
                     title: l('Type'),
                     data: "type",
                     render: function (data) {
-                        return l('Enum:BookType:' + data);
+                        return l('Enum:BookType.' + data);
                     }
                 },
                 {
