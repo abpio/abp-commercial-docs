@@ -187,6 +187,15 @@ After we install the module, we're gonna see *Modify Installation* button instea
 
 ### Load Details
 
+To view module details, click the *Load Details* button for the imported modules. This will show us the analyzed module details, including *Aggregate Roots*, *Application Services*, *Domain Services*, *EF Core DB Contexts*, *Features*, *Mongo DB Contexts*, *Permissions*, *Repository Interfaces*, and *Settings*. When we click the item in the list, it will open the details in main panel as a tab where you can view methods, properties, implementations, etc.
+
+![load-details](./images/solution-explorer/load-details.png)
+
 ### Replace With Source Code 
 
+If the module has been added as a NuGet package, you have the option to replace it with the source code. Click the *Replace With Source Code* button on the imported module to open the *Source Code Replacing* window. Here, you can select the *Output folder* for the source code of the module to be downloaded and click the *OK* button to replace the module with the source code. If you check the *Add the new module to ABP Studio solution and C# solution* checkbox, it will add the module to the ABP solution, create a module folder, and include the module projects in the selected module .NET solution.
+
+![replace-source-code](./images/solution-explorer/replace-source-code.png)
+
 ## Packages
+
