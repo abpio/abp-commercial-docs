@@ -1,4 +1,4 @@
-# Web Application Development Tutorial - Part 5: Authorization
+ # Web Application Development Tutorial - Part 5: Authorization
 ````json
 //[doc-params]
 {
@@ -307,16 +307,17 @@ And replace this code block with the following:
 ````csharp
 context.Menu.AddItem(
     new ApplicationMenuItem(
-        "BooksStore",
-        l["Menu:BookStore"],
-        icon: "fa fa-book"
+	"BooksStore",
+	l["Menu:BookStore"],
+	icon: "fa fa-book"
     ).AddItem(
-        new ApplicationMenuItem(
-            "BooksStore.Books",
-            l["Menu:Books"],
-            url: "/Books"
-        ).RequirePermissions(BookStorePermissions.Books.Default) // Check the permission!
+	new ApplicationMenuItem(
+	    "BooksStore.Books",
+	    l["Menu:Books"],
+	    url: "/Books"
+	).RequirePermissions(BookStorePermissions.Books.Default) // Check the permission!
     )
+);
 ````
 
 We've only added the `.RequirePermissions(BookStorePermissions.Books.Default)` extension method call for the inner menu item.
