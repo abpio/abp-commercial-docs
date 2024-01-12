@@ -143,13 +143,13 @@ public class EfCoreAuthorRepository
         int skipCount,
         int maxResultCount,
         string sorting,
-        string filter = null)
+        string? filter = null)
     {
         var dbSet = await GetDbSetAsync();
         return await dbSet
             .WhereIf(
                 !filter.IsNullOrWhiteSpace(),
-                author => author.Name.Contains(filter)
+                author => author.Name.Contains(filter!)
              )
             .OrderBy(sorting)
             .Skip(skipCount)
