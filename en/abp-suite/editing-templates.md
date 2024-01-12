@@ -2,7 +2,7 @@
 
 ABP Suite uses templates to generate the code files. You can see the the template files by clicking "Edit Templates" menu item.
 
-![Suite template list](../images/suite-templates.png)
+![Suite template list](../images/suite-templates-8.1.png)
 
 The are 2 template filters:
 

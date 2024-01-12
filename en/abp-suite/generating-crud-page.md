@@ -172,7 +172,7 @@ Click the **Navigation properties** tab. Then click **Add navigation property** 
 
 > Notice that almost all fields are automatically filled by convention. If you don't rename the `DTO` names, `DbSet` names in the `DbContext`, navigation property names or namespaces, this tool will automatically set all required fields. On the other hand, these textboxes are not readonly, so that you can change them according to your requirements.
 
-![navigation-property-book-entity](../images/navigation-property-book-entity.png)
+![navigation-property-book-entity](../images/navigation-property-book-entity-8.1.png)
 
 In the below image, you will see the mappings of the navigation property fields with the code classes.
 

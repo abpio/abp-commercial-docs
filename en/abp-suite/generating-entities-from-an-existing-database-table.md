@@ -10,7 +10,7 @@ Either create a new project or open an existing project that's based on an app o
 
 # Generate the Entities
 
-After opening the project in ABP Suite, scroll down to the bottom and click the **Load Entity From Database** button:![abpsuite2](../images/abpsuite2.png)
+After opening the project in ABP Suite, scroll down to the bottom and click the **Load Entity From Database** button:![abpsuite2](../images/abpsuite2.8.1.png)
 
 
 This will open the window seen below, choose the data source of your database and add the connection string of your project:![abpsuite3](../images/abpsuite3.png)
@@ -22,7 +22,7 @@ Click the lightning icon to test the connection, and then connect to the databas
 Uncheck the Id property since it automatically gets generated, it'll cause an error if we generate it twice, then click **OK**:![abpsuite5](../images/abpsuite5.png)
 
 
-After that, make sure the primary key type is selected, then click **Save and generate**:![abpsuite6](../images/abpsuite6.png)
+After that, make sure the primary key type is selected, then click **Save and generate**:![abpsuite6](../images/abpsuite6.8.1.png)
 
 
 The following GIF is a summary of the previous steps: ![SUTIE_GIF](../images/SUTIE_GIF.gif)
