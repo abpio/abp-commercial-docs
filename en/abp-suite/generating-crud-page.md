@@ -105,6 +105,7 @@ A property is a field in the entity which refers a column in the relational data
 * **Regex:** Add a general expression for the property.
 * **Email validation:** Choose if your property is an email and needs to be validated.
 * **Required:** Defines whether a value is required or not.
+* **Filterable**: Adds the property into the advanced search filters and includes it in the filters.
 * **Text area:** Make the property a text area to input a text, e.g. description.
 * **Nullable**: Allows you to set the property as `nullable` for the `C#` supported data types.
 
