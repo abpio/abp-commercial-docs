@@ -8,6 +8,8 @@ Be aware that, ABP Suite generates a unique URL for every project. After you sel
 
 To create a new entity, make sure the *-New entity-* is selected in the **Entity** combo box which is on the top-right of the page. In this section, you need to provide the meta data of your entity. Do not use [C# reserved keywords](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/) for your entity name, plural name, database table name or the namespace. 
 
+* **Entity type**: Specifies the entity's type. (**master** or **child**)
+
 * **Name**: Name of the entity.
 
 * **Plural Name**: Folder names of the entity and name of `DbSet`in the `DbContext`.
@@ -88,7 +90,7 @@ To create a new entity, make sure the *-New entity-* is selected in the **Entity
 *  **Concurrency check:** Implements the `IHasConcurrencyStamp` interface of the entity. If the base class is `AggregateRoot`, concurrency control is enabled by default. For more details see the [Concurrency Check](https://docs.abp.io/en/abp/latest/Concurrency-Check) document.
 
 
-![Entity info](../images/suite-entity-create-info.png)
+![Entity info](../images/suite-entity-create-info-8.1.png)
 
 ## Properties
 
@@ -103,10 +105,11 @@ A property is a field in the entity which refers a column in the relational data
 * **Regex:** Add a general expression for the property.
 * **Email validation:** Choose if your property is an email and needs to be validated.
 * **Required:** Defines whether a value is required or not.
+* **Filterable**: Adds the property into the advanced search filters and includes it in the filters.
 * **Text area:** Make the property a text area to input a text, e.g. description.
 * **Nullable**: Allows you to set the property as `nullable` for the `C#` supported data types.
 
-![Define a property](../images/suite-define-property.png)
+![Define a property](../images/suite-define-property-8.1.png)
 
 ### Property list
 
@@ -149,7 +152,7 @@ Let's see how to create a navigation property for a **Book Store** project.  We 
 
 Click **Save and generate** button and wait for ABP Suite to create the page.
 
-![navigation-property-author-entity](../images/navigation-property-author-entity.png)
+![navigation-property-author-entity](../images/navigation-property-author-entity-8.1.png)
 
 After it finishes, run the web project and go to **Authors** page. Click **New Author** button and add the below 3 records:
 
@@ -170,7 +173,7 @@ Click the **Navigation properties** tab. Then click **Add navigation property** 
 
 > Notice that almost all fields are automatically filled by convention. If you don't rename the `DTO` names, `DbSet` names in the `DbContext`, navigation property names or namespaces, this tool will automatically set all required fields. On the other hand, these textboxes are not readonly, so that you can change them according to your requirements.
 
-![navigation-property-book-entity](../images/navigation-property-book-entity.png)
+![navigation-property-book-entity](../images/navigation-property-book-entity-8.1.png)
 
 In the below image, you will see the mappings of the navigation property fields with the code classes.
 
