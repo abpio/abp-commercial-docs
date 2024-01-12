@@ -585,6 +585,7 @@ function configureRoutes(routes: RoutesService) {
         iconClass: 'fas fa-book',
         order: 101,
         layout: eLayoutType.application,
+        requiredPolicy: 'BookStore.Books  ||  BookStore.Authors',
       },
       {
         path: '/books',
