@@ -73,7 +73,7 @@ You can click the *OK* button to add the folder to the solution. When you right-
 
 ## Module
 
-A [module](./concepts.md#module) is a sub-solution that can contains zero, one or multiple [packages](./concepts.md#package). Each module is considered a .NET solution. We can add or import an existing module to the solution, with each module only able to be added once. When you right-click the module, it opens the context-menu where you can see the following options:
+A [module](./concepts.md#module) is a sub-solution that can contains zero, one or multiple [packages](./concepts.md#package). Each module is considered a .NET solution. We can create or import an existing module to the solution, with each module only able to be added once. When you right-click the module, it opens the context-menu where you can see the following options:
 
 ![module-context-menu](./images/solution-explorer/module-context-menu.png)
 
@@ -135,7 +135,7 @@ After creating the *Microservice (service-nolayers)* module, it will be added to
 
 ![created-new-microservice-nolayers](./images/solution-explorer/created-new-microservice-nolayers.png)
 
-> To customize the *Microservice (service-nolayers)* module template, navigate to the solution folder, where you'll find a `_templates` folder. You can edit the `service_nolayers` template based on your specific needs.
+> To customize the *Microservice (service-nolayers)* module template, navigate to the solution folder in file explorer, where you'll find a `_templates` folder. You can edit the `service_nolayers` template based on your specific needs.
 
 ### Adding an Existing Module
 
@@ -150,5 +150,43 @@ In ABP Framework, creating a module solution using the [CLI](https://docs.abp.io
 Furthermore, it's important to mention that we can create not just DDD-principled modules. The [Modularity](https://docs.abp.io/en/abp/latest/Module-Development-Basics) document clarifies the difference between *Framework* and *Application* modules. Basically, every C# project refers to the `Volo.Abp.Core` package and defines the *Module* class as an ABP Class Library. We have the option to develop an infrastructure module using only the *ABP Class Library* packages and provide a module reference to other modules.
 
 ## Imports
+
+ABP Framework [Modularity](https://docs.abp.io/en/abp/latest/Module-Development-Basics) has a significant advantage in developing a module in a solution and adding it as a module reference to your application or another module. This approach allows each module to maintain its own solution and be used in different applications. Importing a module into another module grants access to all module features within our current module. In ABP Studio, importing one module into another is a straightforward process. You can import a module using the *Imports* section on a module in the solution explorer. You can also import a module using the *Import Module* button on the module context-menu.
+
+![imports-context-menu](./images/solution-explorer/imports-context-menu.png)
+
+### Import a Module
+
+This action opens the *Import Module* window. We have several options to import a module from *Solution*, *Local*, or *NuGet*. In the *Solution* tab show us to the modules in the current solution. 
+
+![import-module-solution](./images/solution-explorer/import-module-solution.png)
+
+In the *Local* tab, we can import a module from a local folder outside of the solution. The path will be [normalized](https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats#path-normalization), allowing flexibility in the module's location as long as it's accessible from the current [ABP Solution](./concepts.md#solution) path.
+
+![import-module-local](./images/solution-explorer/import-module-local.png)
+
+In the *NuGet* tab, we can import a module from a NuGet package. We can search for a module by name.
+
+![import-module-nuget](./images/solution-explorer/import-module-nuget.png)
+
+Click `OK` to complete the module import. After importing the module, you can view additional options by right-clicking on the imported module.
+
+![imported-module](./images/solution-explorer/imported-module.png)
+
+### Install a Module
+
+When you click the *Install* button, it opens the *Install Module* window. On the left side, it displays the packages of the imported module, the middle section shows the packages of the current module, and the right side shows the packages already installed in your solution. You can select the packages you want to install and click the *OK* button to install the chosen packages.
+
+![install-module](./images/solution-explorer/install-module.png)
+
+> If the packages adhere to the DDD pattern, they will be checked by default with the information *(Recommended)*. You can uncheck the packages if you prefer not to install them.
+
+### Modify Installation, Uninstall or Remove a Module
+
+After we install the module, we're gonna see *Modify Installation* button instead of *Install* button. We can click the *Modify Installation* button to add or remove packages from the module. We can uninstall selected module with *Uninstall* button. After uninstalling the module, all package references in our module gonna be removed. We can remove the module with *Remove* button. This option only available if the imported module is not installed.
+
+### Load Details
+
+### Replace With Source Code 
 
 ## Packages
