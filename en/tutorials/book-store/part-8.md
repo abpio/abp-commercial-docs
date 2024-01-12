@@ -103,7 +103,7 @@ namespace Acme.BookStore.Authors;
 
 public class GetAuthorListDto : PagedAndSortedResultRequestDto
 {
-    public string Filter { get; set; }
+    public string? Filter { get; set; }
 }
 
 ````
@@ -130,7 +130,7 @@ public class CreateAuthorDto
     [Required]
     public DateTime BirthDate { get; set; }
 
-    public string ShortBio { get; set; }
+    public string? ShortBio { get; set; }
 }
 ````
 
