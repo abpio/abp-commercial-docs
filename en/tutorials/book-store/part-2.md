@@ -270,8 +270,8 @@ Change the `Pages/Books/Index.cshtml` as following:
     PageLayout.Content.MenuItemName = "BooksStore";
     PageLayout.Content.Title = L["Books"].Value;
 }
-@section scripts
-    {
+
+@section scripts {
     <abp-script src="/Pages/Books/Index.js" />
 }
 

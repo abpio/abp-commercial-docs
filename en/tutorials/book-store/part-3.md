@@ -151,8 +151,7 @@ The final content of the `Index.cshtml` is shown below:
     PageLayout.Content.MenuItemName = "BooksStore";
     PageLayout.Content.Title = L["Books"].Value;
 }
-@section scripts
-    {
+@section scripts {
     <abp-script src="/Pages/Books/Index.js" />
 }
 @section content_toolbar {

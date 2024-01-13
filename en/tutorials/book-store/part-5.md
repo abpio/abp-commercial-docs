@@ -152,7 +152,7 @@ Now, you can use the permissions to authorize the book management.
 Open the `BookAppService` class and add set the policy names as the permission names defined above:
 
 ````csharp
-using Acme.BookStore.Permissions;
+using Acme.BookStore.Permissions; //-> add this namespace
 using System;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -191,17 +191,20 @@ Added code to the constructor. Base `CrudAppService` automatically uses these pe
 
 While securing the HTTP API & the application service prevents unauthorized users to use the services, they can still navigate to the book management page. While they will get authorization exception when the page makes the first AJAX call to the server, we should also authorize the page for a better user experience and security.
 
-Open the `BookStoreWebModule` and modify the configuration of `RazorPagesOptions` as the following code block inside the `ConfigureServices` method:
+Open the `BookStoreWebModule` and modify the configuration of `RazorPagesOptions` as the following code block inside the `ConfigurePages` method:
 
 ````csharp
-Configure<RazorPagesOptions>(options =>
+private void ConfigurePages(IConfiguration configuration)
 {
-	// existing configuration
-	
-	options.Conventions.AuthorizePage("/Books/Index", BookStorePermissions.Books.Default);
-	options.Conventions.AuthorizePage("/Books/CreateModal", BookStorePermissions.Books.Create);
-	options.Conventions.AuthorizePage("/Books/EditModal", BookStorePermissions.Books.Edit);
-});
+    Configure<RazorPagesOptions>(options =>
+    {
+        // existing configuration
+        
+        options.Conventions.AuthorizePage("/Books/Index", BookStorePermissions.Books.Default);
+        options.Conventions.AuthorizePage("/Books/CreateModal", BookStorePermissions.Books.Create);
+        options.Conventions.AuthorizePage("/Books/EditModal", BookStorePermissions.Books.Edit);
+    });
+}
 ````
 
 Now, unauthorized users are redirected to the **login page**.
@@ -218,20 +221,19 @@ Open the `Pages/Books/Index.cshtml` file and change the content as shown below:
 @page
 @using Acme.BookStore.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Layout
-@using Microsoft.AspNetCore.Authorization
-@using Acme.BookStore.Permissions
+@using Microsoft.AspNetCore.Authorization @* -> add this line *@
+@using Acme.BookStore.Permissions @* -> add this line *@
 @using Acme.BookStore.Web.Pages.Books
 @using Microsoft.Extensions.Localization
 @model IndexModel
-@inject IAuthorizationService AuthorizationService
+@inject IAuthorizationService AuthorizationService @* -> add this line *@
 @inject IStringLocalizer<BookStoreResource> L
 @inject IPageLayout PageLayout
 @{
     PageLayout.Content.MenuItemName = "BooksStore";
     PageLayout.Content.Title = L["Books"].Value;
 }
-@section scripts
-    {
+@section scripts {
     <abp-script src="/Pages/Books/Index.js" />
 }
 @section content_toolbar {
