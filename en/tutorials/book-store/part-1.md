@@ -146,6 +146,7 @@ The final folder/file structure should be as shown below:
 EF Core requires to relate entities with your `DbContext`. The easiest way to do this is to add a `DbSet` property to the `BookStoreDbContext` class in the `Acme.BookStore.EntityFrameworkCore` project, as shown below:
 
 ````csharp
+using Acme.BookStore.Books;
 //....
 public class BookStoreDbContext : AbpDbContext<BookStoreDbContext> //....
 {
@@ -434,7 +435,7 @@ public class BookStoreApplicationAutoMapperProfile : Profile
 
 ### IBookAppService
 
-Next step is to define an interface for the application service. Create an interface named `IBookAppService` in the `Acme.BookStore.Application.Contracts` project:
+Next step is to define an interface for the application service. Create an interface named `IBookAppService` in the Books folder (namespace) of the `Acme.BookStore.Application.Contracts` project:
 
 ````csharp
 using System;

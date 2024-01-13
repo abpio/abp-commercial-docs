@@ -64,8 +64,7 @@ Create a new razor page, `Index.cshtml` under the `Pages/Authors` folder of the 
     PageLayout.Content.MenuItemName = "BooksStore";
     PageLayout.Content.Title = L["Books"].Value;
 }
-@section scripts
-    {
+@section scripts {
     <abp-script src="/Pages/Authors/Index.js" />
 }
 @section content_toolbar {
