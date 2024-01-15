@@ -617,19 +617,21 @@ Replace the contents of this component as shown below:
 Open the `BookStoreMenuContributor` class in the {{if UI == "MAUIBlazor"}}`MauiBlazor`{{else}}`Blazor`{{end}} project add the following code to the end of the `ConfigureMainMenuAsync` method:
 
 ````csharp
-context.Menu.AddItem(
-    new ApplicationMenuItem(
+var bookStoreMenu =  new ApplicationMenuItem(
         "BooksStore",
         l["Menu:BookStore"],
         icon: "fa fa-book"
-    ).AddItem(
-        new ApplicationMenuItem(
-            "BooksStore.Books",
-            l["Menu:Books"],
-            url: "/books"
-        )
+    );
+
+bookStoreMenu.AddItem(
+    new ApplicationMenuItem(
+        "BooksStore.Books",
+        l["Menu:Books"],
+        url: "/books"
     )
-);
+)
+
+context.Menu.AddItem(bookStoreMenu);
 ````
 
 Run the project, login to the application with the username `admin` and the password `1q2w3E*` and see the new menu item has been added to the main menu:

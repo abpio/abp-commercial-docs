@@ -494,47 +494,48 @@ Even we have secured all the layers of the book management page, it is still vis
 Open the `BookStoreMenuContributor` class in the {{if UI == "MAUIBlazor"}}`Acme.BookStore.MauiBlazor`{{else}}`Acme.BookStore.Blazor`{{end}} project, find the code block below:
 
 ````csharp
-context.Menu.AddItem(
-    new ApplicationMenuItem(
+var bookStoreMenu =  new ApplicationMenuItem(
         "BooksStore",
         l["Menu:BookStore"],
         icon: "fa fa-book"
-    ).AddItem(
-        new ApplicationMenuItem(
-            "BooksStore.Books",
-            l["Menu:Books"],
-            url: "/books"
-        )
-    )
-);
-````
+    );
 
-And replace this code block with the following:
-
-````csharp
-var bookStoreMenu = new ApplicationMenuItem(
-    "BooksStore",
-    l["Menu:BookStore"],
-    icon: "fa fa-book"
-);
-
-context.Menu.AddItem(bookStoreMenu);
-
-//CHECK the PERMISSION
-if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
-{
-    bookStoreMenu.AddItem(new ApplicationMenuItem(
+bookStoreMenu.AddItem(
+    new ApplicationMenuItem(
         "BooksStore.Books",
         l["Menu:Books"],
         url: "/books"
-    ));
-}
+    )
+)
+
+context.Menu.AddItem(bookStoreMenu);
 ````
 
-You also need to add `async` keyword to the `ConfigureMenuAsync` method and re-arrange the return value. The final `ConfigureMainMenuAsync` method should be the following:
+And use the `RequirePermissions` method as shown below:
+
 
 ````csharp
-    private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
+var bookStoreMenu =  new ApplicationMenuItem(
+        "BooksStore",
+        l["Menu:BookStore"],
+        icon: "fa fa-book"
+    );
+
+bookStoreMenu.AddItem(
+    new ApplicationMenuItem(
+        "BooksStore.Books",
+        l["Menu:Books"],
+        url: "/books"
+    ).RequirePermissions(BookStorePermissions.Books.Default) 
+)
+
+context.Menu.AddItem(bookStoreMenu);
+````
+
+The final `ConfigureMainMenuAsync` method should be the following:
+
+````csharp
+    private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
     {
         var l = context.GetLocalizer<BookStoreResource>();
 
@@ -546,23 +547,21 @@ You also need to add `async` keyword to the `ConfigureMenuAsync` method and re-a
             order: 1
         ));
 
-        var bookStoreMenu = new ApplicationMenuItem(
-            "BooksStore",
-            l["Menu:BookStore"],
-            icon: "fa fa-book"
-        );
+        var bookStoreMenu =  new ApplicationMenuItem(
+                "BooksStore",
+                l["Menu:BookStore"],
+                icon: "fa fa-book"
+            );
 
-        context.Menu.AddItem(bookStoreMenu);
-
-        //CHECK the PERMISSION
-        if (await context.IsGrantedAsync(BookStorePermissions.Books.Default))
-        {
-            bookStoreMenu.AddItem(new ApplicationMenuItem(
+        bookStoreMenu.AddItem(
+            new ApplicationMenuItem(
                 "BooksStore.Books",
                 l["Menu:Books"],
                 url: "/books"
-            ));
-        }
+            ).RequirePermissions(BookStorePermissions.Books.Default) 
+        )
+
+        context.Menu.AddItem(bookStoreMenu);
 
         //HostDashboard
         context.Menu.AddItem(
@@ -609,6 +608,8 @@ You also need to add `async` keyword to the `ConfigureMenuAsync` method and re-a
 
         //Administration->Settings
         administration.SetSubItemOrder(SettingManagementMenus.GroupName, 6);
+
+        return Task.CompletedTask;
     }
 ````
 
