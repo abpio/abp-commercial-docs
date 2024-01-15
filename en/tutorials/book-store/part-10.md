@@ -253,9 +253,9 @@ public class BookDto : AuditedEntityDto<Guid>
 {
     public Guid AuthorId { get; set; }
 
-    public string AuthorName { get; set; }
+    public string AuthorName { get; set; } = string.Empty;
 
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     public BookType Type { get; set; }
 
@@ -285,7 +285,7 @@ namespace Acme.BookStore.Books;
 
 public class AuthorLookupDto : EntityDto<Guid>
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 }
 ````
 
