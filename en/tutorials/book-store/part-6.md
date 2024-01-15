@@ -64,9 +64,9 @@ namespace Acme.BookStore.Authors;
 
 public class Author : FullAuditedAggregateRoot<Guid>
 {
-    public string Name { get; private set; }
+    public string Name { get; private set; } = string.Empty;
     public DateTime BirthDate { get; set; }
-    public string ShortBio { get; set; }
+    public string? ShortBio { get; set; }
 
     private Author()
     {
@@ -241,7 +241,7 @@ namespace Acme.BookStore.Authors;
 
 public interface IAuthorRepository : IRepository<Author, Guid>
 {
-    Task<Author> FindByNameAsync(string name);
+    Task<Author?> FindByNameAsync(string name);
 
     Task<List<Author>> GetListAsync(
         int skipCount,
