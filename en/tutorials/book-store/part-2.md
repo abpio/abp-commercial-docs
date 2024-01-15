@@ -654,20 +654,24 @@ namespace Acme.BookStore.Blazor.Pages; {{end}}
 
 public partial class Books
 {
+    public Books()
+    {
+        LocalizationResource = typeof(BookStoreResource);
+    }
+
     protected PageToolbar Toolbar { get; } = new();
 }
 ````
 
 Then open the `Books.razor` and replace the content as the following:
 
-````xml
+```xml
 @page "/books"
 @using Volo.Abp.Application.Dtos
 @using Acme.BookStore.Books
 @using Acme.BookStore.Localization
 @using Volo.Abp.AspNetCore.Components.Web.Theming.Layout
 @using Microsoft.Extensions.Localization
-@inject IStringLocalizer<BookStoreResource> L
 @inherits AbpCrudPageBase<IBookAppService, BookDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateBookDto>
 
 <CascadingValue Value="this">
@@ -718,7 +722,7 @@ Then open the `Books.razor` and replace the content as the following:
         </CardBody>
     </Card>
 </CascadingValue>
-````
+```
 
 > If you see some syntax errors, you can ignore them if your application property built and run. Visual Studio still has some bugs with Blazor.
 * Inherited from the `AbpCrudPageBase<IBookAppService, BookDto, Guid, PagedAndSortedResultRequestDto, CreateUpdateBookDto>` which implements all the CRUD details for us.
