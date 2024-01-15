@@ -559,6 +559,14 @@
             {
               "text": "Monitoring Applications",
               "path": "studio/monitoring-applications.md"
+            },
+            {
+              "text": "Working with ABP Suite",
+              "path": "studio/working-with-suite.md"
+            },
+            {
+              "text": "Studio CLI",
+              "path": "studio/cli.md"
             }
           ]
         },
