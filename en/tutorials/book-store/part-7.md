@@ -133,7 +133,7 @@ public class EfCoreAuthorRepository
     {
     }
 
-    public async Task<Author> FindByNameAsync(string name)
+    public async Task<Author?> FindByNameAsync(string name)
     {
         var dbSet = await GetDbSetAsync();
         return await dbSet.FirstOrDefaultAsync(author => author.Name == name);
