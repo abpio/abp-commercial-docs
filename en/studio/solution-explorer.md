@@ -24,7 +24,7 @@ It is the main solution that you can open with ABP Studio, an ABP solution can c
   - `Install Libs`: Install NPM Packages for UI projects in your solution.
   - `Upgrade ABP Packages`: Update all the ABP related NuGet and NPM packages in your solution.
   - `Clean`: Deletes all `BIN` and `OBJ` folders in your solution.
-  - `Swith to`: It is switch your solution to the selected version of the ABP framework.
+  - `Switch to`: It is switch your solution to the selected version of the ABP framework.
     - `Stable`: Switches your solution to the latest stable version.
     - `Preview`: Switches your solution to the preview version.
     - `Nightly Build`: Switches your solution to the nightly version.
@@ -58,7 +58,7 @@ You can click the *OK* button to add the folder to the solution. When you right-
 - `ABP CLI`
   - `Install Libs`: Install NPM Packages for UI projects in your selected folder.
   - `Upgrade ABP Packages`: Update all the ABP related NuGet and NPM packages in your selected folder.
-  - `Swith to`: It switches your selected folder to the specified version of the ABP framework.
+  - `Switch to`: It switches your selected folder to the specified version of the ABP framework.
     - `Stable`: Switches your selected folder to the latest stable version.
     - `Preview`: Switches your selected folder to the preview version.
     - `Nightly Build`: Switches your selected folder to the nightly version.
@@ -90,7 +90,7 @@ A [module](./concepts.md#module) is a sub-solution that can contains zero, one o
 - `ABP CLI`
   - `Install Libs`: Install NPM Packages for UI projects in your selected module.
   - `Upgrade ABP Packages`: Update all the ABP related NuGet and NPM packages in your module.
-  - `Swith to`: It switches your selected module to the specified version of the ABP framework.
+  - `Switch to`: It switches your selected module to the specified version of the ABP framework.
     - `Stable`: Switches your selected module to the latest stable version.
     - `Preview`: Switches your selected module to the preview version.
     - `Nightly Build`: Switches your selected module to the nightly version.
