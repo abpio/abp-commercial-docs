@@ -1184,7 +1184,6 @@ Open the `Books.razor` and add the following code to the end of the page:
 
 ````xml
 <Modal @ref="@CreateModal">
-    <ModalBackdrop />
     <ModalContent IsCentered="true">
         <Form>
             <ModalHeader>
@@ -1285,7 +1284,6 @@ We can now define a modal to edit the book. Add the following code to the end of
 
 ````xml
 <Modal @ref="@EditModal">
-    <ModalBackdrop />
     <ModalContent IsCentered="true">
         <Form>
             <ModalHeader>
@@ -1485,7 +1483,6 @@ Here the complete code to create the book management CRUD page, that has been de
     </Card>
 
     <Modal @ref="@CreateModal">
-        <ModalBackdrop />
         <ModalContent IsCentered="true">
             <Form>
                 <ModalHeader>
@@ -1542,7 +1539,6 @@ Here the complete code to create the book management CRUD page, that has been de
     </Modal>
 
     <Modal @ref="@EditModal">
-        <ModalBackdrop />
         <ModalContent IsCentered="true">
             <Form>
                 <ModalHeader>
