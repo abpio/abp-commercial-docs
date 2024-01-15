@@ -516,10 +516,10 @@ And use the `RequirePermissions` method as shown below:
 
 ````csharp
 var bookStoreMenu =  new ApplicationMenuItem(
-        "BooksStore",
-        l["Menu:BookStore"],
-        icon: "fa fa-book"
-    );
+    "BooksStore",
+    l["Menu:BookStore"],
+    icon: "fa fa-book"
+);
 
 bookStoreMenu.AddItem(
     new ApplicationMenuItem(
