@@ -547,11 +547,11 @@ The final `ConfigureMainMenuAsync` method should be the following:
             order: 1
         ));
 
-        var bookStoreMenu =  new ApplicationMenuItem(
-                "BooksStore",
-                l["Menu:BookStore"],
-                icon: "fa fa-book"
-            );
+        var bookStoreMenu = new ApplicationMenuItem(
+            "BooksStore",
+            l["Menu:BookStore"],
+            icon: "fa fa-book"
+        );
 
         bookStoreMenu.AddItem(
             new ApplicationMenuItem(
