@@ -1,6 +1,6 @@
 # Using gRPC
 
-[gRPC](https://grpc.io/) is a cross-platform open source high performance remote procedure call framework created by Google to be used to provide inter-communication between large number of microservices. It uses [HTTP/2](https://en.wikipedia.org/wiki/HTTP/2) for transport layer and [Protocol Buffers](https://en.wikipedia.org/wiki/Protocol_Buffers) as the data format to serialize the structured data. It generates cross-platform client and server bindings different languages with the features like authentication, bi-directional streaming and flow control, blocking or non-blocking bindings, cancellation and timeouts.
+[gRPC](https://grpc.io/) is a cross-platform open-source high-performance remote procedure call framework created by Google to be used to provide inter-communication between a large number of microservices. It uses [HTTP/2](https://en.wikipedia.org/wiki/HTTP/2) for the transport layer and [Protocol Buffers](https://en.wikipedia.org/wiki/Protocol_Buffers) as the data format to serialize the structured data. It generates cross-platform client and server bindings in different languages with features like authentication, bi-directional streaming and flow control, blocking or non-blocking bindings, cancellation and timeouts.
 
 ![grpc-overview](../../images/grpc-overview.png)
 
@@ -8,11 +8,11 @@
 
 ## Benefits
 
-- Designed for low latency and high throughput communication, gRPC is great for lightweight **microservices** where the efficiency is critical.
+- Designed for low latency and high throughput communication, gRPC is great for lightweight **microservices** where efficiency is critical.
 
-- gRPC services can push messages in real-time without polling. It's support for bi-directional streaming makes gRPC an excellent tool for point to point real-time communication.
-- gRPC toolong supports many popular development languages, making gRPC a good choice for multi-language environments.
-- Protubuf is a lightweight mesage format. A gRPC message is always smaller than an equivalent JSON message. That can be an important factor of choice where the network environment is constrained.
+- gRPC services can push messages in real-time without polling. Its support for bi-directional streaming makes gRPC an excellent tool for point-to-point real-time communication.
+- gRPC tooling supports many popular development languages, making gRPC a good choice for multi-language environments.
+- Protubuf is a lightweight message format. A gRPC message is always smaller than an equivalent JSON message. That can be an important factor of choice where the network environment is constrained.
 - gRPC can be used to communicate between apps on the same machine. For more information, see [Inter-process communication with gRPC](https://learn.microsoft.com/en-us/aspnet/core/grpc/interprocess?view=aspnetcore-7.0).
 
 <div class="figure">See more at <a href="https://learn.microsoft.com/en-us/aspnet/core/grpc/comparison">Compare gRPC services with HTTP APIs</a></div>
@@ -24,7 +24,7 @@ There are two great articles about gRPC integration to the ABP framework by Hali
 - [Using gRPC with the ABP Framework | ABP Community](https://community.abp.io/posts/using-grpc-with-the-abp-framework-2dgaxzw3)
 - [Consuming gRPC Services from Blazor WebAssembly Application Using gRPC-Web | ABP Community](https://community.abp.io/posts/consuming-grpc-services-from-blazor-webassembly-application-using-grpcweb-dqjry3rv)
 
-This guide will explain a scenario where the basket microservice consumes the catalog microservice grpc service for obtaining detailed product information.
+This guide will explain a scenario where the basket microservice consumes the catalog microservice gRPC service to obtain detailed product information.
 
 ## Adding a gRPC service to a microservice
 
@@ -63,9 +63,9 @@ message ProductResponse {
 }
 ```
 
-Now we have defined a new gRPC service called ProductPublic that accepts a `ProductRequest` complex object containing a string id parameter and returns an other complex object named `ProductResponse` with product properties we desire to return. 
+Now we have defined a new gRPC service called ProductPublic that accepts a `ProductRequest` complex object containing a string id parameter and returns another complex object named `ProductResponse` with product properties we desire to return. 
 
-> Note: The sequence of the properties are important since it will be used for serialization and deserialization order.
+> Note: The sequence of the properties is important since it will be used for serialization and deserialization order.
 
 To generate the proto definition, update the application layer `.csproj` file:
 
@@ -79,7 +79,7 @@ To generate the proto definition, update the application layer `.csproj` file:
 
 This configuration will allow gRPC tooling to generate the gRPC services based on the supplied proto file on **compile time**. Compile your application layer to generate the gRPC service base class.
 
-Nowe we can create the application service extending the base class:
+Now we can create the application service extending the base class:
 
 ```csharp
 public class PublicProductGrpService : ProductPublic.ProductPublicBase
@@ -101,7 +101,7 @@ public class PublicProductGrpService : ProductPublic.ProductPublicBase
 }
 ```
 
-This application service containing a single gRPC service method simply gets the product with the provided id using the product repository and returns the mapped result. You can either use manual mapping or add in the automapper profile as below:
+This application service containing a single gRPC service method simply gets the product with the provided ID using the product repository and returns the mapped result. You can either use manual mapping or add to the Automapper profile as below:
 
 ```cs
 public class CatalogServiceApplicationAutoMapperProfile : Profile
@@ -130,7 +130,7 @@ context.Services.AddGrpc(options =>
 });
 ```
 
-The gRPC server must be hosted using HTTP2 protocol within a different port along side with the default http endpoints. Configure the Kestrel to expose the gRPC using a different end-point by adding a Kestrel section to the appsettings.json in your Http.Api.Host project:
+The gRPC server must be hosted using HTTP2 protocol within a different port alongside the default HTTP endpoints. Configure the Kestrel to expose the gRPC using a different end-point by adding a Kestrel section to the appsettings.json in your Http.Api.Host project:
 
 ```json
 {
@@ -155,7 +155,7 @@ The gRPC server must be hosted using HTTP2 protocol within a different port alon
 
 This configuration will allow running the gRPC server on port 81 using the HTTP2 protocol and it can be easily overridden on deployment.
 
-Last step for the server-side is to configure the ABP endpoints. Update the `OnApplicationInitialization` method in Http.Api.Host module:
+The last step for the server side is to configure the ABP endpoints. Update the `OnApplicationInitialization` method in Http.Api.Host module:
 
 ```cs
 app.UseConfiguredEndpoints(endpoints =>
@@ -168,7 +168,7 @@ This configuration will map incoming gRPC requests to the gRPC service we have d
 
 ## Consuming the added gRPC service from another microservice
 
-We will be using Basket microservice to consume the `PublicProductGrpService` we have created at the catalog microservice. 
+We will be using the Basket microservice to consume the `PublicProductGrpService` we have created at the catalog microservice. 
 
 Start with adding the tooling to the Basket microservice application layer:
 
@@ -178,7 +178,7 @@ Start with adding the tooling to the Basket microservice application layer:
 <PackageReference Include="Grpc.Tools" Version="2.42.0" PrivateAssets="All" />
 ```
 
-We also need to configure the basket microservice as grpc **client** service to consume the proto:
+We also need to configure the basket microservice as gRPC **client** service to consume the proto:
 
 ```cs
 <ItemGroup>
@@ -188,7 +188,7 @@ We also need to configure the basket microservice as grpc **client** service to 
 
 This configuration allows us to use the same proto generated by the Catalog microservice. 
 
-Since Basket microservice will be using both HTTP and gRPC to communicate with the Catalog microservice, we need to configure the remote service endpoints of Basket microservice and provide which endpoint of remote service will be used for HTTP and which for gRPC. Add a RemoteServices section to appsettings.json  of your BasketService host layer:
+Since the Basket microservice will be using HTTP and gRPC to communicate with the Catalog microservice, we need to configure the remote service endpoints of the Basket microservice and provide which endpoint of remote service will be used for HTTP and which for gRPC. Add a RemoteServices section to appsettings.json  of your BasketService host layer:
 
 ```json
  "RemoteServices": {
@@ -199,9 +199,9 @@ Since Basket microservice will be using both HTTP and gRPC to communicate with t
   },
 ```
 
-> Note: The gRPC endpoint url must match with the gRPC server endpoint which is configured at Catalog microservice Kestrel configuration.
+> Note: The gRPC endpoint URL must match with the gRPC server endpoint, which is configured at Catalog microservice Kestrel configuration.
 
-Now we can add gRPC client in the `ConfigureServices` method of the Basket microservice host application module:
+Now we can add a gRPC client in the `ConfigureServices` method of the Basket microservice host application module:
 
 ```csharp
 context.Services.AddGrpcClient<ProductPublic.ProductPublicClient>((services, options) =>
@@ -244,9 +244,103 @@ public class BasketProductService : IBasketProductService, ITransientDependency
 }
 ```
 
+## Using Code-first gRPC services and clients
+
+Instead of manually creating the `proto` files, you can also use [protobuff-net.Grpc](https://www.nuget.org/packages/protobuf-net.Grpc) library to create your services and contracts.
+
+> See [Code-first gRPC services and clients with .NET](https://learn.microsoft.com/en-us/aspnet/core/grpc/code-first?view=aspnetcore-8.0) for more details.
+
+You can use your back-office or your public-web application to call gRPC services. There is a great community post about [Consuming gRPC Services from Blazor WebAssembly Application Using gRPC-Web](https://community.abp.io/posts/consuming-grpc-services-from-blazor-webassembly-application-using-grpcweb-dqjry3rv) with detail explanation and source-code. 
+
+## Authorization on gRPC Services
+
+You may have defined permissions for your gRPC services. When initiating a gRPC call, add the `Authorization` header with `Bearer {access_token}`.  If you are using [protobuff-net.Grpc](https://www.nuget.org/packages/protobuf-net.Grpc), you can set it as below:
+
+```csharp
+var accessTokenResult = // Get access_token from TokenProvider (BlazorWasm) or IHttpAccessor (Mvc)
+
+var credentials = CallCredentials.FromInterceptor(async (context, metadata) =>
+{
+    metadata.Add("Authorization", $"Bearer {accessToken}");
+});
+credentials = CallCredentials.FromInterceptor(async (context, metadata) =>
+{
+    metadata.Add("Authorization", $"Bearer {accessToken}");
+});
+
+var channel = GrpcChannel.ForAddress("https://localhost:10042", new GrpcChannelOptions
+{
+    HttpHandler = new GrpcWebHandler(new HttpClientHandler()),
+    Credentials = ChannelCredentials.Create(new SslCredentials(), credentials)
+});
+
+var productAppService = channel.CreateGrpcService<IProductAppService>();
+Products = await productAppService.GetListAsync();
+```
+
+The `metadata` will be the headers sent with the gRPC requests. When the request is made, you may come across with an **error**:
+
+```powershell
+The response was successfully returned as a challenge-response: {
+  "error": "invalid_token",
+  "error_description": "The issuer associated with the specified token is not valid.",
+  "error_uri": "https://documentation.openiddict.com/errors/ID2088"
+}
+```
+
+This is because the token is being obtained from the browser, which is a **different issuer**. Since the application has two different URLs, one for the browser and one for the gRPC, the OpenID-provider will not validate the issuer. To solve the problem, add the URL of the gRPC channel to the toke validation parameters valid issuers list.
+
+Navigate to your **AuthServer** project and under the `PreConfigureServices` method:
+
+```csharp
+PreConfigure<OpenIddictBuilder>(builder =>
+{
+    builder.AddValidation(options =>
+    {
+        options.AddAudiences("ProductManagement");
+        options.UseLocalServer();
+        options.UseAspNetCore();
+        options.Configure(validationOptions => validationOptions.TokenValidationParameters.ValidIssuers = new[]
+        {
+            "https://localhost:44388", //AuthServer Url
+            "https://localhost:44388/", 
+            "https://localhost:10042", //gRPC channel
+            "https://localhost:10042/" 
+        });
+    });
+});
+```
+
+## MultiTenancy on gRPC Services
+
+When the multi-tenancy is active in your project, you need to send the tenant information with the header on the request. This is done automatically with the default ABP HTTP requests. Since the gRPC requests are initiated through a different channel, the tenant information must be added manually to the header, like the Authorization header. 
+
+```csharp
+var grpcChannelOptions = new GrpcChannelOptions
+{
+    HttpHandler = new GrpcWebHandler(new HttpClientHandler())
+};
+
+if (CurrentTenant.IsAvailable) // No need to add header if it's Host
+{
+    var credentials = CallCredentials.FromInterceptor(async (context, metadata) =>
+    {
+        metadata.Add("__tenant", CurrentTenant.Name);
+    });
+    grpcChannelOptions.Credentials = ChannelCredentials.Create(new SslCredentials(), credentials);
+}
+
+var channel = GrpcChannel.ForAddress("https://localhost:10042", grpcChannelOptions);
+
+var productAppService = channel.CreateGrpcService<IProductAppService>();
+Products = await productAppService.GetListAsync();
+```
+
 ## Sample
 
 You can examine the [eShopOnAbp.BasketService](https://github.com/abpframework/eShopOnAbp/blob/f1c51a2a2777d8784868f13fb0d0646a0f52b42f/services/basket/src/EShopOnAbp.BasketService/BasketServiceModule.cs#L159-L169) and the [eShopOnAbp.CatalogService](https://github.com/abpframework/eShopOnAbp/blob/main/services/catalog/src/EShopOnAbp.CatalogService.Application/Grpc/PublicProductGrpService.cs).
+
+You can examine the [GrpcDemo2](https://github.com/abpframework/abp-samples/tree/master/GrpcDemo2) and the [Blazor web app](https://github.com/abpframework/abp-samples/blob/master/GrpcDemo2/src/ProductManagement.Blazor/Pages/Index.razor.cs).
 
 ## Next
 
