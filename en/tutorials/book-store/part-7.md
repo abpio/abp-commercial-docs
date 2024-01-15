@@ -143,13 +143,13 @@ public class EfCoreAuthorRepository
         int skipCount,
         int maxResultCount,
         string sorting,
-        string filter = null)
+        string? filter = null)
     {
         var dbSet = await GetDbSetAsync();
         return await dbSet
             .WhereIf(
                 !filter.IsNullOrWhiteSpace(),
-                author => author.Name.Contains(filter)
+                author => author.Name.Contains(filter!)
              )
             .OrderBy(sorting)
             .Skip(skipCount)
@@ -204,13 +204,13 @@ public class MongoDbAuthorRepository
         int skipCount,
         int maxResultCount,
         string sorting,
-        string filter = null)
+        string? filter = null)
     {
         var queryable = await GetMongoQueryableAsync();
         return await queryable
             .WhereIf<Author, IMongoQueryable<Author>>(
                 !filter.IsNullOrWhiteSpace(),
-                author => author.Name.Contains(filter)
+                author => author.Name.Contains(filter!)
             )
             .OrderBy(sorting)
             .As<IMongoQueryable<Author>>()

@@ -247,7 +247,7 @@ public interface IAuthorRepository : IRepository<Author, Guid>
         int skipCount,
         int maxResultCount,
         string sorting,
-        string filter = null
+        string? filter = null
     );
 }
 ````

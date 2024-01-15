@@ -61,7 +61,7 @@ using System.Threading.Tasks;
 using Acme.BookStore.Books;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Acme.BookStore.Web.Pages.Books;
+namespace Acme.BookStore.Web.Pages.Books
 {
     public class CreateModalModel : BookStorePageModel
     {
@@ -151,8 +151,7 @@ The final content of the `Index.cshtml` is shown below:
     PageLayout.Content.MenuItemName = "BooksStore";
     PageLayout.Content.Title = L["Books"].Value;
 }
-@section scripts
-    {
+@section scripts {
     <abp-script src="/Pages/Books/Index.js" />
 }
 @section content_toolbar {
@@ -275,7 +274,7 @@ using System.Threading.Tasks;
 using Acme.BookStore.Books;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Acme.BookStore.Web.Pages.Books;
+namespace Acme.BookStore.Web.Pages.Books
 {
     public class EditModalModel : BookStorePageModel
     {
