@@ -193,9 +193,66 @@ To view module details, click the *Load Details* button for the imported modules
 
 ### Replace With Source Code 
 
-If the module has been added as a NuGet package, you have the option to replace it with the source code. Click the *Replace With Source Code* button on the imported module to open the *Source Code Replacing* window. Here, you can select the *Output folder* for the source code of the module to be downloaded and click the *OK* button to replace the module with the source code. If you check the *Add the new module to ABP Studio solution and C# solution* checkbox, it will add the module to the ABP solution, create a module folder, and include the module projects in the selected module .NET solution.
+If the module has been added as a NuGet package, you have the option to replace it with the source code. Click the *Replace With Source Code* button on the imported module context-menu to open the *Source Code Replacing* window. Here, you can select the *Output folder* for the source code of the module to be downloaded and click the *OK* button to replace the module with the source code. If you check the *Add the new module to ABP Studio solution and C# solution* checkbox, it will add the module to the ABP solution, create a module folder, and include the module projects in the selected module .NET solution.
 
 ![replace-source-code](./images/solution-explorer/replace-source-code.png)
 
 ## Packages
 
+A [package](./concepts.md#package) is a project that can be added to a module, and each package is considered a .NET project. You can create or add an existing package to the module, with each package being allowed only once per module. However, you can add the same package to different modules. Right-clicking on the package opens a context menu where you can find the following options:
+
+![package-context-menu](./images/solution-explorer/package-context-menu.png)
+
+- `Add Package Reference`: This option allows you to add a package reference to the selected package.
+- `Reload`: Reloads the selected package.
+- `Remove`: Removes the selected package from the module.
+- `ABP CLI`
+  - `Install Libs`: Install NPM Packages for UI projects in your selected package.
+  - `Upgrade ABP Packages`: Update all the ABP related NuGet and NPM packages in your selected package.
+  - `Switch to`: It switches your selected package to the specified version of the ABP framework.
+    - `Stable`: Switches your selected package to the latest stable version.
+    - `Preview`: Switches your selected package to the preview version.
+    - `Nightly Build`: Switches your selected package to the nightly version.
+  - `Clean`: Deletes `BIN` and `OBJ` folders in your selected package.
+- `Dotnet CLI`
+  - `Build`: Builds your selected package.
+  - `Graph Build`: Builds selected package with [graphBuild](https://learn.microsoft.com/en-us/visualstudio/msbuild/build-process-overview?view=vs-2022#graph-option) option.
+  - `Clean`: Cleans the output of the previous build for selected package.
+  - `Restore`: Restores the dependencies for selected package.
+- `EF Core CLI`: This option is visible only for packages that have a reference to the *Microsoft.EntityFrameworkCore.Design* or *Microsoft.EntityFrameworkCore.Tools* package.
+  - `Add Migration`: Opens the *EF Core Migration Configuration* window. After entering the *Migration name*, it creates a new migration for your selected package.
+  - `Remove Last Migration`: Removes the last migration for your selected package.
+  - `Update Database`: Updates the database for your selected package.
+- `Open With`
+  - `Visual Studio`: Opens the package in Visual Studio. This option is only available if you have Visual Studio installed.
+  - `Visual Studio Code`: Opens the package in Visual Studio Code. This option is only available if you have Visual Studio Code installed.
+  - `JetBrains Rider`: Opens the package in JetBrains Rider. This option is only available if you have JetBrains Rider installed.
+  - `Terminal`: Opens the terminal in the package directory.
+  - `Explorer`: Opens the file explorer in the package directory.
+
+### Adding a New Package
+
+To add a new package to the module, click the *Add* -> *Package* -> *New Package* button in the module or module folder context-menu. This action opens the *Create new package* window.
+
+![create-new-package](./images/solution-explorer/create-new-package.png)
+
+Select the package template on the left side, and package details will be displayed on the right. Provide the *Package name* and additional information based on the template. Click the *Create* button to add the package to the module. The added package will also be included in the module's .NET solution.
+
+### Adding an Existing Package
+
+ABP packages have their own file extension `.abppkg`, and they are located in the specific package folder once created. Similar to creating a C# project in a solution and adding it to another solution as an existing project, you can create an ABP package in one module and add it to another module as an existing package. To add an existing package to your module, use the *Add* -> *Package* -> *Existing Package* button in the module or module folder context-menu. This action opens the *Select a package* window. Choose the package you want to add to the module, then click the *Open* button. The added package will also be included in the module's .NET solution.
+
+### Dependencies
+
+To view the dependencies of the package, open the *Dependencies* section in the package tree. It displays *Packages* from NuGet package references and *Projects* from project references. To remove a dependency, click the *Remove* button on the context-menu of the respective dependency item.
+
+Additionally, you can add a new dependency to the package by clicking the *Add Package Reference* button on the package context-menu. This action opens the *Add Package Reference* window. You can add package reference with following options;
+
+![add-package-reference](./images/solution-explorer/add-package-reference.png)
+
+- *This module*: Displays only the packages in the current module.
+- *Imported module*: Shows the packages in the imported modules.
+- *This solution*: Lists all packages in the current ABP solution.
+- *NuGet*: Allows you to search for a package by name and version.
+
+You can filter packages by name using the *Search* field. If a package is already referenced in the selected package, it will be disabled. Simply select the desired packages and click the *OK* button to add the package reference.
