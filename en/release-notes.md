@@ -1,4 +1,4 @@
-# Release Notes
+# Version History
 
 This document contains **brief release notes** for each release. Release notes only include **major features** and **visible enhancements**. They don't include all the development done in the related version. **To see raw and detailed change logs for every release, please check [the full change logs document](https://commercial.abp.io/releases).**
 
