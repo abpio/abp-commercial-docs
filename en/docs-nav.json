@@ -647,11 +647,11 @@
       "text": "Release Information",
       "items": [
         {
-          "text": "Release Notes",
+          "text": "Version History",
           "path": "release-notes.md"
         },
         {
-          "text": "Full Change Logs",
+          "text": "Release Notes",
           "path": "https://commercial.abp.io/releases"
         },
         {
