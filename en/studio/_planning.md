@@ -24,7 +24,7 @@
   * Referencing packages
   * Working With Existing Modules
     * Import, Install, Uninstall, Download Source Code
-* ~~[DONE] Solution Explorer~~
+* ~~[DONE]Solution Explorer~~
 * ~~[DONE]Running Applications~~
 * ~~[DONE]Monitoring Applications~~
 * **[Working with Kubernetes](kubernetes.md)**
