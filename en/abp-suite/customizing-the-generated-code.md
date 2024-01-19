@@ -8,6 +8,16 @@ ABP Suite allows you to customize the generated code blocks and preserve your cu
 
 To enable custom code support, you should check the _Customizable code_ option in the **CRUD Page Generation** page (it's selected by default). When you enable the custom code support, you will see some hook points in your application on both the backend and UI side.
 
+## Showing/Hiding Custom Code Files in the Visual Studio
+
+When you enable the custom code support, the `.filenesting.json` file will be created in the root project directory to hide the custom code files (files with `.Extended.*` postfix) in Visual Studio. Therefore, to be able to see the custom code files you should click the expand icon for the related file as can be seen from the following figure:
+
+![file-nesting](../images/file-nesting.png)
+
+ABP Suite creates the `.filenesting.json` file to provide you with a more organized project structure. However, if you want to see all of the files without needing to click the collapse icon for the related file, then you can safely delete the `.filenesting.json` file.
+
+> **Note**: ABP Suite also creates a `Directory.Build.props` file in the root project directory to enable dynamic file nesting. If you are considering deleting the `.filenesting.json` file, then you are free to delete the `Directory.Build.props` file as well.
+
 ## Backend - C# Side Customizations
 
 On the C# Side, you'll be seeing some abstract classes and classes that derive from them (for entities, application services, interfaces, domain services, and so on ...) according to the template that you have created.
