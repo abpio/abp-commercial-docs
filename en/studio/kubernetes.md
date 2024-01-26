@@ -17,7 +17,7 @@ The *Kubernetes* panel is available only in the [business and enterprise](https:
 
 ## Profile
 
-You can create multiple profiles to manage different Kubernetes clusters or namespaces within the same cluster. A profile is a set of configurations that you can use to connect to a Kubernetes cluster. If you check the *Kubernetes Configuration* when you create a project in the *Additional Options* step, the *local* profile comes out of the box, including all projects chart. You can view all profiles in the combobox and change the current profile. To edit, click the gear icon located on the right side.
+You can create multiple profiles to manage different Kubernetes clusters or namespaces within the same cluster. A profile is a set of configurations that you can use to connect to a Kubernetes cluster. If you check the *Kubernetes Configuration* when you create a project in the *Additional Options* step, the *local* profile comes out of the box, including all project charts. You can view all profiles in the combobox and change the current profile. To edit, click the gear icon located on the right side.
 
 ![kubernetes-profile](./images/kubernetes/kubernetes-profile.png)
 
@@ -27,10 +27,18 @@ It opens the *Manage Kubernetes Profiles* window. You can edit/delete existing p
 
 ![manage-kubernetes-profile](./images/kubernetes/manage-kubernetes-profile.png)
 
-When you click *Add New Profile*, it opens the *New Profile* window. In the *Profile Info* tab you can provide an arbitrary profile name, which should be unique among the profiles. In the *Context* combobox, you'll see existing Kubernetes contexts. Choose one of them. Afterwards, provide a *Namespace* that should be unique among the each *Context*. When creating a new profile, it stores the JSON file at the specified path. For microservice projects, you can specify the path `abp-solution-path/etc/abp-studio/k8s-profiles`, or for other project types, use `abp-solution-path/etc/k8s-profiles` to adhere to the standard format.
+When you click *Add New Profile* button, it opens the *New Profile* window. In the *Profile Info* tab you can provide an arbitrary profile name, which should be unique among the profiles. In the *Context* combobox, you'll see existing Kubernetes contexts. Choose one of them. Afterwards, provide a *Namespace* that should be unique among the each *Context*. When creating a new profile, it stores the JSON file at the specified path. For microservice projects, you can specify the path `abp-solution-path/etc/abp-studio/k8s-profiles`, or for other project types, use `abp-solution-path/etc/k8s-profiles` to adhere to the standard format.
 
 ![create-new-profile](./images/kubernetes/create-new-profile.png)
 
-In the *Metadata* tab, you can provide additional information about the profile. We're using this informations in our commands such as *Build Docker Image(s)*, *Install Chart(s)*. For example, *dotnetEnvironment* is mandatory for the *Install Chart(s)* command to determine the environment variable. You can also provide additional metadata by clicking the *Add Metadata* button.
+In the *Metadata* tab, you can provide additional information about the profile. We use this information in our commands such as *Build Docker Image(s)* and *Install Chart(s)*. For example, *dotnetEnvironment* is mandatory for the *Install Chart(s)* command to determine the environment variable. You can also add more metadata by clicking the *Add* button.
 
 ![create-new-profile-metadata](./images/kubernetes/create-new-profile-metadata.png)
+
+In the *Secrets* tab, you can provide secrets for the profile. We use this information in our commands such as *wireGuardPassword*. 
+
+![create-new-profile-secrets](./images/kubernetes/create-new-profile-secrets.png)
+
+> Due to security concerns, *Secrets* information is saved in the local file system, not in the solution file. Therefore, you can't share it with your team members by default.
+
+To create a new profile in the *Profile Info* tab *Name*, *Context*, and *Namespace* are mandatory. Additionally, you should provide *dotnetEnvironment* metadata information to use the Install Chart(s) command. Click the *Save* button to create a new profile. It adds the profile to the combobox. Similarly, you can edit or delete an existing profile.
