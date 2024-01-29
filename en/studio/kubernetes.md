@@ -31,7 +31,7 @@ When you click *Add New Profile* button, it opens the *New Profile* window. In t
 
 ![create-new-profile](./images/kubernetes/create-new-profile.png)
 
-In the *Metadata* tab, you can provide additional information about the profile. We use this information in our commands such as *Build Docker Image(s)* and *Install Chart(s)*. For example, *dotnetEnvironment* is mandatory for the *Install Chart(s)* command to determine the environment variable. You can also add more metadata by clicking the *Add* button. It collects all metadata from root to child and overrides existing values by hierarchy. For example, if you define two identical metadata in the profile and a chart, it uses the chart metadata. You can add metadata to the kubernetes profile, chart root, main chart, and subcharts.
+In the *Metadata* tab, you can provide additional information about the profile. We use this information in our commands such as *Build Docker Image(s)* and *Install Chart(s)*. For example, *dotnetEnvironment* is mandatory for the *Install Chart(s)* command to determine the environment variable. You can also add more metadata by clicking the *Add* button. It collects all metadata from root to child and overrides existing values by hierarchy. For example, if you define two identical metadata in the profile and a chart, it uses the chart metadata. You can add metadata for the *Kubernetes Profile*, *Main Chart* and *Subcharts*.
 
 ![create-new-profile-metadata](./images/kubernetes/create-new-profile-metadata.png)
 
@@ -45,3 +45,18 @@ To create a new profile in the *Profile Info* tab, *Name*, *Context*, and *Names
 
 When you create a new profile, you should also create a `values.{chart.name}-{profile.name}.yaml` file in the `abp-solution-path/etc/helm/chart` folder to override default values. For example, *values.bookstore-staging.yaml* is used for the *bookstore* chart in the *staging* Kubernetes profile.
 
+## Charts
+
+In the *Helm* tab we have a tree view of all charts in the solution. There are three chart types: *Chart Root*, *Main Chart* and *Subchart*.
+
+![charts](./images/kubernetes/charts.png)
+
+### Chart Root
+
+It is the root of all main charts. You can have multiple main charts in the solution. To add a new chart to the solution, click the *Add Chart* button in the *Chart Root* context-menu. It opens the *Select Helm Chart* window. Pick the chart from the specified location and select the main helm chart. Store the helm chart in the `abp-solution-path/etc/helm/chart-name` folder; otherwise, commands won't work. Also, the main [chart name](https://helm.sh/docs/topics/charts/#the-chartyaml-file) and folder name should be the same. For example, if the main chart name is *notebookstore*, the folder name should be *notebookstore* as well. Similiar to creating new kubernetes profile, you should also create a `values.{chart.name}-{profile.name}.yaml` file in the `abp-solution-path/etc/helm/chart-name` folder to override default values. For example, *values.notebookstore-staging.yaml* is used for the *notebookstore* chart in the *staging* Kubernetes profile.
+
+If you have multiple main charts, you can execute collective commands for all of them.
+
+- `Build Docker Image(s)`: If build docker images available for subchart it builds all of them.
+- `Install Chart(s)`: Installs all charts to selected profile.
+- `Uninstall Chart(s)`: Uninstalls all charts from selected profile.
