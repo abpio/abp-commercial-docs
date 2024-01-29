@@ -53,10 +53,44 @@ In the *Helm* tab we have a tree view of all charts in the solution. There are t
 
 ### Chart Root
 
-It is the root of all main charts. You can have multiple main charts in the solution. To add a new chart to the solution, click the *Add Chart* button in the *Chart Root* context-menu. It opens the *Select Helm Chart* window. Pick the chart from the specified location and select the main helm chart. Store the helm chart in the `abp-solution-path/etc/helm/chart-name` folder; otherwise, commands won't work. Also, the main [chart name](https://helm.sh/docs/topics/charts/#the-chartyaml-file) and folder name should be the same. For example, if the main chart name is *notebookstore*, the folder name should be *notebookstore* as well. Similiar to creating new kubernetes profile, you should also create a `values.{chart.name}-{profile.name}.yaml` file in the `abp-solution-path/etc/helm/chart-name` folder to override default values. For example, *values.notebookstore-staging.yaml* is used for the *notebookstore* chart in the *staging* Kubernetes profile.
+It is the root of all main charts. You can have multiple main charts in the root. To add a new chart to the root, click the *Add Chart* button in the *Chart Root* context-menu. It opens the *Select Helm Chart* window. Pick the chart from the specified location and select the main helm chart. Store the helm chart in the `abp-solution-path/etc/helm/chart-name` folder; otherwise, commands won't work. Also, the main [chart name](https://helm.sh/docs/topics/charts/#the-chartyaml-file) and folder name should be the same. For example, if the main chart name is *notebookstore*, the folder name should be *notebookstore* as well. Similiar to creating new kubernetes profile, you should also create a `values.{chart.name}-{profile.name}.yaml` file in the `abp-solution-path/etc/helm/chart-name` folder to override default values. For example, *values.notebookstore-staging.yaml* is used for the *notebookstore* chart in the *staging* Kubernetes profile.
 
-If you have multiple main charts, you can execute collective commands for all of them.
-
-- `Build Docker Image(s)`: If build docker images available for subchart it builds all of them.
+If you have multiple main charts, you can execute collective commands for all of them. To do that, right-click the *Chart Root* and select the command from the context-menu. The following commands are available for the *Chart Root*.
+- `Build Docker Image(s)`: If build docker images available for subcharts it builds all of them.
 - `Install Chart(s)`: Installs all charts to selected profile.
 - `Uninstall Chart(s)`: Uninstalls all charts from selected profile.
+
+### Main Chart
+
+It is the root of all subcharts. When you add a new main chart to the root, it is automatically added with subcharts related to the main chart. Right click the main chart and select the command from the context-menu. The following options are available for the *Main Chart*.
+
+- `Commands`: You have several options to execute commands for the main chart. 
+  - `Build Docker Image(s)`: If build docker images are available for subcharts, it builds docker images for the selected chart.
+  - `Install Chart(s)`: Installs the selected chart to the current profile.
+  - `Uninstall Chart(s)`: Uninstalls the selected chart from the current profile.
+- `Properties`: It opens the *Chart Properties* window. You can see the chart information in the *Chart Info* tab. In the *Metadata* tab, you can add metadata for the selected main chart. It overrides the metadata in the profile. In the *Kubernetes Services* tab, you can relate a Kubernetes service with the main chart; however, since the main chart usually doesn't create kubernetes service, we can leave it empty.
+- `Refrest Sub Charts`: Refreshes the subcharts of the selected main chart.
+- `Open With`: You can open the selected chart with *Visual Studio Code* or *File Explorer*.
+- `Remove`: Removes the selected main chart from the solution.
+
+### Subchart
+
+A subchart is a component associated with a main chart. When you add a new main chart to the root, it is automatically added with subcharts related to the main chart. Subcharts has specific configurations and functionalities that contribute to the overall functionality of the main chart. Right click the subchart and select the command from the context-menu. The following options are available for the *Subchart*.
+
+- `Commands`
+  - `Build Docker Image(s)`: Builds docker image for the selected subchart. It's visible only if the subchart has *projectPath*, *imageName* and *projectType* metadata.
+- `Properties`: It opens the *Chart Properties* window. You can see the chart information in the *Chart Info* tab. In the *Metadata* tab, you can add metadata for the selected subchart. It overrides the metadata in the profile and the main chart. In the *Kubernetes Services* tab, you can relate a Kubernetes service with the subchart; with that way you can see the *Browse* option in the context-menu when you connected to Kubernetes cluster.
+- `Browse`: It opens the browser and navigates to the Kubernetes service URL. It's visible only if the subchart *Kubernetes Services* regex patterns matches with the Kubernetes service.
+- `Open With`: You can open the selected subchart with *Visual Studio Code* or *File Explorer*.
+
+#### Adding a New Subchart
+
+When you add a new [microservice module](./solution-explorer.md#adding-a-new-microservice-module) to your solution, you should also create a subchart for it. However, the module type doesn't matter. Similarly, when you want to create a subchart for any reason, you can follow these steps:
+
+- Open the main chart in *Visual Studio Code*.
+- Create a folder in the *charts* folder.
+- Edit the folder files based on your needs.
+- After editing, the subchart template is completed; open ABP Studio and *Refresh Sub Charts* in the context-menu of the main chart. You can see the new subchart in the *Charts* tree.
+- If the added subchart has *projectPath*, *imageName*, and *projectType* metadata, you can *Build Docker Image* for the subchart.
+- If the added subchart has *Kubernetes Services* regex patterns, you can *Browse* the Kubernetes service when you are connected to the Kubernetes cluster.
+
