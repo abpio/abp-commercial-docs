@@ -55,14 +55,21 @@ In the *Helm* tab we have a tree view of all charts in the solution. There are t
 
 It is the root of all main charts. You can have multiple main charts in the root. To add a new chart to the root, click the *Add Chart* button in the *Chart Root* context-menu. It opens the *Select Helm Chart* window. Pick the chart from the specified location and select the main helm chart. Store the helm chart in the `abp-solution-path/etc/helm/chart-name` folder; otherwise, commands won't work. Also, the main [chart name](https://helm.sh/docs/topics/charts/#the-chartyaml-file) and folder name should be the same. For example, if the main chart name is *notebookstore*, the folder name should be *notebookstore* as well. Similiar to creating new kubernetes profile, you should also create a `values.{chart.name}-{profile.name}.yaml` file in the `abp-solution-path/etc/helm/chart-name` folder to override default values. For example, *values.notebookstore-staging.yaml* is used for the *notebookstore* chart in the *staging* Kubernetes profile.
 
-If you have multiple main charts, you can execute collective commands for all of them. To do that, right-click the *Chart Root* and select the command from the context-menu. The following commands are available for the *Chart Root*.
-- `Build Docker Image(s)`: If build docker images available for subcharts it builds all of them.
-- `Install Chart(s)`: Installs all charts to selected profile.
-- `Uninstall Chart(s)`: Uninstalls all charts from selected profile.
+If you have multiple main charts, you can execute collective commands for all of them. To do that, right-click the *Chart Root* from the context-menu. The following options are available for the *Chart Root*.
+
+![chart-root](./images/kubernetes/chart-root.png)
+
+- `Commands`: You have several options to execute commands for all main charts.
+  - `Build Docker Image(s)`: If build docker images available for subcharts it builds all of them.
+  - `Install Chart(s)`: Installs all charts to selected profile.
+  - `Uninstall Chart(s)`: Uninstalls all charts from selected profile.
+- `Add Chart`: It opens the *Select Helm Chart* window. Pick the chart from the specified location and select the main helm chart.
 
 ### Main Chart
 
 It is the root of all subcharts. When you add a new main chart to the root, it is automatically added with subcharts related to the main chart. Right click the main chart and select the command from the context-menu. The following options are available for the *Main Chart*.
+
+![main-chart](./images/kubernetes/main-chart.png)
 
 - `Commands`: You have several options to execute commands for the main chart. 
   - `Build Docker Image(s)`: If build docker images are available for subcharts, it builds docker images for the selected chart.
@@ -76,6 +83,8 @@ It is the root of all subcharts. When you add a new main chart to the root, it i
 ### Subchart
 
 A subchart is a component associated with a main chart. When you add a new main chart to the root, it is automatically added with subcharts related to the main chart. Subcharts has specific configurations and functionalities that contribute to the overall functionality of the main chart. Right click the subchart and select the command from the context-menu. The following options are available for the *Subchart*.
+
+![sub-chart](./images/kubernetes/sub-chart.png)
 
 - `Commands`
   - `Build Docker Image(s)`: Builds docker image for the selected subchart. It's visible only if the subchart has *projectPath*, *imageName* and *projectType* metadata.
@@ -94,3 +103,12 @@ When you add a new [microservice module](./solution-explorer.md#adding-a-new-mic
 - If the added subchart has *projectPath*, *imageName*, and *projectType* metadata, you can *Build Docker Image* for the subchart.
 - If the added subchart has *Kubernetes Services* regex patterns, you can *Browse* the Kubernetes service when you are connected to the Kubernetes cluster.
 
+## Connecting to a Kubernetes Cluster
+
+You can click the *Chain* icon or *Connect* button in the *Kubernetes* tab to connect to the selected Kubernetes cluster. When you are connected to a Kubernetes cluster, you'll see the existing application services in the *Kubernetes* tab. You can *Disconnect* from the cluster by clicking the *Chain* icon.
+
+![connect](./images/kubernetes/connect.png)
+
+When you connect to a Kubernetes cluster, it automatically installs the WireGuard VPN to the Kubernetes cluster for a safe connection. You can specify the *wireGuardPassword* in the *Kubernetes Profile* -> *Secrets* tab or at a higher level such as *Solution Secrets* or *Global Secrets*. If you don't provide a password, it generates a random password and stores it in the *Kubernetes Profile* -> *Secrets*. However, if you try to connect to a cluster that already installed WireGuard VPN, then you should give the same password; otherwise, it won't connect. Since we're using the WireGuard VPN to connect to the Kubernetes cluster, we add the Kubernetes services to your [hosts](https://en.wikipedia.org/wiki/Hosts_(file)) file. Therefore, you can access the services with the specified *Kubernetes Service* name. For example, you can connect to sql server with the `{chart.name}-{profile.name}-sqlserver`. After we disconnect from the cluster, we remove the services from the hosts file except ingress hosts. With that way you can still access the ingress hosts through the your browser.
+
+When you list the services in the Kubernetes cluster with the `kubectl get svc` command, you should see the *abp-wg-easy* and *abp-wg-easy-vpn* services. After a while, if the *EXTERNAL-IP* is still *pending*, then it can't connect to the cluster. This could be caused by if you try to install the WireGuard VPN to a Docker Desktop Kubernetes cluster more than once. You can delete the previous WireGuard VPN by running `helm uninstall abp-wg-easy` command.
