@@ -12,7 +12,7 @@ The *Kubernetes* panel is available only in the [business and enterprise](https:
 
 * [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 * [Helm](https://helm.sh/docs/intro/install/)
-* [Docker Desktop](https://www.docker.com/products/docker-desktop)
+* [Docker Desktop](https://www.docker.com/products/docker-desktop) with Kubernetes enabled
 * [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy)
 
 ## Profile
@@ -21,7 +21,7 @@ You can create multiple profiles to manage different Kubernetes clusters or name
 
 ![kubernetes-profile](./images/kubernetes/kubernetes-profile.png)
 
-> When you change the current profile, it doesn't affect the *Charts* tree. The *Charts* section is related to the solution, not the profile. You can add or remove charts in the *Charts* section.
+> When you change the current profile, it doesn't affect the *Charts* tree. The *Charts* section is related to the solution, not the profile. You can add or remove charts in the [Charts](#charts) section.
 
 It opens the *Manage Kubernetes Profiles* window. You can edit/delete existing profiles or add a new one.
 
@@ -31,7 +31,7 @@ When you click *Add New Profile* button, it opens the *New Profile* window. In t
 
 ![create-new-profile](./images/kubernetes/create-new-profile.png)
 
-In the *Metadata* tab, you can provide additional information about the profile. We use this information in our commands such as *Build Docker Image(s)* and *Install Chart(s)*. For example, *dotnetEnvironment* is mandatory for the *Install Chart(s)* command to determine the environment variable. You can also add more metadata by clicking the *Add* button. It collects all metadata from root to child and overrides existing values by hierarchy. For example, if you define two identical metadata in the profile and a chart, it uses the chart metadata. You can add metadata for the *Kubernetes Profile*, *Main Chart* and *Subcharts*.
+In the *Metadata* tab, you can provide additional information about the profile. We use this information in our commands such as *Build Docker Image(s)* and *Install Chart(s)*. For example, *dotnetEnvironment* is mandatory for the *Install Chart(s)* command to determine the environment variable. You can also add more metadata by clicking the *Add* button. It collects all metadata from root to child and overrides existing values by hierarchy. For example, if you define two identical metadata in the profile and a chart, it uses the chart metadata. You can add metadata for the [Kubernetes Profile](#profile), [Main Chart](#main-chart) and [Subchart](#subchart).
 
 ![create-new-profile-metadata](./images/kubernetes/create-new-profile-metadata.png)
 
@@ -63,7 +63,7 @@ If you have multiple main charts, you can execute collective commands for all of
   - `Build Docker Image(s)`: If build docker images available for subcharts it builds all of them.
   - `Install Chart(s)`: Installs all charts to selected profile.
   - `Uninstall Chart(s)`: Uninstalls all charts from selected profile.
-- `Add Chart`: It opens the *Select Helm Chart* window. Pick the chart from the specified location and select the main helm chart.
+- `Add Chart`: It opens the *Select Helm Chart* window. Pick the chart from the specified location and select the main helm chart to add a new main chart to the root.
 
 ### Main Chart
 
@@ -72,7 +72,7 @@ It is the root of all subcharts. When you add a new main chart to the root, it i
 ![main-chart](./images/kubernetes/main-chart.png)
 
 - `Commands`: You have several options to execute commands for the main chart. 
-  - `Build Docker Image(s)`: If build docker images are available for subcharts, it builds docker images for the selected chart.
+  - `Build Docker Image(s)`: If build docker images are available for subcharts, it builds all docker images for the selected main chart.
   - `Install Chart(s)`: Installs the selected chart to the current profile.
   - `Uninstall Chart(s)`: Uninstalls the selected chart from the current profile.
 - `Properties`: It opens the *Chart Properties* window. You can see the chart information in the *Chart Info* tab. In the *Metadata* tab, you can add metadata for the selected main chart. It overrides the metadata in the profile. In the *Kubernetes Services* tab, you can relate a Kubernetes service with the main chart; however, since the main chart usually doesn't create kubernetes service, we can leave it empty.
@@ -87,16 +87,16 @@ A subchart is a component associated with a main chart. When you add a new main 
 ![sub-chart](./images/kubernetes/sub-chart.png)
 
 - `Commands`
-  - `Build Docker Image(s)`: Builds docker image for the selected subchart. It's visible only if the subchart has *projectPath*, *imageName* and *projectType* metadata.
+  - `Build Docker Image(s)`: Builds docker image for the selected subchart. It's visible only if the subchart has *projectPath*, *imageName* and *projectType* metadata. *Project Type* only accept `angular` or `dotnet` values. It builds the docker image with the specified *imageName* and *projectPath*.
 - `Properties`: It opens the *Chart Properties* window. You can see the chart information in the *Chart Info* tab. In the *Metadata* tab, you can add metadata for the selected subchart. It overrides the metadata in the profile and the main chart. In the *Kubernetes Services* tab, you can relate a Kubernetes service with the subchart; with that way you can see the *Browse* option in the context-menu when you connected to Kubernetes cluster.
-- `Browse`: It opens the browser and navigates to the Kubernetes service URL. It's visible only if the subchart *Kubernetes Services* regex patterns matches with the Kubernetes service.
+- `Browse`: It opens the [browser](./monitoring-applications.md#browse) and navigates to the Kubernetes service URL. It's visible only if the subchart *Kubernetes Services* regex patterns matches with the [Kubernetes service](https://kubernetes.io/docs/concepts/services-networking/service/).
 - `Open With`: You can open the selected subchart with *Visual Studio Code* or *File Explorer*.
 
 #### Adding a New Subchart
 
 When you add a new [microservice module](./solution-explorer.md#adding-a-new-microservice-module) to your solution, you should also create a subchart for it. However, the module type doesn't matter. Similarly, when you want to create a subchart for any reason, you can follow these steps:
 
-- Open the main chart in *Visual Studio Code*.
+- Open the main chart with *Visual Studio Code*.
 - Create a folder in the *charts* folder.
 - Edit the folder files based on your needs.
 - After editing, the subchart template is completed; open ABP Studio and *Refresh Sub Charts* in the context-menu of the main chart. You can see the new subchart in the *Charts* tree.
@@ -105,10 +105,12 @@ When you add a new [microservice module](./solution-explorer.md#adding-a-new-mic
 
 ## Connecting to a Kubernetes Cluster
 
-You can click the *Chain* icon or *Connect* button in the *Kubernetes* tab to connect to the selected Kubernetes cluster. When you are connected to a Kubernetes cluster, you'll see the existing application services in the *Kubernetes* tab. You can *Disconnect* from the cluster by clicking the *Chain* icon.
+Click the *Chain* icon or the *Connect* button in the *Kubernetes* tab to connect to the selected Kubernetes cluster. While connected, changing the current profile is not possible. Disconnect from the cluster to switch profiles. Existing application services in the *Kubernetes* tab become visible when connected. Use the *Disconnect* option by clicking the *Chain* icon.
 
 ![connect](./images/kubernetes/connect.png)
 
-When you connect to a Kubernetes cluster, it automatically installs the WireGuard VPN to the Kubernetes cluster for a safe connection. You can specify the *wireGuardPassword* in the *Kubernetes Profile* -> *Secrets* tab or at a higher level such as *Solution Secrets* or *Global Secrets*. If you don't provide a password, it generates a random password and stores it in the *Kubernetes Profile* -> *Secrets*. However, if you try to connect to a cluster that already installed WireGuard VPN, then you should give the same password; otherwise, it won't connect. Since we're using the WireGuard VPN to connect to the Kubernetes cluster, we add the Kubernetes services to your [hosts](https://en.wikipedia.org/wiki/Hosts_(file)) file. Therefore, you can access the services with the specified *Kubernetes Service* name. For example, you can connect to sql server with the `{chart.name}-{profile.name}-sqlserver`. After we disconnect from the cluster, we remove the services from the hosts file except ingress hosts. With that way you can still access the ingress hosts through the your browser.
+When you are connecting to a Kubernetes cluster, it automatically installs the WireGuard VPN to the Kubernetes cluster for a safe connection. You can specify the *wireGuardPassword* in the *Kubernetes Profile* -> *Secrets* tab or at a higher level such as *Solution Secrets* or *Global Secrets*. If you don't provide a password, it generates a random password and stores it in the *Kubernetes Profile* -> *Secrets*. However, if you try to connect to a cluster that already installed WireGuard VPN, then you should give the same password; otherwise, it won't connect. Since we're using the WireGuard VPN to connect to the Kubernetes cluster, we add the Kubernetes services to your [hosts](https://en.wikipedia.org/wiki/Hosts_(file)) file. Therefore, you can access the services with the specified *Kubernetes Service* name. In this example, we can connect to sql server with the `bookstore-local-sqlserver`. After we disconnect from the cluster, we remove the services from the hosts file except ingress hosts. With that way you can still access the ingress hosts through the your browser such as `bookstore-local-web`.
 
-When you list the services in the Kubernetes cluster with the `kubectl get svc` command, you should see the *abp-wg-easy* and *abp-wg-easy-vpn* services. After a while, if the *EXTERNAL-IP* is still *pending*, then it can't connect to the cluster. This could be caused by if you try to install the WireGuard VPN to a Docker Desktop Kubernetes cluster more than once. You can delete the previous WireGuard VPN by running `helm uninstall abp-wg-easy` command.
+When you list the services in the Kubernetes cluster with the `kubectl get svc` command, you should see the *abp-wg-easy* and *abp-wg-easy-vpn* services. After a while, if the *EXTERNAL-IP* is still *pending*, then it can't connect to the cluster. This could be caused by if you try to install the WireGuard VPN to a Docker Desktop Kubernetes cluster more than once. You can delete the previous WireGuard VPN by running the `helm uninstall abp-wg-easy` command in the previous namespace.
+
+> When connected to a Kubernetes cluster, applications establish a connection with ABP Studio. You can observe the application *State* in the [Overall](./monitoring-applications.md#overall) tab of the *Monitoring* panel. It's important to note that connecting to the Kubernetes cluster is limited to one instance of ABP Studio at a time. Attempting to connect with another instance won't work as expected.
