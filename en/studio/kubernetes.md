@@ -113,4 +113,8 @@ When you are connecting to a Kubernetes cluster, it automatically installs the W
 
 When you list the services in the Kubernetes cluster with the `kubectl get svc` command, you should see the *abp-wg-easy* and *abp-wg-easy-vpn* services. After a while, if the *EXTERNAL-IP* is still *pending*, then it can't connect to the cluster. This could be caused by if you try to install the WireGuard VPN to a Docker Desktop Kubernetes cluster more than once. You can delete the previous WireGuard VPN by running the `helm uninstall abp-wg-easy` command in the previous namespace.
 
-> When connected to a Kubernetes cluster, applications establish a connection with ABP Studio. You can observe the application *State* in the [Overall](./monitoring-applications.md#overall) tab of the *Monitoring* panel. It's important to note that connecting to the Kubernetes cluster is limited to one instance of ABP Studio at a time. Attempting to connect with another instance won't work as expected.
+When connected to a Kubernetes cluster, applications establish a connection and begin sending [telemetry information](./monitoring-applications.md#collecting-telemetry-information) to ABP Studio. In the [Monitoring](./monitoring-applications.md#overall) panel, you can easily check the application's *State* and other details. Moreover, within the [Solution Runner](./running-applications.md) panel, look for the *Chain* icon with *(external)* information.
+
+![connected-monitorize](./images/kubernetes/connected-monitorize.png)
+
+> It's important to note that connecting to the Kubernetes cluster is limited to one instance of ABP Studio at a time. Attempting to connect with another instance won't work as expected.
