@@ -105,16 +105,34 @@ When you add a new [microservice module](./solution-explorer.md#adding-a-new-mic
 
 ## Connecting to a Kubernetes Cluster
 
-Click the *Chain* icon or the *Connect* button in the *Kubernetes* tab to connect to the selected Kubernetes cluster. While connected, changing the current profile is not possible. Disconnect from the cluster to switch profiles. Existing application services in the *Kubernetes* tab become visible when connected. Use the *Disconnect* option by clicking the *Chain* icon.
+Click the *Chain* icon or the *Connect* button in the *Kubernetes* tab to establish a connection with the selected Kubernetes cluster. During the initial connection, it may take a while to prepare; you can monitor the progress in the [Background Tasks](./overview.md#background-tasks) panel.
 
 ![connect](./images/kubernetes/connect.png)
 
-When you are connecting to a Kubernetes cluster, it automatically installs the WireGuard VPN to the Kubernetes cluster for a safe connection. You can specify the *wireGuardPassword* in the *Kubernetes Profile* -> *Secrets* tab or at a higher level such as *Solution Secrets* or *Global Secrets*. If you don't provide a password, it generates a random password and stores it in the *Kubernetes Profile* -> *Secrets*. However, if you try to connect to a cluster that already installed WireGuard VPN, then you should give the same password; otherwise, it won't connect. Since we're using the WireGuard VPN to connect to the Kubernetes cluster, we add the Kubernetes services to your [hosts](https://en.wikipedia.org/wiki/Hosts_(file)) file. Therefore, you can access the services with the specified *Kubernetes Service* name. In this example, we can connect to sql server with the `bookstore-local-sqlserver`. After we disconnect from the cluster, we remove the services from the hosts file except ingress hosts. With that way you can still access the ingress hosts through the your browser such as `bookstore-local-web`.
+While connected, changing the current profile is not possible. Existing application services in the *Kubernetes* tab become visible when connected. To *Disconnect* you can click the *Chain* icon.
 
-When you list the services in the Kubernetes cluster with the `kubectl get svc` command, you should see the *abp-wg-easy* and *abp-wg-easy-vpn* services. After a while, if the *EXTERNAL-IP* is still *pending*, then it can't connect to the cluster. This could be caused by if you try to install the WireGuard VPN to a Docker Desktop Kubernetes cluster more than once. You can delete the previous WireGuard VPN by running the `helm uninstall abp-wg-easy` command in the previous namespace.
+![connected](./images/kubernetes/connected.png)
+
+When you are connecting to a Kubernetes cluster, it automatically installs the WireGuard VPN to the Kubernetes cluster for a safe connection. You can specify the *wireGuardPassword* in the *Kubernetes Profile* -> *Secrets* tab or at a higher level such as *Solution Secrets* or *Global Secrets*. If you don't provide a password, it generates a random password and stores it in the *Kubernetes Profile* -> *Secrets*. However, if you try to connect to a cluster that already installed WireGuard VPN, then you should give the same password; otherwise, it won't connect. To see the random password, you can click the *eye* icon in the *Kubernetes Profile* -> *Secrets* tab.
+
+![wireGuardPassword](./images/kubernetes/wireGuardPassword.png)
+
+Since we're using the WireGuard VPN to connect to the Kubernetes cluster, we automatically append the Kubernetes services to your [hosts](https://en.wikipedia.org/wiki/Hosts_(file)) file. This enables seamless access to services, including [ClusterIP](https://kubernetes.io/docs/concepts/services-networking/service/#type-clusterip) types, using the specified *Kubernetes Service* names. For example, in this scenario, connecting to the SQL Server can be done with the server name `bookstore-local-sqlserver` via tools like [SSMS](https://learn.microsoft.com/en-us/sql/ssms/sql-server-management-studio-ssms). The default `sa` password for the SQL server is set to `myPassw@rd`.
+
+![ssms-login](./images/kubernetes/ssms-login.png)
+
+After we connect to the SQL Server, we can see the databases in the *Object Explorer* panel. 
+
+![ssms-object-explorer](./images/kubernetes/ssms-object-explorer.png)
 
 When connected to a Kubernetes cluster, applications establish a connection and begin sending [telemetry information](./monitoring-applications.md#collecting-telemetry-information) to ABP Studio. In the [Monitoring](./monitoring-applications.md#overall) panel, you can easily check the application's *State* and other details. Moreover, within the [Solution Runner](./running-applications.md) panel, look for the *Chain* icon with *(external)* information.
 
 ![connected-monitorize](./images/kubernetes/connected-monitorize.png)
+
+Upon disconnection from the cluster, we clean up the hosts file, excluding ingress hosts. This way, you can still access ingress hosts through your browser. For example, in this scenario, we can visit the `https://bookstore-local-web`.
+
+![disconnect](./images/kubernetes/disconnect.png)
+
+> When you list the services in the Kubernetes cluster with the `kubectl get svc` command, you should see the *abp-wg-easy* and *abp-wg-easy-vpn* services. After a while, if the *EXTERNAL-IP* is still *pending*, then it can't connect to the cluster. This could be caused by if you try to install the WireGuard VPN to a Docker Desktop Kubernetes cluster more than once. You can delete the previous WireGuard VPN by running the `helm uninstall abp-wg-easy` command in the previous namespace.
 
 > It's important to note that connecting to the Kubernetes cluster is limited to one instance of ABP Studio at a time. Attempting to connect with another instance won't work as expected.
