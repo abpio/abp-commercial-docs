@@ -163,3 +163,9 @@ You can disable interception by right clicking the service and selecting *Disabl
 ![disable-interception](./images/kubernetes/disable-interception.png)
 
 > When you debug the intercepted application if you're getting the `Volo.Authorization:010001 (Authorization failed! Given policy has not granted.)` exception, you should run the `create-tls-secret.ps1` script in the `abp-solution-path/etc/helm` folder. It creates self-signed certificates for the applications and adds them to the Kubernetes cluster. After that, you should restart the application.
+
+### Redeploy a Chart
+
+After you made some changes on your project, you can redeploy the chart to the Kubernetes cluster. To do that, right click the service  and select *Redeploy* from the context-menu. It builds the docker image for selected project and installs it again.
+
+![redeploy](./images/kubernetes/redeploy.png)
