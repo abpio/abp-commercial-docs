@@ -14,6 +14,7 @@ The *Kubernetes* panel is available only in the [business and enterprise](https:
 * [Helm](https://helm.sh/docs/intro/install/)
 * [Docker Desktop](https://www.docker.com/products/docker-desktop) with Kubernetes enabled
 * [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy)
+* [mkcert](https://www.ibm.com/docs/en/fsmmn?topic=commands-mkcert)
 
 ## Profile
 
@@ -105,7 +106,7 @@ When you add a new [microservice module](./solution-explorer.md#adding-a-new-mic
 
 ## Connecting to a Kubernetes Cluster
 
-Click the *Chain* icon or the *Connect* button in the *Kubernetes* tab to establish a connection with the selected Kubernetes cluster. During the initial connection, it may take a while to prepare; you can monitor the progress in the [Background Tasks](./overview.md#background-tasks) panel.
+After we *Build Docker Image(s)* and *Install Chart(s)*, we can connect to the Kubernetes cluster. To do that click the *Chain* icon or the *Connect* button in the *Kubernetes* tab to establish a connection with the selected Kubernetes cluster. During the initial connection, it may take a while to prepare; you can monitor the progress in the [Background Tasks](./overview.md#background-tasks) panel.
 
 ![connect](./images/kubernetes/connect.png)
 
@@ -136,3 +137,29 @@ Upon disconnection from the cluster, we clean up the hosts file, excluding ingre
 > When you list the services in the Kubernetes cluster with the `kubectl get svc` command, you should see the *abp-wg-easy* and *abp-wg-easy-vpn* services. After a while, if the *EXTERNAL-IP* is still *pending*, then it can't connect to the cluster. This could be caused by if you try to install the WireGuard VPN to a Docker Desktop Kubernetes cluster more than once. You can delete the previous WireGuard VPN by running the `helm uninstall abp-wg-easy` command in the previous namespace.
 
 > It's important to note that connecting to the Kubernetes cluster is limited to one instance of ABP Studio at a time. Attempting to connect with another instance won't work as expected.
+
+### Intercept a Service
+
+One of the best sides of the Kubernetes panel is that you can intercept a service. With this way you can debug and develop your specific application(s) without running all services in the local environment. To intercept a service, right click the service and select *Enable Interception* from the context-menu.
+
+![intercept](./images/kubernetes/intercept.png)
+
+When intercepting a service, it start the interception process in the [background](./overview.md#background-tasks). After completion, you should see the *Intercept* icon next to the service name.
+
+![intercepted](./images/kubernetes/intercepted.png)
+
+After intercepting the service, all requests to the service are redirected to the local environment. For example, in this scenario, the `bookstore-local-auditlogging` service is intercepted. When attempting to visit `https://bookstore-local-web/AuditLogs` in the browser, a *Bad Gateway* exception occurs because the `bookstore-local-auditlogging` service is not running in the local environment. To resolve this, open the `Acme.BookStore.AuditLoggingService` .NET solution in your IDE (e.g., Visual Studio), set `Acme.BookStore.AuditLoggingService` as the startup project, and run it (using F5 for debug mode or CTRL+F5 to run it without debugging).
+
+![running-application](./images/kubernetes/running-application.png)
+
+> You should start the application with Kestrel, not IIS Express. Otherwise, it won't work as expected. To do that, choice the *Acme.BookStore.AuditLoggingService* launch profile in your IDE.
+
+After the application start on your local machine, revisit the Audit Logging page in the application, and you'll notice that it works as expected. ABP Studio handles the configuration of your machine and the application, allowing it to operate seamlessly as if it were inside the Kubernetes cluster.
+
+Utilizing ABP Studio's interception feature, you have the flexibility to run the entire solution in a Kubernetes cluster while running only a single (or a few) services on your local machine using your IDE. This approach allows you to concentrate on running, testing, and debugging your service without concerning yourself with the configuration and launch details of the rest of the system.
+
+You can disable interception by right clicking the service and selecting *Disable Interception* from the context-menu. Disconnecting from the Kubernetes cluster automatically disables all intercepts. 
+
+![disable-interception](./images/kubernetes/disable-interception.png)
+
+> When you debug the intercepted application if you're getting the `Volo.Authorization:010001 (Authorization failed! Given policy has not granted.)` exception, you should run the `create-tls-secret.ps1` script in the `abp-solution-path/etc/helm` folder. It creates self-signed certificates for the applications and adds them to the Kubernetes cluster. After that, you should restart the application.
