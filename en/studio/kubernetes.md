@@ -12,7 +12,7 @@ The *Kubernetes* panel is available only in the [business and enterprise](https:
 
 * [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 * [Helm](https://helm.sh/docs/intro/install/)
-* [Docker Desktop](https://www.docker.com/products/docker-desktop) with Kubernetes enabled
+* [Docker Desktop](https://www.docker.com/products/docker-desktop) (Enable Kubernetes option if not working with a real cluster)
 * [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy)
 * [mkcert](https://www.ibm.com/docs/en/fsmmn?topic=commands-mkcert)
 
@@ -126,7 +126,7 @@ After we connect to the SQL Server, we can see the databases in the *Object Expl
 
 ![ssms-object-explorer](./images/kubernetes/ssms-object-explorer.png)
 
-When connected to a Kubernetes cluster, applications establish a connection and begin sending [telemetry information](./monitoring-applications.md#collecting-telemetry-information) to ABP Studio. In the [Monitoring](./monitoring-applications.md#overall) panel, you can easily check the application's *State* and other details. Moreover, within the [Solution Runner](./running-applications.md) panel, look for the *Chain* icon with *(external)* information.
+When connected to a Kubernetes cluster, applications establish a connection and begin sending [telemetry information](./monitoring-applications.md#collecting-telemetry-information) to ABP Studio. In the [Monitoring](./monitoring-applications.md#overall) panel, you can easily check the applications *State* and other details. Moreover, within the [Solution Runner](./running-applications.md) panel, look for the *Chain* icon with *(external)* information.
 
 ![connected-monitorize](./images/kubernetes/connected-monitorize.png)
 
@@ -136,7 +136,7 @@ Upon disconnection from the cluster, we clean up the hosts file, excluding ingre
 
 > When you list the services in the Kubernetes cluster with the `kubectl get svc` command, you should see the *abp-wg-easy* and *abp-wg-easy-vpn* services. After a while, if the *EXTERNAL-IP* is still *pending*, then it can't connect to the cluster. This could be caused by if you try to install the WireGuard VPN to a Docker Desktop Kubernetes cluster more than once. You can delete the previous WireGuard VPN by running the `helm uninstall abp-wg-easy` command in the previous namespace.
 
-> It's important to note that connecting to the Kubernetes cluster is limited to one instance of ABP Studio at a time. Attempting to connect with another instance won't work as expected.
+> Connecting to the Kubernetes cluster is limited to one instance of ABP Studio at a time. Trying to connect with another instance simultaneously won't work as expected.
 
 ### Intercept a Service
 
@@ -158,7 +158,7 @@ After the application start on your local machine, revisit the Audit Logging pag
 
 Utilizing ABP Studio's interception feature, you have the flexibility to run the entire solution in a Kubernetes cluster while running only a single (or a few) services on your local machine using your IDE. This approach allows you to concentrate on running, testing, and debugging your service without concerning yourself with the configuration and launch details of the rest of the system.
 
-You can disable interception by right clicking the service and selecting *Disable Interception* from the context-menu. Disconnecting from the Kubernetes cluster automatically disables all intercepts. 
+You can disable interception by right clicking the service and selecting *Disable Interception* from the context-menu. Disconnecting from the Kubernetes cluster automatically disables all interceptions. 
 
 ![disable-interception](./images/kubernetes/disable-interception.png)
 
