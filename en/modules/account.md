@@ -221,7 +221,7 @@ See the `AccountPermissions` class members for all permissions defined for this 
 
 #### Installation
 
-In order to configure the application to use the `AccountPublicModule` and the `AccountAdminModule`, you first need to import `AccountPublicConfigModule` from `@volo/abp.ng.account/public/config` and `AccountAdminConfigModule` from `@volo/abp.ng.account/adming/config` to root module. Config modules has a static `forRoot` method which you should call for a proper configuration.
+In order to configure the application to use the `AccountPublicModule` and the `AccountAdminModule`, you first need to import `AccountPublicConfigModule` from `@volo/abp.ng.account/public/config` and `AccountAdminConfigModule` from `@volo/abp.ng.account/admin/config` to root module. Config modules has a static `forRoot` method which you should call for a proper configuration.
 
 ```js
 // app.module.ts
@@ -278,7 +278,7 @@ The command below generates `AccountPublicModule` proxies:
 abp generate-proxy --module account
 ```
 
-The command below generates `AccountPublicModule` proxies:
+The command below generates `AccountAdminModule` proxies:
 ```bash
 abp generate-proxy --module accountAdmin
 ```
