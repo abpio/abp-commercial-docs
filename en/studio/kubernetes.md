@@ -4,7 +4,7 @@ You can use the *Kubernetes* panel to manage your application(s) in a Kubernetes
 
 ![kubernetes-panel](./images/kubernetes/kubernetes.png)
 
-> Pre-set configurations are added when you create a project; check the *Kubernetes Configuration* in the *Additional Options* step. The project structure might vary based on your selection. For example, an MVC microservice project looks like the following. You can add or remove the charts as you wish.
+> Pre-set configurations are added when you create a project; check the *Kubernetes Configuration* in the *Additional Options* step. The project structure might vary based on your selection. For example, an MVC microservice project looks like the one above. You can add or remove the charts as you wish.
 
 ## Prerequisites
 
