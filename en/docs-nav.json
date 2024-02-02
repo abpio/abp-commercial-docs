@@ -561,6 +561,10 @@
               "path": "studio/monitoring-applications.md"
             },
             {
+              "text": "Working with Kubernetes",
+              "path": "studio/kubernetes.md"
+            },
+            {
               "text": "Working with ABP Suite",
               "path": "studio/working-with-suite.md"
             },
