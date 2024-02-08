@@ -1616,6 +1616,8 @@ This code block adds a new *Books* menu item before the *Authors* menu item. We 
 ### ShellViewModel.cs
 
 ```csharp
+using Acme.BookStore.Permissions;
+
 public partial class ShellViewModel : BookStoreViewModelBase, ITransientDependency
 {
     //Add these two lines below
