@@ -12,7 +12,7 @@ To create a new entity, make sure the *-New entity-* is selected in the **Entity
 
 * **Name**: Name of the entity.
 
-* **Plural Name**: Folder names of the entity and name of `DbSet`in the `DbContext`.
+* **Plural name**: Folder names of the entity and name of `DbSet`in the `DbContext`.
 
 * **Database table/collection name**: Name of the database table for relational databases or name of the collection name for NoSQL databases.
 
