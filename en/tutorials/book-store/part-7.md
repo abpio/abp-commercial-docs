@@ -6,6 +6,21 @@
     "DB": ["EF","Mongo"]
 }
 ````
+
+````json
+//[doc-nav]
+{
+  "Next": {
+    "Name": "Part 8: Authors: Application Layer",
+    "Path": "book-store/part-8"
+  },
+  "Previous": {
+    "Name": "Part 6: Authors: Domain Layer",
+    "Path": "book-store/part-6"
+  }
+}
+````
+
 ## About This Tutorial
 
 In this tutorial series, you will build an ABP based web application named `Acme.BookStore`. This application is used to manage a list of books and their authors. It is developed using the following technologies:
@@ -228,7 +243,3 @@ public class MongoDbAuthorRepository
 > See the [MongoDB Integration document](https://docs.abp.io/en/abp/latest/MongoDB) for more information on the MongoDB based repositories.
 
 {{end}}
-
-## The Next Part
-
-See the [next part](part-8.md) of this tutorial.

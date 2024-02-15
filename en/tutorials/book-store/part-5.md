@@ -6,6 +6,20 @@
     "DB": ["EF","Mongo"]
 }
 ````
+
+````json
+//[doc-nav]
+{
+  "Next": {
+    "Name": "Part 6: Authors: Domain Layer",
+    "Path": "book-store/part-6"
+  },
+  "Previous": {
+    "Name": "Part 4: Integration Tests",
+    "Path": "book-store/part-4"
+  }
+}
+````
 ## About This Tutorial
 
 In this tutorial series, you will build an ABP based web application named `Acme.BookStore`. This application is used to manage a list of books and their authors. It is developed using the following technologies:
@@ -614,7 +628,3 @@ The final `ConfigureMainMenuAsync` method should be the following:
 ````
 
 {{end}}
-
-## The Next Part
-
-See the [next part](part-6.md) of this tutorial.

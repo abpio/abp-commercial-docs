@@ -6,6 +6,17 @@
     "DB": ["EF","Mongo"]
 }
 ````
+
+````json
+//[doc-nav]
+{
+  "Next": {
+    "Name": "Part 2: The Book List Page",
+    "Path": "book-store/part-2"
+  }
+}
+````
+
 ## About this tutorial
 
 In this tutorial series, you will build an ABP Commercial application named `Acme.BookStore`. This application is used to manage a list of books and their authors. It is developed using the following technologies:
@@ -542,7 +553,3 @@ If you try to execute the `[GET] /api/app/book` API to get a list of books, the 
 ````
 
 That's pretty cool since we haven't written a single line of code to create the API controller, but now we have a fully working REST API!
-
-## The Next Part
-
-See the [next part](part-2.md) of this tutorial.

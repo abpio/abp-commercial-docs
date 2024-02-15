@@ -6,6 +6,20 @@
     "DB": ["EF","Mongo"]
 }
 ````
+
+````json
+//[doc-nav]
+{
+  "Next": {
+    "Name": "Part 5: Authorization",
+    "Path": "book-store/part-5"
+  },
+  "Previous": {
+    "Name": "Part 3: Creating, Updating and Deleting Books",
+    "Path": "book-store/part-3"
+  }
+}
+````
 ## About This Tutorial
 
 In this tutorial series, you will build an ABP based web application named `Acme.BookStore`. This application is used to manage a list of books and their authors. It is developed using the following technologies:
@@ -275,7 +289,3 @@ Open the **Test Explorer Window** (use Test -> Windows -> Test Explorer menu if 
 ![bookstore-appservice-tests](./images/bookstore-appservice-tests.png)
 
 Congratulations, the **green icons** indicates that the tests have been successfully passed!
-
-## The Next Part
-
-See the [next part](part-5.md) of this tutorial.
