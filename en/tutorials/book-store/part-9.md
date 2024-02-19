@@ -12,11 +12,11 @@
 {
   "Next": {
     "Name": "Part 10: Book to Author Relation",
-    "Path": "book-store/part-10"
+    "Path": "tutorials/book-store/part-10"
   },
   "Previous": {
     "Name": "Part 8: Authors: Application Layer",
-    "Path": "book-store/part-8"
+    "Path": "tutorials/book-store/part-8"
   }
 }
 ````

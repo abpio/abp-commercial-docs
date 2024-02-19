@@ -12,11 +12,11 @@
 {
   "Next": {
     "Name": "Part 7: Authors: Database Integration",
-    "Path": "book-store/part-7"
+    "Path": "tutorials/book-store/part-7"
   },
   "Previous": {
     "Name": "Part 5: Authorization",
-    "Path": "book-store/part-5"
+    "Path": "tutorials/book-store/part-5"
   }
 }
 ````

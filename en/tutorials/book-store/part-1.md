@@ -12,7 +12,7 @@
 {
   "Next": {
     "Name": "Part 2: The Book List Page",
-    "Path": "book-store/part-2"
+    "Path": "tutorials/book-store/part-2"
   }
 }
 ````

@@ -13,11 +13,11 @@
 {
   "Next": {
     "Name": "Part 4: Integration Tests",
-    "Path": "book-store/part-4"
+    "Path": "tutorials/book-store/part-4"
   },
   "Previous": {
     "Name": "Part 2: The Book List Page",
-    "Path": "book-store/part-2"
+    "Path": "tutorials/book-store/part-2"
   }
 }
 ````
