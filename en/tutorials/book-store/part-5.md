@@ -11,11 +11,11 @@
 //[doc-nav]
 {
   "Next": {
-    "Name": "Part 6: Authors: Domain Layer",
+    "Name": "Authors: Domain Layer",
     "Path": "tutorials/book-store/part-6"
   },
   "Previous": {
-    "Name": "Part 4: Integration Tests",
+    "Name": "Integration Tests",
     "Path": "tutorials/book-store/part-4"
   }
 }

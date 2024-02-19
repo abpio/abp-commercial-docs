@@ -11,11 +11,11 @@
 //[doc-nav]
 {
   "Next": {
-    "Name": "Part 5: Authorization",
+    "Name": "Authorization",
     "Path": "tutorials/book-store/part-5"
   },
   "Previous": {
-    "Name": "Part 3: Creating, Updating and Deleting Books",
+    "Name": "Creating, Updating and Deleting Books",
     "Path": "tutorials/book-store/part-3"
   }
 }
