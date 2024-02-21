@@ -4,11 +4,22 @@ This document contains **brief release notes** for each release. Release notes o
 
 > Release notes in this document don't cover the features made in the open-source ABP Framework. For the ABP Framework features, check the blog post for the related version.
 
-## 8.0 (2023-11-23)
+## 8.1 (2024-02-14)
 
-> This version is currently in preview. The final release date is planned for February, 2024.
+> This version is currently in preview. The final release date is planned for June, 2024.
 
-See the detailed **[blog post / announcement](https://blog.abp.io/abp/announcing-abp-8-0-release-candidate)** for the v8.0 release.
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/announcing-abp-8-1-release-candidate)** for the v8.1 release.
+
+* Suite: Bulk Delete
+* Suite: Filterable Properties
+* Suite: Customizable Page Title
+* Suite: Allowing Establishing Relationships with Installed ABP Modules' Entities
+* Suite: Support `BasicAggregateRoot` Base Class
+* ABP Studio v0.6.5 Has Been Released!
+
+## 8.0 (2023-12-19)
+
+See the detailed **[blog post / announcement](https://blog.abp.io/abp/abp-8-0-stable-release-with-dotnet-8-0)** for the v8.0 release.
 
 * Suite: Generating Master/Detail Relationship
 * Getting profile picture from social/external logins.
