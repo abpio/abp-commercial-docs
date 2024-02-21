@@ -4,7 +4,7 @@ This guide explains how to change Microservice project to use MongoDB as the dat
 
 ## Create a new Microservice project
 
-Use the ABP Suite to create a new Microservice project, in this guide we use version 4.4.4 and `BookStore` as project name.
+Use the ABP Suite to create a new Microservice project, in this guide we use `BookStore` as project name.
 
 You will get the solution as shown below:
 
@@ -32,23 +32,21 @@ Here we use `BookStore.ProductService` project as an example:
 * Remove `Migrations` folder.
 * Remove `ProductServiceDbContextModelCreatingExtensions` class
 * Replace `context.Services.AddAbpDbContext` with `context.Services.AddMongoDbContext`.
-* Update `IProductServiceDbContext` interface to the following:
-
-    ```csharp
-    [ConnectionStringName(ProductServiceDbProperties.ConnectionStringName)]
-    public interface IProductServiceDbContext : IAbpMongoDbContext
-    {
-        IMongoCollection<Product> Products { get; }
-    }
-    ```
-
 * Update `ProductServiceDbContext` class to the following:
 
     ```csharp
     [ConnectionStringName(ProductServiceDbProperties.ConnectionStringName)]
-    public class ProductServiceDbContext : AbpMongoDbContext, IProductServiceDbContext
+    public class ProductServiceDbContext : AbpMongoDbContext
     {
         public IMongoCollection<Product> Products => Collection<Product>();
+
+        protected override void CreateModel(IMongoModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>(b =>
+        {
+            b.CollectionName = ProductServiceDbProperties.DbTablePrefix + "Products";
+        });
+        }
     }
     ```
 
@@ -90,11 +88,11 @@ Here we use `BookStore.ProductService` project as an example:
         }
 
         public async Task<List<Product>> GetListAsync(
-            string filterText = null,
-            string name = null,
+            string? filterText = null,
+            string? name = null,
             float? priceMin = null,
             float? priceMax = null,
-            string sorting = null,
+            string? sorting = null,
             int maxResultCount = int.MaxValue,
             int skipCount = 0,
             CancellationToken cancellationToken = default)
@@ -105,8 +103,8 @@ Here we use `BookStore.ProductService` project as an example:
         }
 
         public async Task<long> GetCountAsync(
-            string filterText = null,
-            string name = null,
+            string? filterText = null,
+            string? name = null,
             float? priceMin = null,
             float? priceMax = null,
             CancellationToken cancellationToken = default)
@@ -118,7 +116,7 @@ Here we use `BookStore.ProductService` project as an example:
         protected virtual IQueryable<Product> ApplyFilter(
             IQueryable<Product> query,
             string filterText,
-            string name = null,
+            string? name = null,
             float? priceMin = null,
             float? priceMax = null)
         {
@@ -133,9 +131,12 @@ Here we use `BookStore.ProductService` project as an example:
 
 Please complete it in all service projects.
 
+> For other services you may need to change the DbContext interface name. eg: `IPermissionManagementDbContext` to `IPermissionManagementMongoDbContext`.
+> You also need to change the dependent module name. eg: `AbpPermissionManagementEntityFrameworkCoreModule` to `AbpPermissionManagementMongoDbModule`.
+
 ### Unit Tests
 
-You can refer to [MongoDB.Tests](https://github.com/abpframework/abp/tree/rel-4.4/templates/app/aspnet-core/test/MyCompanyName.MyProjectName.MongoDB.Tests) project to replace `EntityFrameworkCore.Tests` project with `MongoDB.Tests` project.
+You can refer to [MongoDB.Tests](https://github.com/abpframework/abp/tree/dev/templates/app/aspnet-core/test/MyCompanyName.MyProjectName.MongoDB.Tests) project to replace `EntityFrameworkCore.Tests` project with `MongoDB.Tests` project.
 
 * Define CollectionFixture in each test project. See this [PR](https://github.com/abpframework/abp/pull/3982).
 * Add `CollectionAttribute` to each unit test class.
@@ -487,50 +488,113 @@ public abstract class DatabaseMigrationEventHandlerBase<TDbContext> :
 
 You also need to update the constructors of all derived classes of `DatabaseMigrationEventHandlerBase`.
 
-### PendingMigrationsCheckerBase
+### PendingEfCoreMigrationsChecker
 
-Update `PendingMigrationsCheckerBase` class to the following:
+Update `PendingEfCoreMigrationsChecker` class to the following:
 
 ```csharp
-public abstract class PendingMigrationsCheckerBase<TDbContext> : ITransientDependency
-        where TDbContext : AbpMongoDbContext
+public abstract class PendingMongoDbMigrationsChecker<TDbContext> : PendingMigrationsCheckerBase where TDbContext : AbpMongoDbContext
 {
     protected IUnitOfWorkManager UnitOfWorkManager { get; }
     protected IServiceProvider ServiceProvider { get; }
     protected ICurrentTenant CurrentTenant { get; }
     protected IDistributedEventBus DistributedEventBus { get; }
+    protected IAbpDistributedLock DistributedLockProvider { get; }
     protected string DatabaseName { get; }
-
-    protected PendingMigrationsCheckerBase(
+    protected IDataSeeder DataSeeder { get; }
+    
+    protected PendingMongoDbMigrationsChecker(
+        ILoggerFactory loggerFactory,
         IUnitOfWorkManager unitOfWorkManager,
         IServiceProvider serviceProvider,
         ICurrentTenant currentTenant,
         IDistributedEventBus distributedEventBus,
-        string databaseName)
+        IAbpDistributedLock abpDistributedLock,
+        string databaseName, 
+        IDataSeeder dataSeeder) : base(loggerFactory)
     {
         UnitOfWorkManager = unitOfWorkManager;
         ServiceProvider = serviceProvider;
         CurrentTenant = currentTenant;
         DistributedEventBus = distributedEventBus;
+        DistributedLockProvider = abpDistributedLock;
         DatabaseName = databaseName;
+        DataSeeder = dataSeeder;
     }
-
-    public virtual async Task CheckAsync()
+    
+    public virtual async Task CheckAndApplyDatabaseMigrationsAsync()
     {
-        using (CurrentTenant.Change(null))
+        await TryAsync(async () =>
         {
-            // Create database tables if needed
+            using (CurrentTenant.Change(null))
+            {
+                // Create database tables if needed
+                using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: false))
+                {
+                    await MigrateDatabaseSchemaAsync();
+
+                    await DataSeeder.SeedAsync();
+
+                    await uow.CompleteAsync();
+                }
+            }
+        });
+    }
+    /// <summary>
+    /// Apply scheme update for MongoDB Database.
+    /// </summary>
+    protected virtual async Task<bool> MigrateDatabaseSchemaAsync()
+    {
+        var result = false;
+        await using (var handle = await DistributedLockProvider.TryAcquireAsync("Migration_" + DatabaseName))
+        {
             using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: false))
             {
-                await DistributedEventBus.PublishAsync(
-                        new ApplyDatabaseMigrationsEto
+                Log.Information($"Lock is acquired for db migration and seeding on database named: {DatabaseName}...");
+
+                if (handle is null)
+                {
+                    Log.Information($"Handle is null because of the locking for : {DatabaseName}");
+                    return false;
+                }
+
+                async Task<bool> MigrateDatabaseSchemaWithDbContextAsync()
+                {
+                    var dbContexts = ServiceProvider.GetServices<IAbpMongoDbContext>();
+                    var connectionStringResolver = ServiceProvider.GetRequiredService<IConnectionStringResolver>();
+
+                    foreach (var dbContext in dbContexts)
+                    {
+                        var connectionString =
+                            await connectionStringResolver.ResolveAsync(
+                                ConnectionStringNameAttribute.GetConnStringName(dbContext.GetType()));
+                        if (connectionString.IsNullOrWhiteSpace())
                         {
-                            DatabaseName = DatabaseName
+                            continue;
                         }
-                    );
+
+                        var mongoUrl = new MongoUrl(connectionString);
+                        var databaseName = mongoUrl.DatabaseName;
+                        var client = new MongoClient(mongoUrl);
+
+                        if (databaseName.IsNullOrWhiteSpace())
+                        {
+                            databaseName = ConnectionStringNameAttribute.GetConnStringName(dbContext.GetType());
+                        }
+
+                        (dbContext as AbpMongoDbContext)?.InitializeCollections(client.GetDatabase(databaseName));
+                    }
+
+                    return true;
+                }
+
+                //Migrating the host database
+                result = await MigrateDatabaseSchemaWithDbContextAsync();
 
                 await uow.CompleteAsync();
             }
+
+            return result;
         }
     }
 }
