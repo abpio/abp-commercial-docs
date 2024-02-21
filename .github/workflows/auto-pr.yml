@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: dev
+          ref: rel-8.1
       - name: Reset promotion branch
         run: |
           git fetch origin rel-8.0:rel-8.0
