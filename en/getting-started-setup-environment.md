@@ -8,6 +8,15 @@
     "Tiered": ["Yes", "No"]
 }
 ````
+````json
+//[doc-nav]
+{
+  "Next": {
+    "Name": "Creating a new solution",
+    "Path": "getting-started-create-solution"
+  }
+}
+````
 
 > This tutorial assumes that you've already purchased an [ABP Commercial license](https://commercial.abp.io/pricing) and have an active ABP Commercial account.
 
@@ -83,7 +92,3 @@ If you've already installed, you can update it:
 ````shell
 abp suite update
 ````
-
-## Next Step
-
-* [Creating a new solution](getting-started-create-solution.md)

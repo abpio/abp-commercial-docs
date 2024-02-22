@@ -8,6 +8,20 @@
 }
 ````
 
+````json
+//[doc-nav]
+{
+  "Next": {
+    "Name": "Integration Tests",
+    "Path": "tutorials/book-store/part-4"
+  },
+  "Previous": {
+    "Name": "The Book List Page",
+    "Path": "tutorials/book-store/part-2"
+  }
+}
+````
+
 ## About This Tutorial
 
 In this tutorial series, you will build an ABP based web application named `Acme.BookStore`. This application is used to manage a list of books and their authors. It is developed using the following technologies:
@@ -1597,7 +1611,3 @@ Here the complete code to create the book management CRUD page, that has been de
 ````
 
 {{end}}
-
-## The Next Part
-
-See the [next part](part-4.md) of this tutorial.
