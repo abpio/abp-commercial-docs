@@ -9,6 +9,16 @@
 }
 ````
 
+````json
+//[doc-nav]
+{
+  "Previous": {
+    "Name": "Creating a new solution",
+    "Path": "getting-started-create-solution"
+  }
+}
+````
+
 > This tutorial assumes that you've already purchased an [ABP Commercial license](https://commercial.abp.io/pricing) and have an active ABP Commercial account.
 
 > This document assumes that you prefer to use **{{ UI_Value }}** as the UI framework and **{{ DB_Value }}** as the database provider. For other options, please change the preference on top of this document.
@@ -339,7 +349,3 @@ Enter **admin** as the username and **1q2w3E*** as the password to login to the 
 {{end}}
 
 The application is up and running. You can start developing your application based on this startup template.
-
-## Next
-
-[Web Application development tutorial](tutorials/book-store/part-1.md)

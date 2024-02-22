@@ -9,6 +9,20 @@
 }
 ````
 
+````json
+//[doc-nav]
+{
+  "Next": {
+    "Name": "Running the solution",
+    "Path": "getting-started-running-solution"
+  },
+  "Previous": {
+    "Name": "Setup Your Development Environment",
+    "Path": "getting-started-setup-environment"
+  }
+}
+````
+
 > This tutorial assumes that you've already purchased an [ABP Commercial license](https://commercial.abp.io/pricing) and have an active ABP Commercial account.
 
 > This document assumes that you prefer to use **{{ UI_Value }}** as the UI framework and **{{ DB_Value }}** as the database provider. For other options, please change the preference on top of this document.
@@ -125,7 +139,3 @@ The [startup template](startup-templates/application/index.md) **disables** tran
 > Or you can delete this code since this is already the default behavior.
 
 {{ end }}
-
-## Next Step
-
-* [Running the solution](getting-started-running-solution.md)
