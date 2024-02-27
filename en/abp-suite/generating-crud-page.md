@@ -80,7 +80,9 @@ To create a new entity, make sure the *-New entity-* is selected in the **Entity
 * **Customizable code**: Specifies hook-points to allow adding custom code blocks. Then, the code blocks that were written by you will not be overridden in the next entity generation and will be respected.
 
 * **Multi-tenant**: For your multi-tenant application, you can set an entity as multi-tenant which means the data will be isolated between the tenants. To make an entity multi-tenant, ABP Suite adds the `IMultiTenant` interface to the entity.  Further information see [Multi-Tenancy](https://docs.abp.io/{{Document_Language_Code}}/abp/{{Document_Version}}/Multi-Tenancy)
-
+  
+  * If you created your application with *Separated tenant schema* support, then when you enable the multi-tenancy for the entity, database configurations (DbSet definitions and model configurations) will be defined in both `MyProjectNameDbContext` and `MyProjectNameTenantDbContext` (can be used for tenant-specific configurations) classes. Otherwise, the database configurations will only be defined in the `MyProjectNameDbContext` class for the host.
+ 
 * **Add migration:** Adds a new migration for the new entity. If you are updating an existing entity, it creates an update migration.
 
   * **Update database:** When you add a new migration, ABP Suite can automatically execute update-database command so that the changes are being applied to the database.
