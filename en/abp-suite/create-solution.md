@@ -50,7 +50,7 @@ Also, you can add a *public web site* project to your solution, separate tenant 
 
 - **Public web site:** Creates the solution with an additional public web site project.
 
-- **Separated tenant schema:** Creates the solution with the separated tenant schema support.
+- **Separated tenant schema:** Creates the solution with the separated tenant schema support. Also, it creates a separate DbContext & migration path for tenants to not include host-related tables in tenant databases.
 
 - **Tiered:** Creates a tiered solution where `Web` and `HTTP API ` layers are physically separated. If not specified, it creates a layered solution which is less complex and suitable for most scenarios. You can leave it unchecked, if you are not sure.
 
