@@ -113,6 +113,7 @@ abpc new-solution Acme.BookStore
   * `Oracle-Devart`  (`app-pro` & `app-nolayers-pro`)
 * `--dont-run-install-libs`: Skip installing client side packages.
 * `--dont-run-bundling`: Skip bundling for Blazor packages.
+* `--no-kubernetes-configuration` or `-nkc`: Skips the Kubernetes configuration files.
 * *Module Options*: You can skip some modules if you don't want to add them to your solution. Available commands:
   * `-no-saas`: Skips the Saas module.
   * `-no-gdpr`: Skips the GDPR module.
