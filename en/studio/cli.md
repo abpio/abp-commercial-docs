@@ -113,7 +113,15 @@ abpc new-solution Acme.BookStore
   * `Oracle-Devart`  (`app-pro` & `app-nolayers-pro`)
 * `--dont-run-install-libs`: Skip installing client side packages.
 * `--dont-run-bundling`: Skip bundling for Blazor packages.
-
+* *Module Options*: You can skip some modules if you don't want to add them to your solution. Available commands:
+  * `-no-saas`: Skips the Saas module.
+  * `-no-gdpr`: Skips the GDPR module.
+  * `-no-openiddict-admin-ui`: Skips the OpenIddict Admin UI module.
+  * `-no-audit-logging`: Skips the Audit Logging module.
+  * `-no-file-management`: Skips the File Management module.
+  * `-no-language-management`: Skips the Language Management module.
+  * `-no-text-template-management`: Skips the Text Template Management module.
+  * `-no-chat`: Skips the Chat module.
 ### new-module
 
 Generates a new module.
