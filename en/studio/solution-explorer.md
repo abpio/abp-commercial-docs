@@ -185,6 +185,12 @@ When you click the *Install* button, it opens the *Install Module* window. On th
 
 After we install the module, we're gonna see *Modify Installation* button instead of *Install* button. We can click the *Modify Installation* button to add or remove packages from the module. We can uninstall selected module with *Uninstall* button. After uninstalling the module, all package references in our module gonna be removed. We can remove the module with *Remove* button. This option only available if the imported module is not installed.
 
+### Change Version
+
+If the module has been added as a NuGet package, you have the option to change the version of the module. Click the *Change Version* button on the imported module context-menu to open the *Change Version* window. Here, you can select the *Version* for the module and click the *OK* button to change the version of the module.
+
+![change-version](./images/solution-explorer/change-version.png)
+
 ### Load Details
 
 To view module details, click the *Load Details* button for the imported modules. This will show us the analyzed module details, including *Aggregate Roots*, *Application Services*, *Domain Services*, *EF Core DB Contexts*, *Features*, *Mongo DB Contexts*, *Permissions*, *Repository Interfaces*, and *Settings*. When we click the item in the list, it will open the details in main panel as a tab where you can view methods, properties, implementations, etc.
