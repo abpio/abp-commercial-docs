@@ -24,7 +24,7 @@ Then select an *output folder* to create your solution. The *Create solution fol
 
 Once your configuration is done, click the *Next* button to navigate to the *Database Provider* selection:
 
-![abp-studio-new-solution-dialog-ui-framework](images/abp-studio-new-solution-dialog-database-provider-microservice.png)
+![abp-studio-new-solution-dialog-database-provider](images/abp-studio-new-solution-dialog-database-provider-microservice.png)
 
 On that screen, you can decide on your database provider by selecting one of the provided options, then click the *Next* button to navigate to the *Database Configurations* section (only for Entity Framework Core):
 
@@ -42,7 +42,11 @@ Here, you see all the mobile applications available in that startup solution tem
 
 > If you select a mobile application, an additional API Gateway is created that is only used by the mobile application. 
 
-Pick the one best for you, or select the *None* if you don't want a mobile application in your solution, then click *Next* to navigate to the *Optional Modules* section:
+Pick the one best for you, or select the *None* if you don't want a mobile application in your solution, then click *Next* to navigate to the *Public Website* section:
+
+![abp-studio-new-solution-dialog-public-web-site](images/abp-studio-new-solution-dialog-public-web-site.png)
+
+You can select a public website to be created in your solution. The public website is a simple landing page that can be used to introduce your product, provide documentation, and so on.
 
 ![abp-studio-new-microservice-solution-dialog-optional-modules](images/abp-studio-new-microservice-solution-dialog-optional-modules.png)
 
@@ -57,6 +61,13 @@ Once you select the desired modules, click the *Next* button for the *UI Theme* 
 ![abp-studio-new-solution-dialog-ui-theme](images/abp-studio-new-solution-dialog-ui-theme-microservice.png)
 
 LeptonX is the suggested UI theme that is proper for production usage. Select one of the themes and configure the additional options if you want.
+
+
+Click the Next button to see *Additional Options* selection:
+
+![abp-studio-new-solution-dialog-additional-options](images/abp-studio-new-solution-dialog-additional-options-microservice.png)
+
+If you unchecked the *Kubernetes Configuration* option, the solution will not include the Kubernetes configuration files which include the Helm charts and other Kubernetes related files. 
 
 Now, we are ready to allow ABP Studio to create our solution. Just click the *Create* button and let the ABP Studio do the rest for you. After clicking the Create button, the dialog is closed and your solution is loaded into ABP Studio:
 

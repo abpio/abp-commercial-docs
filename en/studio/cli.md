@@ -113,7 +113,16 @@ abpc new-solution Acme.BookStore
   * `Oracle-Devart`  (`app-pro` & `app-nolayers-pro`)
 * `--dont-run-install-libs`: Skip installing client side packages.
 * `--dont-run-bundling`: Skip bundling for Blazor packages.
-
+* `--no-kubernetes-configuration` or `-nkc`: Skips the Kubernetes configuration files.
+* *Module Options*: You can skip some modules if you don't want to add them to your solution. Available commands:
+  * `-no-saas`: Skips the Saas module.
+  * `-no-gdpr`: Skips the GDPR module.
+  * `-no-openiddict-admin-ui`: Skips the OpenIddict Admin UI module.
+  * `-no-audit-logging`: Skips the Audit Logging module.
+  * `-no-file-management`: Skips the File Management module.
+  * `-no-language-management`: Skips the Language Management module.
+  * `-no-text-template-management`: Skips the Text Template Management module.
+  * `-no-chat`: Skips the Chat module.
 ### new-module
 
 Generates a new module.
@@ -125,14 +134,23 @@ abpc new-module <module-name> [options]
 Example:
 
 ````bash
-abpc new-module Acme.BookStore
+abpc new-module Acme.BookStore -t module:ddd
 ````
 
 #### options
 
-* `--template` or `-t`: Specifies the template name. Default template name is `empty`, which generates a empty module. Module templates are provided by the main template, see their own startup template documentation for available modules. `empty` template is available for all solution structure.
+* `--template` or `-t`: Specifies the template name. Default template name is `empty`, which generates a empty module. Module templates are provided by the main template, see their own startup template documentation for available modules. `empty` and `module:ddd` template is available for all solution structure.
 * `--output-folder` or `-o`: Specifies the output folder. Default value is the current directory.
 * `--target-solution` or `-ts`: If set, the new module will be added to the given solution. Otherwise the new module will added to the closest solution in the file system. If no solution found, it will throw an error.
+* `--solution-folder` or `-sf`: Specifies the target folder in the [Solution Explorer](./solution-explorer.md#folder)  virtual folder system.
+* `--database-provider` or `-d`: Specifies the database provider. Default provider is `ef`. This option is only available if the module template supports it. You can add multiple values separated by commas, such as `ef, mongodb` if the module template supports it. Available providers:
+  * `ef`: Entity Framework Core.
+  * `mongodb`: MongoDB.
+* `--ui-framework` or `-u`: Specifies the UI framework. Default framework is `mvc`. This option is only available if the module template supports it. You can add multiple values separated by commas, such as `mvc,angular` if the module template supports it. Available frameworks:
+  * `mvc`: ASP.NET Core MVC.
+  * `angular`: Angular UI.
+  * `blazor`: Blazor UI.
+  * `blazor-server`: Blazor Server UI.
 
 ### new-package
 
