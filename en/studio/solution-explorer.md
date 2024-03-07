@@ -109,11 +109,11 @@ A [module](./concepts.md#module) is a sub-solution that can contains zero, one o
 
 ### Adding a New Empty Module
 
-Create a new module by clicking the *Add* -> *New Module* button at the root of the solution or in the folder context-menu. This action opens the *Create New Module* window. Choose between two module templates: *Empty* and *Microservice (service-nolayers)*. Please note that these options are only available for *Microservice* solution template. Other solution templates, such as *Application (Layered)*, can only create an empty module.
+Create a new module by clicking the *Add* -> *New Module* -> *Empty Module* button at the root of the solution or in the solution folder context menu. The *Microservice* solution template also includes *Microservice*, *Gateway*, and *Web* modules. Other solution templates, such as *Application (Layered)*, can only create *Empty*, and *DDD* modules.
 
 ![create-new-module](./images/solution-explorer/create-new-module.png)
 
-If you choose the *Empty Module*, provide the *Module name* and *Output folder*, then click the *Create* button to add the empty module to the solution. For solution templates other than *Microservice*, the *Create New Module* window opens directly to this step.
+If you choose the *Empty Module*, provide the *Module name* and *Output folder*, then click the *Create* button to add the empty module to the solution.
 
 ![create-new-empty-module](./images/solution-explorer/create-new-empty-module.png)
 
@@ -123,7 +123,7 @@ After creating the empty module, it will be added to the solution, and you shoul
 
 ### Adding a New Microservice Module
 
-Similar to creating an empty module, if you select the *Microservice (service-nolayers)* module template, provide the *Module name* and *Output folder*, then click the *Next* button. Please note that the *Module name* includes the solution name as a prefix, and the use of the dot(.) character in the *Module name* is not allowed.
+Similar to creating an empty module, if you select the *Microservice* module template, provide the *Module name* and *Output folder*, then click the *Next* button. Please note that the *Module name* includes the solution name as a prefix, and the use of the dot(.) character in the *Module name* is not allowed.
 
 ![create-new-microservice-nolayers-module](./images/solution-explorer/create-new-microservice-nolayers-module.png)
 
@@ -135,7 +135,7 @@ After creating the *Microservice (service-nolayers)* module, it will be added to
 
 ![created-new-microservice-nolayers](./images/solution-explorer/created-new-microservice-nolayers.png)
 
-> To customize the *Microservice (service-nolayers)* module template, navigate to the solution folder in file explorer, where you'll find a `_templates` folder. You can edit the `service_nolayers` template based on your specific needs.
+> To customize the *Microservice* module templates, navigate to the solution folder in file explorer, where you'll find a `_templates` folder. You can edit the `service_nolayers`, `gateway` and `web` templates based on your specific needs.
 
 ### Adding an Existing Module
 
@@ -184,6 +184,12 @@ When you click the *Install* button, it opens the *Install Module* window. On th
 ### Modify Installation, Uninstall or Remove a Module
 
 After we install the module, we're gonna see *Modify Installation* button instead of *Install* button. We can click the *Modify Installation* button to add or remove packages from the module. We can uninstall selected module with *Uninstall* button. After uninstalling the module, all package references in our module gonna be removed. We can remove the module with *Remove* button. This option only available if the imported module is not installed.
+
+### Change Version
+
+If the module has been added as a NuGet package, you have the option to change the version of the module. Click the *Change Version* button on the imported module context-menu to open the *Change Version* window. Here, you can select the *Version* for the module and click the *OK* button to change the version of the module.
+
+![change-version](./images/solution-explorer/change-version.png)
 
 ### Load Details
 
