@@ -70,6 +70,10 @@ So, open your `*Domain.csproj` file and add the line below (don't forget to repl
 Then, for the final step, you need to add the related `DependsOn` statement to the `*DomainModule.cs` file as follows:
 
 ```cs
+using Volo.Abp.Commercial.SuiteTemplates;
+
+// ...
+
 [DependsOn(typeof(VoloAbpCommercialSuiteTemplatesModule))]
 public class BookStoreDomainModule : AbpModule
 {
