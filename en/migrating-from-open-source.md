@@ -421,6 +421,12 @@ private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
 }
 ```
 
+Replace LeptonX Lite npm package with LeptonX package in `package.json` file:
+```diff
+-    "@abp/aspnetcore.mvc.ui.theme.leptonxlite": "~3.0.3",
++    "@volo/abp.aspnetcore.mvc.ui.theme.leptonx": "~3.0.3",
+```
+
 ### 4. Creating Migrations & Running Application
 
 That's it, you have applied the all related steps to migrate your application from ABP Framework to ABP Commercial. Now, you can create a new migration, apply it to your database, and run your application!
