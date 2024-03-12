@@ -282,25 +282,153 @@ public class BookStoreDbContext :
 ```diff
 -    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite" Version="3.0.*-*" />
 +    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX" Version="3.0.*-*" />
+
 -    <PackageReference Include="Volo.Abp.Identity.Web" Version="8.0.4" />
--    <PackageReference Include="Volo.Abp.Account.Web.OpenIddict" Version="8.0.4" />
 -    <PackageReference Include="Volo.Abp.TenantManagement.Web" Version="8.0.4" />
+
+-    <PackageReference Include="Volo.Abp.Account.Web.OpenIddict" Version="8.0.4" />
++    <PackageReference Include="Volo.Abp.Account.Pro.Public.Web.OpenIddict" Version="8.0.4" />
+
 ```
 
 > Notice, we have also changed LeptonXLite theme reference with the [LeptonX Theme](themes/lepton-x/index.md), which is a commercial theme provided by ABP Commercial and has superior features than LeptonX Lite theme.
 
-`*WebModule.cs`:
+Let's update namespaces as follows for the `*WebModule.cs`:
 
 ```diff
-- using Volo.Abp.TenantManagement;
+- using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
+- using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
++ using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX;
++ using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX.Bundling;
 
--    typeof(AbpAccountWebModule),
+- using Volo.Abp.TenantManagement.Web;
++ using Volo.Abp.Gdpr.Web.Extensions;
++ using Volo.Abp.LeptonX.Shared;
++ using Volo.Abp.PermissionManagement;
+```
+
+Then, we can update the configurations and add missing middlewares to the request pipeline in the same file, as follows:
+
+```diff
+-    typeof(AbpAccountWebOpenIddictModule),
++    typeof(AbpAccountPublicWebOpenIddictModule),
 -    typeof(AbpTenantManagementWebModule),
+-    typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
++    typeof(AbpAspNetCoreMvcUiLeptonXThemeModule),
+
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        //other configurations...
+        
++        context.Services.AddAbpCookieConsent(options =>
++        {
++            options.IsEnabled = true;
++            options.CookiePolicyUrl = "/CookiePolicy";
++            options.PrivacyPolicyUrl = "/PrivacyPolicy";
++        });
+
++        Configure<LeptonXThemeOptions>(options =>
++        {
++            options.DefaultStyle = LeptonXStyleNames.System;
++        });
+
++        Configure<LeptonXThemeMvcOptions>(options =>
++        {
++            options.ApplicationLayout = LeptonXMvcLayouts.SideMenu;
++        });
+
++        Configure<PermissionManagementOptions>(options =>
++        {
++            options.IsDynamicPermissionStoreEnabled = true;
++        });
+    }
+
+    //...
+
+        Configure<AbpBundlingOptions>(options =>
+        {
+            options.StyleBundles.Configure(
+-               LeptonXLiteThemeBundles.Styles.Global,
++               LeptonXThemeBundles.Styles.Global,
+                bundle =>
+                {
+                    bundle.AddFiles("/global-styles.css");
+                }
+            );
+        });
+
+    public override void OnApplicationInitialization(ApplicationInitializationContext context)
+    {
+        var app = context.GetApplicationBuilder();
+        var env = context.GetEnvironment();
+
+        //...
+
++       app.UseAbpCookieConsent();
+        app.UseCorrelationId();
++       app.UseAbpSecurityHeaders();
+        app.UseStaticFiles();
+
+        //...
+    }    
+```
+
+> **Note:** In the startup templates of ABP Commercial, beside these configurations, there are some additional configurations, such as [configuring impersonation](modules/account/impersonation.md), [configuring external providers](https://docs.abp.io/en/abp/latest/Modules/Account#configure-the-provider) and configuring health checks. These configurations are optional, and for the sake of the simplicity, in this documentation, we did not mention them. You can apply the related configurations by checking the related documentations and from the default startup templates.
+
+Update the namespaces in the `BookStoreMenuContributor` file as follows:
+
+```diff
+- using Volo.Abp.TenantManagement.Web.Navigation;
++ using Volo.Abp.TextTemplateManagement.Web.Navigation;
++ using Volo.Abp.AuditLogging.Web.Navigation;
++ using Volo.Abp.LanguageManagement.Navigation;
++ using Volo.Abp.OpenIddict.Pro.Web.Menus;
+```
+
+Then, update the `ConfigureMainMenuAsync` method in this file as follows:
+
+```csharp
+private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
+{
+    //other configurations for menu items...
+
+    //Administration
+    var administration = context.Menu.GetAdministration();
+    administration.Order = 5;
+
+    //Administration->Identity
+    administration.SetSubItemOrder(IdentityMenuNames.GroupName, 1);
+
+    //Administration->OpenIddict
+    administration.SetSubItemOrder(OpenIddictProMenus.GroupName, 2);
+
+    //Administration->Language Management
+    administration.SetSubItemOrder(LanguageManagementMenuNames.GroupName, 3);
+
+    //Administration->Text Template Management
+    administration.SetSubItemOrder(TextTemplateManagementMainMenuNames.GroupName, 4);
+
+    //Administration->Audit Logs
+    administration.SetSubItemOrder(AbpAuditLoggingMainMenuNames.GroupName, 5);
+
+    //Administration->Settings
+    administration.SetSubItemOrder(SettingManagementMenuNames.GroupName, 6);
+
+    return Task.CompletedTask;
+}
 ```
 
 ### 4. Creating Migrations & Running Application
 
-//TODO: creating migration, applying to the db and running the application
+That's it, you have applied the all related steps to migrate your application from ABP Framework to ABP Commercial. Now, you can create a new migration, apply it to your database and run your application!
+
+To create a new migration, open a terminal in your `*.EntityFrameworkCore` project directory, and run the following command:
+
+```bash
+dotnet ef migrations Migrated_To_ABP_Commercial
+```
+
+Then, to apply the database into your database and seed the initial data, you can run the `DbMigrator` project. After it's completed, you can run the `*.Web` project to see your application as working.
 
 ## Consultancy
 
