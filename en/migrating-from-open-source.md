@@ -1,18 +1,18 @@
 # Migrating From ABP Framework
 
-This guide provides you a step-by-step guidance to migrating your existing application (that uses the ABP Framework) to ABP Commercial. Since, ABP Commercial uses the main structure of the ABP Framework and built top of that, this process is pretty straight-forward, you can apply the steps mentioned in the each steps and easily migrate your project to ABP Commercial.
+This guide provides you a step-by-step guidance to migrating your existing application (that uses the ABP Framework) to ABP Commercial. Since ABP Commercial uses the main structure of the ABP Framework and is built on top of that, this process is pretty straightforward, you can apply the steps mentioned in each step and easily migrate your project to ABP Commercial.
 
-> After following this documentation, you should be able to migrate your project to ABP Commercial. However, if you had any problems or could not migrate your project, we are providing paid consultancy, which you can find details at [https://commercial.abp.io/additional-services](https://commercial.abp.io/additional-services). In this page, you can find related informations about our trainings, custom project development and porting existing projects services, and you can fill-out the contact form, so we can reach out to you!
+> After following this documentation, you should be able to migrate your project to ABP Commercial. However, if you have any problems or cannot migrate your project, we are providing paid consultancy, which you can find details at [https://commercial.abp.io/additional-services](https://commercial.abp.io/additional-services). On this page, you can find related pieces of information about our trainings, custom project development, and porting existing projects services, and you can fill-out the contact form, so we can reach out to you.
 
 ## ABP Commercial Migration Steps
 
-> In this guide, we assume that you have a middle-complex ABP based solution and want to migrate to ABP Commercial. Throuhgout this documentation, `Acme.BookStore` application will be used as a reference solution (example application that described in ABP's tutorial documents), which you can find at [https://github.com/abpframework/abp-samples/tree/master/BookStore-Mvc-EfCore](https://github.com/abpframework/abp-samples/tree/master/BookStore-Mvc-EfCore) but all of these steps are applicable for your own applications, only some of them can be changed according to your project choose and structure. However, the migration flow is the same.
+In this guide, we assume that you have a middle-complex ABP based solution and want to migrate to ABP Commercial. Throughout this documentation, `Acme.BookStore` application will be used as a reference solution (example application that is described in ABP's tutorial documents), which you can find at [https://github.com/abpframework/abp-samples/tree/master/BookStore-Mvc-EfCore](https://github.com/abpframework/abp-samples/tree/master/BookStore-Mvc-EfCore) but all of these steps are applicable for your own applications, only some of them can be changed according to your project choose and structure. However, the migration flow is the same.
 
-There are 4 main steps to migrating from ABP Framework to ABP Commercial, and each one of them are explained in the following sections, step-by-step and for project based:
+There are 4 main steps to migrating from ABP Framework to ABP Commercial, and each one of them is explained in the following sections, step-by-step and project-based:
 
 ### 1. License Transition
 
-First step is to obtaining the necessary license for ABP Commercial to be able to get benefit of the pro modules and unlock the additional features. To do that, you should first get your `AbpLicenseCode` and `ApiKey` from the [organization's detail page](https://commercial.abp.io/my-organizations).
+The first step is to obtain the necessary license for ABP Commercial to be able to get the benefit of the pro modules and unlock the additional features. To do that, you should first get your `AbpLicenseCode` and `ApiKey` from the [organization's detail page](https://commercial.abp.io/my-organizations).
 
 Then, you can update the **NuGet.Config** file in the root directory of your solution and add the *packageSource* as follows (don't forget to replace `<api-key>` placeholder): 
 
@@ -37,15 +37,15 @@ After that, you can open the `appsettings.json` files under the `*.DbMigrator` a
 
 ```
 
-> `ApiKey` is needed to be able to use ABP Commercial's NuGet packages and `AbpLicenseCode` is needed for license check per module.
+> `ApiKey` is needed to be able to use ABP Commercial's NuGet packages and `AbpLicenseCode` is needed for license checks per module.
 
 ### 2. Installing the ABP Commercial Modules
 
-After, you have added the `ApiKey` and `AbpLicenseCode` to the relevant places, now you can add [ABP Commercial's modules](modules/index.md) to your solution. ABP Commercial provides plent of modules that extend the ABP Framework modules, such as `Account PRO` module over `Account` module or `Identity Pro` module over `Identity` module. 
+After, you have added the `ApiKey` and `AbpLicenseCode` to the relevant places, now you can add [ABP Commercial's modules](modules/index.md) to your solution. ABP Commercial provides plenty of modules that extend the ABP Framework modules, such as the `Account Pro` module over the `Account` module or the `Identity Pro` module over the `Identity` module. 
 
-To replace these modules and also add the additional modules provided by ABP Commercial, you can use the `abp add-module` command (and then remove the free modules in the next section). This command finds all packages of the specified module, finds the related projects in the solution and adds each packages into the corresponding project in the solution. Therefore, by using this command, you don't need to manually add the package references to the `*.csproj` files and add related `[DependsOn(typeof(<>))]` statements to the module classes, instead this command do this behalf of you.
+To replace these modules and also add the additional modules provided by ABP Commercial, you can use the `abp add-module` command (and then remove the free modules as described in the next section). This command finds all packages of the specified module, finds the related projects in the solution, and adds each package to the corresponding project in the solution. Therefore, by using this command, you don't need to manually add the package references to the `*.csproj` files and add related `[DependsOn(typeof(<>))]` statements to the module classes, instead, this command does this on behalf of you.
 
-You can run the following commands one after another in your solution directory and add all the related modules into your solution, like you have started with [one of the startup templates of ABP Commercial](startup-templates/index.md):
+You can run the following commands one after another in your solution directory and add all the related modules into your solution as you would have started with [one of the startup templates of ABP Commercial](startup-templates/index.md):
 
 1. `abp add-module Volo.Identity.Pro --skip-db-migrations` → [Identity Module](modules/identity.md)
 2. `abp add-module Volo.OpenIddict.Pro --skip-db-migrations` → [OpenIddict Module](modules/openiddict.md)
@@ -57,9 +57,9 @@ You can run the following commands one after another in your solution directory 
 8. `abp add-module Volo.Gdpr --skip-db-migrations` → [GDPR Module](modules/gdpr.md)
 9. `abp add-module Volo.Abp.BlobStoring.Database --skip-db-migrations` → [Blob Storing - Database Provider](https://docs.abp.io/en/abp/latest/Blob-Storing-Database)
 
-> These 9 modules are pre-installed to the [startup templates of ABP Commercial](startup-templates/index.md). Therefore, you can install all of them if you want to align your project with the startup templates, but it's totally optional, so if you you can skip running the command above for a module that you don't want to add into your solution.
+> These 9 modules are pre-installed on the [startup templates of ABP Commercial](startup-templates/index.md). Therefore, you can install all of them if you want to align your project with the startup templates, but it's totally optional, so you can skip running the command above for a module that you don't want to add to your solution.
 
-After running the commands above, all of the related commercial packages and their dependencies will be added into your solution. In addition to these module packages, you can add `Volo.Abp.Commercial.SuiteTemplates` package into our domain application to be able to use ABP Suite later on. By doing that you will be able to add your solution from [ABP Suite UI](abp-suite/index.md) and generate CRUD pages for your applications whenever you want. 
+After running the commands above, all of the related commercial packages and their dependencies will be added to your solution. In addition to these module packages, you can add `Volo.Abp.Commercial.SuiteTemplates` package into our domain application to be able to use ABP Suite later on. By doing that you will be able to add your solution from [ABP Suite UI](abp-suite/index.md) and generate CRUD pages for your applications whenever you want. 
 
 So, open your `*Domain.csproj` file and add the line below (don't forget to replace the `<Version>` placeholder):
 
@@ -79,13 +79,13 @@ public class BookStoreDomainModule : AbpModule
 
 ### 3. Removing the ABP Framework Module References & Updating Configurations
 
-After the license transition and installing the ABP Commercial Modules, now you can remove the unnecessary free modules. For example, now you don't need the `Identity` module in your solution, because you have added the `Identity PRO` module in the previous section and it's already has dependcy to the free module and extends it.
+After the license transition and installing the ABP Commercial Modules, now you can remove the unnecessary free modules. For example, now you don't need the `Identity` module in your solution, because you have added the `Identity PRO` module in the previous section and it already has dependency on the free module and extends it.
 
 You should remove various dependencies and references in different projects in your solution. All of the required changes are listed below in different sections, please apply the following steps to remove the unnecessary ABP Framework Modules:
 
 #### 3.1 - Domain.Shared Project
 
-`*Domain.Shared.csproj`:
+Remove the unnecessary references from the `*Domain.Shared.csproj`:
 
 ```diff
 -    <PackageReference Include="Volo.Abp.Identity.Domain.Shared" Version="8.0.4" />
@@ -93,7 +93,7 @@ You should remove various dependencies and references in different projects in y
 -    <PackageReference Include="Volo.Abp.OpenIddict.Domain.Shared" Version="8.0.4" />  
 ```
 
-`*DomainSharedModule.cs`:
+Remove the unnecessary namespaces, and **DependsOn** statements from `*DomainSharedModule.cs`:
 
 ```diff
 - using Volo.Abp.TenantManagement;
@@ -105,7 +105,7 @@ You should remove various dependencies and references in different projects in y
 
 #### 3.2 - Domain Project
 
-`*Domain.csproj`:
+Remove the unnecessary references from the `*Domain.csproj`:
 
 ```diff
 -    <PackageReference Include="Volo.Abp.Identity.Domain" Version="8.0.4" />
@@ -113,7 +113,7 @@ You should remove various dependencies and references in different projects in y
 -    <PackageReference Include="Volo.Abp.OpenIddict.Domain" Version="8.0.4" />  
 ```
 
-`*DomainModule.cs`:
+Remove the unnecessary namespaces, and **DependsOn** statements from `*DomainModule.cs`:
 
 ```diff
 - using Volo.Abp.TenantManagement;
@@ -132,7 +132,7 @@ After removing the unnecessary references, we should update the namespaces in th
 
 #### 3.3 - EntityFrameworkCore Project
 
-`*EntityFrameworkCore.csproj`:
+Remove the unnecessary references from the  `*EntityFrameworkCore.csproj`:
 
 ```diff
 -    <PackageReference Include="Volo.Abp.Identity.EntityFrameworkCore" Version="8.0.4" />
@@ -140,7 +140,7 @@ After removing the unnecessary references, we should update the namespaces in th
 -    <PackageReference Include="Volo.Abp.OpenIddict.EntityFrameworkCore" Version="8.0.4" />  
 ```
 
-`*EntityFrameworkCoreModule.cs`:
+Remove the unnecessary namespaces from `*EntityFrameworkCoreModule.cs`:
 
 ```diff
 - using Volo.Abp.TenantManagement.EntityFrameworkCore;
@@ -150,7 +150,7 @@ After removing the unnecessary references, we should update the namespaces in th
 -    typeof(AbpTenantManagementEntityFrameworkCoreModule)  
 ```
 
-`*DbContext.cs`:
+Then, update the`*DbContext.cs` and make the related configurations:
 
 ```diff
 - using Volo.Abp.TenantManagement;
@@ -158,6 +158,7 @@ After removing the unnecessary references, we should update the namespaces in th
 + using Volo.Saas.Editions;
 + using Volo.Saas.EntityFrameworkCore;
 + using Volo.Saas.Tenants;
++ using Volo.Abp.LanguageManagement.EntityFrameworkCore;
 
 [ReplaceDbContext(typeof(IIdentityDbContext))]
 - [ReplaceDbContext(typeof(ITenantManagementDbContext))]
@@ -195,13 +196,15 @@ public class BookStoreDbContext :
 -        builder.ConfigureTenantManagement();
 +        builder.ConfigureSaas();
 
++        builder.ConfigureLanguageManagement();
+
     }
 }
 ```
 
 #### 3.4 - Application.Contracts Project
 
-`*Application.Contracts.csproj`:
+Remove the unnecessary references from the `*Application.Contracts.csproj`:
 
 ```diff
 -    <PackageReference Include="Volo.Abp.Account.Application.Contracts" Version="8.0.4" />
@@ -209,7 +212,7 @@ public class BookStoreDbContext :
 -    <PackageReference Include="Volo.Abp.TenantManagement.Application.Contracts" Version="8.0.4" />
 ```
 
-`*ApplicationContractsModule.cs`:
+Remove the unnecessary namespaces, and **DependsOn** statements from `*ApplicationContractsModule.cs`:
 
 ```diff
 - using Volo.Abp.TenantManagement;
@@ -220,7 +223,7 @@ public class BookStoreDbContext :
 
 #### 3.5 - Application Project
 
-`*Application.csproj`:
+Remove the unnecessary references from the `*Application.csproj`:
 
 ```diff
 -    <PackageReference Include="Volo.Abp.Account.Application" Version="8.0.4" />
@@ -228,7 +231,7 @@ public class BookStoreDbContext :
 -    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="8.0.4" />
 ```
 
-`*ApplicationModule.cs`:
+Remove the unnecessary namespaces, and **DependsOn** statements from `*ApplicationModule.cs`:
 
 ```diff
 - using Volo.Abp.TenantManagement;
@@ -239,7 +242,7 @@ public class BookStoreDbContext :
 
 #### 3.6 - HttpApi Project
 
-`*HttpApi.csproj`:
+Remove the unnecessary references from the `*HttpApi.csproj`:
 
 ```diff
 -    <PackageReference Include="Volo.Abp.Account.HttpApi" Version="8.0.4" />
@@ -247,7 +250,7 @@ public class BookStoreDbContext :
 -    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="8.0.4" />
 ```
 
-`*HttpApiModule.cs`:
+Remove the unnecessary namespaces, and **DependsOn** statements from `*HttpApiModule.cs`:
 
 ```diff
 - using Volo.Abp.TenantManagement;
@@ -258,7 +261,7 @@ public class BookStoreDbContext :
 
 #### 3.7 - HttpApi.Client Project
 
-`*HttpApi.Client.csproj`:
+Remove the unnecessary references from the `*HttpApi.Client.csproj`:
 
 ```diff
 -    <PackageReference Include="Volo.Abp.Account.HttpApi.Client" Version="8.0.4" />
@@ -266,7 +269,7 @@ public class BookStoreDbContext :
 -    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi.Client" Version="8.0.4" />
 ```
 
-`*HttpApiClientModule.cs`:
+Remove the unnecessary namespaces, and **DependsOn** statements from `*HttpApiClientModule.cs`:
 
 ```diff
 - using Volo.Abp.TenantManagement;
@@ -277,7 +280,7 @@ public class BookStoreDbContext :
 
 #### 3.8 - Web Project
 
-`*Web.csproj`:
+Remove the unnecessary references from the `*Web.csproj`:
 
 ```diff
 -    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite" Version="3.0.*-*" />
@@ -291,9 +294,9 @@ public class BookStoreDbContext :
 
 ```
 
-> Notice, we have also changed LeptonXLite theme reference with the [LeptonX Theme](themes/lepton-x/index.md), which is a commercial theme provided by ABP Commercial and has superior features than LeptonX Lite theme.
+> Notice, that you have also changed the LeptonXLite theme reference with the [LeptonX Theme](themes/lepton-x/index.md), which is a commercial theme provided by ABP Commercial and has superior features to the LeptonX Lite theme.
 
-Let's update namespaces as follows for the `*WebModule.cs`:
+Update namespaces for the `*WebModule.cs`:
 
 ```diff
 - using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
@@ -373,7 +376,7 @@ Then, we can update the configurations and add missing middlewares to the reques
     }    
 ```
 
-> **Note:** In the startup templates of ABP Commercial, beside these configurations, there are some additional configurations, such as [configuring impersonation](modules/account/impersonation.md), [configuring external providers](https://docs.abp.io/en/abp/latest/Modules/Account#configure-the-provider) and configuring health checks. These configurations are optional, and for the sake of the simplicity, in this documentation, we did not mention them. You can apply the related configurations by checking the related documentations and from the default startup templates.
+> **Note:** In the startup templates of ABP Commercial, besides these configurations, there are some additional configurations, such as [configuring impersonation](modules/account/impersonation.md), [configuring external providers](https://docs.abp.io/en/abp/latest/Modules/Account#configure-the-provider), and configuring health checks. These configurations are optional, and for the sake of simplicity, in this documentation, we did not mention them. You can apply the related configurations by checking the related documentation and from the default startup templates.
 
 Update the namespaces in the `BookStoreMenuContributor` file as follows:
 
@@ -385,7 +388,7 @@ Update the namespaces in the `BookStoreMenuContributor` file as follows:
 + using Volo.Abp.OpenIddict.Pro.Web.Menus;
 ```
 
-Then, update the `ConfigureMainMenuAsync` method in this file as follows:
+Then, we can update the `ConfigureMainMenuAsync` method in this file to specify the order of the menu items:
 
 ```csharp
 private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
@@ -420,15 +423,17 @@ private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
 
 ### 4. Creating Migrations & Running Application
 
-That's it, you have applied the all related steps to migrate your application from ABP Framework to ABP Commercial. Now, you can create a new migration, apply it to your database and run your application!
+That's it, you have applied the all related steps to migrate your application from ABP Framework to ABP Commercial. Now, you can create a new migration, apply it to your database, and run your application!
 
 To create a new migration, open a terminal in your `*.EntityFrameworkCore` project directory, and run the following command:
 
 ```bash
-dotnet ef migrations Migrated_To_ABP_Commercial
+dotnet ef migrations add Migrated_To_ABP_Commercial
 ```
 
-Then, to apply the database into your database and seed the initial data, you can run the `DbMigrator` project. After it's completed, you can run the `*.Web` project to see your application as working.
+Then, to apply the database into your database and seed the initial data, you can run the `*.DbMigrator` project. After it's completed, you can run the `*.Web` project to see your application as working.
+
+> **Note:** If you have an existing database, then creating a new migration and applying it to the database may not happen correctly. At that point, if it's possible you can drop the existing database and create a new one, or you can have a backup of your existing db, and after applying the new migration, you can synchronize the database with the backup.
 
 ## Consultancy
 
