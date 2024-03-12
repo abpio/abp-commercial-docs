@@ -12,9 +12,9 @@ There are 4 main steps to migrating from ABP Framework to ABP Commercial, and ea
 
 ### 1. License Transition
 
-The first step is to obtain the necessary license for ABP Commercial to be able to get the benefit of the pro modules and unlock the additional features. To do that, you should first get your `AbpLicenseCode` and `ApiKey` from the [organization's detail page](https://commercial.abp.io/my-organizations).
+The first step is to obtain the necessary license for ABP Commercial to be able to get the benefit of the pro modules and unlock the additional features. To do that, you should first get your `ApiKey` from the [organization's detail page](https://commercial.abp.io/my-organizations).
 
-Then, you can update the **NuGet.Config** file in the root directory of your solution and add the *packageSource* as follows (don't forget to replace `<api-key>` placeholder): 
+You can update the **NuGet.Config** file in the root directory of your solution and add the *packageSource* as follows (don't forget to replace `<api-key>` placeholder): 
 
 ```diff
 <?xml version="1.0" encoding="utf-8"?>
@@ -26,7 +26,7 @@ Then, you can update the **NuGet.Config** file in the root directory of your sol
 </configuration>
 ```
 
-After that, you can open the `appsettings.json` files under the `*.DbMigrator` and `*.Domain` projects and add your `AbpLicenseCode`:
+After that, you can obtain an `AbpLicenseCode` by creating a startup template and copying the code from the `appsettings.json` file. Then, you can open the `appsettings.json` files under the `*.DbMigrator` and `*.Domain` projects and add your `AbpLicenseCode`:
 
 ```json
 {
@@ -437,4 +437,4 @@ Then, to apply the database into your database and seed the initial data, you ca
 
 ## Consultancy
 
-If you find the migration process challenging or prefer professional assistance, we offer a [paid consultancy service](https://commercial.abp.io/additional-services). Our experienced consultants can help ensure a smooth transition to ABP Commercial, addressing any specific needs or challenges your project may encounter. For detailed guidance and support, feel free to [reach out](https://commercial.abp.io/contact)!
+If you find the migration process challenging or prefer professional assistance, we offer a [paid consultancy service](https://commercial.abp.io/additional-services). Our experienced consultants can help ensure a smooth transition to ABP Commercial, addressing any specific needs or challenges your project may encounter. For detailed guidance and support, feel free to [reach out](https://commercial.abp.io/contact).
