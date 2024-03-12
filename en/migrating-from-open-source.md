@@ -1,12 +1,19 @@
 # Migrating From ABP Framework
 
+````json
+//[doc-params]
+{
+    "DB": ["EF", "Mongo"]
+}
+````
+
 This guide provides you a step-by-step guidance to migrating your existing application (that uses the ABP Framework) to ABP Commercial. Since ABP Commercial uses the main structure of the ABP Framework and is built on top of that, this process is pretty straightforward, you can apply the steps mentioned in each step and easily migrate your project to ABP Commercial.
 
 > After following this documentation, you should be able to migrate your project to ABP Commercial. However, if you have any problems or cannot migrate your project, we are providing paid consultancy, which you can find details at [https://commercial.abp.io/additional-services](https://commercial.abp.io/additional-services). On this page, you can find related pieces of information about our trainings, custom project development, and porting existing projects services, and you can fill-out the contact form, so we can reach out to you.
 
 ## ABP Commercial Migration Steps
 
-In this guide, we assume that you have a middle-complex ABP based solution and want to migrate to ABP Commercial. Throughout this documentation, `Acme.BookStore` application will be used as a reference solution (example application that is described in ABP's tutorial documents), which you can find at [https://github.com/abpframework/abp-samples/tree/master/BookStore-Mvc-EfCore](https://github.com/abpframework/abp-samples/tree/master/BookStore-Mvc-EfCore) but all of these steps are applicable for your own applications, only some of them can be changed according to your project choose and structure. However, the migration flow is the same.
+In this guide, we assume that you have a middle-complex ABP based solution and want to migrate to ABP Commercial. Throughout this documentation, `Acme.BookStore` application will be used as a reference solution (example application that is described in ABP's tutorial documents){{if DB == "EF"}}, which you can find at [https://github.com/abpframework/abp-samples/tree/master/BookStore-Mvc-EfCore](https://github.com/abpframework/abp-samples/tree/master/BookStore-Mvc-EfCore){{end}} but all of these steps are applicable for your own applications, only some of them can be changed according to your project choose and structure. However, the migration flow is the same.
 
 There are 4 main steps to migrating from ABP Framework to ABP Commercial, and each one of them is explained in the following sections, step-by-step and project-based:
 
@@ -134,6 +141,8 @@ After removing the unnecessary references, we should update the namespaces in th
 + using Volo.Saas.Tenants;
 ```
 
+{{ if DB == "EF" }}
+
 #### 3.3 - EntityFrameworkCore Project
 
 Remove the unnecessary references from the  `*EntityFrameworkCore.csproj`:
@@ -205,6 +214,30 @@ public class BookStoreDbContext :
     }
 }
 ```
+
+{{ else }}
+
+#### 3.3 - MongoDB Project
+
+Remove the unnecessary references from the  `*MongoDb.csproj`:
+
+```diff
+-    <PackageReference Include="Volo.Abp.Identity.MongoDb" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.TenantManagement.MongoDb" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.OpenIddict.MongoDb" Version="8.0.4" />  
+```
+
+Remove the unnecessary namespaces from `*MongoDbModule.cs`:
+
+```diff
+- using Volo.Abp.TenantManagement.MongoDb;
+
+-    typeof(AbpIdentityMongoDbModule),
+-    typeof(AbpOpenIddictMongoDbModule),
+-    typeof(AbpTenantManagementMongoDbModule)  
+```
+
+{{ end }}
 
 #### 3.4 - Application.Contracts Project
 
@@ -435,7 +468,7 @@ Replace LeptonX Lite npm package with LeptonX package in `package.json` file:
 
 That's it, you have applied the all related steps to migrate your application from ABP Framework to ABP Commercial. Now, you can create a new migration, apply it to your database, and run your application!
 
-To create a new migration, open a terminal in your `*.EntityFrameworkCore` project directory, and run the following command:
+To create a new migration, open a terminal in your {{ if DB == "EF" }}`*.EntityFrameworkCore`{{else}}`*.MongoDb`{{end}} project directory, and run the following command:
 
 ```bash
 dotnet ef migrations add Migrated_To_ABP_Commercial
