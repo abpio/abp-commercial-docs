@@ -219,9 +219,84 @@ public class BookStoreDbContext :
 ```
 
 #### 3.5 - Application Project
+
+`*Application.csproj`:
+
+```diff
+-    <PackageReference Include="Volo.Abp.Account.Application" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.Identity.Application" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="8.0.4" />
+```
+
+`*ApplicationModule.cs`:
+
+```diff
+- using Volo.Abp.TenantManagement;
+
+-    typeof(AbpAccountApplicationModule),
+-    typeof(AbpTenantManagementApplicationModule),
+```
+
 #### 3.6 - HttpApi Project
+
+`*HttpApi.csproj`:
+
+```diff
+-    <PackageReference Include="Volo.Abp.Account.HttpApi" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi" Version="8.0.4" />
+```
+
+`*HttpApiModule.cs`:
+
+```diff
+- using Volo.Abp.TenantManagement;
+
+-    typeof(AbpAccountHttpApiModule),
+-    typeof(AbpTenantManagementHttpApiModule),
+```
+
 #### 3.7 - HttpApi.Client Project
+
+`*HttpApi.Client.csproj`:
+
+```diff
+-    <PackageReference Include="Volo.Abp.Account.HttpApi.Client" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.TenantManagement.HttpApi.Client" Version="8.0.4" />
+```
+
+`*HttpApiClientModule.cs`:
+
+```diff
+- using Volo.Abp.TenantManagement;
+
+-    typeof(AbpAccountHttpApiClientModule),
+-    typeof(AbpTenantManagementHttpApiClientModule),
+```
+
 #### 3.8 - Web Project
+
+`*Web.csproj`:
+
+```diff
+-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite" Version="3.0.*-*" />
++    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX" Version="3.0.*-*" />
+-    <PackageReference Include="Volo.Abp.Identity.Web" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.Account.Web.OpenIddict" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.TenantManagement.Web" Version="8.0.4" />
+```
+
+> Notice, we have also changed LeptonXLite theme reference with the [LeptonX Theme](themes/lepton-x/index.md), which is a commercial theme provided by ABP Commercial and has superior features than LeptonX Lite theme.
+
+`*WebModule.cs`:
+
+```diff
+- using Volo.Abp.TenantManagement;
+
+-    typeof(AbpAccountWebModule),
+-    typeof(AbpTenantManagementWebModule),
+```
 
 ### 4. Creating Migrations & Running Application
 
