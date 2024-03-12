@@ -41,9 +41,9 @@ After that, you can open the `appsettings.json` files under the `*.DbMigrator` a
 
 ### 2. Installing the ABP Commercial Modules
 
-After, we have added the `ApiKey` and `AbpLicenseCode` to the relevant places, now we can add [ABP Commercial's modules](modules/index.md) to our solution. ABP Commercial provides plent of modules that extend the ABP Framework modules, such as `Account PRO` module over `Account` module or `Identity Pro` module over `Identity` module. 
+After, you have added the `ApiKey` and `AbpLicenseCode` to the relevant places, now you can add [ABP Commercial's modules](modules/index.md) to your solution. ABP Commercial provides plent of modules that extend the ABP Framework modules, such as `Account PRO` module over `Account` module or `Identity Pro` module over `Identity` module. 
 
-To replace these modules and also add the additional modules provided by ABP Commercial, we can use the `abp add-module` command. This command finds all packages of the specified module, finds the related projects in the solution and adds each packages into the corresponding project in the solution. Therefore, by using this command, we don't need to manually add the package references to the `*.csproj` files and add related `[DependsOn(typeof(<>))]` statements to the module classes, instead this command do this behalf of us.
+To replace these modules and also add the additional modules provided by ABP Commercial, you can use the `abp add-module` command (and then remove the free modules in the next section). This command finds all packages of the specified module, finds the related projects in the solution and adds each packages into the corresponding project in the solution. Therefore, by using this command, you don't need to manually add the package references to the `*.csproj` files and add related `[DependsOn(typeof(<>))]` statements to the module classes, instead this command do this behalf of you.
 
 You can run the following commands one after another in your solution directory and add all the related modules into your solution, like you have started with [one of the startup templates of ABP Commercial](startup-templates/index.md):
 
@@ -59,7 +59,7 @@ You can run the following commands one after another in your solution directory 
 
 > These 9 modules are pre-installed to the [startup templates of ABP Commercial](startup-templates/index.md). Therefore, you can install all of them if you want to align your project with the startup templates, but it's totally optional, so if you you can skip running the command above for a module that you don't want to add into your solution.
 
-After running the commands above, all of the related commercial packages and their dependencies will be added into your solution. In addition to these module packages, we can add `Volo.Abp.Commercial.SuiteTemplates` package into our domain application to be able to use ABP Suite later on. By doing that you will be able to add your solution from [ABP Suite UI](abp-suite/index.md) and generate CRUD pages for your applications whenever you want. 
+After running the commands above, all of the related commercial packages and their dependencies will be added into your solution. In addition to these module packages, you can add `Volo.Abp.Commercial.SuiteTemplates` package into our domain application to be able to use ABP Suite later on. By doing that you will be able to add your solution from [ABP Suite UI](abp-suite/index.md) and generate CRUD pages for your applications whenever you want. 
 
 So, open your `*Domain.csproj` file and add the line below (don't forget to replace the `<Version>` placeholder):
 
@@ -67,23 +67,165 @@ So, open your `*Domain.csproj` file and add the line below (don't forget to repl
 <PackageReference Include="Volo.Abp.Commercial.SuiteTemplates" Version="<Version>" />
 ```
 
-Then, for the final step, we need to add the related `DependsOn` statement to the `*DomainModule.cs` file as follows:
+Then, for the final step, you need to add the related `DependsOn` statement to the `*DomainModule.cs` file as follows:
 
 ```cs
 [DependsOn(typeof(VoloAbpCommercialSuiteTemplatesModule))]
 public class BookStoreDomainModule : AbpModule
 {
-    //ommited for code brevity...
+    //omited for code abbreviation...
 }
 ```
 
-### 3. Removing the ABP Framework Module References
+### 3. Removing the ABP Framework Module References & Updating Configurations
 
-//TODO:
+After the license transition and installing the ABP Commercial Modules, now you can remove the unnecessary free modules. For example, now you don't need the `Identity` module in your solution, because you have added the `Identity PRO` module in the previous section and it's already has dependcy to the free module and extends it.
 
-### 4. Updating Configurations
+You should remove various dependencies and references in different projects in your solution. All of the required changes are listed below in different sections, please apply the following steps to remove the unnecessary ABP Framework Modules:
 
-//TODO: dbcontext, dataseeder vs. + creating migration and applying to the db.
+#### 3.1 - Domain.Shared Project
+
+`*Domain.Shared.csproj`:
+
+```diff
+-    <PackageReference Include="Volo.Abp.Identity.Domain.Shared" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.TenantManagement.Domain.Shared" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.OpenIddict.Domain.Shared" Version="8.0.4" />  
+```
+
+`*DomainSharedModule.cs`:
+
+```diff
+- using Volo.Abp.TenantManagement;
+
+-    typeof(AbpIdentityDomainSharedModule),
+-    typeof(AbpOpenIddictDomainSharedModule),
+-    typeof(AbpTenantManagementDomainSharedModule)  
+```
+
+#### 3.2 - Domain Project
+
+`*Domain.csproj`:
+
+```diff
+-    <PackageReference Include="Volo.Abp.Identity.Domain" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.TenantManagement.Domain" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.OpenIddict.Domain" Version="8.0.4" />  
+```
+
+`*DomainModule.cs`:
+
+```diff
+- using Volo.Abp.TenantManagement;
+
+-    typeof(AbpIdentityDomainModule),
+-    typeof(AbpOpenIddictDomainModule),
+-    typeof(AbpTenantManagementDomainModule),
+```
+
+After removing the unnecessary references, we should update the namespaces in the `BookStoreDbMigrationService` class under the **Data** folder:
+
+```diff
+- using Volo.Abp.TenantManagement;
++ using Volo.Saas.Tenants;
+```
+
+#### 3.3 - EntityFrameworkCore Project
+
+`*EntityFrameworkCore.csproj`:
+
+```diff
+-    <PackageReference Include="Volo.Abp.Identity.EntityFrameworkCore" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.TenantManagement.EntityFrameworkCore" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.OpenIddict.EntityFrameworkCore" Version="8.0.4" />  
+```
+
+`*EntityFrameworkCoreModule.cs`:
+
+```diff
+- using Volo.Abp.TenantManagement.EntityFrameworkCore;
+
+-    typeof(AbpIdentityEntityFrameworkCoreModule),
+-    typeof(AbpOpenIddictEntityFrameworkCoreModule),
+-    typeof(AbpTenantManagementEntityFrameworkCoreModule)  
+```
+
+`*DbContext.cs`:
+
+```diff
+- using Volo.Abp.TenantManagement;
+- using Volo.Abp.TenantManagement.EntityFrameworkCore;
++ using Volo.Saas.Editions;
++ using Volo.Saas.EntityFrameworkCore;
++ using Volo.Saas.Tenants;
+
+[ReplaceDbContext(typeof(IIdentityDbContext))]
+- [ReplaceDbContext(typeof(ITenantManagementDbContext))]
++ [ReplaceDbContext(typeof(ISaasDbContext))]
+[ConnectionStringName("Default")]
+public class BookStoreDbContext :
+    AbpDbContext<BookStoreDbContext>,
+    IIdentityDbContext,
+-   ITenantManagementDbContext
++   ISaasDbContext
+{
+    //...
+
+-    // Tenant Management
+-    public DbSet<Tenant> Tenants { get; set; }
+-    public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
+
++    // SaaS
++    public DbSet<Tenant> Tenants { get; set; }
++    public DbSet<Edition> Editions { get; set; }
++    public DbSet<TenantConnectionString> TenantConnectionStrings { get; set; }
+
+    //...
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        //...
+
+-        builder.ConfigureIdentity();
++        builder.ConfigureIdentityPro();
+-        builder.ConfigureOpenIddict();
++        builder.ConfigureOpenIddictPro();
+-        builder.ConfigureTenantManagement();
++        builder.ConfigureSaas();
+
+    }
+}
+```
+
+#### 3.4 - Application.Contracts Project
+
+`*Application.Contracts.csproj`:
+
+```diff
+-    <PackageReference Include="Volo.Abp.Account.Application.Contracts" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.Identity.Application.Contracts" Version="8.0.4" />
+-    <PackageReference Include="Volo.Abp.TenantManagement.Application.Contracts" Version="8.0.4" />
+```
+
+`*ApplicationContractsModule.cs`:
+
+```diff
+- using Volo.Abp.TenantManagement;
+
+-    typeof(AbpAccountApplicationContractsModule),
+-    typeof(AbpTenantManagementApplicationContractsModule),
+```
+
+#### 3.5 - Application Project
+#### 3.6 - HttpApi Project
+#### 3.7 - HttpApi.Client Project
+#### 3.8 - Web Project
+
+### 4. Creating Migrations & Running Application
+
+//TODO: creating migration, applying to the db and running the application
 
 ## Consultancy
 
