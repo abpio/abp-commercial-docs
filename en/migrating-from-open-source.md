@@ -26,7 +26,7 @@ You can update the **NuGet.Config** file in the root directory of your solution 
 </configuration>
 ```
 
-After that, you can obtain an `AbpLicenseCode` by creating a startup template and copying the code from the `appsettings.json` file. Then, you can open the `appsettings.json` files under the `*.DbMigrator` and `*.Domain` projects and add your `AbpLicenseCode`:
+After that, you can obtain an `AbpLicenseCode` by creating a startup template and copying the code from the `appsettings.secrets.json` file. Then, you can open the `appsettings.secrets.json` files under the `*.DbMigrator` and `*.Domain` projects and add your `AbpLicenseCode`:
 
 ```json
 {
