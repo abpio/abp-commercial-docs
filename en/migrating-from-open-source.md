@@ -1,4 +1,4 @@
-# Migrating From ABP Framework
+# Migrating from Open Source Templates
 
 ````json
 //[doc-params]
@@ -66,7 +66,7 @@ You can run the following commands one after another in your solution directory 
 
 > These 9 modules are pre-installed on the [startup templates of ABP Commercial](startup-templates/index.md). Therefore, you can install all of them if you want to align your project with the startup templates, but it's totally optional, so you can skip running the command above for a module that you don't want to add to your solution.
 
-After running the commands above, all of the related commercial packages and their dependencies will be added to your solution. In addition to these module packages, you can add `Volo.Abp.Commercial.SuiteTemplates` package into our domain application to be able to use ABP Suite later on. By doing that you will be able to add your solution from [ABP Suite UI](abp-suite/index.md) and generate CRUD pages for your applications whenever you want. 
+After running the commands above, all of the related commercial packages and their dependencies will be added to your solution. In addition to these module packages, you can add `Volo.Abp.Commercial.SuiteTemplates` package into your domain application to be able to use ABP Suite later on. By doing that you will be able to add your solution from [ABP Suite UI](abp-suite/index.md) and generate CRUD pages for your applications whenever you want. 
 
 So, open your `*Domain.csproj` file and add the line below (don't forget to replace the `<Version>` placeholder):
 
