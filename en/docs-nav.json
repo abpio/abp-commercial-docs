@@ -89,6 +89,10 @@
           "path": "guides/customizing-modules.md"
         },
         {
+          "text": "Migrating from Open Source Templates",
+          "path": "migrating-from-open-source.md"
+        },
+        {
           "text": "Migrating to OpenIddict",
           "path": "migration-guides/openIddict-step-by-step.md"
         }
