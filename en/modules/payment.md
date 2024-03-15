@@ -141,6 +141,11 @@ Configure<PaymentOptions>(options =>
 * ```Installment```: The number of installments. It can be an integer between 1 and 12.
 * ```TestOrder```: Is the order a test order or not (true or false).
 * ```Debug```: Writes detailed log on PAYU side.
+
+### PayuWebOptions
+
+```PayuWebOptions``` is used to configure PayU payment gateway web options.
+
 * ```Recommended```: Is payment gateway is recommended or not. This information is displayed on payment gateway selection page.
 * ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
 * ```PrePaymentCheckoutButtonStyle```: Css style to add Checkout button on PayU prepayment page. This class can be used for tracking user activity via 3rd party tools like Google Tag Manager.
@@ -153,12 +158,17 @@ Configure<PaymentOptions>(options =>
 * ```CheckoutUrl```: 2Checkout checkout URL (it must be set to https://secure.2checkout.com/order/checkout.php).
 * ```LanguageCode```: Language of the order. This will be used for notification email that are sent to the client, if available.
 * ```CurrencyCode```: Currency code of order (USD, EUR, etc...).
+
+### TwoCheckoutWebOptions
+
+```TwoCheckoutWebOptions``` is used to configure TwoCheckout payment gateway web options.
+
 * ```Recommended```: Is payment gateway is recommended or not. This information is displayed on payment gateway selection page.
 * ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
 
 ### StripeOptions
 
-```StripeConsts```: is used to configure Stripe payment gateway options.
+```StripeOptions```: is used to configure Stripe payment gateway options.
 
 * ```PublishableKey```: Publishable Key for Stripe account.
 * ```SecretKey```: Secret Key for Stripe account.
@@ -166,6 +176,11 @@ Configure<PaymentOptions>(options =>
 * ```Currency```: Currency code of order (USD, EUR, etc..., see [Stripe docs](https://stripe.com/docs/currencies) for the full list). Its default value is USD.
 * ```Locale```: Language of the order. Its default value is 'auto'.
 * ```PaymentMethodTypes```:  A list of the types of payment methods (e.g., card) this Checkout session can accept. See https://stripe.com/docs/payments/checkout/payment-methods. Its default value is 'card'.
+
+### StripeWebOptions
+
+```StripeWebOptions``` is used to configure Stripe payment gateway web options.
+
 * ```Recommended```: Is payment gateway is recommended or not. This information is displayed on payment gateway selection page.
 * ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
 
@@ -179,6 +194,13 @@ Configure<PaymentOptions>(options =>
 * ```Environment```: Payment environment. ("Sandbox" or "Live", default value is "Sandbox")
 * ```Locale```: PayPal-supported language and locale to localize PayPal checkout pages. See https://developer.paypal.com/docs/api/reference/locale-codes/.
 
+### PayPalWebOptions
+
+```PayPalWebOptions``` is used to configure PayPal payment gateway web options.
+
+* ```Recommended```: Is payment gateway is recommended or not. This information is displayed on payment gateway selection page.
+* ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
+
 ### IyzicoOptions
 
 ```IyzicoOptions``` is used to configure Iyzico payment gateway options.
@@ -189,6 +211,11 @@ Configure<PaymentOptions>(options =>
 * ```Currency```: Currency code for the order (USD, EUR, GBP and TRY can be used).
 * ```Locale```: Language of the order.
 * ```InstallmentCount```: Installment count value. For single installment payments it should be 1 (valid values: 1, 2, 3, 6, 9, 12).
+
+### IyzicoWebOptions
+
+```IyzicoWebOptions``` is used to configure Iyzico payment gateway web options.
+
 * ```Recommended```: Is payment gateway is recommended or not. This information is displayed on payment gateway selection page.
 * ```ExtraInfos```: List of informative strings for payment gateway. These texts are displayed on payment gateway selection page.
 * ```PrePaymentCheckoutButtonStyle```: CSS style to add Checkout button on Iyzico prepayment page. This class can be used for tracking user activity via 3rd party tools like Google Tag Manager.

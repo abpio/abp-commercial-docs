@@ -6,7 +6,7 @@ This document provides a road map, release schedule and planned features for the
 
 ## The Next Version
 
-The next feature version is v8.1 and will be released at the end of March 2024.
+The next feature version is v8.2 and will be released at the end of June 2024.
 We are constantly improving existing modules and tools and introducing new features. 
 See the *Backlog Items* section for a list of major features considered for the next versions.
 
@@ -22,7 +22,10 @@ Here is a list of major items in the backlog we are considering working on in th
 * User guiding module.
 * gRPC integration and implementation for all the pre-built modules.
 * Chat Module: Deleting messages & conversations
+* Handling localization resources in a microservice in a more suitable way.
+* Align with .NET 8.0 Identity Features
 * Suite: File, DateOnly and TimeOnly types
+* Suite: Export child/detail entity records
 * CMS Kit features, including FAQ, spam protection, social media feeds, multi-language support, and so on.
 
 ## Feature Requests

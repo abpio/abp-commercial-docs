@@ -8,19 +8,25 @@ Be aware that, ABP Suite generates a unique URL for every project. After you sel
 
 To create a new entity, make sure the *-New entity-* is selected in the **Entity** combo box which is on the top-right of the page. In this section, you need to provide the meta data of your entity. Do not use [C# reserved keywords](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/) for your entity name, plural name, database table name or the namespace. 
 
+* **Entity type**: Specifies the entity's type. (**master** or **child**)
+
 * **Name**: Name of the entity.
 
-* **Plural Name**: Folder names of the entity and name of `DbSet`in the `DbContext`.
+* **Plural name**: Folder names of the entity and name of `DbSet`in the `DbContext`.
 
 * **Database table/collection name**: Name of the database table for relational databases or name of the collection name for NoSQL databases.
 
 * **Namespace**: Namespaces of the entities, DTOs and other `C#` classes.
+
+* **Page title**: Specifies the page title for the current entity. It will be used in the page title as the localization key, so you can localize it for different languages later on.
 
 * **Base class**: There are several base classes that comes out of the box from the ABP Framework. Basically there are 2 main types of entity. `AggregateRoot` and simple `Entity`. And these two have 2 more variants with `Audited` and `FullAudited` derivatives. 
 
   If your entity consists of child entities like an `Order` with its `OrderDetail ` entities, then you should choose [AggregateRoot](https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.Ddd.Domain/Volo/Abp/Domain/Entities/AggregateRoot.cs) / [AuditedAggregateRoot](https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.Ddd.Domain/Volo/Abp/Domain/Entities/Auditing/AuditedAggregateRoot.cs) / [FullAuditedAggregateRoot](https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.Ddd.Domain/Volo/Abp/Domain/Entities/Auditing/FullAuditedAggregateRoot.cs).  
 
   If it doesn't have any child entities like a `City` entity, you can choose [Entity](https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.Ddd.Domain/Volo/Abp/Domain/Entities/Entity.cs) / [AuditedEntity](https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.Ddd.Domain/Volo/Abp/Domain/Entities/Auditing/AuditedEntity.cs) / [FullAuditedEntity](https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.Ddd.Domain/Volo/Abp/Domain/Entities/Auditing/FullAuditedEntity.cs)
+
+  Alternatively, you can choose [BasicAggregateRoot](https://github.com/abpframework/abp/blob/dev/framework/src/Volo.Abp.Ddd.Domain/Volo/Abp/Domain/Entities/BasicAggregateRoot.cs) if you want to create an aggregate root without the `IHasExtraProperties` and `IHasConcurrencyStamp` interfaces implemented (extra properties & concurrency check).
 
   * **Entity** and **AggregateRoot** are the low-level simple base classes.
 
@@ -85,12 +91,13 @@ To create a new entity, make sure the *-New entity-* is selected in the **Entity
 
 * **Excel export**: Creates a button that exports a list of all the data that were added to the entity to an Excel file.
 
+* **Bulk delete**: Performs bulk deletion of records based on specified criteria.
+
 * **Create unit & integration tests:** Generates unit and integrations tests for your entity.
 
 *  **Concurrency check:** Implements the `IHasConcurrencyStamp` interface of the entity. If the base class is `AggregateRoot`, concurrency control is enabled by default. For more details see the [Concurrency Check](https://docs.abp.io/en/abp/latest/Concurrency-Check) document.
 
-
-![Entity info](../images/suite-entity-create-info.png)
+![Entity info](../images/suite-entity-create-info-8.1.png)
 
 ## Properties
 
@@ -105,10 +112,11 @@ A property is a field in the entity which refers a column in the relational data
 * **Regex:** Add a general expression for the property.
 * **Email validation:** Choose if your property is an email and needs to be validated.
 * **Required:** Defines whether a value is required or not.
+* **Filterable**: Adds the property into the advanced search filters and includes it in the filters.
 * **Text area:** Make the property a text area to input a text, e.g. description.
 * **Nullable**: Allows you to set the property as `nullable` for the `C#` supported data types.
 
-![Define a property](../images/suite-define-property.png)
+![Define a property](../images/suite-define-property-8.1.png)
 
 ### Property list
 
@@ -151,7 +159,7 @@ Let's see how to create a navigation property for a **Book Store** project.  We 
 
 Click **Save and generate** button and wait for ABP Suite to create the page.
 
-![navigation-property-author-entity](../images/navigation-property-author-entity.png)
+![navigation-property-author-entity](../images/navigation-property-author-entity-8.1.png)
 
 After it finishes, run the web project and go to **Authors** page. Click **New Author** button and add the below 3 records:
 
@@ -172,7 +180,7 @@ Click the **Navigation properties** tab. Then click **Add navigation property** 
 
 > Notice that almost all fields are automatically filled by convention. If you don't rename the `DTO` names, `DbSet` names in the `DbContext`, navigation property names or namespaces, this tool will automatically set all required fields. On the other hand, these textboxes are not readonly, so that you can change them according to your requirements.
 
-![navigation-property-book-entity](../images/navigation-property-book-entity.png)
+![navigation-property-book-entity](../images/navigation-property-book-entity-8.1.png)
 
 In the below image, you will see the mappings of the navigation property fields with the code classes.
 
@@ -213,12 +221,6 @@ The below image is the final page created by the ABP Suite. The **new book** dia
 
 ![navigation-property-books-page](../images/navigation-property-books-page.png)
 
-#### Adding IdentityUser as navigation property
-
-You can add `IdentityUser` entity as a navigation property to an entity by manually entering the required information. See the screenshot below:
-
-![navigation-property-books-page](../images/navigation-property-identityuser.png)
-
 ### Saving an entity
 
 There are 2 options to save an entity. 
@@ -236,6 +238,22 @@ Saves the entity and generates code. Your project will be added a new CRUD page.
 When you click **Save and generate** button it'll create all the related objects. The below screenshot is the MS-SQL database table which is generated by the ABP Suite.
 
 ![Database table for the new entity](../images/suite-database-table.png)
+
+### Establishing/Creating Relations with Installed ABP Modules' Entities
+
+ABP Suite allows you to establish one-to-many relationship with pre-installed ABP Modules. You can add any entity from pre-installed ABP modules as a navigation property, by checking the **Include entities from ABP modules** checkbox in the navigation property model and choosing the related module entity as in the following figure:
+
+![Include Entities from ABP modules](../images/suite-include-entities-from-abp-modules.png)
+
+In the example above, the `IdentityUser` entity is selected as the navigation property. You can choose any entity from the installed ABP modules in the navigation property model. 
+
+> **Note:** Ensure that your solution is built properly before establishing relationship between your own entity and a module entity because ABP Suite scans assemblies and finds which ABP modules you are using and lists their entities in the navigation property model if you have checked the **Include entities from ABP modules** checkbox.
+
+#### Adding An Existing Entity as a Navigation Property
+
+Alternatively, you can add `IdentityUser` entity (or any other entity) as a navigation property to an entity by manually entering the required information. See the screenshot below:
+
+![navigation-property-books-page](../images/navigation-property-identityuser.png)
 
 ## User interface
 

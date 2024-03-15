@@ -24,12 +24,12 @@ First, we create the `Category` entity. The `Book` entity will be dependent on i
 
 Click the **Save and generate** button and wait for ABP Suite to create the page.
 
-![navigation-collection-category-entity](../images/navigation-collection-category-entity.png)
+![navigation-collection-category-entity](../images/navigation-collection-category-entity.8.1.png)
 
 After it finishes, run the web project and go to the **Categories** page. Click the **New Category** button and add some records:
 
 
-![navigation-collection-categories-page](../images/navigation-collection-categories-page.png)
+![navigation-collection-categories-page](../images/navigation-collection-categories-page.8.1.png)
 
 #### 2- Create the "Book" entity
 
@@ -42,7 +42,7 @@ Click the **Navigations** tab. Then click the **Add navigation collection** butt
 
 > Notice that almost all fields are automatically filled by convention even if you don't rename the `DTO` names, `DbSet` names in the `DbContext`, navigation property names or namespaces. This tool will automatically set all the required fields. On the other hand, these textboxes are not read-only, so that you can change them according to your requirements.
 
-![navigation-collection-book-entity](../images/navigation-collection-book-entity.png)
+![navigation-collection-book-entity](../images/navigation-collection-book-entity.8.1.png)
 
 ##### Database structure of navigation collection
 
@@ -54,7 +54,7 @@ Click the **Navigations** tab. Then click the **Add navigation collection** butt
 
 The below image is the final page created by ABP Suite. The **new book** dialog has a **Categories** tab which lists all categories of the book and allows add/remove categories.
 
-![navigation-collection-books-page](../images/navigation-collection-books-page.png)
+![navigation-collection-books-page](../images/navigation-collection-books-page.8.1.png)
 
 ## What's next?
 
