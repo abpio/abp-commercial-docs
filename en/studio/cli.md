@@ -10,16 +10,16 @@ ABP Studio CLI is installed automatically when you install ABP Studio.
 
 As ABP Studio CLI extends [ABP CLI](https://docs.abp.io/en/abp/latest/CLI), all commands provided by [ABP CLI](https://docs.abp.io/en/abp/latest/CLI) is also valid for ABP Studio CLI. Here, is the list of additional commands before explaining their details:
 
-* new-solution: Generates a new solution based on the ABP Studio [startup templates](solution-templates/index.md).
-* new-module: Generates a new module based on the given template.
-* new-package: Generates a new package based on the given template.
-* add-package-ref: Adds package to given project.
-* add-source: Downloads the source code and replaces package references with project references.
-* init-solution: Creates ABP Studio configuration files for a given solution.
-* install-local-module: Installs a local module to given module.
-* install-module:  Installs a module to given module via NuGet packages.
-* kube-connect: Connects to kubernetes environment.
-* kube-intercept: Intercepts a service running in Kubernetes environment.
+* `new-solution`: Generates a new solution based on the ABP Studio [startup templates](solution-templates/index.md).
+* `new-module`: Generates a new module based on the given template.
+* `new-package`: Generates a new package based on the given template.
+* `add-package-ref`: Adds package to given project.
+* `add-source-code`: Downloads the source code and replaces package references with project references.
+* `init-solution`: Creates ABP Studio configuration files for a given solution.
+* `install-local-module`: Installs a local module to given module.
+* `install-module`:  Installs a module to given module via NuGet packages.
+* `kube-connect`: Connects to kubernetes environment.
+* `kube-intercept`: Intercepts a service running in Kubernetes environment.
 
 ### new-solution
 
@@ -42,68 +42,74 @@ abpc new-solution Acme.BookStore
 
 * `--template` or `-t`: Specifies the template name. Default template name is `empty`, which generates a empty solution. Available templates:
   * **`empty`**: Empty solution template.
-    * **`app-pro`**: Application template. Additional options:
-      * `--ui` or `-u`: Specifies the UI framework. Default framework is `mvc`. Available frameworks:
-        * `mvc`: ASP.NET Core MVC. There are some additional options for this template:
-          * `--tiered`: Creates a tiered solution where Web and Http API layers are physically separated. If not specified, it creates a layered solution which is less complex and suitable for most scenarios.
-        * `angular`: Angular UI. There are some additional options for this template:
-          * `--separate-auth-server`: The Auth Server project comes as a separate project and runs at a different endpoint. It separates the Auth Server from the API Host application. If not specified, you will have a single endpoint in the server side.
-          * `--pwa`: Specifies the project as Progressive Web Application.
-        * `blazor`: Blazor UI. There are some additional options for this template:
-          * `--separate-auth-server`The Auth Server project comes as a separate project and runs at a different endpoint. It separates the Auth Server from the API Host application. If not specified, you will have a single endpoint in the server side.
-          * `--pwa`: Specifies the project as Progressive Web Application.
-        * `blazor-server`: Blazor Server UI. There are some additional options for this template:
-          * `--tiered`: The Auth Server and the API Host project comes as separate projects and run at different endpoints. It has 3 startup projects: *HttpApi.Host*, *AuthServer* and *Blazor* and and each runs on different endpoints. If not specified, you will have a single endpoint for your web project.
-        * `maui-blazor`: Blazor Maui UI. There are some additional options for this template:
-          * `--tiered`: The Auth Server and the API Host project comes as separate projects and run at different endpoints. It has 3 startup projects: *HttpApi.Host*, *AuthServer* and *Blazor* and and each runs on different endpoints. If not specified, you will have a single endpoint for your web project.
-        * `no-ui`: Without UI. No front-end layer will be created. There are some additional options for this template:
-          * `--separate-auth-server`: The Auth Server project comes as a separate project and runs at a different endpoint. It separates the Auth Server from the API Host application. If not specified, you will have a single endpoint in the server side.
-      * `--mobile` or `-m`: Specifies the mobile application framework. Default value is `react-native`. Available frameworks:
-        * `none`: Without any mobile application.
-        * `react-native`: React Native.
-        * `maui`: MAUI.
-      * `--database-provider` or `-d`: Specifies the database provider. Default provider is `ef`. Available providers:
-          * `ef`: Entity Framework Core.
-          * `mongodb`: MongoDB.
-      * `--connection-string` or `-cs`:  Overwrites the default connection strings in all `appsettings.json` files. The default connection string is `Server=localhost;Database=MyProjectName;Trusted_Connection=True` for EF Core and it is configured to use the SQL Server. If you want to use the EF Core, but need to change the DBMS, you can change it as [described here](Entity-Framework-Core-Other-DBMS.md) (after creating the solution).
-      * `--theme`: Specifes the theme. Default theme is `leptonx`. Available themes:
-          * `leptonx`: LeptonX Theme.
-          * `basic`: Basic Theme.
-    
-  * **`app-nolayers-pro`**: Single-layer application template. Additional options:
+
+  * **`app-pro`**: Application template. Additional options:
     * `--ui` or `-u`: Specifies the UI framework. Default framework is `mvc`. Available frameworks:
       * `mvc`: ASP.NET Core MVC. There are some additional options for this template:
+        * `--tiered`: Creates a tiered solution where Web and Http API layers are physically separated. If not specified, it creates a layered solution which is less complex and suitable for most scenarios.
       * `angular`: Angular UI. There are some additional options for this template:
+        * `--separate-auth-server`: The Auth Server project comes as a separate project and runs at a different endpoint. It separates the Auth Server from the API Host application. If not specified, you will have a single endpoint in the server side.
+        * `--pwa`: Specifies the project as Progressive Web Application.
       * `blazor`: Blazor UI. There are some additional options for this template:
+        * `--separate-auth-server`The Auth Server project comes as a separate project and runs at a different endpoint. It separates the Auth Server from the API Host application. If not specified, you will have a single endpoint in the server side.
+        * `--pwa`: Specifies the project as Progressive Web Application.
       * `blazor-server`: Blazor Server UI. There are some additional options for this template:
-      * `no-ui`: Without UI. No front-end layer will be created. There are some additional options for this template:
-    * `--database-provider` or `-d`: Specifies the database provider. Default provider is `ef`. Available providers:
-      * `ef`: Entity Framework Core.
-      * `mongodb`: MongoDB.
-    * `--connection-string` or `-cs`:  Overwrites the default connection strings in all `appsettings.json` files. The default connection string is `Server=localhost;Database=MyProjectName;Trusted_Connection=True` for EF Core and it is configured to use the SQL Server. If you want to use the EF Core, but need to change the DBMS, you can change it as [described here](Entity-Framework-Core-Other-DBMS.md) (after creating the solution).
-    * `--theme`: Specifes the theme. Default theme is `leptonx`. Available themes:
-      * `leptonx`: LeptonX Theme.
-      * `basic`: Basic Theme.
-  
-  * **`microservice-pro`**: Microservice solution template. Additional options:
-    * `--ui` or `-u`: Specifies the UI framework. Default framework is `mvc`. Available frameworks:
-      * `mvc`: ASP.NET Core MVC. There are some additional options for this template:
-      * `angular`: Angular UI. There are some additional options for this template:
-      * `blazor`: Blazor UI. There are some additional options for this template:
-      * `blazor-server`: Blazor Server UI. There are some additional options for this template:
+        * `--tiered`: The Auth Server and the API Host project comes as separate projects and run at different endpoints. It has 3 startup projects: *HttpApi.Host*, *AuthServer* and *Blazor* and and each runs on different endpoints. If not specified, you will have a single endpoint for your web project.
       * `maui-blazor`: Blazor Maui UI. There are some additional options for this template:
+        * `--tiered`: The Auth Server and the API Host project comes as separate projects and run at different endpoints. It has 3 startup projects: *HttpApi.Host*, *AuthServer* and *Blazor* and and each runs on different endpoints. If not specified, you will have a single endpoint for your web project.
       * `no-ui`: Without UI. No front-end layer will be created. There are some additional options for this template:
+        * `--separate-auth-server`: The Auth Server project comes as a separate project and runs at a different endpoint. It separates the Auth Server from the API Host application. If not specified, you will have a single endpoint in the server side.
     * `--mobile` or `-m`: Specifies the mobile application framework. Default value is `react-native`. Available frameworks:
       * `none`: Without any mobile application.
       * `react-native`: React Native.
       * `maui`: MAUI.
     * `--database-provider` or `-d`: Specifies the database provider. Default provider is `ef`. Available providers:
-      * `ef`: Entity Framework Core.
-      * `mongodb`: MongoDB.
+        * `ef`: Entity Framework Core.
+        * `mongodb`: MongoDB.
+    * `--connection-string` or `-cs`:  Overwrites the default connection strings in all `appsettings.json` files. The default connection string is `Server=localhost;Database=MyProjectName;Trusted_Connection=True` for EF Core and it is configured to use the SQL Server. If you want to use the EF Core, but need to change the DBMS, you can change it as [described here](Entity-Framework-Core-Other-DBMS.md) (after creating the solution).
+    * `--public-website`: Public Website is a front-facing website for describing your project, listing your products and doing SEO for marketing purposes. Users can login and register on your website with this website.
     * `--theme`: Specifes the theme. Default theme is `leptonx`. Available themes:
-      * `leptonx`: LeptonX Theme.
-      * `basic`: Basic Theme.
+        * `leptonx`: LeptonX Theme.
+        * `basic`: Basic Theme.
+  
+* **`app-nolayers-pro`**: Single-layer application template. Additional options:
+  * `--ui` or `-u`: Specifies the UI framework. Default framework is `mvc`. Available frameworks:
+    * `mvc`: ASP.NET Core MVC. There are some additional options for this template:
+    * `angular`: Angular UI. There are some additional options for this template:
+    * `blazor`: Blazor UI. There are some additional options for this template:
+    * `blazor-server`: Blazor Server UI. There are some additional options for this template:
+    * `no-ui`: Without UI. No front-end layer will be created. There are some additional options for this template:
+  * `--database-provider` or `-d`: Specifies the database provider. Default provider is `ef`. Available providers:
+    * `ef`: Entity Framework Core.
+    * `mongodb`: MongoDB.
+  * `--connection-string` or `-cs`:  Overwrites the default connection strings in all `appsettings.json` files. The default connection string is `Server=localhost;Database=MyProjectName;Trusted_Connection=True` for EF Core and it is configured to use the SQL Server. If you want to use the EF Core, but need to change the DBMS, you can change it as [described here](Entity-Framework-Core-Other-DBMS.md) (after creating the solution).
+  * `--theme`: Specifes the theme. Default theme is `leptonx`. Available themes:
+    * `leptonx`: LeptonX Theme.
+    * `basic`: Basic Theme.
+
+* **`microservice-pro`**: Microservice solution template. Additional options:
+  * `--ui` or `-u`: Specifies the UI framework. Default framework is `mvc`. Available frameworks:
+    * `mvc`: ASP.NET Core MVC. There are some additional options for this template:
+    * `angular`: Angular UI. There are some additional options for this template:
+    * `blazor`: Blazor UI. There are some additional options for this template:
+    * `blazor-server`: Blazor Server UI. There are some additional options for this template:
+    * `maui-blazor`: Blazor Maui UI. There are some additional options for this template:
+    * `no-ui`: Without UI. No front-end layer will be created. There are some additional options for this template:
+  * `--mobile` or `-m`: Specifies the mobile application framework. Default value is `react-native`. Available frameworks:
+    * `none`: Without any mobile application.
+    * `react-native`: React Native.
+    * `maui`: MAUI.
+  * `--database-provider` or `-d`: Specifies the database provider. Default provider is `ef`. Available providers:
+    * `ef`: Entity Framework Core.
+    * `mongodb`: MongoDB.
+  * `--theme`: Specifes the theme. Default theme is `leptonx`. Available themes:
+    * `leptonx`: LeptonX Theme.
+    * `basic`: Basic Theme.
+  * `--public-website`: Public Website is a front-facing website for describing your project, listing your products and doing SEO for marketing purposes. Users can login and register on your website with this website.
+
 * `--output-folder` or `-o`: Specifies the output folder. Default value is the current directory.
+* `--local-framework-ref` or `-lfr`: Uses local projects references to the ABP framework instead of using the NuGet packages. It tries to find the paths from `ide-state.json`. The file is located at `%UserProfile%\.abp\studio\ui\ide-state.json` (for Windows) and `~/.abp/studio/ui/ide-state.json` (for MAC).
+* `--create-solution-folder` or `-csf`: Specifies if the project will be in a new folder in the output folder or directly the output folder.
 * `--database-management-system` or `-dbms`: Sets the database management system. Default is **SQL Server**. Supported DBMS's:
   * `SqlServer`
   * `MySQL`
@@ -123,6 +129,7 @@ abpc new-solution Acme.BookStore
   * `-no-language-management`: Skips the Language Management module.
   * `-no-text-template-management`: Skips the Text Template Management module.
   * `-no-chat`: Skips the Chat module.
+
 ### new-module
 
 Generates a new module.
@@ -221,18 +228,18 @@ abpc add-package-ref "Acme.BookStore.Domain Acme.BookStore.Domain.Shared" -t Acm
 
 * `--target-project` or `-t`: Name of the project that reference will be added. If not set, project in the current directory will be used.
 
-### add-source
+### add-source-code
 
 Downloads the source code of a module and replaces package references with project references. This command only works if your ABP Commercial License has source-code access, or if source-code of the target module is free to all type of ABP Commercial Licenses.
 
 ````bash
-abpc add-source <module-name> [options]
+abpc add-source-code <module-name> [options]
 ````
 
 Example:
 
 ````bash
-abpc add-source Volo.Chat --add-to-solution-file
+abpc add-source-code Volo.Chat --add-to-solution-file
 ````
 
 #### options
