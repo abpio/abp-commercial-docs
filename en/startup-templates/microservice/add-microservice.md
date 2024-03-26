@@ -450,7 +450,7 @@ abp generate-proxy -t csharp -u https://localhost:44459/ -m OrderService --witho
 for **Angular** application
 
 ``````powershell
-abp generate-proxy -t ng -u https://localhost:44459/ -m OrderService --without-contracts
+abp generate-proxy -t ng -u https://localhost:44459/ -m OrderService --target order-service --without-contracts
 ``````
 
 This will generate the static proxy for the application services of your OrderService that will be used by the application.
