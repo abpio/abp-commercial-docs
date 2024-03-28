@@ -20,6 +20,9 @@ As ABP Studio CLI extends [ABP CLI](https://docs.abp.io/en/abp/latest/CLI), all 
 * `install-module`:  Installs a module to given module via NuGet packages.
 * `kube-connect`: Connects to kubernetes environment.
 * `kube-intercept`: Intercepts a service running in Kubernetes environment.
+* `list-module-sources`: Lists the remote module sources.
+* `add-module-source`: Adds a remote module source.
+* `delete-module-source`: Deletes a remote module source.
 
 ### new-solution
 
@@ -356,6 +359,69 @@ abpc kube-intercept mycrm-product-service -ns mycrm-local -a MyCrm.ProductServic
 * `--namespace` or `-ns`: The namespace that service running on.
 * `--context` or `-sc`: The context that service running in. Default value is `docker-desktop`.
 * `--port-mappings` or `-pm`: Port mappings for the service.
+
+### list-module-sources
+
+With this command, you can see the list of remote module sources that you can use to install modules. It is similar to the NuGet feed list in Visual Studio. 
+
+````bash
+abpc list-module-sources
+````
+
+### add-module-source
+
+Adds a remote module source to the list of sources that you can use to install modules. 
+
+````bash
+abpc add-module-source [options]
+````
+
+You can create your own module source and add it to the list. It accepts a name and a url or a path as parameter. If you provide a path, it should be a local path that contains the modules json file. If you provide a url, it should be a url that contains the modules json file. The json file should be in the following format:
+
+````json
+{
+	"name": "ABP Open Source Modules",
+	"modules" : {
+		"Volo.Abp.Account": {},
+		"Volo.Abp.AuditLogging": {},
+		"Volo.Abp.Identity": {},
+    ...
+	}
+}
+````
+
+When you add a module source, you can install modules from that source using the `install-module` command. It attempts to find the package from NuGet, such as `Volo.Abp.Account.Installer`. You can configure a private NuGet feed and publish your modules to that feed. Each module has an installer package that is utilized to install the module into a solution. When you publish your module to a private feed, you should also publish the installer package to the same feed.
+
+Example:
+
+````bash
+abpc add-module-source -n "Custom Source" -p "D:\packages\abp\modules.json"
+
+abpc add-module-source -n "Custom Http Source" -p "https://raw.githubusercontent.com/x/abp-module-store/main/abp-module-store.json"
+````
+
+#### options
+
+* `--name` or `-n`: The name of the module source.
+* `--path` or `-p`: The path of the module source. It can be a local path or a url.
+
+### delete-module-source
+
+Deletes a remote module source from the list of sources that you can use to install modules. 
+
+````bash
+abpc delete-module-source [options]
+````	
+
+Example:
+
+````bash
+abpc delete-module-source -n "Custom Source"
+````
+
+#### options
+
+* `--name` or `-n`: The name of the module source.
 
 ## See Also
 
